@@ -50,7 +50,7 @@
     user-select="{{selectable}}"
     >{{plainText.getTitle(config)}}</text
   >
-  <template is="text" data="{{config}}" />
+  <template is="text" data="{{config, selectable}}" />
 </view>
 <!-- 段落标题 -->
 <block wx:else>
