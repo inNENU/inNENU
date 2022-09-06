@@ -51,8 +51,10 @@ $Component({
       if (["doc", "ppt", "xls", "pdf"].includes(icon))
         downLoad(url)
           .then((filePath) => {
+            const docType = url.split(".").pop()!;
+
             wx.addFileToFavorites({
-              fileName: name,
+              fileName: `${name}.${docType}`,
               filePath,
               success: () => {
                 console.log(`Add document ${url} to favorites success`);
