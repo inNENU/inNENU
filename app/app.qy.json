@@ -34,7 +34,7 @@
       ],
       "plugins": {
         "player": {
-          "version": "2.1.2",
+          "version": "2.1.4",
           "provider": "wxa75efa648b60994b"
         }
       }
