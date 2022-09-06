@@ -1,7 +1,7 @@
 import { $Component, logger } from "@mptool/enhance";
 
 import { savePhoto, tip } from "../../../utils/api";
-import { appName } from "../../../utils/config";
+import { appName, server } from "../../../utils/config";
 import { path2id } from "../../../utils/id";
 
 import type { PropType } from "@mptool/enhance";
@@ -41,7 +41,7 @@ $Component({
       const { config } = this.data;
 
       savePhoto(
-        `/qrcode/${appID}/${
+        `${server}qrcode/${appID}/${
           typeof config.qrcode === "string" ? config.qrcode : config.id!
         }.png`
       )
