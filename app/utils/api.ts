@@ -1,5 +1,5 @@
 import { logger } from "@mptool/enhance";
-import { server } from "./config";
+import { assets, server } from "./config";
 
 /**
  * 根据用户设置，判断当前小程序是否应启用夜间模式
@@ -114,7 +114,9 @@ export const netReport = (): void => {
  * @param errorFunc 状态码错误回调函数
  */
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
-export const requestJSON = <T = Record<string, any>>(
+export const requestJSON = <
+  T extends Record<never, never> | unknown[] | string = Record<string, any>
+>(
   path: string
 ): Promise<T> =>
   new Promise((resolve, reject) => {
@@ -160,7 +162,7 @@ export const requestJSON = <T = Record<string, any>>(
 export const downLoad = (path: string, mask = false): Promise<string> =>
   new Promise((resolve, reject) => {
     const progress = wx.downloadFile({
-      url: path.startsWith("http") ? path : `${server}${path}`,
+      url: path.startsWith("http") ? path : `${assets}${path}`,
       success: ({ statusCode, tempFilePath }) => {
         wx.hideLoading();
         if (statusCode === 200) resolve(tempFilePath);

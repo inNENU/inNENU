@@ -34,10 +34,6 @@ declare namespace WechatMiniprogram {
     enableTraffic?: boolean;
   }
 
-  interface RequestResult<T> extends RequestSuccessCallbackResult {
-    data: T;
-  }
-
   interface NodeRectInfo {
     top: number;
     right: number;

@@ -1,8 +1,9 @@
 /** 小程序服务器地址 */
+export const assets = "https://assets.innenu.com/";
 export const server = "https://mp.innenu.com/";
 
 /** 小程序版本 */
-export const version = "5.3.1";
+export const version = "5.3.2";
 
 /** App初始化选项 */
 export interface AppConfig {
@@ -23,4 +24,4 @@ export const appConfig: AppConfig = {
 
 export const appName = "in东师";
 
-export const appCoverPrefix = `${server}img/inNENU`;
+export const appCoverPrefix = `${assets}img/inNENU`;

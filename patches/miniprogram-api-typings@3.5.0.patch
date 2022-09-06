@@ -1,0 +1,13 @@
+diff --git a/types/wx/lib.wx.app.d.ts b/types/wx/lib.wx.app.d.ts
+index e6749023ab9f702c52b1f06877a53c4bf5e012bb..ef90d8ec439601707f98906ff15d99678ed99577 100644
+--- a/types/wx/lib.wx.app.d.ts
++++ b/types/wx/lib.wx.app.d.ts
+@@ -262,7 +262,7 @@ declare namespace WechatMiniprogram.App {
+     }
+ 
+     interface GetApp {
+-        <T = IAnyObject>(opts?: GetAppOption): Instance<T>
++        <T extends IAnyObject = IAnyObject>(opts?: GetAppOption): Instance<T>
+     }
+ }
+ 

@@ -2,7 +2,7 @@ import { $Page } from "@mptool/enhance";
 import { put, take } from "@mptool/file";
 
 import { tip } from "../../utils/api";
-import { appCoverPrefix, appName, server } from "../../utils/config";
+import { appCoverPrefix, appName, assets } from "../../utils/config";
 import { getColor, popNotice, resolvePage, setPage } from "../../utils/page";
 import { checkResource } from "../../utils/resource";
 import { refreshPage } from "../../utils/tab";
@@ -19,7 +19,7 @@ const { globalData } = getApp<AppOption>();
 $Page("user", {
   data: {
     title: "in 东师",
-    logo: `${server}/img/inNENU.png`,
+    logo: `${assets}/img/inNENU.png`,
     desc: "in 东师，就用 in 东师",
     page: <PageDataWithContent>{
       title: "我的东师",
