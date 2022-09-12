@@ -50,7 +50,7 @@
         wx:if="{{config.mail}}"
         class="action"
         hover-class="button-hover"
-        catch:tap="copyEMail"
+        catch:tap="copyEmail"
       >
         <image class="icon" src="./icon/mail.svg" />
       </view>
