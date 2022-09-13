@@ -146,7 +146,7 @@ $Page("music", {
     };
   },
 
-  onThemeChange({ theme }: WechatMiniprogram.OnThemeChangeCallbackResult) {
+  onThemeChange({ theme }: WechatMiniprogram.OnThemeChangeListenerResult) {
     this.setData({
       darkmode: theme === "dark",
       indicatorColor:

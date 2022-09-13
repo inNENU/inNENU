@@ -57,12 +57,12 @@
   },
   "devDependencies": {
     "@mr-hope/gulp-sass": "3.0.2",
-    "@typescript-eslint/eslint-plugin": "5.36.2",
-    "@typescript-eslint/parser": "5.36.2",
+    "@typescript-eslint/eslint-plugin": "5.37.0",
+    "@typescript-eslint/parser": "5.37.0",
     "conventional-changelog-cli": "2.2.2",
     "cz-conventional-changelog": "3.3.0",
     "del": "6.1.1",
-    "eslint": "8.23.0",
+    "eslint": "8.23.1",
     "eslint-config-prettier": "8.5.0",
     "eslint-plugin-prettier": "4.2.1",
     "gulp": "4.0.2",
@@ -71,8 +71,8 @@
     "gulp-typescript": "6.0.0-alpha.1",
     "husky": "8.0.1",
     "lint-staged": "13.0.3",
-    "miniprogram-api-typings": "3.5.0",
-    "npm-check-updates": "16.1.0",
+    "miniprogram-api-typings": "3.6.0",
+    "npm-check-updates": "16.1.2",
     "postcss": "8.4.16",
     "prettier": "2.7.1",
     "sort-package-json": "1.57.0",
@@ -81,12 +81,7 @@
     "stylelint-config-standard": "28.0.0",
     "stylelint-config-standard-scss": "5.0.0",
     "stylelint-order": "5.0.0",
-    "typescript": "4.8.2"
+    "typescript": "4.8.3"
   },
-  "packageManager": "pnpm@7.11.0",
-  "pnpm": {
-    "patchedDependencies": {
-      "miniprogram-api-typings@3.5.0": "patches/miniprogram-api-typings@3.5.0.patch"
-    }
-  }
+  "packageManager": "pnpm@7.11.0"
 }

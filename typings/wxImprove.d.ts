@@ -13,7 +13,7 @@ declare namespace WechatMiniprogram {
     /** 显示指南针，默认为 false */
     showCompass?: boolean;
 
-    /** 个性化地图使用的key */
+    /** 个性化地图使用的 key */
     subKey?: string;
     /** 个性化地图配置的 style，不支持动态修改 */
     layerStyle?: number;
@@ -66,13 +66,4 @@ declare namespace WechatMiniprogram {
           NodeSizeInfo;
       }
   >;
-
-  // FIXME: Wait for tool chain
-  interface AuthSetting {
-    /**
-     * Added in Feb. 24 2022
-     */
-    // eslint-disable-next-line @typescript-eslint/naming-convention
-    "scope.addPhoneContact"?: boolean;
-  }
 }

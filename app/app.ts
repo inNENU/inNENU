@@ -44,11 +44,11 @@ $Config({
     options.onThemeChange =
       (options.onThemeChange as (
         this: TrivialPageInstance,
-        { theme }: WechatMiniprogram.OnThemeChangeCallbackResult
+        { theme }: WechatMiniprogram.OnThemeChangeListenerResult
       ) => void | undefined) ||
       function (
         this: TrivialPageInstance,
-        { theme }: WechatMiniprogram.OnThemeChangeCallbackResult
+        { theme }: WechatMiniprogram.OnThemeChangeListenerResult
       ): void {
         this.setData({ darkmode: theme === "dark" });
       };
