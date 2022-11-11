@@ -1,4 +1,5 @@
 {
+  "cSpell.words": ["nenuyouth", "wxss", "wxml", "stylelint", "wechat"],
   "git.ignoreLimitWarning": true,
   "typescript.tsdk": "node_modules\\typescript\\lib",
   "yaml.schemas": {
