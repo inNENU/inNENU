@@ -238,7 +238,7 @@ export const updateApp = (globalData: GlobalData): void => {
       tip("小程序更新下载失败，请检查您的网络!");
 
       // 调试
-      logger.warn("Upate App error because of Net Error");
+      logger.warn("Update App failed because of Net Error");
     });
   }
 };
@@ -412,17 +412,6 @@ export const startup = (globalData: GlobalData): void => {
     wx.onThemeChange(({ theme }) => {
       globalData.darkmode = theme === "dark";
     });
-
-  // 加载字体
-  // wx.loadFontFace({
-  //   family: "FZSSJW",
-  //   source: `url("${server}assets/fonts/FZSSJW.ttf")`,
-  //   global: true,
-  //   complete: (res) => {
-  //     // 调试
-  //     console.info(`Font status: ${res.status}`, res);
-  //   },
-  // });
 
   updateNotice(globalData);
   updateApp(globalData);

@@ -8,7 +8,7 @@
   border: 1px solid #2ecc71;
   border-radius: 14px;
 
-  background-color: var(--bgcolor);
+  background-color: var(--bg-color);
   color: #2ecc71;
 
   font-weight: bold;
@@ -19,7 +19,7 @@
 
     &.active {
       background-color: #2ecc71;
-      color: var(--bgcolor);
+      color: var(--bg-color);
     }
   }
 }

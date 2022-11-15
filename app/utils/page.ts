@@ -83,13 +83,13 @@ const resolveContent = (
         listElement.currentValue = [selectIndex];
       } else {
         // 多列选择器
-        const selectIndexs: string[] = wx
+        const selectIndexes: string[] = wx
           .getStorageSync<string>(listElement.key)
           .split("-");
 
         listElement.currentValue = [];
         listElement.value = [];
-        selectIndexs.forEach((pickerElement, index) => {
+        selectIndexes.forEach((pickerElement, index) => {
           // eslint-disable-next-line
           (listElement.value as any[])[index] = (
             listElement.select[
@@ -286,7 +286,7 @@ export const getColor = (grey = false): ColorConfig => {
 
   if (globalData.darkmode && grey)
     switch (globalData.theme) {
-      case "Andriod":
+      case "Android":
         temp = ["#10110b", "#10110b", "#10110b"];
         break;
       case "ios":
@@ -299,14 +299,14 @@ export const getColor = (grey = false): ColorConfig => {
   else if (globalData.darkmode && !grey)
     switch (globalData.theme) {
       case "ios":
-      case "Andriod":
+      case "Android":
       case "nenu":
       default:
         temp = ["#000000", "#000000", "#000000"];
     }
   else if (!globalData.darkmode && grey)
     switch (globalData.theme) {
-      case "Andriod":
+      case "Android":
         temp = ["#f8f8f8", "#f8f8f8", "#f8f8f8"];
         break;
       case "nenu":
@@ -318,7 +318,7 @@ export const getColor = (grey = false): ColorConfig => {
     }
   else
     switch (globalData.theme) {
-      case "Andriod":
+      case "Android":
         temp = ["#f8f8f8", "#f8f8f8", "#f8f8f8"];
         break;
       case "nenu":
@@ -392,7 +392,7 @@ export const setPage = (
     ) {
       const { id } = globalData.page;
 
-      logger.debug(`${id} has been resloved`);
+      logger.debug(`${id} has been resolved`);
       ctx.setData(
         {
           color: getColor(globalData.page.data?.grey),

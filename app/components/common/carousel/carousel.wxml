@@ -15,7 +15,7 @@
     <swiper-item wx:for="{{config.images}}" wx:key="*this">
       <image
         class="{{config.imgClass || 'image'}}"
-        mode="{{config.imgmode || 'aspectFill'}}"
+        mode="{{config.imgMode || 'aspectFill'}}"
         src="{{item}} "
         lazy-load
       />

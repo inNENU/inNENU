@@ -240,9 +240,9 @@ const buildQQScript = getScriptJob("qq");
 const watchQQScript = () =>
   watch("{app,typings}/**/*.ts", { ignoreInitial: false }, buildQQScript);
 
-const buildQQWXSS = getStyleJob("qq");
-const watchQQWXSS = () =>
-  watch("app/**/*.scss", { ignoreInitial: false }, buildQQWXSS);
+const buildQss = getStyleJob("qq");
+const watchQss = () =>
+  watch("app/**/*.scss", { ignoreInitial: false }, buildQss);
 
 const moveQQAssets = getAssetsJob("qq");
 const watchQQAssets = () =>
@@ -293,13 +293,13 @@ const watchQQFiles = () =>
 
 const watchQQ = parallel(
   watchQQScript,
-  watchQQWXSS,
+  watchQss,
   watchQQAssets,
   watchQQFiles,
   getConfigJob("qq")
 );
 const buildQQ = parallel(
-  buildQQWXSS,
+  buildQss,
   buildQQScript,
   moveQQAssets,
   moveQQFiles,

@@ -22,7 +22,7 @@ $Page("search", {
     result: <SearchResult[]>[],
 
     /** 搜索词 */
-    searchword: "",
+    searchWord: "",
   },
 
   state: {
@@ -42,7 +42,7 @@ $Page("search", {
     this.setData({
       firstPage: getCurrentPages().length === 1,
       color: getColor(true),
-      searchword: options.word || "",
+      searchWord: options.word || "",
       theme: globalData.theme,
       darkmode: globalData.darkmode,
     });

@@ -5,7 +5,7 @@ import { popNotice, resolvePage, setPage } from "../../utils/page";
 
 import type { AppOption } from "../../app";
 import type {
-  ButtonListComponnetItemConfig,
+  ButtonListComponentItemConfig,
   ListComponentConfig,
   PageDataWithContent,
 } from "../../../typings";
@@ -214,7 +214,7 @@ $Page("privacy", {
                     .content[1] as ListComponentConfig;
 
                   authorizeList.forEach((type2, index) => {
-                    (items as ButtonListComponnetItemConfig[])[index].desc =
+                    (items as ButtonListComponentItemConfig[])[index].desc =
                       authSetting[type2] ? "已授权✓" : "未授权×";
                   });
 
@@ -239,7 +239,7 @@ $Page("privacy", {
             const { items } = this.data.page.content[1] as ListComponentConfig;
 
             authorizeList.forEach((type2, index) => {
-              (items as ButtonListComponnetItemConfig[])[index].desc =
+              (items as ButtonListComponentItemConfig[])[index].desc =
                 authSetting[type2] ? "已授权✓" : "未授权×";
             });
 

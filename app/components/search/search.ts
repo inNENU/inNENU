@@ -12,7 +12,7 @@ $Component({
       type: String,
       default: "搜索",
     },
-    searchword: String,
+    searchWord: String,
   },
 
   data: {
@@ -70,7 +70,7 @@ $Component({
   },
 
   observers: {
-    searchword(value: string): void {
+    searchWord(value: string): void {
       this.setData({ value, showInput: true });
     },
   },

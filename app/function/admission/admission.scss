@@ -8,7 +8,7 @@
   border: 1px solid #2ecc71;
   border-radius: 14px;
 
-  background-color: var(--bgcolor);
+  background-color: var(--bg-color);
   color: #2ecc71;
 
   font-weight: bold;
@@ -19,7 +19,7 @@
 
     &.active {
       background-color: #2ecc71;
-      color: var(--bgcolor);
+      color: var(--bg-color);
     }
   }
 }
@@ -34,7 +34,7 @@
   margin: 15px;
   border-radius: 8px;
 
-  background-color: var(--block-bgcolor);
+  background-color: var(--bg-color-block);
   color: var(--text-color);
 
   font-size: 17px;
@@ -101,7 +101,7 @@
   margin: 15px 0;
   border-radius: 8px;
 
-  background-color: var(--block-bgcolor);
+  background-color: var(--bg-color-block);
   color: var(--text-color);
 
   font-size: 17px;
@@ -159,7 +159,7 @@
   padding: 15px;
   border-radius: 8px;
 
-  background-color: var(--block-bgcolor);
+  background-color: var(--bg-color-block);
   color: var(--text-color);
 
   font-size: 17px;

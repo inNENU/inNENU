@@ -31,7 +31,7 @@
   margin: 0 var(--horizontal-margin);
   border-radius: 8px;
 
-  background-color: var(--block-bgcolor);
+  background-color: var(--bg-color-block);
 
   .list-item {
     position: relative;
@@ -44,7 +44,7 @@
     border: none !important;
     border-radius: 0;
 
-    background-color: var(--block-bgcolor);
+    background-color: var(--bg-color-block);
     color: var(--text-color) !important;
 
     font-weight: normal;

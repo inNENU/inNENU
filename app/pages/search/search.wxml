@@ -25,7 +25,7 @@
 
   <search
     words="{{words}}"
-    searchword="{{searchword}}"
+    search-word="{{searchWord}}"
     catch:searching="searching"
     catch:search="search"
   />

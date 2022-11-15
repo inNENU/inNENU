@@ -6,7 +6,7 @@
   margin: 8px var(--horizontal-margin);
   border-radius: 8px;
 
-  background-color: var(--block-bgcolor);
+  background-color: var(--bg-color-block);
 
   .map {
     width: 100%;
@@ -37,7 +37,7 @@
     padding: 4px;
     border-radius: 50%;
 
-    background-color: var(--bgcolor);
+    background-color: var(--bg-color);
   }
 
   .icon {

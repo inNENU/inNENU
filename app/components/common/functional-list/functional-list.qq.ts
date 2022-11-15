@@ -4,7 +4,7 @@ import { readFile } from "@mptool/file";
 import type { PropType } from "@mptool/enhance";
 import type { AppOption } from "../../../app";
 import type {
-  ButtonListComponnetItemConfig,
+  ButtonListComponentItemConfig,
   FunctionalListComponentConfig,
   FunctionalListComponentItemOptions,
   PickerListComponentItemConfig,
@@ -37,7 +37,7 @@ $Component({
         { id: string }
       >
     ): void {
-      const { item } = this.getDetail<ButtonListComponnetItemConfig>(event);
+      const { item } = this.getDetail<ButtonListComponentItemConfig>(event);
 
       if (item.handler) this.$call(item.handler, event);
     },

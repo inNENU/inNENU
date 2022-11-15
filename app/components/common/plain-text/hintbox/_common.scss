@@ -9,7 +9,7 @@
   border-left-style: solid;
   border-radius: 6px;
 
-  background: var(--hint-box-bgcolor);
+  background: var(--hint-box-bg-color);
 
   font-size: 16px;
   line-height: 1.6;
@@ -42,7 +42,7 @@
     line-height: 1.25;
 
     @media (prefers-color-scheme: dark) {
-      color: var(--hint-box-bgcolor);
+      color: var(--hint-box-bg-color);
     }
 
     &:not(:only-child) {

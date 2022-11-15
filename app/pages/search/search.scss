@@ -11,7 +11,7 @@
   padding: 4px 8px;
   border-radius: 8px;
 
-  background-color: var(--block-bgcolor);
+  background-color: var(--bg-color-block);
   box-shadow: 1px 1px 2px 3px var(--card-shadow);
 
   text-align: left;
@@ -69,7 +69,7 @@
     margin: 6px 8px;
     padding: 6px 8px;
     border-radius: 8px;
-    background-color: var(--bgcolor-grey);
+    background-color: var(--bg-color-grey);
 
     .title {
       color: var(--dark-grey);

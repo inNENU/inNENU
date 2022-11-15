@@ -3,7 +3,7 @@
 .nenu {
   .grid-component-wrapper {
     position: relative;
-    background-color: var(--block-bgcolor);
+    background-color: var(--bg-color-block);
 
     &::before {
       content: " ";
@@ -29,7 +29,7 @@
       border: none !important;
       border-radius: 0 !important;
 
-      background-color: var(--bgcolor);
+      background-color: var(--bg-color);
 
       line-height: 1.6 !important;
 

@@ -3,7 +3,7 @@ import type {
   ActionComponentOptions,
   AudioComponentOptions,
   CardComponentOptions,
-  ButtonListComponnetItemOptions,
+  ButtonListComponentItemOptions as ButtonListComponentItemOptions,
   CarouselComponentOptions,
   DocComponentOptions,
   FooterComponentOptions,
@@ -14,7 +14,7 @@ import type {
   ListComponentItemOptions,
   ListComponentOptions,
   LoadingComponentOptions,
-  NaviagatorListComponentItemOptions,
+  NavigatorListComponentItemOptions as NavigatorListComponentItemOptions,
   PickerListComponentItemOptions,
   PhoneComponentOptions,
   SwitchListComponentItemOptions,
@@ -66,8 +66,8 @@ export interface PickerListComponentItemConfig<T = any>
   currentValue?: T extends any[] ? number[] : number;
 }
 
-export interface ButtonListComponnetItemConfig
-  extends ButtonListComponnetItemOptions {
+export interface ButtonListComponentItemConfig
+  extends ButtonListComponentItemOptions {
   /**
    * 是否禁用按钮
    *
@@ -78,11 +78,11 @@ export interface ButtonListComponnetItemConfig
 
 export type FunctionalListComponentItemConfig =
   | ListComponentItemOptions
-  | NaviagatorListComponentItemOptions
+  | NavigatorListComponentItemOptions
   | SwitchListComponentItemConfig
   | PickerListComponentItemConfig
   | SliderListComponentItemConfig
-  | ButtonListComponnetItemConfig;
+  | ButtonListComponentItemConfig;
 
 export interface FunctionalListComponentConfig
   extends FunctionalListComponentOptions {
