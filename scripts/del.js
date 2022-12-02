@@ -1,3 +1,3 @@
-const del = require("del");
+import { deleteSync } from "del";
 
-del.sync(["dist/**", "!dist/miniprogram_npm"]);
+deleteSync(["dist/**", "!dist/miniprogram_npm"]);

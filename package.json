@@ -2,6 +2,7 @@
   "name": "innenu-miniapp",
   "version": "5.3.0",
   "private": true,
+  "type": "module",
   "homepage": "https://mrhope.site",
   "bugs": {
     "url": "https://github.com/Mister-Hope/inNENU/issues"
@@ -20,15 +21,15 @@
     "server/"
   ],
   "scripts": {
-    "build:qq": "gulp buildQQ",
-    "build:qy": "gulp buildNenuyouth",
-    "build:wx": "gulp buildWechat",
+    "build:qq": "gulp -f gulpfile.cjs buildQQ",
+    "build:qy": "gulp -f gulpfile.cjs buildNenuyouth",
+    "build:wx": "gulp -f gulpfile.cjs buildWechat",
     "changelog": "conventional-changelog -p angular -i CHANGELOG.md -s -r 2",
     "clean": "node scripts/del.js",
     "commit": "git cz",
-    "dev:qq": "gulp watchQQ",
-    "dev:qy": "gulp watchNenuyouth",
-    "dev:wx": "gulp watchWechat",
+    "dev:qq": "gulp -f gulpfile.cjs watchQQ",
+    "dev:qy": "gulp -f gulpfile.cjs watchNenuyouth",
+    "dev:wx": "gulp -f gulpfile.cjs watchWechat",
     "lint": "pnpm lint:prettier --write && pnpm lint:wxs --write && pnpm lint:wxml --write && pnpm lint:eslint --fix && pnpm lint:stylelint --fix",
     "lint:check": "pnpm lint:prettier && pnpm lint:wxs && pnpm lint:wxml && pnpm lint:eslint && pnpm lint:stylelint",
     "lint:eslint": "eslint --ext .ts,.wxs .",
@@ -57,12 +58,12 @@
   },
   "devDependencies": {
     "@mr-hope/gulp-sass": "3.1.1",
-    "@typescript-eslint/eslint-plugin": "5.42.1",
-    "@typescript-eslint/parser": "5.42.1",
+    "@typescript-eslint/eslint-plugin": "5.45.0",
+    "@typescript-eslint/parser": "5.45.0",
     "conventional-changelog-cli": "2.2.2",
     "cz-conventional-changelog": "3.3.0",
-    "del": "6.1.1",
-    "eslint": "8.27.0",
+    "del": "7.0.0",
+    "eslint": "8.28.0",
     "eslint-config-prettier": "8.5.0",
     "eslint-plugin-prettier": "4.2.1",
     "gulp": "4.0.2",
@@ -70,18 +71,18 @@
     "gulp-sourcemaps": "3.0.0",
     "gulp-typescript": "6.0.0-alpha.1",
     "husky": "8.0.2",
-    "lint-staged": "13.0.3",
+    "lint-staged": "13.0.4",
     "miniprogram-api-typings": "3.6.0",
-    "npm-check-updates": "16.3.18",
+    "npm-check-updates": "16.4.3",
     "postcss": "8.4.19",
-    "prettier": "2.7.1",
+    "prettier": "2.8.0",
     "sort-package-json": "2.1.0",
-    "stylelint": "14.14.1",
+    "stylelint": "14.15.0",
     "stylelint-config-prettier": "9.0.4",
     "stylelint-config-standard": "29.0.0",
     "stylelint-config-standard-scss": "6.1.0",
     "stylelint-order": "5.0.0",
-    "typescript": "4.8.4"
+    "typescript": "4.9.3"
   },
-  "packageManager": "pnpm@7.15.0"
+  "packageManager": "pnpm@7.17.1"
 }

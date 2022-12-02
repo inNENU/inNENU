@@ -7,5 +7,6 @@ server/service/vendor/
 server/service/composer.lock
 
 project.config.json
+project.private.config.json
 
 pnpm-lock.yaml

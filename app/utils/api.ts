@@ -113,8 +113,8 @@ export const netReport = (): void => {
  * @param failFunc 失败回调函数
  * @param errorFunc 状态码错误回调函数
  */
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
 export const requestJSON = <
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   T extends Record<never, never> | unknown[] | string = Record<string, any>
 >(
   path: string
