@@ -26,6 +26,7 @@ ignorePatterns:
 rules:
   eqeqeq: error
   line-comment-position: error
+  no-duplicate-imports: error
   object-shorthand: error
   padding-line-between-statements:
     - error
@@ -141,8 +142,9 @@ overrides:
         - off
 
   - files:
-      - "scripts/**/*.js"
-      - "gulpfile.js"
+      - scripts/**/*.js
+      - .commitlintrc.cjs
+      - gulpfile.cjs
 
     env:
       node: true

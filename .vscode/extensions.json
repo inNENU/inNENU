@@ -1,0 +1,11 @@
+{
+  "recommendations": [
+    "mrmlnc.vscode-scss",
+    "redhat.vscode-yaml",
+    "dbaeumer.vscode-eslint",
+    "esbenp.prettier-vscode",
+    "stylelint.vscode-stylelint",
+    "streetsidesoftware.code-spell-checker",
+    "qiu8310.minapp-vscode"
+  ]
+}
