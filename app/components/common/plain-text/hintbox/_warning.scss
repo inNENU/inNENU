@@ -9,10 +9,6 @@
   .hint-title {
     &::before {
       @include svg.background-svg(icons.$warning-icon);
-
-      @media (prefers-color-scheme: dark) {
-        @include svg.background-svg(icons.$warning-dark-icon);
-      }
     }
   }
 }
