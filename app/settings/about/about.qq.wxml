@@ -1,6 +1,6 @@
 <import src="/components/template.wxml" />
 <page-meta
-  background-text-style="{{darkmode? 'dark': 'light'}}"
+  background-text-style="{{darkmode ? 'dark' : 'light'}}"
   background-color="{{color.bgColor}}"
   background-color-top="{{color.bgColorTop}}"
   background-color-bottom="{{color.bgColorBottom}}"
@@ -8,8 +8,8 @@
 />
 <template is="page" data="{{page, theme, darkmode}}" />
 <view
-  class="password-mask {{debug? 'fade-in': 'fade-out'}}"
-  style="top: {{debug? 0: '100%'}};"
+  class="password-mask {{debug ? 'fade-in' : 'fade-out'}}"
+  style="top : {{debug ? 0 : '100%'}};"
   catch:tap="cancelInput"
 />
 <view wx:if="{{debug}}" class="password">

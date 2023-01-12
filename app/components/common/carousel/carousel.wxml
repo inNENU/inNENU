@@ -1,6 +1,6 @@
 <view class="carousel">
   <swiper
-    class="{{config.class || ('item' + (config.fill? '': ' card'))}}"
+    class="{{config.class || ('item' + (config.fill ? '' : ' card'))}}"
     style="{{config.style}}"
     autoplay="{{config.autoplay !== false}}"
     interval="{{config.interval || '5000'}}"
@@ -24,12 +24,12 @@
 
   <view
     wx:if="{{config.indicatorDots !== false && config.images.length > 1}}"
-    class="carousel-dots{{(config.fill? '': ' card')}}"
+    class="carousel-dots{{(config.fill ? '' : ' card')}}"
   >
     <view
       wx:for="{{config.images}}"
       wx:key="*this"
-      class="dot {{index === current? 'active' : ''}}"
+      class="dot {{index === current ? 'active' : ''}}"
       style="background-color: {{config.dotColor || '#fff'}}"
     />
   </view>

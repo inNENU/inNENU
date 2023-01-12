@@ -56,7 +56,7 @@
   <view
     wx:if="{{page}}"
     wx:scope-data="{{...page.scopeData}}"
-    class="{{theme}} {{page.grey? 'grey': ''}}"
+    class="{{theme}} {{page.grey ? 'grey' : ''}}"
   >
     <!-- 错误显示 -->
     <block wx:if="{{page.error}}">
@@ -76,7 +76,7 @@
         hover-stay-time="100"
         catch:tap="$back"
       >
-        <view class="icon-{{firstPage? 'home': 'back'}}" />
+        <view class="icon-{{firstPage ? 'home' : 'back'}}" />
       </view>
       <template is="loading" />
     </view>

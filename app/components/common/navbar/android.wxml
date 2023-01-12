@@ -3,7 +3,7 @@
 <!-- android导航栏 -->
 <template name="androidNav">
   <view
-    class="android-navigation-bar {{shadow? 'shadow': ''}}"
+    class="android-navigation-bar {{shadow ? 'shadow' : ''}}"
     style="padding-top: {{statusBarHeight}}px;"
   >
     <view class="android-titletext">{{nav.title}}</view>
@@ -13,11 +13,12 @@
       hover-class="left-button-hover"
       hover-stay-time="100"
       data-action="{{nav.action}}"
-      catch:tap="{{nav.action? navbar.action: 'back'}}"
+      catch
+      :tap="{{nav.action ? navbar.action : 'back'}}"
     >
       <view wx:if="{{!nav.action}}" class="android-back-arrow" />
       <view class="android-back-text"
-        >{{firstPage? '主页': (nav.from || '返回')}}</view
+        >{{firstPage ? '主页' : (nav.from || '返回')}}</view
       >
     </view>
   </view>

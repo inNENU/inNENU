@@ -1,7 +1,7 @@
 <wxs src="./weather.wxs" module="tool" />
 <view class="wrapper grey">
   <view
-    class="weather-wrapper {{night? 'night': 'day'}}"
+    class="weather-wrapper {{night ? 'night' : 'day'}}"
     style="padding-top: {{statusBarHeight}}px;"
   >
     <view
@@ -10,7 +10,7 @@
       hover-class="button-hover"
       catch:tap="back"
     >
-      <view class="icon-{{firstPage? 'home': 'back'}}" />
+      <view class="icon-{{firstPage ? 'home' : 'back'}}" />
     </view>
     <button
       class="share-button"

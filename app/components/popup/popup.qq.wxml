@@ -1,4 +1,4 @@
-<view class="popup-wrapper{{show? ' show': ''}}">
+<view class="popup-wrapper{{show ? ' show' : ''}}">
   <view class="mask" catch:tap="closeDialog" />
   <view class="popup" style="padding-bottom: {{paddingBottom}}px;">
     <view class="popup-head">

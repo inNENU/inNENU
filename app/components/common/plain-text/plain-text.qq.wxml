@@ -29,7 +29,7 @@
         class="text"
         decode
         space="nbsp"
-        style="{{config.tag === 'p'? 'display: block;': ''}}{{plainText.getStyle(config, selectable)}}"
+        style="{{config.tag === 'p' ? 'display: block;' : ''}}{{plainText.getStyle(config, selectable)}}"
         selectable="{{selectable}}"
         ><text>{{item}}</text></text
       >
@@ -40,13 +40,13 @@
 <view
   wx:if="{{plainText.isContainer(config.type)}}"
   class="hintbox-component {{config.type}}"
-  hover-class="{{config.path? 'hintbox-hover': ''}}"
+  hover-class="{{config.path ? 'hintbox-hover' : ''}}"
   data-url="{{config.path}}"
   catch:tap="$bindGo"
 >
   <text
     wx:if="{{config.heading !== false}}"
-    class="hint-title {{config.path? 'access': ''}}"
+    class="hint-title {{config.path ? 'access' : ''}}"
     selectable="{{selectable}}"
     >{{plainText.getTitle(config)}}</text
   >

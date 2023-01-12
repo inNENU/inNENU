@@ -3,7 +3,7 @@
 <!-- weui导航栏 -->
 <template name="weuiNav">
   <view
-    class="weui-navigation-bar {{shadow? 'androidNavShadow': ''}}"
+    class="weui-navigation-bar {{shadow ? 'androidNavShadow' : ''}}"
     style="padding-top: {{statusBarHeight}}px;"
   >
     <view class="android-titletext">{{nav.title}}</view>
@@ -13,11 +13,11 @@
       hover-class="left-button-hover"
       hover-stay-time="100"
       data-action="{{nav.action}}"
-      catch:tap="{{nav.action? navbar.action: 'back'}}"
+      catch:tap="{{nav.action ? navbar.action : 'back'}}"
     >
       <view wx:if="{{!nav.action}}" class="weui-navigation-bar-backbutton" />
       <view class="android-back-text"
-        >{{firstPage? '主页': (nav.from || '返回')}}
+        >{{firstPage ? '主页' : (nav.from || '返回')}}
       </view>
     </view>
   </view>

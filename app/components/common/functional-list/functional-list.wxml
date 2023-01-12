@@ -33,7 +33,7 @@
         <!-- 按钮文字为蓝色 -->
         <view
           class="text"
-          style="{{listItem.type === 'button' && listItem.handler? 'color: #3478f7;': ''}}"
+          style="{{listItem.type === 'button' && listItem.handler ? 'color: #3478f7;' : ''}}"
         >
           {{listItem.text}}
         </view>
@@ -67,7 +67,7 @@
           src="{{listItem.icon}}"
         />
         <view class="text">{{listItem.text}}</view>
-        <view class="desc {{listItem.url? 'access': ''}}"
+        <view class="desc {{listItem.url ? 'access' : ''}}"
           >{{listItem.desc}}</view
         >
       </navigator>
@@ -147,10 +147,10 @@
         <slider
           wx:if="{{listItem.type === 'slider' }}"
           class="slider"
-          min="{{listItem.min? listItem.min: '0'}}"
-          max="{{listItem.max? listItem.max: '100'}}"
+          min="{{listItem.min ? listItem.min : '0'}}"
+          max="{{listItem.max ? listItem.max : '100'}}"
           value="{{listItem.value}}"
-          step="{{listItem.step? listItem.step: '1'}}"
+          step="{{listItem.step ? listItem.step : '1'}}"
           data-id="{{index}}"
           catch:changing="onSliderChange"
           catch:change="onSliderChange"
@@ -182,7 +182,7 @@
         </picker-view>
       </block>
       <!-- 分割线显示 -->
-      <view class="{{listItem.icon? 'icon ' :''}}divline" />
+      <view class="{{listItem.icon ? 'icon ' : ''}}divline" />
     </block>
   </block>
 </view>

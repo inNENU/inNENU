@@ -9,7 +9,7 @@
 </template>
 
 <page-meta
-  background-text-style="{{darkmode? 'dark': 'light'}}"
+  background-text-style="{{darkmode ? 'dark' : 'light'}}"
   background-color="{{color.bgColor}}"
   background-color-top="{{color.bgColorTop}}"
   background-color-bottom="{{color.bgColorBottom}}"
@@ -20,14 +20,14 @@
   <header title="校园媒体" />
   <view class="switch">
     <view
-      class="item {{type === 'qq'? 'active': ''}}"
+      class="item {{type === 'qq' ? 'active' : ''}}"
       data-type="qq"
       catch:tap="switch"
     >
       QQ
     </view>
     <view
-      class="item {{type === 'wx'? 'active': ''}}"
+      class="item {{type === 'wx' ? 'active' : ''}}"
       data-type="wx"
       catch:tap="switch"
     >

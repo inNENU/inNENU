@@ -19,7 +19,7 @@
   hover-class="button-hover"
   catch:tap="back"
 >
-  <view class="icon-{{firstPage? 'home': 'back'}}" />
+  <view class="icon-{{firstPage ? 'home' : 'back'}}" />
 </view>
 
 <view
@@ -27,8 +27,8 @@
   style="top:{{statusBarHeight + 6}}px;"
   catch:tap="changeArea"
 >
-  <view class="item {{area === 'benbu'? 'active': ''}}">本部</view>
-  <view class="item {{area === 'jingyue'? 'active': ''}}">净月</view>
+  <view class="item {{area === 'benbu' ? 'active' : ''}}">本部</view>
+  <view class="item {{area === 'jingyue' ? 'active' : ''}}">净月</view>
 </view>
 
 <view
@@ -52,7 +52,7 @@
   <view
     wx:for="{{category}}"
     wx:key="path"
-    class="item item{{index + (currentCategory === item.path? ' active': '')}} animation-slide-top"
+    class="item item{{index + (currentCategory === item.path ? ' active' : '')}} animation-slide-top"
     hover-class="button-hover"
     data-index="{{index}}"
     catch:tap="select"

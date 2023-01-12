@@ -1,5 +1,5 @@
 <page-meta
-  background-text-style="{{darkmode? 'dark': 'light'}}"
+  background-text-style="{{darkmode ? 'dark' : 'light'}}"
   background-color="{{color.bgColor}}"
   background-color-top="{{color.bgColorTop}}"
   background-color-bottom="{{color.bgColorBottom}}"

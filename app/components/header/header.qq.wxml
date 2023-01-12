@@ -4,7 +4,7 @@
   hover-class="button-hover"
   catch:tap="back"
 >
-  <view class="icon-{{firstPage? 'home': 'back'}}" />
+  <view class="icon-{{firstPage ? 'home' : 'back'}}" />
 </view>
 <view class="header" style="padding-top:{{statusBarHeight + 6}}px;">
   {{title}}

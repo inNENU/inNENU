@@ -1,19 +1,19 @@
 <view
   class="ios grey"
-  style="{{isTyping? 'padding-bottom:' + keyboardHeight + 'px;': ''}}"
+  style="{{isTyping ? 'padding-bottom:' + keyboardHeight + 'px;' : ''}}"
 >
   <header title="录取查询" />
 
   <view class="switch">
     <view
-      class="item {{level === '本科生'? 'active': ''}}"
+      class="item {{level === '本科生' ? 'active' : ''}}"
       data-level="本科生"
       catch:tap="levelChange"
     >
       本科生
     </view>
     <view
-      class="item {{level === '研究生'? 'active': ''}}"
+      class="item {{level === '研究生' ? 'active' : ''}}"
       data-level="研究生"
       catch:tap="levelChange"
     >

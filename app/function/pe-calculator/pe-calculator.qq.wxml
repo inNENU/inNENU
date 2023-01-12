@@ -1,6 +1,6 @@
 <view
   class="ios grey"
-  style="{{isTyping? 'padding-bottom:' + keyboardHeight + 'px;': ''}}"
+  style="{{isTyping ? 'padding-bottom:' + keyboardHeight + 'px;' : ''}}"
 >
   <header title="体测计算器" />
   <view class="desc-wrapper">
@@ -68,7 +68,7 @@
         range="{{longRun.picker}}"
         catch:change="longRunHandler"
       >
-        {{longRun.value? longRun.value: '秒'}}
+        {{longRun.value ? longRun.value : '秒'}}
       </picker>
     </view>
     <view class="list-item">
@@ -106,11 +106,13 @@
       <view class="score">{{peScore[item.id]}}分</view>
     </view>
     <view class="item">
-      <view class="text">{{gender.key === '男'? "1000": "800"}}米跑</view>
+      <view class="text">{{gender.key === '男' ? "1000" : "800"}}米跑</view>
       <view class="score">{{peScore.longRun}}分</view>
     </view>
     <view class="item">
-      <view class="text">{{gender.key === '男'? '引体向上': '仰卧起坐'}}</view>
+      <view class="text"
+        >{{gender.key === '男' ? '引体向上' : '仰卧起坐'}}</view
+      >
       <view class="score">{{peScore.special}}分</view>
     </view>
     <view class="item">

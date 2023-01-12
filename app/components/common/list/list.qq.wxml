@@ -41,7 +41,7 @@
         <view class="desc">{{listItem.desc}}</view>
       </view>
       <!-- 分割线 -->
-      <view class="{{listItem.icon? 'icon ' :''}}divline" />
+      <view class="{{listItem.icon ? 'icon ' : ''}}divline" />
     </block>
   </block>
 </view>

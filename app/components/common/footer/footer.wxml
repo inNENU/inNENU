@@ -12,7 +12,7 @@
       data-index="{{index}}"
       class="cite-link"
       catch:tap="copyCite"
-      >原文地址{{config.cite.length === 1 ? '': (index + 1)}}</text
+      >原文地址{{config.cite.length === 1 ? '' : (index + 1)}}</text
     >
   </view>
 

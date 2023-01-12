@@ -11,7 +11,7 @@
 <!-- 图片 -->
 <image
   class="img"
-  style="{{loaded? '':'height: 0px;'}}"
+  style="{{loaded ? '' : 'height: 0px;'}}"
   lazy-load="{{config.lazy !== false}}"
   mode="{{config.imgMode || 'widthFix'}}"
   src="{{config.src}}"

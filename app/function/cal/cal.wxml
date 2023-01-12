@@ -1,6 +1,6 @@
 <import src="/components/template.wxml" />
 <page-meta
-  background-text-style="{{darkmode? 'dark': 'light'}}"
+  background-text-style="{{darkmode ? 'dark' : 'light'}}"
   background-color="{{color.bgColor}}"
   background-color-top="{{color.bgColorTop}}"
   background-color-bottom="{{color.bgColorBottom}}"
@@ -19,7 +19,7 @@
   <view class="grade-inputer">
     <view wx:for="{{grade}}" class="course-wrapper" id="{{item.id}}">
       <button
-        class="sort {{display? '': 'hide'}}"
+        class="sort {{display ? '' : 'hide'}}"
         id="sort{{item.id}}"
         catch:touchmove="sort"
       >
@@ -64,7 +64,7 @@
         catch:input="input"
       />
       <button
-        class="remove {{display? '': 'hide'}}"
+        class="remove {{display ? '': 'hide'}}"
         data-action="remove"
         data-index="{{index}}"
         catch:tap="remove"

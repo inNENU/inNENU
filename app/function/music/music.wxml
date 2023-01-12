@@ -7,7 +7,7 @@
     hover-class="button-hover"
     catch:tap="back"
   >
-    <view class="icon-{{firstPage? 'home': 'back'}}" />
+    <view class="icon-{{firstPage ? 'home' : 'back'}}" />
   </view>
   <view class="song-info">
     <view class="name">{{currentSong.title}}</view>
@@ -23,11 +23,11 @@
       <view class="cover-wrapper">
         <image
           wx:if="{{!coverLoad}}"
-          class="cover {{playing? 'rotate': ''}}"
+          class="cover {{playing ? 'rotate' : ''}}"
           src="./icon/cd.svg"
         />
         <image
-          class="cover {{playing? 'rotate': ''}} {{coverLoad? '': 'hide'}}"
+          class="cover {{playing ? 'rotate' : ''}} {{coverLoad ? '' : 'hide'}}"
           src="{{currentSong.cover}}"
           catch:load="loadCover"
         />
@@ -47,7 +47,7 @@
         <view
           wx:for="{{lyrics}}"
           wx:key="item"
-          class="item {{index=== currentLyricId? ' active': ''}}"
+          class="item {{index=== currentLyricId ? ' active' : ''}}"
           id="lyric-{{index}}"
           ><text>{{item.text}}</text></view
         >
@@ -65,7 +65,7 @@
       step="1"
       value="{{currentTime * 100}}"
       block-size="12"
-      backgroundColor="{{darkmode? '#999999': '#cccccc'}}"
+      backgroundColor="{{darkmode ? '#999999' : '#cccccc'}}"
       selected-color="#27C087"
       activeColor="#27C087"
       block-color="#27C087"
@@ -105,7 +105,7 @@
         hover-stay-time="100"
         catch:tap="play"
       >
-        <image class="icon" src="./icon/{{playing? 'pause': 'play'}}.svg" />
+        <image class="icon" src="./icon/{{playing ? 'pause' : 'play'}}.svg" />
       </view>
       <view wx:else class="play-button" hover-class="button-active">
         <image class="icon" src="./icon/loading.svg" />

@@ -3,15 +3,15 @@
 <template name="nenuNav">
   <block wx:if="{{nav.action === undefined}}">
     <view
-      class="left-button {{borderDisplay? 'fade-in': 'fade-out'}}"
+      class="left-button {{borderDisplay ? 'fade-in' : 'fade-out'}}"
       style="top:{{statusBarHeight + 6}}px;"
       hover-class="button-hover"
       catch:tap="back"
     >
-      <view class="icon-{{firstPage? 'home': 'back'}}" />
+      <view class="icon-{{firstPage ? 'home' : 'back'}}" />
     </view>
     <view
-      class="nenu-navigation-bar {{titleDisplay? 'fade-out': 'fade-in'}}"
+      class="nenu-navigation-bar {{titleDisplay ? 'fade-out' : 'fade-in'}}"
       style="background-color: {{color}}; padding-top: {{statusBarHeight}}px;"
     >
       <view
@@ -22,7 +22,7 @@
       >
         <view class="ios-back-arrow" style="border-color: #fff" />
         <view class="ios-nav-text" style="color: #fff"
-          >{{firstPage? '主页': (nav.from || '返回')}}
+          >{{firstPage ? '主页' : (nav.from || '返回')}}
         </view>
       </view>
       <view class="nenu-nav-title">{{nav.title}}</view>
@@ -31,7 +31,7 @@
   <block wx:else>
     <view
       class="nenu-navigation-bar"
-      style="{{nav.color? 'background-color:' + nav.color + '; ': ''}}padding-top: {{statusBarHeight}}px;"
+      style="{{nav.color ? 'background-color:' + nav.color + '; ' : ''}}padding-top: {{statusBarHeight}}px;"
     >
       <view
         wx:if="{{nav.action !== false}}"

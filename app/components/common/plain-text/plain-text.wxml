@@ -40,13 +40,13 @@
 <view
   wx:if="{{plainText.isContainer(config.type)}}"
   class="hintbox-component {{config.type}}"
-  hover-class="{{config.path? 'hintbox-hover': ''}}"
+  hover-class="{{config.path ? 'hintbox-hover' : ''}}"
   data-url="{{config.path}}"
   catch:tap="$bindGo"
 >
   <text
     wx:if="{{config.heading !== false}}"
-    class="hint-title {{config.path? 'access': ''}}"
+    class="hint-title {{config.path ? 'access' : ''}}"
     user-select="{{selectable}}"
     >{{plainText.getTitle(config)}}</text
   >
@@ -58,7 +58,7 @@
     wx:if="{{config.heading}}"
     class="text-component-header"
     user-select="{{selectable}}"
-    >{{config.heading}}</text
+    >{{config.heading === true ? '' : config.heading}}</text
   >
   <!-- 段落主体 -->
   <view class="text-component" style="{{plainText.getAlign(config.align)}}">
