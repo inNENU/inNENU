@@ -87,7 +87,7 @@ $Page("user", {
   openProfile() {
     if (wx.canIUse("openChannelsUserProfile"))
       wx.openChannelsUserProfile?.({
-        finderUserName: "sphYDhg2G2Qp1Mt",
+        finderUserName: "sphQlMRqDF84Orm",
       });
     else tip("请升级微信版本");
   },
