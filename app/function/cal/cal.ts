@@ -1,7 +1,7 @@
 import { $Page } from "@mptool/enhance";
-import { setPage } from "../../utils/page";
 
-import type { AppOption } from "../../app";
+import { type AppOption } from "../../app";
+import { setPage } from "../../utils/page";
 
 const { globalData } = getApp<AppOption>();
 
@@ -167,7 +167,7 @@ $Page("cal", {
       console.log(totalCredit);
       console.log(totalGradeCal / totalCredit);
       // 向data赋值计算结果
-    } else
+    } else {
       wx.showModal({
         // 弹窗让用户选择
         title: "请选择计算方式",
@@ -184,7 +184,9 @@ $Page("cal", {
             console.log("不及格学分成绩被计入");
             console.log(`新总学分是${totalCredit}`);
             console.log(`新总计算是${totalGradeCal}`);
-          } else if (confirm) console.log("都及格了");
+          } else if (confirm) {
+            console.log("都及格了");
+          }
 
           /*
            * 不包含不及格成绩，什么都不做
@@ -198,5 +200,6 @@ $Page("cal", {
           });
         },
       });
+    }
   },
 });

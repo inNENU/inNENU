@@ -1,8 +1,7 @@
-import { $Component } from "@mptool/enhance";
-import { tip } from "../../../utils/api";
+import { $Component, type PropType } from "@mptool/enhance";
 
-import type { PropType } from "@mptool/enhance";
-import type { VideoComponentOptions } from "../../../../typings";
+import { type VideoComponentOptions } from "../../../../typings";
+import { tip } from "../../../utils/api";
 
 $Component({
   properties: {

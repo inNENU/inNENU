@@ -1,23 +1,21 @@
 /* eslint-disable max-lines */
-import { logger } from "@mptool/enhance";
+import { type PageInstance, type PageQuery, logger } from "@mptool/enhance";
 import { readJSON, writeJSON } from "@mptool/file";
 
 import { modal, requestJSON } from "./api";
-import { ensureJSON } from "./json";
+import { type Notice } from "./app";
 import { id2path } from "./id";
+import { ensureJSON } from "./json";
 import { getScopeData } from "./scopeData";
-
-import type { PageInstance, PageQuery } from "@mptool/enhance";
-import type { AppOption } from "../app";
-import type { Notice } from "./app";
-import type {
-  FunctionalListComponentItemConfig,
-  GridComponentItemConfig,
-  ListComponentItemConfig,
-  PageData,
-  PageDataWithContent,
-  PageOption,
+import {
+  type FunctionalListComponentItemConfig,
+  type GridComponentItemConfig,
+  type ListComponentItemConfig,
+  type PageData,
+  type PageDataWithContent,
+  type PageOption,
 } from "../../typings";
+import { type AppOption } from "../app";
 
 type PageInstanceWithPage = PageInstance<
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -64,7 +62,7 @@ const resolveContent = (
       page.title || "返回"
     }&id=${listElement.path!}`;
 
-  if ("type" in listElement) {
+  if ("type" in listElement)
     if (listElement.type === "switch")
       // 设置列表开关与滑块
       listElement.status =
@@ -73,7 +71,7 @@ const resolveContent = (
       // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
       listElement.value = wx.getStorageSync(listElement.key);
     // 设置列表选择器
-    else if (listElement.type === "picker") {
+    else if (listElement.type === "picker")
       if (listElement.single) {
         // 单列选择器
         const selectIndex = wx.getStorageSync<number>(listElement.key);
@@ -101,13 +99,12 @@ const resolveContent = (
           (listElement.currentValue as any[])[index] = Number(pickerElement);
         });
       }
-    } else if (listElement.type === "navigator")
+    else if (listElement.type === "navigator")
       if (
         listElement.url?.startsWith("plugin://") &&
         globalData.appID !== "wx9ce37d9662499df3"
       )
         return null;
-  }
 
   return listElement;
 };
@@ -142,11 +139,10 @@ const disposePage = (page: PageData, option: PageOption): PageData => {
           component.tag === "ol" ||
           component.tag === "ul" ||
           component.tag === "text")
-      ) {
+      )
         component.path = `info?from=${
           page.title || "返回"
         }&id=${component.path!}`;
-      }
 
       // 设置 list 组件
       if (
@@ -245,8 +241,9 @@ export const resolvePage = (
 
   let pageData = null;
 
-  if (page) pageData = disposePage(page, options);
-  else if (options.id) {
+  if (page) {
+    pageData = disposePage(page, options);
+  } else if (options.id) {
     const jsonContent = readJSON<PageData>(`${options.id}`);
 
     if (jsonContent) pageData = disposePage(jsonContent, options);
@@ -480,9 +477,9 @@ export const setOnlinePage = (
 ): void => {
   const { id } = option;
 
-  if (id) {
-    // 页面已经预处理完毕，立即写入 page 并执行本界面的预加载
+  if (id)
     if (globalData.page.id === id) {
+      // 页面已经预处理完毕，立即写入 page 并执行本界面的预加载
       logger.debug(`${id} has been resolved`);
 
       ctx.setData(
@@ -521,7 +518,7 @@ export const setOnlinePage = (
         }
       }
       // 请求页面Json
-      else
+      else {
         requestJSON<PageData>(`r/${id}`)
           .then((data) => {
             // 非分享界面下将页面数据写入存储
@@ -558,8 +555,9 @@ export const setOnlinePage = (
             // 调试
             logger.warn(`${id} onLoad failed with error:`, err);
           });
+      }
     }
-  } else logger.error("no id");
+  else logger.error("no id");
 };
 
 /**
@@ -609,5 +607,7 @@ export const loadOnlinePage = (
         // 调试
         logger.warn(`${option.path} onLoad failed with error: `, errMsg);
       });
-  } else logger.error("no path");
+  } else {
+    logger.error("no path");
+  }
 };

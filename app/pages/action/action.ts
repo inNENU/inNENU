@@ -1,10 +1,9 @@
 import { $Page } from "@mptool/enhance";
 import { ls, rm } from "@mptool/file";
 
+import { type AppOption } from "../../app";
 import { modal } from "../../utils/api";
 import { appCoverPrefix } from "../../utils/config";
-
-import type { AppOption } from "../../app";
 
 const {
   globalData: { theme },
@@ -16,7 +15,9 @@ $Page("action", {
       const arg = decodeURIComponent(options.scene);
 
       this.setData({ [arg]: true, theme });
-    } else if (options.action) this.setData({ [options.action]: true, theme });
+    } else if (options.action) {
+      this.setData({ [options.action]: true, theme });
+    }
   },
 
   onShareAppMessage: () => ({

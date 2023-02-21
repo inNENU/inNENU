@@ -1,12 +1,11 @@
 import { $Page } from "@mptool/enhance";
 
+import { type WechatConfig } from "../../../typings";
+import { type AppOption } from "../../app";
+import { modal, tip } from "../../utils/api";
 import { appCoverPrefix, server } from "../../utils/config";
 import { ensureJSON } from "../../utils/json";
 import { getColor, popNotice } from "../../utils/page";
-import { modal, tip } from "../../utils/api";
-
-import type { AppOption } from "../../app";
-import type { WechatConfig } from "../../../typings";
 
 const { globalData } = getApp<AppOption>();
 

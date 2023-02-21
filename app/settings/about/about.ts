@@ -1,16 +1,15 @@
 import { $Page } from "@mptool/enhance";
 
+import {
+  type ComponentConfig,
+  type FunctionalListComponentConfig,
+  type PageDataWithContent,
+  type SwitchListComponentItemConfig,
+} from "../../../typings";
+import { type AppOption } from "../../app";
 import { requestJSON, tip } from "../../utils/api";
 import { appCoverPrefix } from "../../utils/config";
 import { popNotice, resolvePage, setPage } from "../../utils/page";
-
-import type { AppOption } from "../../app";
-import type {
-  FunctionalListComponentConfig,
-  ComponentConfig,
-  PageDataWithContent,
-  SwitchListComponentItemConfig,
-} from "../../../typings";
 
 const { globalData } = getApp<AppOption>();
 let clickNumber = 0;
@@ -74,8 +73,9 @@ $Page("about", {
   },
 
   onLoad(option) {
-    if (globalData.page.id === "关于") setPage({ option, ctx: this });
-    else {
+    if (globalData.page.id === "关于") {
+      setPage({ option, ctx: this });
+    } else {
       const { page } = this.data;
 
       // 读取开发者模式并对页面显示做相应改变
@@ -150,19 +150,22 @@ $Page("about", {
       developMode = false;
 
       // 不做任何操作
-    } else if (clickNumber < 5) clickNumber += 1;
+    } else if (clickNumber < 5) {
+      clickNumber += 1;
+    }
     // 提示还有几次点击即可启用开发者模式
     else if (clickNumber < 10) {
       tip(`再点击${10 - clickNumber}次即可启用开发者模式`);
       clickNumber += 1;
 
       // 启用开发者模式
-    } else
+    } else {
       this.setData({ debug: true }, () => {
         wx.nextTick(() => {
           this.setData({ focus: true });
         });
       });
+    }
   },
 
   /**

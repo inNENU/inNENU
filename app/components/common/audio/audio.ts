@@ -1,7 +1,6 @@
-import { $Component } from "@mptool/enhance";
+import { $Component, type PropType } from "@mptool/enhance";
 
-import type { PropType } from "@mptool/enhance";
-import type { AudioComponentOptions } from "../../../../typings";
+import { type AudioComponentOptions } from "../../../../typings";
 
 $Component({
   properties: {

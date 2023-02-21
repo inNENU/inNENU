@@ -1,17 +1,20 @@
-import { $App, $Config, wrapFunction } from "@mptool/enhance";
-
 import {
-  updateApp,
-  initializeApp,
-  getGlobalData,
-  updateNotice,
-  startup,
-} from "./utils/app";
-import { getDarkmode } from "./utils/api";
-import { checkResource } from "./utils/resource";
+  $App,
+  $Config,
+  type TrivialPageInstance,
+  wrapFunction,
+} from "@mptool/enhance";
 
-import type { TrivialPageInstance } from "@mptool/enhance";
-import type { GlobalData } from "./utils/app";
+import { getDarkmode } from "./utils/api";
+import {
+  type GlobalData,
+  getGlobalData,
+  initializeApp,
+  startup,
+  updateApp,
+  updateNotice,
+} from "./utils/app";
+import { checkResource } from "./utils/resource";
 
 export interface AppOption {
   globalData: GlobalData;

@@ -2,8 +2,7 @@ import { logger } from "@mptool/enhance";
 
 import { netReport, tip } from "./api";
 import { server } from "./config";
-
-import type { SearchIndex } from "../../typings";
+import { type SearchIndex } from "../../typings";
 
 /** 搜索结果 */
 export interface SearchResult {

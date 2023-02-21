@@ -4,8 +4,7 @@ import { exists, readJSON, rm, saveFile, unzip, writeJSON } from "@mptool/file";
 
 import { tip } from "./api";
 import { server } from "./config";
-
-import type { VersionInfo } from "../../typings";
+import { type VersionInfo } from "../../typings";
 
 /**
  * 资源下载
@@ -53,7 +52,9 @@ export const downloadResource = (
             if (showProgress) wx.hideLoading();
             resolve();
           });
-        } else reject(statusCode);
+        } else {
+          reject(statusCode);
+        }
       },
 
       // 下载失败
@@ -154,8 +155,12 @@ export const checkResource = (): void => {
             });
           }
           // 调试
-          else logger.debug("Newest resource already downloaded");
-        } else tip("服务器出现问题");
+          else {
+            logger.debug("Newest resource already downloaded");
+          }
+        } else {
+          tip("服务器出现问题");
+        }
       },
       fail: () => tip("服务器出现问题"),
     });

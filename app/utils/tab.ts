@@ -1,7 +1,6 @@
 import { requestJSON } from "./api";
-
-import type { AppOption } from "../app";
-import type { PageData } from "../../typings";
+import { type PageData } from "../../typings";
+import { type AppOption } from "../app";
 
 const { globalData } = getApp<AppOption>();
 

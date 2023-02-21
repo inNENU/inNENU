@@ -1,7 +1,7 @@
-import { $Component } from "@mptool/enhance";
-import type { PropType } from "@mptool/enhance";
-import type { AppOption } from "../../../app";
-import type { TitleComponentOptions } from "../../../../typings";
+import { $Component, type PropType } from "@mptool/enhance";
+
+import { type TitleComponentOptions } from "../../../../typings";
+import { type AppOption } from "../../../app";
 
 const { globalData } = getApp<AppOption>();
 

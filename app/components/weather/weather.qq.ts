@@ -1,8 +1,8 @@
 import { $Component } from "@mptool/enhance";
-import { server } from "../../utils/config";
 
-import type { WeatherData } from "./typings";
-import type { AppOption } from "../../app";
+import { type WeatherData } from "./typings";
+import { type AppOption } from "../../app";
+import { server } from "../../utils/config";
 
 const { globalData } = getApp<AppOption>();
 

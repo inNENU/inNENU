@@ -1,8 +1,7 @@
-import { $Component } from "@mptool/enhance";
-import { downLoad, modal, savePhoto, tip } from "../../../utils/api";
+import { $Component, type PropType } from "@mptool/enhance";
 
-import type { PropType } from "@mptool/enhance";
-import type { DocComponentOptions } from "../../../../typings";
+import { type DocComponentOptions } from "../../../../typings";
+import { downLoad, modal, savePhoto, tip } from "../../../utils/api";
 
 $Component({
   properties: {

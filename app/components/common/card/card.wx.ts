@@ -1,10 +1,8 @@
-import { $Component } from "@mptool/enhance";
+import { $Component, type PropType } from "@mptool/enhance";
 import { readFile } from "@mptool/file";
 
+import { type CardComponentOptions } from "../../../../typings";
 import { modal } from "../../../utils/api";
-
-import type { PropType } from "@mptool/enhance";
-import type { CardComponentOptions } from "../../../../typings";
 
 $Component({
   properties: {
@@ -20,24 +18,22 @@ $Component({
       const { config } = this.data;
 
       if ("options" in config) wx.navigateToMiniProgram(config.options);
-      else {
-        // 页面路径
-        if (!config.url.match(/^https?:\/\//)) this.$go(config.url);
-        // 判断是否是可以跳转的微信图文
-        else if (config.url.startsWith("https://mp.weixin.qq.com"))
-          this.$go(`web?url=${config.url}&title=${config.title}`);
-        // 无法跳转，复制链接到剪切板
-        else
-          wx.setClipboardData({
-            data: config.url,
-            success: () => {
-              modal(
-                "无法直接打开",
-                "小程序无法直接打开网页，链接地址已复制至剪切板。请打开浏览器粘贴查看"
-              );
-            },
-          });
-      }
+      // 页面路径
+      else if (!config.url.match(/^https?:\/\//)) this.$go(config.url);
+      // 判断是否是可以跳转的微信图文
+      else if (config.url.startsWith("https://mp.weixin.qq.com"))
+        this.$go(`web?url=${config.url}&title=${config.title}`);
+      // 无法跳转，复制链接到剪切板
+      else
+        wx.setClipboardData({
+          data: config.url,
+          success: () => {
+            modal(
+              "无法直接打开",
+              "小程序无法直接打开网页，链接地址已复制至剪切板。请打开浏览器粘贴查看"
+            );
+          },
+        });
     },
 
     setLogo(value?: string) {

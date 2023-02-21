@@ -1,9 +1,9 @@
 import { $Page } from "@mptool/enhance";
 
+import { modal } from "../../utils/api";
 import { appCoverPrefix } from "../../utils/config";
 import { getJSON } from "../../utils/json";
 import { popNotice } from "../../utils/page";
-import { modal } from "../../utils/api";
 
 /** 分数段设置 */
 const gradeLevels = [
@@ -322,8 +322,12 @@ $Page("pe-calculator", {
               if (result[x] >= config[x][i]) {
                 peScore[x] = gradeLevels[i];
                 break;
-              } else if (i === 0) peScore[x] = 0;
-          } else peScore[x] = 0;
+              } else if (i === 0) {
+                peScore[x] = 0;
+              }
+          } else {
+            peScore[x] = 0;
+          }
         });
 
         // 以下两项越低越好
@@ -333,8 +337,12 @@ $Page("pe-calculator", {
               if (result[x] <= config[x][i]) {
                 peScore[x] = gradeLevels[i];
                 break;
-              } else if (i === 0) peScore[x] = 0;
-          } else peScore[x] = 0;
+              } else if (i === 0) {
+                peScore[x] = 0;
+              }
+          } else {
+            peScore[x] = 0;
+          }
         });
 
         // 计算特别类项目分数
@@ -348,8 +356,12 @@ $Page("pe-calculator", {
             ) {
               peScore.special = gradeLevels[i];
               break;
-            } else if (i === 0) peScore.special = 0;
-        } else peScore.special = 0;
+            } else if (i === 0) {
+              peScore.special = 0;
+            }
+        } else {
+          peScore.special = 0;
+        }
 
         // TODO: 计算加分
 

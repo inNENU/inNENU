@@ -2,9 +2,7 @@ app/function/music/music.wxs
 
 dist/
 
-server/r/
-server/service/vendor/
-server/service/composer.lock
+server/
 
 project.config.json
 project.private.config.json

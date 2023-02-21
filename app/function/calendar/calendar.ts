@@ -1,12 +1,11 @@
 import { $Page } from "@mptool/enhance";
 
+import { type AppOption } from "../../app";
+import { type TimeLineItem } from "../../components/timeline/timeline";
 import { modal, tip } from "../../utils/api";
 import { appCoverPrefix } from "../../utils/config";
 import { ensureJSON, getJSON } from "../../utils/json";
 import { getColor, popNotice } from "../../utils/page";
-
-import type { AppOption } from "../../app";
-import type { TimeLineItem } from "../../components/timeline/timeline";
 
 const { globalData } = getApp<AppOption>();
 

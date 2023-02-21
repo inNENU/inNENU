@@ -1,12 +1,11 @@
 import { $Page } from "@mptool/enhance";
 import { ls, rm } from "@mptool/file";
 
+import { type PageDataWithContent } from "../../../typings";
+import { type AppOption } from "../../app";
 import { confirmAction, modal, tip } from "../../utils/api";
 import { popNotice, setPage } from "../../utils/page";
 import { downloadResource } from "../../utils/resource";
-
-import type { AppOption } from "../../app";
-import type { PageDataWithContent } from "../../../typings";
 
 const { globalData } = getApp<AppOption>();
 

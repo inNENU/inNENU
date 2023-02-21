@@ -1,10 +1,8 @@
-import { $Component } from "@mptool/enhance";
+import { $Component, type PropType } from "@mptool/enhance";
 
+import { type AccountComponentOptions } from "../../../../typings";
 import { modal, savePhoto, tip } from "../../../utils/api";
 import { navigation } from "../../../utils/location";
-
-import type { PropType } from "@mptool/enhance";
-import type { AccountComponentOptions } from "../../../../typings";
 
 $Component({
   properties: {

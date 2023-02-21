@@ -2,13 +2,16 @@
 
 import { $Page } from "@mptool/enhance";
 
+import {
+  type Category,
+  type MarkerConfig,
+  type MarkerData,
+} from "../../../typings";
+import { type AppOption } from "../../app";
 import { getWindowInfo, modal, tip } from "../../utils/api";
 import { appCoverPrefix } from "../../utils/config";
 import { ensureJSON, getJSON } from "../../utils/json";
 import { popNotice } from "../../utils/page";
-
-import type { AppOption } from "../../app";
-import type { Category, MarkerConfig, MarkerData } from "../../../typings";
 
 const { globalData } = getApp<AppOption>();
 
@@ -239,7 +242,9 @@ $Page("map", {
         });
 
         this.$go(`location?id=${area}/${item.path}&point=${point}`);
-      } else tip("该地点暂无详情");
+      } else {
+        tip("该地点暂无详情");
+      }
     }
   },
 

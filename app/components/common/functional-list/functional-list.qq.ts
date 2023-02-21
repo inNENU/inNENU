@@ -1,16 +1,15 @@
-import { $Component } from "@mptool/enhance";
+import { $Component, type PropType } from "@mptool/enhance";
 import { readFile } from "@mptool/file";
 
-import type { PropType } from "@mptool/enhance";
-import type { AppOption } from "../../../app";
-import type {
-  ButtonListComponentItemConfig,
-  FunctionalListComponentConfig,
-  FunctionalListComponentItemOptions,
-  PickerListComponentItemConfig,
-  SliderListComponentItemConfig,
-  SwitchListComponentItemConfig,
+import {
+  type ButtonListComponentItemConfig,
+  type FunctionalListComponentConfig,
+  type FunctionalListComponentItemOptions,
+  type PickerListComponentItemConfig,
+  type SliderListComponentItemConfig,
+  type SwitchListComponentItemConfig,
 } from "../../../../typings";
+import { type AppOption } from "../../../app";
 
 interface ListDetail<T = FunctionalListComponentItemOptions> {
   id: string;

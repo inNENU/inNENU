@@ -1,14 +1,13 @@
 import { $Page } from "@mptool/enhance";
 
+import { type PageDataWithContent } from "../../../typings";
+import { type AppOption } from "../../app";
 import { getDarkmode, requestJSON } from "../../utils/api";
 import { appCoverPrefix, appName } from "../../utils/config";
 import { getColor, popNotice, resolvePage, setPage } from "../../utils/page";
 import { checkResource } from "../../utils/resource";
 import { search } from "../../utils/search";
 import { refreshPage } from "../../utils/tab";
-
-import type { AppOption } from "../../app";
-import type { PageDataWithContent } from "../../../typings";
 
 const { globalData } = getApp<AppOption>();
 

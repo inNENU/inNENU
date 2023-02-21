@@ -1,14 +1,13 @@
 import { $Page } from "@mptool/enhance";
 import { readJSON } from "@mptool/file";
 
+import { type PageData } from "../../../typings";
+import { type AppOption } from "../../app";
 import { defaultScroller } from "../../mixins/page-scroll";
 import { appCoverPrefix } from "../../utils/config";
 import { getJSON } from "../../utils/json";
 import { navigation } from "../../utils/location";
 import { resolvePage, setPage } from "../../utils/page";
-
-import type { AppOption } from "../../app";
-import type { PageData } from "../../../typings";
 
 const { globalData } = getApp<AppOption>();
 
@@ -56,9 +55,7 @@ $Page("location", {
     });
   },
 
-  // eslint-disable-next-line @typescript-eslint/no-empty-function
   onPageScroll(options) {
-    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
     // @ts-ignore
     this.defaultScroller(options);
   },

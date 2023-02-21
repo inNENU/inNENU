@@ -1,11 +1,10 @@
 import { $Page } from "@mptool/enhance";
 
+import { type AppOption } from "../../app";
 import { getWindowInfo, modal, savePhoto, tip } from "../../utils/api";
 import { appCoverPrefix } from "../../utils/config";
 import { ensureJSON, getJSON } from "../../utils/json";
 import { popNotice } from "../../utils/page";
-
-import type { AppOption } from "../../app";
 
 const { globalData } = getApp<AppOption>();
 const { env } = globalData;

@@ -1,8 +1,7 @@
 import { $Component } from "@mptool/enhance";
 
+import { type AppOption } from "../../../app";
 import { defaultScroller, pageScrollMixin } from "../../../mixins/page-scroll";
-
-import type { AppOption } from "../../../app";
 
 const { globalData } = getApp<AppOption>();
 

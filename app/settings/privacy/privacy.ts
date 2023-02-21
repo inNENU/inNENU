@@ -1,14 +1,13 @@
 import { $Page } from "@mptool/enhance";
 
+import {
+  type ButtonListComponentItemConfig,
+  type ListComponentConfig,
+  type PageDataWithContent,
+} from "../../../typings";
+import { type AppOption } from "../../app";
 import { modal, tip } from "../../utils/api";
 import { popNotice, resolvePage, setPage } from "../../utils/page";
-
-import type { AppOption } from "../../app";
-import type {
-  ButtonListComponentItemConfig,
-  ListComponentConfig,
-  PageDataWithContent,
-} from "../../../typings";
 
 const { globalData } = getApp<AppOption>();
 

@@ -1,10 +1,9 @@
 import { $Page } from "@mptool/enhance";
 
+import { type PageData, type PageOption } from "../../../typings";
 import { appCoverPrefix } from "../../utils/config";
 import { id2path } from "../../utils/id";
 import { loadOnlinePage, resolvePage, setOnlinePage } from "../../utils/page";
-
-import type { PageData, PageOption } from "../../../typings";
 
 $Page("info", {
   data: {

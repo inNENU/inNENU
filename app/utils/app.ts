@@ -5,8 +5,7 @@ import { ls, rm, writeJSON } from "@mptool/file";
 import { getDarkmode, modal, requestJSON, tip } from "./api";
 import { appConfig, server, version } from "./config";
 import { downloadResource } from "./resource";
-
-import type { PageData, VersionInfo } from "../../typings";
+import { type PageData, type VersionInfo } from "../../typings";
 
 export type AppID = "wx33acb831ee1831a5" | "wx9ce37d9662499df3" | 1109559721;
 
@@ -262,7 +261,7 @@ const login = (
   if (openid) {
     console.info(`User OPENID: ${openid}`);
     callback(openid);
-  } else
+  } else {
     wx.login({
       success: ({ code }) => {
         if (code)
@@ -282,6 +281,7 @@ const login = (
         console.error(`Login failed: ${errMsg}`);
       },
     });
+  }
 };
 
 /** 注册全局监听 */
@@ -330,8 +330,9 @@ const registerActions = (): void => {
           showCancel: status === "noticed",
           cancelText: "不再提示",
           success: ({ cancel, confirm }) => {
-            if (confirm) wx.setStorageSync("capture-screen", "noticed");
-            else if (cancel) {
+            if (confirm) {
+              wx.setStorageSync("capture-screen", "noticed");
+            } else if (cancel) {
               wx.setStorageSync("capture-screen", "never");
               if (wx.canIUse("offUserCaptureScreen")) wx.offUserCaptureScreen();
             }
@@ -355,13 +356,12 @@ const checkGroupApp = (): void => {
           wx.getGroupAppStatus({
             entryDataHash,
             success: ({ isExisted }) => {
-              if (!isExisted) {
+              if (!isExisted)
                 modal("尊敬的管理员", "请考虑添加小程序到群应用!", () => {
                   wx.navigateTo({
                     url: "/pages/action/action?action=addGroupApp",
                   });
                 });
-              }
             },
           });
       },

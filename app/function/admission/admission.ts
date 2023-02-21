@@ -1,4 +1,5 @@
 import { $Page } from "@mptool/enhance";
+
 import { appCoverPrefix } from "../../utils/config";
 import { popNotice } from "../../utils/page";
 import { validateId } from "../../utils/validate";

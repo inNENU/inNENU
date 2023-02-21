@@ -1,12 +1,10 @@
-import { $Component } from "@mptool/enhance";
+import { $Component, type PropType } from "@mptool/enhance";
 
-import type { PropType } from "@mptool/enhance";
-import type {
-  LocationComponentOptions,
-  LocationConfig,
+import {
+  type LocationComponentOptions,
+  type LocationConfig,
 } from "../../../../typings";
-
-import type { AppOption } from "../../../app";
+import { type AppOption } from "../../../app";
 
 const { globalData } = getApp<AppOption>();
 
@@ -65,13 +63,14 @@ $Component({
               { latitude: latitude + 0.03, longitude: longitude + 0.03 },
             ],
           });
-        } else
+        } else {
           this.setData({
             includePoints: this.data.config.points.map((point) => ({
               longitude: point.longitude,
               latitude: point.latitude,
             })),
           });
+        }
       }, 500);
     },
   },

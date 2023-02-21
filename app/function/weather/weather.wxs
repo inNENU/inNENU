@@ -2,8 +2,9 @@ module.exports = {
   /** 获得天气 */
   getWeather: function (forecast) {
     if (forecast) {
-      if (forecast.dayWeather === forecast.nightWeather)
+      if (forecast.dayWeather === forecast.nightWeather) {
         return forecast.dayWeather;
+      }
 
       return forecast.dayWeather + "转" + forecast.nightWeather;
     }
@@ -13,7 +14,9 @@ module.exports = {
 
   /** 获得温度 */
   getTemperature: function (forecast) {
-    if (forecast) return forecast.maxDegree + "/" + forecast.minDegree + "°";
+    if (forecast) {
+      return forecast.maxDegree + "/" + forecast.minDegree + "°";
+    }
 
     return "";
   },

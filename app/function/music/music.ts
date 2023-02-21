@@ -1,12 +1,11 @@
 import { $Page } from "@mptool/enhance";
 
+import { type Lyric, type PlayMode, type SongDetail } from "./typings";
+import { type AppOption } from "../../app";
 import { tip } from "../../utils/api";
 import { appCoverPrefix, appName } from "../../utils/config";
 import { ensureJSON, getJSON } from "../../utils/json";
 import { popNotice } from "../../utils/page";
-
-import type { AppOption } from "../../app";
-import type { Lyric, PlayMode, SongDetail } from "./typings";
 
 const { globalData } = getApp<AppOption>();
 const { music } = globalData;
@@ -82,8 +81,9 @@ $Page("music", {
     });
 
     getJSON<SongDetail[]>("function/music/index").then((songList) => {
-      if (option.index) music.index = Number(option.index);
-      else if (option.name) {
+      if (option.index) {
+        music.index = Number(option.index);
+      } else if (option.name) {
         const name = decodeURI(option.name);
 
         music.index = songList.findIndex((song) => song.title === name);
@@ -105,7 +105,9 @@ $Page("music", {
       });
 
       // 如果正在播放，设置能够播放
-      if (music.playing) this.setData({ canplay: true });
+      if (music.playing) {
+        this.setData({ canplay: true });
+      }
       // 对音频管理器进行设置
       else {
         manager.epname = appName;
@@ -269,8 +271,11 @@ $Page("music", {
     if (this.state.interupt) {
       manager.src = this.data.currentSong.src;
       this.state.interupt = false;
-    } else if (this.data.playing) manager.pause();
-    else manager.play();
+    } else if (this.data.playing) {
+      manager.pause();
+    } else {
+      manager.play();
+    }
   },
 
   /** 拖拽进度 */
@@ -328,7 +333,9 @@ $Page("music", {
         if (index + 1 === total) {
           result = "nothing";
           tip("已是最后一曲");
-        } else result = index + 1;
+        } else {
+          result = index + 1;
+        }
         break;
       case "单曲循环":
       case "列表循环":
@@ -354,7 +361,9 @@ $Page("music", {
         if (index === 0) {
           result = "nothing";
           tip("已是第一曲");
-        } else result = index - 1;
+        } else {
+          result = index - 1;
+        }
         break;
       case "单曲循环":
       case "列表循环":

@@ -1,13 +1,12 @@
-import { $Component } from "@mptool/enhance";
-import { navigation } from "../../../utils/location";
-import { tip } from "../../../utils/api";
+import { $Component, type PropType } from "@mptool/enhance";
 
-import type { PropType } from "@mptool/enhance";
-import type { AppOption } from "../../../app";
-import type {
-  LocationComponentOptions,
-  LocationConfig,
+import {
+  type LocationComponentOptions,
+  type LocationConfig,
 } from "../../../../typings";
+import { type AppOption } from "../../../app";
+import { tip } from "../../../utils/api";
+import { navigation } from "../../../utils/location";
 
 const { globalData } = getApp<AppOption>();
 
@@ -74,12 +73,11 @@ $Component({
     navigate() {
       const { config, id, markers } = this.data;
 
-      if (config.navigate !== false) {
-        if (id === -1) {
+      if (config.navigate !== false)
+        if (id === -1)
           if (markers.length === 1) navigation(getPoint(markers[0]));
           else tip("请选择一个点");
-        } else navigation(getPoint(markers[id]));
-      }
+        else navigation(getPoint(markers[id]));
     },
 
     detail() {

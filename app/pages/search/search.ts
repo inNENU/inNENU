@@ -1,10 +1,9 @@
 import { $Page } from "@mptool/enhance";
 
+import { type AppOption } from "../../app";
 import { appCoverPrefix } from "../../utils/config";
 import { getColor, popNotice } from "../../utils/page";
 import { SearchResult, search } from "../../utils/search";
-
-import type { AppOption } from "../../app";
 
 const { globalData } = getApp<AppOption>();
 

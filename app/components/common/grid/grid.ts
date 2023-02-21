@@ -1,10 +1,9 @@
-import { $Component } from "@mptool/enhance";
+import { $Component, type PropType } from "@mptool/enhance";
 import { readFile } from "@mptool/file";
 
-import type { PropType } from "@mptool/enhance";
-import type {
-  GridComponentOptions,
-  GridComponentItemOptions,
+import {
+  type GridComponentItemOptions,
+  type GridComponentOptions,
 } from "../../../../typings";
 
 $Component({

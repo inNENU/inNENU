@@ -1,8 +1,7 @@
-import { $Component } from "@mptool/enhance";
-import { addPhoneContact } from "../../../utils/api";
+import { $Component, type PropType } from "@mptool/enhance";
 
-import type { PropType } from "@mptool/enhance";
-import type { PhoneComponentOptions } from "../../../../typings";
+import { type PhoneComponentOptions } from "../../../../typings";
+import { addPhoneContact } from "../../../utils/api";
 
 $Component({
   properties: {

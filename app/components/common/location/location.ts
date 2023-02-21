@@ -1,12 +1,11 @@
-import { $Component } from "@mptool/enhance";
-import { tip } from "../../../utils/api";
+import { $Component, type PropType } from "@mptool/enhance";
 
-import type { PropType } from "@mptool/enhance";
-import type { AppOption } from "../../../app";
-import type {
-  LocationComponentOptions,
-  LocationConfig,
+import {
+  type LocationComponentOptions,
+  type LocationConfig,
 } from "../../../../typings";
+import { type AppOption } from "../../../app";
+import { tip } from "../../../utils/api";
 
 const { globalData } = getApp<AppOption>();
 

@@ -1,4 +1,5 @@
 import { logger } from "@mptool/enhance";
+
 import { assets, server } from "./config";
 
 /**
@@ -165,8 +166,9 @@ export const downLoad = (path: string, mask = false): Promise<string> =>
       url: path.startsWith("http") ? path : `${assets}${path}`,
       success: ({ statusCode, tempFilePath }) => {
         wx.hideLoading();
-        if (statusCode === 200) resolve(tempFilePath);
-        else {
+        if (statusCode === 200) {
+          resolve(tempFilePath);
+        } else {
           tip("服务器出现问题，请稍后重试");
 
           // 调试

@@ -9,9 +9,7 @@ export const validateId = (id: string): boolean => {
 
   let nTemp = 0;
 
-  for (let i = 0; i < 17; i++) {
-    nTemp += Number(id[i]) * ID_GENERATE[i];
-  }
+  for (let i = 0; i < 17; i++) nTemp += Number(id[i]) * ID_GENERATE[i];
 
   return ID_VALIDATE[nTemp % 11] === id[17];
 };

@@ -1,8 +1,7 @@
-import { $Component } from "@mptool/enhance";
+import { $Component, type PropType } from "@mptool/enhance";
 import { readFile } from "@mptool/file";
 
-import type { PropType } from "@mptool/enhance";
-import type { CardComponentOptions } from "../../../../typings";
+import { type CardComponentOptions } from "../../../../typings";
 
 $Component({
   properties: {
@@ -18,12 +17,10 @@ $Component({
       const { config } = this.data;
 
       if ("options" in config) wx.navigateToMiniProgram(config.options);
-      else {
-        // 页面路径
-        if (!config.url.match(/^https?:\/\//)) this.$go(config.url);
-        // 网页
-        else this.$go(`web?url=${config.url}&title=${config.title}`);
-      }
+      // 页面路径
+      else if (!config.url.match(/^https?:\/\//)) this.$go(config.url);
+      // 网页
+      else this.$go(`web?url=${config.url}&title=${config.title}`);
     },
 
     setLogo(value?: string) {

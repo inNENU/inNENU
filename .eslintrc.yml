@@ -17,27 +17,74 @@ extends:
   - plugin:prettier/recommended
 
 plugins:
-  - prettier
+  - import
 
 ignorePatterns:
   - dist/
   - server/
 
 rules:
-  eqeqeq: error
-  line-comment-position: error
-  no-duplicate-imports: error
-  object-shorthand: error
+  curly:
+    - error
+    - multi
+    - consistent
+
+  import/consistent-type-specifier-style:
+    - error
+    - prefer-inline
+
+  import/dynamic-import-chunkname:
+    - error
+
+  import/first:
+    - error
+
+  import/newline-after-import:
+    - error
+
+  import/no-commonjs:
+    - error
+
+  import/no-cycle:
+    - error
+
+  import/no-duplicates:
+    - error
+    - considerQueryString: true
+      prefer-inline: true
+
+  import/no-named-default:
+    - error
+
+  import/order:
+    - error
+    - alphabetize:
+        order: asc
+        orderImportKind: asc
+      groups:
+        - builtin
+        - external
+        - internal
+        - - parent
+          - sibling
+        - index
+        - object
+      newlines-between: always
+
+  no-duplicate-imports:
+    - error
+
+  no-unmodified-loop-condition:
+    - error
+
   padding-line-between-statements:
     - error
-    - blankLine: always
-      prev: "*"
-      next: return
     - blankLine: always
       prev:
         - const
         - let
-      next: "*"
+      next:
+        - "*"
     - blankLine: any
       prev:
         - const
@@ -45,11 +92,16 @@ rules:
       next:
         - const
         - let
-  prefer-destructuring:
-    - error
-    - object: true
+    - blankLine: always
+      prev:
+        - "*"
+      next:
+        - return
 
-  prefer-template: error
+  sort-imports:
+    - error
+    - allowSeparatedGroups: false
+      ignoreDeclarationSort: true
 
 overrides:
   - files:
@@ -63,20 +115,33 @@ overrides:
       node: true
 
     rules:
+      curly:
+        - error
+        - all
+
       func-names:
         - error
-        - "never"
+        - never
 
       func-style:
         - error
         - "declaration"
+
+      import/no-commonjs:
+        - off
+
+      import/no-default-export:
+        - error
+
+      import/no-named-export:
+        - error
 
       no-var:
         - off
 
       object-shorthand:
         - error
-        - "never"
+        - never
 
       prefer-destructuring:
         - off
@@ -102,6 +167,9 @@ overrides:
         - "./tsconfig.json"
 
     rules:
+      "@typescript-eslint/ban-ts-comment":
+        - off
+
       "@typescript-eslint/explicit-function-return-type":
         - warn
         - allowTypedFunctionExpressions: true
@@ -111,12 +179,31 @@ overrides:
         - selector: default
           format:
             - camelCase
+          leadingUnderscore: allowSingleOrDouble
+          trailingUnderscore: allow
+
+        - selector:
+            - variable
+          format:
+            - camelCase
+            - PascalCase
+            - UPPER_CASE
+          leadingUnderscore: allowSingleOrDouble
+          trailingUnderscore: allowSingleOrDouble
+
+        - selector:
+            - parameter
+          format:
+            - camelCase
+            - PascalCase
           leadingUnderscore: allow
           trailingUnderscore: allow
 
-        - selector: variable
+        - selector:
+            - property
           format:
             - camelCase
+            - PascalCase
             - UPPER_CASE
           leadingUnderscore: allow
           trailingUnderscore: allow
@@ -132,13 +219,19 @@ overrides:
       "@typescript-eslint/no-floating-promises":
         - off
 
-      "@typescript-eslint/no-unsafe-member-access":
-        - warn
-
       "@typescript-eslint/no-non-null-assertion":
         - off
 
+      "@typescript-eslint/no-unsafe-member-access":
+        - warn
+
       "@typescript-eslint/unbound-method":
+        - off
+
+  - files:
+      - "*.d.ts"
+    rules:
+      no-underscore-dangle:
         - off
 
   - files:

@@ -1,11 +1,10 @@
 import { $Page } from "@mptool/enhance";
 import { readFile } from "@mptool/file";
 
+import { type AppOption } from "../../app";
+import { type WeatherData } from "../../components/weather/typings";
 import { modal } from "../../utils/api";
 import { appCoverPrefix, server } from "../../utils/config";
-
-import type { AppOption } from "../../app";
-import type { WeatherData } from "../../components/weather/typings";
 
 const {
   globalData: { darkmode, info },
@@ -68,7 +67,7 @@ $Page("weather", {
       this.setData({ weather });
     }
     // 需要重新获取并处理
-    else
+    else {
       wx.request<WeatherData>({
         url: `${server}service/weather.php`,
         enableHttp2: true,
@@ -77,6 +76,7 @@ $Page("weather", {
           this.setData({ weather: data });
         },
       });
+    }
 
     // 设置页面背景色
     wx.setBackgroundColor({
@@ -149,7 +149,9 @@ $Page("weather", {
               node.height = height * dpr;
               context.scale(dpr, dpr);
               this.draw(context, weather, windowWidth);
-            } else this.canvasOldDraw(weather, windowWidth);
+            } else {
+              this.canvasOldDraw(weather, windowWidth);
+            }
           }
         );
     else this.canvasOldDraw(weather, windowWidth);
