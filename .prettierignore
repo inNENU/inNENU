@@ -2,7 +2,16 @@ app/function/music/music.wxs
 
 dist/
 
-server/
+server/r/
+server/site/
+server/!site/.vuepress/
+server/site/.vuepress/.cache/
+server/site/.vuepress/.temp/
+server/site/.vuepress/dist/
+
+server/service/vendor/
+service/service/composer.lock
+server/pnpm-lock.yaml
 
 project.config.json
 project.private.config.json
