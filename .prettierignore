@@ -1,15 +1,15 @@
 app/function/music/music.wxs
 
-dist/
+dist/**
 
-server/r/
-server/site/
-server/!site/.vuepress/
-server/site/.vuepress/.cache/
-server/site/.vuepress/.temp/
-server/site/.vuepress/dist/
+server/r/**
+server/site/**
+!server/site/.vuepress/**
+server/site/.vuepress/.cache/**
+server/site/.vuepress/.temp/**
+server/site/.vuepress/dist/**
 
-server/service/vendor/
+server/service/vendor/**
 service/service/composer.lock
 server/pnpm-lock.yaml
 
