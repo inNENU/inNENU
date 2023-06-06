@@ -32,7 +32,6 @@
     "strictPropertyInitialization": true,
     "target": "es6",
     "lib": ["ESNext"],
-    "locale": "zh-CN",
     "module": "CommonJS",
     "outDir": "dist",
     "types": ["miniprogram-api-typings"]
