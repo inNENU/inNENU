@@ -3,8 +3,7 @@ app/function/music/music.wxs
 dist/**
 
 server/r/**
-server/site/**
-!server/site/.vuepress/**
+server/site/**/*.md
 server/site/.vuepress/.cache/**
 server/site/.vuepress/.temp/**
 server/site/.vuepress/dist/**
