@@ -30,23 +30,25 @@
           class="icon"
           src="{{listItem.icon}}"
         />
-        <!-- 按钮文字为蓝色 -->
-        <view
-          class="text"
-          style="{{listItem.type === 'button' && listItem.handler ? 'color: #3478f7;' : ''}}"
-        >
-          {{listItem.text}}
-        </view>
-        <!-- 显示滑块值 -->
-        <view wx:if="{{listItem.type === 'slider'}}" class="desc"
-          >{{listItem.value}}</view
-        >
-        <!-- 显示行内选择器值 -->
-        <view wx:elif="{{listItem.type === 'picker'}}" class="desc">
-          <block wx:if="{{listItem.single}}">{{listItem.value}}</block>
-          <block wx:else>
-            <block wx:for="{{listItem.value}}" wx:key="*this">{{item}}</block>
-          </block>
+        <view class="detail">
+          <!-- 按钮文字为蓝色 -->
+          <view
+            class="text"
+            style="{{listItem.type === 'button' && listItem.handler ? 'color: #3478f7;' : ''}}"
+          >
+            {{listItem.text}}
+          </view>
+          <!-- 显示滑块值 -->
+          <view wx:if="{{listItem.type === 'slider'}}" class="desc"
+            >{{listItem.value}}</view
+          >
+          <!-- 显示行内选择器值 -->
+          <view wx:elif="{{listItem.type === 'picker'}}" class="desc">
+            <block wx:if="{{listItem.single}}">{{listItem.value}}</block>
+            <block wx:else>
+              <block wx:for="{{listItem.value}}" wx:key="*this">{{item}}</block>
+            </block>
+          </view>
         </view>
       </button>
       <!-- navigator -->
@@ -66,10 +68,12 @@
           class="icon"
           src="{{listItem.icon}}"
         />
-        <view class="text">{{listItem.text}}</view>
-        <view class="desc {{listItem.url ? 'access' : ''}}"
-          >{{listItem.desc}}</view
-        >
+        <view class="detail">
+          <view class="text">{{listItem.text}}</view>
+          <view class="desc {{listItem.url ? 'access' : ''}}"
+            >{{listItem.desc}}</view
+          >
+        </view>
       </navigator>
       <!-- 导航链接 -->
       <view
@@ -87,9 +91,11 @@
           class="icon"
           src="{{listItem.icon}}"
         />
-        <view class="text">{{listItem.text}}</view>
-        <view class="desc">{{listItem.desc}}</view>
-        <view class="access" />
+        <view class="detail">
+          <view class="text">{{listItem.text}}</view>
+          <view class="desc">{{listItem.desc}}</view>
+          <view class="access" />
+        </view>
       </view>
       <!-- 非嵌入选择器 -->
       <picker
@@ -110,9 +116,11 @@
             class="icon"
             src="{{listItem.icon}}"
           />
-          <view class="text">{{listItem.text}}</view>
-          <view wx:if="{{listItem.select}}" class="desc">
-            <block wx:for="{{listItem.value}}" wx:key="*this">{{item}}</block>
+          <view class="detail">
+            <view class="text">{{listItem.text}}</view>
+            <view wx:if="{{listItem.select}}" class="desc">
+              <block wx:for="{{listItem.value}}" wx:key="*this">{{item}}</block>
+            </view>
           </view>
         </view>
       </picker>
@@ -125,24 +133,24 @@
           class="icon"
           src="{{listItem.icon}}"
         />
-        <text class="text" decode selectable="{{selectable}}" space="nbsp"
-          >{{listItem.text}}</text
-        >
-        <view class="desc">
-          {{listItem.desc}}
-          <switch
-            wx:if="{{listItem.type === 'switch'}}"
-            checked="{{listItem.status}}"
-            color="{{color || '#07c160'}}"
-            data-id="{{index}}"
-            catch:change="onToggleSwitch"
-          />
+        <view class="detail">
+          <text class="text" decode selectable="{{selectable}}" space="nbsp"
+            >{{listItem.text}}</text
+          >
+          <view class="desc">
+            {{listItem.desc}}
+            <switch
+              wx:if="{{listItem.type === 'switch'}}"
+              checked="{{listItem.status}}"
+              color="{{color || '#07c160'}}"
+              data-id="{{index}}"
+              catch:change="onToggleSwitch"
+            />
+          </view>
         </view>
       </view>
       <!-- 滑块与嵌入式选择器显示 -->
       <block wx:if="{{listItem.visible}}">
-        <!-- 分割线 -->
-        <view class="divline" />
         <!-- 滑块显示 -->
         <slider
           wx:if="{{listItem.type === 'slider' }}"
@@ -181,8 +189,6 @@
           </block>
         </picker-view>
       </block>
-      <!-- 分割线显示 -->
-      <view class="{{listItem.icon ? 'icon ' :''}}divline" />
     </block>
   </block>
 </view>

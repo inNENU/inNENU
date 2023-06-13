@@ -23,9 +23,11 @@
           class="icon"
           src="{{listItem.icon}}"
         />
-        <view class="text">{{listItem.text}}</view>
-        <view class="desc">{{listItem.desc}}</view>
-        <view class="access" />
+        <view class="detail">
+          <view class="text">{{listItem.text}}</view>
+          <view class="desc">{{listItem.desc}}</view>
+          <view class="access" />
+        </view>
       </view>
       <!-- 普通文字段落 -->
       <view wx:else class="list-item">
@@ -35,13 +37,13 @@
           class="icon"
           src="{{listItem.icon}}"
         />
-        <text class="text" decode user-select="{{selectable}}" space="nbsp"
-          >{{listItem.text}}</text
-        >
-        <view class="desc">{{listItem.desc}}</view>
+        <view class="detail">
+          <text class="text" decode user-select="{{selectable}}" space="nbsp"
+            >{{listItem.text}}</text
+          >
+          <view class="desc">{{listItem.desc}}</view>
+        </view>
       </view>
-      <!-- 分割线 -->
-      <view class="{{listItem.icon ? 'icon ' : ''}}divline" />
     </block>
   </block>
 </view>
