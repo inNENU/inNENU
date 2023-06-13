@@ -183,7 +183,7 @@ All notable changes to this project will be documented in this file. See [standa
 - fix email bug ([2636cfd](https://github.com/Mister-Hope/inNENU/commit/2636cfd6d61619d1d76749c0896e5f467157f295))
 - fix ex-list ([0369623](https://github.com/Mister-Hope/inNENU/commit/0369623015ed9c133abf56d5fb26d5d4690dba78))
 - fix fill mode in carousel ([59df342](https://github.com/Mister-Hope/inNENU/commit/59df3423f9e771f076df1a18c0e12b943f34d79e))
-- fix generatation ([b3574c4](https://github.com/Mister-Hope/inNENU/commit/b3574c4198b16311843520e1a641598d1674b781))
+- fix generation ([b3574c4](https://github.com/Mister-Hope/inNENU/commit/b3574c4198b16311843520e1a641598d1674b781))
 - fix image component ([696e594](https://github.com/Mister-Hope/inNENU/commit/696e594cff043edb2fffc538c5e7e9043bd1178d))
 - fix intro component ([5fc78e9](https://github.com/Mister-Hope/inNENU/commit/5fc78e96b7e6151daccb3781ad5cfd34e5ad392d))
 - fix issue on Android 11 ([b998db5](https://github.com/Mister-Hope/inNENU/commit/b998db5e8b7427addcee036a40a345f0acf0967f))
