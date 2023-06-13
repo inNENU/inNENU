@@ -1,7 +1,6 @@
 {
   "miniprogramRoot": "dist/",
   "compileType": "miniprogram",
-
   "setting": {
     "es6": false,
     "enhance": false,
@@ -16,7 +15,6 @@
     "compileHotReLoad": true,
     "preloadBackgroundData": false,
     "lazyloadPlaceholderEnable": false,
-
     "babelSetting": {
       "ignore": [],
       "disablePlugins": [],
@@ -39,12 +37,13 @@
     "useIsolateContext": true,
     "useApiHook": false,
     "useApiHostProcess": true,
-    "showES6CompileOption": false
+    "showES6CompileOption": false,
+    "condition": true,
+    "skylineRenderEnable": true
   },
   "libVersion": "trial",
   "appid": "wx33acb831ee1831a5",
   "projectname": "in%E4%B8%9C%E5%B8%88",
-
   "packOptions": {
     "ignore": [
       {
@@ -258,5 +257,14 @@
         }
       ]
     }
+  },
+  "srcMiniprogramRoot": "dist/",
+  "editorSetting": {
+    "tabIndent": "insertSpaces",
+    "tabSize": 2
+  },
+  "projectArchitecture": "multiPlatform",
+  "simulatorPluginLibVersion": {
+    "wxext14566970e7e9f62": "2.27.3"
   }
 }

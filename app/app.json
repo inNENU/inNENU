@@ -132,5 +132,10 @@
   "themeLocation": "styles/theme.json",
   "sitemapLocation": "sitemap.json",
   "lazyCodeLoading": "requiredComponents",
-  "singlePage": { "navigationBarFit": "float" }
+  "singlePage": {
+    "navigationBarFit": "float"
+  },
+  "miniApp": {
+    "useAuthorizePage": true
+  }
 }
