@@ -6,7 +6,7 @@
     class="android-navigation-bar {{shadow ? 'shadow' : ''}}"
     style="padding-top: {{statusBarHeight}}px;"
   >
-    <view class="android-titletext">{{nav.title}}</view>
+    <view class="android-title-text">{{nav.title}}</view>
     <view
       wx:if="{{nav.action !== false}}"
       class="android-nav-back-button"

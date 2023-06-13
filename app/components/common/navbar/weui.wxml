@@ -6,7 +6,7 @@
     class="weui-navigation-bar {{shadow ? 'androidNavShadow' : ''}}"
     style="padding-top: {{statusBarHeight}}px;"
   >
-    <view class="android-titletext">{{nav.title}}</view>
+    <view class="android-title-text">{{nav.title}}</view>
     <view
       wx:if="{{nav.action !== false}}"
       class="button android-nav-back-button"

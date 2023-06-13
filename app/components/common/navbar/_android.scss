@@ -42,6 +42,7 @@
   color: #d9d9d9;
 
   font-size: 8px;
+
   @media (prefers-color-scheme: dark) {
     background-color: #000;
   }
@@ -53,7 +54,7 @@
   }
 }
 
-.android-titletext {
+.android-title-text {
   position: absolute;
   z-index: 100;
 
