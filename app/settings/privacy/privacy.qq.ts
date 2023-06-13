@@ -4,10 +4,10 @@ import {
   type ButtonListComponentItemConfig,
   type ListComponentConfig,
   type PageDataWithContent,
-} from "../../../typings";
-import { type AppOption } from "../../app";
-import { modal, tip } from "../../utils/api";
-import { popNotice, resolvePage, setPage } from "../../utils/page";
+} from "../../../typings/index.js";
+import { type AppOption } from "../../app.js";
+import { modal, tip } from "../../utils/api.js";
+import { popNotice, resolvePage, setPage } from "../../utils/page.js";
 
 const { globalData } = getApp<AppOption>();
 

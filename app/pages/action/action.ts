@@ -1,9 +1,9 @@
 import { $Page } from "@mptool/enhance";
 import { ls, rm } from "@mptool/file";
 
-import { type AppOption } from "../../app";
-import { modal } from "../../utils/api";
-import { appCoverPrefix } from "../../utils/config";
+import { type AppOption } from "../../app.js";
+import { modal } from "../../utils/api.js";
+import { appCoverPrefix } from "../../utils/config.js";
 
 const {
   globalData: { theme },

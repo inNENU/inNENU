@@ -2,10 +2,10 @@
 import { emitter, logger } from "@mptool/enhance";
 import { ls, rm, writeJSON } from "@mptool/file";
 
-import { getDarkmode, modal, requestJSON, tip } from "./api";
-import { appConfig, server, version } from "./config";
-import { downloadResource } from "./resource";
-import { type PageData, type VersionInfo } from "../../typings";
+import { getDarkmode, modal, requestJSON, tip } from "./api.js";
+import { appConfig, server, version } from "./config.js";
+import { downloadResource } from "./resource.js";
+import { type PageData, type VersionInfo } from "../../typings/index.js";
 
 export type AppID = "wx33acb831ee1831a5" | "wx9ce37d9662499df3" | 1109559721;
 

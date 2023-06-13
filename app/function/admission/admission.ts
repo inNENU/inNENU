@@ -1,8 +1,8 @@
 import { $Page } from "@mptool/enhance";
 
-import { appCoverPrefix } from "../../utils/config";
-import { popNotice } from "../../utils/page";
-import { validateId } from "../../utils/validate";
+import { appCoverPrefix } from "../../utils/config.js";
+import { popNotice } from "../../utils/page.js";
+import { validateId } from "../../utils/validate.js";
 
 interface FetchResult {
   /** cookies */

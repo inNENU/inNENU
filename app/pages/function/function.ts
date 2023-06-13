@@ -1,12 +1,12 @@
 import { $Page } from "@mptool/enhance";
 import { put, take } from "@mptool/file";
 
-import { type PageDataWithContent } from "../../../typings";
-import { type AppOption } from "../../app";
-import { appCoverPrefix } from "../../utils/config";
-import { getColor, popNotice, resolvePage, setPage } from "../../utils/page";
-import { checkResource } from "../../utils/resource";
-import { refreshPage } from "../../utils/tab";
+import { type PageDataWithContent } from "../../../typings/index.js";
+import { type AppOption } from "../../app.js";
+import { appCoverPrefix } from "../../utils/config.js";
+import { getColor, popNotice, resolvePage, setPage } from "../../utils/page.js";
+import { checkResource } from "../../utils/resource.js";
+import { refreshPage } from "../../utils/tab.js";
 
 const { globalData } = getApp<AppOption>();
 

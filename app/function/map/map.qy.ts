@@ -4,13 +4,13 @@ import {
   type Category,
   type MarkerConfig,
   type MarkerData,
-} from "../../../typings";
-import { type AppOption } from "../../app";
-import { getWindowInfo, modal, tip } from "../../utils/api";
-import { appCoverPrefix } from "../../utils/config";
-import { ensureJSON, getJSON } from "../../utils/json";
-import { navigation } from "../../utils/location";
-import { popNotice } from "../../utils/page";
+} from "../../../typings/index.js";
+import { type AppOption } from "../../app.js";
+import { getWindowInfo, modal, tip } from "../../utils/api.js";
+import { appCoverPrefix } from "../../utils/config.js";
+import { ensureJSON, getJSON } from "../../utils/json.js";
+import { navigation } from "../../utils/location.js";
+import { popNotice } from "../../utils/page.js";
 
 const { globalData } = getApp<AppOption>();
 

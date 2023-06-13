@@ -3,7 +3,7 @@ import {
   type PageDataWithContent,
   type TextComponentOptions,
   type TitleComponentOptions,
-} from "../../typings";
+} from "../../typings/index.js";
 
 const getText = (page: PageDataWithContent): string => {
   const pageContent = page.content

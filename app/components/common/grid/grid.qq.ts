@@ -4,7 +4,7 @@ import { readFile } from "@mptool/file";
 import {
   type GridComponentItemOptions,
   type GridComponentOptions,
-} from "../../../../typings";
+} from "../../../../typings/index.js";
 
 $Component({
   properties: {

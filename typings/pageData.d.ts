@@ -1,6 +1,6 @@
-import { type ComponentConfig } from "./components";
-import { type GeneralScopeData } from "./scopeData";
-import { type PageOptions } from "../server/typings";
+import { type ComponentConfig } from "./components.js";
+import { type GeneralScopeData } from "./scopeData.js";
+import { type PageOptions } from "../server/typings/index.js";
 
 /** 页面数据 */
 export interface PageData extends Partial<PageOptions> {

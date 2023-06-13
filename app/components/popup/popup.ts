@@ -1,4 +1,4 @@
-import { getWindowInfo } from "../../utils/api";
+import { getWindowInfo } from "../../utils/api.js";
 
 export interface PopupConfig {
   /** 主标题 */

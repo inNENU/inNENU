@@ -1,9 +1,13 @@
 import { $Page } from "@mptool/enhance";
 
-import { type PageData, type PageOption } from "../../../typings";
-import { appCoverPrefix } from "../../utils/config";
-import { id2path } from "../../utils/id";
-import { loadOnlinePage, resolvePage, setOnlinePage } from "../../utils/page";
+import { type PageData, type PageOption } from "../../../typings/index.js";
+import { appCoverPrefix } from "../../utils/config.js";
+import { id2path } from "../../utils/id.js";
+import {
+  loadOnlinePage,
+  resolvePage,
+  setOnlinePage,
+} from "../../utils/page.js";
 
 $Page("info", {
   data: {
@@ -18,7 +22,7 @@ $Page("info", {
     console.info("onLoad options: ", option);
 
     if ("path" in option) {
-      loadOnlinePage(<PageOption & { path: string }>option, this);
+      loadOnlinePage(option, this);
     } else {
       // 生成页面 ID
       option.id = id2path(

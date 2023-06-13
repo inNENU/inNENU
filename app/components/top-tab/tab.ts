@@ -1,4 +1,4 @@
-import { type AppOption } from "../../app";
+import { type AppOption } from "../../app.js";
 
 const { globalData } = getApp<AppOption>();
 

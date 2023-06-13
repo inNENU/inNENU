@@ -4,8 +4,8 @@ import { readFile } from "@mptool/file";
 import {
   type ListComponentConfig,
   type ListComponentItemConfig,
-} from "../../../../typings";
-import { type AppOption } from "../../../app";
+} from "../../../../typings/index.js";
+import { type AppOption } from "../../../app.js";
 
 const { globalData } = getApp<AppOption>();
 

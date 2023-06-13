@@ -1,7 +1,7 @@
 import { $Component, type PropType } from "@mptool/enhance";
 
-import { type PhoneComponentOptions } from "../../../../typings";
-import { tip } from "../../../utils/api";
+import { type PhoneComponentOptions } from "../../../../typings/index.js";
+import { tip } from "../../../utils/api.js";
 
 $Component({
   properties: {

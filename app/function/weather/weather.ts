@@ -1,10 +1,10 @@
 import { $Page } from "@mptool/enhance";
 import { readFile } from "@mptool/file";
 
-import { type AppOption } from "../../app";
-import { type WeatherData } from "../../components/weather/typings";
-import { modal } from "../../utils/api";
-import { appCoverPrefix, server } from "../../utils/config";
+import { type AppOption } from "../../app.js";
+import { type WeatherData } from "../../components/weather/typings.js";
+import { modal } from "../../utils/api.js";
+import { appCoverPrefix, server } from "../../utils/config.js";
 
 const {
   globalData: { darkmode, info },

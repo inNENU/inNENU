@@ -1,7 +1,7 @@
 import { $Component, type PropType } from "@mptool/enhance";
 import { readFile } from "@mptool/file";
 
-import { type CardComponentOptions } from "../../../../typings";
+import { type CardComponentOptions } from "../../../../typings/index.js";
 
 $Component({
   properties: {

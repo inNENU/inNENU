@@ -1,7 +1,7 @@
 import { $Page } from "@mptool/enhance";
 
-import { type AppOption } from "../../app";
-import { setPage } from "../../utils/page";
+import { type AppOption } from "../../app.js";
+import { setPage } from "../../utils/page.js";
 
 const { globalData } = getApp<AppOption>();
 

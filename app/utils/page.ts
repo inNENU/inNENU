@@ -2,11 +2,11 @@
 import { type PageInstance, type PageQuery, logger } from "@mptool/enhance";
 import { readJSON, writeJSON } from "@mptool/file";
 
-import { modal, requestJSON } from "./api";
-import { type Notice } from "./app";
-import { id2path } from "./id";
-import { ensureJSON } from "./json";
-import { getScopeData } from "./scopeData";
+import { modal, requestJSON } from "./api.js";
+import { type Notice } from "./app.js";
+import { id2path } from "./id.js";
+import { ensureJSON } from "./json.js";
+import { getScopeData } from "./scopeData.js";
 import {
   type FunctionalListComponentItemConfig,
   type GridComponentItemConfig,
@@ -14,8 +14,8 @@ import {
   type PageData,
   type PageDataWithContent,
   type PageOption,
-} from "../../typings";
-import { type AppOption } from "../app";
+} from "../../typings/index.js";
+import { type AppOption } from "../app.js";
 
 type PageInstanceWithPage = PageInstance<
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -400,7 +400,7 @@ export const setPage = (
         () => {
           logger.debug(`${id} pageData is set`);
           if (preload) {
-            preloadPage(ctx.data.page!);
+            preloadPage(ctx.data.page);
             logger.debug(`Preloaded ${id} links`);
           }
           resolve();
@@ -494,7 +494,7 @@ export const setOnlinePage = (
           popNotice(id);
 
           if (preload) {
-            preloadPage(ctx.data.page!);
+            preloadPage(ctx.data.page);
             logger.debug(`Preloaded ${id} links`);
           }
         }
@@ -513,7 +513,7 @@ export const setOnlinePage = (
 
         // 如果需要执行预加载，则执行
         if (preload) {
-          preloadPage(ctx.data.page!);
+          preloadPage(ctx.data.page);
           logger.debug(`${id} preload complete`);
         }
       }
@@ -529,7 +529,7 @@ export const setOnlinePage = (
 
             // 如果需要执行预加载，则执行
             if (preload) {
-              preloadPage(ctx.data.page!);
+              preloadPage(ctx.data.page);
               logger.debug(`Preload ${id} complete`);
             }
 

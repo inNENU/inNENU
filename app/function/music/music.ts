@@ -1,11 +1,11 @@
 import { $Page } from "@mptool/enhance";
 
-import { type Lyric, type PlayMode, type SongDetail } from "./typings";
-import { type AppOption } from "../../app";
-import { tip } from "../../utils/api";
-import { appCoverPrefix, appName } from "../../utils/config";
-import { ensureJSON, getJSON } from "../../utils/json";
-import { popNotice } from "../../utils/page";
+import { type Lyric, type PlayMode, type SongDetail } from "./typings.js";
+import { type AppOption } from "../../app.js";
+import { tip } from "../../utils/api.js";
+import { appCoverPrefix, appName } from "../../utils/config.js";
+import { ensureJSON, getJSON } from "../../utils/json.js";
+import { popNotice } from "../../utils/page.js";
 
 const { globalData } = getApp<AppOption>();
 const { music } = globalData;

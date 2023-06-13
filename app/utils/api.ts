@@ -1,6 +1,6 @@
 import { logger } from "@mptool/enhance";
 
-import { assets, server } from "./config";
+import { assets, server } from "./config.js";
 
 /**
  * 根据用户设置，判断当前小程序是否应启用夜间模式

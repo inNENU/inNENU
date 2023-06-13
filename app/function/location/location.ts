@@ -1,12 +1,12 @@
 import { $Page } from "@mptool/enhance";
 import { readJSON } from "@mptool/file";
 
-import { type LocationConfig, type PageData } from "../../../typings";
-import { type AppOption } from "../../app";
-import { defaultScroller } from "../../mixins/page-scroll";
-import { appCoverPrefix } from "../../utils/config";
-import { getJSON } from "../../utils/json";
-import { resolvePage, setPage } from "../../utils/page";
+import { type LocationConfig, type PageData } from "../../../typings/index.js";
+import { type AppOption } from "../../app.js";
+import { defaultScroller } from "../../mixins/page-scroll.js";
+import { appCoverPrefix } from "../../utils/config.js";
+import { getJSON } from "../../utils/json.js";
+import { resolvePage, setPage } from "../../utils/page.js";
 
 const { globalData } = getApp<AppOption>();
 

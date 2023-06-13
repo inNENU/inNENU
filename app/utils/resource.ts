@@ -2,9 +2,9 @@
 import { logger } from "@mptool/enhance";
 import { exists, readJSON, rm, saveFile, unzip, writeJSON } from "@mptool/file";
 
-import { tip } from "./api";
-import { server } from "./config";
-import { type VersionInfo } from "../../typings";
+import { tip } from "./api.js";
+import { server } from "./config.js";
+import { type VersionInfo } from "../../typings/index.js";
 
 /**
  * 资源下载

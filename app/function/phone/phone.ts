@@ -1,9 +1,9 @@
 import { $Page } from "@mptool/enhance";
 
-import { addPhoneContact, getWindowInfo } from "../../utils/api";
-import { appCoverPrefix } from "../../utils/config";
-import { ensureJSON, getJSON } from "../../utils/json";
-import { popNotice } from "../../utils/page";
+import { addPhoneContact, getWindowInfo } from "../../utils/api.js";
+import { appCoverPrefix } from "../../utils/config.js";
+import { ensureJSON, getJSON } from "../../utils/json.js";
+import { popNotice } from "../../utils/page.js";
 
 interface PhoneItemConfig {
   name: string;

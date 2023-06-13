@@ -5,11 +5,11 @@ import {
   type FunctionalListComponentConfig,
   type PageDataWithContent,
   type SwitchListComponentItemConfig,
-} from "../../../typings";
-import { type AppOption } from "../../app";
-import { requestJSON, tip } from "../../utils/api";
-import { appCoverPrefix } from "../../utils/config";
-import { popNotice, resolvePage, setPage } from "../../utils/page";
+} from "../../../typings/index.js";
+import { type AppOption } from "../../app.js";
+import { requestJSON, tip } from "../../utils/api.js";
+import { appCoverPrefix } from "../../utils/config.js";
+import { popNotice, resolvePage, setPage } from "../../utils/page.js";
 
 const { globalData } = getApp<AppOption>();
 let clickNumber = 0;

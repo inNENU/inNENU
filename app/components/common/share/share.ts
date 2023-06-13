@@ -1,9 +1,9 @@
 import { $Component, type PropType, logger } from "@mptool/enhance";
 
-import { type PageData } from "../../../../typings";
-import { type AppOption } from "../../../app";
-import { modal, savePhoto, tip } from "../../../utils/api";
-import { appName, server } from "../../../utils/config";
+import { type PageData } from "../../../../typings/index.js";
+import { type AppOption } from "../../../app.js";
+import { modal, savePhoto, tip } from "../../../utils/api.js";
+import { appName, server } from "../../../utils/config.js";
 
 const {
   globalData: { appID },

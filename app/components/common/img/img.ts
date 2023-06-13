@@ -1,6 +1,6 @@
 import { $Component, type PropType } from "@mptool/enhance";
 
-import { type ImageComponentOptions } from "../../../../typings";
+import { type ImageComponentOptions } from "../../../../typings/index.js";
 
 $Component({
   properties: {

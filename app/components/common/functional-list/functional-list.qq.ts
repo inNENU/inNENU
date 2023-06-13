@@ -8,8 +8,8 @@ import {
   type PickerListComponentItemConfig,
   type SliderListComponentItemConfig,
   type SwitchListComponentItemConfig,
-} from "../../../../typings";
-import { type AppOption } from "../../../app";
+} from "../../../../typings/index.js";
+import { type AppOption } from "../../../app.js";
 
 interface ListDetail<T = FunctionalListComponentItemOptions> {
   id: string;

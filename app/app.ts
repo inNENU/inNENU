@@ -5,7 +5,7 @@ import {
   wrapFunction,
 } from "@mptool/enhance";
 
-import { getDarkmode } from "./utils/api";
+import { getDarkmode } from "./utils/api.js";
 import {
   type GlobalData,
   getGlobalData,
@@ -13,8 +13,8 @@ import {
   startup,
   updateApp,
   updateNotice,
-} from "./utils/app";
-import { checkResource } from "./utils/resource";
+} from "./utils/app.js";
+import { checkResource } from "./utils/resource.js";
 
 export interface AppOption {
   globalData: GlobalData;

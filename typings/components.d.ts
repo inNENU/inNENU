@@ -22,7 +22,7 @@ import {
   type TextComponentOptions,
   type TitleComponentOptions,
   type VideoComponentOptions,
-} from "../server/typings";
+} from "../server/typings/index.js";
 
 export interface GridComponentItemConfig extends GridComponentItemOptions {
   /** Base64 icon 路径 */

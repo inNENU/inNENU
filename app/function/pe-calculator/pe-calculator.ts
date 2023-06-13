@@ -1,9 +1,9 @@
 import { $Page } from "@mptool/enhance";
 
-import { modal } from "../../utils/api";
-import { appCoverPrefix } from "../../utils/config";
-import { getJSON } from "../../utils/json";
-import { popNotice } from "../../utils/page";
+import { modal } from "../../utils/api.js";
+import { appCoverPrefix } from "../../utils/config.js";
+import { getJSON } from "../../utils/json.js";
+import { popNotice } from "../../utils/page.js";
 
 /** 分数段设置 */
 const gradeLevels = [

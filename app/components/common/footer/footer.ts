@@ -1,7 +1,7 @@
 import { $Component, type PropType } from "@mptool/enhance";
 
-import { type FooterComponentOptions } from "../../../../typings";
-import { modal } from "../../../utils/api";
+import { type FooterComponentOptions } from "../../../../typings/index.js";
+import { modal } from "../../../utils/api.js";
 
 $Component({
   properties: {

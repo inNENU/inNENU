@@ -1,4 +1,4 @@
-import { appName } from "./config";
+import { appName } from "./config.js";
 
 const referer = appName;
 
