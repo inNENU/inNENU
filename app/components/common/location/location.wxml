@@ -3,8 +3,8 @@
   <map
     class="map"
     id="location"
-    markers="{{helper.getMarkers(markers, darkmode)}}"
-    setting="{{helper.getSetting(darkmode)}}"
+    markers="{{helper.getMarkers(markers)}}"
+    setting="{{helper.getSetting()}}"
     catch:markertap="markerTap"
     catch:callouttap="calloutTap"
   />

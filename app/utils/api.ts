@@ -136,7 +136,11 @@ export const requestJSON = <
           logger.warn(
             `Request ${path}.json failed with statusCode: ${statusCode}`
           );
-          wx.reportMonitor("3", 1);
+
+          wx.reportEvent?.("resource_load_failed", {
+            // eslint-disable-next-line @typescript-eslint/naming-convention
+            broken_url: path,
+          });
 
           reject(statusCode);
         }
@@ -147,7 +151,6 @@ export const requestJSON = <
 
         // 调试
         logger.warn(`Request ${path}.json failed: ${errMsg}`);
-        wx.reportMonitor("4", 1);
       },
     });
   });
@@ -197,19 +200,22 @@ export const downLoad = (path: string, mask = false): Promise<string> =>
  *
  * @param imgPath 图片地址
  */
-export const savePhoto = (imgPath: string): Promise<void> =>
+export const savePhoto = (imgPath: string, force = false): Promise<void> =>
   new Promise((resolve, reject) => {
     downLoad(imgPath)
       .then((path) => {
+        const savePhoto = (): void =>
+          wx.saveImageToPhotosAlbum({
+            filePath: path,
+            success: () => resolve(),
+          });
+
+        if (force) savePhoto();
         // 获取用户设置
         wx.getSetting({
           success: ({ authSetting }) => {
             // 如果已经授权相册直接写入图片
-            if (authSetting["scope.writePhotosAlbum"])
-              wx.saveImageToPhotosAlbum({
-                filePath: path,
-                success: () => resolve(),
-              });
+            if (authSetting["scope.writePhotosAlbum"]) savePhoto();
             // 没有授权 —> 提示用户授权
             else
               wx.authorize({
@@ -249,44 +255,49 @@ export const addPhoneContact = (
   config: Omit<
     WechatMiniprogram.AddPhoneContactOption,
     "success" | "fail" | "complete"
-  >
+  >,
+  force = false
 ): Promise<void> =>
   new Promise((resolve, reject) => {
-    // 获取用户设置
-    wx.getSetting({
-      success: ({ authSetting }) => {
-        // 如果已经授权直接写入联系人
-        if (authSetting["scope.addPhoneContact"])
-          wx.addPhoneContact({
-            ...config,
-            success: () => resolve(),
-          });
-        // 没有授权 —> 提示用户授权
-        else
-          wx.authorize({
-            scope: "scope.addPhoneContact",
-            success: () => {
-              wx.addPhoneContact({
-                ...config,
-                success: () => resolve(),
-              });
-            },
+    const addPhoneContact = (): void =>
+      wx.addPhoneContact({
+        ...config,
+        success: () => resolve(),
+      });
 
-            // 用户拒绝权限，提示用户开启权限
-            fail: () => {
-              modal(
-                "权限被拒",
-                "如果想要保存联系人，请在“权限设置”允许添加到联系人权限",
-                () => {
-                  wx.openSetting({
-                    success: () => reject(),
-                  });
-                }
-              );
-            },
-          });
-      },
-    });
+    if (force) addPhoneContact();
+    // 获取用户设置
+    else
+      wx.getSetting({
+        success: ({ authSetting }) => {
+          // 如果已经授权直接写入联系人
+          if (authSetting["scope.addPhoneContact"]) addPhoneContact();
+          // 没有授权 —> 提示用户授权
+          else
+            wx.authorize({
+              scope: "scope.addPhoneContact",
+              success: () => {
+                wx.addPhoneContact({
+                  ...config,
+                  success: () => resolve(),
+                });
+              },
+
+              // 用户拒绝权限，提示用户开启权限
+              fail: () => {
+                modal(
+                  "权限被拒",
+                  "如果想要保存联系人，请在“权限设置”允许添加到联系人权限",
+                  () => {
+                    wx.openSetting({
+                      success: () => reject(),
+                    });
+                  }
+                );
+              },
+            });
+        },
+      });
   });
 
 export const getWindowInfo = (): WechatMiniprogram.WindowInfo =>

@@ -21,8 +21,8 @@ $Page("info", {
   onLoad(option: PageOption & { path?: string }) {
     console.info("onLoad options: ", option);
 
-    if ("path" in option) {
-      loadOnlinePage(option, this);
+    if (option.path) {
+      loadOnlinePage(<PageOption & { path: string }>option, this);
     } else {
       // 生成页面 ID
       option.id = id2path(

@@ -8,10 +8,13 @@
 />
 <view class="{{theme}} grey">
   <view
-    class="custom-navigation-bar"
+    class="search-navigation-bar"
     style="padding-top:{{statusBarHeight}}px;"
   >
-    <view class="search-wrapper">
+    <view
+      class="search-wrapper"
+      style="width: calc(100% - {{menuSpace + 10}}px)"
+    >
       <search
         custom-class="search"
         words="{{words}}"
@@ -22,7 +25,7 @@
     </view>
   </view>
   <view
-    class="custom-nav-placeholder"
+    class="search-nav-placeholder"
     style="height:{{statusBarHeight + 44}}px;"
   >
     到头啦~人家被你拉得好痛阿(*´д`*) 不许你再拉人家~╭(╯^╰)╮

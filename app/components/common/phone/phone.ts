@@ -1,7 +1,10 @@
 import { $Component, type PropType } from "@mptool/enhance";
 
 import { type PhoneComponentOptions } from "../../../../typings/index.js";
+import { type AppOption } from "../../../app.js";
 import { addPhoneContact } from "../../../utils/api.js";
+
+const { globalData } = getApp<AppOption>();
 
 $Component({
   properties: {
@@ -26,26 +29,29 @@ $Component({
     addContact(): void {
       const { config } = this.data;
 
-      addPhoneContact({
-        firstName: config.fName,
-        lastName: config.lName,
-        mobilePhoneNumber: config.num,
-        organization: config.org,
-        workPhoneNumber: config.workNum,
-        remark: config.remark,
-        photoFilePath: config.avatar,
-        nickName: config.nick,
-        weChatNumber: config.wechat,
-        addressState: config.province,
-        addressCity: config.city,
-        addressStreet: config.street,
-        addressPostalCode: config.postCode,
-        title: config.title,
-        hostNumber: config.hostNum,
-        email: config.mail,
-        url: config.site,
-        homePhoneNumber: config.homeNum,
-      });
+      addPhoneContact(
+        {
+          firstName: config.fName,
+          lastName: config.lName,
+          mobilePhoneNumber: config.num,
+          organization: config.org,
+          workPhoneNumber: config.workNum,
+          remark: config.remark,
+          photoFilePath: config.avatar,
+          nickName: config.nick,
+          weChatNumber: config.wechat,
+          addressState: config.province,
+          addressCity: config.city,
+          addressStreet: config.street,
+          addressPostalCode: config.postCode,
+          title: config.title,
+          hostNumber: config.hostNum,
+          email: config.mail,
+          url: config.site,
+          homePhoneNumber: config.homeNum,
+        },
+        globalData.env === "app"
+      );
     },
 
     toggleInfo(): void {

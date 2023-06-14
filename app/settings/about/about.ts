@@ -60,8 +60,9 @@ $Page("about", {
     const { page } = this.data;
 
     // 读取开发者模式并对页面显示做相应改变
-    if (wx.getStorageSync<boolean | undefined>("developMode"))
-      developMode = true;
+    developMode =
+      wx.getStorageSync<boolean | undefined>("developMode") ?? false;
+
     if (!developMode)
       (page.content[0] as FunctionalListComponentConfig).items.forEach(
         (x, y) => {
@@ -79,8 +80,9 @@ $Page("about", {
       const { page } = this.data;
 
       // 读取开发者模式并对页面显示做相应改变
-      if (wx.getStorageSync<boolean | undefined>("developMode"))
-        developMode = true;
+      developMode =
+        wx.getStorageSync<boolean | undefined>("developMode") ?? false;
+
       if (!developMode)
         (page.content[0] as FunctionalListComponentConfig).items.forEach(
           (x, y) => {

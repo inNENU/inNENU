@@ -27,6 +27,8 @@ $Page("main", {
       hidden: true,
       content: [{ tag: "loading" }],
     },
+
+    menuSpace: globalData.env === "app" ? 10 : 90,
   },
 
   onRegister() {

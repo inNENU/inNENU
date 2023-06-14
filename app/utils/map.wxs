@@ -7,7 +7,7 @@ module.exports = {
    *
    * @returns 地图设置
    */
-  getSetting: function (darkmode, showSatellite) {
+  getSetting: function (showSatellite) {
     var settings = {
       showLocation: true,
       showScale: true,
@@ -19,9 +19,6 @@ module.exports = {
       enableTraffic: true,
     };
 
-    settings.subkey = "NLVBZ-PGJRQ-T7K5F-GQ54N-GIXDH-FCBC4";
-    settings.layerStyle = darkmode ? 2 : 1;
-
     return settings;
   },
 
@@ -32,7 +29,7 @@ module.exports = {
    *
    * @returns 处理后的标记点
    */
-  getMarkers: function (markers, darkmode) {
+  getMarkers: function (markers) {
     return (markers || []).map(function (marker, index) {
       marker.iconPath = "/icon/marker.png";
       marker.width = 25;
@@ -46,9 +43,9 @@ module.exports = {
           fontSize: 10,
           anchorX: marker.name.length * -5 - 4,
           anchorY: 0,
-          bgColor: darkmode ? "#1c1c1e" : "#ffffff",
+          bgColor: "#ffffff",
           borderWidth: 1,
-          borderColor: darkmode ? "#1f1f22" : "#efeef4",
+          borderColor: "#efeef4",
           borderRadius: 2,
           padding: 3,
         };
@@ -58,7 +55,7 @@ module.exports = {
       if (marker.detail) {
         marker.callout = {
           content: marker.detail,
-          color: darkmode ? "#000000" : "#ffffff",
+          color: "#ffffff",
           fontSize: 16,
           borderRadius: 10,
           bgColor: "#2ecc71",

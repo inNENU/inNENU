@@ -400,7 +400,7 @@ export const setPage = (
         () => {
           logger.debug(`${id} pageData is set`);
           if (preload) {
-            preloadPage(ctx.data.page);
+            preloadPage(ctx.data.page!);
             logger.debug(`Preloaded ${id} links`);
           }
           resolve();
@@ -494,7 +494,7 @@ export const setOnlinePage = (
           popNotice(id);
 
           if (preload) {
-            preloadPage(ctx.data.page);
+            preloadPage(ctx.data.page!);
             logger.debug(`Preloaded ${id} links`);
           }
         }
@@ -513,7 +513,7 @@ export const setOnlinePage = (
 
         // 如果需要执行预加载，则执行
         if (preload) {
-          preloadPage(ctx.data.page);
+          preloadPage(ctx.data.page!);
           logger.debug(`${id} preload complete`);
         }
       }
@@ -529,7 +529,7 @@ export const setOnlinePage = (
 
             // 如果需要执行预加载，则执行
             if (preload) {
-              preloadPage(ctx.data.page);
+              preloadPage(ctx.data.page!);
               logger.debug(`Preload ${id} complete`);
             }
 

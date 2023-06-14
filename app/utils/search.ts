@@ -60,7 +60,6 @@ export const search = <T extends string[] | SearchResult[]>(
 
         // 调试
         logger.warn(`Request failed: ${errMsg}`);
-        wx.reportMonitor("4", 1);
       },
     });
 

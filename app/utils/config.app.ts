@@ -3,7 +3,7 @@ export const assets = "https://assets.innenu.com/";
 export const server = "https://mp.innenu.com/";
 
 /** 小程序版本 */
-export const version = "5.3.3";
+export const version = "0.0.1";
 
 /** App初始化选项 */
 export interface AppConfig {
@@ -27,9 +27,9 @@ export const appConfig: AppConfig = {
   /** 资源更新提示 */
   resourceNotify: true,
   /** 调试模式 */
-  debugMode: false,
+  debugMode: true,
   /** 开发者模式开启状态 */
-  developMode: false,
+  developMode: true,
 };
 
 export const appName = "in东师";

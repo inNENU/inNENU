@@ -8,10 +8,11 @@ import { downloadResource } from "./resource.js";
 import { type PageData, type VersionInfo } from "../../typings/index.js";
 
 export type AppID = "wx33acb831ee1831a5" | "wx9ce37d9662499df3" | 1109559721;
+export type Env = "app" | "qq" | "wx" | "web";
 
 export interface GlobalData {
   /** 小程序运行环境 */
-  env: string;
+  env: Env;
   /** 版本号 */
   version: string;
   /** 播放器信息 */
@@ -253,7 +254,7 @@ interface LoginCallback {
  */
 const login = (
   appID: AppID,
-  env: string,
+  env: Env,
   callback: (openid: string) => void
 ): void => {
   const openid = wx.getStorageSync<string | undefined>("openid");
@@ -261,7 +262,7 @@ const login = (
   if (openid) {
     console.info(`User OPENID: ${openid}`);
     callback(openid);
-  } else {
+  } else if (env === "qq" || env === "wx") {
     wx.login({
       success: ({ code }) => {
         if (code)
@@ -380,7 +381,7 @@ export const getGlobalData = (): GlobalData => {
       id: "",
     },
     date: new Date().getTime(),
-    env: info.AppPlatform || "wx",
+    env: "miniapp" in wx ? "app" : info.AppPlatform || "wx",
     theme: "ios",
     info,
     darkmode: getDarkmode(info),

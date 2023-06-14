@@ -26,6 +26,8 @@ $Page("guide", {
       grey: true,
       hidden: true,
     },
+
+    menuSpace: globalData.env === "app" ? 10 : 90,
   },
 
   onPreload(res) {

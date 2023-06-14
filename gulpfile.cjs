@@ -88,6 +88,8 @@ const getAssetsJob = (id) => {
       read: (value) => {
         const { name, ext } = parse(value.path);
 
+        if (name.includes("app.miniapp")) return true;
+
         if (name.includes(".")) return name.endsWith(`.${id}`);
 
         return !existsSync(
@@ -116,8 +118,63 @@ const getConfigJob = (id) => {
   return configJob;
 };
 
-/* Wechat */
+/* App */
+const buildAppScript = getScriptJob("app");
+const watchAppScript = () =>
+  watch("{app,typings}/**/*.ts", { ignoreInitial: false }, buildAppScript);
 
+const buildAppWXSS = getStyleJob("app");
+const watchAppWXSS = () =>
+  watch("app/**/*.scss", { ignoreInitial: false }, buildAppWXSS);
+
+const moveAppAssets = getAssetsJob("app");
+const watchAppAssets = () =>
+  watch(
+    "app/**/*.{json,svg,png,webp}",
+    { ignoreInitial: false },
+    moveAppAssets
+  );
+
+const moveAppFiles = () =>
+  src("app/**/*.{wxml,wxs}", {
+    read: (value) => {
+      const { name, ext } = parse(value.path);
+
+      if (name.includes(".")) return name.endsWith(".wx");
+
+      return !existsSync(
+        resolve("app", value.path).replace(new RegExp(ext), `.wx${ext}`)
+      );
+    },
+    since: lastRun(moveAppFiles),
+  })
+    .pipe(
+      rename((path) => {
+        if (path.basename.endsWith(".wx"))
+          path.basename = path.basename.replace(/\.wx$/, "");
+      })
+    )
+    .pipe(dest("dist"));
+
+const watchAppFiles = () =>
+  watch("app/**/*.{wxml,wxs}", { ignoreInitial: false }, moveAppFiles);
+
+const watchApp = parallel(
+  watchAppScript,
+  watchAppWXSS,
+  watchAppAssets,
+  watchAppFiles,
+  getConfigJob("app")
+);
+const buildApp = parallel(
+  buildAppWXSS,
+  buildAppScript,
+  moveAppAssets,
+  moveAppFiles,
+  getConfigJob("app")
+);
+
+/* Wechat */
 const buildWechatScript = getScriptJob("wx");
 const watchWechatScript = () =>
   watch("{app,typings}/**/*.ts", { ignoreInitial: false }, buildWechatScript);
@@ -309,6 +366,9 @@ const buildQQ = parallel(
 /* exports */
 
 exports.default = buildWechat;
+
+exports.watchApp = watchApp;
+exports.buildApp = buildApp;
 
 exports.watchWechat = watchWechat;
 exports.buildWechat = buildWechat;
