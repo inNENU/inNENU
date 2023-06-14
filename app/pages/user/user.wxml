@@ -19,4 +19,4 @@
   <template is="components" data="{{content: page.content, theme}}" />
   <footer config="{{footer}}" />
 </view>
-<add-tip />
+<add-tip wx:if="{{env !== 'app'}}" />

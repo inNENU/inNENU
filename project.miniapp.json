@@ -13,15 +13,15 @@
       "xweb": false
     },
     "icons": {
-      "hdpi": "",
-      "xhdpi": "",
-      "xxhdpi": "",
-      "xxxhdpi": ""
+      "hdpi": "assets/icon-hdpi.jpg",
+      "xhdpi": "assets/icon-xhdpi.jpg",
+      "xxhdpi": "assets/icon-xxhdpi.jpg",
+      "xxxhdpi": "assets/icon-xxxhdpi.jpg"
     },
     "splashscreen": {
-      "hdpi": "",
-      "xhdpi": "",
-      "xxhdpi": ""
+      "hdpi": "assets/splash-hdpi.jpg",
+      "xhdpi": "assets/splash-xhdpi.jpg",
+      "xxhdpi": "assets/splash-xxhdpi.jpg"
     },
     "enableVConsole": "open",
     "privacy": {
