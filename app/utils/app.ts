@@ -294,7 +294,7 @@ const login = (
 };
 
 /** 注册全局监听 */
-const registerActions = (): void => {
+const registerActions = (globalData: GlobalData): void => {
   // 设置内存不足警告
   wx.onMemoryWarning((res) => {
     // tip("内存不足");
@@ -309,7 +309,7 @@ const registerActions = (): void => {
   wx.onNetworkStatusChange(({ isConnected }) => {
     // 显示提示
     if (!isConnected) {
-      tip("网络连接中断,部分小程序功能暂不可用");
+      tip(`网络连接中断,部分${globalData.envName}功能暂不可用`);
       wx.setStorageSync("networkError", true);
     } else if (wx.getStorageSync("network")) {
       wx.setStorageSync("networkError", false);
@@ -426,7 +426,7 @@ export const startup = (globalData: GlobalData): void => {
 
   updateNotice(globalData);
   updateApp(globalData);
-  registerActions();
+  registerActions(globalData);
   login(globalData.appID, globalData.env, (openid) => {
     globalData.openid = openid;
   });
