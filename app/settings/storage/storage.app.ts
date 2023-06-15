@@ -83,7 +83,7 @@ $Page("storage", {
         // 写入存储大小
         this.setData({
           // eslint-disable-next-line @typescript-eslint/naming-convention
-          "page.content[0].items[1].desc": `${(currentSize / 1024).toFixed(
+          "page.content[0].items[0].desc": `${(currentSize / 1024).toFixed(
             2
           )}MB`,
         });
@@ -110,7 +110,7 @@ $Page("storage", {
         // 写入文件大小
         this.setData({
           // eslint-disable-next-line @typescript-eslint/naming-convention
-          "page.content[0].items[2].desc": `${(fileSize / 1024 / 1024).toFixed(
+          "page.content[0].items[1].desc": `${(fileSize / 1024 / 1024).toFixed(
             2
           )}MB`,
         });

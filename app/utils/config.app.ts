@@ -27,9 +27,9 @@ export const appConfig: AppConfig = {
   /** 资源更新提示 */
   resourceNotify: true,
   /** 调试模式 */
-  debugMode: true,
+  debugMode: false,
   /** 开发者模式开启状态 */
-  developMode: true,
+  developMode: false,
 };
 
 export const appName = "in东师";
