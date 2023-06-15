@@ -26,14 +26,14 @@ $Page("account", {
   },
 
   onLoad({ type }: { type: Env }) {
-    getJSON<unknown[]>(
-      `function/account/${type || (env === "qq" ? "qq" : "wx")}`
-    ).then((config) => {
+    const res = type || (env === "qq" ? "qq" : "wx");
+
+    getJSON<unknown[]>(`function/account/${res}`).then((config) => {
       const info = getWindowInfo();
 
       this.setData({
         config,
-        type,
+        type: res,
         height: info.windowHeight - info.statusBarHeight - 229,
       });
     });

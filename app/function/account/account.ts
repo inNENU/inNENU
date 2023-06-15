@@ -26,9 +26,7 @@ $Page("account", {
   },
 
   onLoad({ type }: { type: Env }) {
-    getJSON<unknown[]>(
-      `function/account/${type || (env === "qq" ? "qq" : "wx")}`
-    ).then((config) => {
+    getJSON<unknown[]>(`function/account/${type}`).then((config) => {
       const info = getWindowInfo();
 
       this.setData({
