@@ -73,7 +73,7 @@ $Config({
 });
 
 $App<AppOption>({
-  /** 小程序的全局数据 */
+  /** 全局数据 */
   globalData: getGlobalData(),
 
   onLaunch(options) {
@@ -89,7 +89,7 @@ $App<AppOption>({
   },
 
   onShow() {
-    // 小程序已经初始化完成，检查页面资源
+    //初始化完成，检查页面资源
     if (wx.getStorageSync("app-inited")) checkResource();
   },
 

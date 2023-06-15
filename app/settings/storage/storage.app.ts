@@ -22,7 +22,6 @@ $Page("storage", {
           tag: "list",
           header: "空间占用",
           items: [
-            { text: "小程序体积", desc: "500KB" },
             { text: "数据缓存", desc: "获取中..." },
             { text: "文件系统", desc: "获取中..." },
           ],
@@ -48,17 +47,17 @@ $Page("storage", {
           tag: "functional-list",
           header: "重置",
           items: [
-            { text: "清除小程序数据", type: "button", handler: "clearData" },
-            { text: "清除小程序文件", type: "button", handler: "clearFiles" },
-            { text: "初始化小程序", type: "button", handler: "resetApp" },
+            { text: "清除App数据", type: "button", handler: "clearData" },
+            { text: "清除App文件", type: "button", handler: "clearFiles" },
+            { text: "初始化App", type: "button", handler: "resetApp" },
             {
-              text: "退出小程序",
+              text: "退出App",
               type: "navigator",
               openType: "exit",
               target: "miniProgram",
             },
           ],
-          foot: "如果小程序出现问题请尝试重置小程序",
+          foot: "如果App出现问题请尝试重置App",
         },
       ],
     },
@@ -84,7 +83,9 @@ $Page("storage", {
         // 写入存储大小
         this.setData({
           // eslint-disable-next-line @typescript-eslint/naming-convention
-          "page.content[0].items[1].desc": `${currentSize}KB/10240KB`,
+          "page.content[0].items[1].desc": `${(currentSize / 1024).toFixed(
+            2
+          )}MB`,
         });
       },
     });
@@ -109,9 +110,9 @@ $Page("storage", {
         // 写入文件大小
         this.setData({
           // eslint-disable-next-line @typescript-eslint/naming-convention
-          "page.content[0].items[2].desc": `${Math.ceil(
-            fileSize / 1024
-          )}KB/10240KB`,
+          "page.content[0].items[2].desc": `${(fileSize / 1024 / 1024).toFixed(
+            2
+          )}MB`,
         });
       },
     });
@@ -124,17 +125,17 @@ $Page("storage", {
     });
   },
 
-  /** 清除小程序数据 */
+  /** 清除App数据 */
   clearData() {
-    confirmAction("清除小程序数据", () => {
+    confirmAction("清除App数据", () => {
       wx.clearStorageSync();
       tip("数据清除完成");
     });
   },
 
-  /** 清除小程序文件 */
+  /** 清除App文件 */
   clearFiles() {
-    confirmAction("清除小程序文件", () => {
+    confirmAction("清除App文件", () => {
       wx.showLoading({ title: "删除中", mask: true });
 
       ls("").forEach((filePath) => rm(filePath));
@@ -143,9 +144,9 @@ $Page("storage", {
     });
   },
 
-  /** 初始化小程序 */
+  /** 初始化App */
   resetApp() {
-    confirmAction("初始化小程序", () => {
+    confirmAction("初始化App", () => {
       // 显示提示
       wx.showLoading({ title: "初始化中", mask: true });
 
@@ -156,7 +157,7 @@ $Page("storage", {
       // 隐藏提示
       wx.hideLoading();
       // 提示用户重启
-      modal("小程序初始化完成", "请单击 “退出小程序按钮” 退出小程序");
+      modal("App初始化完成", "请单击 “退出App按钮” 退出App");
     });
   },
 

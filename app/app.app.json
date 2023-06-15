@@ -8,37 +8,25 @@
     "pages/user/user",
     "pages/info/info",
     "pages/search/search",
+    "pages/action/action",
     "pages/web/web",
     "settings/about/about",
     "settings/privacy/privacy",
-    "settings/storage/storage"
+    "settings/storage/storage",
+    "function/account/account",
+    "function/account/detail",
+    "function/admission/admission",
+    "function/cal/cal",
+    "function/calendar/calendar",
+    "function/location/location",
+    "function/map/map",
+    "function/music/music",
+    "function/video/video",
+    "function/pe-calculator/pe-calculator",
+    "function/phone/phone",
+    "function/weather/weather",
+    "function/website/website"
   ],
-  "subPackages": [
-    {
-      "root": "function",
-      "pages": [
-        "account/account",
-        "account/detail",
-        "admission/admission",
-        "cal/cal",
-        "calendar/calendar",
-        "location/location",
-        "map/map",
-        "music/music",
-        "video/video",
-        "pe-calculator/pe-calculator",
-        "phone/phone",
-        "weather/weather",
-        "website/website"
-      ]
-    }
-  ],
-  "preloadRule": {
-    "pages/function/function": {
-      "network": "all",
-      "packages": ["function"]
-    }
-  },
   "window": {
     "navigationBarBackgroundColor": "@navBgColor",
     "navigationBarTextStyle": "@navTextStyle",
@@ -100,6 +88,12 @@
   "frameset": true,
   "resizable": true,
   "permission": {
+    "scope.addPhoneContact": {
+      "desc": "此权限用于添加联系人到您的通讯录"
+    },
+    "scope.writePhotosAlbum": {
+      "desc": "此权限用于写入图片到您的相册"
+    },
     "scope.userLocation": {
       "desc": "您的位置信息将用于校园地图导航"
     }
@@ -130,8 +124,5 @@
   "darkmode": true,
   "themeLocation": "styles/theme.json",
   "sitemapLocation": "sitemap.json",
-  "lazyCodeLoading": "requiredComponents",
-  "singlePage": {
-    "navigationBarFit": "float"
-  }
+  "lazyCodeLoading": "requiredComponents"
 }

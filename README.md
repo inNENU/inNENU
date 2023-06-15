@@ -1,4 +1,4 @@
-# in 东师微信小程序
+# in 东师 小程序/App
 
 [![作者: Mr.Hope](https://img.shields.io/badge/作者-Mr.Hope-blue.svg?style=for-the-badge)](https://mrhope.site)
 

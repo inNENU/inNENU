@@ -7,12 +7,18 @@ import { appConfig, server, version } from "./config.js";
 import { downloadResource } from "./resource.js";
 import { type PageData, type VersionInfo } from "../../typings/index.js";
 
-export type AppID = "wx33acb831ee1831a5" | "wx9ce37d9662499df3" | 1109559721;
+export type AppID =
+  | "wx33acb831ee1831a5"
+  | "wx9ce37d9662499df3"
+  | "wx69e79c3d87753512"
+  | 1109559721;
 export type Env = "app" | "qq" | "wx" | "web";
 
 export interface GlobalData {
-  /** 小程序运行环境 */
+  /** 运行环境 */
   env: Env;
+  /** 运行环境名称 */
+  envName: string;
   /** 版本号 */
   version: string;
   /** 播放器信息 */
@@ -37,7 +43,7 @@ export interface GlobalData {
   darkmode: boolean;
   /** 设备信息 */
   info: WechatMiniprogram.SystemInfo;
-  /** 小程序appid */
+  /** 小程序 appid */
   appID: AppID;
   /** 用户 OPENID */
   openid: string;
@@ -172,74 +178,76 @@ interface UpdateInfo {
  * @param globalData 小程序的全局数据
  */
 export const updateApp = (globalData: GlobalData): void => {
-  const updateManager = wx.getUpdateManager?.();
+  if (globalData.env !== "app") {
+    const updateManager = wx.getUpdateManager?.();
 
-  if (updateManager) {
-    // 检查更新
-    updateManager.onCheckForUpdate(({ hasUpdate }) => {
-      // 找到更新，提示用户获取到更新
-      if (hasUpdate) tip("发现小程序更新，下载中...");
-    });
+    if (updateManager) {
+      // 检查更新
+      updateManager.onCheckForUpdate(({ hasUpdate }) => {
+        // 找到更新，提示用户获取到更新
+        if (hasUpdate) tip("发现小程序更新，下载中...");
+      });
 
-    updateManager.onUpdateReady(() => {
-      // 请求配置文件
-      requestJSON<string>(`r/config/${globalData.appID}/version`)
-        .then((version) =>
-          // 请求配置文件
-          requestJSON<UpdateInfo>(
-            `r/config/${globalData.appID}/${version}/config`
-          )
-            .then(({ forceUpdate, reset }) => {
-              // 更新下载就绪，提示用户重新启动
-              wx.showModal({
-                title: "已找到新版本",
-                content: `新版本${version}已下载，请重启应用更新。${
-                  reset ? "该版本会初始化小程序。" : ""
-                }`,
-                showCancel: !reset && !forceUpdate,
-                confirmText: "应用",
-                cancelText: "取消",
-                success: ({ confirm }) => {
-                  // 用户确认，应用更新
-                  if (confirm) {
-                    // 需要初始化
-                    if (reset) {
-                      // 显示提示
-                      wx.showLoading({ title: "初始化中", mask: true });
+      updateManager.onUpdateReady(() => {
+        // 请求配置文件
+        requestJSON<string>(`r/config/${globalData.appID}/version`)
+          .then((version) =>
+            // 请求配置文件
+            requestJSON<UpdateInfo>(
+              `r/config/${globalData.appID}/${version}/config`
+            )
+              .then(({ forceUpdate, reset }) => {
+                // 更新下载就绪，提示用户重新启动
+                wx.showModal({
+                  title: "已找到新版本",
+                  content: `新版本${version}已下载，请重启应用更新。${
+                    reset ? "该版本会初始化小程序。" : ""
+                  }`,
+                  showCancel: !reset && !forceUpdate,
+                  confirmText: "应用",
+                  cancelText: "取消",
+                  success: ({ confirm }) => {
+                    // 用户确认，应用更新
+                    if (confirm) {
+                      // 需要初始化
+                      if (reset) {
+                        // 显示提示
+                        wx.showLoading({ title: "初始化中", mask: true });
 
-                      // 清除文件系统文件与数据存储
-                      ls("").forEach((filePath) => rm(filePath));
-                      wx.clearStorageSync();
+                        // 清除文件系统文件与数据存储
+                        ls("").forEach((filePath) => rm(filePath));
+                        wx.clearStorageSync();
 
-                      // 隐藏提示
-                      wx.hideLoading();
+                        // 隐藏提示
+                        wx.hideLoading();
+                      }
+
+                      // 应用更新
+                      updateManager.applyUpdate();
                     }
+                  },
+                });
+              })
+              .catch(() => {
+                // 调试信息
+                logger.warn(`config file error`);
+              })
+          )
+          .catch(() => {
+            // 调试信息
+            logger.warn(`version file error`);
+          });
+      });
 
-                    // 应用更新
-                    updateManager.applyUpdate();
-                  }
-                },
-              });
-            })
-            .catch(() => {
-              // 调试信息
-              logger.warn(`config file error`);
-            })
-        )
-        .catch(() => {
-          // 调试信息
-          logger.warn(`version file error`);
-        });
-    });
+      // 更新下载失败
+      updateManager.onUpdateFailed(() => {
+        // 提示用户网络出现问题
+        tip("小程序更新下载失败，请检查您的网络!");
 
-    // 更新下载失败
-    updateManager.onUpdateFailed(() => {
-      // 提示用户网络出现问题
-      tip("小程序更新下载失败，请检查您的网络!");
-
-      // 调试
-      logger.warn("Update App failed because of Net Error");
-    });
+        // 调试
+        logger.warn("Update App failed because of Net Error");
+      });
+    }
   }
 };
 
@@ -372,6 +380,7 @@ const checkGroupApp = (): void => {
 export const getGlobalData = (): GlobalData => {
   // 获取设备与运行环境信息
   const info = wx.getSystemInfoSync();
+  const env = "miniapp" in wx ? "app" : info.AppPlatform || "wx";
 
   return {
     version,
@@ -381,7 +390,8 @@ export const getGlobalData = (): GlobalData => {
       id: "",
     },
     date: new Date().getTime(),
-    env: "miniapp" in wx ? "app" : info.AppPlatform || "wx",
+    env,
+    envName: env === "app" ? "App" : "小程序",
     theme: "ios",
     info,
     darkmode: getDarkmode(info),

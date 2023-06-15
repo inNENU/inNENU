@@ -1,8 +1,8 @@
-/** 小程序服务器地址 */
+/** App服务器地址 */
 export const assets = "https://assets.innenu.com/";
 export const server = "https://mp.innenu.com/";
 
-/** 小程序版本 */
+/** App版本 */
 export const version = "0.0.1";
 
 /** App初始化选项 */
@@ -18,7 +18,7 @@ export interface AppConfig {
   [props: string]: string | boolean | number | undefined;
 }
 
-/** 小程序配置 */
+/** App配置 */
 export const appConfig: AppConfig = {
   theme: "ios",
   themeNum: 0,

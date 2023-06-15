@@ -158,14 +158,14 @@
           "scene": null
         },
         {
-          "name": "初始化小程序",
+          "name": "初始化App",
           "pathName": "pages/action/action",
           "query": "action=reset",
           "launchMode": "default",
           "scene": null
         },
         {
-          "name": "小程序资源",
+          "name": "App资源",
           "pathName": "settings/storage/storage",
           "query": "",
           "launchMode": "default",

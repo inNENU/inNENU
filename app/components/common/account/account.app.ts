@@ -48,11 +48,7 @@ $Component({
     openSite(): void {
       const { site } = this.data.config;
 
-      wx.setClipboardData({
-        data: site!,
-        success: () =>
-          modal("功能受限", "小程序无法直接打开网页，链接已复制至剪切板"),
-      });
+      this.$go(`web?url=${site!}`);
     },
 
     copyEmail(): void {
