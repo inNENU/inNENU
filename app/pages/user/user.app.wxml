@@ -19,4 +19,3 @@
   <template is="components" data="{{content: page.content, theme}}" />
   <footer config="{{footer}}" />
 </view>
-<add-tip />
