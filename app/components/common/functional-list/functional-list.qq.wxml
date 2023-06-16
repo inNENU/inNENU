@@ -12,7 +12,7 @@
       <button
         wx:if="{{list.isButton(listItem)}}"
         id="{{index}}"
-        class="list-item"
+        class="list-item{{listItem.icon? ' has-icon' : ''}}"
         hover-class="button-hover"
         hover-stay-time="100"
         disabled="{{listItem.disabled}}"
@@ -55,7 +55,7 @@
       <navigator
         wx:elif="{{listItem.type === 'navigator'}}"
         id="{{index}}"
-        class="list-item"
+        class="list-item{{listItem.icon? ' has-icon' : ''}}"
         hover-class="button-hover"
         hover-stay-time="100"
         url="{{listItem.url}}"
@@ -79,7 +79,7 @@
       <view
         wx:elif="{{listItem.url}}"
         id="{{index}}"
-        class="list-item"
+        class="list-item{{listItem.icon? ' has-icon' : ''}}"
         hover-class="button-hover"
         hover-stay-time="100"
         data-url="{{listItem.url}}"
@@ -101,7 +101,7 @@
       <picker
         wx:elif="{{listItem.type === 'picker'}}"
         id="{{index}}"
-        class="list picker"
+        class="list-item picker{{listItem.icon? ' has-icon' : ''}}"
         hover-class="button-hover"
         hover-stay-time="100"
         value="{{listItem.currentValue}}"
@@ -126,7 +126,11 @@
       </picker>
 
       <!-- 普通文字段落与开关 -->
-      <view wx:else id="{{index}}" class="list-item">
+      <view
+        wx:else
+        id="{{index}}"
+        class="list-item{{listItem.icon? ' has-icon' : ''}}"
+      >
         <image wx:if="{{icons[index]}}" class="icon" src="{{icons[index]}}" />
         <image
           wx:elif="{{listItem.icon}}"

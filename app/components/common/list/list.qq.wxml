@@ -11,7 +11,7 @@
       <!-- 导航链接 -->
       <view
         wx:if="{{listItem.url}}"
-        class="list-item"
+        class="list-item{{listItem.icon? ' has-icon' : ''}}"
         hover-class="button-hover"
         hover-stay-time="100"
         data-url="{{listItem.url}}"
@@ -30,7 +30,7 @@
         </view>
       </view>
       <!-- 普通文字段落 -->
-      <view wx:else class="list-item">
+      <view wx:else class="list-item{{listItem.icon? ' has-icon' : ''}}">
         <image wx:if="{{icons[index]}}" class="icon" src="{{icons[index]}}" />
         <image
           wx:elif="{{listItem.icon}}"

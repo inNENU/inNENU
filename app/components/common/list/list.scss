@@ -55,8 +55,27 @@
       padding: 0;
     }
 
+    &::after {
+      content: " ";
+
+      position: absolute;
+      right: 0;
+      bottom: 0;
+      left: 0;
+
+      height: 1px;
+      border-bottom: 1px solid var(--border-color);
+
+      transform: scaleY(0.4);
+      transform-origin: 0 100%;
+    }
+
+    &.has-icon::after {
+      left: 55px;
+    }
+
     &:last-child {
-      .detail::after {
+      &::after {
         display: none;
       }
     }
@@ -76,21 +95,6 @@
     padding: 10px 0;
 
     position: relative;
-
-    &::after {
-      content: " ";
-
-      position: absolute;
-      right: 0;
-      bottom: 0;
-      left: 0;
-
-      height: 1px;
-      border-bottom: 1px solid var(--border-color);
-
-      transform: scaleY(0.4);
-      transform-origin: 0 100%;
-    }
   }
 
   .text {
