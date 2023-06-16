@@ -55,13 +55,13 @@
       padding: 0;
     }
 
-    &::after {
+    &::before {
       content: " ";
 
       position: absolute;
       right: 0;
       bottom: 0;
-      left: 0;
+      left: 15px;
 
       height: 1px;
       border-bottom: 1px solid var(--border-color);
@@ -70,12 +70,12 @@
       transform-origin: 0 100%;
     }
 
-    &.has-icon::after {
+    &.has-icon::before {
       left: 55px;
     }
 
     &:last-child {
-      &::after {
+      &::before {
         display: none;
       }
     }
