@@ -3,7 +3,7 @@ export const assets = "https://assets.innenu.com/";
 export const server = "https://mp.innenu.com/";
 
 /** App版本 */
-export const version = "0.0.1";
+export const version = "5.4.0";
 
 /** App初始化选项 */
 export interface AppConfig {
