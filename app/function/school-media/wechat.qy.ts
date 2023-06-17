@@ -2,14 +2,16 @@ import { $Page } from "@mptool/enhance";
 
 import { type WechatConfig } from "../../../typings/index.js";
 import { type AppOption } from "../../app.js";
-import { tip } from "../../utils/api.js";
-import { server } from "../../utils/config.js";
+import { modal, tip } from "../../utils/api.js";
+import { appCoverPrefix, server } from "../../utils/config.js";
 import { ensureJSON } from "../../utils/json.js";
 import { getColor, popNotice } from "../../utils/page.js";
 
 const { globalData } = getApp<AppOption>();
 
-$Page("wechat-detail", {
+const PAGE_ID = "wechat-detail";
+
+$Page(PAGE_ID, {
   data: {
     loading: true,
     config: <WechatConfig>{},
@@ -47,7 +49,29 @@ $Page("wechat-detail", {
 
     this.state.path = path;
 
-    popNotice(`account/${this.data.config.name}`);
+    popNotice(`wechat/${this.data.config.name}`);
+  },
+
+  onShareAppMessage(): WechatMiniprogram.Page.ICustomShareContent {
+    return {
+      title: this.data.config.name,
+      path: `/function/school-media/wechat?path=${this.state.path}`,
+    };
+  },
+
+  onShareTimeline(): WechatMiniprogram.Page.ICustomTimelineContent {
+    return {
+      title: this.data.config.name,
+      query: `path=${this.state.path}`,
+    };
+  },
+
+  onAddToFavorites(): WechatMiniprogram.Page.IAddToFavoritesContent {
+    return {
+      title: this.data.config.name,
+      imageUrl: `${appCoverPrefix}.jpg`,
+      query: `path=${this.state.path}`,
+    };
   },
 
   navigate({
@@ -59,7 +83,18 @@ $Page("wechat-detail", {
   >) {
     const { title, url } = currentTarget.dataset;
 
-    this.$go(`web?url=${url}&title=${title}`);
+    if (this.data.config.authorized) this.$go(`web?url=${url}&title=${title}`);
+    // 无法跳转，复制链接到剪切板
+    else
+      wx.setClipboardData({
+        data: url,
+        success: () => {
+          modal(
+            "尚未授权",
+            "目前暂不支持跳转到该微信公众号图文，链接地址已复制至剪切板。请打开浏览器粘贴查看"
+          );
+        },
+      });
   },
 
   follow() {

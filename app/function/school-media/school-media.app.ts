@@ -3,14 +3,14 @@ import { $Page } from "@mptool/enhance";
 import { type AppOption } from "../../app.js";
 import { getWindowInfo, modal, savePhoto, tip } from "../../utils/api.js";
 import { type Env } from "../../utils/app.js";
-import { appCoverPrefix } from "../../utils/config.js";
 import { ensureJSON, getJSON } from "../../utils/json.js";
 import { popNotice } from "../../utils/page.js";
 
 const { globalData } = getApp<AppOption>();
 const { env } = globalData;
+const PAGE_ID = "school-media";
 
-$Page("account", {
+$Page(PAGE_ID, {
   data: {
     config: <unknown[]>[],
 
@@ -38,20 +38,8 @@ $Page("account", {
       });
     });
 
-    popNotice("account");
+    popNotice(PAGE_ID);
   },
-
-  onShareAppMessage: () => ({
-    title: "校园媒体",
-    path: `/function/account/account`,
-  }),
-
-  onShareTimeline: () => ({ title: "校园媒体" }),
-
-  onAddToFavorites: () => ({
-    title: "校园媒体",
-    imageUrl: `${appCoverPrefix}.jpg`,
-  }),
 
   onResize({ size }) {
     this.setData({

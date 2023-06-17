@@ -25,7 +25,7 @@
         class="action"
         hover-class="button-hover"
         hover-stay-time="100"
-        data-url="{{'account-detail?path=' + config.account}}"
+        data-url="{{'wechat-detail?path=' + config.account}}"
         catch:tap="$bindGo"
       >
         <image class="icon" src="/icon/wechat.svg" />

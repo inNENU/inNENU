@@ -94,7 +94,7 @@
       <view class="wind">{{item.nightWindPower}}级</view>
     </view>
     <!-- 温度曲线 -->
-    <canvas type="2d" class="canvas temperature" canvas-id="weather" />
+    <canvas type="2d" class="temperature-canvas" />
   </scroll-view>
   <!-- 其他信息 -->
   <view class="info">

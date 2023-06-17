@@ -17,8 +17,8 @@
     {
       "root": "function",
       "pages": [
-        "account/account",
-        "account/detail",
+        "school-media/school-media",
+        "school-media/wechat",
         "admission/admission",
         "cal/cal",
         "calendar/calendar",

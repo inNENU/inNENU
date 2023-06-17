@@ -34,7 +34,7 @@ $Component({
     addWechat(): void {
       const { account, wxid, wxcode } = this.data.config;
 
-      if (account) this.$go(`account-detail?path=${account}`);
+      if (account) this.$go(`wechat-detail?path=${account}`);
       else if (wxcode)
         savePhoto(wxcode, true)
           .then(() => tip("二维码已存至相册"))

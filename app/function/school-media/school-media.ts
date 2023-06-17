@@ -10,7 +10,10 @@ import { popNotice } from "../../utils/page.js";
 const { globalData } = getApp<AppOption>();
 const { env } = globalData;
 
-$Page("account", {
+const PAGE_ID = "school-media";
+const PAGE_TITLE = "校园媒体";
+
+$Page(PAGE_ID, {
   data: {
     config: <unknown[]>[],
 
@@ -36,18 +39,18 @@ $Page("account", {
       });
     });
 
-    popNotice("account");
+    popNotice(PAGE_ID);
   },
 
   onShareAppMessage: () => ({
-    title: "校园媒体",
-    path: `/function/account/account`,
+    title: PAGE_TITLE,
+    path: `/function/school-media/school-media`,
   }),
 
-  onShareTimeline: () => ({ title: "校园媒体" }),
+  onShareTimeline: () => ({ title: PAGE_TITLE }),
 
   onAddToFavorites: () => ({
-    title: "校园媒体",
+    title: PAGE_TITLE,
     imageUrl: `${appCoverPrefix}.jpg`,
   }),
 

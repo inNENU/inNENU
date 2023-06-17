@@ -25,7 +25,6 @@ $Config({
   routes: [
     [
       [
-        "account",
         "admission",
         "calendar",
         "location",
@@ -33,13 +32,14 @@ $Config({
         "music",
         "pe-calculator",
         "phone",
+        "school-media",
         "video",
         "weather",
         "website",
       ],
       "/function/$name/$name",
     ],
-    ["account-detail", "/function/account/detail"],
+    ["wechat-detail", "/function/school-media/wechat"],
     [["about", "privacy", "storage"], "/settings/$name/$name"],
   ],
 

@@ -195,14 +195,14 @@
         },
         {
           "name": "公众号",
-          "pathName": "function/account/account",
+          "pathName": "function/school-media/school-media",
           "query": "",
           "launchMode": "default",
           "scene": null
         },
         {
           "name": "特定公众号",
-          "pathName": "function/account/detail",
+          "pathName": "function/school-media/wechat",
           "query": "path=nenuyouth",
           "launchMode": "default",
           "scene": null

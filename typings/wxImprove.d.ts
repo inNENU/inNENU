@@ -51,6 +51,11 @@ declare namespace WechatMiniprogram {
     scrollTop?: number;
   }
 
+  type Canvas2DNode = NodeRectInfo &
+    NodeSizeInfo & {
+      getContext: (type: string) => CanvasRenderingContext2D;
+    };
+
   type NodeInfo = Partial<
     NodeRectInfo &
       NodeSizeInfo &
@@ -60,10 +65,7 @@ declare namespace WechatMiniprogram {
         dataset: IAnyObject;
         properties: string[];
         computedStyle: string[];
-        node: {
-          getContext: (type: string) => CanvasContext;
-        } & NodeRectInfo &
-          NodeSizeInfo;
+        node: Canvas2DNode;
       }
   >;
 }

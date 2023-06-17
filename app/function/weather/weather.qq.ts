@@ -11,7 +11,6 @@ const {
 } = getApp<AppOption>();
 
 const PAGE_TITLE = "东师天气";
-const CANVAS_SELECTOR = ".temperature-canvas";
 
 $Page("weather", {
   data: {
@@ -128,28 +127,21 @@ $Page("weather", {
     weather: WeatherData,
     windowWidth = wx.getSystemInfoSync().windowWidth
   ) {
-    wx.createSelectorQuery()
-      .select(CANVAS_SELECTOR)
-      .fields({ node: true, size: true })
-      .exec(
-        ([
-          { node: canvas, width, height },
-        ]: Required<WechatMiniprogram.NodeInfo>[]) => {
-          const dpr = info.pixelRatio;
-
-          canvas.width = width * dpr;
-          canvas.height = height * dpr;
-          this.draw(canvas, weather, windowWidth);
-        }
-      );
+    this.draw(weather, windowWidth);
   },
 
+  /**
+   * 绘制温度曲线
+   *
+   * @param weather 天气详情
+   */
   draw(
-    canvas: WechatMiniprogram.Canvas2DNode,
     weather: WeatherData,
     // 屏幕宽度可能发生变化
     width: number
   ) {
+    /** 天气画布组件 */
+    const canvasContent = wx.createCanvasContext("weather");
     const highTemperature: number[] = [];
     const lowTemperature: number[] = [];
     const { dayForecast } = weather;
@@ -170,68 +162,66 @@ $Page("weather", {
     /** 温差 */
     const gap = max - min;
 
-    const context = canvas.getContext("2d");
-    const dpr = info.pixelRatio;
+    canvasContent.beginPath();
+    canvasContent.lineWidth = 2;
+    canvasContent.font = "16px sans-serif";
 
-    context.scale(dpr, dpr);
-
-    // 清除画布
-    context.clearRect(0, 0, canvas.width, canvas.height);
-
-    context.beginPath();
-    context.lineWidth = 2;
-    context.font = "16px sans-serif";
-
-    context.strokeStyle = "#ffb74d";
-    context.fillStyle = "#ffb74d";
+    canvasContent.strokeStyle = "#ffb74d";
+    canvasContent.fillStyle = "#ffb74d";
 
     // 绘制高温曲线
     for (let i = 0; i < dayForecast.length; i += 1) {
       const x = width / 10 + (i * width) / 5;
       const y = ((max - highTemperature[i]) / gap) * 100;
 
-      if (i === 0) context.moveTo(x, y + 32);
-      else context.lineTo(x, y + 32);
+      if (i === 0) canvasContent.moveTo(x, y + 32);
+      else canvasContent.lineTo(x, y + 32);
     }
-    context.stroke();
+    canvasContent.stroke();
+    canvasContent.draw();
 
     // 绘制高温度数值与点
     for (let i = 0; i < dayForecast.length; i += 1) {
       const x = width / 10 + (i * width) / 5;
       const y = ((max - highTemperature[i]) / gap) * 100;
 
-      context.beginPath();
-      context.arc(x, y + 32, 3, 0, Math.PI * 2);
-      context.fill();
+      canvasContent.beginPath();
+      canvasContent.arc(x, y + 32, 3, 0, Math.PI * 2);
+      canvasContent.fill();
+      canvasContent.draw(true);
 
-      context.fillText(`${dayForecast[i].maxDegree}°`, x - 10, y + 20);
+      canvasContent.fillText(`${dayForecast[i].maxDegree}°`, x - 10, y + 20);
+      canvasContent.draw(true);
     }
 
-    context.beginPath();
+    canvasContent.beginPath();
 
-    context.strokeStyle = "#4fc3f7";
-    context.fillStyle = "#4fc3f7";
+    canvasContent.strokeStyle = "#4fc3f7";
+    canvasContent.fillStyle = "#4fc3f7";
 
     // 绘制低温曲线
     for (let i = 0; i < dayForecast.length; i += 1) {
       const x = width / 10 + (i * width) / 5;
       const y = ((max - lowTemperature[i]) / gap) * 100;
 
-      if (i === 0) context.moveTo(x, y + 20);
-      else context.lineTo(x, y + 20);
+      if (i === 0) canvasContent.moveTo(x, y + 20);
+      else canvasContent.lineTo(x, y + 20);
     }
-    context.stroke();
+    canvasContent.stroke();
+    canvasContent.draw(true);
 
     // 绘制低温度数值与点
     for (let i = 0; i < dayForecast.length; i += 1) {
       const x = width / 10 + (i * width) / 5;
       const y = ((max - lowTemperature[i]) / gap) * 100;
 
-      context.beginPath();
-      context.arc(x, y + 20, 3, 0, Math.PI * 2);
-      context.fill();
+      canvasContent.beginPath();
+      canvasContent.arc(x, y + 20, 3, 0, Math.PI * 2);
+      canvasContent.fill();
+      canvasContent.draw(true);
 
-      context.fillText(`${dayForecast[i].minDegree}°`, x - 10, y + 44);
+      canvasContent.fillText(`${dayForecast[i].minDegree}°`, x - 10, y + 44);
+      canvasContent.draw(true);
     }
   },
 

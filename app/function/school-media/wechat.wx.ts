@@ -8,8 +8,9 @@ import { ensureJSON } from "../../utils/json.js";
 import { getColor, popNotice } from "../../utils/page.js";
 
 const { globalData } = getApp<AppOption>();
+const PAGE_ID = "wechat-detail";
 
-$Page("wechat-detail", {
+$Page(PAGE_ID, {
   data: {
     loading: true,
     config: <WechatConfig>{},
@@ -47,13 +48,13 @@ $Page("wechat-detail", {
 
     this.state.path = path;
 
-    popNotice(`account/${this.data.config.name}`);
+    popNotice(`wechat/${this.data.config.name}`);
   },
 
   onShareAppMessage(): WechatMiniprogram.Page.ICustomShareContent {
     return {
       title: this.data.config.name,
-      path: `/function/account/detail?path=${this.state.path}`,
+      path: `/function/school-media/wechat?path=${this.state.path}`,
     };
   },
 

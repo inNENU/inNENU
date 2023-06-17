@@ -224,14 +224,14 @@
         {
           "id": 20,
           "name": "公众号",
-          "pathName": "function/account/account",
+          "pathName": "function/school-media/school-media",
           "query": "",
           "scene": null
         },
         {
           "id": 21,
           "name": "特定公众号",
-          "pathName": "function/account/detail",
+          "pathName": "function/school-media/wechat",
           "query": "path=nenuyouth",
           "scene": null
         },

@@ -37,7 +37,7 @@ $Page("phone", {
       });
     });
 
-    popNotice("account");
+    popNotice("phone");
   },
 
   onShareAppMessage: () => ({

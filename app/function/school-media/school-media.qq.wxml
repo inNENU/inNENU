@@ -1,4 +1,4 @@
-<wxs module="account" src="./account.wxs" />
+<wxs module="utils" src="./school-media.wxs" />
 
 <template name="account">
   <image class="logo" src="{{logo}}" />
@@ -34,7 +34,7 @@
       微信
     </view>
   </view>
-  <tab-bar nav-list="{{account.getName(config)}}" height="{{height || 300}}">
+  <tab-bar nav-list="{{utils.getName(config)}}" height="{{height || 300}}">
     <block
       wx:for="{{config}}"
       wx:key="name"
@@ -76,7 +76,7 @@
             class="account-item bb"
             hover-class="button-hover"
             hover-stay-time="100"
-            data-url="{{'account-detail?from=校园媒体&path=' + item.path}}"
+            data-url="{{'wechat-detail?from=校园媒体&path=' + item.path}}"
             catch:tap="$bindGo"
           >
             <template is="account" data="{{...item}}" />
