@@ -1,5 +1,6 @@
 import { $Page } from "@mptool/enhance";
 
+import { type Area, benbuArea, jingyueArea } from "./info.js";
 import {
   type Category,
   type MarkerConfig,
@@ -14,27 +15,10 @@ import { popNotice } from "../../utils/page.js";
 
 const { globalData } = getApp<AppOption>();
 
-/** 本部栅格 */
-const benbuArea = {
-  padding: [30, 20, 30, 20],
-  points: [
-    { latitude: 43.8578480844, longitude: 125.3252720833 },
-    { latitude: 43.8633404949, longitude: 125.3379964828 },
-  ],
-};
+const PAGE_ID = "map";
+const PAGE_TITLE = "东师地图";
 
-/** 本部栅格 */
-const jingyueArea = {
-  padding: [30, 20, 30, 20],
-  points: [
-    { latitude: 43.8256570334, longitude: 125.4175829887 },
-    { latitude: 43.8247281876, longitude: 125.4359936714 },
-  ],
-};
-
-type Area = "benbu" | "jingyue";
-
-$Page("map", {
+$Page(PAGE_ID, {
   data: {
     /** 夜间模式状态 */
     darkmode: globalData.darkmode,
@@ -120,7 +104,7 @@ $Page("map", {
       firstPage: getCurrentPages().length === 1,
     });
 
-    popNotice("map");
+    popNotice(PAGE_ID);
   },
 
   onReady() {
@@ -139,12 +123,12 @@ $Page("map", {
     });
   },
 
-  onShareAppMessage: () => ({ title: "东师地图", path: "/function/map/map" }),
+  onShareAppMessage: () => ({ title: PAGE_TITLE, path: "/function/map/map" }),
 
-  onShareTimeline: () => ({ title: "东师地图" }),
+  onShareTimeline: () => ({ title: PAGE_TITLE }),
 
   onAddToFavorites: () => ({
-    title: "东师地图",
+    title: PAGE_TITLE,
     imageUrl: `${appCoverPrefix}.jpg`,
   }),
 

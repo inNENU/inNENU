@@ -364,7 +364,6 @@ $Page("pe-calculator", {
         }
 
         // TODO: 计算加分
-
         console.info("Score:", peScore);
 
         callback(peScore);

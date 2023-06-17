@@ -50,7 +50,7 @@ $Page("music", {
   },
 
   state: {
-    interupt: false,
+    interrupted: false,
   },
 
   onNavigate() {
@@ -213,7 +213,7 @@ $Page("music", {
     manager.onStop(() => {
       console.log("Music Stops by closing popup");
       this.setData({ currentTime: 0, playing: false });
-      this.state.interupt = true;
+      this.state.interrupted = true;
     });
 
     manager.onNext(() => {
@@ -268,9 +268,9 @@ $Page("music", {
 
   /** 播放与暂停 */
   play() {
-    if (this.state.interupt) {
+    if (this.state.interrupted) {
       manager.src = this.data.currentSong.src;
-      this.state.interupt = false;
+      this.state.interrupted = false;
     } else if (this.data.playing) {
       manager.pause();
     } else {
@@ -280,9 +280,9 @@ $Page("music", {
 
   /** 拖拽进度 */
   drag(event: WechatMiniprogram.SliderChange) {
-    if (this.state.interupt) {
+    if (this.state.interrupted) {
       manager.src = this.data.currentSong.src;
-      this.state.interupt = false;
+      this.state.interrupted = false;
     }
 
     if (event.type === "change") {
