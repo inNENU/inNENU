@@ -39,7 +39,9 @@ $Page("user", {
   onPreload(res) {
     put("user", resolvePage(res, wx.getStorageSync("user") || this.data.page));
     console.info(
-      `User page loading time: ${new Date().getTime() - globalData.date}ms`
+      `User page loading time: ${
+        new Date().getTime() - globalData.startupTime
+      }ms`
     );
   },
 

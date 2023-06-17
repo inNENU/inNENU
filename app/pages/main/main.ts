@@ -34,7 +34,7 @@ $Page("main", {
   onRegister() {
     console.info(
       "Main Page registerd: ",
-      new Date().getTime() - globalData.date,
+      new Date().getTime() - globalData.startupTime,
       "ms"
     );
     const page = resolvePage(

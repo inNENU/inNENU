@@ -36,7 +36,7 @@ $Page("guide", {
       resolvePage(res, wx.getStorageSync("intro") || this.data.page)
     );
     console.info(
-      `Intro page load time: ${new Date().getTime() - globalData.date}ms`
+      `Intro page load time: ${new Date().getTime() - globalData.startupTime}ms`
     );
   },
 

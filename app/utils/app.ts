@@ -14,6 +14,29 @@ export type AppID =
   | 1109559721;
 export type Env = "app" | "qq" | "wx" | "web";
 
+export interface AccountInfo {
+  /** 学号 */
+  id: string;
+  /** 密码 */
+  password: string;
+  /** 邮箱 */
+  email: string;
+}
+
+export interface MusicState {
+  /** 是否正在播放 */
+  playing: boolean;
+  /** 播放歌曲序号 */
+  index: number;
+}
+
+export interface PageState {
+  /** 页面数据 */
+  data?: PageData;
+  /** 页面标识符 */
+  id?: string;
+}
+
 export interface GlobalData {
   /** 运行环境 */
   env: Env;
@@ -21,22 +44,14 @@ export interface GlobalData {
   envName: string;
   /** 版本号 */
   version: string;
+  /** 账号信息 */
+  account: AccountInfo | null;
   /** 播放器信息 */
-  music: {
-    /** 是否正在播放 */
-    playing: boolean;
-    /** 播放歌曲序号 */
-    index: number;
-  };
+  music: MusicState;
   /** 页面信息 */
-  page: {
-    /** 页面数据 */
-    data?: PageData;
-    /** 页面标识符 */
-    id?: string;
-  };
+  page: PageState;
   /** 启动时间 */
-  date: number;
+  startupTime: number;
   /** 正在应用的主题 */
   theme: string;
   /** 夜间模式开启状态 */
@@ -384,12 +399,13 @@ export const getGlobalData = (): GlobalData => {
 
   return {
     version,
+    account: null,
     music: { playing: false, index: 0 },
     page: {
       data: {},
       id: "",
     },
-    date: new Date().getTime(),
+    startupTime: new Date().getTime(),
     env,
     envName: env === "app" ? "App" : "小程序",
     theme: "ios",

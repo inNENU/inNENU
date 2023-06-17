@@ -28,7 +28,9 @@ $Page("function", {
       resolvePage(res, wx.getStorageSync("function") || this.data.page)
     );
     console.info(
-      `Function page loading time: ${new Date().getTime() - globalData.date}ms`
+      `Function page loading time: ${
+        new Date().getTime() - globalData.startupTime
+      }ms`
     );
   },
 
