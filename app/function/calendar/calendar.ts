@@ -1,7 +1,7 @@
 import { $Page } from "@mptool/enhance";
 
 import { type AppOption } from "../../app.js";
-import { type TimeLineItem } from "../../components/timeline/timeline";
+import { type TimeLineItem } from "../../components/timeline/timeline.js";
 import { modal, tip } from "../../utils/api.js";
 import { appCoverPrefix } from "../../utils/config.js";
 import { ensureJSON, getJSON } from "../../utils/json.js";
@@ -9,12 +9,15 @@ import { getColor, popNotice } from "../../utils/page.js";
 
 const { globalData } = getApp<AppOption>();
 
+const PAGE_ID = "calendar";
+const PAGE_TITLE = "东师校历";
+
 interface CalendarDetail {
   title: string;
   content: TimeLineItem[];
 }
 
-$Page("calendar", {
+$Page(PAGE_ID, {
   data: {
     theme: globalData.theme,
 
@@ -48,26 +51,26 @@ $Page("calendar", {
         );
       });
 
-    popNotice("calendar");
+    popNotice(PAGE_ID);
   },
 
   // eslint-disable-next-line @typescript-eslint/no-empty-function
   onPageScroll() {},
 
   onShareAppMessage: () => ({
-    title: "东师校历",
+    title: PAGE_TITLE,
     path: "/function/calendar/calendar",
   }),
 
-  onShareTimeline: () => ({ title: "东师校历" }),
+  onShareTimeline: () => ({ title: PAGE_TITLE }),
 
   onAddToFavorites: () => ({
-    title: "东师校历",
+    title: PAGE_TITLE,
     imageUrl: `${appCoverPrefix}.jpg`,
   }),
 
   /** 显示校历详情 */
-  display(event: WechatMiniprogram.TouchEvent<{ path: string }>) {
+  showDetail(event: WechatMiniprogram.TouchEvent<{ path: string }>) {
     const { path } = event.detail;
 
     if (path)

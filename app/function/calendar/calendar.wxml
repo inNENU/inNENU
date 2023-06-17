@@ -9,7 +9,7 @@
   <header title="校历" />
   <view class="desc">点击对应学期可查看详情</view>
   <view class="calendar-wrapper">
-    <time-line config="{{calendar}}" catch:active="display" />
+    <time-line config="{{calendar}}" catch:active="showDetail" />
   </view>
   <footer />
 </view>
