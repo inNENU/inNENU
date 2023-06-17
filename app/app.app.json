@@ -53,6 +53,12 @@
         "selectedIconPath": "icon/tab/home.png"
       },
       {
+        "pagePath": "pages/function/function",
+        "text": "功能大厅",
+        "iconPath": "@functionIcon",
+        "selectedIconPath": "icon/tab/function.png"
+      },
+      {
         "pagePath": "pages/intro/intro",
         "text": "东师介绍",
         "iconPath": "@introIcon",
@@ -63,12 +69,6 @@
         "text": "东师指南",
         "iconPath": "@guideIcon",
         "selectedIconPath": "icon/tab/guide.png"
-      },
-      {
-        "pagePath": "pages/function/function",
-        "text": "功能大厅",
-        "iconPath": "@functionIcon",
-        "selectedIconPath": "icon/tab/function.png"
       },
       {
         "pagePath": "pages/user/user",
