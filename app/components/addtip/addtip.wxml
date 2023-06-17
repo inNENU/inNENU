@@ -1,5 +1,5 @@
 <view
-  wx:if="{{showTop}}"
+  wx:if="{{display}}"
   class="addtip-wrapper"
   style="top:{{36 + statusBarHeight}}px;"
 >

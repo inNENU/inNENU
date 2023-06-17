@@ -1,6 +1,11 @@
+import { get, set } from "@mptool/file";
+
 import { type AppOption } from "../../app.js";
+import { MONTH } from "../../utils/constant.js";
 
 const { globalData } = getApp<AppOption>();
+
+const KEY = "add-miniprogram-hint";
 
 Component({
   properties: {
@@ -11,24 +16,23 @@ Component({
   },
 
   data: {
-    showTop: false,
-    showModal: false,
+    display: false,
     statusBarHeight: globalData.info.statusBarHeight,
   },
 
   lifetimes: {
     ready() {
       // 判断是否已经显示过
-      const cache = wx.getStorageSync<number | undefined>("add-tip");
+      const cache = get<boolean>(KEY);
 
       if (!cache) {
         // 没显示过，则进行展示
-        this.setData({ showTop: true });
+        this.setData({ display: true });
 
         // 关闭时间
         setTimeout(() => {
-          this.setData({ showTop: false });
-        }, this.data.duration);
+          this.setData({ display: false });
+        }, this.properties.duration);
       }
     },
   },
@@ -36,9 +40,10 @@ Component({
   methods: {
     /** 关闭显示 */
     close(): void {
-      this.setData({ showTop: false });
+      this.setData({ display: false });
 
-      wx.setStorage({ key: "add-tip", data: new Date().getTime() });
+      // thirty days
+      set(KEY, true, MONTH);
     },
   },
 });

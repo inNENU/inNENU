@@ -1,5 +1,5 @@
 import { $Page } from "@mptool/enhance";
-import { readFile } from "@mptool/file";
+import { get, readFile } from "@mptool/file";
 
 import { type AppOption } from "../../app.js";
 import { type WeatherData } from "../../components/weather/typings.js";
@@ -25,13 +25,7 @@ $Page("weather", {
   },
 
   onLoad() {
-    const weatherData = wx.getStorageSync<
-      | {
-          date: number;
-          data: WeatherData;
-        }
-      | undefined
-    >("weather");
+    const weather = get<WeatherData | undefined>("weather");
 
     if (wx.getStorageSync("app-inited")) {
       const weatherIcon = <Record<string, string>>(
@@ -59,10 +53,8 @@ $Page("weather", {
     }
 
     // 如果天气数据获取时间小于 5 分钟，则可以使用
-    if (weatherData && weatherData.date > new Date().getTime() - 300000) {
-      const weather = weatherData.data;
-
-      this.drawcanvas(weather);
+    if (weather) {
+      this.drawCanvas(weather);
 
       this.setData({ weather });
     }
@@ -72,7 +64,7 @@ $Page("weather", {
         url: `${server}service/weather.php`,
         enableHttp2: true,
         success: ({ data }) => {
-          this.drawcanvas(data);
+          this.drawCanvas(data);
           this.setData({ weather: data });
         },
       });
@@ -110,7 +102,7 @@ $Page("weather", {
 
   /** 屏幕变化时重绘画布 */
   onResize({ size }) {
-    this.drawcanvas(this.data.weather, size.windowWidth);
+    this.drawCanvas(this.data.weather, size.windowWidth);
   },
 
   updateIcon(): void {
@@ -129,7 +121,7 @@ $Page("weather", {
    *
    * @param weather 天气详情
    */
-  drawcanvas(
+  drawCanvas(
     weather: WeatherData,
     windowWidth = wx.getSystemInfoSync().windowWidth
   ) {

@@ -1,8 +1,11 @@
 import { $Component } from "@mptool/enhance";
+import { set } from "@mptool/file";
 
 import { type WeatherData } from "./typings.js";
 import { type AppOption } from "../../app.js";
 import { server } from "../../utils/config.js";
+import { MINUTE } from "../../utils/constant.js";
+import { WEATHER_KEY } from "../../utils/keys.js";
 
 const { globalData } = getApp<AppOption>();
 
@@ -36,10 +39,7 @@ $Component({
           this.setData({ weather: data });
 
           // 将天气详情和获取时间写入存储，避免重复获取
-          wx.setStorageSync("weather", {
-            data,
-            date: new Date().getTime(),
-          });
+          set(WEATHER_KEY, data, 5 * MINUTE);
         },
       });
     },
