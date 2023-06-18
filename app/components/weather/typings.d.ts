@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/naming-convention */
 
 /** 一小时天气预报详情 */
-export interface WeatherForcast1H {
+export interface WeatherForecast1H {
   /** 摄氏度 */
   degree: string;
   /** 更新时间 */
@@ -11,7 +11,7 @@ export interface WeatherForcast1H {
 }
 
 /** 24小时天气预报详情 */
-export interface WeatherForcast24H {
+export interface WeatherForecast24H {
   /** 日间天气 */
   dayWeather: string;
   /** 日间天气代码 */
@@ -73,9 +73,9 @@ export interface WeatherData {
     };
   };
   /** 小时预报 */
-  hourForecast: WeatherForcast1H[];
+  hourForecast: WeatherForecast1H[];
   /** 天预报 */
-  dayForecast: WeatherForcast24H[];
+  dayForecast: WeatherForecast24H[];
   /** 实时数据 */
   observe: {
     /** 温度 */
