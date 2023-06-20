@@ -177,9 +177,13 @@
   show="{{courseInfo !== null}}"
   catch:close="closeInfoPopup"
 >
+  <view class="related-course-header">相关课程</view>
   <view class="course-detail-list">
     <block wx:for="{{relatedCourses}}" wx:key="cid" class="course-detail">
-      <template is="course-detail" data="{{...item}}" />
+      <template
+        is="course-detail"
+        data="{{...item, state: 'replace', oid: courseInfo.cid}}"
+      />
     </block>
   </view>
 </popup>
@@ -209,7 +213,7 @@
 
 <template
   name="course-detail"
-  data="{{ name, teacher, week, time, point, place, cid, amount, isSelected }}"
+  data="{{ name, teacher, week, time, point, place, cid, amount, state, oid }}"
 >
   <view class="course-detail">
     <view class="name">{{className}}</view>
@@ -228,7 +232,18 @@
     </view>
     <view class="actions">
       <button
-        wx:if="{{isSelected}}"
+        wx:if="{{state === 'replace'}}"
+        type="primary"
+        size="mini"
+        data-id="{{id}}"
+        data-oid="{{oid}}"
+        data-cid="{{cid}}"
+        catch:tap="replaceCourse"
+      >
+        退选同名课程并选课
+      </button>
+      <button
+        wx:elif="{{state === 'cancel'}}"
         type="primary"
         size="mini"
         data-cid="{{cid}}"

@@ -1,3 +1,5 @@
+import { logger } from "@mptool/enhance";
+
 import { service } from "../../utils/config.js";
 
 export interface SelectBaseOptions {
@@ -46,8 +48,11 @@ export const login = (
       url: `${service}select/login`,
       data: options,
       success: ({ data, statusCode }) => {
-        if (statusCode === 200) resolve(data);
-        else reject();
+        if (statusCode === 200) {
+          resolve(data);
+          if (data.status === "failed")
+            logger.error("登录失败", options, data.msg);
+        } else reject();
       },
       fail: () => reject(),
     });
@@ -129,8 +134,11 @@ export const getInfo = (
       url: `${service}select/info`,
       data: options,
       success: ({ data, statusCode }) => {
-        if (statusCode === 200) resolve(data);
-        else reject();
+        if (statusCode === 200) {
+          resolve(data);
+          if (data.status === "failed")
+            logger.error("获取信息失败", options, data.msg);
+        } else reject();
       },
       fail: () => reject(),
     });
@@ -166,8 +174,11 @@ export const process = (
       url: `${service}select/process`,
       data: options,
       success: ({ data, statusCode }) => {
-        if (statusCode === 200) resolve(data);
-        else reject();
+        if (statusCode === 200) {
+          resolve(data);
+          if (data.status === "failed")
+            logger.error("处理选课失败", type, options, data.msg);
+        } else reject();
       },
       fail: () => reject(),
     });
@@ -221,8 +232,11 @@ export const search = (options: SearchOptions): Promise<SearchResponse> =>
       url: `${service}select/search`,
       data: options,
       success: ({ data, statusCode }) => {
-        if (statusCode === 200) resolve(data);
-        else reject();
+        if (statusCode === 200) {
+          resolve(data);
+          if (data.status === "failed")
+            logger.error("搜索课程失败", options, data.msg);
+        } else reject();
       },
       fail: () => reject(),
     });
@@ -264,8 +278,11 @@ export const getAmount = (
       url: `${service}select/student-amount`,
       data: options,
       success: ({ data, statusCode }) => {
-        if (statusCode === 200) resolve(data);
-        else reject();
+        if (statusCode === 200) {
+          resolve(data);
+          if (data.status === "failed")
+            logger.error("获取选课人数失败", options, data.msg);
+        } else reject();
       },
       fail: () => reject(),
     });
