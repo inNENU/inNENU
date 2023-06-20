@@ -99,7 +99,7 @@ $Page("location", {
       name = "目的地",
     } = <LocationConfig>JSON.parse(this.data.point);
 
-    wx.createSelectorQuery()
+    this.createSelectorQuery()
       .select("#tool")
       .context(({ context }) => {
         (context as WechatMiniprogram.MapContext).openMapApp({

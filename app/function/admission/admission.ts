@@ -145,7 +145,7 @@ $Page("admission", {
   /** 输入框聚焦 */
   focus(event: WechatMiniprogram.InputFocus) {
     const { id } = event.currentTarget;
-    const query = wx.createSelectorQuery();
+    const query = this.createSelectorQuery();
 
     this.setData({ isTyping: true, keyboardHeight: event.detail.height });
 

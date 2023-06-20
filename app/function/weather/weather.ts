@@ -128,7 +128,7 @@ $Page("weather", {
     weather: WeatherData,
     windowWidth = wx.getSystemInfoSync().windowWidth
   ) {
-    wx.createSelectorQuery()
+    this.createSelectorQuery()
       .select(CANVAS_SELECTOR)
       .fields({ node: true, size: true })
       .exec(

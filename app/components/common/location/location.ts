@@ -51,8 +51,7 @@ $Component({
     ready() {
       // add delay to make sure `<map />` is rendered
       setTimeout(() => {
-        wx.createSelectorQuery()
-          .in(this)
+        this.createSelectorQuery()
           .select("#location")
           .context(({ context }) => {
             (context as WechatMiniprogram.MapContext).includePoints({
@@ -74,8 +73,7 @@ $Component({
       longitude,
       name,
     }: LocationConfig & { id: number }) {
-      wx.createSelectorQuery()
-        .in(this)
+      this.createSelectorQuery()
         .select("#location")
         .context(({ context }) => {
           (context as WechatMiniprogram.MapContext).openMapApp({
