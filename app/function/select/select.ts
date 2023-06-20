@@ -13,6 +13,7 @@ import {
   process,
   search,
 } from "./api.js";
+import { confirmReplace } from "./utils.js";
 import { type AppOption } from "../../app.js";
 import { modal, tip } from "../../utils/api.js";
 import { type AccountInfo } from "../../utils/app.js";
@@ -25,43 +26,7 @@ interface FullCourseInfo extends CourseInfo {
   amount: number;
 }
 
-const CONFIRM_KEY = "select-replace-confirmed";
 const PAGE_ID = "select";
-
-const confirmReplace = (): Promise<boolean> =>
-  new Promise((resolve) => {
-    const confirmedReplace = wx.getStorageSync<boolean>(CONFIRM_KEY);
-
-    if (confirmedReplace) return resolve(true);
-
-    modal(
-      "替换课程说明",
-      "替换课程有很高的操作风险，请您仔细阅读下方说明。\n在替换课程时，我们会重新查询此课程的人数。当且仅当此课程未满时，我们会立即退选已有课程并立即选择此课程。由于查询人数、退选已有课程和选择新课程是按顺序进行的操作，其他用户可以在查询人数和重新选课之前选中相同的课程，导致您退课成功但因人数重新满额丢失课程。",
-      () => {
-        const confirmReading = (): void =>
-          wx.showModal({
-            title: "阅读确认",
-            content:
-              "我已阅读前页内容并理解我可能通过此操作丢失课程。\n请输入“我已确认”。",
-            editable: true,
-            confirmText: "输入完成",
-            cancelText: "取消",
-            success: ({ confirm, content }) => {
-              if (confirm) {
-                if (content === "我已确认") {
-                  resolve(true);
-                  wx.setStorageSync(CONFIRM_KEY, true);
-                } else confirmReading();
-              } else resolve(false);
-            },
-            fail: () => resolve(false),
-          });
-
-        confirmReading();
-      },
-      () => resolve(false)
-    );
-  });
 
 $Page(PAGE_ID, {
   data: {
@@ -132,6 +97,7 @@ $Page(PAGE_ID, {
           if (data.status === "success") {
             this.state.cookies = data.cookies;
             this.state.server = data.server;
+
             this.setData({ login: true }, () => {
               this.createSelectorQuery()
                 .select(".select-container")
@@ -141,23 +107,26 @@ $Page(PAGE_ID, {
                 .exec();
             });
 
-            return this.loadInfo();
+            return this.loadInfo().then(() =>
+              this.search({
+                grade: this.state.currentGrade,
+                major: this.state.currentMajor,
+              })
+            );
           }
 
           return modal("登录失败", data.msg, (): void => {
             this.$go("account?update=true");
           });
         })
-        .then(() =>
-          this.search({
-            grade: this.state.currentGrade,
-            major: this.state.currentMajor,
-          })
-        )
         .catch(() => {
-          modal("初始化失败", "请检查网络连接", (): void => {
-            this.$back();
-          });
+          modal(
+            "初始化失败",
+            "请检查: 是否在选课时间、网络连接是否有效",
+            (): void => {
+              this.$back();
+            }
+          );
         });
     } else {
       modal("请先登录", "暂无账号信息，请输入", (): void => {
@@ -279,12 +248,12 @@ $Page(PAGE_ID, {
     return this.getAmount(id).then((res) => {
       wx.hideLoading();
       if (res.status === "success") {
+        const { courses } = this.state;
+
         this.setData({
           coursesDetail: res.data
             .map(({ cid, amount }) => {
-              const course = this.state.courses.find(
-                (item) => item.cid === cid
-              );
+              const course = courses.find((item) => item.cid === cid);
 
               if (course) return { ...course, amount };
 
@@ -301,10 +270,7 @@ $Page(PAGE_ID, {
   },
 
   closeInfoPopup() {
-    this.setData({
-      courseInfo: null,
-      relatedCourses: [],
-    });
+    this.setData({ courseInfo: null, relatedCourses: [] });
   },
 
   closeDetailPopup() {
@@ -320,24 +286,71 @@ $Page(PAGE_ID, {
   >) {
     const { cid } = currentTarget.dataset;
 
-    return this.select(cid);
+    return new Promise((resolve) => {
+      modal(
+        "选课确认",
+        "您确认选择此课程?",
+        () =>
+          resolve(
+            this.process("add", cid).then((res) => {
+              if (res.status === "success") {
+                tip("选课成功", 1000, "success");
+                this.setData({ coursesDetail: [] });
+                this.loadInfo();
+
+                return true;
+              }
+
+              modal("选课失败", res.msg);
+
+              // 重新进入本页面
+              if (res.type === "relogin") this.$redirect("select");
+
+              return false;
+            })
+          ),
+        () => resolve(false)
+      );
+    });
   },
 
-  doSelectCourse(cid: string, times = 100) {
-    // eslint-disable-next-line prefer-const
-    let stop: () => void;
+  unselectCourse({
+    currentTarget,
+  }: WechatMiniprogram.TouchEvent<
+    Record<never, never>,
+    Record<never, never>,
+    { cid: string }
+  >) {
+    const { cid } = currentTarget.dataset;
 
-    const queue = Array<() => Promise<void>>(times).fill(() =>
-      this.select(cid).then((success) => {
-        if (success) stop();
-      })
-    );
+    return new Promise((resolve) => {
+      modal(
+        "退课确认",
+        "您确认退选此课程?",
+        () =>
+          resolve(
+            this.process("delete", cid).then((res) => {
+              if (res.status === "success") {
+                tip("退课成功", 1000, "success");
+                this.setData({
+                  coursesDetail: [],
+                });
+                this.loadInfo();
 
-    const selectQueue = promiseQueue(queue);
+                return true;
+              }
 
-    stop = selectQueue.stop;
+              modal("退课失败", res.msg);
 
-    return selectQueue.run();
+              // 重新进入本页面
+              if (res.type === "relogin") this.$redirect("select");
+
+              return false;
+            })
+          ),
+        () => resolve(false)
+      );
+    });
   },
 
   forceSelectCourse({
@@ -410,39 +423,21 @@ $Page(PAGE_ID, {
                     ) {
                       wx.showLoading({ title: "退课中" });
 
-                      return process("delete", {
-                        cookies: this.state.cookies,
-                        id: oid,
-                        server: this.state.server,
-                        jx0502id: this.state.jx0502id,
-                        jx0502zbid: this.state.jx0502zbid,
-                      })
+                      return this.process("delete", oid)
                         .then((res) => {
                           wx.hideLoading();
 
                           if (res.status === "success") {
                             wx.showLoading({ title: "选课中" });
 
-                            return process("add", {
-                              cookies: this.state.cookies,
-                              id: cid,
-                              server: this.state.server,
-                              jx0502id: this.state.jx0502id,
-                              jx0502zbid: this.state.jx0502zbid,
-                            }).then((res) => {
+                            return this.process("add", cid).then((res) => {
                               if (res.status === "success") {
                                 modal("替换课程成功", "您已成功替换课程");
 
                                 return true;
                               }
 
-                              return process("add", {
-                                cookies: this.state.cookies,
-                                id: cid,
-                                server: this.state.server,
-                                jx0502id: this.state.jx0502id,
-                                jx0502zbid: this.state.jx0502zbid,
-                              }).then((res) => {
+                              return this.process("add", oid).then((res) => {
                                 if (res.status === "success") {
                                   modal(
                                     "替换课程失败",
@@ -560,40 +555,30 @@ $Page(PAGE_ID, {
     });
   },
 
-  select(cid: string) {
-    return new Promise((resolve) => {
-      modal(
-        "选课确认",
-        "您确认选择此课程?",
-        () => {
-          resolve(
-            process("add", {
-              cookies: this.state.cookies,
-              id: cid,
-              server: this.state.server,
-              jx0502id: this.state.jx0502id,
-              jx0502zbid: this.state.jx0502zbid,
-            }).then((res) => {
-              if (res.status === "success") {
-                tip("选课成功", 1000, "success");
-                this.setData({
-                  coursesDetail: [],
-                });
-                this.loadInfo();
-
-                return true;
-              }
-
-              modal("选课失败", res.msg);
-
-              return false;
-            })
-          );
-        },
-        () => {
-          resolve(false);
-        }
-      );
+  process(type: "add" | "delete", cid: string) {
+    return process(type, {
+      cookies: this.state.cookies,
+      id: cid,
+      server: this.state.server,
+      jx0502id: this.state.jx0502id,
+      jx0502zbid: this.state.jx0502zbid,
     });
+  },
+
+  doSelectCourse(cid: string, times = 100) {
+    // eslint-disable-next-line prefer-const
+    let stop: () => void;
+
+    const queue = Array<() => Promise<void>>(times).fill(() =>
+      this.process("add", cid).then(({ status }) => {
+        if (status === "success") stop();
+      })
+    );
+
+    const selectQueue = promiseQueue(queue);
+
+    stop = selectQueue.stop;
+
+    return selectQueue.run();
   },
 });

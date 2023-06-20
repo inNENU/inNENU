@@ -177,6 +177,8 @@
   show="{{courseInfo !== null}}"
   catch:close="closeInfoPopup"
 >
+  <view class="course-info-header">当前课程</view>
+  <template is="course-detail" data="{{...item, state: 'remove'}}" />
   <view class="related-course-header">相关课程</view>
   <view class="course-detail-list">
     <block wx:for="{{relatedCourses}}" wx:key="cid" class="course-detail">
@@ -218,12 +220,14 @@
   <view class="course-detail">
     <view class="name">{{className}}</view>
     <view class="info">
-      <text class="teacher">{{teacher}}</text>
-      <text class="capacity">{{ amount ? amount + '/': '' }}{{capacity}}</text>
-      <text class="week">{{week}}</text>
-      <text class="time">{{select.getTime(time)}}</text>
-      <text class="place">{{place}}</text>
-      <text class="point">{{point}}</text>
+      <text class="teacher"><text class="icon" />{{teacher}}</text>
+      <text class="capacity"
+        ><text class="icon" /> {{ amount ? amount + '/': '' }}{{capacity}}</text
+      >
+      <text class="week"><text class="icon" />{{week}}</text>
+      <text class="time"><text class="icon" />{{select.getTime(time)}}</text>
+      <text class="place"><text class="icon" />{{place}}</text>
+      <text class="point"><text class="icon" />{{point}}</text>
     </view>
     <view class="details">
       <text class="weekType">周次: {{weekType}}</text>
@@ -243,7 +247,7 @@
         退选同名课程并选课
       </button>
       <button
-        wx:elif="{{state === 'cancel'}}"
+        wx:elif="{{state === 'remove'}}"
         type="primary"
         size="mini"
         data-cid="{{cid}}"
