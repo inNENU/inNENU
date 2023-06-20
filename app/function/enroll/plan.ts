@@ -212,7 +212,7 @@ $Page(PAGE_ID, {
   },
 
   close() {
-    this.setData({ result: [] });
+    this.setData({ results: [] });
   },
 
   back() {
