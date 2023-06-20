@@ -42,8 +42,8 @@
                   wx:for="{{item}}"
                   wx:for-item="course"
                   class="course-table-course-item"
-                  data-id="{{course.id}}"
-                  catch:tap="selectCourse"
+                  data-id="{{course.cid}}"
+                  catch:tap="showCourseInfo"
                 >
                   {{course.name}}
                 </view>
@@ -171,11 +171,24 @@
   </view>
 </view>
 
+<!-- 课程详情 -->
+<popup
+  config="{{courseInfoPopupConfig}}"
+  show="{{courseInfo !== null}}"
+  catch:close="closeInfoPopup"
+>
+  <view class="course-detail-list">
+    <block wx:for="{{relatedCourses}}" wx:key="cid" class="course-detail">
+      <template is="course-detail" data="{{...item}}" />
+    </block>
+  </view>
+</popup>
+
 <!-- 课程列表 -->
 <popup
   config="{{courseDetailPopupConfig}}"
-  show="{{showCourseDetail}}"
-  catch:close="closePopup"
+  show="{{coursesDetail.length > 0}}"
+  catch:close="closeDetailPopup"
 >
   <view class="course-detail-list">
     <block wx:for="{{coursesDetail}}" wx:key="cid" class="course-detail">
@@ -185,7 +198,7 @@
 </popup>
 
 <template name="course-item" data="{{name, office, type, id}}">
-  <view class="course-item" data-id="{{id}}" catch:tap="showCourse">
+  <view class="course-item" data-id="{{id}}" catch:tap="showCourseDetail">
     <view class="name">{{name}}</view>
     <view class="info">
       <text class="type">{{type}}</text>
@@ -196,7 +209,7 @@
 
 <template
   name="course-detail"
-  data="{{ name, teacher, week, time, point, place, cid, amount }}"
+  data="{{ name, teacher, week, time, point, place, cid, amount, isSelected }}"
 >
   <view class="course-detail">
     <view class="name">{{className}}</view>
@@ -215,9 +228,20 @@
     </view>
     <view class="actions">
       <button
+        wx:if="{{isSelected}}"
         type="primary"
         size="mini"
         data-cid="{{cid}}"
+        catch:tap="unselectCourse"
+      >
+        退选
+      </button>
+      <button
+        wx:else
+        type="primary"
+        size="mini"
+        data-cid="{{cid}}"
+        catch:longpress="forceSelectCouse"
         catch:tap="selectCourse"
       >
         选课

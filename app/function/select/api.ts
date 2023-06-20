@@ -54,7 +54,7 @@ export const login = (
   });
 
 export interface CourseData {
-  id: string;
+  cid: string;
   name: string;
 }
 
@@ -236,7 +236,7 @@ export interface StudentAmountOptions extends SelectBaseOptions {
 
 export interface StudentAmountData {
   /** 课程号 */
-  id: string;
+  cid: string;
   /** 选课人数 */
   amount: number;
 }
