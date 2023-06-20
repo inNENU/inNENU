@@ -50,7 +50,9 @@ $Page(PAGE_ID, {
           () => this.back()
         );
       });
+  },
 
+  onShow() {
     popNotice(PAGE_ID);
   },
 
