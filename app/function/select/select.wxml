@@ -175,6 +175,7 @@
 <popup
   config="{{courseInfoPopupConfig}}"
   show="{{courseInfo !== null}}"
+  catch:confirm="refreshInfoAmount"
   catch:close="closeInfoPopup"
 >
   <view class="course-info-header">当前课程</view>
@@ -194,6 +195,7 @@
 <popup
   config="{{courseDetailPopupConfig}}"
   show="{{coursesDetail.length > 0}}"
+  catch:confirm="refreshDetailAmount"
   catch:close="closeDetailPopup"
 >
   <view class="course-detail-list">

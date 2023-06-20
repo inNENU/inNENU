@@ -1,4 +1,4 @@
-import { $Page } from "@mptool/enhance";
+import { $Page, logger } from "@mptool/enhance";
 import { get } from "@mptool/file";
 
 import {
@@ -54,7 +54,7 @@ $Page(PAGE_ID, {
     courseInfoPopupConfig: {
       title: "课程",
       subtitle: "课程详情",
-      confirm: false,
+      confirm: "刷新人数",
       cancel: false,
     },
     relatedCourses: <FullCourseInfo[]>[],
@@ -63,13 +63,14 @@ $Page(PAGE_ID, {
     courseDetailPopupConfig: {
       title: "课程列表",
       subtitle: "点击课程来选课",
-      confirm: false,
+      confirm: "刷新人数",
       cancel: false,
     },
   },
 
   state: {
     accountInfo: null as AccountInfo | null,
+    currentCourseId: "",
     cookies: <string[]>[],
     courses: [] as CourseInfo[],
     currentGrade: "",
@@ -159,8 +160,9 @@ $Page(PAGE_ID, {
     { cid: string }
   >) {
     const { cid } = currentTarget.dataset;
+    const { courses } = this.state;
 
-    const course: CourseInfo | undefined = this.state.courses.find(
+    const course: CourseInfo | undefined = courses.find(
       (item) => item.cid === cid
     );
 
@@ -173,13 +175,11 @@ $Page(PAGE_ID, {
           };
           const relatedCourses = data.data
             .map(({ cid, amount }) => {
-              const course = this.state.courses.find(
-                (item) => item.cid === cid
-              );
+              const course = courses.find((item) => item.cid === cid);
 
               if (course) return { ...course, amount };
 
-              console.error("未找到匹配课程", cid);
+              logger.error("未找到匹配课程", cid);
 
               return null;
             })
@@ -193,12 +193,52 @@ $Page(PAGE_ID, {
             relatedCourses,
           });
         } else {
-          modal("获取课程信息失败", data.msg);
+          modal("获取课程人数失败", data.msg);
         }
       });
     } else {
-      modal("未找到匹配课程", "请汇报给开发者!");
+      modal("未找到课程信息", "暂无所选课程数据，请汇报给开发者!");
     }
+  },
+
+  refreshInfoAmount() {
+    const { courseInfo } = this.data;
+    const { courses } = this.state;
+
+    this.getAmount(courseInfo!.id).then((data) => {
+      if (data.status === "success") {
+        const course = {
+          ...courseInfo,
+          amount: data.data.find((item) => item.cid === courseInfo!.cid)!
+            .amount,
+        };
+        const relatedCourses = data.data
+          .map(({ cid, amount }) => {
+            const course = courses.find((item) => item.cid === cid);
+
+            if (course) return { ...course, amount };
+
+            logger.error("未找到匹配课程", cid);
+
+            return null;
+          })
+          .filter(
+            (item): item is CourseInfo & { amount: number } =>
+              item !== null && item.cid !== course.cid
+          );
+
+        this.setData({
+          courseInfo,
+          relatedCourses,
+        });
+      } else {
+        modal("获取课程人数失败", data.msg);
+      }
+    });
+  },
+
+  closeInfoPopup() {
+    this.setData({ courseInfo: null, relatedCourses: [] });
   },
 
   searchCourses() {
@@ -250,6 +290,7 @@ $Page(PAGE_ID, {
       if (res.status === "success") {
         const { courses } = this.state;
 
+        this.state.currentCourseId = id;
         this.setData({
           coursesDetail: res.data
             .map(({ cid, amount }) => {
@@ -257,7 +298,7 @@ $Page(PAGE_ID, {
 
               if (course) return { ...course, amount };
 
-              console.error("未找到匹配课程", cid);
+              logger.error("未找到匹配课程", cid);
 
               return null;
             })
@@ -269,11 +310,37 @@ $Page(PAGE_ID, {
     });
   },
 
-  closeInfoPopup() {
-    this.setData({ courseInfo: null, relatedCourses: [] });
+  refreshDetailAmount() {
+    const { currentCourseId } = this.state;
+
+    wx.showLoading({ title: "刷新人数" });
+
+    return this.getAmount(currentCourseId).then((res) => {
+      wx.hideLoading();
+      if (res.status === "success") {
+        const { courses } = this.state;
+
+        this.setData({
+          coursesDetail: res.data
+            .map(({ cid, amount }) => {
+              const course = courses.find((item) => item.cid === cid);
+
+              if (course) return { ...course, amount };
+
+              logger.error("未找到匹配课程", cid);
+
+              return null;
+            })
+            .filter((item): item is FullCourseInfo => item !== null),
+        });
+      } else {
+        modal("刷新人数失败", res.msg);
+      }
+    });
   },
 
   closeDetailPopup() {
+    this.state.currentCourseId = "";
     this.setData({ coursesDetail: [] });
   },
 
