@@ -1,0 +1,69 @@
+<page-meta
+  background-text-style="{{darkmode ? 'dark' : 'light'}}"
+  background-color="{{color.bgColor}}"
+  background-color-top="{{color.bgColorTop}}"
+  background-color-bottom="{{color.bgColorBottom}}"
+  root-background-color="{{color.bgColor}}"
+/>
+<view class="{{theme}}">
+  <header title="招生计划" />
+  <view class="selector">
+    <picker range="{{years}}" value="{{yearIndex}}" bindchange="yearChange">
+      年份: {{yearIndex >= 0 ? years[yearIndex]: '未选择'}}
+    </picker>
+    <picker
+      range="{{provinces}}"
+      value="{{provinceIndex}}"
+      bindchange="provinceChange"
+    >
+      省份: {{provinceIndex >= 0 ? provinces[provinceIndex]: '未选择'}}
+    </picker>
+    <picker
+      range="{{planTypes}}"
+      value="{{planTypeIndex}}"
+      bindchange="planTypeChange"
+    >
+      专业类别: {{planTypeIndex >= 0 ? planTypes[planTypeIndex]: '未选择'}}
+    </picker>
+    <picker
+      range="{{majorTypes}}"
+      value="{{majorTypeIndex}}"
+      bindchange="majorTypeChange"
+    >
+      计划性质: {{majorTypeIndex >= 0 ? majorTypes[majorTypeIndex]: '未选择'}}
+    </picker>
+
+    <picker
+      range="{{reformTypes}}"
+      value="{{reformTypeIndx}}"
+      bindchange="reformTypeChange"
+    >
+      专业类别: {{reformTypeIndx >= 0 ? reformTypes[reformTypeIndx]: '未选择'}}
+    </picker>
+    <button type="primary" catch:tap="getPlan">查询</button>
+  </view>
+  <footer />
+</view>
+
+<!-- 校历详情 -->
+<popup
+  config="{{popupConfig}}"
+  show="{{results.length > 0}}"
+  catch:confirm="close"
+  catch:close="close"
+>
+  招生计划
+  <view wx:for="{{results}}" wx:key="major" class="plan-item">
+    <view class="header">{{item.major}}: {{item.count}}人</view>
+    <view class="info">
+      <view><text class="label">科类:</text>{{item.planType}} </view>
+      <view> <text class="label">专业属性:</text>{{item.majorType}} </view>
+      <view> <text class="label">学制:</text>{{item.year}} </view>
+      <view>
+        <block wx:if="{{item.remark}}">
+          <text class="label">备注:</text>{{item.remark}}
+        </block>
+      </view>
+    </view>
+  </view>
+</popup>

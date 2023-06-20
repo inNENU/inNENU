@@ -17,6 +17,7 @@
     "function/admission/admission",
     "function/cal/cal",
     "function/calendar/calendar",
+    "function/enroll/plan",
     "function/location/location",
     "function/map/map",
     "function/music/music",

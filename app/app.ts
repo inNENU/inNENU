@@ -40,6 +40,7 @@ $Config({
       ],
       "/function/$name/$name",
     ],
+    ["enroll-plan", "/function/enroll/plan"],
     ["wechat-detail", "/function/school-media/wechat"],
     [["about", "account", "privacy", "storage"], "/settings/$name/$name"],
   ],

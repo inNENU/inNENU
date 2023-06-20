@@ -24,6 +24,7 @@
         "admission/admission",
         "cal/cal",
         "calendar/calendar",
+        "enroll/plan",
         "location/location",
         "map/map",
         "music/music",

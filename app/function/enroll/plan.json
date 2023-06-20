@@ -1,0 +1,7 @@
+{
+  "navigationBarTitleText": "招生计划",
+  "usingComponents": {
+    "header": "/components/header/header",
+    "popup": "/components/popup/popup"
+  }
+}
