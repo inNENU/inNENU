@@ -7,6 +7,7 @@ import {
   CourseInfo,
   MajorInfo,
   SearchOptions,
+  getAmount,
   getInfo,
   login,
   process,
@@ -44,7 +45,7 @@ $Page(PAGE_ID, {
     weekIndex: 0,
 
     showCourseDetail: false,
-    coursesDetail: <CourseInfo[]>[],
+    coursesDetail: <(CourseInfo & { amount?: number })[]>[],
     courseDetailPopupConfig: {
       title: "课程列表",
       subtitle: "点击课程来选课",
@@ -163,14 +164,43 @@ $Page(PAGE_ID, {
     this.search(options).then(() => wx.hideLoading());
   },
 
-  showCourse({ currentTarget }: WechatMiniprogram.TouchEvent) {
+  showCourse({
+    currentTarget,
+  }: WechatMiniprogram.TouchEvent<
+    Record<never, never>,
+    Record<never, never>,
+    { id: string }
+  >) {
     const { id } = currentTarget.dataset;
 
-    const coursesDetail = this.state.courses.filter((item) => item.id === id);
+    wx.showLoading({ title: "获取人数" });
 
-    this.setData({
-      showCourseDetail: true,
-      coursesDetail,
+    return getAmount({
+      cookies: this.state.cookies,
+      server: this.state.server,
+      jx0502id: this.state.jx0502id,
+      id,
+    }).then((data) => {
+      wx.hideLoading();
+      if (data.status === "success") {
+        this.setData({
+          showCourseDetail: true,
+          coursesDetail: data.data.map(({ id, amount }) => ({
+            amount,
+            ...this.state.courses.find(({ cid }) => cid === id)!,
+          })),
+        });
+      } else {
+        modal("获取人数失败", data.msg);
+        const coursesDetail = this.state.courses.filter(
+          (item) => item.id === id
+        );
+
+        this.setData({
+          showCourseDetail: true,
+          coursesDetail,
+        });
+      }
     });
   },
 

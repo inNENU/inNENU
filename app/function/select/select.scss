@@ -150,9 +150,9 @@
 .course-detail {
   margin: 4px -4px;
   border-radius: 8px;
-  background-color: var(--bg-color-block);
   text-align: left;
   padding: 4px 15px;
+  border-bottom: 1px solid var(--border-color);
 
   .name {
     font-size: 15px;

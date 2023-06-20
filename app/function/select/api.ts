@@ -256,12 +256,12 @@ export type StudentAmountResponse =
   | StudentAmountFailedResponse;
 
 export const getAmount = (
-  options: SearchOptions
+  options: StudentAmountOptions
 ): Promise<StudentAmountResponse> =>
   new Promise((resolve, reject) => {
     wx.request<StudentAmountResponse>({
       method: "POST",
-      url: `${service}select/search`,
+      url: `${service}select/student-amount`,
       data: options,
       success: ({ data, statusCode }) => {
         if (statusCode === 200) resolve(data);

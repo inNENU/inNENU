@@ -196,13 +196,13 @@
 
 <template
   name="course-detail"
-  data="{{ name, teacher, week, time, point, place, cid }}"
+  data="{{ name, teacher, week, time, point, place, cid, amount }}"
 >
   <view class="course-detail">
     <view class="name">{{className}}</view>
     <view class="info">
       <text class="teacher">{{teacher}}</text>
-      <text class="capacity">{{capacity}}</text>
+      <text class="capacity">{{ amount ? amount + '/': '' }}{{capacity}}</text>
       <text class="week">{{week}}</text>
       <text class="time">{{select.getTime(time)}}</text>
       <text class="place">{{place}}</text>
