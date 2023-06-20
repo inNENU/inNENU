@@ -11,6 +11,7 @@
     "pages/action/action",
     "pages/web/web",
     "settings/about/about",
+    "settings/account/account",
     "settings/privacy/privacy",
     "settings/storage/storage",
     "function/admission/admission",
@@ -19,11 +20,12 @@
     "function/location/location",
     "function/map/map",
     "function/music/music",
-    "function/video/video",
-    "function/school-media/school-media",
-    "function/school-media/wechat",
     "function/pe-calculator/pe-calculator",
     "function/phone/phone",
+    "function/school-media/school-media",
+    "function/school-media/wechat",
+    "function/select/select",
+    "function/video/video",
     "function/weather/weather",
     "function/website/website"
   ],
@@ -79,7 +81,7 @@
     ]
   },
   "networkTimeout": {
-    "request": 5000,
+    "request": 30000,
     "connectSocket": 8000,
     "uploadFile": 8000,
     "downloadFile": 25000

@@ -33,6 +33,7 @@ $Config({
         "pe-calculator",
         "phone",
         "school-media",
+        "select",
         "video",
         "weather",
         "website",
@@ -40,7 +41,7 @@ $Config({
       "/function/$name/$name",
     ],
     ["wechat-detail", "/function/school-media/wechat"],
-    [["about", "privacy", "storage"], "/settings/$name/$name"],
+    [["about", "account", "privacy", "storage"], "/settings/$name/$name"],
   ],
 
   injectPage: (_name, options) => {

@@ -1,0 +1,56 @@
+<import src="/components/template.wxml" />
+<page-meta
+  background-text-style="{{darkmode ? 'dark' : 'light'}}"
+  background-color="{{color.bgColor}}"
+  background-color-top="{{color.bgColorTop}}"
+  background-color-bottom="{{color.bgColorBottom}}"
+  root-background-color="{{color.bgColor}}"
+/>
+<view class="{{theme}} grey">
+  <navbar theme="{{theme}}" darkmode="{{darkmode}}" nav="{{nav}}" />
+  <template is="components" data="{{content, theme}}" />
+  <view class="input-list-wrapper">
+    <view class="list-item">
+      <view class="text">学号</view>
+      <input
+        id="id"
+        class="input"
+        type="digit"
+        adjust-position="{{false}}"
+        placeholder="10 位数字"
+        value="{{id}}"
+        catch:input="input"
+      />
+    </view>
+    <view class="list-item">
+      <view class="text">邮箱</view>
+      <input
+        id="email"
+        class="input"
+        type="text"
+        adjust-position="{{false}}"
+        placeholder="邮箱用户名"
+        value="{{email}}"
+        catch:input="input"
+      />
+      <view class="unit">@nenu.edu.cn</view>
+    </view>
+    <view class="list-item">
+      <view class="text">密码</view>
+      <input
+        id="password"
+        class="input"
+        type="{{showPassword?'text':'password'}}"
+        adjust-position="{{false}}"
+        placeholder="统一身份认证密码"
+        value="{{password}}"
+        catch:input="input"
+      />
+      <button type="default" class="password-button" bindtap="togglePassword">
+        {{showPassword? '隐藏': '显示'}}
+      </button>
+    </view>
+  </view>
+
+  <button type="primary" class="account-button" bindtap="login">保存</button>
+</view>

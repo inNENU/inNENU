@@ -1,0 +1,227 @@
+<wxs src="./select.wxs" module="select" />
+<page-meta
+  background-text-style="{{darkmode ? 'dark' : 'light'}}"
+  background-color="{{color.bgColor}}"
+  background-color-top="{{color.bgColorTop}}"
+  background-color-bottom="{{color.bgColorBottom}}"
+  root-background-color="{{color.bgColor}}"
+/>
+<view class="{{theme}} select-wrapper">
+  <header title="选课系统" />
+  <view wx:if="{{login}}" class="select-container">
+    <tab-bar nav-list="{{select.titles}}" height="{{height - 20}}">
+      <view slot="page1">
+        <view class="course-table">
+          <view class="course-table-header">
+            <view class="course-row-header"></view>
+            <view
+              wx:for="{{select.weeks}}"
+              wx:key="*this"
+              class="course-table-header-item"
+            >
+              {{item}}
+            </view>
+          </view>
+          <view class="course-table-body">
+            <view
+              class="course-table-row"
+              wx:for="{{courseTable}}"
+              wx:for-item="row"
+              wx:for-index="rowIndex"
+              wx:key="rowIndex"
+            >
+              <view class="course-row-header">
+                {{select.class[rowIndex]}}
+              </view>
+              <view
+                class="course-table-item"
+                wx:for="{{row}}"
+                wx:for-index="itemIndex"
+              >
+                <view
+                  wx:for="{{item}}"
+                  wx:for-item="course"
+                  class="course-table-course-item"
+                  data-id="{{course.id}}"
+                  catch:tap="selectCourse"
+                >
+                  {{course.name}}
+                </view>
+              </view>
+            </view>
+          </view>
+        </view>
+      </view>
+      <view slot="page2">
+        <view class="filter-container">
+          <view class="header">筛选课程</view>
+          <input
+            class="input"
+            type="text"
+            value="{{courseName}}"
+            bindinput="inputCourseName"
+            placeholder="请输入课程名称"
+          />
+          <picker
+            class="picker"
+            header-text="选择年级"
+            range="{{select.getRange(grades)}}"
+            value="{{gradeIndex}}"
+            data-key="gradeIndex"
+            bindchange="pickerChange"
+          >
+            <view class="display">
+              <text class="label">年级:</text>
+              <text class="value"
+                >{{select.getPickerDisplay(grades, gradeIndex)}}</text
+              ></view
+            >
+          </picker>
+          <picker
+            class="picker"
+            header-text="选择专业"
+            range="{{select.getRange(majors, 'name')}}"
+            value="{{majorIndex}}"
+            data-key="majorIndex"
+            bindchange="pickerChange"
+          >
+            <view class="display">
+              <text class="label">专业:</text>
+              <text class="value"
+                >{{select.getPickerDisplay(majors, majorIndex, 'name')}}</text
+              >
+            </view>
+          </picker>
+          <picker
+            class="picker"
+            header-text="课程类别"
+            range="{{select.getRange(courseTypes)}}"
+            value="{{courseTypeIndex}}"
+            data-key="courseTypeIndex"
+            bindchange="pickerChange"
+          >
+            <view class="display">
+              <text class="label">课程类别:</text>
+              <text class="value"
+                >{{select.getPickerDisplay(courseTypes, courseTypeIndex)}}</text
+              >
+            </view>
+          </picker>
+          <picker
+            class="picker"
+            header-text="开课单位"
+            range="{{select.getRange(courseOffices)}}"
+            value="{{officeIndex}}"
+            data-key="officeIndex"
+            bindchange="pickerChange"
+          >
+            <view class="display">
+              <text class="label">开课单位:</text>
+              <text class="value"
+                >{{select.getPickerDisplay(courseOffices, officeIndex)}}</text
+              >
+            </view>
+          </picker>
+          <picker
+            class="picker"
+            header-text="星期"
+            range="{{select.getRange(select.weeks)}}"
+            value="{{weekIndex}}"
+            data-key="weekIndex"
+            bindchange="pickerChange"
+          >
+            <view class="display">
+              <text class="label">星期:</text>
+              <text class="value"
+                >{{select.getPickerDisplay(select.weeks, weekIndex)}}</text
+              >
+            </view>
+          </picker>
+          <picker
+            class="picker"
+            header-text="节次"
+            range="{{select.getRange(select.class)}}"
+            value="{{classIndex}}"
+            data-key="classIndex"
+            bindchange="pickerChange"
+          >
+            <view class="display">
+              <text class="label">节次:</text>
+              <text class="value"
+                >{{select.getPickerDisplay(select.class, classIndex)}}</text
+              >
+            </view>
+          </picker>
+          <button class="search-button" type="primary" catch:tap="serch">
+            搜索
+          </button>
+        </view>
+        <view class="course-header">课程列表</view>
+        <view class="course-list">
+          <block wx:for="{{courses}}" wx:key="id" data-id="{{item.cid}}">
+            <template is="course-item" data="{{...item}}" />
+          </block>
+        </view>
+      </view>
+    </tab-bar>
+  </view>
+  <view wx:else class="error-wrapper">
+    <icon type="waiting" size="120" color="#10AEFF" />
+    <view class="text">正在登陆选课系统</view>
+  </view>
+</view>
+
+<!-- 课程列表 -->
+<popup
+  config="{{courseDetailPopupConfig}}"
+  show="{{showCourseDetail}}"
+  catch:close="closePopup"
+>
+  <view class="course-detail-list">
+    <block wx:for="{{coursesDetail}}" wx:key="cid" class="course-detail">
+      <template is="course-detail" data="{{...item}}" />
+    </block>
+  </view>
+</popup>
+
+<template name="course-item" data="{{name, office, type, id}}">
+  <view class="course-item" data-id="{{id}}" catch:tap="showCourse">
+    <view class="name">{{name}}</view>
+    <view class="info">
+      <text class="type">{{type}}</text>
+      <text class="office">{{office}}</text>
+    </view>
+  </view>
+</template>
+
+<template
+  name="course-detail"
+  data="{{ name, teacher, week, time, point, place, cid }}"
+>
+  <view class="course-detail">
+    <view class="name">{{className}}</view>
+    <view class="info">
+      <text class="teacher">{{teacher}}</text>
+      <text class="capacity">{{capacity}}</text>
+      <text class="week">{{week}}</text>
+      <text class="time">{{select.getTime(time)}}</text>
+      <text class="place">{{place}}</text>
+      <text class="point">{{point}}</text>
+    </view>
+    <view class="details">
+      <text class="weekType">周次: {{weekType}}</text>
+      <text class="exam-time">考试时间: {{select.getExamTime(examTime)}}</text>
+      <text class="office">开课单位: {{office}}</text>
+    </view>
+    <view class="actions">
+      <button
+        type="primary"
+        size="mini"
+        data-cid="{{cid}}"
+        catch:tap="selectCourse"
+      >
+        选课
+      </button>
+    </view>
+  </view>
+</template>

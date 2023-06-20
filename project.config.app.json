@@ -88,6 +88,20 @@
           "scene": null
         },
         {
+          "name": "账户",
+          "pathName": "settings/account/account",
+          "query": "",
+          "launchMode": "default",
+          "scene": null
+        },
+        {
+          "name": "选课",
+          "pathName": "function/select/select",
+          "query": "",
+          "launchMode": "default",
+          "scene": null
+        },
+        {
           "name": "天气",
           "pathName": "function/weather/weather",
           "query": "",

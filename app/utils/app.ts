@@ -1,6 +1,6 @@
 /* eslint-disable max-lines */
 import { emitter, logger } from "@mptool/enhance";
-import { ls, rm, writeJSON } from "@mptool/file";
+import { get, ls, rm, writeJSON } from "@mptool/file";
 
 import { getDarkmode, modal, requestJSON, tip } from "./api.js";
 import { appConfig, server, version } from "./config.js";
@@ -16,7 +16,7 @@ export type Env = "app" | "qq" | "wx" | "web";
 
 export interface AccountInfo {
   /** 学号 */
-  id: string;
+  id: number;
   /** 密码 */
   password: string;
   /** 邮箱 */
@@ -399,7 +399,7 @@ export const getGlobalData = (): GlobalData => {
 
   return {
     version,
-    account: null,
+    account: get<AccountInfo | undefined>("account-info") || null,
     music: { playing: false, index: 0 },
     page: {
       data: {},

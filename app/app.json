@@ -10,6 +10,7 @@
     "pages/search/search",
     "pages/web/web",
     "settings/about/about",
+    "settings/account/account",
     "settings/privacy/privacy",
     "settings/storage/storage"
   ],
@@ -28,6 +29,7 @@
         "video/video",
         "pe-calculator/pe-calculator",
         "phone/phone",
+        "select/select",
         "weather/weather",
         "website/website"
       ]
@@ -91,7 +93,7 @@
     ]
   },
   "networkTimeout": {
-    "request": 5000,
+    "request": 30000,
     "connectSocket": 8000,
     "uploadFile": 8000,
     "downloadFile": 25000

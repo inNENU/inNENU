@@ -1,0 +1,54 @@
+var weeks = ["周一", "周二", "周三", "周四", "周五", "周六", "周日"];
+var classNames = [
+  "1、2节",
+  "3、4节",
+  "5、6节",
+  "7、8节",
+  "9、10节",
+  "11、12节",
+];
+
+module.exports = {
+  weeks: weeks,
+  titles: ["当前课表", "选课系统"],
+  class: classNames,
+
+  getRange: function (values, key) {
+    var result = values.map(function (item) {
+      return key ? item[key] : item;
+    });
+
+    result.unshift("全部");
+
+    return result;
+  },
+
+  getClass: function (index) {
+    return classNames[index];
+  },
+
+  getPickerDisplay: function (values, index, key) {
+    if (index === 0) {
+      return "全部";
+    }
+
+    var value = values[index - 1];
+
+    return key ? value[key] : value;
+  },
+
+  getTime: function (times) {
+    return times
+      .split(",")
+      .map(function (time) {
+        return weeks[time[0] - 1] + time.substring(1) + "节";
+      })
+      .join(" ");
+  },
+
+  getExamTime: function (time) {
+    var temp = time.split("-");
+
+    return "第" + temp[0] + "周" + temp[1] + "节";
+  },
+};

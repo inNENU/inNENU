@@ -31,6 +31,7 @@
     "target": "es6",
     "lib": ["ESNext"],
     "module": "CommonJS",
+    "rootDir": "./",
     "moduleResolution": "nodenext",
     "outDir": "dist",
     "types": ["miniprogram-api-typings"]
