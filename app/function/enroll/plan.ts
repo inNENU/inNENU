@@ -201,14 +201,18 @@ $Page(PAGE_ID, {
       majorType: majorTypes[planTypeIndex],
       planType: planTypes[majorTypeIndex],
       reformType: reformTypes[reformTypeIndex],
-    }).then((data) => {
-      wx.hideLoading();
-      if (data.status === "success")
-        this.setData({
-          results: data.data,
-        });
-      else modal("获取失败", data.msg);
-    });
+    })
+      .then((data) => {
+        wx.hideLoading();
+        if (data.status === "success")
+          this.setData({
+            results: data.data,
+          });
+        else modal("获取失败", data.msg);
+      })
+      .catch(() => {
+        modal("获取失败", "网络请求失败");
+      });
   },
 
   close() {

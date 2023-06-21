@@ -148,11 +148,15 @@
 }
 
 .course-detail {
-  margin: 4px -4px;
+  margin: 4px 0;
   border-radius: 8px;
   text-align: left;
   padding: 4px 15px;
   border-bottom: 1px solid var(--border-color);
+
+  &:last-child {
+    border-bottom: none;
+  }
 
   .name {
     font-size: 15px;

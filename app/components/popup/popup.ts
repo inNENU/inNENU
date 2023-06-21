@@ -1,3 +1,5 @@
+import { $Component } from "@mptool/enhance";
+
 import { getWindowInfo } from "../../utils/api.js";
 
 export interface PopupConfig {
@@ -17,13 +19,17 @@ export interface PopupConfig {
   confirm?: string;
 }
 
-Component({
+$Component({
   properties: {
     config: Object,
     // 是否展示对话框
     show: {
       type: Boolean,
       default: false,
+    },
+    paddingInline: {
+      type: Number,
+      default: 24,
     },
   },
 

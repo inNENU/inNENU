@@ -1,36 +1,36 @@
 @use "../../styles/common/mask";
 @import "../../styles/lib/icon";
 
+.popup {
+  position: fixed;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  z-index: 5000;
+
+  overflow: hidden;
+
+  padding: 0 24px;
+  border-top-left-radius: 12px;
+  border-top-right-radius: 12px;
+
+  background-color: #fff;
+
+  line-height: 1.4;
+
+  transition: all 0.3s;
+  transform: translateY(100%);
+
+  @media (prefers-color-scheme: dark) {
+    background-color: #1c1c1e;
+  }
+}
+
 .popup-wrapper {
   position: absolute;
   opacity: 0;
   visibility: hidden;
   transition: all 0.3s;
-
-  .popup {
-    position: fixed;
-    right: 0;
-    bottom: 0;
-    left: 0;
-    z-index: 5000;
-
-    overflow: hidden;
-
-    padding: 0 24px;
-    border-top-left-radius: 12px;
-    border-top-right-radius: 12px;
-
-    background-color: #fff;
-
-    line-height: 1.4;
-
-    transition: all 0.3s;
-    transform: translateY(100%);
-
-    @media (prefers-color-scheme: dark) {
-      background-color: #1c1c1e;
-    }
-  }
 
   &.show {
     opacity: 1;

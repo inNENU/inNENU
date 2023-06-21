@@ -15,7 +15,10 @@ const { globalData } = getApp<AppOption>();
 let clickNumber = 0;
 let developMode = false;
 
-$Page("about", {
+const PAGE_ID = "about";
+const PAGE_TITLE = "关于";
+
+$Page(PAGE_ID, {
   data: {
     theme: globalData.theme,
     darkmode: globalData.darkmode,
@@ -92,8 +95,10 @@ $Page("about", {
 
       setPage({ option: { id: "about" }, ctx: this }, page);
     }
+  },
 
-    popNotice("about");
+  onShow() {
+    popNotice(PAGE_ID);
   },
 
   onReady() {
@@ -125,15 +130,15 @@ $Page("about", {
   onPageScroll() {},
 
   onShareAppMessage: () => ({
-    title: "关于",
+    title: PAGE_TITLE,
     path: "/settings/about/about",
     imageUrl: `${appCoverPrefix}Share.png`,
   }),
 
-  onShareTimeline: () => ({ title: "关于" }),
+  onShareTimeline: () => ({ title: PAGE_TITLE }),
 
   onAddToFavorites: () => ({
-    title: "关于",
+    title: PAGE_TITLE,
     imageUrl: `${appCoverPrefix}.jpg`,
   }),
 
@@ -224,7 +229,6 @@ $Page("about", {
     ).status = value;
     this.setData({ page: this.data.page });
     wx.setStorageSync("debugMode", value);
-
     wx.setEnableDebug({ enableDebug: value });
     (wx.env as Record<string, unknown>).DEBUG = value;
   },

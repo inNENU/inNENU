@@ -38,17 +38,25 @@ module.exports = {
   },
 
   getTime: function (times) {
-    return times
-      .split(",")
-      .map(function (time) {
-        return weeks[time[0] - 1] + time.substring(1) + "节";
-      })
-      .join(" ");
+    if (times) {
+      return times
+        .split(",")
+        .map(function (time) {
+          return weeks[time[0] - 1] + time.substring(1) + "节";
+        })
+        .join(" ");
+    }
+
+    return "";
   },
 
   getExamTime: function (time) {
-    var temp = time.split("-");
+    if (time) {
+      var temp = time.split("-");
 
-    return "第" + temp[0] + "周" + temp[1] + "节";
+      return "第" + temp[0] + "周" + temp[1] + "节";
+    }
+
+    return "";
   },
 };

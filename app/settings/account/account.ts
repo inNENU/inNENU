@@ -5,11 +5,16 @@ import { type AppOption } from "../../app.js";
 import { validateAccount } from "../../utils/account.js";
 import { modal, tip } from "../../utils/api.js";
 import { type AccountInfo } from "../../utils/app.js";
+import { appCoverPrefix } from "../../utils/config.js";
 import { MONTH } from "../../utils/constant.js";
+import { popNotice } from "../../utils/page.js";
 
 const { globalData } = getApp<AppOption>();
 
-$Page("account", {
+const PAGE_ID = "account";
+const PAGE_TITLE = "账号信息";
+
+$Page(PAGE_ID, {
   data: {
     theme: globalData.theme,
 
@@ -27,7 +32,7 @@ $Page("account", {
       },
     ],
 
-    id: 0,
+    id: "",
     password: "",
     email: "",
 
@@ -41,16 +46,41 @@ $Page("account", {
   onLoad({ update }) {
     const accountInfo = get<AccountInfo>("account-info") || null;
 
-    if (accountInfo) this.setData(accountInfo);
+    if (accountInfo)
+      this.setData({
+        id: accountInfo.id.toString(),
+        email: accountInfo.email,
+        password: accountInfo.password,
+      });
     if (update) this.state.shouldNavigateBack = true;
   },
+
+  onShow() {
+    popNotice(PAGE_ID);
+  },
+
+  // eslint-disable-next-line @typescript-eslint/no-empty-function
+  onPageScroll() {},
+
+  onShareAppMessage: () => ({
+    title: PAGE_TITLE,
+    path: "/settings/about/about",
+    imageUrl: `${appCoverPrefix}Share.png`,
+  }),
+
+  onShareTimeline: () => ({ title: PAGE_TITLE }),
+
+  onAddToFavorites: () => ({
+    title: PAGE_TITLE,
+    imageUrl: `${appCoverPrefix}.jpg`,
+  }),
 
   /** 输入成绩 */
   input({ currentTarget, detail }: WechatMiniprogram.Input) {
     const { id } = currentTarget;
     const { value } = detail;
 
-    this.setData({ [id]: id === "id" ? Number(value) : value });
+    this.setData({ [id]: value });
   },
 
   togglePassword() {
@@ -71,11 +101,11 @@ $Page("account", {
 
     wx.showLoading({ title: "验证中..." });
 
-    validateAccount({ id, email, password })
+    validateAccount({ id: Number(id), email, password })
       .then((success) => {
         wx.hideLoading();
         if (success) {
-          set("account-info", { id, email, password }, MONTH);
+          set("account-info", { id: Number(id), email, password }, MONTH);
           if (this.state.shouldNavigateBack) this.$back();
         } else {
           modal("账号或密码错误", "账号密码错误，请重试。");

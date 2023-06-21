@@ -53,7 +53,6 @@
   catch:confirm="close"
   catch:close="close"
 >
-  招生计划
   <view wx:for="{{results}}" wx:key="major" class="plan-item">
     <view class="header">{{item.major}}: {{item.count}}人</view>
     <view class="info">

@@ -149,7 +149,7 @@ $Page(PAGE_ID, {
     target,
     detail,
   }: WechatMiniprogram.PickerChange<Record<never, never>, { key: string }>) {
-    this.setData({ [target.dataset.key]: detail.value });
+    this.setData({ [target.dataset.key]: Number(detail.value) });
   },
 
   showCourseInfo({

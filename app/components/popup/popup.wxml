@@ -1,6 +1,9 @@
 <view class="popup-wrapper{{show ? ' show' : ''}}">
   <view class="mask" catch:tap="closeDialog" />
-  <view class="popup" style="padding-bottom: {{paddingBottom}}px;">
+  <view
+    class="popup"
+    style="padding-left:{{paddingInline}}px;padding-right:{{paddingInline}}px;padding-bottom: {{paddingBottom}}px;"
+  >
     <view class="popup-head">
       <view class="popup-head-button">
         <!-- 关闭按钮 -->

@@ -42,7 +42,7 @@
                   wx:for="{{item}}"
                   wx:for-item="course"
                   class="course-table-course-item"
-                  data-id="{{course.cid}}"
+                  data-cid="{{course.cid}}"
                   catch:tap="showCourseInfo"
                 >
                   {{course.name}}
@@ -152,7 +152,11 @@
               >
             </view>
           </picker>
-          <button class="search-button" type="primary" catch:tap="serch">
+          <button
+            class="search-button"
+            type="primary"
+            catch:tap="searchCourses"
+          >
             搜索
           </button>
         </view>
@@ -175,11 +179,12 @@
 <popup
   config="{{courseInfoPopupConfig}}"
   show="{{courseInfo !== null}}"
+  padding-inline="15"
   catch:confirm="refreshInfoAmount"
   catch:close="closeInfoPopup"
 >
   <view class="course-info-header">当前课程</view>
-  <template is="course-detail" data="{{...item, state: 'remove'}}" />
+  <template is="course-detail" data="{{...courseInfo, state: 'remove'}}" />
   <view class="related-course-header">相关课程</view>
   <view class="course-detail-list">
     <block wx:for="{{relatedCourses}}" wx:key="cid" class="course-detail">
@@ -195,6 +200,7 @@
 <popup
   config="{{courseDetailPopupConfig}}"
   show="{{coursesDetail.length > 0}}"
+  padding-inline="15"
   catch:confirm="refreshDetailAmount"
   catch:close="closeDetailPopup"
 >
@@ -250,7 +256,7 @@
       </button>
       <button
         wx:elif="{{state === 'remove'}}"
-        type="primary"
+        type="warn"
         size="mini"
         data-cid="{{cid}}"
         catch:tap="unselectCourse"
