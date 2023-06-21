@@ -23,7 +23,7 @@
 .course-table-header-item {
   flex: 1;
   flex-basis: 0;
-  border-left: 1px solid var(--border-color);
+  border-left: 1px dashed var(--border-color);
 }
 
 .course-table-row {
@@ -32,16 +32,17 @@
 
 .course-row-header {
   flex: 0;
-  flex-basis: 16px;
+  flex-basis: 24px;
+  padding: 16px 0;
   writing-mode: vertical-lr;
-  border-bottom: 1px solid var(--border-color);
+  border-bottom: 1px dashed var(--border-color);
 }
 
 .course-table-item {
   flex: 1;
   flex-basis: 0;
-  border-left: 1px solid var(--border-color);
-  border-top: 1px solid var(--border-color);
+  border-left: 1px dashed var(--border-color);
+  border-top: 1px dashed var(--border-color);
 }
 
 .course-table-item:fist-child {
@@ -50,13 +51,10 @@
 
 .course-table-course-item {
   margin: 4px 2px;
-  border-top: 1px solid var(--border-color);
   border-radius: 4px;
   font-size: 13px;
-
-  &:first-child {
-    border-top: none;
-  }
+  border-radius: 4px;
+  border: 1px solid var(--border-color);
 }
 
 .filter-container {
@@ -114,10 +112,17 @@
 
   .search-button {
     padding: 8px 15px;
-    margin: 15px 15px 10px;
+    margin: 10px 15px 5px;
     width: calc(100% - 30px);
     font-size: 14px;
   }
+}
+
+.course-info-header,
+.related-course-header {
+  margin: 8px 0;
+  font-size: 17px;
+  font-weight: bold;
 }
 
 .course-header {
@@ -128,7 +133,6 @@
 
 .course-item {
   margin: 4px 10px;
-  border-radius: 4px;
   background-color: var(--bg-color-block);
   text-align: left;
   padding: 4px 15px;
@@ -149,7 +153,6 @@
 
 .course-detail {
   margin: 4px 0;
-  border-radius: 8px;
   text-align: left;
   padding: 4px 15px;
   border-bottom: 1px solid var(--border-color);
@@ -162,8 +165,14 @@
     font-size: 15px;
   }
 
+  .select-button {
+    margin: 4px 8px;
+    float: right;
+  }
+
   .info {
-    font-size: 13px;
+    font-size: 14px;
+    margin: 4px -4px;
   }
 
   .teacher,
@@ -173,13 +182,15 @@
   .place,
   .point {
     display: inline-block;
+    margin-left: 4px;
 
     .icon {
       display: inline-block;
-      width: 1em;
-      height: 1em;
-      margin-right: 0.25em;
+      width: 14px;
+      height: 14px;
+      margin-right: 2px;
       background-repeat: no-repeat;
+      vertical-align: middle;
     }
   }
 
@@ -221,13 +232,22 @@
 
   .details {
     color: var(--dark-grey);
-    font-size: 13px;
+    font-size: 12px;
+    margin: 4px -4px;
 
+    .week-type,
     .exam-time,
     .office {
+      margin: 0 4px;
       display: inline-block;
     }
   }
+}
+
+.empty-result {
+  font-size: 14px;
+  color: var(--dark-grey);
+  margin: 16px 0;
 }
 
 .error-wrapper {

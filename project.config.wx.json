@@ -130,6 +130,13 @@
           "scene": null
         },
         {
+          "name": "选课",
+          "pathName": "function/select/select",
+          "query": "",
+          "launchMode": "default",
+          "scene": null
+        },
+        {
           "name": "播放器",
           "pathName": "function/music/music",
           "query": "",

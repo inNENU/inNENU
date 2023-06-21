@@ -186,7 +186,7 @@
   <view class="course-info-header">当前课程</view>
   <template is="course-detail" data="{{...courseInfo, state: 'remove'}}" />
   <view class="related-course-header">相关课程</view>
-  <view class="course-detail-list">
+  <view wx:if="{{relatedCourses.lenth}}" class="course-detail-list">
     <block wx:for="{{relatedCourses}}" wx:key="cid" class="course-detail">
       <template
         is="course-detail"
@@ -194,6 +194,7 @@
       />
     </block>
   </view>
+  <view class="empty-result">暂无同名课程</view>
 </popup>
 
 <!-- 课程列表 -->
@@ -226,7 +227,42 @@
   data="{{ name, teacher, week, time, point, place, cid, amount, state, oid }}"
 >
   <view class="course-detail">
-    <view class="name">{{className}}</view>
+    <view class="name">
+      <button
+        wx:if="{{state === 'replace'}}"
+        class="select-button"
+        type="primary"
+        size="mini"
+        data-id="{{id}}"
+        data-oid="{{oid}}"
+        data-cid="{{cid}}"
+        catch:tap="replaceCourse"
+      >
+        替换为此课程
+      </button>
+      <button
+        wx:elif="{{state === 'remove'}}"
+        class="select-button"
+        type="warn"
+        size="mini"
+        data-cid="{{cid}}"
+        catch:tap="unselectCourse"
+      >
+        退选
+      </button>
+      <button
+        wx:else
+        class="select-button"
+        type="primary"
+        size="mini"
+        data-cid="{{cid}}"
+        catch:longpress="forceSelectCourse"
+        catch:tap="selectCourse"
+      >
+        选课
+      </button>
+      {{className}}
+    </view>
     <view class="info">
       <text class="teacher"><text class="icon" />{{teacher}}</text>
       <text class="capacity"
@@ -238,41 +274,9 @@
       <text class="point"><text class="icon" />{{point}}</text>
     </view>
     <view class="details">
-      <text class="weekType">周次: {{weekType}}</text>
+      <text class="week-type">周次: {{weekType}}</text>
       <text class="exam-time">考试时间: {{select.getExamTime(examTime)}}</text>
       <text class="office">开课单位: {{office}}</text>
-    </view>
-    <view class="actions">
-      <button
-        wx:if="{{state === 'replace'}}"
-        type="primary"
-        size="mini"
-        data-id="{{id}}"
-        data-oid="{{oid}}"
-        data-cid="{{cid}}"
-        catch:tap="replaceCourse"
-      >
-        退选同名课程并选课
-      </button>
-      <button
-        wx:elif="{{state === 'remove'}}"
-        type="warn"
-        size="mini"
-        data-cid="{{cid}}"
-        catch:tap="unselectCourse"
-      >
-        退选
-      </button>
-      <button
-        wx:else
-        type="primary"
-        size="mini"
-        data-cid="{{cid}}"
-        catch:longpress="forceSelectCourse"
-        catch:tap="selectCourse"
-      >
-        选课
-      </button>
     </view>
   </view>
 </template>
