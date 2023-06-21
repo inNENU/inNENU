@@ -166,19 +166,78 @@ export type ProcessResponse = ProcessSuccessResponse | ProcessFailedResponse;
 
 export const process = (
   type: "add" | "delete",
-  options: ProcessOptions
+  { cookies, server, id, jx0502id, jx0502zbid }: ProcessOptions
 ): Promise<ProcessResponse> =>
   new Promise((resolve, reject) => {
-    wx.request<ProcessResponse>({
-      method: type === "delete" ? "DELETE" : "PUT",
-      url: `${service}select/process`,
-      data: options,
+    const params = Object.entries({
+      jx0502id,
+      jx0502zbid,
+      jx0404id: id,
+    })
+      .map(([key, value]) => `${key}=${value}`)
+      .join("&");
+
+    wx.request<{ msgContent: string }>({
+      method: "POST",
+      url: `${server}xk/process${type === "delete" ? "Tx" : "Xk"}`,
+      header: {
+        "Content-Type": "application/x-www-form-urlencoded",
+        Cookie: cookies.join(", "),
+      },
+      data: params,
       success: ({ data, statusCode }) => {
         if (statusCode === 200) {
-          resolve(data);
-          if (data.status === "failed")
-            logger.error("处理选课失败", type, options, data.msg);
-        } else reject();
+          try {
+            const { msgContent: msg } = data;
+
+            if (msg === "系统更新了选课数据,请重新登录系统")
+              return resolve(<ProcessFailedResponse>{
+                status: "failed",
+                msg,
+                type: "relogin",
+              });
+
+            if (msg === "您的账号在其它地方登录")
+              return resolve(<ProcessFailedResponse>{
+                status: "failed",
+                msg,
+                type: "relogin",
+              });
+
+            if (type === "delete") {
+              if (msg.includes("退选成功"))
+                return resolve(<ProcessSuccessResponse>{
+                  status: "success",
+                  msg,
+                });
+            } else {
+              if (msg.endsWith("上课时间冲突"))
+                return resolve({
+                  status: "failed",
+                  msg,
+                  type: "conflict",
+                });
+
+              if (msg.includes("选课成功"))
+                return resolve(<ProcessSuccessResponse>{
+                  status: "success",
+                  msg,
+                });
+            }
+
+            return resolve(<ProcessFailedResponse>{
+              status: "failed",
+              msg,
+            });
+          } catch (err) {
+            console.error(err);
+          }
+        }
+
+        resolve(<ProcessFailedResponse>{
+          status: "failed",
+          msg: "参数有误",
+        });
       },
       fail: () => reject(),
     });
