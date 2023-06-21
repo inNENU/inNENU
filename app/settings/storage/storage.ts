@@ -1,6 +1,7 @@
 import { $Page } from "@mptool/enhance";
 import { ls, rm } from "@mptool/file";
 
+import { size } from "./size.js";
 import { type PageDataWithContent } from "../../../typings/index.js";
 import { type AppOption } from "../../app.js";
 import { confirmAction, modal, tip } from "../../utils/api.js";
@@ -22,7 +23,7 @@ $Page("storage", {
           tag: "list",
           header: "空间占用",
           items: [
-            { text: "小程序体积", desc: "489KB" },
+            { text: "小程序体积", desc: `${size}KB` },
             { text: "数据缓存", desc: "获取中..." },
             { text: "文件系统", desc: "获取中..." },
           ],
@@ -84,7 +85,9 @@ $Page("storage", {
         // 写入存储大小
         this.setData({
           // eslint-disable-next-line @typescript-eslint/naming-convention
-          "page.content[0].items[1].desc": `${currentSize}KB/10240KB`,
+          "page.content[0].items[1].desc": `${(currentSize / 1024).toFixed(
+            2
+          )}MB/10MB`,
         });
       },
     });
@@ -110,8 +113,8 @@ $Page("storage", {
         this.setData({
           // eslint-disable-next-line @typescript-eslint/naming-convention
           "page.content[0].items[2].desc": `${Math.ceil(
-            fileSize / 1024
-          )}KB/10240KB`,
+            fileSize / 1024 / 1024
+          )}KB/10MB`,
         });
       },
     });

@@ -4,7 +4,7 @@
   "version": "5.4.0",
   "mini-android": {
     "sdkVersion": "1.0.2",
-    "toolkitVersion": "0.6.2",
+    "toolkitVersion": "0.7.3",
     "useExtendedSdk": {
       "media": true,
       "bluetooth": false,
@@ -38,8 +38,7 @@
       "WeAppBluetooth": false,
       "WeAppMedia": true,
       "WeAppLBS": true,
-      "WeAppOthers": false,
-      "WeAppIdaas": false
+      "WeAppOthers": false
     },
     "enableVConsole": "undefined",
     "icons": {
