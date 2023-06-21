@@ -23,6 +23,7 @@
         "admission/admission",
         "cal/cal",
         "calendar/calendar",
+        "enroll/grade",
         "enroll/plan",
         "location/location",
         "map/map",

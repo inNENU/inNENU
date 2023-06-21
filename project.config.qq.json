@@ -153,7 +153,14 @@
         },
         {
           "id": 8,
-          "name": "校历",
+          "name": "历史分数",
+          "pathName": "function/enroll/grade",
+          "query": "",
+          "scene": null
+        },
+        {
+          "id": 8,
+          "name": "招生计划",
           "pathName": "function/enroll/plan",
           "query": "",
           "scene": null

@@ -2,6 +2,64 @@ import { logger } from "@mptool/enhance";
 
 import { service } from "../../utils/config.js";
 
+export interface HistoryGradeOptions {
+  year: string;
+  province: string;
+  planType: string;
+  majorType: string;
+  reformType: string;
+}
+
+export interface HistoryGradeInfo {
+  /** 专业名称 */
+  major: string;
+  /** 专业属性 */
+  majorType: string;
+  /** 重点线 */
+  line: string;
+  /** 最低分 */
+  min: string;
+  /** 最高分 */
+  max: string;
+  /** 平均分 */
+  average: string;
+  /** 备注 */
+  remark: string;
+}
+
+export interface EnrollGradeSuccessResponse {
+  status: "success";
+  data: HistoryGradeInfo[];
+}
+
+export interface EnrollGradeFailedResponse {
+  status: "failed";
+  msg: string;
+}
+
+export type EnrollGradeResponse =
+  | EnrollGradeSuccessResponse
+  | EnrollGradeFailedResponse;
+
+export const getHistoryGrade = (
+  options: EnrollPlanOptions
+): Promise<EnrollGradeResponse> =>
+  new Promise((resolve, reject) => {
+    wx.request<EnrollGradeResponse>({
+      method: "POST",
+      url: `${service}enroll/grade`,
+      data: options,
+      success: ({ data, statusCode }) => {
+        if (statusCode === 200) {
+          resolve(data);
+          if (data.status === "failed")
+            logger.error("历史分数获取失败", options, data.msg);
+        } else reject();
+      },
+      fail: () => reject(),
+    });
+  });
+
 export interface EnrollPlanOptions {
   year: string;
   province: string;
@@ -10,7 +68,7 @@ export interface EnrollPlanOptions {
   reformType: string;
 }
 
-export interface EnrollPlainInfo {
+export interface EnrollPlanInfo {
   /** 专业名称 */
   major: string;
   /** 专业属性 */
@@ -27,23 +85,25 @@ export interface EnrollPlainInfo {
   remark: string;
 }
 
-export interface EnrollSuccessResponse {
+export interface EnrollPlanSuccessResponse {
   status: "success";
-  data: EnrollPlainInfo[];
+  data: EnrollPlanInfo[];
 }
 
-export interface EnrollFailedResponse {
+export interface EnrollPlanFailedResponse {
   status: "failed";
   msg: string;
 }
 
-export type EnrollResponse = EnrollSuccessResponse | EnrollFailedResponse;
+export type EnrollPlanResponse =
+  | EnrollPlanSuccessResponse
+  | EnrollPlanFailedResponse;
 
 export const getEnrollPlan = (
   options: EnrollPlanOptions
-): Promise<EnrollResponse> =>
+): Promise<EnrollPlanResponse> =>
   new Promise((resolve, reject) => {
-    wx.request<EnrollResponse>({
+    wx.request<EnrollPlanResponse>({
       method: "POST",
       url: `${service}enroll/plan`,
       data: options,

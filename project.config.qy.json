@@ -124,6 +124,13 @@
           "scene": null
         },
         {
+          "name": "历史分数",
+          "pathName": "function/enroll/grade",
+          "query": "",
+          "launchMode": "default",
+          "scene": null
+        },
+        {
           "name": "招生计划",
           "pathName": "function/enroll/plan",
           "query": "",

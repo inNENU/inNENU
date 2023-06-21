@@ -1,6 +1,6 @@
 import { $Page } from "@mptool/enhance";
 
-import { type EnrollPlanInfo, getEnrollPlan } from "./api.js";
+import { type HistoryGradeInfo, getHistoryGrade } from "./api.js";
 import { type EnrollPlanConfig } from "../../../typings/index.js";
 import { type AppOption } from "../../app.js";
 import { modal } from "../../utils/api.js";
@@ -10,8 +10,10 @@ import { getColor, popNotice } from "../../utils/page.js";
 
 const { globalData } = getApp<AppOption>();
 
-const PAGE_ID = "enroll-plan";
-const PAGE_TITLE = "招生计划";
+type SortKey = "major" | "min" | "max" | "average";
+
+const PAGE_ID = "enroll-grade";
+const PAGE_TITLE = "往年分数";
 
 $Page(PAGE_ID, {
   data: {
@@ -29,17 +31,20 @@ $Page(PAGE_ID, {
     planTypeIndex: -1,
     reformTypeIndex: -1,
 
+    sort: <SortKey>"major",
+    ascending: false,
+
     popupConfig: {
-      title: "招生计划详情",
+      title: "历史分数详情",
       cancel: false,
     },
-    results: <EnrollPlanInfo[]>[],
+    results: <HistoryGradeInfo[]>[],
   },
 
-  state: { enrollPlan: <EnrollPlanConfig>[] },
+  state: { historyGrade: <EnrollPlanConfig>[] },
 
   onNavigate() {
-    ensureJSON("function/enroll/plan");
+    ensureJSON("function/enroll/grade");
   },
 
   onLoad() {
@@ -49,11 +54,11 @@ $Page(PAGE_ID, {
       firstPage: getCurrentPages().length === 1,
     });
 
-    getJSON<EnrollPlanConfig>("function/enroll/plan")
-      .then((enrollPlan) => {
-        this.state.enrollPlan = enrollPlan;
+    getJSON<EnrollPlanConfig>("function/enroll/grade")
+      .then((historyGrade) => {
+        this.state.historyGrade = historyGrade;
         this.setData({
-          years: enrollPlan.map(({ year }) => year),
+          years: historyGrade.map(({ year }) => year),
         });
       })
       .catch(() => {
@@ -85,7 +90,7 @@ $Page(PAGE_ID, {
   }),
 
   yearChange({ detail }: WechatMiniprogram.PickerChange) {
-    const { enrollPlan } = this.state;
+    const { historyGrade } = this.state;
     const yearIndex = Number(detail.value);
 
     this.setData({
@@ -95,7 +100,7 @@ $Page(PAGE_ID, {
       majorTypeIndex: -1,
       reformTypeIndex: -1,
 
-      provinces: enrollPlan[yearIndex].items.map(({ province }) => province),
+      provinces: historyGrade[yearIndex].items.map(({ province }) => province),
 
       // reset others
       planTypes: [],
@@ -106,7 +111,7 @@ $Page(PAGE_ID, {
 
   provinceChange({ detail }: WechatMiniprogram.PickerChange) {
     const { yearIndex } = this.data;
-    const { enrollPlan } = this.state;
+    const { historyGrade } = this.state;
     const provinceIndex = Number(detail.value);
 
     this.setData({
@@ -115,7 +120,7 @@ $Page(PAGE_ID, {
       majorTypeIndex: -1,
       reformTypeIndex: -1,
 
-      planTypes: enrollPlan[yearIndex].items[provinceIndex].items.map(
+      planTypes: historyGrade[yearIndex].items[provinceIndex].items.map(
         ({ plan }) => plan
       ),
 
@@ -129,7 +134,7 @@ $Page(PAGE_ID, {
 
   planTypeChange({ detail }: WechatMiniprogram.PickerChange) {
     const { yearIndex, provinceIndex } = this.data;
-    const { enrollPlan } = this.state;
+    const { historyGrade } = this.state;
     const planTypeIndex = Number(detail.value);
 
     this.setData({
@@ -137,7 +142,7 @@ $Page(PAGE_ID, {
       majorTypeIndex: -1,
       reformTypeIndex: -1,
 
-      majorTypes: enrollPlan[yearIndex].items[provinceIndex].items[
+      majorTypes: historyGrade[yearIndex].items[provinceIndex].items[
         planTypeIndex
       ].items.map(({ category }) => category),
 
@@ -148,14 +153,14 @@ $Page(PAGE_ID, {
 
   majorTypeChange({ detail }: WechatMiniprogram.PickerChange) {
     const { yearIndex, provinceIndex, planTypeIndex } = this.data;
-    const { enrollPlan } = this.state;
+    const { historyGrade } = this.state;
     const majorTypeIndex = Number(detail.value);
 
     this.setData({
       majorTypeIndex,
       reformTypeIndex: -1,
 
-      reformTypes: enrollPlan[yearIndex].items[provinceIndex].items[
+      reformTypes: historyGrade[yearIndex].items[provinceIndex].items[
         planTypeIndex
       ].items[majorTypeIndex].items.map(({ type }) => type),
     });
@@ -179,6 +184,8 @@ $Page(PAGE_ID, {
       planTypes,
       majorTypes,
       reformTypes,
+      ascending,
+      sort,
     } = this.data;
 
     if (
@@ -195,7 +202,7 @@ $Page(PAGE_ID, {
 
     wx.showLoading({ title: "检索中" });
 
-    return getEnrollPlan({
+    return getHistoryGrade({
       year: years[yearIndex],
       province: provinces[provinceIndex],
       majorType: majorTypes[planTypeIndex],
@@ -206,13 +213,52 @@ $Page(PAGE_ID, {
         wx.hideLoading();
         if (data.status === "success")
           this.setData({
-            results: data.data,
+            results: data.data.sort((itemA, itemB) =>
+              sort === "major"
+                ? ascending
+                  ? itemA[sort].localeCompare(itemB[sort])
+                  : itemB[sort].localeCompare(itemA[sort])
+                : ascending
+                ? Number(itemB[sort]) - Number(itemA[sort])
+                : Number(itemA[sort]) - Number(itemB[sort])
+            ),
           });
         else modal("获取失败", data.msg);
       })
       .catch(() => {
         modal("获取失败", "网络请求失败");
       });
+  },
+
+  sortResults({
+    currentTarget,
+  }: WechatMiniprogram.TouchEvent<
+    Record<never, never>,
+    Record<never, never>,
+    { key: SortKey }
+  >) {
+    const { key } = currentTarget.dataset;
+    const { ascending, sort, results } = this.data;
+
+    if (key === sort) {
+      this.setData({
+        ascending: !ascending,
+        results: results.reverse(),
+      });
+    } else {
+      this.setData({
+        sort: key,
+        results: results.sort((itemA, itemB) =>
+          key === "major"
+            ? ascending
+              ? itemA[key].localeCompare(itemB[key])
+              : itemB[key].localeCompare(itemA[key])
+            : ascending
+            ? Number(itemB[key]) - Number(itemA[key])
+            : Number(itemA[key]) - Number(itemB[key])
+        ),
+      });
+    }
   },
 
   close() {
