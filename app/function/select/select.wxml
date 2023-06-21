@@ -268,7 +268,7 @@
         type="primary"
         size="mini"
         data-cid="{{cid}}"
-        catch:longpress="forceSelectCouse"
+        catch:longpress="forceSelectCourse"
         catch:tap="selectCourse"
       >
         选课

@@ -108,12 +108,22 @@ $Page(PAGE_ID, {
                 .exec();
             });
 
-            return this.loadInfo().then(() =>
-              this.search({
-                grade: this.state.currentGrade,
-                major: this.state.currentMajor,
+            wx.showLoading({ title: "获取信息" });
+
+            return this.loadInfo()
+              .then(() =>
+                this.search({
+                  grade: this.state.currentGrade,
+                  major: this.state.currentMajor,
+                })
+              )
+              .then(() => {
+                wx.hideLoading();
               })
-            );
+              .catch(() => {
+                wx.hideLoading();
+                tip("获取信息失败");
+              });
           }
 
           return modal("登录失败", data.msg, (): void => {
@@ -159,6 +169,8 @@ $Page(PAGE_ID, {
     Record<never, never>,
     { cid: string }
   >) {
+    wx.showLoading({ title: "获取人数" });
+
     const { cid } = currentTarget.dataset;
     const { courses } = this.state;
 
@@ -168,6 +180,7 @@ $Page(PAGE_ID, {
 
     if (course) {
       this.getAmount(course.id).then((data) => {
+        wx.hideLoading();
         if (data.status === "success") {
           const courseInfo = {
             ...course,
@@ -400,7 +413,8 @@ $Page(PAGE_ID, {
               if (res.status === "success") {
                 tip("退课成功", 1000, "success");
                 this.setData({
-                  coursesDetail: [],
+                  courseInfo: null,
+                  relatedCourses: [],
                 });
                 this.loadInfo();
 
@@ -430,31 +444,41 @@ $Page(PAGE_ID, {
     const times = 100;
     const { cid } = currentTarget.dataset;
 
-    modal("连续选课", "您确认连续选课?", () => {
-      wx.showLoading({ title: "选课中" });
-      let completeTime = 0;
+    modal(
+      "连续选课",
+      "您确认连续选课?",
+      () => {
+        wx.showLoading({ title: "选课中" });
+        let completeTime = 0;
 
-      const requestForceSelect = (): void => {
-        modal(
-          "操作完成",
-          `您已连续选课${completeTime * times}次，是否继续?`,
-          () => {
-            this.doSelectCourse(cid, times).then(() => {
-              wx.hideLoading();
-              completeTime += 1;
-              requestForceSelect();
-            });
-          }
-        );
-      };
+        const requestForceSelect = (): void => {
+          modal(
+            "操作完成",
+            `您已连续选课${completeTime * times}次，是否继续?`,
+            () => {
+              this.doSelectCourse(cid, times).then(() => {
+                wx.hideLoading();
+                completeTime += 1;
+                requestForceSelect();
+              });
+            },
+            () => {
+              // cancel
+            }
+          );
+        };
 
-      this.doSelectCourse(cid, times).then(() => {
-        completeTime += 1;
-        wx.hideLoading();
+        this.doSelectCourse(cid, times).then(() => {
+          completeTime += 1;
+          wx.hideLoading();
 
-        requestForceSelect();
-      });
-    });
+          requestForceSelect();
+        });
+      },
+      () => {
+        // cancel
+      }
+    );
   },
 
   replaceCourse({
@@ -498,13 +522,18 @@ $Page(PAGE_ID, {
                             wx.showLoading({ title: "选课中" });
 
                             return this.process("add", cid).then((res) => {
+                              wx.hideLoading();
                               if (res.status === "success") {
                                 modal("替换课程成功", "您已成功替换课程");
 
                                 return true;
                               }
 
+                              wx.showLoading({ title: "撤销中" });
+
                               return this.process("add", oid).then((res) => {
+                                wx.hideLoading();
+
                                 if (res.status === "success") {
                                   modal(
                                     "替换课程失败",
