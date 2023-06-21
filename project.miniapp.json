@@ -23,7 +23,7 @@
       "xhdpi": "assets/splash-xhdpi.jpg",
       "xxhdpi": "assets/splash-xxhdpi.jpg"
     },
-    "enableVConsole": "open",
+    "enableVConsole": "undefined",
     "privacy": {
       "enable": true,
       "template": "miniapp-privacy.json"
@@ -41,7 +41,7 @@
       "WeAppOthers": false,
       "WeAppIdaas": false
     },
-    "enableVConsole": "open",
+    "enableVConsole": "undefined",
     "icons": {
       "mainIcon120": "",
       "mainIcon180": "",
