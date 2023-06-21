@@ -171,7 +171,7 @@
   </view>
   <view wx:else class="error-wrapper">
     <icon type="waiting" size="120" color="#10AEFF" />
-    <view class="text">正在登陆选课系统</view>
+    <view class="text">正在登录选课系统</view>
   </view>
 </view>
 
