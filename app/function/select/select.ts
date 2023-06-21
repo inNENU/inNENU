@@ -17,6 +17,7 @@ import { confirmReplace } from "./utils.js";
 import { type AppOption } from "../../app.js";
 import { modal, tip } from "../../utils/api.js";
 import { type AccountInfo } from "../../utils/app.js";
+import { appCoverPrefix } from "../../utils/config.js";
 import { getColor, popNotice } from "../../utils/page.js";
 import { promiseQueue } from "../utils/promiseQueue.js";
 
@@ -26,6 +27,7 @@ interface FullCourseInfo extends CourseInfo {
   amount: number;
 }
 
+const PAGE_TITLE = "选课系统";
 const PAGE_ID = "select";
 
 $Page(PAGE_ID, {
@@ -148,8 +150,17 @@ $Page(PAGE_ID, {
     popNotice(PAGE_ID);
   },
 
-  // eslint-disable-next-line @typescript-eslint/no-empty-function
-  onPageScroll() {},
+  onShareAppMessage: () => ({
+    title: PAGE_TITLE,
+    path: "/function/enroll/info",
+  }),
+
+  onShareTimeline: () => ({ title: PAGE_TITLE }),
+
+  onAddToFavorites: () => ({
+    title: PAGE_TITLE,
+    imageUrl: `${appCoverPrefix}.jpg`,
+  }),
 
   inputCourseName({ detail }: WechatMiniprogram.Input) {
     this.setData({ courseName: detail.value });
