@@ -44,6 +44,8 @@ $Page(PAGE_ID, {
     grades: <string[]>[],
     majors: <MajorInfo[]>[],
 
+    selectedCourseIds: <string[]>[],
+
     courseName: "",
     classIndex: 0,
     courseTypeIndex: 0,
@@ -636,6 +638,9 @@ $Page(PAGE_ID, {
           gradeIndex: grades.findIndex((item) => item === currentGrade) + 1,
           majors,
           majorIndex: majors.findIndex((item) => item.id === currentMajor) + 1,
+          selectedCourseIds: courseTable
+            .map((row) => row.map((cell) => cell.map(({ cid }) => cid)))
+            .flat(3),
         });
       }
     });

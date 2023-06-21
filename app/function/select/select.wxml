@@ -184,13 +184,13 @@
   catch:close="closeInfoPopup"
 >
   <view class="course-info-header">当前课程</view>
-  <template is="course-detail" data="{{...courseInfo, state: 'remove'}}" />
+  <template is="course-detail" data="{{selectedCourseIds, ...courseInfo}}" />
   <view class="related-course-header">相关课程</view>
   <view wx:if="{{relatedCourses.lenth}}" class="course-detail-list">
     <block wx:for="{{relatedCourses}}" wx:key="cid" class="course-detail">
       <template
         is="course-detail"
-        data="{{...item, state: 'replace', oid: courseInfo.cid}}"
+        data="{{selectedCourseIds, ...item, state: 'replace', oid: courseInfo.cid}}"
       />
     </block>
   </view>
@@ -207,7 +207,7 @@
 >
   <view class="course-detail-list">
     <block wx:for="{{coursesDetail}}" wx:key="cid" class="course-detail">
-      <template is="course-detail" data="{{...item}}" />
+      <template is="course-detail" data="{{selectedCourseIds, ...item}}" />
     </block>
   </view>
 </popup>
@@ -224,7 +224,7 @@
 
 <template
   name="course-detail"
-  data="{{ name, teacher, week, time, point, place, cid, amount, state, oid }}"
+  data="{{ selectedCourseIds, name, teacher, week, time, point, place, cid, amount, state, oid }}"
 >
   <view class="course-detail">
     <view class="name">
@@ -241,7 +241,7 @@
         替换为此课程
       </button>
       <button
-        wx:elif="{{state === 'remove'}}"
+        wx:elif="{{select.isCourseSelected(selectedCourseIds, cid)}}"
         class="select-button"
         type="warn"
         size="mini"
