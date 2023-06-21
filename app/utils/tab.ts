@@ -1,5 +1,3 @@
-import { get } from "@mptool/file";
-
 import { requestJSON } from "./api.js";
 import { type PageData } from "../../typings/index.js";
 import { type AppOption } from "../app.js";
@@ -14,7 +12,7 @@ const { globalData } = getApp<AppOption>();
  * @param globalData 全局数据
  */
 export const refreshPage = (name: string): Promise<PageData> => {
-  const test = get<boolean | undefined>("test");
+  const test = wx.getStorageSync<boolean | undefined>("test");
 
   return requestJSON<PageData>(
     `r/config/${globalData.appID}/${test ? "test" : globalData.version}/${name}`
