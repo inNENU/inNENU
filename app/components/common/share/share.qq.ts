@@ -3,7 +3,7 @@ import { $Component, type PropType, logger } from "@mptool/enhance";
 import { type PageData } from "../../../../typings/index.js";
 import { type AppOption } from "../../../app.js";
 import { savePhoto, tip } from "../../../utils/api.js";
-import { appName, server } from "../../../utils/config.js";
+import { appName, service } from "../../../utils/config.js";
 import { path2id } from "../../../utils/id.js";
 
 const {
@@ -39,9 +39,11 @@ $Component({
       const { config } = this.data;
 
       savePhoto(
-        `${server}qrcode/${appID}/${
-          typeof config.qrcode === "string" ? config.qrcode : config.id!
-        }.png`
+        typeof config.qrcode === "string"
+          ? config.qrcode
+          : `${service}qrcode?appID=${appID}&page=${encodeURI(
+              `pages/info/info?path=${path2id(this.data.config.id)}`
+            )}`
       )
         .then(() => tip("二维码已存至相册"))
         .catch(() => tip("二维码保存失败"));
