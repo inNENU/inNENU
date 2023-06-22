@@ -159,7 +159,7 @@ export interface ProcessSuccessResponse {
 export interface ProcessFailedResponse {
   status: "failed";
   msg: string;
-  type?: "conflict" | "relogin";
+  type?: "conflict" | "relogin" | "forbid";
 }
 
 export type ProcessResponse = ProcessSuccessResponse | ProcessFailedResponse;
@@ -195,10 +195,10 @@ export interface SearchOptions extends SelectBaseOptions {
   courseName?: string;
   /** 开课单位 */
   office?: string;
-  /** 周几 */
+  /** 周次 */
   week?: string;
   /** 节次 */
-  index?: number;
+  index?: string;
   jx0502id: string;
 }
 

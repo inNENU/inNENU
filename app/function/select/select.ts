@@ -288,14 +288,14 @@ $Page(PAGE_ID, {
     const options: Omit<SearchOptions, "cookies" | "server" | "jx0502id"> = {};
 
     if (courseName) options.courseName = courseName;
-    if (classIndex) options.index = classIndex - 1;
+    if (weekIndex) options.week = weekIndex.toString();
     if (courseTypeIndex) options.courseType = courseTypes[courseTypeIndex - 1];
     if (officeIndex) options.office = courseOffices[officeIndex - 1];
     if (gradeIndex) options.grade = grades[gradeIndex - 1];
     if (majorIndex) options.major = majors[majorIndex - 1].id;
-    if (weekIndex)
-      options.week = ["0102", "0304", "0506", "0708", "0910", "1112"][
-        weekIndex - 1
+    if (classIndex)
+      options.index = ["0102", "0304", "0506", "0708", "0910", "1112"][
+        classIndex - 1
       ];
 
     wx.showLoading({ title: "搜索中" });
@@ -473,7 +473,7 @@ $Page(PAGE_ID, {
               | { interrupted: false }
               | {
                   interrupted: true;
-                  msg: "success" | "conflict" | "relogin";
+                  msg: "success" | "conflict" | "relogin" | "forbid";
                 }
           ): void => {
             wx.hideLoading();
@@ -489,6 +489,10 @@ $Page(PAGE_ID, {
 
                 case "conflict":
                   modal("选课失败", "您有课程与本课程冲突");
+                  break;
+
+                case "forbid":
+                  modal("选课失败", "您不允许选择此课程。");
                   break;
 
                 case "relogin":
@@ -713,17 +717,18 @@ $Page(PAGE_ID, {
 
   doSelectCourse(cid: string, times = 100) {
     // eslint-disable-next-line prefer-const
-    let stop: (msg: "conflict" | "relogin" | "success") => void;
+    let stop: (msg: "conflict" | "relogin" | "forbid" | "success") => void;
 
     const queue = Array<() => Promise<void>>(times).fill(() =>
       this.process("add", cid).then((res) => {
         if (res.status === "success") stop("success");
-        else if (res.type === "conflict" || res.type === "relogin")
-          stop(res.type);
+        else if (res.type) stop(res.type);
       })
     );
 
-    const selectQueue = promiseQueue<"conflict" | "relogin" | "success">(queue);
+    const selectQueue = promiseQueue<
+      "conflict" | "relogin" | "forbid" | "success"
+    >(queue);
 
     stop = selectQueue.stop;
 
