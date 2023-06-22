@@ -86,7 +86,7 @@
       平均分 {{sort === 'average'? ascending? '↓': '↑': ''}}
     </button>
   </view>
-  <view wx:for="{{results}}" wx:key="major" class="plan-item">
+  <view wx:for="{{results}}" wx:key="major" class="grade-item">
     <view class="header">{{item.major}}</view>
     <view class="info">
       <view><text class="label">专业属性:</text>{{item.majorType}}</view>

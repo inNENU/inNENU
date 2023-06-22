@@ -17,13 +17,13 @@ picker {
   }
 }
 
-.plan-item {
+.grade-item {
   margin: 8px 0;
   border-bottom: 1px solid var(--border-color);
   text-align: left;
 
   &:last-child {
-    border-bottom: 1px solid var(--border-color);
+    border-bottom: none;
   }
 
   .header {
