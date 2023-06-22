@@ -122,8 +122,6 @@ $Page(PAGE_ID, {
       // reset others
       majorTypes: [],
       reformTypes: [],
-
-      results: [],
     });
   },
 
