@@ -13,27 +13,27 @@ export interface SelectBaseOptions {
   server: string;
 }
 
-export interface SelectLoginSuccessResponse {
+export interface SelectBaseSuccessResponse {
   status: "success";
-  cookie: string;
-  server: string;
+}
+
+export interface SelectBaseFailedResponse {
+  status: "failed";
+  /** 错误信息 */
+  msg: string;
 }
 
 export interface SelectLoginOptions {
+  /** 学号 */
   id: number;
+  /** 密码 */
   password: string;
 }
 
-export interface SelectLoginSuccessResponse {
-  status: "success";
-  cookies: string[];
-  server: string;
-}
+export type SelectLoginSuccessResponse = SelectBaseOptions &
+  SelectBaseSuccessResponse;
 
-export interface SelectLoginFailedResponse {
-  status: "failed";
-  msg: string;
-}
+export type SelectLoginFailedResponse = SelectBaseFailedResponse;
 
 type SelectLoginResponse =
   | SelectLoginSuccessResponse
@@ -59,8 +59,10 @@ export const login = (
   });
 
 export interface CourseData {
-  cid: string;
+  /** 课程名称 */
   name: string;
+  /** 课程 ID */
+  cid: string;
 }
 
 export interface CourseInfo {
@@ -102,24 +104,30 @@ export interface MajorInfo {
   id: string;
 }
 
-export interface SelectInfoSuccessResponse {
-  status: "success";
+export interface SelectInfoSuccessResponse extends SelectBaseSuccessResponse {
   jx0502id: string;
   jx0502zbid: string;
+
+  /** 课程信息 */
   courses: CourseInfo[];
-  courseTable: CourseData[][][];
+  /** 课程类别 */
   courseTypes: string[];
+  /** 开课单位 */
   courseOffices: string[];
-  currentMajor: string;
-  currentGrade: string;
+  /** 年级 */
   grades: string[];
+  /** 专业 */
   majors: MajorInfo[];
+
+  /** 当前专业 */
+  currentMajor: string;
+  /** 当前年级 */
+  currentGrade: string;
+  /** 课程表 */
+  courseTable: CourseData[][][];
 }
 
-export interface SelectInfoFailedResponse {
-  status: "failed";
-  msg: string;
-}
+export type SelectInfoFailedResponse = SelectBaseFailedResponse;
 
 export type SelectInfoResponse =
   | SelectInfoSuccessResponse
@@ -151,14 +159,11 @@ export interface ProcessOptions extends SelectBaseOptions {
   jx0502zbid: string;
 }
 
-export interface ProcessSuccessResponse {
-  status: "success";
+export interface ProcessSuccessResponse extends SelectBaseSuccessResponse {
   msg: string;
 }
 
-export interface ProcessFailedResponse {
-  status: "failed";
-  msg: string;
+export interface ProcessFailedResponse extends SelectBaseFailedResponse {
   type?: "conflict" | "relogin" | "forbid";
 }
 
@@ -213,21 +218,22 @@ export interface CourseBasicInfo {
   type: string;
 }
 
-export interface SearchSuccessResponse {
-  status: "success";
+export interface SelectSearchSuccessResponse extends SelectBaseSuccessResponse {
+  /** 课程信息 */
   courses: CourseBasicInfo[];
 }
 
-export interface SearchFailedResponse {
-  status: "failed";
-  msg: string;
+export interface SelectSearchFailedResponse extends SelectBaseFailedResponse {
+  type?: "relogin";
 }
 
-export type SearchResponse = SearchSuccessResponse | SearchFailedResponse;
+export type SelectSearchResponse =
+  | SelectSearchSuccessResponse
+  | SelectSearchFailedResponse;
 
-export const search = (options: SearchOptions): Promise<SearchResponse> =>
+export const search = (options: SearchOptions): Promise<SelectSearchResponse> =>
   new Promise((resolve, reject) => {
-    wx.request<SearchResponse>({
+    wx.request<SelectSearchResponse>({
       method: "POST",
       url: `${service}select/search`,
       data: options,
@@ -255,14 +261,13 @@ export interface StudentAmountData {
   amount: number;
 }
 
-export interface StudentAmountSuccessResponse {
-  status: "success";
+export interface StudentAmountSuccessResponse
+  extends SelectBaseSuccessResponse {
   data: StudentAmountData[];
 }
 
-export interface StudentAmountFailedResponse {
-  status: "failed";
-  msg: string;
+export interface StudentAmountFailedResponse extends SelectBaseFailedResponse {
+  type?: "relogin";
 }
 
 export type StudentAmountResponse =

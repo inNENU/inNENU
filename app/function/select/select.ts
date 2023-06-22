@@ -27,6 +27,11 @@ interface FullCourseInfo extends CourseInfo {
   amount: number;
 }
 
+interface ForceSelectMessage {
+  type: "conflict" | "relogin" | "forbid" | "success";
+  msg: string;
+}
+
 const PAGE_TITLE = "选课系统";
 const PAGE_ID = "select";
 
@@ -223,6 +228,7 @@ $Page(PAGE_ID, {
           });
         } else {
           modal("获取课程人数失败", data.msg);
+          if (data.type === "relogin") this.$redirect(PAGE_ID);
         }
       });
     } else {
@@ -400,7 +406,7 @@ $Page(PAGE_ID, {
               modal("选课失败", res.msg);
 
               // 重新进入本页面
-              if (res.type === "relogin") this.$redirect("select");
+              if (res.type === "relogin") this.$redirect(PAGE_ID);
 
               return false;
             })
@@ -440,7 +446,7 @@ $Page(PAGE_ID, {
               modal("退课失败", res.msg);
 
               // 重新进入本页面
-              if (res.type === "relogin") this.$redirect("select");
+              if (res.type === "relogin") this.$redirect(PAGE_ID);
 
               return false;
             })
@@ -473,7 +479,7 @@ $Page(PAGE_ID, {
               | { interrupted: false }
               | {
                   interrupted: true;
-                  msg: "success" | "conflict" | "relogin" | "forbid";
+                  msg: ForceSelectMessage;
                 }
           ): void => {
             wx.hideLoading();
@@ -481,24 +487,10 @@ $Page(PAGE_ID, {
             this.state.isForceSelecting = false;
 
             if (result.interrupted) {
-              switch (result.msg) {
-                case "success":
-                  modal("选课成功", "您已成功选课");
-                  this.loadInfo();
-                  break;
+              const { msg, type } = result.msg;
 
-                case "conflict":
-                  modal("选课失败", "您有课程与本课程冲突");
-                  break;
-
-                case "forbid":
-                  modal("选课失败", "您不允许选择此课程。");
-                  break;
-
-                case "relogin":
-                  modal("选课失败", "请重新登录");
-                  this.$redirect("select");
-              }
+              modal("选课失败", msg);
+              if (type === "relogin") this.$redirect(PAGE_ID);
             } else requestForceSelect();
           };
 
@@ -701,7 +693,10 @@ $Page(PAGE_ID, {
       ...options,
     }).then((res) => {
       if (res.status === "success") this.setData({ courses: res.courses });
-      else modal("查询失败", res.msg);
+      else {
+        modal("查询失败", res.msg);
+        if (res.type === "relogin") this.$redirect(PAGE_ID);
+      }
     });
   },
 
@@ -717,18 +712,24 @@ $Page(PAGE_ID, {
 
   doSelectCourse(cid: string, times = 100) {
     // eslint-disable-next-line prefer-const
-    let stop: (msg: "conflict" | "relogin" | "forbid" | "success") => void;
+    let stop: (msg: ForceSelectMessage) => void;
 
     const queue = Array<() => Promise<void>>(times).fill(() =>
       this.process("add", cid).then((res) => {
-        if (res.status === "success") stop("success");
-        else if (res.type) stop(res.type);
+        if (res.status === "success")
+          stop({
+            type: "success",
+            msg: "选课成功",
+          });
+        else if (res.type)
+          stop({
+            type: res.type,
+            msg: res.msg,
+          });
       })
     );
 
-    const selectQueue = promiseQueue<
-      "conflict" | "relogin" | "forbid" | "success"
-    >(queue);
+    const selectQueue = promiseQueue<ForceSelectMessage>(queue);
 
     stop = selectQueue.stop;
 
