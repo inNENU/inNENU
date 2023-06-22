@@ -82,6 +82,7 @@ $Page(PAGE_ID, {
     jx0502id: "",
     jx0502zbid: "",
     server: "",
+    isForceSelecting: false,
   },
 
   onLoad() {
@@ -115,11 +116,13 @@ $Page(PAGE_ID, {
             wx.showLoading({ title: "获取信息" });
 
             return this.loadInfo()
-              .then(() =>
-                this.search({
-                  grade: this.state.currentGrade,
-                  major: this.state.currentMajor,
-                })
+              .then((isSuccess) =>
+                isSuccess
+                  ? this.search({
+                      grade: this.state.currentGrade,
+                      major: this.state.currentMajor,
+                    })
+                  : void 0
               )
               .then(() => {
                 wx.hideLoading();
@@ -457,41 +460,64 @@ $Page(PAGE_ID, {
     const times = 100;
     const { cid } = currentTarget.dataset;
 
-    modal(
-      "连续选课",
-      "您确认连续选课?",
-      () => {
-        wx.showLoading({ title: "选课中" });
-        let completeTime = 0;
+    if (!this.state.isForceSelecting)
+      modal(
+        "连续选课",
+        "您确认连续选课?",
+        () => {
+          wx.showLoading({ title: "选课中" });
+          let completeTime = 0;
 
-        const requestForceSelect = (): void => {
-          modal(
-            "操作完成",
-            `您已连续选课${completeTime * times}次，是否继续?`,
-            () => {
-              this.doSelectCourse(cid, times).then(() => {
-                wx.hideLoading();
-                completeTime += 1;
-                requestForceSelect();
-              });
-            },
-            () => {
-              // cancel
-            }
-          );
-        };
+          const handler = (
+            result:
+              | { interrupted: false }
+              | {
+                  interrupted: true;
+                  msg: "success" | "conflict" | "relogin";
+                }
+          ): void => {
+            wx.hideLoading();
+            completeTime += 1;
+            this.state.isForceSelecting = false;
 
-        this.doSelectCourse(cid, times).then(() => {
-          completeTime += 1;
-          wx.hideLoading();
+            if (result.interrupted) {
+              switch (result.msg) {
+                case "success":
+                  modal("选课成功", "您已成功选课");
+                  this.loadInfo();
+                  break;
 
-          requestForceSelect();
-        });
-      },
-      () => {
-        // cancel
-      }
-    );
+                case "conflict":
+                  modal("选课失败", "您有课程与本课程冲突");
+                  break;
+
+                case "relogin":
+                  modal("选课失败", "请重新登录");
+                  this.$redirect("select");
+              }
+            } else requestForceSelect();
+          };
+
+          const requestForceSelect = (): void => {
+            modal(
+              "操作完成",
+              `您已连续选课${completeTime * times}次，是否继续?`,
+              () => {
+                this.doSelectCourse(cid, times).then(handler);
+              },
+              () => {
+                // cancel
+              }
+            );
+          };
+
+          this.state.isForceSelecting = true;
+          this.doSelectCourse(cid, times).then(handler);
+        },
+        () => {
+          // cancel
+        }
+      );
   },
 
   replaceCourse({
@@ -607,7 +633,9 @@ $Page(PAGE_ID, {
       cookies: this.state.cookies,
       server: this.state.server,
     }).then((res) => {
-      if (res.status === "success") {
+      const isSuccess = res.status === "success";
+
+      if (isSuccess) {
         const {
           courseOffices,
           courseTable,
@@ -642,7 +670,13 @@ $Page(PAGE_ID, {
             .map((row) => row.map((cell) => cell.map(({ cid }) => cid)))
             .flat(3),
         });
+      } else {
+        modal("获取信息失败", res.msg, () => {
+          this.back();
+        });
       }
+
+      return isSuccess;
     });
   },
 
@@ -679,18 +713,25 @@ $Page(PAGE_ID, {
 
   doSelectCourse(cid: string, times = 100) {
     // eslint-disable-next-line prefer-const
-    let stop: () => void;
+    let stop: (msg: "conflict" | "relogin" | "success") => void;
 
     const queue = Array<() => Promise<void>>(times).fill(() =>
-      this.process("add", cid).then(({ status }) => {
-        if (status === "success") stop();
+      this.process("add", cid).then((res) => {
+        if (res.status === "success") stop("success");
+        else if (res.type === "conflict" || res.type === "relogin")
+          stop(res.type);
       })
     );
 
-    const selectQueue = promiseQueue(queue);
+    const selectQueue = promiseQueue<"conflict" | "relogin" | "success">(queue);
 
     stop = selectQueue.stop;
 
     return selectQueue.run();
+  },
+
+  back() {
+    if (getCurrentPages().length === 1) this.$switch("main");
+    else this.$back();
   },
 });
