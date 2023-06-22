@@ -67,7 +67,7 @@
   <view wx:for="{{results}}" wx:key="0" wx:for-item="result" class="grade-item">
     <view class="header">{{result[0]}}</view>
     <view class="info">
-      <block wx:for="{{result}}" wx:key="*this">
+      <block wx:for="{{result}}" wx:key>
         <view wx:if="{{index > 0 && item}}"
           ><text class="label">{{titles[index]}}:</text>{{item}}</view
         >

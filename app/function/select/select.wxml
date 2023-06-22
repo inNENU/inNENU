@@ -28,7 +28,7 @@
               wx:for="{{courseTable}}"
               wx:for-item="row"
               wx:for-index="rowIndex"
-              wx:key="rowIndex"
+              wx:key
             >
               <view class="course-row-header">
                 {{select.class[rowIndex]}}
@@ -37,10 +37,12 @@
                 class="course-table-item"
                 wx:for="{{row}}"
                 wx:for-index="itemIndex"
+                wx:key
               >
                 <view
                   wx:for="{{item}}"
                   wx:for-item="course"
+                  wx:key
                   class="course-table-course-item"
                   data-cid="{{course.cid}}"
                   catch:tap="showCourseInfo"
