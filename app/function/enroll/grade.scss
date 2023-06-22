@@ -21,6 +21,7 @@ picker {
   margin: 8px 0;
   border-bottom: 1px solid var(--border-color);
   text-align: left;
+  padding: 4px;
 
   &:last-child {
     border-bottom: none;
@@ -28,7 +29,7 @@ picker {
 
   .header {
     font-size: 16px;
-    margin: 4px;
+    margin: 4px 0;
   }
 
   .info {

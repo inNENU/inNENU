@@ -1,6 +1,6 @@
 import { $Page } from "@mptool/enhance";
 
-import { type HistoryGradeInfo, getHistoryGrade } from "./api.js";
+import { type HistoryGradeInfoItem, getHistoryGrade } from "./api.js";
 import { type EnrollPlanConfig } from "../../../typings/index.js";
 import { type AppOption } from "../../app.js";
 import { modal } from "../../utils/api.js";
@@ -9,8 +9,6 @@ import { ensureJSON, getJSON } from "../../utils/json.js";
 import { getColor, popNotice } from "../../utils/page.js";
 
 const { globalData } = getApp<AppOption>();
-
-type SortKey = "major" | "min" | "max" | "average";
 
 const PAGE_ID = "enroll-grade";
 const PAGE_TITLE = "往年分数";
@@ -31,17 +29,23 @@ $Page(PAGE_ID, {
     planTypeIndex: -1,
     reformTypeIndex: -1,
 
-    sort: <SortKey>"major",
+    titles: <string[]>[],
+    sortIndex: 0,
+    // sort: "",
     ascending: false,
+    // sortableTitles: <string[]>[],
 
     popupConfig: {
       title: "历史分数详情",
       cancel: false,
     },
-    results: <HistoryGradeInfo[]>[],
+    results: <HistoryGradeInfoItem[]>[],
   },
 
-  state: { historyGrade: <EnrollPlanConfig>[] },
+  state: {
+    historyGrade: <EnrollPlanConfig>[],
+    numberValueIndex: <number[]>[],
+  },
 
   onNavigate() {
     ensureJSON("function/enroll/grade");
@@ -127,8 +131,6 @@ $Page(PAGE_ID, {
       // reset others
       majorTypes: [],
       reformTypes: [],
-
-      results: [],
     });
   },
 
@@ -185,7 +187,6 @@ $Page(PAGE_ID, {
       majorTypes,
       reformTypes,
       ascending,
-      sort,
     } = this.data;
 
     if (
@@ -205,25 +206,43 @@ $Page(PAGE_ID, {
     return getHistoryGrade({
       year: years[yearIndex],
       province: provinces[provinceIndex],
-      majorType: majorTypes[planTypeIndex],
-      planType: planTypes[majorTypeIndex],
+      majorType: majorTypes[majorTypeIndex],
+      planType: planTypes[planTypeIndex],
       reformType: reformTypes[reformTypeIndex],
     })
       .then((data) => {
         wx.hideLoading();
-        if (data.status === "success")
+        if (data.status === "success") {
+          const { titles, items } = data.data;
+          const numberValueIndex = items
+            .map((item, index) => (Number.isNaN(Number(item)) ? null : index))
+            .filter((item): item is number => item !== null);
+          // const sortableTitles = items.length
+          //   ? titles.filter((_title, index) => {
+          //       const value = items[0][index];
+
+          //       return value.length && !Number.isNaN(Number(value));
+          //     })
+          //   : [];
+          // const;
+
+          this.state.numberValueIndex = numberValueIndex;
+
           this.setData({
-            results: data.data.sort((itemA, itemB) =>
-              sort === "major"
+            // sortableTitles,
+            titles,
+            sortIndex: 0,
+            results: items.sort((itemA, itemB) =>
+              numberValueIndex.includes(0)
                 ? ascending
-                  ? itemA[sort].localeCompare(itemB[sort])
-                  : itemB[sort].localeCompare(itemA[sort])
+                  ? Number(itemB[0]) - Number(itemA[0])
+                  : Number(itemA[0]) - Number(itemB[0])
                 : ascending
-                ? Number(itemB[sort]) - Number(itemA[sort])
-                : Number(itemA[sort]) - Number(itemB[sort])
+                ? itemA[0].localeCompare(itemB[0])
+                : itemB[0].localeCompare(itemA[0])
             ),
           });
-        else modal("获取失败", data.msg);
+        } else modal("获取失败", data.msg);
       })
       .catch(() => {
         modal("获取失败", "网络请求失败");
@@ -235,27 +254,28 @@ $Page(PAGE_ID, {
   }: WechatMiniprogram.TouchEvent<
     Record<never, never>,
     Record<never, never>,
-    { key: SortKey }
+    { index: number }
   >) {
-    const { key } = currentTarget.dataset;
-    const { ascending, sort, results } = this.data;
+    const { index } = currentTarget.dataset;
+    const { ascending, sortIndex, results } = this.data;
+    const { numberValueIndex } = this.state;
 
-    if (key === sort) {
+    if (index === sortIndex) {
       this.setData({
         ascending: !ascending,
         results: results.reverse(),
       });
     } else {
       this.setData({
-        sort: key,
+        sortIndex: index,
         results: results.sort((itemA, itemB) =>
-          key === "major"
+          numberValueIndex.includes(index)
             ? ascending
-              ? itemA[key].localeCompare(itemB[key])
-              : itemB[key].localeCompare(itemA[key])
+              ? Number(itemB[index]) - Number(itemA[index])
+              : Number(itemA[index]) - Number(itemB[index])
             : ascending
-            ? Number(itemB[key]) - Number(itemA[key])
-            : Number(itemA[key]) - Number(itemB[key])
+            ? itemA[index].localeCompare(itemB[index])
+            : itemB[index].localeCompare(itemA[index])
         ),
       });
     }

@@ -54,51 +54,24 @@
 >
   <view class="filter">
     <button
-      type="{{sort === 'major'? 'primary': 'default'}}"
+      wx:for="{{titles}}"
+      wx:key="*this"
+      type="{{sortIndex === index? 'primary': 'default'}}"
       size="mini"
-      data-key="major"
+      data-index="{{index}}"
       catch:tap="sortResults"
     >
-      专业 {{sort === 'major'? ascending? '↓': '↑': ''}}
-    </button>
-    <button
-      type="{{sort === 'min'? 'primary': 'default'}}"
-      size="mini"
-      data-key="min"
-      catch:tap="sortResults"
-    >
-      最低分 {{sort === 'min'? ascending? '↓': '↑': ''}}
-    </button>
-    <button
-      type="{{sort === 'max'? 'primary': 'default'}}"
-      size="mini"
-      data-key="max"
-      catch:tap="sortResults"
-    >
-      最高分 {{sort === 'max'? ascending? '↓': '↑': ''}}
-    </button>
-    <button
-      type="{{sort === 'average'? 'primary': 'default'}}"
-      size="mini"
-      data-key="average"
-      catch:tap="sortResults"
-    >
-      平均分 {{sort === 'average'? ascending? '↓': '↑': ''}}
+      {{item}} {{sortIndex === index? ascending? '↓': '↑': ''}}
     </button>
   </view>
-  <view wx:for="{{results}}" wx:key="major" class="grade-item">
-    <view class="header">{{item.major}}</view>
+  <view wx:for="{{results}}" wx:key="0" wx:for-item="result" class="grade-item">
+    <view class="header">{{result[0]}}</view>
     <view class="info">
-      <view><text class="label">专业属性:</text>{{item.majorType}}</view>
-      <view><text class="label">重点线:</text>{{item.line}}</view>
-      <view><text class="label">录取最低分:</text>{{item.min}}</view>
-      <view><text class="label">录取最高分:</text>{{item.max}}</view>
-      <view><text class="label">录取平均分:</text>{{item.average}}</view>
-      <view>
-        <block wx:if="{{item.remark}}">
-          <text class="label">备注:</text>{{item.remark}}
-        </block>
-      </view>
+      <block wx:for="{{result}}" wx:key="*this">
+        <view wx:if="{{index > 0 && item}}"
+          ><text class="label">{{titles[index]}}:</text>{{item}}</view
+        >
+      </block>
     </view>
   </view>
 </popup>

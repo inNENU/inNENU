@@ -198,8 +198,8 @@ $Page(PAGE_ID, {
     return getEnrollPlan({
       year: years[yearIndex],
       province: provinces[provinceIndex],
-      majorType: majorTypes[planTypeIndex],
-      planType: planTypes[majorTypeIndex],
+      majorType: majorTypes[majorTypeIndex],
+      planType: planTypes[planTypeIndex],
       reformType: reformTypes[reformTypeIndex],
     })
       .then((data) => {

@@ -10,26 +10,16 @@ export interface HistoryGradeOptions {
   reformType: string;
 }
 
-export interface HistoryGradeInfo {
-  /** 专业名称 */
-  major: string;
-  /** 专业属性 */
-  majorType: string;
-  /** 重点线 */
-  line: string;
-  /** 最低分 */
-  min: string;
-  /** 最高分 */
-  max: string;
-  /** 平均分 */
-  average: string;
-  /** 备注 */
-  remark: string;
+export type HistoryGradeInfoItem = string[];
+
+export interface HistoryGradeResult {
+  titles: string[];
+  items: HistoryGradeInfoItem[];
 }
 
 export interface EnrollGradeSuccessResponse {
   status: "success";
-  data: HistoryGradeInfo[];
+  data: HistoryGradeResult;
 }
 
 export interface EnrollGradeFailedResponse {
