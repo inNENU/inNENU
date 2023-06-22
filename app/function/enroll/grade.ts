@@ -31,9 +31,7 @@ $Page(PAGE_ID, {
 
     titles: <string[]>[],
     sortIndex: 0,
-    // sort: "",
     ascending: false,
-    // sortableTitles: <string[]>[],
 
     popupConfig: {
       title: "历史分数详情",
@@ -217,19 +215,10 @@ $Page(PAGE_ID, {
           const numberValueIndex = items
             .map((item, index) => (Number.isNaN(Number(item)) ? null : index))
             .filter((item): item is number => item !== null);
-          // const sortableTitles = items.length
-          //   ? titles.filter((_title, index) => {
-          //       const value = items[0][index];
-
-          //       return value.length && !Number.isNaN(Number(value));
-          //     })
-          //   : [];
-          // const;
 
           this.state.numberValueIndex = numberValueIndex;
 
           this.setData({
-            // sortableTitles,
             titles,
             sortIndex: 0,
             results: items.sort((itemA, itemB) =>
