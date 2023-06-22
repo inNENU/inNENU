@@ -19,7 +19,7 @@
         adjust-position="{{false}}"
         placeholder="10 位数字"
         value="{{id}}"
-        catch:input="input"
+        bindinput="input"
       />
     </view>
     <view class="list-item">
@@ -31,7 +31,7 @@
         adjust-position="{{false}}"
         placeholder="邮箱用户名"
         value="{{email}}"
-        catch:input="input"
+        bindinput="input"
       />
       <view class="unit">@nenu.edu.cn</view>
     </view>
@@ -45,7 +45,7 @@
         adjust-position="{{false}}"
         placeholder="统一身份认证密码"
         value="{{password}}"
-        catch:input="input"
+        bindinput="input"
       />
       <input
         id="password"
@@ -55,7 +55,7 @@
         adjust-position="{{false}}"
         placeholder="统一身份认证密码"
         value="{{password}}"
-        catch:input="input"
+        bindinput="input"
       />
       <button type="default" class="password-button" bindtap="togglePassword">
         {{showPassword? '隐藏': '显示'}}

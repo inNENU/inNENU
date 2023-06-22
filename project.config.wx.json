@@ -172,20 +172,6 @@
           "scene": null
         },
         {
-          "name": "客服",
-          "pathName": "pages/action/action",
-          "query": "action=contact",
-          "launchMode": "default",
-          "scene": null
-        },
-        {
-          "name": "初始化小程序",
-          "pathName": "pages/action/action",
-          "query": "action=reset",
-          "launchMode": "default",
-          "scene": null
-        },
-        {
           "name": "小程序资源",
           "pathName": "settings/storage/storage",
           "query": "",
@@ -235,13 +221,6 @@
           "scene": null
         },
         {
-          "name": "指定文字搜索",
-          "pathName": "pages/search/search",
-          "query": "word=浴池",
-          "launchMode": "default",
-          "scene": null
-        },
-        {
           "name": "绩点计算",
           "pathName": "function/cal/cal",
           "query": "",
@@ -249,8 +228,36 @@
           "scene": null
         },
         {
+          "name": "客服",
+          "pathName": "pages/action/action",
+          "query": "action=contact",
+          "launchMode": "default",
+          "scene": null
+        },
+        {
+          "name": "初始化小程序",
+          "pathName": "pages/action/action",
+          "query": "action=reset",
+          "launchMode": "default",
+          "scene": null
+        },
+        {
+          "name": "指定文字搜索",
+          "pathName": "pages/search/search",
+          "query": "word=浴池",
+          "launchMode": "default",
+          "scene": null
+        },
+        {
           "name": "关于",
           "pathName": "settings/about/about",
+          "query": "",
+          "launchMode": "default",
+          "scene": null
+        },
+        {
+          "name": "账户",
+          "pathName": "settings/account/account",
           "query": "",
           "launchMode": "default",
           "scene": null
