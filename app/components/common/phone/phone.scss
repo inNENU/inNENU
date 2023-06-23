@@ -101,6 +101,7 @@
 
   .body {
     overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
 
     margin-bottom: 32px;
     padding: 0 24px;
