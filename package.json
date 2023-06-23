@@ -1,14 +1,14 @@
 {
-  "name": "innenu-miniapp",
-  "version": "5.3.0",
+  "name": "innenu",
+  "version": "5.4.2",
   "private": true,
-  "homepage": "https://docs.innenu.com",
+  "homepage": "https://innenu.com",
   "bugs": {
-    "url": "https://github.com/Mister-Hope/inNENU/issues"
+    "url": "https://github.com/inNENU/inNENU/issues"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/Mister-Hope/inNENU.git"
+    "url": "git+https://github.com/inNENU/inNENU.git"
   },
   "license": "Mr.Hope LICENSE",
   "author": {
