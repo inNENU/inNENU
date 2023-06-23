@@ -606,7 +606,8 @@ $Page(PAGE_ID, {
               const { msg, type } = result.msg;
 
               modal(type === "success" ? "选课成功" : "选课失败", msg);
-              if (type === "relogin") this.$redirect(PAGE_ID);
+              if (type === "success") this.loadInfo();
+              else if (type === "relogin") this.$redirect(PAGE_ID);
             } else requestForceSelect();
           };
 
