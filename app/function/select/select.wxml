@@ -161,7 +161,7 @@
             搜索
           </button>
         </view>
-        <view class="course-header">课程列表</view>
+        <view class="course-header">筛选结果</view>
         <view class="course-list">
           <block wx:for="{{courses}}" wx:key="id" data-id="{{item.cid}}">
             <template is="course-item" data="{{...item}}" />
@@ -170,7 +170,7 @@
       </view>
       <view class="select-info" slot="page3">
         <view class="item"
-          ><text class="label">当前学期:</text> {{info.period}}</view
+          ><text class="label">选课学期:</text> {{info.period}}</view
         >
         <view class="item"
           ><text class="label">当前阶段:</text> {{info.stage}}</view
