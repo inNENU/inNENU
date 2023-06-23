@@ -194,9 +194,18 @@
     >
       排序: {{select.sorterNames[sortKeyIndex ]}}
     </picker>
-    <button size="mini" catch:tap="changeRelatedSorting">
-      {{ ascending? "升序": "降序" }}
-    </button>
+    <view class="actions">
+      <button size="mini" catch:tap="changeRelatedSorting">
+        {{ ascending? "升序": "降序" }}
+      </button>
+      <button
+        type="{{filterLocation? 'primary': 'default'}}"
+        size="mini"
+        catch:tap="toggleRelatedLocationFilter"
+      >
+        仅当前校区
+      </button>
+    </view>
   </view>
 
   <view wx:if="{{relatedCourses.length}}" class="related-course-list">
@@ -226,9 +235,18 @@
     >
       排序: {{select.sorterNames[sortKeyIndex]}}
     </picker>
-    <button size="mini" catch:tap="changeDetailSorting">
-      {{ ascending? "升序": "降序" }}
-    </button>
+    <view class="actions">
+      <button size="mini" catch:tap="changeDetailSorting">
+        {{ ascending? "升序": "降序" }}
+      </button>
+      <button
+        type="{{filterLocation? 'primary': 'default'}}"
+        size="mini"
+        catch:tap="toggleDetailLocationFilter"
+      >
+        仅当前校区
+      </button>
+    </view>
   </view>
   <view class="course-detail-list">
     <block wx:for="{{coursesDetail}}" wx:key="cid">

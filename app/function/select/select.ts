@@ -67,13 +67,13 @@ $Page(PAGE_ID, {
     },
     relatedCourses: <FullCourseInfo[]>[],
 
-    coursesDetail: <FullCourseInfo[]>[],
     courseDetailPopupConfig: {
       title: "课程列表",
       confirm: "刷新人数",
       cancel: false,
       bodyClass: "course-detail-popup-body",
     },
+    coursesDetail: <FullCourseInfo[]>[],
 
     sortKeys: <SortKey[]>[
       "className",
@@ -84,6 +84,7 @@ $Page(PAGE_ID, {
     ],
     sortKeyIndex: 0,
     ascending: true,
+    filterLocation: true,
   },
 
   state: {
@@ -96,10 +97,13 @@ $Page(PAGE_ID, {
     courses: [] as CourseInfo[],
 
     currentGrade: "",
+    currentLocation: "",
     currentMajor: "",
     selectedCourseIds: <string[]>[],
 
     currentCourseId: "",
+    coursesDetail: <FullCourseInfo[]>[],
+    relatedCourses: <FullCourseInfo[]>[],
     isForceSelecting: false,
   },
 
@@ -206,8 +210,8 @@ $Page(PAGE_ID, {
     wx.showLoading({ title: "获取人数" });
 
     const { cid } = currentTarget.dataset;
-    const { sortKeys, sortKeyIndex, ascending } = this.data;
-    const { courses } = this.state;
+    const { sortKeys, sortKeyIndex, ascending, filterLocation } = this.data;
+    const { courses, currentLocation } = this.state;
 
     const course: CourseInfo | undefined = courses.find(
       (item) => item.cid === cid
@@ -235,12 +239,18 @@ $Page(PAGE_ID, {
             .filter(
               (item): item is FullCourseInfo =>
                 item !== null && item.cid !== course.cid
-            )
-            .sort(courseSorter(sortKeys[sortKeyIndex], ascending));
+            );
+
+          this.state.relatedCourses = relatedCourses;
 
           this.setData({
             courseInfo,
-            relatedCourses,
+            relatedCourses: relatedCourses
+              .filter(
+                (item) =>
+                  !filterLocation || item.place.includes(currentLocation)
+              )
+              .sort(courseSorter(sortKeys[sortKeyIndex], ascending)),
           });
         } else {
           modal("获取课程人数失败", data.msg);
@@ -272,6 +282,20 @@ $Page(PAGE_ID, {
       relatedCourses: relatedCourses.sort(
         courseSorter(sortKeys[sortKeyIndex], !ascending)
       ),
+    });
+  },
+
+  toggleRelatedLocationFilter() {
+    const { sortKeys, sortKeyIndex, ascending, filterLocation } = this.data;
+    const newValue = !filterLocation;
+    const { currentLocation, relatedCourses } = this.state;
+
+    this.setData({
+      filterLocation: newValue,
+
+      relatedCourses: relatedCourses
+        .filter((item) => !newValue || item.place.includes(currentLocation))
+        .sort(courseSorter(sortKeys[sortKeyIndex], ascending)),
     });
   },
 
@@ -348,8 +372,8 @@ $Page(PAGE_ID, {
     { id: string }
   >) {
     const { id } = currentTarget.dataset;
-    const { sortKeys, sortKeyIndex, ascending } = this.data;
-    const { selectedCourseIds } = this.state;
+    const { sortKeys, sortKeyIndex, ascending, filterLocation } = this.data;
+    const { currentLocation, selectedCourseIds } = this.state;
 
     wx.showLoading({ title: "获取人数" });
 
@@ -358,24 +382,31 @@ $Page(PAGE_ID, {
       if (res.status === "success") {
         const { courses } = this.state;
 
+        const coursesDetail = res.data
+          .map(({ cid, amount }) => {
+            const course = courses.find((item) => item.cid === cid);
+
+            if (course)
+              return {
+                ...course,
+                isSelected: selectedCourseIds.includes(cid),
+                amount,
+              };
+
+            logger.error("未找到匹配课程", cid);
+
+            return null;
+          })
+          .filter((item): item is FullCourseInfo => item !== null);
+
         this.state.currentCourseId = id;
+        this.state.coursesDetail = coursesDetail;
         this.setData({
-          coursesDetail: res.data
-            .map(({ cid, amount }) => {
-              const course = courses.find((item) => item.cid === cid);
-
-              if (course)
-                return {
-                  ...course,
-                  isSelected: selectedCourseIds.includes(cid),
-                  amount,
-                };
-
-              logger.error("未找到匹配课程", cid);
-
-              return null;
-            })
-            .filter((item): item is FullCourseInfo => item !== null)
+          coursesDetail: coursesDetail
+            .filter(
+              (item): item is FullCourseInfo =>
+                !filterLocation || item.place.includes(currentLocation)
+            )
             .sort(courseSorter(sortKeys[sortKeyIndex], ascending)),
         });
       } else {
@@ -405,6 +436,20 @@ $Page(PAGE_ID, {
       coursesDetail: coursesDetail.sort(
         courseSorter(sortKeys[sortKeyIndex], !ascending)
       ),
+    });
+  },
+
+  toggleDetailLocationFilter() {
+    const { sortKeys, sortKeyIndex, ascending, filterLocation } = this.data;
+    const newValue = !filterLocation;
+    const { currentLocation, coursesDetail } = this.state;
+
+    this.setData({
+      filterLocation: newValue,
+
+      coursesDetail: coursesDetail
+        .filter((item) => !newValue || item.place.includes(currentLocation))
+        .sort(courseSorter(sortKeys[sortKeyIndex], ascending)),
     });
   },
 
@@ -696,6 +741,7 @@ $Page(PAGE_ID, {
           courseTypes,
           courses,
           currentGrade,
+          currentLocation,
           currentMajor,
           grades,
           majors,
@@ -706,6 +752,7 @@ $Page(PAGE_ID, {
         this.state = {
           ...this.state,
           currentGrade,
+          currentLocation,
           currentMajor,
           jx0502id,
           jx0502zbid,
