@@ -56,7 +56,14 @@ module.exports = {
     if (time) {
       var temp = time.split("-");
 
-      return "第" + temp[0] + "周" + temp[1] + "节";
+      return (
+        "第" +
+        temp[0] +
+        "周" +
+        weeks[temp[1][0] - 1] +
+        temp[1].substring(1) +
+        "节"
+      );
     }
 
     return "";
