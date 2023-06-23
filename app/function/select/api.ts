@@ -104,6 +104,21 @@ export interface MajorInfo {
   id: string;
 }
 
+export interface StudentInfo {
+  /** 当前学期 */
+  period: string;
+  /** 阶段 */
+  stage: string;
+  /** 姓名 */
+  name: string;
+  /** 学号 */
+  id: string;
+  /** 年级 */
+  grade: string;
+  /** 专业名 */
+  majorName: string;
+}
+
 export interface SelectInfoSuccessResponse extends SelectBaseSuccessResponse {
   jx0502id: string;
   jx0502zbid: string;
@@ -127,6 +142,8 @@ export interface SelectInfoSuccessResponse extends SelectBaseSuccessResponse {
   currentGrade: string;
   /** 课程表 */
   courseTable: CourseData[][][];
+  /** 学生信息 */
+  info: StudentInfo;
 }
 
 export type SelectInfoFailedResponse = SelectBaseFailedResponse;

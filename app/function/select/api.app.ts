@@ -104,6 +104,21 @@ export interface MajorInfo {
   id: string;
 }
 
+export interface StudentInfo {
+  /** 当前学期 */
+  period: string;
+  /** 阶段 */
+  stage: string;
+  /** 姓名 */
+  name: string;
+  /** 学号 */
+  id: string;
+  /** 年级 */
+  grade: string;
+  /** 专业名 */
+  majorName: string;
+}
+
 export interface SelectInfoSuccessResponse extends SelectBaseSuccessResponse {
   jx0502id: string;
   jx0502zbid: string;
@@ -119,12 +134,16 @@ export interface SelectInfoSuccessResponse extends SelectBaseSuccessResponse {
   /** 专业 */
   majors: MajorInfo[];
 
+  /** 当前校区 */
+  currentLocation: "本部" | "净月";
   /** 当前专业 */
   currentMajor: string;
   /** 当前年级 */
   currentGrade: string;
   /** 课程表 */
   courseTable: CourseData[][][];
+  /** 学生信息 */
+  info: StudentInfo;
 }
 
 export type SelectInfoFailedResponse = SelectBaseFailedResponse;

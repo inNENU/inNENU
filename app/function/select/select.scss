@@ -288,6 +288,18 @@
   margin: 16px 0;
 }
 
+.select-info {
+  text-align: left;
+
+  .item {
+    margin: 8px;
+  }
+
+  .label {
+    font-weight: bold;
+  }
+}
+
 .error-wrapper {
   text-align: center;
 

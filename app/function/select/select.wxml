@@ -168,6 +168,22 @@
           </block>
         </view>
       </view>
+      <view class="select-info" slot="page3">
+        <view class="item"
+          ><text class="label">当前学期:</text> {{info.period}}</view
+        >
+        <view class="item"
+          ><text class="label">当前阶段:</text> {{info.stage}}</view
+        >
+        <view class="item"><text class="label">姓名:</text> {{info.name}}</view>
+        <view class="item"><text class="label">学号:</text> {{info.id}}</view>
+        <view class="item"
+          ><text class="label">当前已选学分:</text> {{currentCredit}}</view
+        >
+        <view class="item"
+          ><text class="label">最多可选学分:</text> {{info.max}}</view
+        >
+      </view>
     </tab-bar>
   </view>
   <view wx:else class="error-wrapper">

@@ -103,6 +103,7 @@ $Page(PAGE_ID, {
     selectedCourseIds: <string[]>[],
 
     currentCourseId: "",
+    currentCredit: 0,
     coursesDetail: <FullCourseInfo[]>[],
     relatedCourses: <FullCourseInfo[]>[],
     isForceSelecting: false,
@@ -749,9 +750,18 @@ $Page(PAGE_ID, {
           currentMajor,
           grades,
           majors,
+          info,
           jx0502id,
           jx0502zbid,
         } = res;
+
+        const selectedCourseIds = Array.from(
+          new Set(
+            courseTable
+              .map((row) => row.map((cell) => cell.map(({ cid }) => cid)))
+              .flat(3)
+          )
+        );
 
         this.state = {
           ...this.state,
@@ -761,19 +771,23 @@ $Page(PAGE_ID, {
           jx0502id,
           jx0502zbid,
           courses,
-          selectedCourseIds: courseTable
-            .map((row) => row.map((cell) => cell.map(({ cid }) => cid)))
-            .flat(3),
+          selectedCourseIds,
         };
+
+        const currentCredit = selectedCourseIds
+          .map((cid) => courses.find((item) => item.cid === cid))
+          .reduce((sum, item) => (item ? item.point + sum : sum), 0);
 
         this.setData({
           courseOffices,
           courseTable,
           courseTypes,
+          currentCredit,
           grades,
           gradeIndex: grades.findIndex((item) => item === currentGrade) + 1,
           majors,
           majorIndex: majors.findIndex((item) => item.id === currentMajor) + 1,
+          info,
         });
       } else {
         modal("获取信息失败", res.msg, () => {
