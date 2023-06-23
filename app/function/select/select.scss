@@ -118,6 +118,30 @@
   }
 }
 
+.info-sorter,
+.details-sorter {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  picker {
+    line-height: 1;
+    font-size: 16px;
+    display: inline-block;
+    margin: 4px 8px;
+    padding: 6px 12px;
+    border-radius: 8px;
+    background-color: var(--bg-color-block);
+  }
+
+  button {
+    font-size: 14px;
+    display: inline-block;
+    margin: 4px 8px;
+    vertical-align: middle;
+  }
+}
+
 .course-info-header,
 .related-course-header {
   margin: 8px 0;
@@ -149,6 +173,17 @@
   .office {
     display: inline-block;
   }
+}
+
+.course-detail-popup-body {
+  display: flex;
+  flex-direction: column;
+}
+
+.course-detail-list {
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+  flex: 1;
 }
 
 .course-detail {

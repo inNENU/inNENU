@@ -13,7 +13,12 @@ import {
   process,
   search,
 } from "./api.js";
-import { confirmReplace } from "./utils.js";
+import {
+  type FullCourseInfo,
+  type SortKey,
+  confirmReplace,
+  courseSorter,
+} from "./utils.js";
 import { type AppOption } from "../../app.js";
 import { modal, tip } from "../../utils/api.js";
 import { type AccountInfo } from "../../utils/app.js";
@@ -22,10 +27,6 @@ import { getColor, popNotice } from "../../utils/page.js";
 import { promiseQueue } from "../utils/promiseQueue.js";
 
 const { globalData } = getApp<AppOption>();
-
-interface FullCourseInfo extends CourseInfo {
-  amount: number;
-}
 
 interface ForceSelectMessage {
   type: "conflict" | "relogin" | "forbid" | "success";
@@ -49,8 +50,6 @@ $Page(PAGE_ID, {
     grades: <string[]>[],
     majors: <MajorInfo[]>[],
 
-    selectedCourseIds: <string[]>[],
-
     courseName: "",
     classIndex: 0,
     courseTypeIndex: 0,
@@ -71,22 +70,36 @@ $Page(PAGE_ID, {
     coursesDetail: <FullCourseInfo[]>[],
     courseDetailPopupConfig: {
       title: "课程列表",
-      subtitle: "点击课程来选课",
       confirm: "刷新人数",
       cancel: false,
+      bodyClass: "course-detail-popup-body",
     },
+
+    sortKeys: <SortKey[]>[
+      "className",
+      "teacher",
+      "spare",
+      "amount",
+      "capacity",
+    ],
+    sortKeyIndex: 0,
+    ascending: true,
   },
 
   state: {
     accountInfo: null as AccountInfo | null,
-    currentCourseId: "",
     cookies: <string[]>[],
-    courses: [] as CourseInfo[],
-    currentGrade: "",
-    currentMajor: "",
+    server: "",
     jx0502id: "",
     jx0502zbid: "",
-    server: "",
+
+    courses: [] as CourseInfo[],
+
+    currentGrade: "",
+    currentMajor: "",
+    selectedCourseIds: <string[]>[],
+
+    currentCourseId: "",
     isForceSelecting: false,
   },
 
@@ -193,6 +206,7 @@ $Page(PAGE_ID, {
     wx.showLoading({ title: "获取人数" });
 
     const { cid } = currentTarget.dataset;
+    const { sortKeys, sortKeyIndex, ascending } = this.data;
     const { courses } = this.state;
 
     const course: CourseInfo | undefined = courses.find(
@@ -205,22 +219,24 @@ $Page(PAGE_ID, {
         if (data.status === "success") {
           const courseInfo = {
             ...course,
+            isSelected: true,
             amount: data.data.find((item) => item.cid === course.cid)!.amount,
           };
           const relatedCourses = data.data
             .map(({ cid, amount }) => {
               const course = courses.find((item) => item.cid === cid);
 
-              if (course) return { ...course, amount };
+              if (course) return { ...course, isSelected: false, amount };
 
               logger.error("未找到匹配课程", cid);
 
               return null;
             })
             .filter(
-              (item): item is CourseInfo & { amount: number } =>
+              (item): item is FullCourseInfo =>
                 item !== null && item.cid !== course.cid
-            );
+            )
+            .sort(courseSorter(sortKeys[sortKeyIndex], ascending));
 
           this.setData({
             courseInfo,
@@ -236,35 +252,50 @@ $Page(PAGE_ID, {
     }
   },
 
+  changeRelatedSorter({ detail }: WechatMiniprogram.PickerChange) {
+    const { sortKeys, ascending, relatedCourses } = this.data;
+    const sortKeyIndex = Number(detail.value);
+
+    this.setData({
+      sortKeyIndex,
+      relatedCourses: relatedCourses.sort(
+        courseSorter(sortKeys[sortKeyIndex], ascending)
+      ),
+    });
+  },
+
+  changeRelatedSorting() {
+    const { relatedCourses, sortKeys, sortKeyIndex, ascending } = this.data;
+
+    this.setData({
+      ascending: !ascending,
+      relatedCourses: relatedCourses.sort(
+        courseSorter(sortKeys[sortKeyIndex], !ascending)
+      ),
+    });
+  },
+
   refreshInfoAmount() {
-    const { courseInfo } = this.data;
-    const { courses } = this.state;
+    const { courseInfo, relatedCourses } = this.data;
 
     this.getAmount(courseInfo!.id).then((data) => {
       if (data.status === "success") {
-        const course = {
-          ...courseInfo,
-          amount: data.data.find((item) => item.cid === courseInfo!.cid)!
-            .amount,
-        };
-        const relatedCourses = data.data
-          .map(({ cid, amount }) => {
-            const course = courses.find((item) => item.cid === cid);
+        const record = data.data.find((item) => item.cid === courseInfo!.cid);
 
-            if (course) return { ...course, amount };
-
-            logger.error("未找到匹配课程", cid);
-
-            return null;
-          })
-          .filter(
-            (item): item is CourseInfo & { amount: number } =>
-              item !== null && item.cid !== course.cid
-          );
+        if (!record) logger.error("未找到课程人数", courseInfo!.cid);
 
         this.setData({
-          courseInfo,
-          relatedCourses,
+          courseInfo: {
+            ...courseInfo!,
+            amount: record ? record.amount : 0,
+          },
+          relatedCourses: relatedCourses.map((course) => {
+            const record = data.data.find((item) => item.cid === course.cid);
+
+            if (!record) logger.error("未找到课程人数", courseInfo!.cid);
+
+            return { ...course, amount: record ? record.amount : 0 };
+          }),
         });
       } else {
         modal("获取课程人数失败", data.msg);
@@ -317,6 +348,8 @@ $Page(PAGE_ID, {
     { id: string }
   >) {
     const { id } = currentTarget.dataset;
+    const { sortKeys, sortKeyIndex, ascending } = this.data;
+    const { selectedCourseIds } = this.state;
 
     wx.showLoading({ title: "获取人数" });
 
@@ -331,21 +364,52 @@ $Page(PAGE_ID, {
             .map(({ cid, amount }) => {
               const course = courses.find((item) => item.cid === cid);
 
-              if (course) return { ...course, amount };
+              if (course)
+                return {
+                  ...course,
+                  isSelected: selectedCourseIds.includes(cid),
+                  amount,
+                };
 
               logger.error("未找到匹配课程", cid);
 
               return null;
             })
-            .filter((item): item is FullCourseInfo => item !== null),
+            .filter((item): item is FullCourseInfo => item !== null)
+            .sort(courseSorter(sortKeys[sortKeyIndex], ascending)),
         });
       } else {
         modal("获取人数失败", res.msg);
+        if (res.type === "relogin") this.$redirect(PAGE_ID);
       }
     });
   },
 
+  changeDetailSorter({ detail }: WechatMiniprogram.PickerChange) {
+    const { sortKeys, ascending, coursesDetail } = this.data;
+    const sortKeyIndex = Number(detail.value);
+
+    this.setData({
+      sortKeyIndex,
+      coursesDetail: coursesDetail.sort(
+        courseSorter(sortKeys[sortKeyIndex], ascending)
+      ),
+    });
+  },
+
+  changeDetailSorting() {
+    const { coursesDetail, sortKeys, sortKeyIndex, ascending } = this.data;
+
+    this.setData({
+      ascending: !ascending,
+      coursesDetail: coursesDetail.sort(
+        courseSorter(sortKeys[sortKeyIndex], !ascending)
+      ),
+    });
+  },
+
   refreshDetailAmount() {
+    const { coursesDetail } = this.data;
     const { currentCourseId } = this.state;
 
     wx.showLoading({ title: "刷新人数" });
@@ -353,20 +417,14 @@ $Page(PAGE_ID, {
     return this.getAmount(currentCourseId).then((res) => {
       wx.hideLoading();
       if (res.status === "success") {
-        const { courses } = this.state;
-
         this.setData({
-          coursesDetail: res.data
-            .map(({ cid, amount }) => {
-              const course = courses.find((item) => item.cid === cid);
+          coursesDetail: coursesDetail.map((course) => {
+            const record = res.data.find((item) => item.cid === course.cid);
 
-              if (course) return { ...course, amount };
+            if (!record) logger.error("未找到课程人数", course.cid);
 
-              logger.error("未找到匹配课程", cid);
-
-              return null;
-            })
-            .filter((item): item is FullCourseInfo => item !== null),
+            return { ...course, amount: record ? record.amount : 0 };
+          }),
         });
       } else {
         modal("刷新人数失败", res.msg);
@@ -489,7 +547,7 @@ $Page(PAGE_ID, {
             if (result.interrupted) {
               const { msg, type } = result.msg;
 
-              modal("选课失败", msg);
+              modal(type === "success" ? "选课成功" : "选课失败", msg);
               if (type === "relogin") this.$redirect(PAGE_ID);
             } else requestForceSelect();
           };
@@ -652,6 +710,9 @@ $Page(PAGE_ID, {
           jx0502id,
           jx0502zbid,
           courses,
+          selectedCourseIds: courseTable
+            .map((row) => row.map((cell) => cell.map(({ cid }) => cid)))
+            .flat(3),
         };
 
         this.setData({
@@ -662,9 +723,6 @@ $Page(PAGE_ID, {
           gradeIndex: grades.findIndex((item) => item === currentGrade) + 1,
           majors,
           majorIndex: majors.findIndex((item) => item.id === currentMajor) + 1,
-          selectedCourseIds: courseTable
-            .map((row) => row.map((cell) => cell.map(({ cid }) => cid)))
-            .flat(3),
         });
       } else {
         modal("获取信息失败", res.msg, () => {

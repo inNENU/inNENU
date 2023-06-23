@@ -1,3 +1,4 @@
+import { type CourseInfo } from "./api.app.js";
 import { modal } from "../../utils/api.js";
 
 const CONFIRM_KEY = "select-replace-confirmed";
@@ -36,3 +37,36 @@ export const confirmReplace = (): Promise<boolean> =>
       () => resolve(false)
     );
   });
+
+export interface FullCourseInfo extends CourseInfo {
+  amount: number;
+  isSelected: boolean;
+}
+
+export type SortKey = "className" | "teacher" | "amount" | "spare" | "capacity";
+
+export const courseSorter =
+  (
+    sortKey: SortKey,
+    ascending: boolean
+  ): ((courseA: FullCourseInfo, courseB: FullCourseInfo) => number) =>
+  (courseA, courseB) => {
+    if (courseA.isSelected) return -1;
+    if (courseB.isSelected) return 1;
+
+    const aVal =
+      sortKey === "spare"
+        ? courseA.capacity - courseA.amount
+        : courseA[sortKey];
+    const bVal =
+      sortKey === "spare"
+        ? courseB.capacity - courseB.amount
+        : courseB[sortKey];
+
+    if (typeof aVal === "number")
+      return ascending ? aVal - <number>bVal : <number>bVal - aVal;
+
+    return ascending
+      ? aVal.localeCompare(<string>bVal)
+      : (<string>bVal).localeCompare(aVal);
+  };

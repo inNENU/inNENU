@@ -73,9 +73,9 @@ export interface CourseInfo {
   /** 类别 */
   type: string;
   /** 学分 */
-  point: string;
+  point: number;
   /** 容量 */
-  capacity: string;
+  capacity: number;
   /** 任课教师 */
   teacher: string;
   /** 上课周次 */

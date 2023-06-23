@@ -28,7 +28,6 @@
               wx:for="{{courseTable}}"
               wx:for-item="row"
               wx:for-index="rowIndex"
-              wx:key
             >
               <view class="course-row-header">
                 {{select.class[rowIndex]}}
@@ -37,12 +36,11 @@
                 class="course-table-item"
                 wx:for="{{row}}"
                 wx:for-index="itemIndex"
-                wx:key
               >
                 <view
                   wx:for="{{item}}"
                   wx:for-item="course"
-                  wx:key
+                  wx:key="cid"
                   class="course-table-course-item"
                   data-cid="{{course.cid}}"
                   catch:tap="showCourseInfo"
@@ -186,13 +184,26 @@
   catch:close="closeInfoPopup"
 >
   <view class="course-info-header">当前课程</view>
-  <template is="course-detail" data="{{selectedCourseIds, ...courseInfo}}" />
+  <template is="course-detail" data="{{...courseInfo}}" />
   <view class="related-course-header">相关课程</view>
-  <view wx:if="{{relatedCourses.lenth}}" class="course-detail-list">
-    <block wx:for="{{relatedCourses}}" wx:key="cid" class="course-detail">
+  <view wx:if="{{relatedCourses.length}}" class="info-sorter">
+    <picker
+      range="{{select.sorterNames}}"
+      value="{{sortKeyIndex}}"
+      bindchange="changeRelatedSorter"
+    >
+      排序: {{select.sorterNames[sortKeyIndex ]}}
+    </picker>
+    <button size="mini" catch:tap="changeRelatedSorting">
+      {{ ascending? "升序": "降序" }}
+    </button>
+  </view>
+
+  <view wx:if="{{relatedCourses.length}}" class="related-course-list">
+    <block wx:for="{{relatedCourses}}" wx:key="cid">
       <template
         is="course-detail"
-        data="{{selectedCourseIds, ...item, state: 'replace', oid: courseInfo.cid}}"
+        data="{{...item, state: 'replace', oid: courseInfo.cid}}"
       />
     </block>
   </view>
@@ -207,9 +218,21 @@
   catch:confirm="refreshDetailAmount"
   catch:close="closeDetailPopup"
 >
+  <view class="details-sorter">
+    <picker
+      range="{{select.sorterNames}}"
+      value="{{sortKeyIndex}}"
+      bindchange="changeDetailSorter"
+    >
+      排序: {{select.sorterNames[sortKeyIndex]}}
+    </picker>
+    <button size="mini" catch:tap="changeDetailSorting">
+      {{ ascending? "升序": "降序" }}
+    </button>
+  </view>
   <view class="course-detail-list">
-    <block wx:for="{{coursesDetail}}" wx:key="cid" class="course-detail">
-      <template is="course-detail" data="{{selectedCourseIds, ...item}}" />
+    <block wx:for="{{coursesDetail}}" wx:key="cid">
+      <template is="course-detail" data="{{...item}}" />
     </block>
   </view>
 </popup>
@@ -226,7 +249,7 @@
 
 <template
   name="course-detail"
-  data="{{ selectedCourseIds, name, teacher, week, time, point, place, cid, amount, state, oid }}"
+  data="{{ className, teacher, week, time, point, place, cid, amount, state, isSelected, oid }}"
 >
   <view class="course-detail">
     <view class="name">
@@ -243,7 +266,7 @@
         替换为此课程
       </button>
       <button
-        wx:elif="{{select.isCourseSelected(selectedCourseIds, cid)}}"
+        wx:elif="{{isSelected}}"
         class="select-button"
         type="warn"
         size="mini"
@@ -268,7 +291,7 @@
     <view class="info">
       <text class="teacher"><text class="icon" />{{teacher}}</text>
       <text class="capacity"
-        ><text class="icon" /> {{ amount ? amount + '/': '' }}{{capacity}}</text
+        ><text class="icon" /> {{ amount }}/{{capacity}}</text
       >
       <text class="week"><text class="icon" />{{week}}</text>
       <text class="time"><text class="icon" />{{select.getTime(time)}}</text>
