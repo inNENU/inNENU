@@ -22,7 +22,7 @@
         />
       </view>
     </view>
-    <view class="popup-body">
+    <view class="popup-body {{config.bodyClass}}">
       <slot>
         <view class="text">{{config.text}}</view>
         <view wx:if="{{config.desc}}" class="desc">{{config.desc}}</view>

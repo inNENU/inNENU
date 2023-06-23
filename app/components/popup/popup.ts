@@ -17,6 +17,7 @@ export interface PopupConfig {
   cancel?: string | false;
   /** 确认按钮文字 (默认: '确认')*/
   confirm?: string;
+  bodyClass?: string;
 }
 
 $Component({
