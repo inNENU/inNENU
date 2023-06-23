@@ -36,6 +36,10 @@
   padding: 16px 0;
   writing-mode: vertical-lr;
   border-bottom: 1px dashed var(--border-color);
+
+  .course-table-header & {
+    padding: 0;
+  }
 }
 
 .course-table-item {

@@ -60,8 +60,7 @@ $Page(PAGE_ID, {
 
     courseInfo: <FullCourseInfo | null>null,
     courseInfoPopupConfig: {
-      title: "课程",
-      subtitle: "课程详情",
+      title: "课程详情",
       confirm: "刷新人数",
       cancel: false,
     },
