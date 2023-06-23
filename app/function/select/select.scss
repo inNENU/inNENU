@@ -94,19 +94,21 @@
 
     .display {
       display: flex;
+      flex-wrap: wrap;
+      padding: 0 8px;
     }
 
     .label {
       display: block;
       flex-grow: 1;
-      text-align: right;
+      text-align: left;
       margin-right: 8px;
     }
 
     .value {
       display: block;
       flex-grow: 1;
-      text-align: left;
+      text-align: right;
     }
   }
 

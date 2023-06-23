@@ -79,21 +79,6 @@
           </picker>
           <picker
             class="picker"
-            header-text="选择专业"
-            range="{{select.getRange(majors, 'name')}}"
-            value="{{majorIndex}}"
-            data-key="majorIndex"
-            bindchange="pickerChange"
-          >
-            <view class="display">
-              <text class="label">专业:</text>
-              <text class="value"
-                >{{select.getPickerDisplay(majors, majorIndex, 'name')}}</text
-              >
-            </view>
-          </picker>
-          <picker
-            class="picker"
             header-text="课程类别"
             range="{{select.getRange(courseTypes)}}"
             value="{{courseTypeIndex}}"
@@ -107,6 +92,22 @@
               >
             </view>
           </picker>
+          <picker
+            class="picker"
+            header-text="选择专业"
+            range="{{select.getRange(majors, 'name')}}"
+            value="{{majorIndex}}"
+            data-key="majorIndex"
+            bindchange="pickerChange"
+          >
+            <view class="display">
+              <text class="label">专业:</text>
+              <text class="value"
+                >{{select.getPickerDisplay(majors, majorIndex, 'name')}}</text
+              >
+            </view>
+          </picker>
+
           <picker
             class="picker"
             header-text="开课单位"
@@ -222,7 +223,7 @@
 <!-- 课程列表 -->
 <popup
   config="{{courseDetailPopupConfig}}"
-  show="{{coursesDetail.length > 0}}"
+  show="{{showCourseDetail}}"
   padding-inline="15"
   catch:confirm="refreshDetailAmount"
   catch:close="closeDetailPopup"
@@ -248,11 +249,12 @@
       </button>
     </view>
   </view>
-  <view class="course-detail-list">
+  <view wx:if="{{coursesDetail.length}}" class="course-detail-list">
     <block wx:for="{{coursesDetail}}" wx:key="cid">
       <template is="course-detail" data="{{...item}}" />
     </block>
   </view>
+  <view class="empty-result">暂无符合条件课程</view>
 </popup>
 
 <template name="course-item" data="{{name, office, type, id}}">

@@ -73,6 +73,7 @@ $Page(PAGE_ID, {
       cancel: false,
       bodyClass: "course-detail-popup-body",
     },
+    showCourseDetail: false,
     coursesDetail: <FullCourseInfo[]>[],
 
     sortKeys: <SortKey[]>[
@@ -401,6 +402,7 @@ $Page(PAGE_ID, {
 
         this.state.currentCourseId = id;
         this.state.coursesDetail = coursesDetail;
+
         this.setData({
           coursesDetail: coursesDetail
             .filter(
@@ -408,6 +410,7 @@ $Page(PAGE_ID, {
                 !filterLocation || item.place.includes(currentLocation)
             )
             .sort(courseSorter(sortKeys[sortKeyIndex], ascending)),
+          showCourseDetail: true,
         });
       } else {
         modal("获取人数失败", res.msg);
@@ -479,7 +482,8 @@ $Page(PAGE_ID, {
 
   closeDetailPopup() {
     this.state.currentCourseId = "";
-    this.setData({ coursesDetail: [] });
+    this.state.coursesDetail = [];
+    this.setData({ coursesDetail: [], showCourseDetail: false });
   },
 
   selectCourse({
