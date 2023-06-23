@@ -217,7 +217,7 @@
       />
     </block>
   </view>
-  <view class="empty-result">暂无同名课程</view>
+  <view wx:else class="empty-result">暂无同名课程</view>
 </popup>
 
 <!-- 课程列表 -->
@@ -254,7 +254,7 @@
       <template is="course-detail" data="{{...item}}" />
     </block>
   </view>
-  <view class="empty-result">暂无符合条件课程</view>
+  <view wx:else class="empty-result">暂无符合条件课程</view>
 </popup>
 
 <template name="course-item" data="{{name, office, type, id}}">
