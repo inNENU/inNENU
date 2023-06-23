@@ -504,7 +504,13 @@ $Page(PAGE_ID, {
             this.process("add", cid).then((res) => {
               if (res.status === "success") {
                 tip("选课成功", 1000, "success");
-                this.setData({ coursesDetail: [] });
+                // 关闭任何可能的弹窗
+                this.setData({
+                  courseInfo: null,
+                  coursesDetail: [],
+                  relatedCourses: [],
+                  showCourseDetail: false,
+                });
                 this.loadInfo();
 
                 return true;
@@ -541,9 +547,12 @@ $Page(PAGE_ID, {
             this.process("delete", cid).then((res) => {
               if (res.status === "success") {
                 tip("退课成功", 1000, "success");
+                // 关闭任何可能的弹窗
                 this.setData({
                   courseInfo: null,
+                  coursesDetail: [],
                   relatedCourses: [],
+                  showCourseDetail: false,
                 });
                 this.loadInfo();
 
@@ -606,6 +615,7 @@ $Page(PAGE_ID, {
               "操作完成",
               `您已连续选课${completeTime * times}次，是否继续?`,
               () => {
+                wx.showLoading({ title: "选课中" });
                 this.doSelectCourse(cid, times).then(handler);
               },
               () => {
