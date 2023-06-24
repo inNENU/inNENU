@@ -75,12 +75,11 @@
     "husky": "8.0.3",
     "lint-staged": "13.2.2",
     "miniprogram-api-typings": "3.10.0",
-    "npm-check-updates": "16.10.12",
     "postcss": "8.4.24",
     "prettier": "2.8.8",
     "sort-package-json": "2.4.1",
     "standard-version": "9.5.0",
-    "stylelint": "15.8.0",
+    "stylelint": "15.9.0",
     "stylelint-config-hope": "3.0.0",
     "typescript": "5.1.3"
   },
