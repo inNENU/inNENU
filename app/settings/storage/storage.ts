@@ -112,9 +112,9 @@ $Page("storage", {
         // 写入文件大小
         this.setData({
           // eslint-disable-next-line @typescript-eslint/naming-convention
-          "page.content[0].items[2].desc": `${Math.ceil(
-            fileSize / 1024 / 1024
-          )}KB/10MB`,
+          "page.content[0].items[2].desc": `${(fileSize / 1024 / 1024).toFixed(
+            2
+          )}MB/10MB`,
         });
       },
     });
