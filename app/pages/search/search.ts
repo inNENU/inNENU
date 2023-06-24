@@ -49,6 +49,12 @@ $Page("search", {
     popNotice("search");
   },
 
+  onPageScroll(options) {
+    if (options.scrollTop > 250 + globalData.info.statusBarHeight)
+      this.setData({ showBackToTop: true });
+    else this.setData({ showBackToTop: false });
+  },
+
   onShareAppMessage(): WechatMiniprogram.Page.ICustomShareContent {
     return {
       title: "搜索",
@@ -107,6 +113,10 @@ $Page("search", {
       this.state.value = value;
       wx.hideLoading();
     });
+  },
+
+  scrollTop() {
+    wx.pageScrollTo({ scrollTop: 0 });
   },
 
   back() {

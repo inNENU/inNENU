@@ -82,4 +82,11 @@
   </block>
 
   <footer />
+
+  <button
+    class="scroll-top-button {{showBackToTop? 'show': ''}}"
+    catch:tap="scrollTop"
+  >
+    <view class="icon" />
+  </button>
 </view>
