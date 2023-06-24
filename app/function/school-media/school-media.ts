@@ -28,7 +28,7 @@ $Page(PAGE_ID, {
     ensureJSON(`function/account/${env}`);
   },
 
-  onLoad({ type }: { type: Env }) {
+  onLoad({ type = env }: { type: Env }) {
     getJSON<unknown[]>(`function/account/${type}`).then((config) => {
       const info = getWindowInfo();
 
