@@ -300,6 +300,16 @@ export const addPhoneContact = (
       });
   });
 
+export const getCurrentPage = <T extends Record<string, any>>():
+  | (T & WechatMiniprogram.Page.TrivialInstance)
+  | null => {
+  const pages = <(T & WechatMiniprogram.Page.TrivialInstance)[]>(
+    getCurrentPages()
+  );
+
+  return pages[pages.length - 1] || null;
+};
+
 export const getWindowInfo = (): WechatMiniprogram.WindowInfo =>
   /** @desc >2.20.1 */
   wx.getWindowInfo?.() || wx.getSystemInfoSync();
