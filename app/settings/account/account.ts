@@ -61,6 +61,7 @@ $Page(PAGE_ID, {
 
     id: "",
     password: "",
+    canShowPassword: true,
     showPassword: false,
 
     name: "",
@@ -79,6 +80,7 @@ $Page(PAGE_ID, {
       this.setData({
         id: accountInfo.id.toString(),
         password: accountInfo.password,
+        canShowPassword: false,
       });
     if (userInfo)
       this.setData({
@@ -151,6 +153,7 @@ $Page(PAGE_ID, {
               modal("登陆成功", "个人信息获取成功");
               set("user-info", userInfo, MONTH);
               this.setData({
+                canShowPassword: false,
                 // eslint-disable-next-line @typescript-eslint/naming-convention
                 "list.items": getDisplay(userInfo),
               });
@@ -174,6 +177,7 @@ $Page(PAGE_ID, {
       password: "",
       // eslint-disable-next-line @typescript-eslint/naming-convention
       "list.items": EMPTY_CONTENT,
+      canShowPassword: true,
     });
     remove("account-info");
     remove("user-info");

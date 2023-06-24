@@ -26,7 +26,7 @@
     <view class="list-item">
       <view class="text">密码</view>
       <input
-        wx:if="{{showPassword}}"
+        wx:if="{{canShowPassword && showPassword}}"
         id="password"
         class="input"
         type="text"
@@ -45,7 +45,12 @@
         value="{{password}}"
         catch:input="input"
       />
-      <button type="default" class="password-button" bindtap="togglePassword">
+      <button
+        wx:if="{{canShowPassword}}"
+        type="default"
+        class="password-button"
+        bindtap="togglePassword"
+      >
         {{showPassword? '隐藏': '显示'}}
       </button>
     </view>
