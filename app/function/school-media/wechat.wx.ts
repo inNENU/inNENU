@@ -18,6 +18,7 @@ $Page(PAGE_ID, {
     footer: {
       desc: "更新文章，请联系 Mr.Hope",
     },
+    showBackToTop: false,
   },
 
   state: {
@@ -49,6 +50,12 @@ $Page(PAGE_ID, {
     this.state.path = path;
 
     popNotice(`wechat/${this.data.config.name}`);
+  },
+
+  onPageScroll(options) {
+    if (options.scrollTop > 250 + globalData.info.statusBarHeight)
+      this.setData({ showBackToTop: true });
+    else this.setData({ showBackToTop: false });
   },
 
   onShareAppMessage(): WechatMiniprogram.Page.ICustomShareContent {
@@ -101,6 +108,10 @@ $Page(PAGE_ID, {
 
     if (follow) this.$go(`web?url=${follow}&title=欢迎关注`);
     else wx.previewImage({ urls: [qrcode] });
+  },
+
+  scrollTop() {
+    wx.pageScrollTo({ scrollTop: 0 });
   },
 
   back() {

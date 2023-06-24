@@ -51,6 +51,12 @@ $Page(PAGE_ID, {
     popNotice(`wechat/${this.data.config.name}`);
   },
 
+  onPageScroll(options) {
+    if (options.scrollTop > 250 + globalData.info.statusBarHeight)
+      this.setData({ showBackToTop: true });
+    else this.setData({ showBackToTop: false });
+  },
+
   navigate({
     currentTarget,
   }: WechatMiniprogram.TouchEvent<
@@ -68,6 +74,10 @@ $Page(PAGE_ID, {
 
     if (follow) this.$go(`web?url=${follow}&title=欢迎关注`);
     else wx.previewImage({ urls: [qrcode] });
+  },
+
+  scrollTop() {
+    wx.pageScrollTo({ scrollTop: 0 });
   },
 
   back() {
