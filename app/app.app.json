@@ -12,7 +12,6 @@
     "pages/web/web",
     "settings/about/about",
     "settings/account/account",
-    "settings/privacy/privacy",
     "settings/storage/storage",
     "function/admission/admission",
     "function/cal/cal",
