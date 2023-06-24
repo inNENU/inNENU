@@ -4,19 +4,14 @@ import { set } from "@mptool/file";
 import { type AccountBasicInfo } from "./app.js";
 import { service } from "./config.js";
 import { WEEK } from "./constant.js";
-import { Cookie } from "../../typings/index.js";
+import { CommonFailedResponse, Cookie } from "../../typings/index.js";
 
 export interface LoginSuccessResponse {
   status: "success";
   cookies: Cookie[];
 }
 
-export interface LoginFailedResponse {
-  status: "failed";
-  msg: string;
-}
-
-export type LoginResponse = LoginSuccessResponse | LoginFailedResponse;
+export type LoginResponse = LoginSuccessResponse | CommonFailedResponse;
 
 export const login = ({
   id,
@@ -27,6 +22,7 @@ export const login = ({
       method: "POST",
       url: `${service}auth/login`,
       data: { id, password },
+      enableHttp2: true,
       success: ({ data, statusCode }) => {
         if (statusCode === 200) {
           if (data.status === "success") set("cookies", data.cookies, WEEK);
@@ -50,12 +46,7 @@ export interface InfoSuccessResponse {
   email: string;
 }
 
-export interface InfoFailedResponse {
-  status: "failed";
-  msg: string;
-}
-
-export type InfoResponse = InfoSuccessResponse | InfoFailedResponse;
+export type InfoResponse = InfoSuccessResponse | CommonFailedResponse;
 
 export const getInfo = (cookies: Cookie[]): Promise<InfoResponse> =>
   new Promise((resolve, reject) => {
@@ -63,6 +54,7 @@ export const getInfo = (cookies: Cookie[]): Promise<InfoResponse> =>
       method: "POST",
       url: `${service}auth/info`,
       data: { cookies },
+      enableHttp2: true,
       success: ({ data, statusCode }) => {
         if (statusCode === 200) {
           resolve(data);

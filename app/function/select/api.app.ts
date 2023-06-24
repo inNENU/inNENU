@@ -47,6 +47,7 @@ export const login = (
       method: "POST",
       url: `${service}select/login`,
       data: options,
+      enableHttp2: true,
       success: ({ data, statusCode }) => {
         if (statusCode === 200) {
           resolve(data);
@@ -160,6 +161,7 @@ export const getInfo = (
       method: "POST",
       url: `${service}select/info`,
       data: options,
+      enableHttp2: true,
       success: ({ data, statusCode }) => {
         if (statusCode === 200) {
           resolve(data);
@@ -210,6 +212,7 @@ export const process = (
         Cookie: cookies.join(", "),
       },
       data: params,
+      enableHttp2: true,
       success: ({ data, statusCode }) => {
         if (statusCode === 200) {
           try {
@@ -316,6 +319,7 @@ export const search = (options: SearchOptions): Promise<SelectSearchResponse> =>
       method: "POST",
       url: `${service}select/search`,
       data: options,
+      enableHttp2: true,
       success: ({ data, statusCode }) => {
         if (statusCode === 200) {
           resolve(data);
@@ -361,6 +365,7 @@ export const getAmount = (
       method: "POST",
       url: `${service}select/student-amount`,
       data: options,
+      enableHttp2: true,
       success: ({ data, statusCode }) => {
         if (statusCode === 200) {
           resolve(data);

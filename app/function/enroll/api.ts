@@ -1,6 +1,81 @@
 import { logger } from "@mptool/enhance";
 
+import {
+  type CommonFailedResponse,
+  type Cookie,
+} from "../../../typings/index.js";
 import { service } from "../../utils/config.js";
+
+export interface AdmissionSuccessResponse {
+  status: "success";
+  info: { text: string; value: string }[];
+}
+
+export type AdmissionResponse = AdmissionSuccessResponse | CommonFailedResponse;
+
+export interface PostAdmissionPostOptions {
+  name: string;
+  id: string;
+}
+
+export const postAdmission = (
+  data: PostAdmissionPostOptions
+): Promise<AdmissionResponse> =>
+  new Promise((resolve, reject) => {
+    wx.request<AdmissionResponse>({
+      method: "POST",
+      url: `${service}enroll/post-admission`,
+      enableHttp2: true,
+      data,
+      success: ({ data, statusCode }) => {
+        if (statusCode === 200) {
+          resolve(data);
+        } else {
+          logger.error("获取研究生录取信息失败", statusCode);
+          reject();
+        }
+      },
+      fail: () => reject(),
+    });
+  });
+
+export interface UnderAdmissionPostOptions {
+  captcha: string;
+  name: string;
+  id: string;
+  testId: string;
+  cookies: Cookie[];
+}
+
+export interface GetUnderAdmissionResponse {
+  cookies: Cookie[];
+  info: string[];
+  captcha: string;
+  notice: string;
+  detail: { title: string; content: string };
+}
+
+export const underAdmission = <T>(
+  method: "GET" | "POST",
+  data: Record<string, unknown> = {}
+): Promise<T> =>
+  new Promise((resolve, reject) => {
+    wx.request({
+      method,
+      url: `${service}enroll/under-admission`,
+      enableHttp2: true,
+      ...(data ? { data } : {}),
+      success: ({ data, statusCode }) => {
+        if (statusCode === 200) {
+          resolve(<T>data);
+        } else {
+          logger.error("获取本科录取信息失败", statusCode);
+          reject();
+        }
+      },
+      fail: () => reject(),
+    });
+  });
 
 export interface HistoryGradeOptions {
   year: string;
@@ -22,14 +97,9 @@ export interface EnrollGradeSuccessResponse {
   data: HistoryGradeResult;
 }
 
-export interface EnrollGradeFailedResponse {
-  status: "failed";
-  msg: string;
-}
-
 export type EnrollGradeResponse =
   | EnrollGradeSuccessResponse
-  | EnrollGradeFailedResponse;
+  | CommonFailedResponse;
 
 export const getHistoryGrade = (
   options: EnrollPlanOptions
@@ -39,6 +109,7 @@ export const getHistoryGrade = (
       method: "POST",
       url: `${service}enroll/grade`,
       data: options,
+      enableHttp2: true,
       success: ({ data, statusCode }) => {
         if (statusCode === 200) {
           resolve(data);
@@ -80,14 +151,9 @@ export interface EnrollPlanSuccessResponse {
   data: EnrollPlanInfo[];
 }
 
-export interface EnrollPlanFailedResponse {
-  status: "failed";
-  msg: string;
-}
-
 export type EnrollPlanResponse =
   | EnrollPlanSuccessResponse
-  | EnrollPlanFailedResponse;
+  | CommonFailedResponse;
 
 export const getEnrollPlan = (
   options: EnrollPlanOptions
@@ -97,6 +163,7 @@ export const getEnrollPlan = (
       method: "POST",
       url: `${service}enroll/plan`,
       data: options,
+      enableHttp2: true,
       success: ({ data, statusCode }) => {
         if (statusCode === 200) {
           resolve(data);

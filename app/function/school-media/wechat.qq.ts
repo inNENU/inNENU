@@ -37,10 +37,10 @@ $Page(PAGE_ID, {
     });
 
     wx.request<WechatConfig>({
-      url: `${server}service/account.php`,
-      enableHttp2: true,
       method: "POST",
+      url: `${server}service/account.php`,
       data: { id: path },
+      enableHttp2: true,
       success: ({ data, statusCode }) => {
         if (statusCode === 200) this.setData({ loading: false, config: data });
         else tip("服务器出现问题");

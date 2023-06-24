@@ -39,7 +39,7 @@
         catch:blur="blur"
       />
     </view>
-    <view wx:if="{{verifyCode}}" class="list-item">
+    <view wx:if="{{captcha}}" class="list-item">
       <view class="text">验证码</view>
       <input
         id="verify-code"
@@ -48,14 +48,10 @@
         adjust-position="{{false}}"
         placeholder="请输入验证码"
         catch:focus="focus"
-        catch:input="inputVerifyCode"
+        catch:input="inputCaptcha"
         catch:blur="blur"
       />
-      <image
-        class="verify-code"
-        src="{{verifyCode}}"
-        catch:tap="changeVerifyCode"
-      />
+      <image class="verify-code" src="{{captcha}}" catch:tap="changeCaptcha" />
     </view>
   </view>
   <button type="primary" class="search-button" catch:tap="search">查询</button>

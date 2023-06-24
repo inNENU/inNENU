@@ -21,9 +21,9 @@
       "pages": [
         "school-media/school-media",
         "school-media/wechat",
-        "admission/admission",
         "cal/cal",
         "calendar/calendar",
+        "enroll/admission",
         "enroll/grade",
         "enroll/plan",
         "location/location",

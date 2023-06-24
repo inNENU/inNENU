@@ -1,33 +1,15 @@
 import { $Page } from "@mptool/enhance";
 
+import {
+  type AdmissionResponse,
+  type GetUnderAdmissionResponse,
+  postAdmission,
+  underAdmission,
+} from "./api.js";
 import { appCoverPrefix } from "../../utils/config.js";
 import { popNotice } from "../../utils/page.js";
 import { validateId } from "../utils/validate.js";
 
-interface FetchResult {
-  /** cookies */
-  cookies: unknown[];
-  /** 填写信息 */
-  info: string[];
-  /** 验证码 */
-  verifyCode: string;
-  /** 通知 */
-  notice: string;
-  /** 详情 */
-  detail: { title: string; content: string } | null;
-}
-
-interface SearchSuccessResult {
-  status: "success";
-  info: { text: string; value: string }[];
-}
-
-interface SearchErrorResult {
-  status: "error";
-  msg: string;
-}
-
-type SearchResult = SearchErrorResult | SearchSuccessResult;
 interface InputConfig {
   id: string;
   text: string;
@@ -41,7 +23,10 @@ const INPUT_CONFIG = <InputConfig[]>[
   { text: "考生号", type: "digit", placeholder: "请输入考生号", id: "testId" },
 ];
 
-$Page("admission", {
+const PAGE_ID = "admission";
+const PAGE_TITLE = "录取查询";
+
+$Page(PAGE_ID, {
   data: {
     type: "debug",
 
@@ -52,13 +37,13 @@ $Page("admission", {
     input: <InputConfig[]>[],
 
     /** 验证码 */
-    verifyCode: "",
+    captcha: "",
 
     /** 弹窗配置 */
     popupConfig: { title: "查询结果", cancel: false },
 
     /**  查询结果 */
-    result: <SearchResult | null>null,
+    result: <AdmissionResponse | null>null,
 
     /** 是否正在输入 */
     isTyping: false,
@@ -74,7 +59,7 @@ $Page("admission", {
     input: <Record<string, string>>{},
 
     /** 验证码 */
-    verifyCode: "",
+    captcha: "",
 
     detail: <{ title: string; content: string } | null>null,
 
@@ -100,7 +85,7 @@ $Page("admission", {
     if (info) this.state.input = info;
 
     // 设置通知
-    popNotice("admission");
+    popNotice(PAGE_ID);
   },
 
   // eslint-disable-next-line @typescript-eslint/no-empty-function
@@ -108,18 +93,18 @@ $Page("admission", {
 
   onShareAppMessage(): WechatMiniprogram.Page.ICustomShareContent {
     return {
-      title: "录取查询",
-      path: `/function/admission/admission?type=${this.data.type}`,
+      title: PAGE_TITLE,
+      path: `/function/enroll/admission?type=${this.data.type}`,
     };
   },
 
   onShareTimeline(): WechatMiniprogram.Page.ICustomTimelineContent {
-    return { title: "录取查询", query: "type=${this.data.type}" };
+    return { title: PAGE_TITLE, query: `type=${this.data.type}` };
   },
 
   onAddToFavorites(): WechatMiniprogram.Page.IAddToFavoritesContent {
     return {
-      title: "录取查询",
+      title: PAGE_TITLE,
       imageUrl: `${appCoverPrefix}.jpg`,
       query: `type=${this.data.type}`,
     };
@@ -169,8 +154,8 @@ $Page("admission", {
     this.state.input[currentTarget.id] = detail.value;
   },
 
-  inputVerifyCode({ detail }: WechatMiniprogram.Input) {
-    this.state.verifyCode = detail.value;
+  inputCaptcha({ detail }: WechatMiniprogram.Input) {
+    this.state.captcha = detail.value;
   },
 
   blur() {
@@ -178,33 +163,47 @@ $Page("admission", {
   },
 
   getInfo(level: string) {
-    wx.request<FetchResult>({
-      method: "POST",
-      url: "https://mp.innenu.com/service/admission-notice.php",
-      enableHttp2: true,
-      data: { type: "fetch", level },
-      success: ({ data, statusCode }) => {
-        if (statusCode === 200) {
-          console.log("Get verify code sucess with:", data);
+    wx.showLoading({ title: "获取中" });
+    if (level === "本科生")
+      void underAdmission<GetUnderAdmissionResponse>("GET").then((data) => {
+        const { cookies, info, captcha, notice, detail } = data;
 
-          const { cookies, info, verifyCode, notice, detail } = data;
-
-          this.state.cookies = cookies;
-          this.state.detail = detail;
-          this.state.info = info;
-          this.setData({
-            verifyCode,
+        this.state.cookies = cookies;
+        this.state.detail = detail;
+        this.state.info = info;
+        this.setData(
+          {
+            captcha,
             input: info.map(
               (item) => INPUT_CONFIG.find(({ id }) => id === item)!
             ),
             notice,
-          });
+          },
+          () => {
+            wx.hideLoading();
+          }
+        );
+      });
+    else {
+      this.state.cookies = [];
+      this.state.detail = null;
+      this.setData(
+        {
+          cookies: [],
+          captcha: "",
+          input: ["name", "id"].map(
+            (item) => INPUT_CONFIG.find(({ id }) => id === item)!
+          ),
+          notice: "考生姓名只需输入前三个汉字",
+        },
+        () => {
+          wx.hideLoading();
         }
-      },
-    });
+      );
+    }
   },
 
-  changeVerifyCode() {
+  changeCaptcha() {
     this.getInfo(this.data.level);
   },
 
@@ -217,7 +216,7 @@ $Page("admission", {
   },
 
   search() {
-    const { info, input } = this.state;
+    const { captcha, cookies, info, input } = this.state;
 
     if (info.includes("name") && !input.name) return this.tip("未填写姓名");
 
@@ -228,25 +227,20 @@ $Page("admission", {
       return this.tip("未填写准考证号");
 
     wx.setStorageSync("admission-info", input);
-    wx.request<SearchResult>({
-      method: "POST",
-      url: "https://mp.innenu.com/service/admission-notice.php",
-      enableHttp2: true,
-      data: {
-        type: "search",
-        level: this.data.level,
-        cookies: this.state.cookies,
-        ...this.state.input,
-        verifyCode: this.state.verifyCode,
-      },
-      success: ({ data, statusCode }) => {
-        if (statusCode === 200) {
-          console.log("Get verify code sucess with:", data);
 
-          this.setData({ result: data });
-        }
-      },
-    });
+    // TODO: 研究生
+    if (this.data.level === "本科生")
+      underAdmission<AdmissionResponse>("POST", {
+        cookies,
+        ...input,
+        captcha,
+      }).then((response) => {
+        this.setData({ result: response });
+      });
+    else
+      postAdmission({ name: input.name, id: input.id }).then((response) => {
+        this.setData({ result: response });
+      });
   },
 
   showDetail() {

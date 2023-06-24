@@ -278,8 +278,8 @@
         },
         {
           "name": "录取查询",
-          "pathName": "function/admission/admission",
-          "query": "",
+          "pathName": "function/enroll/admission",
+          "query": "type=search",
           "launchMode": "default",
           "scene": null
         }
