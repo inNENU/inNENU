@@ -4,10 +4,11 @@ import { set } from "@mptool/file";
 import { type AccountBasicInfo } from "./app.js";
 import { service } from "./config.js";
 import { WEEK } from "./constant.js";
+import { Cookie } from "../../typings/index.js";
 
 export interface LoginSuccessResponse {
   status: "success";
-  cookies: string[];
+  cookies: Cookie[];
 }
 
 export interface LoginFailedResponse {
@@ -56,15 +57,12 @@ export interface InfoFailedResponse {
 
 export type InfoResponse = InfoSuccessResponse | InfoFailedResponse;
 
-export const getInfo = ({
-  id,
-  password,
-}: AccountBasicInfo): Promise<InfoResponse> =>
+export const getInfo = (cookies: Cookie[]): Promise<InfoResponse> =>
   new Promise((resolve, reject) => {
     wx.request<InfoResponse>({
       method: "POST",
       url: `${service}auth/info`,
-      data: { id, password },
+      data: { cookies },
       success: ({ data, statusCode }) => {
         if (statusCode === 200) {
           resolve(data);

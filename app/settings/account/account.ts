@@ -1,5 +1,5 @@
 import { $Page } from "@mptool/enhance";
-import { get, set } from "@mptool/file";
+import { get, remove, set } from "@mptool/file";
 
 import {
   type ListComponentConfig,
@@ -138,7 +138,7 @@ $Page(PAGE_ID, {
           set("account-info", { id: Number(id), password }, MONTH);
 
           wx.showLoading({ title: "获取信息" });
-          getInfo({ id: Number(id), password }).then((response) => {
+          getInfo(response.cookies).then((response) => {
             wx.hideLoading();
             if (response.status === "success") {
               const userInfo: UserInfo = {
@@ -175,8 +175,8 @@ $Page(PAGE_ID, {
       // eslint-disable-next-line @typescript-eslint/naming-convention
       "list.items": EMPTY_CONTENT,
     });
-    wx.removeStorageSync("account-info");
-    wx.removeStorageSync("user-info");
+    remove("account-info");
+    remove("user-info");
     modal("删除成功", "已删除本地账号信息");
   },
 });
