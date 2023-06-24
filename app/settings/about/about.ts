@@ -23,7 +23,7 @@ $Page(PAGE_ID, {
     theme: globalData.theme,
     darkmode: globalData.darkmode,
     page: <PageDataWithContent>{
-      title: "关于",
+      title: "关于 in 东师",
       desc: `当前版本: ${globalData.version}`,
       grey: true,
       content: [

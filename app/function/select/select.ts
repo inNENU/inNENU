@@ -21,7 +21,7 @@ import {
 } from "./utils.js";
 import { type AppOption } from "../../app.js";
 import { modal, tip } from "../../utils/api.js";
-import { type AccountInfo } from "../../utils/app.js";
+import { type AccountBasicInfo } from "../../utils/app.js";
 import { appCoverPrefix } from "../../utils/config.js";
 import { getColor, popNotice } from "../../utils/page.js";
 import { promiseQueue } from "../utils/promiseQueue.js";
@@ -88,7 +88,7 @@ $Page(PAGE_ID, {
   },
 
   state: {
-    accountInfo: null as AccountInfo | null,
+    accountInfo: null as AccountBasicInfo | null,
     cookies: <string[]>[],
     server: "",
     jx0502id: "",
@@ -117,7 +117,7 @@ $Page(PAGE_ID, {
   },
 
   onShow() {
-    const accountInfo = get<AccountInfo>("account-info") || null;
+    const accountInfo = get<AccountBasicInfo>("account-info") || null;
 
     if (accountInfo) {
       this.state.accountInfo = accountInfo;

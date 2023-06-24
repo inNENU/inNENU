@@ -1,4 +1,3 @@
-<import src="/components/template.wxml" />
 <page-meta
   background-text-style="{{darkmode ? 'dark' : 'light'}}"
   background-color="{{color.bgColor}}"
@@ -6,9 +5,11 @@
   background-color-bottom="{{color.bgColorBottom}}"
   root-background-color="{{color.bgColor}}"
 />
-<view class="{{theme}} grey">
+<view class="{{theme}}">
   <navbar theme="{{theme}}" darkmode="{{darkmode}}" nav="{{nav}}" />
-  <template is="components" data="{{content, theme}}" />
+
+  <title config="{{ { text: '账号密码' } }}" />
+
   <view class="input-list-wrapper">
     <view class="list-item">
       <view class="text">学号</view>
@@ -21,19 +22,6 @@
         value="{{id}}"
         catch:input="input"
       />
-    </view>
-    <view class="list-item">
-      <view class="text">邮箱</view>
-      <input
-        id="email"
-        class="input"
-        type="text"
-        adjust-position="{{false}}"
-        placeholder="邮箱用户名"
-        value="{{email}}"
-        catch:input="input"
-      />
-      <view class="unit">@nenu.edu.cn</view>
     </view>
     <view class="list-item">
       <view class="text">密码</view>
@@ -63,5 +51,16 @@
     </view>
   </view>
 
-  <button type="primary" class="account-button" bindtap="login">保存</button>
+  <button type="primary" class="account-button" bindtap="save">
+    保存在本地
+  </button>
+  <button type="warn" class="account-button" bindtap="delete">
+    删除本地账户
+  </button>
+
+  <title config="{{ { text: '个人信息' } }}" />
+
+  <list config="{{list}}" />
+
+  <footer config="{{footer}}" />
 </view>

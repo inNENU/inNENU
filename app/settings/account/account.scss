@@ -44,5 +44,9 @@
 }
 
 .account-button {
-  margin-top: 32px;
+  margin: 16px;
+}
+
+.list-component-content .desc {
+  max-width: unset !important;
 }

@@ -1,10 +1,14 @@
 import { $Page } from "@mptool/enhance";
 import { get, set } from "@mptool/file";
 
+import {
+  type ListComponentConfig,
+  type ListComponentItemConfig,
+} from "../../../typings/components.js";
 import { type AppOption } from "../../app.js";
-import { validateAccount } from "../../utils/account.js";
+import { getInfo, login } from "../../utils/account.js";
 import { modal, tip } from "../../utils/api.js";
-import { type AccountInfo } from "../../utils/app.js";
+import { type AccountBasicInfo, type UserInfo } from "../../utils/app.js";
 import { appCoverPrefix } from "../../utils/config.js";
 import { MONTH } from "../../utils/constant.js";
 import { popNotice } from "../../utils/page.js";
@@ -13,6 +17,23 @@ const { globalData } = getApp<AppOption>();
 
 const PAGE_ID = "account";
 const PAGE_TITLE = "账号信息";
+
+const EMPTY_CONTENT = [{ text: "暂无个人信息" }];
+
+const getDisplay = (userInfo: UserInfo): ListComponentItemConfig[] => {
+  const { name, email } = userInfo;
+
+  return [
+    {
+      text: "姓名",
+      desc: name,
+    },
+    {
+      text: "邮箱",
+      desc: email,
+    },
+  ];
+};
 
 $Page(PAGE_ID, {
   data: {
@@ -25,18 +46,25 @@ $Page(PAGE_ID, {
       from: "功能大厅",
     },
 
-    content: [
-      {
-        tag: "title",
-        text: "账号信息",
-      },
-    ],
+    inputTitle: {
+      text: "账号信息",
+    },
+
+    list: <ListComponentConfig>{
+      header: false,
+      items: EMPTY_CONTENT,
+    },
+
+    footer: {
+      desc: "Mr.Hope 会严格遵守隐私协议的要求，您的账号、密码与个人信息将仅存储在本地，并在卸载 App或小程序时一并删除。Mr.Hope 不会收集并存储您的任何信息。",
+    },
 
     id: "",
     password: "",
-    email: "",
-
     showPassword: false,
+
+    name: "",
+    email: "",
   },
 
   state: {
@@ -44,13 +72,18 @@ $Page(PAGE_ID, {
   },
 
   onLoad({ update }) {
-    const accountInfo = get<AccountInfo>("account-info") || null;
+    const accountInfo = get<AccountBasicInfo>("account-info") || null;
+    const userInfo = get<UserInfo>("user-info") || null;
 
     if (accountInfo)
       this.setData({
         id: accountInfo.id.toString(),
-        email: accountInfo.email,
         password: accountInfo.password,
+      });
+    if (userInfo)
+      this.setData({
+        // eslint-disable-next-line @typescript-eslint/naming-convention
+        "list.items": getDisplay(userInfo),
       });
     if (update) this.state.shouldNavigateBack = true;
   },
@@ -87,33 +120,63 @@ $Page(PAGE_ID, {
     this.setData({ showPassword: !this.data.showPassword });
   },
 
-  login() {
-    const { email, id, password } = this.data;
+  save() {
+    const { id, password } = this.data;
 
-    if (!id || !password || !email) {
-      wx.showToast({
-        title: "请输入完整信息",
-        icon: "error",
-      });
+    if (!id || !password) {
+      wx.showToast({ title: "请输入完整信息", icon: "error" });
 
       return;
     }
 
     wx.showLoading({ title: "验证中..." });
 
-    validateAccount({ id: Number(id), email, password })
-      .then((success) => {
+    login({ id: Number(id), password })
+      .then((response) => {
         wx.hideLoading();
-        if (success) {
-          set("account-info", { id: Number(id), email, password }, MONTH);
+        if (response.status === "success") {
+          set("account-info", { id: Number(id), password }, MONTH);
+
+          wx.showLoading({ title: "获取信息" });
+          getInfo({ id: Number(id), password }).then((response) => {
+            wx.hideLoading();
+            if (response.status === "success") {
+              const userInfo: UserInfo = {
+                id: Number(id),
+                name: response.name,
+                email: response.email,
+                grade: Number(id.substring(0, 4)),
+              };
+
+              modal("登陆成功", "个人信息获取成功");
+              set("user-info", userInfo, MONTH);
+              this.setData({
+                // eslint-disable-next-line @typescript-eslint/naming-convention
+                "list.items": getDisplay(userInfo),
+              });
+            }
+          });
+
           if (this.state.shouldNavigateBack) this.$back();
         } else {
-          modal("账号或密码错误", "账号密码错误，请重试。");
+          modal("登陆失败", response.msg);
         }
       })
       .catch(() => {
         wx.hideLoading();
         tip("验证失败");
       });
+  },
+
+  delete() {
+    this.setData({
+      id: "",
+      password: "",
+      // eslint-disable-next-line @typescript-eslint/naming-convention
+      "list.items": EMPTY_CONTENT,
+    });
+    wx.removeStorageSync("account-info");
+    wx.removeStorageSync("user-info");
+    modal("删除成功", "已删除本地账号信息");
   },
 });

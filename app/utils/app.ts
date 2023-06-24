@@ -14,11 +14,20 @@ export type AppID =
   | 1109559721;
 export type Env = "app" | "qq" | "wx" | "web";
 
-export interface AccountInfo {
+export interface AccountBasicInfo {
   /** 学号 */
   id: number;
   /** 密码 */
   password: string;
+}
+
+export interface UserInfo {
+  /** 姓名 */
+  name: string;
+  /** 学号 */
+  id: number;
+  /** 年级 */
+  grade: number;
   /** 邮箱 */
   email: string;
 }
@@ -45,7 +54,8 @@ export interface GlobalData {
   /** 版本号 */
   version: string;
   /** 账号信息 */
-  account: AccountInfo | null;
+  account: AccountBasicInfo | null;
+  userInfo: UserInfo | null;
   /** 播放器信息 */
   music: MusicState;
   /** 页面信息 */
@@ -399,7 +409,8 @@ export const getGlobalData = (): GlobalData => {
 
   return {
     version,
-    account: get<AccountInfo | undefined>("account-info") || null,
+    account: get<AccountBasicInfo | undefined>("account-info") || null,
+    userInfo: get<UserInfo | undefined>("user-info") || null,
     music: { playing: false, index: 0 },
     page: {
       data: {},

@@ -30,7 +30,7 @@ export interface GridComponentItemConfig extends GridComponentItemOptions {
 }
 
 export interface GridComponentConfig extends GridComponentOptions {
-  content: GridComponentItemConfig[];
+  items: GridComponentItemConfig[];
 }
 
 export interface ListComponentItemConfig extends ListComponentItemOptions {
@@ -39,7 +39,7 @@ export interface ListComponentItemConfig extends ListComponentItemOptions {
 }
 
 export interface ListComponentConfig extends ListComponentOptions {
-  content: ListComponentItemConfig[];
+  items: ListComponentItemConfig[];
 }
 
 export interface SwitchListComponentItemConfig

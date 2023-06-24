@@ -1,4 +1,5 @@
 {
+  "navigationBarTitleText": "东师指南",
   "enablePullDownRefresh": true,
   "usingComponents": {
     "search": "/components/search/search"
