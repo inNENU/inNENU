@@ -4,7 +4,7 @@ export const server = "https://mp.innenu.com/";
 export const service = "https://service.innenu.com/";
 
 /** 小程序版本 */
-export const version = "5.4.1";
+export const version = "5.5.0";
 
 /** App初始化选项 */
 export interface AppConfig {
