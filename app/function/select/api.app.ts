@@ -51,8 +51,7 @@ export const login = (
       success: ({ data, statusCode }) => {
         if (statusCode === 200) {
           resolve(data);
-          if (data.status === "failed")
-            logger.error("登录失败", options, data.msg);
+          if (data.status === "failed") logger.error("登录失败", data.msg);
         } else reject();
       },
       fail: () => reject(),

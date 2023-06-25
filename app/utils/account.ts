@@ -11,7 +11,11 @@ export interface LoginSuccessResponse {
   cookies: Cookie[];
 }
 
-export type LoginResponse = LoginSuccessResponse | CommonFailedResponse;
+export interface LoginFailedResponse extends CommonFailedResponse {
+  type: "captcha" | "wrong" | "unknown";
+}
+
+export type LoginResponse = LoginSuccessResponse | LoginFailedResponse;
 
 export const login = ({
   id,
