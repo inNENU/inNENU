@@ -3,14 +3,14 @@
   "name": "in东师",
   "version": "5.5.0",
   "mini-android": {
-    "sdkVersion": "1.0.2",
+    "sdkVersion": "1.0.3",
     "toolkitVersion": "0.7.3",
     "useExtendedSdk": {
       "media": true,
       "bluetooth": false,
       "network": false,
       "scanner": false,
-      "xweb": false
+      "xweb": true
     },
     "icons": {
       "hdpi": "assets/icon-hdpi.jpg",
@@ -27,13 +27,20 @@
     "privacy": {
       "enable": true,
       "template": "miniapp-privacy.json"
+    },
+    "abi": {
+      "arm64-v8a": true
+    },
+    "privateDescriptions": {
+      "ACCESS_COARSE_LOCATION": "您的位置将用于地图显示",
+      "ACCESS_FINE_LOCATION": "您的位置将用于校园地图导航"
     }
   },
   "mini-ios": {
     "sdkVersion": "1.0.6",
     "toolkitVersion": "0.0.9",
     "useExtendedSdk": {
-      "WeAppOpenFuns": true,
+      "WeAppOpenFuns": false,
       "WeAppNetwork": false,
       "WeAppBluetooth": false,
       "WeAppMedia": true,
@@ -59,5 +66,6 @@
       "enable": true,
       "template": "miniapp-privacy.json"
     }
-  }
+  },
+  "versionCode": 100
 }
