@@ -1,19 +1,6 @@
-var weeks = ["周一", "周二", "周三", "周四", "周五", "周六", "周日"];
-var classNames = [
-  "1、2节",
-  "3、4节",
-  "5、6节",
-  "7、8节",
-  "9、10节",
-  "11、12节",
-];
-var sorterNames = ["名称", "教师", "空余量", "已选人数", "容量"];
-
 module.exports = {
-  weeks: weeks,
   titles: ["已选课程", "课程列表", "个人信息"],
-  class: classNames,
-  sorterNames: sorterNames,
+  sorterNames: ["名称", "教师", "空余量", "已选人数", "容量"],
 
   getRange: function (values, key) {
     var result = values.map(function (item) {
@@ -23,10 +10,6 @@ module.exports = {
     result.unshift("全部");
 
     return result;
-  },
-
-  getClass: function (index) {
-    return classNames[index];
   },
 
   getPickerDisplay: function (values, index, key) {
@@ -39,7 +22,7 @@ module.exports = {
     return key ? value[key] : value;
   },
 
-  getTime: function (times) {
+  getTime: function (times, weeks) {
     if (times) {
       return times
         .split(",")
@@ -52,7 +35,7 @@ module.exports = {
     return "";
   },
 
-  getExamTime: function (time) {
+  getExamTime: function (time, weeks) {
     if (time) {
       var temp = time.split("-");
 
