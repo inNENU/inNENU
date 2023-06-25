@@ -88,6 +88,13 @@
           "scene": null
         },
         {
+          "name": "课程表",
+          "pathName": "function/course/table",
+          "query": "",
+          "launchMode": "default",
+          "scene": null
+        },
+        {
           "name": "天气",
           "pathName": "function/weather/weather",
           "query": "",

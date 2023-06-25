@@ -82,6 +82,13 @@
           "scene": null
         },
         {
+          "name": "课程表",
+          "pathName": "function/course/table",
+          "query": "",
+          "launchMode": "default",
+          "scene": null
+        },
+        {
           "name": "二维码分享",
           "pathName": "pages/info/info",
           "query": "scene=guide/dorm/index",

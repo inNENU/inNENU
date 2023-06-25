@@ -15,6 +15,7 @@
     "settings/storage/storage",
     "function/cal/cal",
     "function/calendar/calendar",
+    "function/course/table",
     "function/enroll/admission",
     "function/enroll/grade",
     "function/enroll/plan",

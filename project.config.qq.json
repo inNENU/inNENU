@@ -118,6 +118,13 @@
         },
         {
           "id": 4,
+          "name": "课程表",
+          "pathName": "function/course/table",
+          "query": "",
+          "scene": null
+        },
+        {
+          "id": 4,
           "name": "天气",
           "pathName": "function/weather/weather",
           "query": "",
