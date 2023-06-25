@@ -7,6 +7,8 @@ import { popNotice } from "../../utils/page.js";
 
 const { globalData } = getApp<AppOption>();
 
+const PAGE_ID = "website";
+
 $Page("website", {
   data: {
     config: <unknown[]>[],
@@ -26,7 +28,7 @@ $Page("website", {
       });
     });
 
-    popNotice("account");
+    popNotice(PAGE_ID);
   },
 
   onResize({ size }) {

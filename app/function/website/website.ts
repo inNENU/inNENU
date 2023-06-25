@@ -8,7 +8,10 @@ import { popNotice } from "../../utils/page.js";
 
 const { globalData } = getApp<AppOption>();
 
-$Page("website", {
+const PAGE_ID = "website";
+const PAGE_TITLE = "东师网站";
+
+$Page(PAGE_ID, {
   data: {
     config: <unknown[]>[],
   },
@@ -27,18 +30,18 @@ $Page("website", {
       });
     });
 
-    popNotice("account");
+    popNotice(PAGE_ID);
   },
 
   onShareAppMessage: () => ({
-    title: "东师网站",
+    title: PAGE_TITLE,
     path: `/function/website/website`,
   }),
 
-  onShareTimeline: () => ({ title: "东师网站" }),
+  onShareTimeline: () => ({ title: PAGE_TITLE }),
 
   onAddToFavorites: () => ({
-    title: "东师网站",
+    title: PAGE_TITLE,
     imageUrl: `${appCoverPrefix}.jpg`,
   }),
 
