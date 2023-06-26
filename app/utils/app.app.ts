@@ -1,6 +1,6 @@
 /* eslint-disable max-lines */
 import { emitter, logger } from "@mptool/enhance";
-import { get, ls, rm, writeJSON } from "@mptool/file";
+import { get, writeJSON } from "@mptool/file";
 
 import { getDarkmode, modal, requestJSON, tip } from "./api.js";
 import { appConfig, server, version } from "./config.js";
@@ -188,12 +188,7 @@ export const updateNotice = (globalData: GlobalData): void => {
     });
 };
 
-interface UpdateInfo {
-  /** 是否进行强制更新 */
-  forceUpdate: boolean;
-  /** 是否进行强制初始化 */
-  reset: boolean;
-}
+version;
 
 /**
  * 检查小程序更新
@@ -203,75 +198,39 @@ interface UpdateInfo {
  * @param globalData 小程序的全局数据
  */
 export const updateApp = (globalData: GlobalData): void => {
-  const updateManager = wx.getUpdateManager?.();
+  // 请求配置文件
+  requestJSON<string>(`r/config/${globalData.appID}/version`).then(
+    (onlineVersion) => {
+      const getNeedUpdate = (): boolean => {
+        const [onlineMajor, onlineMinor, onlinePatch] =
+          onlineVersion.split(".");
+        const [localMajor, localMinor, localPatch] =
+          globalData.version.split(".");
 
-  if (updateManager) {
-    // 检查更新
-    updateManager.onCheckForUpdate(({ hasUpdate }) => {
-      // 找到更新，提示用户获取到更新
-      if (hasUpdate) tip("发现小程序更新，下载中...");
-    });
+        if (onlineMajor > localMajor) return true;
+        if (localMajor > onlineMajor) return false;
+        if (onlineMinor > localMinor) return true;
+        if (localMinor > onlineMinor) return false;
+        if (onlinePatch > localPatch) return true;
 
-    updateManager.onUpdateReady(() => {
-      // 请求配置文件
-      requestJSON<string>(`r/config/${globalData.appID}/version`)
-        .then((version) =>
-          // 请求配置文件
-          requestJSON<UpdateInfo>(
-            `r/config/${globalData.appID}/${version}/config`
-          )
-            .then(({ forceUpdate, reset }) => {
-              // 更新下载就绪，提示用户重新启动
-              wx.showModal({
-                title: "已找到新版本",
-                content: `新版本${version}已下载，请重启应用更新。${
-                  reset ? "该版本会初始化小程序。" : ""
-                }`,
-                showCancel: !reset && !forceUpdate,
-                confirmText: "应用",
-                cancelText: "取消",
-                success: ({ confirm }) => {
-                  // 用户确认，应用更新
-                  if (confirm) {
-                    // 需要初始化
-                    if (reset) {
-                      // 显示提示
-                      wx.showLoading({ title: "初始化中", mask: true });
+        return false;
+      };
 
-                      // 清除文件系统文件与数据存储
-                      ls("").forEach((filePath) => rm(filePath));
-                      wx.clearStorageSync();
-
-                      // 隐藏提示
-                      wx.hideLoading();
-                    }
-
-                    // 应用更新
-                    updateManager.applyUpdate();
-                  }
-                },
-              });
-            })
-            .catch(() => {
-              // 调试信息
-              logger.warn(`config file error`);
-            })
-        )
-        .catch(() => {
-          // 调试信息
-          logger.warn(`version file error`);
-        });
-    });
-
-    // 更新下载失败
-    updateManager.onUpdateFailed(() => {
-      // 提示用户网络出现问题
-      tip("小程序更新下载失败，请检查您的网络!");
-
-      // 调试
-      logger.warn("Update App failed because of Net Error");
-    });
-  }
+      if (getNeedUpdate())
+        modal(
+          "App有新版本",
+          `App 的最新版本是 ${onlineVersion}，点击确定复制下载链接到剪切板。请手动粘贴到浏览器开启下载。`,
+          () => {
+            wx.setClipboardData({
+              data: `https://assets.innenu.com/innenu-v${version}.apk`,
+            });
+          },
+          () => {
+            // do nothing
+          }
+        );
+    }
+  );
 };
 
 interface LoginCallback {
