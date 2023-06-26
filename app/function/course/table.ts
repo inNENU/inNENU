@@ -8,6 +8,25 @@ import { appCoverPrefix } from "../../utils/config.js";
 import { MONTH } from "../../utils/constant.js";
 import { popNotice } from "../../utils/page.js";
 
+export type WeekRange = [number, number];
+
+export interface ClassData {
+  name: string;
+  teacher: string;
+  time: string;
+  location: string;
+  weeks: WeekRange[];
+}
+
+export type CellData = ClassData[];
+export type RowData = CellData[];
+export type TableData = RowData[];
+
+interface CourseTableData {
+  courseData: TableData;
+  weeks: number;
+}
+
 const PAGE_ID = "course-table";
 const PAGE_TITLE = "课程表";
 
@@ -43,61 +62,92 @@ const getDisplayTime = (time: string): string => {
   return semester === "1" ? `${startYear}年秋季学期` : `${endYear}年春季学期`;
 };
 
+const getWeekRange = (timeText: string): WeekRange[] => {
+  const match = /([\d,-]+)周/.exec(timeText);
+
+  return match
+    ? match[1].split(",").map((item) => {
+        const range = item.split("-");
+
+        if (range.length === 1) range.push(range[0]);
+
+        return range.map((str) => Number.parseInt(str, 10)) as WeekRange;
+      })
+    : [];
+};
+
+const handleCourseTable = (courseTable: TableItem): CourseTableData => {
+  let weeks = 0;
+
+  const courseData = courseTable.map((row) =>
+    row.map((cell) =>
+      cell.map((item) => {
+        const courseWeeks = getWeekRange(item.time);
+
+        if (courseWeeks.length > 0)
+          weeks = Math.max(courseWeeks[courseWeeks.length - 1][1], weeks);
+
+        return { ...item, weeks: courseWeeks };
+      })
+    )
+  );
+
+  return { courseData, weeks };
+};
+
 $Page(PAGE_ID, {
   data: {
-    courseTable: <TableItem>[],
+    courseData: <TableData>[],
     times: <string[]>[],
-    index: 0,
+    timeIndex: 0,
+    weeks: 0,
+    weekIndex: 0,
   },
 
   state: {
     accountInfo: <AccountBasicInfo>{},
-    courseTableInfo: <Record<string, TableItem>>{},
+    coursesDataInfo: <Record<string, CourseTableData>>{},
     grade: new Date().getFullYear(),
   },
 
   onShow() {
     const accountInfo = get<AccountBasicInfo>("account-info");
-    const courseTableInfo = get<Record<string, TableItem>>("course-table-info");
+    const coursesDataInfo =
+      get<Record<string, CourseTableData>>("course-data-info");
 
-    if (courseTableInfo) this.state.courseTableInfo = courseTableInfo;
+    if (coursesDataInfo) this.state.coursesDataInfo = coursesDataInfo;
 
     if (!accountInfo) {
       modal("请先登录", "暂无账号信息，请输入", (): void => {
         this.$go("account?update=true");
       });
     } else {
-      this.state.accountInfo = accountInfo;
       const grade = Math.floor(accountInfo.id / 1000000);
       const times = getTimes(grade);
       const timeDisplays = times.map(getDisplayTime);
       const time = getCurrentTime();
-      const index = times.indexOf(time);
+      const timeIndex = times.indexOf(time);
 
-      console.log(grade, times);
+      this.state.accountInfo = accountInfo;
 
-      if (courseTableInfo && courseTableInfo[time]) {
+      if (coursesDataInfo && coursesDataInfo[time]) {
+        const { courseData, weeks } = coursesDataInfo[time];
+
         this.setData({
-          courseTable: courseTableInfo[time],
+          courseData,
+          weeks,
           times,
           timeDisplays,
-          index,
+          timeIndex,
+          weekIndex: 0,
         });
       } else {
-        wx.showLoading({ title: "获取中" });
-        void getCourseTable({ ...accountInfo, time }).then((res) => {
-          wx.hideLoading();
-          if (res.status === "success") {
-            this.setData({
-              courseTable: res.data,
-              times,
-              timeDisplays,
-              index,
-            });
-            this.state.courseTableInfo[time] = res.data;
-            set("course-table-info", this.state.courseTableInfo, 6 * MONTH);
-          } else modal("获取失败", res.msg);
+        this.setData({
+          times,
+          timeDisplays,
+          timeIndex,
         });
+        void this.getCourseData(time);
       }
     }
 
@@ -116,52 +166,55 @@ $Page(PAGE_ID, {
     imageUrl: `${appCoverPrefix}.jpg`,
   }),
 
+  getCourseData(time: string) {
+    const { accountInfo } = this.state;
+
+    wx.showLoading({ title: "获取中" });
+
+    return getCourseTable({ ...accountInfo, time }).then((res) => {
+      wx.hideLoading();
+      if (res.status === "success") {
+        const data = handleCourseTable(res.data);
+
+        this.setData({ ...data, weekIndex: 0 });
+        this.state.coursesDataInfo[time] = data;
+        set("course-data-info", this.state.coursesDataInfo, 6 * MONTH);
+      } else modal("获取失败", res.msg);
+    });
+  },
+
   changeTime({ detail }: WechatMiniprogram.PickerChange) {
-    const newIndex = Number(detail.value);
-    const { times, index } = this.data;
-    const { accountInfo, courseTableInfo } = this.state;
+    const newTimeIndex = Number(detail.value);
+    const { times, timeIndex } = this.data;
+    const { coursesDataInfo } = this.state;
 
-    if (newIndex !== index) {
-      const newTime = times[newIndex];
+    if (newTimeIndex !== timeIndex) {
+      const newTime = times[newTimeIndex];
 
-      if (courseTableInfo[newTime]) {
+      if (coursesDataInfo[newTime]) {
+        const { courseData, weeks } = coursesDataInfo[newTime];
+
         this.setData({
-          index: newIndex,
-          courseTable: courseTableInfo[newTime],
+          courseData,
+          timeIndex,
+          weeks,
+          weekIndex: 0,
         });
-      } else {
-        wx.showLoading({ title: "获取中" });
-        getCourseTable({ ...accountInfo, time: newTime }).then((res) => {
-          wx.hideLoading();
-          if (res.status === "success") {
-            this.setData({
-              index: newIndex,
-              courseTable: res.data,
-            });
-            this.state.courseTableInfo[newTime] = res.data;
-            set("course-table-info", this.state.courseTableInfo, 6 * MONTH);
-          } else modal("获取失败", res.msg);
-        });
-      }
+      } else this.getCourseData(newTime);
     }
   },
 
-  refreshCourseTable() {
-    const { times, index } = this.data;
-    const { accountInfo } = this.state;
-    const time = times[index];
-
-    wx.showLoading({ title: "获取中" });
-    getCourseTable({ ...accountInfo, time }).then((res) => {
-      wx.hideLoading();
-      if (res.status === "success") {
-        this.setData({
-          courseTable: res.data,
-        });
-        this.state.courseTableInfo[time] = res.data;
-        set("course-table-info", this.state.courseTableInfo, 6 * MONTH);
-      } else modal("获取失败", res.msg);
+  changeWeek({ detail }: WechatMiniprogram.PickerChange) {
+    this.setData({
+      weekIndex: Number(detail.value),
     });
+  },
+
+  refreshCourseTable() {
+    const { times, timeIndex } = this.data;
+    const time = times[timeIndex];
+
+    return this.getCourseData(time);
   },
 
   showClassInfo({
@@ -178,8 +231,8 @@ $Page(PAGE_ID, {
   >) {
     const { class: classInfo } = currentTarget.dataset;
 
-    const { name, teacher, time, location } = classInfo;
+    const { name, teacher, location } = classInfo;
 
-    modal(name, `${time}\n教师: ${teacher}\n${location}`);
+    modal(name, `教师: ${teacher}\n\n地点:${location}`);
   },
 });

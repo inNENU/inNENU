@@ -1,3 +1,5 @@
+@import "../utils/courseTable";
+
 .course-table-wrapper {
   display: flex;
   flex-direction: column;
@@ -24,53 +26,6 @@
 }
 
 .course-table {
-  display: block;
   flex: 1;
   border-top: 1px dashed var(--border-color);
-}
-
-.course-table-header {
-  font-weight: bold;
-  display: flex;
-}
-
-.course-table-header-item {
-  flex: 1;
-  flex-basis: 0;
-  border-left: 1px dashed var(--border-color);
-}
-
-.course-table-row {
-  display: flex;
-}
-
-.course-row-header {
-  flex: 0;
-  flex-basis: 24px;
-  padding: 16px 0;
-  writing-mode: vertical-lr;
-  border-bottom: 1px dashed var(--border-color);
-
-  .course-table-header & {
-    padding: 0;
-  }
-}
-
-.course-table-item {
-  flex: 1;
-  flex-basis: 0;
-  border-left: 1px dashed var(--border-color);
-  border-top: 1px dashed var(--border-color);
-}
-
-.course-table-item:fist-child {
-  font-weight: bold;
-}
-
-.course-table-course-item {
-  margin: 4px 2px;
-  border-radius: 4px;
-  font-size: 13px;
-  border-radius: 4px;
-  border: 1px solid var(--border-color);
 }

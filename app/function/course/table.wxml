@@ -1,4 +1,6 @@
+<wxs src="./table.wxs" module="table" />
 <wxs src="../utils/courseTable.wxs" module="utils" />
+<wxs src="../utils/hash.wxs" module="hash" />
 <page-meta
   background-text-style="{{darkmode ? 'dark' : 'light'}}"
   background-color="{{color.bgColor}}"
@@ -13,10 +15,18 @@
     <picker
       class="time-picker"
       range="{{timeDisplays}}"
-      value="{{index}}"
+      value="{{timeIndex}}"
       bindchange="changeTime"
     >
-      {{(timeDisplays[index])}}
+      {{(timeDisplays[timeIndex])}}
+    </picker>
+    <picker
+      class="time-picker"
+      range="{{table.getWeek(weeks)}}"
+      value="{{weekIndex}}"
+      bindchange="changeWeek"
+    >
+      {{(table.getWeek(weeks)[weekIndex])}}
     </picker>
     <button
       class="refresh-button"
@@ -41,7 +51,7 @@
     <view class="course-table-body">
       <view
         class="course-table-row"
-        wx:for="{{courseTable}}"
+        wx:for="{{courseData}}"
         wx:for-item="row"
         wx:for-index="rowIndex"
       >
@@ -52,21 +62,25 @@
           wx:for-item="cell"
           wx:for-index="columnIndex"
         >
-          <view
+          <block
             wx:for="{{cell}}"
             wx:for-item="class"
             wx:for-index="classIndex"
             wx:key="cid"
-            class="course-table-course-item"
-            data-row="{{rowIndex}}"
-            data-column="{{columnIndex}}"
-            data-cell="{{classIndex}}"
-            data-class="{{class}}"
-            catch:tap="showClassInfo"
           >
-            <view>{{class.name}}</view>
-            <view>{{class.location}}</view>
-          </view>
+            <view
+              wx:if="{{table.isMatchingWeek(weekIndex, class.weeks)}}"
+              class="course-table-course-item course-item{{hash.getHashIndex(class.name)}}"
+              data-row="{{rowIndex}}"
+              data-column="{{columnIndex}}"
+              data-cell="{{classIndex}}"
+              data-class="{{class}}"
+              catch:tap="showClassInfo"
+            >
+              <view class="name">{{class.name}}</view>
+              <view>{{class.location}}</view></view
+            >
+          </block>
         </view>
       </view>
     </view>

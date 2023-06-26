@@ -1,5 +1,6 @@
-<wxs src="../utils/courseTable.wxs" module="utils" />
 <wxs src="./select.wxs" module="select" />
+<wxs src="../utils/courseTable.wxs" module="utils" />
+<wxs src="../utils/hash.wxs" module="hash" />
 <page-meta
   background-text-style="{{darkmode ? 'dark' : 'light'}}"
   background-color="{{color.bgColor}}"
@@ -41,7 +42,7 @@
                   wx:for="{{cell}}"
                   wx:for-item="course"
                   wx:key="cid"
-                  class="course-table-course-item"
+                  class="course-table-course-item course-item{{hash.getHashIndex(course.name)}}"
                   data-cid="{{course.cid}}"
                   catch:tap="showCourseInfo"
                 >
@@ -209,7 +210,7 @@
       value="{{sortKeyIndex}}"
       bindchange="changeRelatedSorter"
     >
-      排序: {{select.sorterNames[sortKeyIndex ]}}
+      排序: {{select.sorterNames[sortKeyIndex]}}
     </picker>
     <view class="actions">
       <button size="mini" catch:tap="changeRelatedSorting">

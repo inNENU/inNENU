@@ -1,0 +1,22 @@
+module.exports = {
+  getWeek: function (week) {
+    var weeks = ["全部"];
+    var i = 1;
+
+    while (i <= week) {
+      weeks.push("第" + i + "周");
+      i++;
+    }
+
+    return weeks;
+  },
+
+  isMatchingWeek: function (weekNumber, ranges) {
+    return (
+      weekNumber === 0 ||
+      ranges.some(function (range) {
+        return weekNumber >= range[0] && weekNumber <= range[1];
+      })
+    );
+  },
+};
