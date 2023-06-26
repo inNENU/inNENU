@@ -34,7 +34,6 @@ $Page("user", {
 
     theme: globalData.theme,
     statusBarHeight: globalData.info.statusBarHeight,
-    env: globalData.env,
     userName: "in东师",
   },
 

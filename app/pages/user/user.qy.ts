@@ -34,6 +34,7 @@ $Page("user", {
 
     theme: globalData.theme,
     statusBarHeight: globalData.info.statusBarHeight,
+    userName: "东师青年",
   },
 
   onPreload(res) {
@@ -55,9 +56,12 @@ $Page("user", {
   },
 
   onShow() {
+    const { userInfo } = globalData;
+
     refreshPage("user").then((data) => {
       setPage({ ctx: this, option: { id: "user" } }, data);
     });
+    this.setData({ userName: userInfo ? userInfo.name : "东师青年" });
     popNotice("user");
   },
 
