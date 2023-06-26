@@ -63,6 +63,7 @@ export type TableItem = RowItem[];
 export interface UserCourseTableSuccessResponse {
   status: "success";
   data: TableItem;
+  startTime: string;
 }
 
 export type UserCourseTableFailedResponse = LoginFailedResponse;

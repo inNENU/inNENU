@@ -5,7 +5,7 @@ import { type ClassItem, type TableItem, getCourseTable } from "./api.js";
 import { modal } from "../../utils/api.js";
 import { type AccountBasicInfo } from "../../utils/app.js";
 import { appCoverPrefix } from "../../utils/config.js";
-import { MONTH } from "../../utils/constant.js";
+import { DAY, MONTH } from "../../utils/constant.js";
 import { popNotice } from "../../utils/page.js";
 
 export type WeekRange = [number, number];
@@ -25,6 +25,7 @@ export type TableData = RowData[];
 interface CourseTableData {
   courseData: TableData;
   weeks: number;
+  startTime: string;
 }
 
 const PAGE_ID = "course-table";
@@ -76,7 +77,10 @@ const getWeekRange = (timeText: string): WeekRange[] => {
     : [];
 };
 
-const handleCourseTable = (courseTable: TableItem): CourseTableData => {
+const handleCourseTable = (
+  courseTable: TableItem,
+  startTime: string
+): CourseTableData => {
   let weeks = 0;
 
   const courseData = courseTable.map((row) =>
@@ -92,7 +96,7 @@ const handleCourseTable = (courseTable: TableItem): CourseTableData => {
     )
   );
 
-  return { courseData, weeks };
+  return { courseData, weeks, startTime };
 };
 
 $Page(PAGE_ID, {
@@ -131,7 +135,12 @@ $Page(PAGE_ID, {
       this.state.accountInfo = accountInfo;
 
       if (coursesDataInfo && coursesDataInfo[time]) {
-        const { courseData, weeks } = coursesDataInfo[time];
+        const { courseData, weeks, startTime } = coursesDataInfo[time];
+
+        // the first one is all courses
+        const passedWeeks = Math.ceil(
+          (new Date().getTime() - new Date(startTime).getTime()) / DAY / 7
+        );
 
         this.setData({
           courseData,
@@ -139,7 +148,7 @@ $Page(PAGE_ID, {
           times,
           timeDisplays,
           timeIndex,
-          weekIndex: 0,
+          weekIndex: passedWeeks >= 0 && passedWeeks <= weeks ? passedWeeks : 0,
         });
       } else {
         this.setData({
@@ -174,10 +183,22 @@ $Page(PAGE_ID, {
     return getCourseTable({ ...accountInfo, time }).then((res) => {
       wx.hideLoading();
       if (res.status === "success") {
-        const data = handleCourseTable(res.data);
+        const { data, startTime } = res;
+        const courseTable = handleCourseTable(data, startTime);
+        // the first one is all courses
+        const passedWeeks = Math.ceil(
+          (new Date().getTime() - new Date(startTime).getTime()) / DAY / 7
+        );
 
-        this.setData({ ...data, weekIndex: 0 });
-        this.state.coursesDataInfo[time] = data;
+        this.setData({
+          courseData: courseTable.courseData,
+          weeks: courseTable.weeks,
+          weekIndex:
+            passedWeeks >= 0 && passedWeeks <= courseTable.weeks
+              ? passedWeeks
+              : 0,
+        });
+        this.state.coursesDataInfo[time] = courseTable;
         set("course-data-info", this.state.coursesDataInfo, 6 * MONTH);
       } else modal("获取失败", res.msg);
     });
