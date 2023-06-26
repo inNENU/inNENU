@@ -99,6 +99,14 @@ const handleCourseTable = (
   return { courseData, weeks, startTime };
 };
 
+const getWeekIndex = (startTime: string, maxWeek: number): number => {
+  const passedWeeks = Math.floor(
+    (new Date().getTime() - new Date(startTime).getTime()) / DAY / 7
+  );
+
+  return passedWeeks >= 0 && passedWeeks <= maxWeek ? passedWeeks + 1 : 0;
+};
+
 $Page(PAGE_ID, {
   data: {
     courseData: <TableData>[],
@@ -137,18 +145,13 @@ $Page(PAGE_ID, {
       if (coursesDataInfo && coursesDataInfo[time]) {
         const { courseData, weeks, startTime } = coursesDataInfo[time];
 
-        // the first one is all courses
-        const passedWeeks = Math.ceil(
-          (new Date().getTime() - new Date(startTime).getTime()) / DAY / 7
-        );
-
         this.setData({
           courseData,
           weeks,
           times,
           timeDisplays,
           timeIndex,
-          weekIndex: passedWeeks >= 0 && passedWeeks <= weeks ? passedWeeks : 0,
+          weekIndex: getWeekIndex(startTime, weeks),
         });
       } else {
         this.setData({
@@ -185,18 +188,12 @@ $Page(PAGE_ID, {
       if (res.status === "success") {
         const { data, startTime } = res;
         const courseTable = handleCourseTable(data, startTime);
-        // the first one is all courses
-        const passedWeeks = Math.ceil(
-          (new Date().getTime() - new Date(startTime).getTime()) / DAY / 7
-        );
+        const { courseData, weeks } = courseTable;
 
         this.setData({
-          courseData: courseTable.courseData,
-          weeks: courseTable.weeks,
-          weekIndex:
-            passedWeeks >= 0 && passedWeeks <= courseTable.weeks
-              ? passedWeeks
-              : 0,
+          courseData,
+          weeks,
+          weekIndex: getWeekIndex(startTime, weeks),
         });
         this.state.coursesDataInfo[time] = courseTable;
         set("course-data-info", this.state.coursesDataInfo, 6 * MONTH);
@@ -205,21 +202,21 @@ $Page(PAGE_ID, {
   },
 
   changeTime({ detail }: WechatMiniprogram.PickerChange) {
-    const newTimeIndex = Number(detail.value);
-    const { times, timeIndex } = this.data;
+    const timeIndex = Number(detail.value);
+    const { times, timeIndex: timeOldIndex } = this.data;
     const { coursesDataInfo } = this.state;
 
-    if (newTimeIndex !== timeIndex) {
-      const newTime = times[newTimeIndex];
+    if (timeIndex !== timeOldIndex) {
+      const newTime = times[timeIndex];
 
       if (coursesDataInfo[newTime]) {
-        const { courseData, weeks } = coursesDataInfo[newTime];
+        const { courseData, weeks, startTime } = coursesDataInfo[newTime];
 
         this.setData({
           courseData,
           timeIndex,
           weeks,
-          weekIndex: 0,
+          weekIndex: getWeekIndex(startTime, weeks),
         });
       } else this.getCourseData(newTime);
     }
