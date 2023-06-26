@@ -6,7 +6,7 @@ import { type AppOption } from "../../app.js";
 import { modal } from "../../utils/api.js";
 import { appCoverPrefix } from "../../utils/config.js";
 import { DAY, MONTH } from "../../utils/constant.js";
-import { popNotice } from "../../utils/page.js";
+import { getColor, popNotice } from "../../utils/page.js";
 
 export type WeekRange = [number, number];
 
@@ -121,6 +121,14 @@ $Page(PAGE_ID, {
   state: {
     coursesData: <Record<string, CourseTableData>>{},
     grade: new Date().getFullYear(),
+  },
+
+  onLoad() {
+    this.setData({
+      color: getColor(),
+      theme: globalData.theme,
+      firstPage: getCurrentPages().length === 1,
+    });
   },
 
   onShow() {
