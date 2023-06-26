@@ -61,7 +61,7 @@ $colors: #c0392b, #d35400, #f39c12, #27ae60, #16a085, #2980b9, #8e44ad, #2c3e50,
     background: color.scale($color, $lightness: 90%);
     color: color.scale($color, $lightness: -10%);
 
-    @media (prefer-color-scheme: dark) {
+    @media (prefers-color-scheme: dark) {
       background: color.scale($color, $lightness: -75%);
       color: color.scale($color, $lightness: 20%);
     }
@@ -69,7 +69,7 @@ $colors: #c0392b, #d35400, #f39c12, #27ae60, #16a085, #2980b9, #8e44ad, #2c3e50,
     &.hover {
       background: color.scale($color, $lightness: 75%);
 
-      @media (prefer-color-scheme: dark) {
+      @media (prefers-color-scheme: dark) {
         background: color.scale($color, $lightness: -60%);
       }
     }
