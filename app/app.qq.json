@@ -19,8 +19,6 @@
     {
       "root": "function",
       "pages": [
-        "school-media/school-media",
-        "school-media/wechat",
         "cal/cal",
         "calendar/calendar",
         "course/table",
@@ -34,6 +32,8 @@
         "pe-calculator/pe-calculator",
         "phone/phone",
         "select/select",
+        "school-media/school-media",
+        "school-media/wechat",
         "weather/weather",
         "website/website"
       ]
