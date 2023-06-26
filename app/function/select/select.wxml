@@ -155,7 +155,7 @@
             </view>
           </picker>
           <button
-            class="search-button"
+            class="search-button primary"
             type="primary"
             catch:tap="searchCourses"
           >
@@ -292,7 +292,7 @@
     <view class="name">
       <button
         wx:if="{{state === 'replace'}}"
-        class="select-button"
+        class="select-button primary"
         type="primary"
         size="mini"
         data-id="{{id}}"
@@ -314,7 +314,7 @@
       </button>
       <button
         wx:else
-        class="select-button"
+        class="select-button primary"
         type="primary"
         size="mini"
         data-cid="{{cid}}"

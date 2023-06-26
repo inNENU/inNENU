@@ -41,7 +41,7 @@
       专业类别: {{reformTypeIndex >= 0 ? reformTypes[reformTypeIndex]:
       '未选择'}}
     </picker>
-    <button type="primary" catch:tap="getPlan">查询</button>
+    <button type="primary" class="primary" catch:tap="getPlan">查询</button>
   </view>
   <footer />
 </view>

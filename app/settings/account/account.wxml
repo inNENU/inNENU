@@ -56,7 +56,7 @@
     </view>
   </view>
 
-  <button type="primary" class="account-button" bindtap="save">
+  <button type="primary" class="account-button primary" bindtap="save">
     保存在本地
   </button>
   <button type="warn" class="account-button" bindtap="delete">
