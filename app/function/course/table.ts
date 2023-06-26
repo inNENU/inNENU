@@ -64,7 +64,7 @@ const getDisplayTime = (time: string): string => {
 };
 
 const getWeekRange = (timeText: string): WeekRange[] => {
-  const match = /([\d,-]+)周/.exec(timeText);
+  const match = /([\d,-]+)[^\d]*周/.exec(timeText);
 
   return match
     ? match[1].split(",").map((item) => {
@@ -249,8 +249,8 @@ $Page(PAGE_ID, {
   >) {
     const { class: classInfo } = currentTarget.dataset;
 
-    const { name, teacher, location } = classInfo;
+    const { name, teacher, location, time } = classInfo;
 
-    modal(name, `教师: ${teacher}\n\n地点:${location}`);
+    modal(name, `教师: ${teacher}\n\n地点: ${location}\n\n时间: ${time}`);
   },
 });
