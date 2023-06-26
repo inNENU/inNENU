@@ -5,9 +5,28 @@
   height: 100vh;
 }
 
+.course-table-actions {
+  margin: 8px 15px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.time-picker {
+  padding: 5px 8px;
+  border-radius: 8px;
+  line-height: 1.5;
+  background-color: var(--bg-color-block);
+}
+
+.refresh-button {
+  margin: 0 !important;
+}
+
 .course-table {
   display: block;
   flex: 1;
+  border-top: 1px dashed var(--border-color);
 }
 
 .course-table-header {

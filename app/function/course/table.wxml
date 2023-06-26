@@ -9,7 +9,24 @@
 <view class="{{theme}} course-table-wrapper">
   <header title="课程表" />
 
-  <view class="course-table-actions"></view>
+  <view class="course-table-actions">
+    <picker
+      class="time-picker"
+      range="{{timeDisplays}}"
+      value="{{index}}"
+      bindchange="changeTime"
+    >
+      {{(timeDisplays[index])}}
+    </picker>
+    <button
+      class="refresh-button"
+      type="default"
+      size="mini"
+      catch:tap="refreshCourseTable"
+    >
+      刷新
+    </button>
+  </view>
   <view class="course-table">
     <view class="course-table-header">
       <view class="course-row-header"></view>
