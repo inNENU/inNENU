@@ -23,11 +23,11 @@ $Page(PAGE_ID, {
     planTypes: <string[]>[],
     reformTypes: <string[]>[],
 
-    yearIndex: -1,
-    provinceIndex: -1,
-    majorTypeIndex: -1,
-    planTypeIndex: -1,
-    reformTypeIndex: -1,
+    yearIndex: 0,
+    provinceIndex: 0,
+    majorTypeIndex: 0,
+    planTypeIndex: 0,
+    reformTypeIndex: 0,
 
     titles: <string[]>[],
     sortIndex: 0,
@@ -97,10 +97,10 @@ $Page(PAGE_ID, {
 
     this.setData({
       yearIndex,
-      provinceIndex: -1,
-      planTypeIndex: -1,
-      majorTypeIndex: -1,
-      reformTypeIndex: -1,
+      provinceIndex: 0,
+      planTypeIndex: 0,
+      majorTypeIndex: 0,
+      reformTypeIndex: 0,
 
       provinces: historyGrade[yearIndex].items.map(({ province }) => province),
 
@@ -118,9 +118,9 @@ $Page(PAGE_ID, {
 
     this.setData({
       provinceIndex,
-      planTypeIndex: -1,
-      majorTypeIndex: -1,
-      reformTypeIndex: -1,
+      planTypeIndex: 0,
+      majorTypeIndex: 0,
+      reformTypeIndex: 0,
 
       planTypes: historyGrade[yearIndex].items[provinceIndex].items.map(
         ({ plan }) => plan
@@ -139,8 +139,8 @@ $Page(PAGE_ID, {
 
     this.setData({
       planTypeIndex,
-      majorTypeIndex: -1,
-      reformTypeIndex: -1,
+      majorTypeIndex: 0,
+      reformTypeIndex: 0,
 
       majorTypes: historyGrade[yearIndex].items[provinceIndex].items[
         planTypeIndex
@@ -158,7 +158,7 @@ $Page(PAGE_ID, {
 
     this.setData({
       majorTypeIndex,
-      reformTypeIndex: -1,
+      reformTypeIndex: 0,
 
       reformTypes: historyGrade[yearIndex].items[provinceIndex].items[
         planTypeIndex
@@ -188,11 +188,11 @@ $Page(PAGE_ID, {
     } = this.data;
 
     if (
-      yearIndex === -1 ||
-      provinceIndex === -1 ||
-      planTypeIndex === -1 ||
-      majorTypeIndex === -1 ||
-      reformTypeIndex === -1
+      yearIndex === 0 ||
+      provinceIndex === 0 ||
+      planTypeIndex === 0 ||
+      majorTypeIndex === 0 ||
+      reformTypeIndex === 0
     ) {
       modal("缺少选项", "请补充全部选项");
 
@@ -202,11 +202,11 @@ $Page(PAGE_ID, {
     wx.showLoading({ title: "检索中" });
 
     return getHistoryGrade({
-      year: years[yearIndex],
-      province: provinces[provinceIndex],
-      majorType: majorTypes[majorTypeIndex],
-      planType: planTypes[planTypeIndex],
-      reformType: reformTypes[reformTypeIndex],
+      year: years[yearIndex - 1],
+      province: provinces[provinceIndex - 1],
+      majorType: majorTypes[majorTypeIndex - 1],
+      planType: planTypes[planTypeIndex - 1],
+      reformType: reformTypes[reformTypeIndex - 1],
     })
       .then((data) => {
         wx.hideLoading();
