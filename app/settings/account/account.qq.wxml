@@ -23,10 +23,10 @@
         bindinput="input"
       />
     </view>
-    <view class="list-item">
+    <view wx:if="{{!isSaved}}" class="list-item">
       <view class="text">密码</view>
       <input
-        wx:if="{{canShowPassword && showPassword}}"
+        wx:if="{{showPassword}}"
         id="password"
         class="input"
         type="text"
@@ -56,11 +56,16 @@
     </view>
   </view>
 
-  <button type="primary" class="account-button primary" bindtap="save">
-    保存在本地
-  </button>
-  <button type="warn" class="account-button" bindtap="delete">
+  <button
+    wx:if="{{isSaved}}"
+    type="warn"
+    class="account-button"
+    bindtap="delete"
+  >
     删除本地账户
+  </button>
+  <button wx:else type="primary" class="account-button primary" bindtap="save">
+    保存在本地
   </button>
 
   <title config="{{ { text: '个人信息' } }}" />

@@ -2,8 +2,8 @@ import { $Page } from "@mptool/enhance";
 import { get, set } from "@mptool/file";
 
 import { type ClassItem, type TableItem, getCourseTable } from "./api.js";
+import { type AppOption } from "../../app.js";
 import { modal } from "../../utils/api.js";
-import { type AccountBasicInfo } from "../../utils/app.js";
 import { appCoverPrefix } from "../../utils/config.js";
 import { DAY, MONTH } from "../../utils/constant.js";
 import { popNotice } from "../../utils/page.js";
@@ -27,6 +27,8 @@ interface CourseTableData {
   weeks: number;
   startTime: string;
 }
+
+const { globalData } = getApp<AppOption>();
 
 const PAGE_ID = "course-table";
 const PAGE_TITLE = "课程表";
@@ -117,33 +119,30 @@ $Page(PAGE_ID, {
   },
 
   state: {
-    accountInfo: <AccountBasicInfo>{},
-    coursesDataInfo: <Record<string, CourseTableData>>{},
+    coursesData: <Record<string, CourseTableData>>{},
     grade: new Date().getFullYear(),
   },
 
   onShow() {
-    const accountInfo = get<AccountBasicInfo>("account-info");
-    const coursesDataInfo =
+    const { account } = globalData;
+    const coursesData =
       get<Record<string, CourseTableData>>("course-data-info");
 
-    if (coursesDataInfo) this.state.coursesDataInfo = coursesDataInfo;
+    if (coursesData) this.state.coursesData = coursesData;
 
-    if (!accountInfo) {
+    if (!account) {
       modal("请先登录", "暂无账号信息，请输入", (): void => {
         this.$go("account?update=true");
       });
     } else {
-      const grade = Math.floor(accountInfo.id / 1000000);
+      const grade = Math.floor(account.id / 1000000);
       const times = getTimes(grade);
       const timeDisplays = times.map(getDisplayTime);
       const time = getCurrentTime();
       const timeIndex = times.indexOf(time);
 
-      this.state.accountInfo = accountInfo;
-
-      if (coursesDataInfo && coursesDataInfo[time]) {
-        const { courseData, weeks, startTime } = coursesDataInfo[time];
+      if (coursesData && coursesData[time]) {
+        const { courseData, weeks, startTime } = coursesData[time];
 
         this.setData({
           courseData,
@@ -179,11 +178,9 @@ $Page(PAGE_ID, {
   }),
 
   getCourseData(time: string) {
-    const { accountInfo } = this.state;
-
     wx.showLoading({ title: "获取中" });
 
-    return getCourseTable({ ...accountInfo, time }).then((res) => {
+    return getCourseTable({ ...globalData.account!, time }).then((res) => {
       wx.hideLoading();
       if (res.status === "success") {
         const { data, startTime } = res;
@@ -195,8 +192,8 @@ $Page(PAGE_ID, {
           weeks,
           weekIndex: getWeekIndex(startTime, weeks),
         });
-        this.state.coursesDataInfo[time] = courseTable;
-        set("course-data-info", this.state.coursesDataInfo, 6 * MONTH);
+        this.state.coursesData[time] = courseTable;
+        set("course-data-info", this.state.coursesData, 6 * MONTH);
       } else modal("获取失败", res.msg);
     });
   },
@@ -204,13 +201,13 @@ $Page(PAGE_ID, {
   changeTime({ detail }: WechatMiniprogram.PickerChange) {
     const timeIndex = Number(detail.value);
     const { times, timeIndex: timeOldIndex } = this.data;
-    const { coursesDataInfo } = this.state;
+    const { coursesData } = this.state;
 
     if (timeIndex !== timeOldIndex) {
       const newTime = times[timeIndex];
 
-      if (coursesDataInfo[newTime]) {
-        const { courseData, weeks, startTime } = coursesDataInfo[newTime];
+      if (coursesData[newTime]) {
+        const { courseData, weeks, startTime } = coursesData[newTime];
 
         this.setData({
           courseData,

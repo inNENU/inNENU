@@ -10,7 +10,7 @@
   <view class="info-wrapper" style="padding-top:{{statusBarHeight + 20}}px">
     <image class="avatar" src="{{logo}}" />
     <view class="info">
-      <view class="nickname">{{title}}</view>
+      <view class="nickname">{{userName}}</view>
       <view class="detail">{{desc}}</view>
     </view>
   </view>

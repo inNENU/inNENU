@@ -1,5 +1,4 @@
 import { $Page, logger } from "@mptool/enhance";
-import { get } from "@mptool/file";
 
 import {
   CourseBasicInfo,
@@ -21,7 +20,6 @@ import {
 } from "./utils.js";
 import { type AppOption } from "../../app.js";
 import { modal, tip } from "../../utils/api.js";
-import { type AccountBasicInfo } from "../../utils/app.js";
 import { appCoverPrefix } from "../../utils/config.js";
 import { getColor, popNotice } from "../../utils/page.js";
 import { promiseQueue } from "../utils/promiseQueue.js";
@@ -88,7 +86,6 @@ $Page(PAGE_ID, {
   },
 
   state: {
-    accountInfo: null as AccountBasicInfo | null,
     cookies: <string[]>[],
     server: "",
     jx0502id: "",
@@ -117,11 +114,10 @@ $Page(PAGE_ID, {
   },
 
   onShow() {
-    const accountInfo = get<AccountBasicInfo>("account-info") || null;
+    const { account } = globalData;
 
-    if (accountInfo) {
-      this.state.accountInfo = accountInfo;
-      login(accountInfo)
+    if (account) {
+      login(account)
         .then((data) => {
           if (data.status === "success") {
             this.state.cookies = data.cookies;

@@ -8,7 +8,7 @@ import {
 import { type AppOption } from "../../app.js";
 import { getInfo, login } from "../../utils/account.js";
 import { modal, tip } from "../../utils/api.js";
-import { type AccountBasicInfo, type UserInfo } from "../../utils/app.js";
+import { type UserInfo } from "../../utils/app.js";
 import { appCoverPrefix } from "../../utils/config.js";
 import { MONTH } from "../../utils/constant.js";
 import { popNotice } from "../../utils/page.js";
@@ -61,7 +61,7 @@ $Page(PAGE_ID, {
 
     id: "",
     password: "",
-    canShowPassword: true,
+    isSaved: false,
     showPassword: false,
 
     name: "",
@@ -73,14 +73,14 @@ $Page(PAGE_ID, {
   },
 
   onLoad({ update }) {
-    const accountInfo = get<AccountBasicInfo>("account-info") || null;
+    const { account } = globalData;
     const userInfo = get<UserInfo>("user-info") || null;
 
-    if (accountInfo)
+    if (account)
       this.setData({
-        id: accountInfo.id.toString(),
-        password: accountInfo.password,
-        canShowPassword: false,
+        id: account.id.toString(),
+        password: account.password,
+        isSaved: true,
       });
     if (userInfo)
       this.setData({
@@ -137,7 +137,10 @@ $Page(PAGE_ID, {
       .then((response) => {
         wx.hideLoading();
         if (response.status === "success") {
-          set("account-info", { id: Number(id), password }, MONTH);
+          const account = { id: Number(id), password };
+
+          globalData.account = account;
+          set("account-info", account, MONTH);
 
           wx.showLoading({ title: "获取信息" });
           getInfo(response.cookies).then((response) => {
@@ -153,7 +156,7 @@ $Page(PAGE_ID, {
               modal("登陆成功", "个人信息获取成功");
               set("user-info", userInfo, MONTH);
               this.setData({
-                canShowPassword: false,
+                isSaved: true,
                 // eslint-disable-next-line @typescript-eslint/naming-convention
                 "list.items": getDisplay(userInfo),
               });
@@ -177,10 +180,12 @@ $Page(PAGE_ID, {
       password: "",
       // eslint-disable-next-line @typescript-eslint/naming-convention
       "list.items": EMPTY_CONTENT,
-      canShowPassword: true,
+      isSaved: false,
     });
     remove("account-info");
     remove("user-info");
+    globalData.account = null;
+    globalData.userInfo = null;
     modal("删除成功", "已删除本地账号信息");
   },
 });
