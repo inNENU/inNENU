@@ -13,7 +13,7 @@
 
   <view class="course-table-actions">
     <picker
-      class="time-picker"
+      class="picker"
       range="{{timeDisplays}}"
       value="{{timeIndex}}"
       bindchange="changeTime"
@@ -21,7 +21,7 @@
       {{(timeDisplays[timeIndex])}}
     </picker>
     <picker
-      class="time-picker"
+      class="picker"
       range="{{table.getWeek(weeks)}}"
       value="{{weekIndex}}"
       bindchange="changeWeek"
