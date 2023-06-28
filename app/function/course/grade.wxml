@@ -1,0 +1,84 @@
+<wxs src="./grade.wxs" module="grade" />
+<page-meta
+  background-text-style="{{darkmode ? 'dark' : 'light'}}"
+  background-color="{{color.bgColor}}"
+  background-color-top="{{color.bgColorTop}}"
+  background-color-bottom="{{color.bgColorBottom}}"
+  root-background-color="{{color.bgColor}}"
+/>
+<view class="{{theme}} grade-list-wrapper">
+  <header title="课程成绩" />
+  <title config="{{ { text: '查询结果' } }}" />
+  <!-- <view class="filter-wrapper">
+    <picker
+      class="picker"
+      range="{{timeDisplays}}"
+      value="{{timeIndex}}"
+      bindchange="changeTime"
+    >
+      {{(timeDisplays[timeIndex])}}
+    </picker>
+    <picker
+      class="picker"
+      range="{{table.getWeek(weeks)}}"
+      value="{{weekIndex}}"
+      bindchange="changeWeek"
+    >
+      {{(table.getWeek(weeks)[weekIndex])}}
+    </picker>
+    <button
+      class="refresh-button"
+      type="default"
+      size="mini"
+      catch:tap="refreshCourseTable"
+    >
+      刷新
+    </button>
+  </view> -->
+  <block wx:if="{{grades.length}}">
+    <scroll-view scroll-x class="grade-list">
+      <view class="grid-list-content extra-items-{{extraHeaders}}">
+        <view
+          wx:for="{{grade.headers}}"
+          wx:for-item="item"
+          wx:for-index="index"
+          class="header"
+          data-index="{{index}}"
+          catch:tap="sortResults"
+        >
+          {{item}} {{sortIndex === index ? ascending ? '↑': '↓' : ''}}
+        </view>
+        <view wx:if="{{showMark}}" class="header">成绩标识</view>
+        <view wx:if="{{showRelearn}}" class="header">补重学期</view>
+        <view wx:if="{{showStatus}}" class="header">审核状态</view>
+        <block wx:for="{{grades}}" wx:for-item="item">
+          <view class="name">{{item.name}}</view>
+          <view class="grade">{{item.grade}}</view>
+          <view class="difficulty">{{item.difficulty}}</view>
+          <view class="point">{{item.point}}</view>
+          <view class="grade-point">{{item.gradePoint}}</view>
+          <view class="course-type">{{item.shortCourseType}}</view>
+          <view class="common-type">{{item.commonType || ''}}</view>
+          <view class="time">{{item.time}}</view>
+          <view class="time">{{item.hours || ''}}</view>
+          <view class="examType">{{item.examType}}</view>
+          <view wx:if="{{showMark}}" class="mark">{{item.mark}}</view>
+          <view wx:if="{{showRelearn}}" class="relearn">{{grade.reLearn}}</view>
+          <view wx:if="{{showStatus}}" class="status">{{grade.status}}</view>
+        </block>
+      </view>
+    </scroll-view>
+    <title config="{{ { text: '数据统计' } }}" />
+    <view class="information">
+      <text class="label">总学分:</text>
+      <text class="value">{{totalPoint}}</text>
+
+      <text class="label">总绩点:</text>
+      <text class="value">{{totalGradePoint}}</text>
+
+      <text class="label">平均绩点:</text>
+      <text class="value">{{gpa}}</text>
+    </view>
+  </block>
+  <view wx:else class="empty">暂无成绩结果</view>
+</view>

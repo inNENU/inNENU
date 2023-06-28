@@ -21,6 +21,7 @@
       "pages": [
         "cal/cal",
         "calendar/calendar",
+        "course/grade",
         "course/table",
         "enroll/admission",
         "enroll/grade",

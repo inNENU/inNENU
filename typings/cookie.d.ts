@@ -38,3 +38,7 @@ export interface Cookie {
    */
   sameSite?: string | undefined;
 }
+
+export interface CookieOptions {
+  cookies: Cookie[];
+}
