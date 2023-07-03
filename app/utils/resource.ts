@@ -3,7 +3,7 @@ import { logger } from "@mptool/enhance";
 import { exists, readJSON, rm, saveFile, unzip, writeJSON } from "@mptool/file";
 
 import { tip } from "./api.js";
-import { server } from "./config.js";
+import { assets, server } from "./config.js";
 import { type VersionInfo } from "../../typings/index.js";
 
 /**
@@ -28,7 +28,7 @@ export const downloadResource = (
     });
 
     const downLoadTask = wx.downloadFile({
-      url: `${server}r/${fileName}.zip`,
+      url: `${assets}r/${fileName}.zip`,
       success: ({ statusCode, tempFilePath }) => {
         if (statusCode === 200) {
           if (showProgress) wx.showLoading({ title: "保存中...", mask: true });
