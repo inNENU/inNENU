@@ -118,6 +118,13 @@
         },
         {
           "id": 4,
+          "name": "成绩",
+          "pathName": "function/course/grade",
+          "query": "",
+          "scene": null
+        },
+        {
+          "id": 4,
           "name": "课程表",
           "pathName": "function/course/table",
           "query": "",
