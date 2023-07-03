@@ -1,6 +1,10 @@
 import { $Page } from "@mptool/enhance";
 
-import { type UserGradeListExtraOptions, getGradeList } from "./api.js";
+import {
+  type GradeResult,
+  type UserGradeListExtraOptions,
+  getGradeList,
+} from "./api.js";
 import { type AppOption } from "../../app.js";
 import { modal } from "../../utils/api.js";
 import { appCoverPrefix } from "../../utils/config.js";
@@ -25,189 +29,21 @@ const keys = [
 
 $Page("grade-list", {
   data: {
-    grades: [
-      {
-        cid: "RD202200856",
-        commonType: "",
-        courseType: "任意选修课",
-        difficulty: 1,
-        examType: "校际交流",
-        grade: 86,
-        gradePoint: 5.4,
-        hours: null,
-        mark: "",
-        name: "演示物理实验",
-        point: 1.5,
-        reLearn: "",
-        shortCourseType: "",
-        status: "",
-        time: "2022年秋季学期",
-      },
-      {
-        cid: "1151642015001",
-        commonType: "",
-        courseType: "通识教育必修课",
-        difficulty: 1,
-        examType: "期末考试",
-        grade: 98,
-        gradePoint: 9.6,
-        hours: 34,
-        mark: "",
-        name: "中文写作",
-        point: 2,
-        reLearn: "",
-        shortCourseType: "通修",
-        status: "",
-        time: "2022年秋季学期",
-      },
-      {
-        cid: "RD202200854",
-        commonType: "",
-        courseType: "任意选修课",
-        difficulty: 1,
-        examType: "校际交流",
-        grade: 92,
-        gradePoint: 8.4,
-        hours: null,
-        mark: "",
-        name: "数学建模2",
-        point: 2,
-        reLearn: "",
-        shortCourseType: "",
-        status: "",
-        time: "2022年秋季学期",
-      },
-      {
-        cid: "1151712015001",
-        commonType: "",
-        courseType: "通识教育必修课",
-        difficulty: 1,
-        examType: "期末考试",
-        grade: 86,
-        gradePoint: 7.2,
-        hours: 34,
-        mark: "",
-        name: "信息技术1（计算机基础）",
-        point: 2,
-        reLearn: "",
-        shortCourseType: "通修",
-        status: "",
-        time: "2022年秋季学期",
-      },
-      {
-        cid: "RD202200853",
-        commonType: "",
-        courseType: "任意选修课",
-        difficulty: 1,
-        examType: "校际交流",
-        grade: 94,
-        gradePoint: 8.8,
-        hours: null,
-        mark: "",
-        name: "生活中的高分子材料",
-        point: 2,
-        reLearn: "",
-        shortCourseType: "",
-        status: "",
-        time: "2022年秋季学期",
-      },
-      {
-        cid: "1151701948001",
-        commonType: "",
-        courseType: "通识教育必修课",
-        difficulty: 1,
-        examType: "期末考试",
-        grade: 68,
-        gradePoint: 10.8,
-        hours: 106,
-        mark: "",
-        name: "高等数学A-1",
-        point: 6,
-        reLearn: "",
-        shortCourseType: "通修",
-        status: "",
-        time: "2022年秋季学期",
-      },
-      {
-        cid: "1151732015324",
-        commonType: "",
-        courseType: "专业教育选修课",
-        difficulty: 1,
-        examType: "期末考试",
-        grade: 95,
-        gradePoint: 2.25,
-        hours: 7,
-        mark: "",
-        name: "普通物理中的数学方法",
-        point: 0.5,
-        reLearn: "",
-        shortCourseType: "专选",
-        status: "",
-        time: "2022年秋季学期",
-      },
-      {
-        cid: "1152361982013",
-        commonType: "",
-        courseType: "通识教育必修课",
-        difficulty: 1,
-        examType: "期末考试",
-        grade: 91,
-        gradePoint: 12.3,
-        hours: 52,
-        mark: "",
-        name: "思想道德与法治",
-        point: 3,
-        reLearn: "",
-        shortCourseType: "通修",
-        status: "",
-        time: "2022年秋季学期",
-      },
-      {
-        cid: "1151671995001",
-        commonType: "",
-        courseType: "通识教育必修课",
-        difficulty: 1,
-        examType: "期末考试",
-        grade: 72,
-        gradePoint: 8.8,
-        hours: 70,
-        mark: "",
-        name: "大学英语读写1",
-        point: 4,
-        reLearn: "",
-        shortCourseType: "通修",
-        status: "",
-        time: "2022年秋季学期",
-      },
-      {
-        cid: "1151672015005",
-        commonType: "人文与艺术",
-        courseType: "通识教育选修课",
-        difficulty: 1,
-        examType: "期末考试",
-        grade: 83,
-        gradePoint: 6.6,
-        hours: 36,
-        mark: "",
-        name: "实用交际英语口语",
-        point: 2,
-        reLearn: "",
-        shortCourseType: "通选",
-        status: "",
-        time: "2022年秋季学期",
-      },
-    ],
+    grades: <GradeResult[]>[],
 
     showMark: false,
     showRelearn: false,
     showStatus: false,
     extraHeaders: 0,
-    // totalPoint: 0,
-    totalPoint: 25,
-    // totalGradePoint: 0,
-    totalGradePoint: 80.15,
-    // gpa: 0,
-    gpa: 3.21,
+    totalPoint: 0,
+    totalCommonRequiredPoint: 0,
+    totalCommonOptionalPoint: 0,
+    totalMajorRequiredPoint: 0,
+    totalMajorOptionalPoint: 0,
+    totalTeacherRequiredPoint: 0,
+    totalTeacherOptionalPoint: 0,
+    totalGradePoint: 0,
+    gpa: 0,
 
     sortIndex: 0,
     ascending: false,
@@ -265,6 +101,25 @@ $Page("grade-list", {
           Boolean
         ).length;
         const totalPoint = data.reduce((total, item) => total + item.point, 0);
+        const totalCommonRequiredPoint = data
+          .filter((item) => item.shortCourseType === "通修")
+          .reduce((total, item) => total + item.point, 0);
+        const totalCommonOptionalPoint = data
+          .filter((item) => item.shortCourseType === "通选")
+          .reduce((total, item) => total + item.point, 0);
+        const totalMajorRequiredPoint = data
+          .filter((item) => item.shortCourseType === "专修")
+          .reduce((total, item) => total + item.point, 0);
+        const totalMajorOptionalPoint = data
+          .filter((item) => item.shortCourseType === "专选")
+          .reduce((total, item) => total + item.point, 0);
+        const totalTeacherRequiredPoint = data
+          .filter((item) => item.shortCourseType === "师修")
+          .reduce((total, item) => total + item.point, 0);
+        const totalTeacherOptionalPoint = data
+          .filter((item) => item.shortCourseType === "师选")
+          .reduce((total, item) => total + item.point, 0);
+
         const totalGradePoint = data.reduce(
           (total, item) => total + item.gradePoint,
           0
@@ -276,8 +131,6 @@ $Page("grade-list", {
           )
           .filter((item): item is number => item !== null);
 
-        console.log(numberValueIndex);
-
         this.state.numberValueIndex = numberValueIndex;
 
         this.setData({
@@ -287,6 +140,12 @@ $Page("grade-list", {
           showStatus,
           extraHeaders,
           totalPoint,
+          totalCommonRequiredPoint,
+          totalCommonOptionalPoint,
+          totalMajorRequiredPoint,
+          totalMajorOptionalPoint,
+          totalTeacherRequiredPoint,
+          totalTeacherOptionalPoint,
           totalGradePoint: Math.round(totalGradePoint * 100) / 100,
           gpa,
         });
