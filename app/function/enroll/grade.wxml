@@ -9,39 +9,32 @@
 <view class="{{theme}}">
   <header title="往年分数" />
   <view class="selector">
-    <picker
-      range="{{utils.getRange(years)}}"
-      value="{{yearIndex}}"
-      bindchange="yearChange"
-    >
+    <picker range="{{years}}" value="{{yearIndex}}" bindchange="yearChange">
       年份: {{years[yearIndex]}}
     </picker>
     <picker
-      range="{{utils.getRange(provinces)}}"
+      range="{{provinces}}"
       value="{{provinceIndex}}"
       bindchange="provinceChange"
     >
       省份: {{provinces[provinceIndex]}}
     </picker>
     <picker
-      range="{{utils.getRange(planTypes)}}"
+      range="{{planTypes}}"
       value="{{planTypeIndex}}"
       bindchange="planTypeChange"
     >
       计划性质: {{planTypes[planTypeIndex]}}
     </picker>
     <picker
-      range="{{utils.getRange(majorTypes)}}"
+      range="{{majorTypes}}"
       value="{{majorTypeIndex}}"
       bindchange="majorTypeChange"
     >
       专业类别: {{majorTypes[majorTypeIndex]}}
     </picker>
 
-    <picker
-      range="{{utils.getRange(reformTypeIndex)}}"
-      bindchange="reformTypeChange"
-    >
+    <picker range="{{reformTypes}}" bindchange="reformTypeChange">
       科类: {{reformTypes[reformTypeIndex]}}
     </picker>
 

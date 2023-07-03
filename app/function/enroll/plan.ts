@@ -53,7 +53,7 @@ $Page(PAGE_ID, {
       .then((enrollPlan) => {
         this.state.enrollPlan = enrollPlan;
         this.setData({
-          years: enrollPlan.map(({ year }) => year),
+          years: ["", ...enrollPlan.map(({ year }) => year)],
         });
       })
       .catch(() => {
@@ -95,7 +95,10 @@ $Page(PAGE_ID, {
       majorTypeIndex: 0,
       reformTypeIndex: 0,
 
-      provinces: enrollPlan[yearIndex].items.map(({ province }) => province),
+      provinces: [
+        "",
+        ...enrollPlan[yearIndex - 1].items.map(({ province }) => province),
+      ],
 
       // reset others
       planTypes: [],
@@ -115,9 +118,12 @@ $Page(PAGE_ID, {
       majorTypeIndex: 0,
       reformTypeIndex: 0,
 
-      planTypes: enrollPlan[yearIndex].items[provinceIndex].items.map(
-        ({ plan }) => plan
-      ),
+      planTypes: [
+        "",
+        ...enrollPlan[yearIndex - 1].items[provinceIndex - 1].items.map(
+          ({ plan }) => plan
+        ),
+      ],
 
       // reset others
       majorTypes: [],
@@ -135,9 +141,12 @@ $Page(PAGE_ID, {
       majorTypeIndex: 0,
       reformTypeIndex: 0,
 
-      majorTypes: enrollPlan[yearIndex].items[provinceIndex].items[
-        planTypeIndex
-      ].items.map(({ category }) => category),
+      majorTypes: [
+        "",
+        ...enrollPlan[yearIndex - 1].items[provinceIndex - 1].items[
+          planTypeIndex - 1
+        ].items.map(({ category }) => category),
+      ],
 
       // reset others
       reformTypes: [],
@@ -153,9 +162,12 @@ $Page(PAGE_ID, {
       majorTypeIndex,
       reformTypeIndex: 0,
 
-      reformTypes: enrollPlan[yearIndex].items[provinceIndex].items[
-        planTypeIndex
-      ].items[majorTypeIndex].items.map(({ type }) => type),
+      reformTypes: [
+        "",
+        ...enrollPlan[yearIndex - 1].items[provinceIndex - 1].items[
+          planTypeIndex - 1
+        ].items[majorTypeIndex - 1].items.map(({ type }) => type),
+      ],
     });
   },
 
@@ -194,11 +206,11 @@ $Page(PAGE_ID, {
     wx.showLoading({ title: "检索中" });
 
     return getEnrollPlan({
-      year: years[yearIndex - 1],
-      province: provinces[provinceIndex - 1],
-      majorType: majorTypes[majorTypeIndex - 1],
-      planType: planTypes[planTypeIndex - 1],
-      reformType: reformTypes[reformTypeIndex - 1],
+      year: years[yearIndex],
+      province: provinces[provinceIndex],
+      majorType: majorTypes[majorTypeIndex],
+      planType: planTypes[planTypeIndex],
+      reformType: reformTypes[reformTypeIndex],
     })
       .then((data) => {
         wx.hideLoading();

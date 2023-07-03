@@ -60,7 +60,7 @@ $Page(PAGE_ID, {
       .then((historyGrade) => {
         this.state.historyGrade = historyGrade;
         this.setData({
-          years: historyGrade.map(({ year }) => year),
+          years: ["", ...historyGrade.map(({ year }) => year)],
         });
       })
       .catch(() => {
@@ -102,7 +102,10 @@ $Page(PAGE_ID, {
       majorTypeIndex: 0,
       reformTypeIndex: 0,
 
-      provinces: historyGrade[yearIndex].items.map(({ province }) => province),
+      provinces: [
+        "",
+        ...historyGrade[yearIndex - 1].items.map(({ province }) => province),
+      ],
 
       // reset others
       planTypes: [],
@@ -122,9 +125,12 @@ $Page(PAGE_ID, {
       majorTypeIndex: 0,
       reformTypeIndex: 0,
 
-      planTypes: historyGrade[yearIndex].items[provinceIndex].items.map(
-        ({ plan }) => plan
-      ),
+      planTypes: [
+        "",
+        ...historyGrade[yearIndex - 1].items[provinceIndex - 1].items.map(
+          ({ plan }) => plan
+        ),
+      ],
 
       // reset others
       majorTypes: [],
@@ -142,9 +148,12 @@ $Page(PAGE_ID, {
       majorTypeIndex: 0,
       reformTypeIndex: 0,
 
-      majorTypes: historyGrade[yearIndex].items[provinceIndex].items[
-        planTypeIndex
-      ].items.map(({ category }) => category),
+      majorTypes: [
+        "",
+        ...historyGrade[yearIndex - 1].items[provinceIndex - 1].items[
+          planTypeIndex - 1
+        ].items.map(({ category }) => category),
+      ],
 
       // reset others
       reformTypes: [],
@@ -160,9 +169,12 @@ $Page(PAGE_ID, {
       majorTypeIndex,
       reformTypeIndex: 0,
 
-      reformTypes: historyGrade[yearIndex].items[provinceIndex].items[
-        planTypeIndex
-      ].items[majorTypeIndex].items.map(({ type }) => type),
+      reformTypes: [
+        "",
+        ...historyGrade[yearIndex - 1].items[provinceIndex - 1].items[
+          planTypeIndex - 1
+        ].items[majorTypeIndex - 1].items.map(({ type }) => type),
+      ],
     });
   },
 
@@ -194,7 +206,7 @@ $Page(PAGE_ID, {
       majorTypeIndex === 0 ||
       reformTypeIndex === 0
     ) {
-      modal("缺少选项", "请补充全部选项");
+      modal("缺少选项", "请补充选项");
 
       return;
     }
@@ -202,11 +214,11 @@ $Page(PAGE_ID, {
     wx.showLoading({ title: "检索中" });
 
     return getHistoryGrade({
-      year: years[yearIndex - 1],
-      province: provinces[provinceIndex - 1],
-      majorType: majorTypes[majorTypeIndex - 1],
-      planType: planTypes[planTypeIndex - 1],
-      reformType: reformTypes[reformTypeIndex - 1],
+      year: years[yearIndex],
+      province: provinces[provinceIndex],
+      majorType: majorTypes[majorTypeIndex],
+      planType: planTypes[planTypeIndex],
+      reformType: reformTypes[reformTypeIndex],
     })
       .then((data) => {
         wx.hideLoading();
