@@ -32,52 +32,52 @@
   border-radius: 8px;
 
   background-color: var(--bg-color-block);
+}
 
-  .list-item {
-    position: relative;
+.list-item {
+  position: relative;
 
-    display: flex;
-    align-items: center;
+  display: flex;
+  align-items: center;
 
-    width: auto;
-    padding: 0 15px;
-    border: none !important;
-    border-radius: 0;
+  width: auto;
+  padding: 0 15px;
+  border: none !important;
+  border-radius: 0;
 
-    background-color: var(--bg-color-block);
-    color: var(--text-color) !important;
+  background-color: var(--bg-color-block);
+  color: var(--text-color) !important;
 
-    font-weight: normal;
-    font-size: 17px;
-    line-height: 1.45;
+  font-weight: normal;
+  font-size: 17px;
+  line-height: 1.45;
 
-    &:empty {
-      padding: 0;
-    }
+  &:empty {
+    padding: 0;
+  }
 
-    &::before {
-      content: " ";
+  &::after {
+    content: " ";
 
-      position: absolute;
-      right: 0;
-      bottom: 0;
-      left: 15px;
+    position: absolute;
+    right: 0;
+    bottom: 0;
+    left: 15px;
 
-      height: 1px;
-      border-bottom: 1px solid var(--border-color);
+    height: 1px;
+    border-bottom: 1px solid var(--border-color);
 
-      transform: scaleY(0.4);
-      transform-origin: 0 100%;
-    }
+    transform: scaleY(0.4);
+    transform-origin: 0 100%;
+  }
 
-    &.has-icon::before {
-      left: 55px;
-    }
+  &.has-icon::after {
+    left: 55px;
+  }
 
-    &:last-child {
-      &::before {
-        display: none;
-      }
+  &:last-child {
+    &::after {
+      display: none;
     }
   }
 
