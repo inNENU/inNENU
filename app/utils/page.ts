@@ -452,8 +452,6 @@ export const popNotice = (id: string): void => {
       logger.info(`Pop notice in ${id} page`);
     }
   }
-  // 统计分析
-  wx.reportAnalytics("page_count", { id });
 };
 
 /**
