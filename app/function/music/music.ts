@@ -4,6 +4,7 @@ import { type Lyric, type PlayMode, type SongDetail } from "./typings.js";
 import { type AppOption } from "../../app.js";
 import { tip } from "../../utils/api.js";
 import { appCoverPrefix, appName } from "../../utils/config.js";
+import { loadFZSSJW } from "../../utils/font.js";
 import { ensureJSON, getJSON } from "../../utils/json.js";
 import { popNotice } from "../../utils/page.js";
 
@@ -123,6 +124,7 @@ $Page("music", {
     // 注册播放器动作
     this.managerRegister();
 
+    loadFZSSJW();
     popNotice("music");
   },
 

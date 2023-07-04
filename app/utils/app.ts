@@ -4,6 +4,7 @@ import { get, ls, rm, writeJSON } from "@mptool/file";
 
 import { getDarkmode, modal, requestJSON, tip } from "./api.js";
 import { appConfig, server, version } from "./config.js";
+import { loadFZSSJW } from "./font.js";
 import { downloadResource } from "./resource.js";
 import { type PageData, type VersionInfo } from "../../typings/index.js";
 
@@ -375,6 +376,10 @@ const registerActions = (globalData: GlobalData): void => {
   }
 };
 
+export const loadFont = (theme: string): void => {
+  if (theme === "nenu") loadFZSSJW(true);
+};
+
 export const getGlobalData = (): GlobalData => {
   // 获取设备与运行环境信息
   const info = wx.getSystemInfoSync();
@@ -424,6 +429,7 @@ export const startup = (globalData: GlobalData): void => {
       globalData.darkmode = theme === "dark";
     });
 
+  loadFont(globalData.theme);
   updateApp(globalData);
   updateNotice(globalData);
   registerActions(globalData);

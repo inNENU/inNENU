@@ -8,6 +8,7 @@ import {
 } from "../../../typings/index.js";
 import { type AppOption } from "../../app.js";
 import { tip } from "../../utils/api.js";
+import { loadFont } from "../../utils/app.js";
 import { appCoverPrefix, appName } from "../../utils/config.js";
 import { getColor, popNotice, resolvePage, setPage } from "../../utils/page.js";
 import { checkResource } from "../../utils/resource.js";
@@ -118,6 +119,7 @@ $Page("user", {
     wx.setStorageSync("theme", theme);
     this.setData({ color: getColor(this.data.page.grey), theme });
     this.$emit("theme", theme);
+    loadFont(theme);
 
     // debug
     console.info(`Switched to ${theme} theme`);

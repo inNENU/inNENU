@@ -3,6 +3,7 @@ import { $Page } from "@mptool/enhance";
 import { type AppOption } from "../../app.js";
 import { tip } from "../../utils/api.js";
 import { appCoverPrefix } from "../../utils/config.js";
+import { loadFZSSJW } from "../../utils/font.js";
 import { ensureJSON, getJSON } from "../../utils/json.js";
 import { popNotice } from "../../utils/page.js";
 
@@ -85,6 +86,7 @@ $Page("video", {
       });
     });
 
+    loadFZSSJW();
     popNotice("video");
   },
 
