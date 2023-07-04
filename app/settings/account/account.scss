@@ -1,4 +1,18 @@
-.list-item {
+.account {
+  display: flex;
+  flex-direction: column;
+}
+
+.content {
+  flex: 1;
+}
+
+.input-list-wrapper {
+  max-width: var(--max-width);
+  margin: 0 var(--horizontal-margin);
+}
+
+.input-list-item {
   position: relative;
   display: flex;
   align-items: center;

@@ -21,9 +21,13 @@ const PAGE_TITLE = "账号信息";
 const EMPTY_CONTENT = [{ text: "暂无个人信息" }];
 
 const getDisplay = (userInfo: UserInfo): ListComponentItemConfig[] => {
-  const { name, email } = userInfo;
+  const { id, name, email } = userInfo;
 
   return [
+    {
+      text: "学号",
+      desc: id.toString(),
+    },
     {
       text: "姓名",
       desc: name,
