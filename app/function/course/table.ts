@@ -223,7 +223,10 @@ $Page(PAGE_ID, {
           weeks,
           weekIndex: getWeekIndex(startTime, weeks),
         });
-      } else this.getCourseData(newTime);
+      } else {
+        this.setData({ timeIndex });
+        this.getCourseData(newTime);
+      }
     }
   },
 
