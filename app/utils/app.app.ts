@@ -279,11 +279,9 @@ const login = (
 const registerActions = (globalData: GlobalData): void => {
   // 设置内存不足警告
   wx.onMemoryWarning((res) => {
-    // tip("内存不足");
     console.warn("Memory warning received.");
-    wx.reportAnalytics("memory_warning", {
-      // eslint-disable-next-line @typescript-eslint/naming-convention
-      memory_warning: res && res.level ? res.level : 0,
+    wx.reportEvent?.("memory_warning", {
+      level: res?.level || 0,
     });
   });
 
