@@ -40,8 +40,10 @@
   display: flex;
   align-items: center;
 
-  width: auto;
+  width: auto !important;
   padding: 0 15px;
+  // for button
+  margin: 0 !important;
   border: none !important;
   border-radius: 0;
 

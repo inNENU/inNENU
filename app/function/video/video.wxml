@@ -41,7 +41,7 @@
           slot="page{{groupIndex + 1}}"
           wx:for="{{videoGroup.list}}"
           wx:key="name"
-          class="item{{groupIndex === groupID && listID === index ? ' active' : ''}}"
+          class="item{{(groupIndex === groupID && listID === index) ? ' active' : ''}}"
           data-group-i-d="{{groupIndex}}"
           data-list-i-d="{{index}}"
           hover-class="button-hover"

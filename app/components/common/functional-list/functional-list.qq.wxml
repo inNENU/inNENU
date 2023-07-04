@@ -34,7 +34,7 @@
           <!-- 按钮文字为蓝色 -->
           <view
             class="text"
-            style="{{listItem.type === 'button' && listItem.handler ? 'color: #3478f7;' : ''}}"
+            style="{{(listItem.type === 'button' && listItem.handler) ? 'color: #3478f7;' : ''}}"
           >
             {{listItem.text}}
           </view>
@@ -51,6 +51,12 @@
           </view>
         </view>
       </button>
+      <!-- 分割线 -->
+      <view
+        wx:if="{{list.isButton(listItem)}}"
+        class="{{listItem.icon ? 'icon ' : ''}}button-divide-line"
+      />
+
       <!-- navigator -->
       <navigator
         wx:elif="{{listItem.type === 'navigator'}}"
