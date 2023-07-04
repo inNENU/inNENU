@@ -3,7 +3,7 @@ import { emitter, logger } from "@mptool/enhance";
 import { get, writeJSON } from "@mptool/file";
 
 import { getDarkmode, modal, requestJSON, tip } from "./api.js";
-import { appConfig, server, version } from "./config.js";
+import { appConfig, assets, server, version } from "./config.js";
 import { downloadResource } from "./resource.js";
 import { type PageData, type VersionInfo } from "../../typings/index.js";
 
@@ -222,7 +222,7 @@ export const updateApp = (globalData: GlobalData): void => {
           `App 的最新版本是 ${onlineVersion}，点击确定复制下载链接到剪切板。请手动粘贴到浏览器开启下载。`,
           () => {
             wx.setClipboardData({
-              data: `https://assets.innenu.com/innenu-v${version}.apk`,
+              data: `${assets}innenu-v${version}.apk`,
             });
           },
           () => {
