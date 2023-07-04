@@ -36,7 +36,7 @@ export const search = <T extends string[] | SearchResult[]>(
 ): Promise<T> =>
   new Promise((resolve, reject) => {
     wx.request<T>({
-      url: `${server}/service/search.php`,
+      url: `${server}service/search.php`,
       method: "POST",
       enableHttp2: true,
       data,
