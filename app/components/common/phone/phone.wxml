@@ -36,27 +36,27 @@
   </view>
 </view>
 
-<view wx:if="{{showInfo}}" class="mask" catch:tap="toggleInfo" />
-
-<view wx:if="{{showInfo}}" class="phone-popup">
-  <view class="title">{{phone.getName(config)}}</view>
-  <view class="body">
-    <view wx:if="{{config.num}}">电话: {{config.num}}</view>
-    <view wx:if="{{config.workNum}}">工作电话: {{config.workNum}}</view>
-    <view wx:if="{{config.hostNum}}">公司电话: {{config.hostNum}}</view>
-    <view wx:if="{{config.homeNum}}">住宅电话: {{config.homeNum}}</view>
-    <view wx:if="{{config.site}}">网站: {{config.site}}</view>
-    <view wx:if="{{config.mail}}">电子邮件: {{config.mail}}</view>
-    <view wx:if="{{phone.hasAddress(config)}}"
-      >地址: {{phone.getAddress(config)}}</view
+<view wx:if="{{showInfo}}" class="phone-mask mask" catch:tap="toggleInfo">
+  <view wx:if="{{showInfo}}" class="phone-popup">
+    <view class="title">{{phone.getName(config)}}</view>
+    <view class="body">
+      <view wx:if="{{config.num}}">电话: {{config.num}}</view>
+      <view wx:if="{{config.workNum}}">工作电话: {{config.workNum}}</view>
+      <view wx:if="{{config.hostNum}}">公司电话: {{config.hostNum}}</view>
+      <view wx:if="{{config.homeNum}}">住宅电话: {{config.homeNum}}</view>
+      <view wx:if="{{config.site}}">网站: {{config.site}}</view>
+      <view wx:if="{{config.mail}}">电子邮件: {{config.mail}}</view>
+      <view wx:if="{{phone.hasAddress(config)}}"
+        >地址: {{phone.getAddress(config)}}</view
+      >
+      <view wx:if="{{config.postCode}}">邮编: {{config.postCode}}</view>
+      <view wx:if="{{config.org}}">公司: {{config.org}}</view>
+      <view wx:if="{{config.wechat}}">微信号: {{config.wechat}}</view>
+      <view wx:if="{{config.nick}}">昵称: {{config.nick}}</view>
+      <view wx:if="{{config.remark}}">备注: {{config.remark}}</view>
+    </view>
+    <view class="button" hover-class="button-hover" catch:tap="toggleInfo"
+      >确定</view
     >
-    <view wx:if="{{config.postCode}}">邮编: {{config.postCode}}</view>
-    <view wx:if="{{config.org}}">公司: {{config.org}}</view>
-    <view wx:if="{{config.wechat}}">微信号: {{config.wechat}}</view>
-    <view wx:if="{{config.nick}}">昵称: {{config.nick}}</view>
-    <view wx:if="{{config.remark}}">备注: {{config.remark}}</view>
   </view>
-  <view class="button" hover-class="button-hover" catch:tap="toggleInfo"
-    >确定</view
-  >
 </view>
