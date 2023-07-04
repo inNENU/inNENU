@@ -13,13 +13,28 @@
 
   .detail {
     font-size: 14px;
+    padding: 4px;
   }
 
-  .temperature {
-    padding: 5px 0;
+  .now {
+    display: inline-block;
+    margin-right: 12px;
   }
 
-  .text {
+  .degree {
+    font-size: 28px;
+  }
+
+  .unit {
+    font-size: 24px;
+  }
+
+  .range {
+    display: inline-block;
+    font-size: 18px;
+  }
+
+  .hint {
     font-size: 12px;
 
     .icon-font {

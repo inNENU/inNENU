@@ -5,21 +5,25 @@
   style="padding-top:{{statusBarHeight}}px"
   catch:tap="navigate"
 >
-  <view class="weather-logo {{tool.getClass(weather)}}" />
+  <view class="weather-image">
+    <view class="{{tool.getClass(weather)}}" />
+  </view>
   <block wx:if="{{weather.observe}}">
     <view class="detail">
       <text class="icon-font icon-location" /> 长春市 |
       {{weather.observe.weather}}
     </view>
     <view class="temperature">
-      <text style="font-size: 36px">{{weather.observe.degree}}</text>
-      <text style="font-size: 28px">°C\n</text>
-      <view style="font-size: 18px">
-        {{weather.dayForecast[1].maxDegree}}°C -
-        {{weather.dayForecast[1].minDegree}}°C
+      <view class="now">
+        <text class="degree">{{weather.observe.degree}}</text>
+        <text class="unit">°C</text>
+      </view>
+      <view class="range">
+        {{weather.dayForecast[1].minDegree}} -
+        {{weather.dayForecast[1].maxDegree}}°C
       </view>
     </view>
-    <view class="text" catch:tap="refresh">
+    <view class="hint" catch:tap="refresh">
       {{weather.tips[tipIndex]}}<text class="icon-font icon-refresh" />
     </view>
   </block>

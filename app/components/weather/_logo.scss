@@ -1,5 +1,6 @@
 /* 天气 */
-.weather-logo {
+.weather-image {
+  position: relative;
   z-index: 999 !important;
 }
 
@@ -17,28 +18,32 @@
 
 @keyframes float {
   50% {
-    transform: translateY(-20px);
+    transform: translateY(-12px);
   }
 }
 
 @keyframes cloud-shadow {
   50% {
     opacity: 0.05;
-    transform: translateY(20px) scale(1);
+    transform: translateY(12px) scale(1);
   }
 }
 
-@mixin cloud {
+@mixin cloud($color: #fff) {
   position: absolute;
-  top: 50px;
-  right: 90px;
+  top: 30px;
+  right: 54px;
 
   display: block;
 
-  width: 50px;
-  height: 50px;
-  margin-left: -60px;
+  width: 30px;
+  height: 30px;
+  margin-left: -36px;
   border-radius: 50%;
+
+  background: $color;
+  box-shadow: $color 39px -9px 0 -3px, $color 15px -15px, $color 18px 6px,
+    $color 36px 9px 0 -6px, $color 51px 3px 0 -3px;
 
   animation: float 5s ease-in-out infinite;
 
@@ -47,11 +52,11 @@
     content: "";
 
     position: absolute;
-    bottom: -45px;
-    left: 5px;
+    bottom: -27px;
+    left: 3px;
 
-    width: 120px;
-    height: 15px;
+    width: 72px;
+    height: 9px;
     border-radius: 50%;
 
     background: #000;
@@ -77,13 +82,13 @@
 
 .sunny {
   position: absolute;
-  top: 20px;
-  right: 70px;
+  top: 12px;
+  right: 42px;
 
-  width: 20px;
-  height: 140px;
-  margin-top: -12px;
-  margin-left: -8px;
+  width: 12px;
+  height: 84px;
+  margin-top: -8px;
+  margin-left: -5px;
 
   background: linear-gradient(
     to top,
@@ -101,8 +106,8 @@
     bottom: 0;
     left: 0;
 
-    width: 20px;
-    height: 140px;
+    width: 12px;
+    height: 84px;
 
     background: linear-gradient(
       to top,
@@ -120,15 +125,15 @@
     content: "";
 
     position: absolute;
-    top: 30px;
-    left: -30px;
+    top: 18px;
+    left: -18px;
 
-    width: 80px;
-    height: 80px;
+    width: 48px;
+    height: 48px;
     border-radius: 50%;
 
     background: #fe4;
-    box-shadow: rgb(255 255 0 / 20%) 0 0 0 15px;
+    box-shadow: rgb(255 255 0 / 20%) 0 0 0 9px;
   }
 }
 
@@ -149,12 +154,12 @@
 
 .rainbow {
   position: absolute;
-  top: 60px;
-  right: 50px;
+  top: 36px;
+  right: 30px;
 
-  width: 70px;
-  height: 70px;
-  border-radius: 170px 0 0;
+  width: 42px;
+  height: 42px;
+  border-radius: 102px 0 0;
 
   box-shadow: #fb323c -2px -2px 0 1px, #f99716 -4px -4px 0 3px,
     #fee124 -6px -6px 0 5px, #afdf2e -8px -8px 0 7px, #6ad7f8 -10px -10px 0 9px,
@@ -162,26 +167,6 @@
 
   transform: rotate(40deg);
   animation: rainbow 5s ease-in-out infinite;
-
-  &::after {
-    content: "";
-
-    position: absolute;
-    bottom: -23px;
-    left: 17px;
-
-    width: 120px;
-    height: 15px;
-    border-radius: 50%;
-
-    background: #000;
-
-    opacity: 0.2;
-
-    transform: rotate(-40deg);
-    transform-origin: 50% 50%;
-    animation: rainbow-shadow 5s ease-in-out infinite;
-  }
 }
 
 /* STARRY */
@@ -198,16 +183,16 @@
       #fff -51px -34px 0 -1px, rgb(255 255 255 / 10%) -52px -62px 0 -1px,
       rgb(255 255 255 / 10%) 14px -37px, #fff 41px -19px,
       rgb(255 255 255 / 10%) 34px -50px, #fff 14px -71px 0 -1px,
-      rgb(255 255 255 / 10%) 64px -21px 0 -1px, #fff 32px -85px 0 -1px,
-      rgb(255 255 255 / 10%) 64px -90px, #fff 60px -67px 0 -1px,
+      rgb(255 255 255 / 10%) 64px -21px 0 -1px, #fff 32px -51px 0 -1px,
+      rgb(255 255 255 / 10%) 64px -54px, #fff 60px -67px 0 -1px,
       rgb(255 255 255 / 10%) 34px -127px, #fff -26px -103px 0 -1px;
   }
 }
 
 .starry {
   position: absolute;
-  top: 20px;
-  right: 90px;
+  top: 12px;
+  right: 54px;
 
   width: 4px;
   height: 4px;
@@ -218,7 +203,7 @@
     rgb(255 255 255 / 10%) -51px -34px 0 -1px, #fff -52px -62px 0 -1px,
     #fff 14px -37px, rgb(255 255 255 / 10%) 41px -19px, #fff 34px -50px,
     rgb(255 255 255 / 10%) 14px -71px 0 -1px, #fff 64px -21px 0 -1px,
-    rgb(255 255 255 / 10%) 32px -85px 0 -1px, #fff 64px -90px,
+    rgb(255 255 255 / 10%) 32px -51px 0 -1px, #fff 64px -54px,
     rgb(255 255 255 / 10%) 60px -67px 0 -1px, #fff 34px -127px,
     rgb(255 255 255 / 10%) -26px -103px 0 -1px;
 
@@ -231,11 +216,11 @@
 
     position: absolute;
 
-    width: 100px;
-    height: 100px;
+    width: 60px;
+    height: 60px;
     border-radius: 50%;
 
-    box-shadow: #fff -25px 0;
+    box-shadow: #fff -15px 0;
 
     transform: rotate(-5deg);
     transform-origin: 0 50%;
@@ -245,77 +230,66 @@
 
 /* Clouds */
 
-.cloudy,
-.rainy,
-.stormy,
-.snowy {
-  @include cloud;
-}
-
 /* CLOUDY */
 
 .cloudy {
-  background: #fff;
-  box-shadow: #fff 65px -15px 0 -5px, #fff 25px -25px, #fff 30px 10px,
-    #fff 60px 15px 0 -10px, #fff 85px 5px 0 -5px;
+  @include cloud;
 }
 
 /* RAINY */
 
 @keyframes rainy-rain {
   0% {
-    box-shadow: rgb(0 0 0 / 0%) 30px 30px, rgb(0 0 0 / 0%) 40px 40px,
-      #000 50px 75px, #000 55px 50px, #000 70px 100px, #000 80px 95px,
-      #000 110px 45px, #000 90px 35px;
+    box-shadow: rgb(0 0 0 / 0%) 18px 18px, rgb(0 0 0 / 0%) 24px 24px,
+      #000 30px 45px, #000 33px 30px, #000 42px 60px, #000 48px 57px,
+      #000 66px 27px, #000 54px 21px;
   }
 
   25% {
-    box-shadow: #000 30px 45px, #000 40px 60px, #000 50px 90px, #000 55px 65px,
-      rgb(0 0 0 / 0%) 70px 120px, rgb(0 0 0 / 0%) 80px 120px, #000 110px 70px,
-      #000 90px 60px;
+    box-shadow: #000 18px 27px, #000 24px 36px, #000 30px 54px, #000 33px 39px,
+      rgb(0 0 0 / 0%) 42px 72px, rgb(0 0 0 / 0%) 48px 72px, #000 66px 42px,
+      #000 54px 36px;
   }
 
   26% {
-    box-shadow: #000 30px 45px, #000 40px 60px, #000 50px 90px, #000 55px 65px,
-      rgb(0 0 0 / 0%) 70px 40px, rgb(0 0 0 / 0%) 80px 20px, #000 110px 70px,
-      #000 90px 60px;
+    box-shadow: #000 18px 27px, #000 24px 36px, #000 30px 54px, #000 33px 39px,
+      rgb(0 0 0 / 0%) 42px 24px, rgb(0 0 0 / 0%) 48px 12px, #000 66px 42px,
+      #000 54px 36px;
   }
 
   50% {
-    box-shadow: #000 30px 70px, #000 40px 80px, rgb(0 0 0 / 0%) 50px 100px,
-      #000 55px 80px, #000 70px 60px, #000 80px 45px, #000 110px 95px,
-      #000 90px 85px;
+    box-shadow: #000 18px 42px, #000 24px 48px, rgb(0 0 0 / 0%) 30px 60px,
+      #000 33px 48px, #000 42px 36px, #000 48px 27px, #000 66px 57px,
+      #000 54px 51px;
   }
 
   51% {
-    box-shadow: #000 30px 70px, #000 40px 80px, rgb(0 0 0 / 0%) 50px 45px,
-      #000 55px 80px, #000 70px 60px, #000 80px 45px, #000 110px 95px,
-      #000 90px 85px;
+    box-shadow: #000 18px 42px, #000 24px 48px, rgb(0 0 0 / 0%) 30px 27px,
+      #000 33px 48px, #000 42px 36px, #000 48px 27px, #000 66px 57px,
+      #000 54px 51px;
   }
 
   75% {
-    box-shadow: #000 30px 95px, #000 40px 100px, #000 50px 60px,
-      rgb(0 0 0 / 0%) 55px 95px, #000 70px 80px, #000 80px 70px,
-      rgb(0 0 0 / 0%) 110px 120px, rgb(0 0 0 / 0%) 90px 110px;
+    box-shadow: #000 18px 57px, #000 24px 60px, #000 30px 36px,
+      rgb(0 0 0 / 0%) 33px 57px, #000 42px 48px, #000 48px 42px,
+      rgb(0 0 0 / 0%) 66px 72px, rgb(0 0 0 / 0%) 54px 66px;
   }
 
   76% {
-    box-shadow: #000 30px 95px, #000 40px 100px, #000 50px 60px,
-      rgb(0 0 0 / 0%) 55px 35px, #000 70px 80px, #000 80px 70px,
-      rgb(0 0 0 / 0%) 110px 25px, rgb(0 0 0 / 0%) 90px 15px;
+    box-shadow: #000 18px 57px, #000 24px 60px, #000 30px 36px,
+      rgb(0 0 0 / 0%) 33px 21px, #000 42px 48px, #000 48px 42px,
+      rgb(0 0 0 / 0%) 66px 15px, rgb(0 0 0 / 0%) 54px 9px;
   }
 
   100% {
-    box-shadow: rgb(0 0 0 / 0%) 30px 120px, rgb(0 0 0 / 0%) 40px 120px,
-      #000 50px 75px, #000 55px 50px, #000 70px 100px, #000 80px 95px,
-      #000 110px 45px, #000 90px 35px;
+    box-shadow: rgb(0 0 0 / 0%) 18px 72px, rgb(0 0 0 / 0%) 24px 72px,
+      #000 30px 45px, #000 33px 30px, #000 42px 60px, #000 48px 57px,
+      #000 66px 27px, #000 54px 21px;
   }
 }
 
 .rainy {
-  background: #ccc;
-  box-shadow: #ccc 65px -15px 0 -5px, #ccc 25px -25px, #ccc 30px 10px,
-    #ccc 60px 15px 0 -10px, #ccc 85px 5px 0 -5px;
+  @include cloud(#ccc);
 
   &::before {
     content: "";
@@ -360,29 +334,27 @@
 }
 
 .stormy {
-  background: #222;
-  box-shadow: #222 65px -15px 0 -5px, #222 25px -25px, #222 30px 10px,
-    #222 60px 15px 0 -10px, #222 85px 5px 0 -5px;
+  @include cloud(#222);
 
   &::before {
     content: "";
 
     position: absolute;
-    top: 70px;
-    left: 57px;
+    top: 42px;
+    left: 34px;
 
     display: block;
 
     width: 0;
     height: 0;
-    border-top: 43px solid #ff0;
-    border-right: 7px solid transparent;
+    border-top: 26px solid #ff0;
+    border-right: 5px solid transparent;
     border-left: 0 solid transparent;
 
-    box-shadow: #ff0 -7px -32px;
+    box-shadow: #ff0 -5px -20px;
 
     transform: rotate(14deg);
-    transform-origin: 50% -60px;
+    transform-origin: 50% -30px;
     animation: stormy-thunder 2s steps(1, end) infinite;
   }
 }
@@ -391,71 +363,69 @@
 
 @keyframes snowy-snow {
   0% {
-    box-shadow: rgb(238 238 238 / 0%) 30px 30px, rgb(238 238 238 / 0%) 40px 40px,
-      #eee 50px 75px, #eee 55px 50px, #eee 70px 100px, #eee 80px 95px,
-      #eee 110px 45px, #eee 90px 35px;
+    box-shadow: rgb(238 238 238 / 0%) 18px 18px, rgb(238 238 238 / 0%) 24px 24px,
+      #eee 30px 45px, #eee 33px 30px, #eee 42px 60px, #eee 48px 57px,
+      #eee 66px 27px, #eee 54px 21px;
   }
 
   25% {
-    box-shadow: #eee 30px 45px, #eee 40px 60px, #eee 50px 90px, #eee 55px 65px,
-      rgb(238 238 238 / 0%) 70px 120px, rgb(238 238 238 / 0%) 80px 120px,
-      #eee 110px 70px, #eee 90px 60px;
+    box-shadow: #eee 18px 27px, #eee 24px 36px, #eee 30px 54px, #eee 33px 39px,
+      rgb(238 238 238 / 0%) 42px 72px, rgb(238 238 238 / 0%) 48px 72px,
+      #eee 66px 42px, #eee 54px 36px;
   }
 
   26% {
-    box-shadow: #eee 30px 45px, #eee 40px 60px, #eee 50px 90px, #eee 55px 65px,
-      rgb(238 238 238 / 0%) 70px 40px, rgb(238 238 238 / 0%) 80px 20px,
-      #eee 110px 70px, #eee 90px 60px;
+    box-shadow: #eee 18px 27px, #eee 24px 36px, #eee 30px 54px, #eee 33px 39px,
+      rgb(238 238 238 / 0%) 42px 24px, rgb(238 238 238 / 0%) 48px 12px,
+      #eee 66px 42px, #eee 54px 36px;
   }
 
   50% {
-    box-shadow: #eee 30px 70px, #eee 40px 80px, rgb(238 238 238 / 0%) 50px 100px,
-      #eee 55px 80px, #eee 70px 60px, #eee 80px 45px, #eee 110px 95px,
-      #eee 90px 85px;
+    box-shadow: #eee 18px 42px, #eee 24px 48px, rgb(238 238 238 / 0%) 30px 60px,
+      #eee 33px 48px, #eee 42px 36px, #eee 48px 27px, #eee 66px 57px,
+      #eee 54px 51px;
   }
 
   51% {
-    box-shadow: #eee 30px 70px, #eee 40px 80px, rgb(238 238 238 / 0%) 50px 45px,
-      #eee 55px 80px, #eee 70px 60px, #eee 80px 45px, #eee 110px 95px,
-      #eee 90px 85px;
+    box-shadow: #eee 18px 42px, #eee 24px 48px, rgb(238 238 238 / 0%) 30px 27px,
+      #eee 33px 48px, #eee 42px 36px, #eee 48px 27px, #eee 66px 57px,
+      #eee 54px 51px;
   }
 
   75% {
-    box-shadow: #eee 30px 95px, #eee 40px 100px, #eee 50px 60px,
-      rgb(238 238 238 / 0%) 55px 95px, #eee 70px 80px, #eee 80px 70px,
-      rgb(238 238 238 / 0%) 110px 120px, rgb(238 238 238 / 0%) 90px 110px;
+    box-shadow: #eee 18px 58px, #eee 24px 60px, #eee 30px 36px,
+      rgb(238 238 238 / 0%) 33px 57px, #eee 42px 48px, #eee 48px 42px,
+      rgb(238 238 238 / 0%) 66px 72px, rgb(238 238 238 / 0%) 54px 66px;
   }
 
   76% {
-    box-shadow: #eee 30px 95px, #eee 40px 100px, #eee 50px 60px,
-      rgb(238 238 238 / 0%) 55px 35px, #eee 70px 80px, #eee 80px 70px,
-      rgb(238 238 238 / 0%) 110px 25px, rgb(238 238 238 / 0%) 90px 15px;
+    box-shadow: #eee 18px 58px, #eee 24px 60px, #eee 30px 36px,
+      rgb(238 238 238 / 0%) 33px 21px, #eee 42px 48px, #eee 48px 42px,
+      rgb(238 238 238 / 0%) 66px 15px, rgb(238 238 238 / 0%) 54px 9px;
   }
 
   100% {
-    box-shadow: rgb(238 238 238 / 0%) 30px 120px,
-      rgb(238 238 238 / 0%) 40px 120px, #eee 50px 75px, #eee 55px 50px,
-      #eee 70px 100px, #eee 80px 95px, #eee 110px 45px, #eee 90px 35px;
+    box-shadow: rgb(238 238 238 / 0%) 18px 72px, rgb(238 238 238 / 0%) 24px 72px,
+      #eee 30px 45px, #eee 33px 30px, #eee 42px 60px, #eee 48px 57px,
+      #eee 66px 27px, #eee 54px 21px;
   }
 }
 
 .snowy {
-  background: #fff;
-  box-shadow: #fff 65px -15px 0 -5px, #fff 25px -25px, #fff 30px 10px,
-    #fff 60px 15px 0 -10px, #fff 85px 5px 0 -5px;
+  @include cloud(#fff);
 
   &::before {
     content: "";
 
     display: block;
 
-    width: 7px;
-    height: 7px;
+    width: 6px;
+    height: 6px;
     border-radius: 50%;
 
     opacity: 0.8;
 
-    transform: scale(0.9);
+    transform: scale(0.8);
     animation: snowy-snow 2s infinite linear;
   }
 }
