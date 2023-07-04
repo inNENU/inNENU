@@ -106,7 +106,7 @@ const getWeekIndex = (startTime: string, maxWeek: number): number => {
     (new Date().getTime() - new Date(startTime).getTime()) / DAY / 7
   );
 
-  return passedWeeks >= 0 && passedWeeks <= maxWeek ? passedWeeks + 1 : 0;
+  return passedWeeks >= 0 && passedWeeks + 1 <= maxWeek ? passedWeeks + 1 : 0;
 };
 
 $Page(PAGE_ID, {
