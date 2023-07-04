@@ -426,8 +426,8 @@ export const startup = (globalData: GlobalData): void => {
       globalData.darkmode = theme === "dark";
     });
 
-  updateNotice(globalData);
   updateApp(globalData);
+  updateNotice(globalData);
   registerActions(globalData);
   login(globalData.appID, globalData.env, (openid) => {
     globalData.openid = openid;
