@@ -13,8 +13,7 @@
       hover-class="left-button-hover"
       hover-stay-time="100"
       data-action="{{nav.action}}"
-      catch
-      :tap="{{nav.action ? navbar.action : 'back'}}"
+      catch:tap="{{nav.action ? navbar.action : 'back'}}"
     >
       <view wx:if="{{!nav.action}}" class="android-back-arrow" />
       <view class="android-back-text"
