@@ -4,6 +4,7 @@ import { get, writeJSON } from "@mptool/file";
 
 import { getDarkmode, modal, requestJSON, tip } from "./api.js";
 import { appConfig, assets, server, version } from "./config.js";
+import { loadFZSSJW } from "./font.js";
 import { downloadResource } from "./resource.js";
 import { type PageData, type VersionInfo } from "../../typings/index.js";
 
@@ -188,8 +189,6 @@ export const updateNotice = (globalData: GlobalData): void => {
     });
 };
 
-version;
-
 /**
  * 检查小程序更新
  *
@@ -222,7 +221,7 @@ export const updateApp = (globalData: GlobalData): void => {
           `App 的最新版本是 ${onlineVersion}，点击确定复制下载链接到剪切板。请手动粘贴到浏览器开启下载。`,
           () => {
             wx.setClipboardData({
-              data: `${assets}innenu-v${version}.apk`,
+              data: `${assets}innenu-v${onlineVersion}.apk`,
             });
           },
           () => {
@@ -297,11 +296,11 @@ const registerActions = (globalData: GlobalData): void => {
     }
   });
 
+  // 监听用户截屏
   if (
     wx.canIUse("onUserCaptureScreen") &&
     wx.getStorageSync("capture-screen") !== "never"
   ) {
-    // 监听用户截屏
     // avoid issues on QQ
     let pending = false;
 
@@ -332,6 +331,15 @@ const registerActions = (globalData: GlobalData): void => {
       }
     });
   }
+
+  // 更新窗口大小
+  wx.onWindowResize(({ size }) => {
+    globalData.info = { ...globalData.info, ...size };
+  });
+};
+
+export const loadFont = (theme: string): void => {
+  if (theme === "nenu") loadFZSSJW(true);
 };
 
 export const getGlobalData = (): GlobalData => {
@@ -383,8 +391,9 @@ export const startup = (globalData: GlobalData): void => {
       globalData.darkmode = theme === "dark";
     });
 
-  updateNotice(globalData);
+  loadFont(globalData.theme);
   updateApp(globalData);
+  updateNotice(globalData);
   registerActions(globalData);
   login(globalData.appID, globalData.env, (openid) => {
     globalData.openid = openid;

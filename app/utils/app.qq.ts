@@ -338,11 +338,11 @@ const registerActions = (globalData: GlobalData): void => {
     }
   });
 
+  // 监听用户截屏
   if (
     wx.canIUse("onUserCaptureScreen") &&
     wx.getStorageSync("capture-screen") !== "never"
   ) {
-    // 监听用户截屏
     // avoid issues on QQ
     let pending = false;
 
@@ -373,6 +373,11 @@ const registerActions = (globalData: GlobalData): void => {
       }
     });
   }
+
+  // 更新窗口大小
+  wx.onWindowResize(({ size }) => {
+    globalData.info = { ...globalData.info, ...size };
+  });
 };
 
 const checkGroupApp = (): void => {
@@ -447,8 +452,8 @@ export const startup = (globalData: GlobalData): void => {
       globalData.darkmode = theme === "dark";
     });
 
-  updateNotice(globalData);
   updateApp(globalData);
+  updateNotice(globalData);
   registerActions(globalData);
   login(globalData.appID, globalData.env, (openid) => {
     globalData.openid = openid;
