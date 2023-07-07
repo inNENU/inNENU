@@ -24,7 +24,7 @@
     </view>
   </view>
   <view class="input-list-wrapper">
-    <view class="list-item">
+    <view class="input-list-item">
       <view class="text">性别</view>
       <picker
         class="picker"
@@ -35,7 +35,7 @@
         {{gender.key || '请选择'}}
       </picker>
     </view>
-    <view class="list-item">
+    <view class="input-list-item">
       <view class="text">年级</view>
       <picker
         class="picker"
@@ -46,7 +46,7 @@
         {{grade.key || '请选择'}}
       </picker>
     </view>
-    <view class="list-item" wx:for="{{list}}" wx:key="id">
+    <view class="input-list-item" wx:for="{{list}}" wx:key="id">
       <view class="text">{{item.text}}</view>
       <input
         id="{{item.id}}"
@@ -60,7 +60,7 @@
       />
       <view class="unit">{{item.unit}}</view>
     </view>
-    <view class="list-item">
+    <view class="input-list-item">
       <view class="text">{{longRun.text}}</view>
       <picker
         class="picker"
@@ -71,7 +71,7 @@
         {{longRun.value ? longRun.value : '秒'}}
       </picker>
     </view>
-    <view class="list-item">
+    <view class="input-list-item">
       <view class="text">{{special.text}}</view>
       <input
         id="{{special.id}}"

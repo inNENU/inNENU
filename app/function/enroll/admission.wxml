@@ -26,7 +26,7 @@
   </view>
 
   <view class="input-list-wrapper">
-    <view wx:for="{{input}}" wx:key="id" class="list-item">
+    <view wx:for="{{input}}" wx:key="id" class="input-list-item">
       <view class="text">{{item.text}}</view>
       <input
         id="{{item.id}}"
@@ -39,7 +39,7 @@
         catch:blur="blur"
       />
     </view>
-    <view wx:if="{{captcha}}" class="list-item">
+    <view wx:if="{{captcha}}" class="input-list-item">
       <view class="text">验证码</view>
       <input
         id="verify-code"
