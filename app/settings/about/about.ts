@@ -225,7 +225,7 @@ $Page(PAGE_ID, {
   toggleDebug(value: boolean) {
     (
       (this.data.page.content[0] as FunctionalListComponentConfig)
-        .items[2] as SwitchListComponentItemConfig
+        .items[3] as SwitchListComponentItemConfig
     ).status = value;
     this.setData({ page: this.data.page });
     wx.setStorageSync("debugMode", value);
