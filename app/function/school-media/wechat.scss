@@ -1,3 +1,7 @@
+[is="miniprogram_npm/miniprogram-recycle-view/recycle-item"] {
+  display: block !important;
+}
+
 .intro-wrapper {
   position: relative;
   overflow: hidden;
@@ -76,7 +80,7 @@
   overflow: hidden;
 
   max-width: 517px;
-  margin: 12px 15px;
+  margin: 6px 15px;
   border-radius: 8px;
 
   background-color: var(--bg-color-block);
@@ -97,10 +101,10 @@
   .detail {
     margin: 0;
     padding: 12px 15px;
+    line-height: 1.5;
   }
 
   .title {
-    margin-bottom: 8px;
     font-weight: 500;
     font-size: 16px;
 
@@ -113,38 +117,10 @@
   .desc {
     color: var(--dark-grey);
     font-size: 14px;
-    line-height: 1.4;
+    margin-top: 8px;
 
     @media (min-width: 480px) {
       font-size: 18px;
-    }
-  }
-
-  .icon {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    float: right;
-  }
-
-  .logo {
-    width: 28px;
-    height: 28px;
-
-    @media (min-width: 480px) {
-      width: 40px;
-      height: 40px;
-    }
-  }
-
-  .name {
-    margin: 2px auto;
-    color: var(--grey);
-    font-size: 12px;
-
-    @media (min-width: 480px) {
-      font-size: 16px;
     }
   }
 }

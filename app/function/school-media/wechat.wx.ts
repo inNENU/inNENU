@@ -1,6 +1,10 @@
 import { $Page } from "@mptool/enhance";
+import createRecycleContext = require("miniprogram-recycle-view");
 
-import { type WechatConfig } from "../../../typings/index.js";
+import {
+  type WechatArticleItem,
+  type WechatConfig,
+} from "../../../typings/index.js";
 import { type AppOption } from "../../app.js";
 import { modal, tip } from "../../utils/api.js";
 import { appCoverPrefix, server } from "../../utils/config.js";
@@ -36,26 +40,56 @@ $Page(PAGE_ID, {
       color: getColor(true),
     });
 
-    wx.request<WechatConfig>({
-      method: "POST",
-      url: `${server}service/account.php`,
-      data: { id: path },
-      enableHttp2: true,
-      success: ({ data, statusCode }) => {
-        if (statusCode === 200) this.setData({ loading: false, config: data });
-        else tip("服务器出现问题");
-      },
-    });
-
     this.state.path = path;
 
     popNotice(`wechat/${this.data.config.name}`);
+  },
+
+  onShow() {
+    const { windowWidth, windowHeight } = globalData.info;
+
+    this.setData({
+      windowWidth,
+      windowHeight,
+    });
+  },
+
+  onReady() {
+    const ctx = createRecycleContext<WechatArticleItem>({
+      id: "recycleId",
+      dataKey: "recycleList",
+      page: this,
+      itemSize: this.getItemSize,
+    });
+
+    this.ctx = ctx;
+
+    wx.request<WechatConfig>({
+      method: "POST",
+      url: `${server}service/account.php`,
+      data: { id: this.state.path },
+      enableHttp2: true,
+      success: ({ data, statusCode }) => {
+        if (statusCode === 200) {
+          this.setData({ loading: false, config: data });
+
+          ctx.append(data.article);
+        } else tip("服务器出现问题");
+      },
+    });
   },
 
   onPageScroll(options) {
     if (options.scrollTop > 250 + globalData.info.statusBarHeight)
       this.setData({ showBackToTop: true });
     else this.setData({ showBackToTop: false });
+  },
+
+  onResize({ size }) {
+    this.setData(size);
+    this.ctx.forceUpdate(() => {
+      // do nothing
+    }, false);
   },
 
   onShareAppMessage(): WechatMiniprogram.Page.ICustomShareContent {
@@ -77,6 +111,17 @@ $Page(PAGE_ID, {
       title: this.data.config.name,
       imageUrl: `${appCoverPrefix}.jpg`,
       query: `path=${this.state.path}`,
+    };
+  },
+
+  getItemSize(item: WechatArticleItem) {
+    const width = globalData.info.windowWidth - 30;
+
+    return {
+      width,
+      height:
+        Math.min((globalData.info.windowWidth / 75) * 29, 220) +
+        (item.desc ? 68 : 48),
     };
   },
 
@@ -118,4 +163,8 @@ $Page(PAGE_ID, {
     if (getCurrentPages().length === 1) this.$switch("main");
     else this.$back();
   },
+
+  ctx: null as unknown as ReturnType<
+    typeof createRecycleContext<WechatArticleItem>
+  >,
 });

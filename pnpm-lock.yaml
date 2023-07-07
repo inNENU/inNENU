@@ -28,6 +28,9 @@ importers:
       '@mptool/file':
         specifier: 0.1.5
         version: 0.1.5(miniprogram-api-typings@3.10.0)
+      miniprogram-recycle-view:
+        specifier: 0.1.5
+        version: 0.1.5
     devDependencies:
       '@commitlint/cli':
         specifier: 17.6.5
@@ -8125,6 +8128,10 @@ packages:
 
   /miniprogram-api-typings@3.10.0:
     resolution: {integrity: sha512-pvGZmj9uamahlqfPj1bwn5Cd/bjImc5ehyAha/QfA9limG6HO9Plj/yROfSChK6J6+VUoVB9cnNthx4XuI0T2Q==}
+
+  /miniprogram-recycle-view@0.1.5:
+    resolution: {integrity: sha512-Pfm/u+jfg+b5zDhjXqm7QbR9IuViqX8JyzcHDgr6Zw9wSK0wmbXNzscA1WoSnGP5Z2nG2TIqtiNXvEbvsyrxXA==}
+    dev: false
 
   /minizlib@2.1.2:
     resolution: {integrity: sha512-bAxsR8BVfj60DWXHE3u30oHzfl4G7khkSuPW+qvpd7jFRHm7dLxOjUk1EHACJ/hxLY8phGJ0YhYHZo7jil7Qdg==}

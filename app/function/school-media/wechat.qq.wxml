@@ -24,6 +24,13 @@
       <view class="icon-{{firstPage ? 'home' : 'back'}}" />
     </view>
 
+    <button
+      class="scroll-top-button {{showBackToTop? 'show': ''}}"
+      catch:tap="scrollTop"
+    >
+      <view class="icon" />
+    </button>
+
     <view wx:if="{{loading}}" class="loading-logo-wrapper">
       <template is="loading" />
     </view>
@@ -70,13 +77,7 @@
       </view>
     </view>
   </recycle-item>
-  <block slot="after">
+  <!-- <view slot="after">
     <footer config="{{footer}}" />
-    <button
-      class="scroll-top-button {{showBackToTop? 'show': ''}}"
-      catch:tap="scrollTop"
-    >
-      <view class="icon" />
-    </button>
-  </block>
+  </view> -->
 </recycle-view>

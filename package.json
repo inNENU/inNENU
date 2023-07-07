@@ -53,7 +53,8 @@
   },
   "dependencies": {
     "@mptool/enhance": "0.1.5",
-    "@mptool/file": "0.1.5"
+    "@mptool/file": "0.1.5",
+    "miniprogram-recycle-view": "0.1.5"
   },
   "devDependencies": {
     "@commitlint/cli": "17.6.5",
