@@ -259,6 +259,6 @@ $Page(PAGE_ID, {
 
     const { name, teacher, location, time } = classInfo;
 
-    modal(name, `教师: ${teacher}\n\n地点: ${location}\n\n时间: ${time}`);
+    modal(name, `教师: ${teacher}\n地点: ${location}\n时间: ${time}`);
   },
 });
