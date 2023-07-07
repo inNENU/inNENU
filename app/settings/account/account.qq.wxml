@@ -5,72 +5,74 @@
   background-color-bottom="{{color.bgColorBottom}}"
   root-background-color="{{color.bgColor}}"
 />
-<view class="{{theme}}">
+<view class="account {{theme}}">
   <navbar theme="{{theme}}" darkmode="{{darkmode}}" nav="{{nav}}" />
 
-  <title config="{{ { text: '账号密码' } }}" />
+  <view class="content">
+    <block wx:if="{{isSaved}}">
+      <title config="{{ { text: '个人信息' } }}" />
 
-  <view class="input-list-wrapper">
-    <view class="list-item">
-      <view class="text">学号</view>
-      <input
-        id="id"
-        class="input"
-        type="digit"
-        adjust-position="{{false}}"
-        placeholder="10 位数字"
-        value="{{id}}"
-        bindinput="input"
-      />
-    </view>
-    <view wx:if="{{!isSaved}}" class="list-item">
-      <view class="text">密码</view>
-      <input
-        wx:if="{{showPassword}}"
-        id="password"
-        class="input"
-        type="text"
-        adjust-position="{{false}}"
-        placeholder="统一身份认证密码"
-        value="{{password}}"
-        bindinput="input"
-      />
-      <input
-        id="password"
-        wx:else
-        class="input"
-        type="password"
-        adjust-position="{{false}}"
-        placeholder="统一身份认证密码"
-        value="{{password}}"
-        catch:input="input"
-      />
-      <button
-        wx:if="{{canShowPassword}}"
-        type="default"
-        class="password-button"
-        bindtap="togglePassword"
-      >
-        {{showPassword? '隐藏': '显示'}}
+      <list config="{{list}}" />
+
+      <button type="warn" class="account-button" bindtap="delete">
+        删除本地账户
       </button>
-    </view>
+    </block>
+
+    <block wx:else>
+      <title config="{{ { text: '填写信息' } }}" />
+
+      <view class="input-list-wrapper">
+        <view class="input-list-item">
+          <view class="text">学号</view>
+          <input
+            id="id"
+            class="input"
+            type="digit"
+            adjust-position="{{false}}"
+            placeholder="10 位数字"
+            value="{{id}}"
+            bindinput="input"
+          />
+        </view>
+        <view class="input-list-item">
+          <view class="text">密码</view>
+          <input
+            wx:if="{{showPassword}}"
+            id="password"
+            class="input"
+            type="text"
+            adjust-position="{{false}}"
+            placeholder="统一身份认证密码"
+            value="{{password}}"
+            bindinput="input"
+          />
+          <input
+            id="password"
+            wx:else
+            class="input"
+            type="password"
+            adjust-position="{{false}}"
+            placeholder="统一身份认证密码"
+            value="{{password}}"
+            catch:input="input"
+          />
+          <button
+            wx:if="{{canShowPassword}}"
+            type="default"
+            class="password-button"
+            bindtap="togglePassword"
+          >
+            {{showPassword? '隐藏': '显示'}}
+          </button>
+        </view>
+      </view>
+
+      <button type="primary" class="account-button primary" bindtap="save">
+        保存在本地
+      </button>
+    </block>
   </view>
-
-  <button
-    wx:if="{{isSaved}}"
-    type="warn"
-    class="account-button"
-    bindtap="delete"
-  >
-    删除本地账户
-  </button>
-  <button wx:else type="primary" class="account-button primary" bindtap="save">
-    保存在本地
-  </button>
-
-  <title config="{{ { text: '个人信息' } }}" />
-
-  <list config="{{list}}" />
 
   <footer config="{{footer}}" />
 </view>
