@@ -46,5 +46,5 @@
       <view class="nenu-nav-title">{{nav.title}}</view>
     </view>
   </block>
-  <view style="width:100%;height:{{statusBarHeight + 40}}px;" />
+  <view style="width:100%;height:{{statusBarHeight + 44}}px;" />
 </template>
