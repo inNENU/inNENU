@@ -3,3 +3,7 @@
 button.primary {
   background-color: #07c160;
 }
+
+button[plain] {
+  color: inherit;
+}

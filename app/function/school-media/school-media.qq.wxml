@@ -52,6 +52,7 @@
               wx:if="{{item.openid}}"
               class="account-item bb"
               hover-class="button-hover"
+              plain
               open-type="addFriend"
               open-id="{{item.openid}}"
             >
