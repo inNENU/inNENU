@@ -1,7 +1,7 @@
 {
   "miniVersion": "v2",
   "name": "in东师",
-  "version": "5.6.1",
+  "version": "5.7.0",
   "mini-android": {
     "sdkVersion": "1.0.5",
     "toolkitVersion": "0.7.3",
@@ -71,5 +71,5 @@
       "NSLocationWhenInUseUsageDescription": "您的位置将用于校园地图导航"
     }
   },
-  "versionCode": 2
+  "versionCode": 3
 }
