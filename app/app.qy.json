@@ -142,6 +142,7 @@
     "plain-text": "/components/common/plain-text/plain-text",
     "phone": "/components/common/phone/phone",
     "share": "/components/common/share/share",
+    "table": "/components/common/table/table",
     "title": "/components/common/title/title",
     "video-player": "/components/common/video/video"
   },

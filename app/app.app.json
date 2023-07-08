@@ -121,6 +121,7 @@
     "navbar": "/components/common/navbar/navbar",
     "plain-text": "/components/common/plain-text/plain-text",
     "phone": "/components/common/phone/phone",
+    "table": "/components/common/table/table",
     "title": "/components/common/title/title",
     "video-player": "/components/common/video/video"
   },

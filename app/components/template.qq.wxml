@@ -17,10 +17,10 @@
         <grid wx:elif="{{item.tag === 'grid'}}" config="{{item}}" />
         <doc wx:elif="{{item.tag === 'doc'}}" config="{{item}}" />
         <phone wx:elif="{{item.tag === 'phone'}}" config="{{item}}" />
-        <carousel wx:elif="{{item.tag === 'carousel'}}" config="{{item}}" />
         <account wx:elif="{{item.tag === 'account'}}" config="{{item}}" />
         <card wx:elif="{{item.tag === 'card'}}" config="{{item}}" />
         <action wx:elif="{{item.tag === 'action'}}" config="{{item}}" />
+        <table wx:elif="{{item.tag === 'table'}}" config="{{item}}" />
         <functional-list
           wx:elif="{{item.tag === 'functional-list'}}"
           config="{{item}}"
@@ -29,9 +29,8 @@
           catch:change="list"
         />
         <location wx:elif="{{item.tag === 'location'}}" config="{{item}}" />
-        <!-- 音频组件 -->
+        <carousel wx:elif="{{item.tag === 'carousel'}}" config="{{item}}" />
         <audio-player wx:elif="{{item.tag === 'audio'}}" config="{{item}}" />
-        <!-- 视频组件 -->
         <video-player wx:elif="{{item.tag === 'video'}}" config="{{item}}" />
         <loading wx:elif="{{item.tag === 'loading'}}" />
       </block>
