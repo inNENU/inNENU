@@ -20,7 +20,8 @@
           data-index="{{index}}"
           catch:tap="sortResults"
         >
-          {{item}} {{sortIndex === index ? ascending ? '↑': '↓' : ''}}
+          <text class="text">{{item}}</text>
+          {{sortIndex === index ? ascending ? '↑': '↓' : ''}}
         </view>
         <view wx:if="{{showMark}}" class="header">成绩标识</view>
         <view wx:if="{{showRelearn}}" class="header">补重学期</view>
