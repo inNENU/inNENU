@@ -45,7 +45,7 @@ $Page("grade-list", {
     totalGradePoint: 0,
     gpa: 0,
 
-    sortIndex: 0,
+    sortIndex: 7,
     ascending: false,
   },
 
@@ -180,8 +180,8 @@ $Page("grade-list", {
 
           if (numberValueIndex.includes(index))
             return ascending
-              ? Number(itemB[key]) - Number(itemA[key])
-              : Number(itemA[key]) - Number(itemB[key]);
+              ? Number(itemA[key]) - Number(itemB[key])
+              : Number(itemB[key]) - Number(itemA[key]);
 
           return ascending
             ? (<string>itemA[key])?.localeCompare(<string>itemB[key])
