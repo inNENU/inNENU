@@ -11,36 +11,43 @@
   <title config="{{ { text: '查询结果' } }}" />
   <block wx:if="{{grades.length}}">
     <scroll-view scroll-x class="grade-list">
-      <view class="grid-list-content extra-items-{{extraHeaders}}">
-        <view
-          wx:for="{{grade.headers}}"
-          wx:for-item="item"
-          wx:for-index="index"
-          class="header"
-          data-index="{{index}}"
-          catch:tap="sortResults"
-        >
-          <text class="text">{{item}}</text>
-          {{sortIndex === index ? ascending ? '↑': '↓' : ''}}
+      <view class="table">
+        <view class="headers">
+          <view
+            wx:for="{{grade.headers}}"
+            wx:for-item="item"
+            wx:for-index="index"
+            class="header"
+            data-index="{{index}}"
+            catch:tap="sortResults"
+          >
+            <text class="text">{{item}}</text>
+            {{sortIndex === index ? ascending ? '↑': '↓' : ''}}
+          </view>
+          <view wx:if="{{showMark}}" class="header">成绩标识</view>
+          <view wx:if="{{showRelearn}}" class="header">补重学期</view>
+          <view wx:if="{{showStatus}}" class="header">审核状态</view>
         </view>
-        <view wx:if="{{showMark}}" class="header">成绩标识</view>
-        <view wx:if="{{showRelearn}}" class="header">补重学期</view>
-        <view wx:if="{{showStatus}}" class="header">审核状态</view>
-        <block wx:for="{{grades}}" wx:for-item="item">
-          <view class="name">{{item.name}}</view>
-          <view class="grade">{{item.grade}}</view>
-          <view class="difficulty">{{item.difficulty}}</view>
-          <view class="point">{{item.point}}</view>
-          <view class="grade-point">{{item.gradePoint}}</view>
-          <view class="course-type">{{item.shortCourseType}}</view>
-          <view class="common-type">{{item.commonType || ''}}</view>
-          <view class="time">{{item.time}}</view>
-          <view class="time">{{item.hours || ''}}</view>
-          <view class="examType">{{item.examType}}</view>
-          <view wx:if="{{showMark}}" class="mark">{{item.mark}}</view>
-          <view wx:if="{{showRelearn}}" class="relearn">{{grade.reLearn}}</view>
-          <view wx:if="{{showStatus}}" class="status">{{grade.status}}</view>
-        </block>
+
+        <view wx:for="{{grades}}" wx:for-item="item" class="row">
+          <view class="cell name">{{item.name}}</view>
+          <view class="cell grade">{{item.grade}}</view>
+          <view class="cell difficulty">{{item.difficulty}}</view>
+          <view class="cell point">{{item.point}}</view>
+          <view class="cell grade-point">{{item.gradePoint}}</view>
+          <view class="cell course-type">{{item.shortCourseType}}</view>
+          <view class="cell common-type">{{item.commonType || ''}}</view>
+          <view class="cell time">{{item.time}}</view>
+          <view class="cell time">{{item.hours || ''}}</view>
+          <view class="cell examType">{{item.examType}}</view>
+          <view wx:if="{{showMark}}" class="cell mark">{{item.mark}}</view>
+          <view wx:if="{{showRelearn}}" class="cell relearn"
+            >{{grade.reLearn}}</view
+          >
+          <view wx:if="{{showStatus}}" class="cell status"
+            >{{grade.status}}</view
+          >
+        </view>
       </view>
     </scroll-view>
     <title config="{{ { text: '数据统计' } }}" />

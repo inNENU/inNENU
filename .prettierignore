@@ -4,6 +4,9 @@ dist/**
 
 server/r/**
 server/site/**/*.md
+!server/site/README.md
+!server/site/about/**/*.md
+!server/site/contributing/**/*.md
 server/site/.vuepress/.cache/**
 server/site/.vuepress/.temp/**
 server/site/.vuepress/dist/**
