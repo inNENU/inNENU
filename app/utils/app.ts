@@ -6,7 +6,7 @@ import { loadFZSSJW } from "./font.js";
 import { downloadResource } from "./resource.js";
 import { type PageData, type VersionInfo } from "../../typings/index.js";
 import { requestJSON } from "../api/net.js";
-import { getDarkmode, showModal, showToast } from "../api/ui.js";
+import { showModal, showToast } from "../api/ui.js";
 import { defaultAppConfig } from "../config/app.js";
 import { server, version } from "../config/info.js";
 
@@ -381,6 +381,11 @@ const registerActions = (globalData: GlobalData): void => {
   wx.onWindowResize(({ size }) => {
     globalData.info = { ...globalData.info, ...size };
   });
+
+  // 更新窗口大小
+  wx.onThemeChange?.(({ theme }) => {
+    globalData.darkmode = theme === "dark";
+  });
 };
 
 export const loadFont = (theme: string): void => {
@@ -406,7 +411,7 @@ export const getGlobalData = (): GlobalData => {
     envName: env === "app" ? "App" : "小程序",
     theme: "ios",
     info,
-    darkmode: getDarkmode(info),
+    darkmode: info.theme === "dark",
     appID: wx.getAccountInfoSync().miniProgram.appId as AppID,
     openid: "",
     selectable: wx.getStorageSync<boolean>("selectable") || false,

@@ -6,7 +6,7 @@ import {
   type MarkerConfig,
   type MarkerData,
 } from "../../../typings/index.js";
-import { getWindowInfo, showModal, showToast } from "../../api/ui.js";
+import { showModal, showToast } from "../../api/ui.js";
 import { type AppOption } from "../../app.js";
 import { appCoverPrefix } from "../../config/info.js";
 import { ensureJSON, getJSON } from "../../utils/json.js";
@@ -91,7 +91,6 @@ $Page(PAGE_ID, {
     const area = this.getArea();
     // 创建地图对象
     const mapContext = wx.createMapContext("map");
-    const info = getWindowInfo();
 
     // 注入地图实例
     this.context = mapContext;
@@ -99,8 +98,8 @@ $Page(PAGE_ID, {
     this.setData({
       area,
       darkmode: globalData.darkmode,
-      statusBarHeight: info.statusBarHeight,
-      tabHeight: info.windowHeight / 2 - 20,
+      statusBarHeight: globalData.info.statusBarHeight,
+      tabHeight: globalData.info.windowHeight / 2 - 20,
       firstPage: getCurrentPages().length === 1,
     });
 

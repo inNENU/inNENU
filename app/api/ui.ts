@@ -1,11 +1,12 @@
+import { type AppOption } from "../app.js";
+
 /**
  * 根据用户设置，判断当前小程序是否应启用夜间模式
  *
  * @returns 夜间模式状态
  */
-export const getDarkmode = (
-  sysInfo: WechatMiniprogram.SystemInfo = wx.getSystemInfoSync()
-): boolean => (sysInfo.AppPlatform ? false : sysInfo.theme === "dark");
+export const getDarkmode = (): boolean =>
+  getApp<AppOption>().globalData.darkmode;
 
 export const getWindowInfo = (): WechatMiniprogram.WindowInfo =>
   /** @desc >2.20.1 */

@@ -65,6 +65,7 @@ $Config({
     options.onLoad = wrapFunction(
       options.onLoad,
       function (this: TrivialPageInstance & { onThemeChange: () => void }) {
+        this.setData({ darkmode: getDarkmode() });
         if (wx.canIUse("onThemeChange")) wx.onThemeChange(this.onThemeChange);
       }
     );
@@ -103,7 +104,7 @@ $App<AppOption>({
     console.info(`App awakes after ${time}ms`);
 
     // 重新应用夜间模式、
-    this.globalData.darkmode = getDarkmode();
+    this.globalData.darkmode = wx.getSystemInfoSync().theme === "dark";
 
     updateNotice(this.globalData);
     updateApp(this.globalData);

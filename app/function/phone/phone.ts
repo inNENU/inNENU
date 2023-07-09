@@ -1,7 +1,6 @@
 import { $Page } from "@mptool/enhance";
 
 import { addPhoneContact } from "../../api/phone.js";
-import { getWindowInfo } from "../../api/ui.js";
 import { type AppOption } from "../../app.js";
 import { appCoverPrefix } from "../../config/info.js";
 import { ensureJSON, getJSON } from "../../utils/json.js";
@@ -33,11 +32,10 @@ $Page("phone", {
 
   onLoad() {
     getJSON<PhoneConfig[]>("function/phone/index").then((config) => {
-      const info = getWindowInfo();
-
       this.setData({
         config,
-        height: info.windowHeight - info.statusBarHeight - 160,
+        height:
+          globalData.info.windowHeight - globalData.info.statusBarHeight - 160,
       });
     });
 
@@ -57,10 +55,8 @@ $Page("phone", {
   }),
 
   onResize({ size }) {
-    const info = getWindowInfo();
-
     this.setData({
-      height: size.windowHeight - info.statusBarHeight - 160,
+      height: size.windowHeight - globalData.info.statusBarHeight - 160,
     });
   },
 

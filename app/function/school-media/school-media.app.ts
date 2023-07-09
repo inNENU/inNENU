@@ -1,7 +1,7 @@
 import { $Page } from "@mptool/enhance";
 
 import { savePhoto } from "../../api/media.js";
-import { getWindowInfo, showModal, showToast } from "../../api/ui.js";
+import { showModal, showToast } from "../../api/ui.js";
 import { type AppOption } from "../../app.js";
 import { type Env } from "../../utils/app.js";
 import { ensureJSON, getJSON } from "../../utils/json.js";
@@ -30,12 +30,11 @@ $Page(PAGE_ID, {
     const res = type || (env === "qq" ? "qq" : "wx");
 
     getJSON<unknown[]>(`function/account/${res}`).then((config) => {
-      const info = getWindowInfo();
-
       this.setData({
         config,
         type: res,
-        height: info.windowHeight - info.statusBarHeight - 229,
+        height:
+          globalData.info.windowHeight - globalData.info.statusBarHeight - 229,
       });
     });
 

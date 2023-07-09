@@ -1,6 +1,6 @@
 import { $Page } from "@mptool/enhance";
 
-import { getWindowInfo, showModal } from "../../api/ui.js";
+import { showModal } from "../../api/ui.js";
 import { type AppOption } from "../../app.js";
 import { appCoverPrefix } from "../../config/info.js";
 import { ensureJSON, getJSON } from "../../utils/json.js";
@@ -22,11 +22,10 @@ $Page(PAGE_ID, {
 
   onLoad() {
     getJSON<unknown[]>("function/website/index").then((config) => {
-      const info = getWindowInfo();
-
       this.setData({
         config,
-        height: info.windowHeight - info.statusBarHeight - 160,
+        height:
+          globalData.info.windowHeight - globalData.info.statusBarHeight - 160,
       });
     });
 
