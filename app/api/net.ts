@@ -83,7 +83,7 @@ export const request = <
             payload: JSON.stringify(options),
           });
 
-          reject(statusCode);
+          reject(`服务器错误: ${statusCode}`);
         }
       },
       fail: ({ errMsg }) => {

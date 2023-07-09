@@ -34,7 +34,7 @@
       size="mini"
       catch:tap="refreshCourseTable"
     >
-      刷新
+      <text />
     </button>
   </view>
   <view class="course-table">

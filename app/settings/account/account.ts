@@ -188,6 +188,8 @@ $Page(PAGE_ID, {
     });
     remove("account-info");
     remove("user-info");
+    remove("under-system-cookie");
+    remove("course-data-info");
     globalData.account = null;
     globalData.userInfo = null;
     showModal("删除成功", "已删除本地账号信息");

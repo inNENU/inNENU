@@ -2,10 +2,13 @@ import { logger } from "@mptool/enhance";
 import { set } from "@mptool/file";
 
 import { type Cookie, type CookieOptions } from "../../../typings/cookie.js";
+import { request } from "../../api/net.js";
 import { service } from "../../config/info.js";
 import { LoginFailedResponse } from "../../utils/account.js";
 import { type AccountBasicInfo } from "../../utils/app.js";
 import { HOUR } from "../../utils/constant.js";
+
+const UNDER_SYSTEM_COOKIE = "under-system-cookie";
 
 export interface UnderSystemLoginSuccessResponse {
   status: "success";
@@ -20,22 +23,15 @@ export type UnderSystemLoginResponse =
 export const login = (
   options: AccountBasicInfo
 ): Promise<UnderSystemLoginResponse> =>
-  new Promise((resolve, reject) => {
-    wx.request<UnderSystemLoginResponse>({
-      method: "POST",
-      url: `${service}under-system/login`,
-      data: options,
-      enableHttp2: true,
-      success: ({ data, statusCode }) => {
-        if (statusCode === 200) {
-          if (data.status === "success") {
-            set("under-system-cookie", data.cookies, 6 * HOUR);
-          } else logger.error("登录失败", data.msg);
-          resolve(data);
-        } else reject(`服务器错误: ${statusCode}`);
-      },
-      fail: ({ errMsg }) => reject(errMsg),
-    });
+  request<UnderSystemLoginResponse>(`${service}under-system/login`, {
+    method: "POST",
+    data: options,
+  }).then((data) => {
+    if (data.status === "success")
+      set(UNDER_SYSTEM_COOKIE, data.cookies, 6 * HOUR);
+    else logger.error("登录失败", data.msg);
+
+    return data;
   });
 
 interface UserCourseTableExtraOptions {
@@ -74,20 +70,13 @@ export type UserCourseTableResponse =
 export const getCourseTable = (
   options: UserCourseTableOptions
 ): Promise<UserCourseTableResponse> =>
-  new Promise((resolve, reject) => {
-    wx.request<UserCourseTableResponse>({
-      method: "POST",
-      url: `${service}under-system/course-table`,
-      data: options,
-      enableHttp2: true,
-      success: ({ data, statusCode }) => {
-        if (statusCode === 200) {
-          resolve(data);
-          if (data.status === "failed") logger.error("登录失败", data.msg);
-        } else reject(`服务器错误: ${statusCode}`);
-      },
-      fail: ({ errMsg }) => reject(errMsg),
-    });
+  request<UserCourseTableResponse>(`${service}under-system/course-table`, {
+    method: "POST",
+    data: options,
+  }).then((data) => {
+    if (data.status === "failed") logger.error("获取失败", data.msg);
+
+    return data;
   });
 
 type CourseType =
@@ -162,18 +151,11 @@ export type UserGradeListResponse =
 export const getGradeList = (
   options: UserGradeListOptions
 ): Promise<UserGradeListResponse> =>
-  new Promise((resolve, reject) => {
-    wx.request<UserGradeListResponse>({
-      method: "POST",
-      url: `${service}under-system/grade-list`,
-      data: options,
-      enableHttp2: true,
-      success: ({ data, statusCode }) => {
-        if (statusCode === 200) {
-          resolve(data);
-          if (data.status === "failed") logger.error("登录失败", data.msg);
-        } else reject(`服务器错误: ${statusCode}`);
-      },
-      fail: ({ errMsg }) => reject(errMsg),
-    });
+  request<UserGradeListResponse>(`${service}under-system/grade-list`, {
+    method: "POST",
+    data: options,
+  }).then((data) => {
+    if (data.status === "failed") logger.error("获取失败", data.msg);
+
+    return data;
   });
