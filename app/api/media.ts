@@ -6,22 +6,19 @@ import { showModal } from "./ui.js";
  *
  * @param imgPath 图片地址
  */
-export const savePhoto = (imgPath: string, force = false): Promise<void> =>
+export const savePhoto = (imgPath: string): Promise<void> =>
   new Promise((resolve, reject) => {
     downLoad(imgPath)
       .then((path) => {
-        const savePhoto = (): void =>
-          wx.saveImageToPhotosAlbum({
-            filePath: path,
-            success: () => resolve(),
-          });
-
-        if (force) savePhoto();
         // 获取用户设置
         wx.getSetting({
           success: ({ authSetting }) => {
             // 如果已经授权相册直接写入图片
-            if (authSetting["scope.writePhotosAlbum"]) savePhoto();
+            if (authSetting["scope.writePhotosAlbum"])
+              wx.saveImageToPhotosAlbum({
+                filePath: path,
+                success: () => resolve(),
+              });
             // 没有授权 —> 提示用户授权
             else
               wx.authorize({

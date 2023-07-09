@@ -71,7 +71,7 @@ $Page(PAGE_ID, {
     const { id, qrcode } = event.currentTarget.dataset;
 
     if (qrcode)
-      savePhoto(qrcode, true)
+      savePhoto(qrcode)
         .then(() => showToast("二维码已保存至相册"))
         .catch(() => showToast("二维码下载失败"));
     else

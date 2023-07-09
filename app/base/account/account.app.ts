@@ -19,7 +19,7 @@ $Component({
       const { qq, qqcode = "" } = this.data.config;
 
       if (qqcode)
-        savePhoto(qqcode, true)
+        savePhoto(qqcode)
           .then(() => showToast("二维码已存至相册"))
           .catch(() => showToast("二维码保存失败"));
       else if (qq)
@@ -37,7 +37,7 @@ $Component({
 
       if (account) this.$go(`wechat-detail?path=${account}`);
       else if (wxcode)
-        savePhoto(wxcode, true)
+        savePhoto(wxcode)
           .then(() => showToast("二维码已存至相册"))
           .catch(() => showToast("二维码保存失败"));
       else if (wxid)
