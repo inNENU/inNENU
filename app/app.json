@@ -57,7 +57,7 @@
     "pageOrientation": "portrait"
   },
   "tabBar": {
-    "custom": false,
+    "custom": true,
     "color": "@tabColor",
     "selectedColor": "#2ecc71",
     "borderStyle": "@tabBorderStyle",

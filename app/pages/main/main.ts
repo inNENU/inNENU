@@ -63,6 +63,7 @@ $Page("main", {
       });
 
     popNotice("main");
+    this.getTabBar?.().setData({ selected: 0 });
   },
 
   onReady() {

@@ -64,6 +64,8 @@ $Page("user", {
     });
     this.setData({ userName: userInfo ? userInfo.name : "东师青年" });
     popNotice("user");
+
+    this.getTabBar?.().setData({ selected: 4 });
   },
 
   onPullDownRefresh() {

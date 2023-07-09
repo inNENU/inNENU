@@ -54,6 +54,7 @@ $Page("guide", {
       setPage({ ctx: this, option: { id: "guide" } }, data);
     });
     popNotice("guide");
+    this.getTabBar?.().setData({ selected: 2 });
   },
 
   onReady() {

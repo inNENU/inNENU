@@ -63,6 +63,8 @@ $Page("user", {
     });
     this.setData({ userName: userInfo ? userInfo.name : "in东师" });
     popNotice("user");
+
+    this.getTabBar?.().setData({ selected: 4 });
   },
 
   onPullDownRefresh() {

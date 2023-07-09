@@ -48,6 +48,8 @@ $Page("function", {
       setPage({ ctx: this, option: { id: "function" } }, data);
     });
     popNotice("function");
+
+    this.getTabBar?.().setData({ selected: 3 });
   },
 
   onReady() {
