@@ -1,9 +1,9 @@
 import { $Page } from "@mptool/enhance";
 import { ls, rm } from "@mptool/file";
 
+import { showModal } from "../../api/index.js";
 import { type AppOption } from "../../app.js";
-import { modal } from "../../utils/api.js";
-import { appCoverPrefix } from "../../utils/config.js";
+import { appCoverPrefix } from "../../config/index.js";
 
 const {
   globalData: { theme },
@@ -47,7 +47,7 @@ $Page("action", {
     // 隐藏提示
     wx.hideLoading();
     // 提示用户重启
-    modal("小程序初始化完成", "请单击 “退出小程序按钮” 退出小程序");
+    showModal("小程序初始化完成", "请单击 “退出小程序按钮” 退出小程序");
 
     this.setData({ exit: true, reset: false });
   },

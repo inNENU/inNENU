@@ -1,8 +1,8 @@
 import { logger } from "@mptool/enhance";
 
-import { netReport, tip } from "./api.js";
-import { server } from "./config.js";
 import { type SearchIndex } from "../../typings/index.js";
+import { netReport, showToast } from "../api/index.js";
+import { server } from "../config/index.js";
 
 /** 搜索结果 */
 export interface SearchResult {
@@ -47,7 +47,7 @@ export const search = <T extends string[] | SearchResult[]>(
 
           resolve(data);
         } else {
-          tip("服务器出现问题，请稍后重试");
+          showToast("服务器出现问题，请稍后重试");
           // 调试
           logger.warn(`Request failed with statusCode: ${statusCode}`);
 

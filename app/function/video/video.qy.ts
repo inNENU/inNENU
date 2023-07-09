@@ -1,8 +1,8 @@
 import { $Page } from "@mptool/enhance";
 
+import { showToast } from "../../api/index.js";
 import { type AppOption } from "../../app.js";
-import { tip } from "../../utils/api.js";
-import { appCoverPrefix } from "../../utils/config.js";
+import { appCoverPrefix } from "../../config/index.js";
 import { loadFZSSJW } from "../../utils/font.js";
 import { ensureJSON, getJSON } from "../../utils/json.js";
 import { popNotice } from "../../utils/page.js";
@@ -145,7 +145,7 @@ $Page("video", {
 
   /** 视频缓冲时提示用户等待 */
   onVideoWait() {
-    tip("缓冲中..");
+    showToast("缓冲中..");
   },
 
   /** 正常播放时隐藏提示 */
@@ -155,7 +155,7 @@ $Page("video", {
 
   /** 提示用户视频加载出错 */
   onVideoError() {
-    tip("视频加载出错");
+    showToast("视频加载出错");
     // 调试
     wx.reportEvent?.("resource_load_failed", {
       // eslint-disable-next-line @typescript-eslint/naming-convention

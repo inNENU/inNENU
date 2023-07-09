@@ -1,10 +1,10 @@
 import { $Page } from "@mptool/enhance";
 import { get, readFile } from "@mptool/file";
 
+import { showModal } from "../../api/index.js";
 import { type AppOption } from "../../app.js";
 import { type WeatherData } from "../../components/weather/typings.js";
-import { modal } from "../../utils/api.js";
-import { appCoverPrefix, server } from "../../utils/config.js";
+import { appCoverPrefix, server } from "../../config/index.js";
 
 const {
   globalData: { darkmode, info },
@@ -285,7 +285,7 @@ $Page("weather", {
   ) {
     const hint = this.data.weather.hints[event.currentTarget.dataset.id];
 
-    modal(hint.name, hint.detail);
+    showModal(hint.name, hint.detail);
   },
 
   /** 返回按钮功能 */

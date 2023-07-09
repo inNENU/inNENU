@@ -3,7 +3,7 @@ import { set } from "@mptool/file";
 
 import { type WeatherData } from "./typings.js";
 import { type AppOption } from "../../app.js";
-import { server } from "../../utils/config.js";
+import { server } from "../../config/index.js";
 import { MINUTE } from "../../utils/constant.js";
 import { WEATHER_KEY } from "../../utils/keys.js";
 

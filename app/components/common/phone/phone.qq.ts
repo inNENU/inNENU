@@ -1,7 +1,7 @@
 import { $Component, type PropType } from "@mptool/enhance";
 
 import { type PhoneComponentOptions } from "../../../../typings/index.js";
-import { tip } from "../../../utils/api.js";
+import { showToast } from "../../../api/index.js";
 
 $Component({
   properties: {
@@ -26,7 +26,7 @@ $Component({
       wx.setClipboardData({
         data: this.data.config.num,
         success: () => {
-          tip("号码已复制");
+          showToast("号码已复制");
         },
       });
     },

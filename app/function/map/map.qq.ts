@@ -8,9 +8,9 @@ import {
   type MarkerConfig,
   type MarkerData,
 } from "../../../typings/index.js";
+import { getWindowInfo, showModal, showToast } from "../../api/index.js";
 import { type AppOption } from "../../app.js";
-import { getWindowInfo, modal, tip } from "../../utils/api.js";
-import { appCoverPrefix } from "../../utils/config.js";
+import { appCoverPrefix } from "../../config/index.js";
 import { ensureJSON, getJSON } from "../../utils/json.js";
 import { popNotice } from "../../utils/page.js";
 
@@ -149,7 +149,7 @@ $Page(PAGE_ID, {
         })
         .catch((err) => {
           console.log("Marked failed with", err);
-          modal(
+          showModal(
             "获取失败",
             "地图点位获取失败，请稍后重试。如果该情况持续发生，请反馈给开发者",
             () => this.back()
@@ -227,7 +227,7 @@ $Page(PAGE_ID, {
 
         this.$go(`location?id=${area}/${item.path}&point=${point}`);
       } else {
-        tip("该地点暂无详情");
+        showToast("该地点暂无详情");
       }
     }
   },

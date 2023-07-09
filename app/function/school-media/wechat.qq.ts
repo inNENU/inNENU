@@ -5,9 +5,9 @@ import {
   type WechatArticleItem,
   type WechatConfig,
 } from "../../../typings/index.js";
+import { savePhoto, showModal, showToast } from "../../api/index.js";
 import { type AppOption } from "../../app.js";
-import { modal, savePhoto, tip } from "../../utils/api.js";
-import { appCoverPrefix, server } from "../../utils/config.js";
+import { appCoverPrefix, server } from "../../config/index.js";
 import { ensureJSON } from "../../utils/json.js";
 import { getColor, popNotice } from "../../utils/page.js";
 
@@ -74,7 +74,7 @@ $Page(PAGE_ID, {
           this.setData({ loading: false, config: data });
 
           ctx.append(data.article);
-        } else tip("服务器出现问题");
+        } else showToast("服务器出现问题");
       },
     });
   },
@@ -137,7 +137,7 @@ $Page(PAGE_ID, {
     wx.setClipboardData({
       data: url,
       success: () => {
-        modal(
+        showModal(
           "无法跳转",
           "QQ小程序并不支持跳转微信图文，链接地址已复制至剪切板。请打开浏览器粘贴查看"
         );
@@ -149,8 +149,8 @@ $Page(PAGE_ID, {
     const { qrcode } = this.data.config;
 
     savePhoto(qrcode)
-      .then(() => tip("二维码已存至相册"))
-      .catch(() => tip("二维码保存失败"));
+      .then(() => showToast("二维码已存至相册"))
+      .catch(() => showToast("二维码保存失败"));
   },
 
   scrollTop() {

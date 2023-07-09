@@ -18,9 +18,9 @@ import {
   confirmReplace,
   courseSorter,
 } from "./utils.js";
+import { showModal, showToast } from "../../api/index.js";
 import { type AppOption } from "../../app.js";
-import { modal, tip } from "../../utils/api.js";
-import { appCoverPrefix } from "../../utils/config.js";
+import { appCoverPrefix } from "../../config/index.js";
 import { getColor, popNotice } from "../../utils/page.js";
 import { promiseQueue } from "../utils/promiseQueue.js";
 
@@ -148,16 +148,16 @@ $Page(PAGE_ID, {
               })
               .catch(() => {
                 wx.hideLoading();
-                tip("获取信息失败");
+                showToast("获取信息失败");
               });
           }
 
-          return modal("登录失败", data.msg, (): void => {
+          return showModal("登录失败", data.msg, (): void => {
             this.$go("account?update=true");
           });
         })
         .catch(() => {
-          modal(
+          showModal(
             "初始化失败",
             "请检查: 是否在选课时间、网络连接是否有效",
             (): void => {
@@ -166,7 +166,7 @@ $Page(PAGE_ID, {
           );
         });
     } else {
-      modal("请先登录", "暂无账号信息，请输入", (): void => {
+      showModal("请先登录", "暂无账号信息，请输入", (): void => {
         this.$go("account?update=true");
       });
     }
@@ -250,12 +250,12 @@ $Page(PAGE_ID, {
               .sort(courseSorter(sortKeys[sortKeyIndex], ascending)),
           });
         } else {
-          modal("获取课程人数失败", data.msg);
+          showModal("获取课程人数失败", data.msg);
           if (data.type === "relogin") this.$redirect(PAGE_ID);
         }
       });
     } else {
-      modal("未找到课程信息", "暂无所选课程数据，请汇报给开发者!");
+      showModal("未找到课程信息", "暂无所选课程数据，请汇报给开发者!");
     }
   },
 
@@ -319,7 +319,7 @@ $Page(PAGE_ID, {
           }),
         });
       } else {
-        modal("获取课程人数失败", data.msg);
+        showModal("获取课程人数失败", data.msg);
       }
     });
   },
@@ -409,7 +409,7 @@ $Page(PAGE_ID, {
           showCourseDetail: true,
         });
       } else {
-        modal("获取人数失败", res.msg);
+        showModal("获取人数失败", res.msg);
         if (res.type === "relogin") this.$redirect(PAGE_ID);
       }
     });
@@ -471,7 +471,7 @@ $Page(PAGE_ID, {
           }),
         });
       } else {
-        modal("刷新人数失败", res.msg);
+        showModal("刷新人数失败", res.msg);
       }
     });
   },
@@ -492,14 +492,14 @@ $Page(PAGE_ID, {
     const { cid } = currentTarget.dataset;
 
     return new Promise((resolve) => {
-      modal(
+      showModal(
         "选课确认",
         "您确认选择此课程?",
         () =>
           resolve(
             this.process("add", cid).then((res) => {
               if (res.status === "success") {
-                tip("选课成功", 1000, "success");
+                showToast("选课成功", 1000, "success");
                 // 关闭任何可能的弹窗
                 this.setData({
                   courseInfo: null,
@@ -512,7 +512,7 @@ $Page(PAGE_ID, {
                 return true;
               }
 
-              modal("选课失败", res.msg);
+              showModal("选课失败", res.msg);
 
               // 重新进入本页面
               if (res.type === "relogin") this.$redirect(PAGE_ID);
@@ -535,14 +535,14 @@ $Page(PAGE_ID, {
     const { cid } = currentTarget.dataset;
 
     return new Promise((resolve) => {
-      modal(
+      showModal(
         "退课确认",
         "您确认退选此课程?",
         () =>
           resolve(
             this.process("delete", cid).then((res) => {
               if (res.status === "success") {
-                tip("退课成功", 1000, "success");
+                showToast("退课成功", 1000, "success");
                 // 关闭任何可能的弹窗
                 this.setData({
                   courseInfo: null,
@@ -555,7 +555,7 @@ $Page(PAGE_ID, {
                 return true;
               }
 
-              modal("退课失败", res.msg);
+              showModal("退课失败", res.msg);
 
               // 重新进入本页面
               if (res.type === "relogin") this.$redirect(PAGE_ID);
@@ -579,7 +579,7 @@ $Page(PAGE_ID, {
     const { cid } = currentTarget.dataset;
 
     if (!this.state.isForceSelecting)
-      modal(
+      showModal(
         "连续选课",
         "您确认连续选课?",
         () => {
@@ -601,14 +601,14 @@ $Page(PAGE_ID, {
             if (result.interrupted) {
               const { msg, type } = result.msg;
 
-              modal(type === "success" ? "选课成功" : "选课失败", msg);
+              showModal(type === "success" ? "选课成功" : "选课失败", msg);
               if (type === "success") this.loadInfo();
               else if (type === "relogin") this.$redirect(PAGE_ID);
             } else requestForceSelect();
           };
 
           const requestForceSelect = (): void => {
-            modal(
+            showModal(
               "操作完成",
               `您已连续选课${completeTime * times}次，是否继续?`,
               () => {
@@ -640,7 +640,7 @@ $Page(PAGE_ID, {
     return confirmReplace().then((confirm) => {
       if (confirm) {
         return new Promise((resolve) => {
-          modal(
+          showModal(
             "确认替换课程",
             "您确认尝试替换已有课程为此课程",
             () => {
@@ -673,7 +673,7 @@ $Page(PAGE_ID, {
                             return this.process("add", cid).then((res) => {
                               wx.hideLoading();
                               if (res.status === "success") {
-                                modal("替换课程成功", "您已成功替换课程");
+                                showModal("替换课程成功", "您已成功替换课程");
 
                                 return true;
                               }
@@ -684,7 +684,7 @@ $Page(PAGE_ID, {
                                 wx.hideLoading();
 
                                 if (res.status === "success") {
-                                  modal(
+                                  showModal(
                                     "替换课程失败",
                                     "由于退课后新课程人数已满，所选课程选课失败。由于原课程人数未满，已成功为您选回原课程。"
                                   );
@@ -692,7 +692,7 @@ $Page(PAGE_ID, {
                                   return false;
                                 }
 
-                                modal(
+                                showModal(
                                   "替换课程失败",
                                   "由于退课后新课程人数已满，且旧课程人数也满，您丢失了此课程。"
                                 );
@@ -702,7 +702,7 @@ $Page(PAGE_ID, {
                             });
                           }
 
-                          modal("退课失败", res.msg);
+                          showModal("退课失败", res.msg);
 
                           return false;
                         })
@@ -716,12 +716,15 @@ $Page(PAGE_ID, {
                         });
                     }
 
-                    modal("替换失败", "所选课程已满，无法替换操作");
+                    showModal("替换失败", "所选课程已满，无法替换操作");
 
                     return false;
                   }
 
-                  modal("获取人数失败", "无法获取新课程是否已满，取消替换操作");
+                  showModal(
+                    "获取人数失败",
+                    "无法获取新课程是否已满，取消替换操作"
+                  );
 
                   return false;
                 })
@@ -796,7 +799,7 @@ $Page(PAGE_ID, {
           info,
         });
       } else {
-        modal("获取信息失败", res.msg, () => {
+        showModal("获取信息失败", res.msg, () => {
           this.back();
         });
       }
@@ -823,7 +826,7 @@ $Page(PAGE_ID, {
     }).then((res) => {
       if (res.status === "success") this.setData({ courses: res.courses });
       else {
-        modal("查询失败", res.msg);
+        showModal("查询失败", res.msg);
         if (res.type === "relogin") this.$redirect(PAGE_ID);
       }
     });

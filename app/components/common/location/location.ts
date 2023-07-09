@@ -4,8 +4,8 @@ import {
   type LocationComponentOptions,
   type LocationConfig,
 } from "../../../../typings/index.js";
+import { showToast } from "../../../api/index.js";
 import { type AppOption } from "../../../app.js";
-import { tip } from "../../../utils/api.js";
 
 const { globalData } = getApp<AppOption>();
 
@@ -89,7 +89,7 @@ $Component({
       const { config, id, markers } = this.data;
 
       if (config.navigate !== false) {
-        if (id === -1 && markers.length !== 1) return tip("请选择一个点");
+        if (id === -1 && markers.length !== 1) return showToast("请选择一个点");
 
         this.startNavigation(markers[id === -1 ? 0 : id]);
       }

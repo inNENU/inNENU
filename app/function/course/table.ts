@@ -2,9 +2,9 @@ import { $Page } from "@mptool/enhance";
 import { get, set } from "@mptool/file";
 
 import { type ClassItem, type TableItem, getCourseTable } from "./api.js";
+import { showModal } from "../../api/index.js";
 import { type AppOption } from "../../app.js";
-import { modal } from "../../utils/api.js";
-import { appCoverPrefix } from "../../utils/config.js";
+import { appCoverPrefix } from "../../config/index.js";
 import { DAY, MONTH } from "../../utils/constant.js";
 import { getColor, popNotice } from "../../utils/page.js";
 
@@ -139,7 +139,7 @@ $Page(PAGE_ID, {
     if (coursesData) this.state.coursesData = coursesData;
 
     if (!account) {
-      modal("请先登录", "暂无账号信息，请输入", (): void => {
+      showModal("请先登录", "暂无账号信息，请输入", (): void => {
         this.$go("account?update=true");
       });
     } else {
@@ -203,11 +203,11 @@ $Page(PAGE_ID, {
           });
           this.state.coursesData[time] = courseTable;
           set("course-data-info", this.state.coursesData, 6 * MONTH);
-        } else modal("获取失败", res.msg);
+        } else showModal("获取失败", res.msg);
       })
       .catch((msg: string) => {
         wx.hideLoading();
-        modal("获取失败", msg);
+        showModal("获取失败", msg);
       });
   },
 
@@ -264,6 +264,6 @@ $Page(PAGE_ID, {
 
     const { name, teacher, location, time } = classInfo;
 
-    modal(name, `教师: ${teacher}\n地点: ${location}\n时间: ${time}`);
+    showModal(name, `教师: ${teacher}\n地点: ${location}\n时间: ${time}`);
   },
 });

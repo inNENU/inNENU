@@ -5,11 +5,11 @@ import {
   type ListComponentConfig,
   type ListComponentItemConfig,
 } from "../../../typings/components.js";
+import { showModal, showToast } from "../../api/index.js";
 import { type AppOption } from "../../app.js";
+import { appCoverPrefix } from "../../config/index.js";
 import { getInfo, login } from "../../utils/account.js";
-import { modal, tip } from "../../utils/api.js";
 import { type UserInfo } from "../../utils/app.js";
-import { appCoverPrefix } from "../../utils/config.js";
 import { MONTH } from "../../utils/constant.js";
 import { popNotice } from "../../utils/page.js";
 
@@ -157,7 +157,7 @@ $Page(PAGE_ID, {
                 grade: Number(id.substring(0, 4)),
               };
 
-              modal("登陆成功", "个人信息获取成功");
+              showModal("登陆成功", "个人信息获取成功");
               set("user-info", userInfo, MONTH);
               this.setData({
                 isSaved: true,
@@ -169,12 +169,12 @@ $Page(PAGE_ID, {
 
           if (this.state.shouldNavigateBack) this.$back();
         } else {
-          modal("登陆失败", response.msg);
+          showModal("登陆失败", response.msg);
         }
       })
       .catch(() => {
         wx.hideLoading();
-        tip("验证失败");
+        showToast("验证失败");
       });
   },
 
@@ -190,6 +190,6 @@ $Page(PAGE_ID, {
     remove("user-info");
     globalData.account = null;
     globalData.userInfo = null;
-    modal("删除成功", "已删除本地账号信息");
+    showModal("删除成功", "已删除本地账号信息");
   },
 });

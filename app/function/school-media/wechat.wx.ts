@@ -5,9 +5,9 @@ import {
   type WechatArticleItem,
   type WechatConfig,
 } from "../../../typings/index.js";
+import { showModal, showToast } from "../../api/index.js";
 import { type AppOption } from "../../app.js";
-import { modal, tip } from "../../utils/api.js";
-import { appCoverPrefix, server } from "../../utils/config.js";
+import { appCoverPrefix, server } from "../../config/index.js";
 import { ensureJSON } from "../../utils/json.js";
 import { getColor, popNotice } from "../../utils/page.js";
 
@@ -74,7 +74,7 @@ $Page(PAGE_ID, {
           this.setData({ loading: false, config: data });
 
           ctx.append(data.article);
-        } else tip("服务器出现问题");
+        } else showToast("服务器出现问题");
       },
     });
   },
@@ -140,7 +140,7 @@ $Page(PAGE_ID, {
       wx.setClipboardData({
         data: url,
         success: () => {
-          modal(
+          showModal(
             "尚未授权",
             "目前暂不支持跳转到该微信公众号图文，链接地址已复制至剪切板。请打开浏览器粘贴查看"
           );

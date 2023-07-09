@@ -2,9 +2,9 @@
 import { logger } from "@mptool/enhance";
 import { exists, readJSON, rm, saveFile, unzip, writeJSON } from "@mptool/file";
 
-import { tip } from "./api.js";
-import { assets, server } from "./config.js";
 import { type VersionInfo } from "../../typings/index.js";
+import { showToast } from "../api/index.js";
+import { assets, server } from "../config/index.js";
 
 /**
  * 资源下载
@@ -159,9 +159,9 @@ export const checkResource = (): void => {
             logger.debug("Newest resource already downloaded");
           }
         } else {
-          tip("服务器出现问题");
+          showToast("服务器出现问题");
         }
       },
-      fail: () => tip("服务器出现问题"),
+      fail: () => showToast("服务器出现问题"),
     });
 };

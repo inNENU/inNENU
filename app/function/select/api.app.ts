@@ -1,6 +1,6 @@
 import { logger } from "@mptool/enhance";
 
-import { service } from "../../utils/config.js";
+import { service } from "../../config/index.js";
 
 export interface SelectBaseOptions {
   /**

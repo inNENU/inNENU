@@ -1,12 +1,3 @@
-/** 小程序服务器地址 */
-export const assets = "https://assets.innenu.com/";
-export const server = "https://mp.innenu.com/";
-// export const service = "http://localhost:8080/";
-export const service = "https://service.innenu.com/";
-
-/** 小程序版本 */
-export const version = "5.7.0";
-
 /** App初始化选项 */
 export interface AppConfig {
   /** 是否开启夜间模式 */
@@ -21,7 +12,7 @@ export interface AppConfig {
 }
 
 /** 小程序配置 */
-export const appConfig: AppConfig = {
+export const defaultAppConfig: AppConfig = {
   theme: "ios",
   themeNum: 0,
   /** 是否开启夜间模式 */
@@ -33,7 +24,3 @@ export const appConfig: AppConfig = {
   /** 开发者模式开启状态 */
   developMode: false,
 };
-
-export const appName = "in东师";
-
-export const appCoverPrefix = `${assets}img/inNENU`;

@@ -1,9 +1,14 @@
 import { $Page } from "@mptool/enhance";
 
+import {
+  getWindowInfo,
+  savePhoto,
+  showModal,
+  showToast,
+} from "../../api/index.js";
 import { type AppOption } from "../../app.js";
-import { getWindowInfo, modal, savePhoto, tip } from "../../utils/api.js";
+import { appCoverPrefix } from "../../config/index.js";
 import { type Env } from "../../utils/app.js";
-import { appCoverPrefix } from "../../utils/config.js";
 import { ensureJSON, getJSON } from "../../utils/json.js";
 import { popNotice } from "../../utils/page.js";
 
@@ -85,13 +90,13 @@ $Page(PAGE_ID, {
 
     if (qrcode)
       savePhoto(qrcode, env === "app")
-        .then(() => tip("二维码已保存至相册"))
-        .catch(() => tip("二维码下载失败"));
+        .then(() => showToast("二维码已保存至相册"))
+        .catch(() => showToast("二维码下载失败"));
     else
       wx.setClipboardData({
         data: id.toString(),
         success: () => {
-          modal("复制成功", "由于暂无二维码，QQ号已复制至您的剪切板");
+          showModal("复制成功", "由于暂无二维码，QQ号已复制至您的剪切板");
         },
       });
   },

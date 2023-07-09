@@ -1,9 +1,9 @@
 import { $Component, type PropType, logger } from "@mptool/enhance";
 
 import { type PageData } from "../../../../typings/index.js";
+import { savePhoto, showModal, showToast } from "../../../api/index.js";
 import { type AppOption } from "../../../app.js";
-import { modal, savePhoto, tip } from "../../../utils/api.js";
-import { appName, server, service } from "../../../utils/config.js";
+import { appName, server, service } from "../../../config/index.js";
 import { path2id } from "../../../utils/id.js";
 
 const {
@@ -45,8 +45,8 @@ $Component({
               config.id
             )}`
       )
-        .then(() => tip("二维码已存至相册"))
-        .catch(() => tip("二维码保存失败"));
+        .then(() => showToast("二维码已存至相册"))
+        .catch(() => showToast("二维码保存失败"));
     },
 
     wechatMomentShare() {
@@ -58,7 +58,7 @@ $Component({
     },
 
     hint(msg: string) {
-      modal(
+      showModal(
         "功能受限",
         `受到微信客户端限制，请您点击右上角菜单(···)以${msg}。`
       );
@@ -72,7 +72,11 @@ $Component({
         data: { appID, id: this.data.config.id! },
         success: ({ data, statusCode }) => {
           if (statusCode === 200 && !data.error) this.copy(data.link);
-          else modal("链接尚未生成", "请使用小程序右上角菜单(···)来复制链接。");
+          else
+            showModal(
+              "链接尚未生成",
+              "请使用小程序右上角菜单(···)来复制链接。"
+            );
         },
       });
     },
@@ -84,7 +88,7 @@ $Component({
       wx.setClipboardData({
         data: content,
         success: () => {
-          tip("链接已复制");
+          showToast("链接已复制");
           logger.debug(`Share content is copied: ${content}`);
         },
       });

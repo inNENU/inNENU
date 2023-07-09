@@ -1,8 +1,8 @@
 import { $Page } from "@mptool/enhance";
 
+import { getWindowInfo, showModal } from "../../api/index.js";
 import { type AppOption } from "../../app.js";
-import { getWindowInfo, modal } from "../../utils/api.js";
-import { appCoverPrefix } from "../../utils/config.js";
+import { appCoverPrefix } from "../../config/index.js";
 import { ensureJSON, getJSON } from "../../utils/json.js";
 import { popNotice } from "../../utils/page.js";
 
@@ -61,7 +61,7 @@ $Page(PAGE_ID, {
     wx.setClipboardData({
       data: currentTarget.dataset.link,
       success: () => {
-        modal(
+        showModal(
           "功能受限",
           "受到小程序限制，无法直接打开网页，网址已复制到剪切板"
         );

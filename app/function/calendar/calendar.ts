@@ -1,9 +1,9 @@
 import { $Page } from "@mptool/enhance";
 
+import { showModal, showToast } from "../../api/index.js";
 import { type AppOption } from "../../app.js";
 import { type TimeLineItem } from "../../components/timeline/timeline.js";
-import { modal, tip } from "../../utils/api.js";
-import { appCoverPrefix } from "../../utils/config.js";
+import { appCoverPrefix } from "../../config/index.js";
 import { ensureJSON, getJSON } from "../../utils/json.js";
 import { getColor, popNotice } from "../../utils/page.js";
 
@@ -44,7 +44,7 @@ $Page(PAGE_ID, {
         });
       })
       .catch(() => {
-        modal(
+        showModal(
           "获取失败",
           "校历信息获取失败，请稍后重试。如果该情况持续发生，请反馈给开发者",
           () => this.back()
@@ -86,12 +86,12 @@ $Page(PAGE_ID, {
           });
         })
         .catch(() => {
-          modal(
+          showModal(
             "获取失败",
             "学期详情获取失败，请稍后重试。如果该情况持续发生，请反馈给开发者"
           );
         });
-    else tip("所选内容暂无详情");
+    else showToast("所选内容暂无详情");
   },
 
   /** 关闭校历详情 */

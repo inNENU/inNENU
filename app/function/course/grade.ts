@@ -5,9 +5,9 @@ import {
   type UserGradeListExtraOptions,
   getGradeList,
 } from "./api.js";
+import { showModal } from "../../api/index.js";
 import { type AppOption } from "../../app.js";
-import { modal } from "../../utils/api.js";
-import { appCoverPrefix } from "../../utils/config.js";
+import { appCoverPrefix } from "../../config/index.js";
 import { getColor, popNotice } from "../../utils/page.js";
 
 const { globalData } = getApp<AppOption>();
@@ -64,7 +64,7 @@ $Page("grade-list", {
     const { account } = globalData;
 
     if (!account) {
-      modal("请先登录", "暂无账号信息，请输入", (): void => {
+      showModal("请先登录", "暂无账号信息，请输入", (): void => {
         this.$go("account?update=true");
       });
     } else {
@@ -164,11 +164,11 @@ $Page("grade-list", {
             totalGradePoint: Math.round(totalGradePoint * 100) / 100,
             gpa,
           });
-        } else modal("获取失败", res.msg);
+        } else showModal("获取失败", res.msg);
       })
       .catch((msg: string) => {
         wx.hideLoading();
-        modal("获取失败", msg);
+        showModal("获取失败", msg);
       });
   },
 

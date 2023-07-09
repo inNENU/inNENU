@@ -6,9 +6,9 @@ import {
   type PageDataWithContent,
   type SwitchListComponentItemConfig,
 } from "../../../typings/index.js";
+import { requestJSON, showToast } from "../../api/index.js";
 import { type AppOption } from "../../app.js";
-import { requestJSON, tip } from "../../utils/api.js";
-import { appCoverPrefix } from "../../utils/config.js";
+import { appCoverPrefix } from "../../config/index.js";
 import { popNotice, resolvePage, setPage } from "../../utils/page.js";
 
 const { globalData } = getApp<AppOption>();
@@ -162,7 +162,7 @@ $Page(PAGE_ID, {
     }
     // 提示还有几次点击即可启用开发者模式
     else if (clickNumber < 10) {
-      tip(`再点击${10 - clickNumber}次即可启用开发者模式`);
+      showToast(`再点击${10 - clickNumber}次即可启用开发者模式`);
       clickNumber += 1;
 
       // 启用开发者模式
@@ -185,7 +185,7 @@ $Page(PAGE_ID, {
     if (event.detail.value.length === 7) {
       // 密码正确
       if (event.detail.value === "5201314") {
-        tip("已启用开发者模式");
+        showToast("已启用开发者模式");
         (
           this.data.page.content[0] as FunctionalListComponentConfig
         ).items.forEach((x) => {
@@ -248,7 +248,7 @@ $Page(PAGE_ID, {
    * @param value 开关状态
    */
   toggleTest(value: boolean) {
-    tip(`已${value ? "启用" : "关闭"}测试功能`);
+    showToast(`已${value ? "启用" : "关闭"}测试功能`);
   },
 
   /**

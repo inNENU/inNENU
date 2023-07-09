@@ -2,11 +2,16 @@
 import { emitter, logger } from "@mptool/enhance";
 import { get, writeJSON } from "@mptool/file";
 
-import { getDarkmode, modal, requestJSON, tip } from "./api.js";
-import { appConfig, assets, server, version } from "./config.js";
 import { loadFZSSJW } from "./font.js";
 import { downloadResource } from "./resource.js";
 import { type PageData, type VersionInfo } from "../../typings/index.js";
+import {
+  getDarkmode,
+  requestJSON,
+  showModal,
+  showToast,
+} from "../api/index.js";
+import { assets, defaultAppConfig, server, version } from "../config/index.js";
 
 export type AppID =
   | "wx33acb831ee1831a5"
@@ -84,7 +89,7 @@ export const initializeApp = (): void => {
   logger.info("First launch");
 
   // 设置主题
-  if (appConfig.theme === "auto") {
+  if (defaultAppConfig.theme === "auto") {
     // 主题为 auto
     let num;
     let theme;
@@ -106,13 +111,13 @@ export const initializeApp = (): void => {
     wx.setStorageSync("theme", theme);
     wx.setStorageSync("themeNum", num);
   } else {
-    wx.setStorageSync("theme", appConfig.theme);
-    wx.setStorageSync("themeNum", appConfig.themeNum);
+    wx.setStorageSync("theme", defaultAppConfig.theme);
+    wx.setStorageSync("themeNum", defaultAppConfig.themeNum);
   }
 
   // 写入预设数据
-  Object.keys(appConfig).forEach((data) => {
-    wx.setStorageSync(data, appConfig[data]);
+  Object.keys(defaultAppConfig).forEach((data) => {
+    wx.setStorageSync(data, defaultAppConfig[data]);
   });
 
   downloadResource("function-guide-icon-intro", false).then(() => {
@@ -178,7 +183,7 @@ export const updateNotice = (globalData: GlobalData): void => {
         // 如果找到 APP 级通知，进行判断
         if (pageName === "app")
           if (!wx.getStorageSync("app-notifyed") || notice.force)
-            modal(notice.title, notice.content, () =>
+            showModal(notice.title, notice.content, () =>
               wx.setStorageSync("app-notifyed", true)
             );
       }
@@ -216,7 +221,7 @@ export const updateApp = (globalData: GlobalData): void => {
       };
 
       if (getNeedUpdate())
-        modal(
+        showModal(
           "App有新版本",
           `App 的最新版本是 ${onlineVersion}，点击确定复制下载链接到剪切板。请手动粘贴到浏览器开启下载。`,
           () => {
@@ -288,11 +293,11 @@ const registerActions = (globalData: GlobalData): void => {
   wx.onNetworkStatusChange(({ isConnected }) => {
     // 显示提示
     if (!isConnected) {
-      tip(`网络连接中断,部分${globalData.envName}功能暂不可用`);
+      showToast(`网络连接中断,部分${globalData.envName}功能暂不可用`);
       wx.setStorageSync("networkError", true);
     } else if (wx.getStorageSync("network")) {
       wx.setStorageSync("networkError", false);
-      tip("网络链接恢复");
+      showToast("网络链接恢复");
     }
   });
 
@@ -382,7 +387,7 @@ export const startup = (globalData: GlobalData): void => {
   // 获取网络信息
   wx.getNetworkType({
     success: ({ networkType }) => {
-      if (networkType === "none") tip("您的网络状态不佳");
+      if (networkType === "none") showToast("您的网络状态不佳");
     },
   });
 

@@ -2,9 +2,9 @@ import { $Page } from "@mptool/enhance";
 
 import { type EnrollPlanInfo, getEnrollPlan } from "./api.js";
 import { type EnrollPlanConfig } from "../../../typings/index.js";
+import { showModal } from "../../api/index.js";
 import { type AppOption } from "../../app.js";
-import { modal } from "../../utils/api.js";
-import { appCoverPrefix } from "../../utils/config.js";
+import { appCoverPrefix } from "../../config/index.js";
 import { ensureJSON, getJSON } from "../../utils/json.js";
 import { getColor, popNotice } from "../../utils/page.js";
 
@@ -57,7 +57,7 @@ $Page(PAGE_ID, {
         });
       })
       .catch(() => {
-        modal(
+        showModal(
           "获取失败",
           "招生计划获取失败，请稍后重试。如果该情况持续发生，请反馈给开发者",
           () => this.back()
@@ -198,7 +198,7 @@ $Page(PAGE_ID, {
       majorTypeIndex === 0 ||
       reformTypeIndex === 0
     ) {
-      modal("缺少选项", "请补充全部选项");
+      showModal("缺少选项", "请补充全部选项");
 
       return;
     }
@@ -218,10 +218,10 @@ $Page(PAGE_ID, {
           this.setData({
             results: data.data,
           });
-        else modal("获取失败", data.msg);
+        else showModal("获取失败", data.msg);
       })
       .catch(() => {
-        modal("获取失败", "网络请求失败");
+        showModal("获取失败", "网络请求失败");
       });
   },
 

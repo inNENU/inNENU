@@ -1,5 +1,5 @@
 import { type CourseInfo } from "./api.app.js";
-import { modal } from "../../utils/api.js";
+import { showModal } from "../../api/index.js";
 
 const CONFIRM_KEY = "select-replace-confirmed";
 
@@ -9,7 +9,7 @@ export const confirmReplace = (): Promise<boolean> =>
 
     if (confirmedReplace) return resolve(true);
 
-    modal(
+    showModal(
       "替换课程说明",
       "替换课程有很高的操作风险，请您仔细阅读下方说明。\n在替换课程时，我们会重新查询此课程的人数。当且仅当此课程未满时，我们会立即退选已有课程并立即选择此课程。由于查询人数、退选已有课程和选择新课程是按顺序进行的操作，其他用户可以在查询人数和重新选课之前选中相同的课程，导致您退课成功但因人数重新满额丢失课程。",
       () => {

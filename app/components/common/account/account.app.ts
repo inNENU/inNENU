@@ -1,7 +1,7 @@
 import { $Component, type PropType } from "@mptool/enhance";
 
 import { type AccountComponentOptions } from "../../../../typings/index.js";
-import { modal, savePhoto, tip } from "../../../utils/api.js";
+import { savePhoto, showModal, showToast } from "../../../api/index.js";
 
 $Component({
   properties: {
@@ -19,13 +19,13 @@ $Component({
 
       if (qqcode)
         savePhoto(qqcode, true)
-          .then(() => tip("二维码已存至相册"))
-          .catch(() => tip("二维码保存失败"));
+          .then(() => showToast("二维码已存至相册"))
+          .catch(() => showToast("二维码保存失败"));
       else if (qq)
         wx.setClipboardData({
           data: qq.toString(),
           success: () => {
-            modal("复制成功", "由于暂无二维码，QQ号已复制至您的剪切板");
+            showModal("复制成功", "由于暂无二维码，QQ号已复制至您的剪切板");
           },
         });
     },
@@ -37,8 +37,8 @@ $Component({
       if (account) this.$go(`wechat-detail?path=${account}`);
       else if (wxcode)
         savePhoto(wxcode, true)
-          .then(() => tip("二维码已存至相册"))
-          .catch(() => tip("二维码保存失败"));
+          .then(() => showToast("二维码已存至相册"))
+          .catch(() => showToast("二维码保存失败"));
       else if (wxid)
         wx.previewImage({
           urls: [`https://open.weixin.qq.com/qr/code?username=${wxid}`],
@@ -57,7 +57,7 @@ $Component({
       wx.setClipboardData({
         data: mail!,
         success: () =>
-          modal("复制成功", `邮箱地址 ${mail!} 已成功复制至剪切板`),
+          showModal("复制成功", `邮箱地址 ${mail!} 已成功复制至剪切板`),
       });
     },
   },

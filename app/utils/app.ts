@@ -2,11 +2,16 @@
 import { emitter, logger } from "@mptool/enhance";
 import { get, ls, rm, writeJSON } from "@mptool/file";
 
-import { getDarkmode, modal, requestJSON, tip } from "./api.js";
-import { appConfig, server, version } from "./config.js";
 import { loadFZSSJW } from "./font.js";
 import { downloadResource } from "./resource.js";
 import { type PageData, type VersionInfo } from "../../typings/index.js";
+import {
+  getDarkmode,
+  requestJSON,
+  showModal,
+  showToast,
+} from "../api/index.js";
+import { defaultAppConfig, server, version } from "../config/index.js";
 
 export type AppID =
   | "wx33acb831ee1831a5"
@@ -84,7 +89,7 @@ export const initializeApp = (): void => {
   logger.info("First launch");
 
   // 设置主题
-  if (appConfig.theme === "auto") {
+  if (defaultAppConfig.theme === "auto") {
     // 主题为 auto
     let num;
     let theme;
@@ -106,13 +111,13 @@ export const initializeApp = (): void => {
     wx.setStorageSync("theme", theme);
     wx.setStorageSync("themeNum", num);
   } else {
-    wx.setStorageSync("theme", appConfig.theme);
-    wx.setStorageSync("themeNum", appConfig.themeNum);
+    wx.setStorageSync("theme", defaultAppConfig.theme);
+    wx.setStorageSync("themeNum", defaultAppConfig.themeNum);
   }
 
   // 写入预设数据
-  Object.keys(appConfig).forEach((data) => {
-    wx.setStorageSync(data, appConfig[data]);
+  Object.keys(defaultAppConfig).forEach((data) => {
+    wx.setStorageSync(data, defaultAppConfig[data]);
   });
 
   downloadResource("function-guide-icon-intro", false).then(() => {
@@ -178,7 +183,7 @@ export const updateNotice = (globalData: GlobalData): void => {
         // 如果找到 APP 级通知，进行判断
         if (pageName === "app")
           if (!wx.getStorageSync("app-notifyed") || notice.force)
-            modal(notice.title, notice.content, () =>
+            showModal(notice.title, notice.content, () =>
               wx.setStorageSync("app-notifyed", true)
             );
       }
@@ -210,7 +215,7 @@ export const updateApp = (globalData: GlobalData): void => {
     // 检查更新
     updateManager.onCheckForUpdate(({ hasUpdate }) => {
       // 找到更新，提示用户获取到更新
-      if (hasUpdate) tip("发现小程序更新，下载中...");
+      if (hasUpdate) showToast("发现小程序更新，下载中...");
     });
 
     updateManager.onUpdateReady(() => {
@@ -267,7 +272,7 @@ export const updateApp = (globalData: GlobalData): void => {
     // 更新下载失败
     updateManager.onUpdateFailed(() => {
       // 提示用户网络出现问题
-      tip("小程序更新下载失败，请检查您的网络!");
+      showToast("小程序更新下载失败，请检查您的网络!");
 
       // 调试
       logger.warn("Update App failed because of Net Error");
@@ -331,11 +336,11 @@ const registerActions = (globalData: GlobalData): void => {
   wx.onNetworkStatusChange(({ isConnected }) => {
     // 显示提示
     if (!isConnected) {
-      tip(`网络连接中断,部分${globalData.envName}功能暂不可用`);
+      showToast(`网络连接中断,部分${globalData.envName}功能暂不可用`);
       wx.setStorageSync("networkError", true);
     } else if (wx.getStorageSync("network")) {
       wx.setStorageSync("networkError", false);
-      tip("网络链接恢复");
+      showToast("网络链接恢复");
     }
   });
 
@@ -425,7 +430,7 @@ export const startup = (globalData: GlobalData): void => {
   // 获取网络信息
   wx.getNetworkType({
     success: ({ networkType }) => {
-      if (networkType === "none") tip("您的网络状态不佳");
+      if (networkType === "none") showToast("您的网络状态不佳");
     },
   });
 

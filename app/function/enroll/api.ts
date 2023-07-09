@@ -4,7 +4,7 @@ import {
   type CommonFailedResponse,
   type Cookie,
 } from "../../../typings/index.js";
-import { service } from "../../utils/config.js";
+import { service } from "../../config/index.js";
 
 export interface AdmissionSuccessResponse {
   status: "success";
@@ -38,6 +38,14 @@ export const postAdmission = (
       fail: () => reject(),
     });
   });
+
+// export const postAdmission = (
+//   data: PostAdmissionPostOptions
+// ): Promise<AdmissionResponse> =>
+//   fetch<AdmissionResponse>(`${service}enroll/post-admission`, {
+//     method: "POST",
+//     data,
+//   });
 
 export interface UnderAdmissionPostOptions {
   captcha: string;

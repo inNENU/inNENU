@@ -6,9 +6,9 @@ import {
   type PageDataWithContent,
   type PickerListComponentItemConfig,
 } from "../../../typings/index.js";
+import { showToast } from "../../api/index.js";
 import { type AppOption } from "../../app.js";
-import { tip } from "../../utils/api.js";
-import { appCoverPrefix, appName, assets } from "../../utils/config.js";
+import { appCoverPrefix, appName, assets } from "../../config/index.js";
 import { getColor, popNotice, resolvePage, setPage } from "../../utils/page.js";
 import { checkResource } from "../../utils/resource.js";
 import { refreshPage } from "../../utils/tab.js";
@@ -94,7 +94,7 @@ $Page("user", {
       wx.openChannelsUserProfile?.({
         finderUserName: "sphQlMRqDF84Orm",
       });
-    else tip("请升级微信版本");
+    else showToast("请升级微信版本");
   },
 
   addToDesktop() {

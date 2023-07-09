@@ -1,7 +1,7 @@
 import { $Page } from "@mptool/enhance";
 
+import { getWindowInfo } from "../../api/index.js";
 import { type AppOption } from "../../app.js";
-import { getWindowInfo } from "../../utils/api.js";
 import { ensureJSON, getJSON } from "../../utils/json.js";
 import { popNotice } from "../../utils/page.js";
 

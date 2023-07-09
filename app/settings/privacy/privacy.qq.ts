@@ -5,8 +5,8 @@ import {
   type ListComponentConfig,
   type PageDataWithContent,
 } from "../../../typings/index.js";
+import { showModal, showToast } from "../../api/index.js";
 import { type AppOption } from "../../app.js";
-import { modal, tip } from "../../utils/api.js";
 import { popNotice, resolvePage, setPage } from "../../utils/page.js";
 
 const { globalData } = getApp<AppOption>();
@@ -204,37 +204,41 @@ $Page("privacy", {
       scope: authorizeList[type],
       success: () => {
         wx.hideLoading();
-        tip("授权成功");
+        showToast("授权成功");
         this.setData({ [`page.content[1].items[${type}].desc`]: "已授权✓" });
       },
       fail: () => {
         // 用户拒绝权限，提示用户开启权限
         wx.hideLoading();
-        modal("权限被拒", "您拒绝了权限授予，请在小程序设置页允许权限", () => {
-          wx.openSetting({
-            success: ({ authSetting }) => {
-              if (authSetting[authorizeList[type]]) tip("授权成功");
-              else tip("授权失败，您没有授权");
+        showModal(
+          "权限被拒",
+          "您拒绝了权限授予，请在小程序设置页允许权限",
+          () => {
+            wx.openSetting({
+              success: ({ authSetting }) => {
+                if (authSetting[authorizeList[type]]) showToast("授权成功");
+                else showToast("授权失败，您没有授权");
 
-              wx.getSetting({
-                success: ({ authSetting }) => {
-                  const { items } = this.data.page
-                    .content[1] as ListComponentConfig;
+                wx.getSetting({
+                  success: ({ authSetting }) => {
+                    const { items } = this.data.page
+                      .content[1] as ListComponentConfig;
 
-                  authorizeList.forEach((type2, index) => {
-                    (items as ButtonListComponentItemConfig[])[index].desc =
-                      authSetting[type2] ? "已授权✓" : "未授权×";
-                  });
+                    authorizeList.forEach((type2, index) => {
+                      (items as ButtonListComponentItemConfig[])[index].desc =
+                        authSetting[type2] ? "已授权✓" : "未授权×";
+                    });
 
-                  this.setData({
-                    // eslint-disable-next-line @typescript-eslint/naming-convention
-                    "page.content[1].items": items,
-                  });
-                },
-              });
-            },
-          });
-        });
+                    this.setData({
+                      // eslint-disable-next-line @typescript-eslint/naming-convention
+                      "page.content[1].items": items,
+                    });
+                  },
+                });
+              },
+            });
+          }
+        );
       },
     });
   },

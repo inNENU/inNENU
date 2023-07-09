@@ -1,9 +1,9 @@
 import { $Page } from "@mptool/enhance";
 
 import { type Lyric, type PlayMode, type SongDetail } from "./typings.js";
+import { showToast } from "../../api/index.js";
 import { type AppOption } from "../../app.js";
-import { tip } from "../../utils/api.js";
-import { appCoverPrefix, appName } from "../../utils/config.js";
+import { appCoverPrefix, appName } from "../../config/index.js";
 import { loadFZSSJW } from "../../utils/font.js";
 import { ensureJSON, getJSON } from "../../utils/json.js";
 import { popNotice } from "../../utils/page.js";
@@ -223,7 +223,7 @@ $Page("music", {
     });
 
     manager.onError(({ errMsg }) => {
-      tip("获取音乐出错，请稍后重试");
+      showToast("获取音乐出错，请稍后重试");
       console.error(`Manager: ${errMsg}`);
     });
   },
@@ -307,7 +307,7 @@ $Page("music", {
         break;
       case "顺序播放":
         result = index + 1 === total ? "stop" : index + 1;
-        tip("播放完毕");
+        showToast("播放完毕");
         break;
       case "单曲循环":
         result = index;
@@ -334,7 +334,7 @@ $Page("music", {
       case "顺序播放":
         if (index + 1 === total) {
           result = "nothing";
-          tip("已是最后一曲");
+          showToast("已是最后一曲");
         } else {
           result = index + 1;
         }
@@ -362,7 +362,7 @@ $Page("music", {
       case "顺序播放":
         if (index === 0) {
           result = "nothing";
-          tip("已是第一曲");
+          showToast("已是第一曲");
         } else {
           result = index - 1;
         }
@@ -419,7 +419,7 @@ $Page("music", {
     this.setData({ mode });
 
     wx.setStorageSync("play-mode", mode);
-    tip(`切换为${mode}模式`);
+    showToast(`切换为${mode}模式`);
   },
 
   /** 切换列表显隐 */

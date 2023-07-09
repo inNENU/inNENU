@@ -1,7 +1,12 @@
 import { $Component, type PropType } from "@mptool/enhance";
 
 import { type DocComponentOptions } from "../../../../typings/index.js";
-import { downLoad, modal, savePhoto, tip } from "../../../utils/api.js";
+import {
+  downLoad,
+  savePhoto,
+  showModal,
+  showToast,
+} from "../../../api/index.js";
 
 $Component({
   properties: {
@@ -32,7 +37,7 @@ $Component({
             });
           })
           .catch(() => {
-            tip(`下载文档失败`);
+            showToast(`下载文档失败`);
             wx.reportEvent?.("resource_load_failed", {
               // eslint-disable-next-line @typescript-eslint/naming-convention
               broken_url: url,
@@ -51,7 +56,7 @@ $Component({
         wx.setClipboardData({
           data: url,
           success: () => {
-            modal(
+            showModal(
               "复制成功",
               "下载链接已复制到您的剪切板。受小程序限制，请您自行打开浏览器粘贴在地址栏中以开启下载。"
             );
@@ -59,7 +64,7 @@ $Component({
         });
       else if (["jpg", "png", "gif"].includes(icon))
         // 检测到图片，开始图片下载
-        savePhoto(url).then(() => tip("已保存至相册"));
+        savePhoto(url).then(() => showToast("已保存至相册"));
     },
   },
 });

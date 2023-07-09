@@ -1,9 +1,9 @@
 import { $Page } from "@mptool/enhance";
 
 import { type WechatConfig } from "../../../typings/index.js";
+import { showToast } from "../../api/index.js";
 import { type AppOption } from "../../app.js";
-import { tip } from "../../utils/api.js";
-import { server } from "../../utils/config.js";
+import { server } from "../../config/index.js";
 import { ensureJSON } from "../../utils/json.js";
 import { getColor, popNotice } from "../../utils/page.js";
 
@@ -42,7 +42,7 @@ $Page(PAGE_ID, {
       enableHttp2: true,
       success: ({ data, statusCode }) => {
         if (statusCode === 200) this.setData({ loading: false, config: data });
-        else tip("服务器出现问题");
+        else showToast("服务器出现问题");
       },
     });
 

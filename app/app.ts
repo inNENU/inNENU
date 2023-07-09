@@ -5,7 +5,7 @@ import {
   wrapFunction,
 } from "@mptool/enhance";
 
-import { getDarkmode } from "./utils/api.js";
+import { getDarkmode } from "./api/index.js";
 import {
   type GlobalData,
   getGlobalData,

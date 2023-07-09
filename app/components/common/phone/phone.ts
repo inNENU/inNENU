@@ -1,8 +1,8 @@
 import { $Component, type PropType } from "@mptool/enhance";
 
 import { type PhoneComponentOptions } from "../../../../typings/index.js";
+import { addPhoneContact } from "../../../api/index.js";
 import { type AppOption } from "../../../app.js";
-import { addPhoneContact } from "../../../utils/api.js";
 
 const { globalData } = getApp<AppOption>();
 

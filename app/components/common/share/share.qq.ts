@@ -1,9 +1,9 @@
 import { $Component, type PropType, logger } from "@mptool/enhance";
 
 import { type PageData } from "../../../../typings/index.js";
+import { savePhoto, showToast } from "../../../api/index.js";
 import { type AppOption } from "../../../app.js";
-import { savePhoto, tip } from "../../../utils/api.js";
-import { appName, service } from "../../../utils/config.js";
+import { appName, service } from "../../../config/index.js";
 import { path2id } from "../../../utils/id.js";
 
 const {
@@ -45,8 +45,8 @@ $Component({
               `pages/info/info?path=${path2id(this.data.config.id)}`
             )}`
       )
-        .then(() => tip("二维码已存至相册"))
-        .catch(() => tip("二维码保存失败"));
+        .then(() => showToast("二维码已存至相册"))
+        .catch(() => showToast("二维码保存失败"));
     },
 
     copyQQLink() {
@@ -64,7 +64,7 @@ $Component({
       wx.setClipboardData({
         data: content,
         success: () => {
-          tip("链接已复制");
+          showToast("链接已复制");
           logger.debug(`Share content is copied: ${content}`);
         },
       });

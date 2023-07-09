@@ -1,7 +1,7 @@
 import { $Component, type PropType } from "@mptool/enhance";
 
 import { type FooterComponentOptions } from "../../../../typings/index.js";
-import { modal } from "../../../utils/api.js";
+import { showModal } from "../../../api/index.js";
 
 $Component({
   properties: {
@@ -23,7 +23,7 @@ $Component({
       wx.setClipboardData({
         data: this.data.config.cite![currentTarget.dataset.index],
         success: () => {
-          modal(
+          showModal(
             "无法直接打开",
             "小程序无法直接打开网页，链接地址已复制至剪切板。请打开浏览器粘贴查看"
           );

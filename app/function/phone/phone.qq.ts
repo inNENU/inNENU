@@ -1,7 +1,7 @@
 import { $Page } from "@mptool/enhance";
 
-import { getWindowInfo, tip } from "../../utils/api.js";
-import { appCoverPrefix } from "../../utils/config.js";
+import { getWindowInfo, showToast } from "../../api/index.js";
+import { appCoverPrefix } from "../../config/index.js";
 import { ensureJSON, getJSON } from "../../utils/json.js";
 import { popNotice } from "../../utils/page.js";
 
@@ -102,7 +102,7 @@ $Page("phone", {
     wx.setClipboardData({
       data: this.getNumber(item),
       success: () => {
-        tip("号码已复制");
+        showToast("号码已复制");
       },
     });
   },

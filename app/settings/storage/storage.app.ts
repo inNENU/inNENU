@@ -2,8 +2,8 @@ import { $Page } from "@mptool/enhance";
 import { ls, rm } from "@mptool/file";
 
 import { type PageDataWithContent } from "../../../typings/index.js";
+import { confirmAction, showModal, showToast } from "../../api/index.js";
 import { type AppOption } from "../../app.js";
-import { confirmAction, modal, tip } from "../../utils/api.js";
 import { popNotice, setPage } from "../../utils/page.js";
 import { downloadResource } from "../../utils/resource.js";
 
@@ -129,7 +129,7 @@ $Page("storage", {
   clearData() {
     confirmAction("清除App数据", () => {
       wx.clearStorageSync();
-      tip("数据清除完成");
+      showToast("数据清除完成");
     });
   },
 
@@ -157,12 +157,12 @@ $Page("storage", {
       // 隐藏提示
       wx.hideLoading();
       // 提示用户重启
-      modal("App初始化完成", "请单击 “退出App按钮” 退出App");
+      showModal("App初始化完成", "请单击 “退出App按钮” 退出App");
     });
   },
 
   notify(status: boolean) {
-    modal(
+    showModal(
       `已${status ? "打开" : "关闭"}更新提示`,
       status
         ? "您将在内容更新时收到提醒。"

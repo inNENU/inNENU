@@ -1,7 +1,7 @@
 import { $Page } from "@mptool/enhance";
 
-import { modal } from "../../utils/api.js";
-import { appCoverPrefix } from "../../utils/config.js";
+import { showModal } from "../../api/index.js";
+import { appCoverPrefix } from "../../config/index.js";
 import { getJSON } from "../../utils/json.js";
 import { popNotice } from "../../utils/page.js";
 
@@ -299,7 +299,7 @@ $Page("pe-calculator", {
 
     // 校验数据的合法性
     if (result.height < 2) {
-      modal("请输入正确的身高", "身高的单位是厘米");
+      showModal("请输入正确的身高", "身高的单位是厘米");
 
       return;
     }

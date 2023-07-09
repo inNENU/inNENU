@@ -2,7 +2,6 @@
 import { type PageInstance, type PageQuery, logger } from "@mptool/enhance";
 import { readJSON, writeJSON } from "@mptool/file";
 
-import { modal, requestJSON } from "./api.js";
 import { type Notice } from "./app.js";
 import { id2path } from "./id.js";
 import { ensureJSON } from "./json.js";
@@ -15,6 +14,7 @@ import {
   type PageDataWithContent,
   type PageOption,
 } from "../../typings/index.js";
+import { requestJSON, showModal } from "../api/index.js";
 import { type AppOption } from "../app.js";
 
 type PageInstanceWithPage = PageInstance<
@@ -443,7 +443,7 @@ export const popNotice = (id: string): void => {
     const notice = wx.getStorageSync<Notice | undefined>(`${id}-notice`);
 
     if (notice) {
-      modal(notice.title, notice.content, () => {
+      showModal(notice.title, notice.content, () => {
         // 防止二次弹窗
         wx.setStorageSync(`${id}-notifyed`, true);
       });
