@@ -99,26 +99,23 @@ $Page("phone", {
   ) {
     const item = this.getConfig(event);
 
-    addPhoneContact(
-      {
-        // 添加联系人
-        firstName: item.name,
-        hostNumber: this.getNumber(item),
-        organization: "东北师范大学",
-        ...(item.locate === "benbu"
-          ? {
-              addressPostalCode: "130024",
-              addressStreet: "吉林省长春市人民大街 5268 号",
-            }
-          : item.locate === "jingyue"
-          ? {
-              addressPostalCode: "130117",
-              addressStreet: "吉林省长春市净月大街 2555 号",
-            }
-          : {}),
-      },
-      globalData.env === "app"
-    );
+    addPhoneContact({
+      // 添加联系人
+      firstName: item.name,
+      hostNumber: this.getNumber(item),
+      organization: "东北师范大学",
+      ...(item.locate === "benbu"
+        ? {
+            addressPostalCode: "130024",
+            addressStreet: "吉林省长春市人民大街 5268 号",
+          }
+        : item.locate === "jingyue"
+        ? {
+            addressPostalCode: "130117",
+            addressStreet: "吉林省长春市净月大街 2555 号",
+          }
+        : {}),
+    });
   },
 
   openInfo(
