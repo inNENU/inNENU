@@ -4,7 +4,7 @@ import { type PageData } from "../../../typings/index.js";
 import { savePhoto } from "../../api/media.js";
 import { showToast } from "../../api/ui.js";
 import { type AppOption } from "../../app.js";
-import { appName, service } from "../../config/index.js";
+import { appName, service } from "../../config/info.js";
 import { path2id } from "../../utils/id.js";
 
 const {

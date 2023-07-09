@@ -10,7 +10,7 @@ import {
 } from "../../../typings/index.js";
 import { getWindowInfo, showModal, showToast } from "../../api/ui.js";
 import { type AppOption } from "../../app.js";
-import { appCoverPrefix } from "../../config/index.js";
+import { appCoverPrefix } from "../../config/info.js";
 import { ensureJSON, getJSON } from "../../utils/json.js";
 import { popNotice } from "../../utils/page.js";
 

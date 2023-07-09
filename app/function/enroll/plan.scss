@@ -5,23 +5,23 @@
 picker {
   margin: 24px 15px;
   padding: 12px 15px;
-  background-color: var(--bg-color-block);
   border-radius: 8px;
+  background-color: var(--bg-color-block);
 }
 
 .plan-item {
   margin: 8px 0;
+  padding: 4px;
   border-bottom: 1px solid var(--border-color);
   text-align: left;
-  padding: 4px;
 
   &:last-child {
     border-bottom: none;
   }
 
   .header {
-    font-size: 16px;
     margin: 4px 0;
+    font-size: 16px;
   }
 
   .info {

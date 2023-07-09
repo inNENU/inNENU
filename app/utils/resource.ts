@@ -4,7 +4,7 @@ import { exists, readJSON, rm, saveFile, unzip, writeJSON } from "@mptool/file";
 
 import { type VersionInfo } from "../../typings/index.js";
 import { showToast } from "../api/ui.js";
-import { assets, server } from "../config/index.js";
+import { assets, server } from "../config/info.js";
 
 /**
  * 资源下载

@@ -1,12 +1,11 @@
 .grade-list {
-  padding: 0 8px;
   width: calc(100% - 16px);
+  padding: 0 8px;
 }
 
 .table {
-  width: max-content;
   display: table;
-
+  width: max-content;
   border: 1px solid var(--border-color);
   border-radius: 8px;
 
@@ -17,10 +16,12 @@
 
   .header {
     display: table-cell;
-    font-weight: bold;
     vertical-align: middle;
+
     padding: 4px 6px;
     border-left: 1px solid var(--border-color);
+
+    font-weight: bold;
 
     &:first-child {
       border-left: none;
@@ -41,10 +42,11 @@
 
   .cell {
     display: table-cell;
+    vertical-align: middle;
+
     padding: 4px;
     border-top: 1px solid var(--border-color);
     border-left: 1px solid var(--border-color);
-    vertical-align: middle;
 
     &:first-child {
       border-left: none;
@@ -63,12 +65,12 @@
 .information {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  column-gap: 16px;
   row-gap: 8px;
+  column-gap: 16px;
 
   .label {
-    text-align: right;
     font-weight: bold;
+    text-align: right;
   }
 
   .value {

@@ -41,9 +41,10 @@
   align-items: center;
 
   width: auto !important;
-  padding: 0 15px;
+
   // for button
   margin: 0 !important;
+  padding: 0 15px;
   border: none !important;
   border-radius: 0;
 
@@ -90,23 +91,24 @@
   }
 
   .detail {
+    position: relative;
+
     display: flex;
+    flex: 1;
     align-items: center;
 
-    flex: 1;
     padding: 10px 0;
-
-    position: relative;
   }
 
   .text {
     flex-grow: 1;
 
+    max-width: 100%;
+
     color: var(--text-color);
 
     line-height: 1.5;
     text-align: left;
-    max-width: 100%;
     word-break: break-word;
   }
 

@@ -3,7 +3,7 @@ import { logger } from "@mptool/enhance";
 import { type SearchIndex } from "../../typings/index.js";
 import { netReport } from "../api/net.js";
 import { showToast } from "../api/ui.js";
-import { server } from "../config/index.js";
+import { server } from "../config/info.js";
 
 /** 搜索结果 */
 export interface SearchResult {

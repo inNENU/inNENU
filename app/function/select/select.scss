@@ -4,7 +4,6 @@
 .select-wrapper {
   display: flex;
   flex-direction: column;
-
   height: 100vh;
 }
 
@@ -13,20 +12,25 @@
 }
 
 .filter-container {
+  position: relative;
+
+  display: flex;
+  flex-wrap: wrap;
+
   margin: 12px 15px;
   padding: 8px 10px;
   border: 1px solid var(--grey);
   border-radius: 8px;
-  position: relative;
-  display: flex;
-  flex-wrap: wrap;
 
   .header {
     position: absolute;
     top: -12px;
     left: 35px;
+
     padding: 0 8px;
+
     background-color: var(--bg-color);
+
     line-height: 1;
   }
 
@@ -35,16 +39,20 @@
     margin: 4px;
     padding: 8px 15px;
     border-radius: 8px;
+
     background-color: var(--bg-color-block);
+
     text-align: left;
   }
 
   .picker {
     width: calc(50% - 8px);
     margin: 4px;
-    border-radius: 8px;
     padding: 8px 0;
+    border-radius: 8px;
+
     background-color: var(--bg-color-block);
+
     font-size: 14px;
 
     .display {
@@ -56,8 +64,8 @@
     .label {
       display: block;
       flex-grow: 1;
-      text-align: left;
       margin-right: 8px;
+      text-align: left;
     }
 
     .value {
@@ -68,9 +76,9 @@
   }
 
   .search-button {
-    padding: 8px 15px;
-    margin: 10px 15px 5px;
     width: calc(100% - 30px);
+    margin: 10px 15px 5px;
+    padding: 8px 15px;
     font-size: 14px;
   }
 }
@@ -78,32 +86,35 @@
 .info-sorter,
 .details-sorter {
   display: flex;
-  justify-content: space-between;
   align-items: center;
+  justify-content: space-between;
 
   picker {
-    line-height: 1;
-    font-size: 16px;
     display: inline-block;
+
     margin: 4px 8px;
     padding: 6px 12px;
     border-radius: 8px;
+
     background-color: var(--bg-color-block);
+
+    font-size: 16px;
+    line-height: 1;
   }
 
   button {
-    font-size: 14px;
     display: inline-block;
-    margin: 4px 8px;
     vertical-align: middle;
+    margin: 4px 8px;
+    font-size: 14px;
   }
 }
 
 .course-info-header,
 .related-course-header {
   margin: 8px 0;
-  font-size: 17px;
   font-weight: bold;
+  font-size: 17px;
 }
 
 .course-header {
@@ -114,10 +125,12 @@
 
 .course-item {
   margin: 4px 10px;
-  background-color: var(--bg-color-block);
-  text-align: left;
   padding: 4px 15px;
   border-radius: 8px;
+
+  background-color: var(--bg-color-block);
+
+  text-align: left;
 
   .name {
     font-size: 15px;
@@ -139,16 +152,16 @@
 }
 
 .course-detail-list {
+  flex: 1;
   overflow-y: auto;
   -webkit-overflow-scrolling: touch;
-  flex: 1;
 }
 
 .course-detail {
   margin: 4px 0;
-  text-align: left;
   padding: 4px 15px;
   border-bottom: 1px solid var(--border-color);
+  text-align: left;
 
   &:last-child {
     border-bottom: none;
@@ -159,13 +172,13 @@
   }
 
   .select-button {
-    margin: 4px 8px;
     float: right;
+    margin: 4px 8px;
   }
 
   .info {
-    font-size: 14px;
     margin: 4px -4px;
+    font-size: 14px;
   }
 
   .teacher,
@@ -179,11 +192,13 @@
 
     .icon {
       display: inline-block;
+      vertical-align: middle;
+
       width: 14px;
       height: 14px;
       margin-right: 2px;
+
       background-repeat: no-repeat;
-      vertical-align: middle;
     }
   }
 
@@ -224,23 +239,23 @@
   }
 
   .details {
+    margin: 4px -4px;
     color: var(--dark-grey);
     font-size: 12px;
-    margin: 4px -4px;
 
     .week-type,
     .exam-time,
     .office {
-      margin: 0 4px;
       display: inline-block;
+      margin: 0 4px;
     }
   }
 }
 
 .empty-result {
-  font-size: 14px;
-  color: var(--dark-grey);
   margin: 16px 0;
+  color: var(--dark-grey);
+  font-size: 14px;
 }
 
 .select-info {

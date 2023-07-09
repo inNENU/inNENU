@@ -4,7 +4,7 @@ import { set } from "@mptool/file";
 import { type AccountBasicInfo } from "./app.js";
 import { WEEK } from "./constant.js";
 import { CommonFailedResponse, Cookie } from "../../typings/index.js";
-import { service } from "../config/index.js";
+import { service } from "../config/info.js";
 
 export interface LoginSuccessResponse {
   status: "success";

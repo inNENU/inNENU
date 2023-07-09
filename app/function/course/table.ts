@@ -4,7 +4,7 @@ import { get, set } from "@mptool/file";
 import { type ClassItem, type TableItem, getCourseTable } from "./api.js";
 import { showModal } from "../../api/ui.js";
 import { type AppOption } from "../../app.js";
-import { appCoverPrefix } from "../../config/index.js";
+import { appCoverPrefix } from "../../config/info.js";
 import { DAY, MONTH } from "../../utils/constant.js";
 import { getColor, popNotice } from "../../utils/page.js";
 

@@ -9,7 +9,7 @@ import {
 import { requestJSON } from "../../api/net.js";
 import { showToast } from "../../api/ui.js";
 import { type AppOption } from "../../app.js";
-import { appCoverPrefix } from "../../config/index.js";
+import { appCoverPrefix } from "../../config/info.js";
 import { popNotice, resolvePage, setPage } from "../../utils/page.js";
 
 const { globalData } = getApp<AppOption>();

@@ -3,7 +3,7 @@ import { $Page } from "@mptool/enhance";
 import { addPhoneContact } from "../../api/phone.js";
 import { getWindowInfo } from "../../api/ui.js";
 import { type AppOption } from "../../app.js";
-import { appCoverPrefix } from "../../config/index.js";
+import { appCoverPrefix } from "../../config/info.js";
 import { ensureJSON, getJSON } from "../../utils/json.js";
 import { popNotice } from "../../utils/page.js";
 

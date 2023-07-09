@@ -7,7 +7,7 @@ import {
 } from "../../../typings/components.js";
 import { showModal, showToast } from "../../api/ui.js";
 import { type AppOption } from "../../app.js";
-import { appCoverPrefix } from "../../config/index.js";
+import { appCoverPrefix } from "../../config/info.js";
 import { getInfo, login } from "../../utils/account.js";
 import { type UserInfo } from "../../utils/app.js";
 import { MONTH } from "../../utils/constant.js";

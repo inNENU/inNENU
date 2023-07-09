@@ -7,7 +7,7 @@ import {
 } from "../../../typings/index.js";
 import { showModal, showToast } from "../../api/ui.js";
 import { type AppOption } from "../../app.js";
-import { appCoverPrefix, server } from "../../config/index.js";
+import { appCoverPrefix, server } from "../../config/info.js";
 import { ensureJSON } from "../../utils/json.js";
 import { getColor, popNotice } from "../../utils/page.js";
 

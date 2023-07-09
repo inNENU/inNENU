@@ -3,7 +3,7 @@ import { readJSON } from "@mptool/file";
 
 import { type PageData } from "../../../typings/index.js";
 import { type AppOption } from "../../app.js";
-import { appCoverPrefix } from "../../config/index.js";
+import { appCoverPrefix } from "../../config/info.js";
 import { defaultScroller } from "../../mixins/page-scroll.js";
 import { getJSON } from "../../utils/json.js";
 import { navigation } from "../../utils/location.js";

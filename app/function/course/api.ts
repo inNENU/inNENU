@@ -2,7 +2,7 @@ import { logger } from "@mptool/enhance";
 import { set } from "@mptool/file";
 
 import { type Cookie, type CookieOptions } from "../../../typings/cookie.js";
-import { service } from "../../config/index.js";
+import { service } from "../../config/info.js";
 import { LoginFailedResponse } from "../../utils/account.js";
 import { type AccountBasicInfo } from "../../utils/app.js";
 import { HOUR } from "../../utils/constant.js";

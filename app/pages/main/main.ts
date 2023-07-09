@@ -3,7 +3,7 @@ import { $Page } from "@mptool/enhance";
 import { type PageDataWithContent } from "../../../typings/index.js";
 import { requestJSON } from "../../api/net.js";
 import { type AppOption } from "../../app.js";
-import { appCoverPrefix, appName } from "../../config/index.js";
+import { appCoverPrefix, appName } from "../../config/info.js";
 import { getColor, popNotice, resolvePage, setPage } from "../../utils/page.js";
 import { checkResource } from "../../utils/resource.js";
 import { search } from "../../utils/search.js";

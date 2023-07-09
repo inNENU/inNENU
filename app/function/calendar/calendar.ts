@@ -3,7 +3,7 @@ import { $Page } from "@mptool/enhance";
 import { showModal, showToast } from "../../api/ui.js";
 import { type AppOption } from "../../app.js";
 import { type TimeLineItem } from "../../components/timeline/timeline.js";
-import { appCoverPrefix } from "../../config/index.js";
+import { appCoverPrefix } from "../../config/info.js";
 import { ensureJSON, getJSON } from "../../utils/json.js";
 import { getColor, popNotice } from "../../utils/page.js";
 

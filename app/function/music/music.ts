@@ -3,7 +3,7 @@ import { $Page } from "@mptool/enhance";
 import { type Lyric, type PlayMode, type SongDetail } from "./typings.js";
 import { showToast } from "../../api/ui.js";
 import { type AppOption } from "../../app.js";
-import { appCoverPrefix, appName } from "../../config/index.js";
+import { appCoverPrefix, appName } from "../../config/info.js";
 import { loadFZSSJW } from "../../utils/font.js";
 import { ensureJSON, getJSON } from "../../utils/json.js";
 import { popNotice } from "../../utils/page.js";

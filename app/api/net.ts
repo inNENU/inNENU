@@ -1,7 +1,7 @@
 import { logger } from "@mptool/enhance";
 
 import { showToast } from "./ui.js";
-import { assets, server, service } from "../config/index.js";
+import { assets, server, service } from "../config/info.js";
 
 export * from "./ui.js";
 

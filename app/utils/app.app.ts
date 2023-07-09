@@ -7,7 +7,8 @@ import { downloadResource } from "./resource.js";
 import { type PageData, type VersionInfo } from "../../typings/index.js";
 import { requestJSON } from "../api/net.js";
 import { getDarkmode, showModal, showToast } from "../api/ui.js";
-import { assets, defaultAppConfig, server, version } from "../config/index.js";
+import { defaultAppConfig } from "../config/app.js";
+import { assets, server, version } from "../config/info.js";
 
 export type AppID =
   | "wx33acb831ee1831a5"

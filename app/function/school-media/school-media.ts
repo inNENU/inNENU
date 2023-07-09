@@ -3,7 +3,7 @@ import { $Page } from "@mptool/enhance";
 import { savePhoto } from "../../api/media.js";
 import { getWindowInfo, showModal, showToast } from "../../api/ui.js";
 import { type AppOption } from "../../app.js";
-import { appCoverPrefix } from "../../config/index.js";
+import { appCoverPrefix } from "../../config/info.js";
 import { type Env } from "../../utils/app.js";
 import { ensureJSON, getJSON } from "../../utils/json.js";
 import { popNotice } from "../../utils/page.js";

@@ -2,8 +2,8 @@
 @use "sass:list";
 
 .course-table-header {
-  font-weight: bold;
   display: flex;
+  font-weight: bold;
 }
 
 .course-table-header-item {
@@ -19,9 +19,11 @@
 .course-row-header {
   flex: 0;
   flex-basis: 24px;
+
   padding: 16px 0;
-  writing-mode: vertical-lr;
   border-bottom: 1px dashed var(--border-color);
+
+  writing-mode: vertical-lr;
 
   .course-table-header & {
     padding: 0;
@@ -31,20 +33,20 @@
 .course-table-item {
   flex: 1;
   flex-basis: 0;
-  border-left: 1px dashed var(--border-color);
   border-top: 1px dashed var(--border-color);
+  border-left: 1px dashed var(--border-color);
 }
 
-.course-table-item:fist-child {
+.course-table-item:first-child {
   font-weight: bold;
 }
 
 .course-table-course-item {
   margin: 4px 2px;
-  border-radius: 4px;
-  font-size: 13px;
-  border-radius: 4px;
   border: 1px solid var(--border-color);
+  border-radius: 4px;
+
+  font-size: 13px;
 
   .name {
     font-weight: 600;

@@ -1,7 +1,7 @@
 import { $Page } from "@mptool/enhance";
 
 import { type PageData, type PageOption } from "../../../typings/index.js";
-import { appCoverPrefix } from "../../config/index.js";
+import { appCoverPrefix } from "../../config/info.js";
 import { id2path } from "../../utils/id.js";
 import {
   loadOnlinePage,

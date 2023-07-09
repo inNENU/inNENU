@@ -4,7 +4,7 @@ import {
   type CommonFailedResponse,
   type Cookie,
 } from "../../../typings/index.js";
-import { service } from "../../config/index.js";
+import { service } from "../../config/info.js";
 
 export interface AdmissionSuccessResponse {
   status: "success";

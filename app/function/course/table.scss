@@ -3,22 +3,21 @@
 .course-table-wrapper {
   display: flex;
   flex-direction: column;
-
   height: 100vh;
 }
 
 .course-table-actions {
-  margin: 8px 15px;
   display: flex;
-  justify-content: space-between;
   align-items: center;
+  justify-content: space-between;
+  margin: 8px 15px;
 }
 
 .picker {
   padding: 5px 8px;
   border-radius: 8px;
-  line-height: 1.5;
   background-color: var(--bg-color-block);
+  line-height: 1.5;
 }
 
 .refresh-button {

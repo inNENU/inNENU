@@ -1,7 +1,7 @@
 import { $Page } from "@mptool/enhance";
 
 import { type AppOption } from "../../app.js";
-import { appCoverPrefix } from "../../config/index.js";
+import { appCoverPrefix } from "../../config/info.js";
 import { getColor, popNotice } from "../../utils/page.js";
 import { SearchResult, search } from "../../utils/search.js";
 

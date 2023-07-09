@@ -8,3 +8,4 @@ rules:
     - true
     - ignoreTypes:
         - page
+        - picker

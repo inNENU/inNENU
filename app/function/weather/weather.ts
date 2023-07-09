@@ -4,7 +4,7 @@ import { get, readFile } from "@mptool/file";
 import { showModal } from "../../api/ui.js";
 import { type AppOption } from "../../app.js";
 import { type WeatherData } from "../../components/weather/typings.js";
-import { appCoverPrefix, server } from "../../config/index.js";
+import { appCoverPrefix, server } from "../../config/info.js";
 
 const {
   globalData: { darkmode, info },

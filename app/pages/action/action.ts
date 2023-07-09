@@ -3,7 +3,7 @@ import { ls, rm } from "@mptool/file";
 
 import { showModal } from "../../api/ui.js";
 import { type AppOption } from "../../app.js";
-import { appCoverPrefix } from "../../config/index.js";
+import { appCoverPrefix } from "../../config/info.js";
 
 const {
   globalData: { theme },
