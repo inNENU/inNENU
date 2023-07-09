@@ -1,4 +1,5 @@
-import { downLoad, showModal } from "./net.js";
+import { downLoad } from "./net.js";
+import { showModal } from "./ui.js";
 
 /**
  * 保存图片到相册

@@ -3,8 +3,6 @@ import { logger } from "@mptool/enhance";
 import { showToast } from "./ui.js";
 import { assets, server, service } from "../config/info.js";
 
-export * from "./ui.js";
-
 /** 网络状态汇报 */
 export const netReport = (): void => {
   // 获取网络信息
@@ -56,7 +54,7 @@ export type FetchOptions = Pick<
  * @param failFunc 失败回调函数
  * @param errorFunc 状态码错误回调函数
  */
-export const fetch = <
+export const request = <
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   T extends Record<never, never> | unknown[] | string = Record<string, any>
 >(
