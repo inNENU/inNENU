@@ -1,7 +1,12 @@
 import { $Page } from "@mptool/enhance";
 import { get, set } from "@mptool/file";
 
-import { type ClassItem, type TableItem, getCourseTable } from "./api.js";
+import {
+  type ClassItem,
+  type TableItem,
+  getCourseTable,
+  login,
+} from "./api.js";
 import { showModal } from "../../api/ui.js";
 import { type AppOption } from "../../app.js";
 import { appCoverPrefix } from "../../config/info.js";
@@ -188,22 +193,30 @@ $Page(PAGE_ID, {
   getCourseData(time: string) {
     wx.showLoading({ title: "获取中" });
 
-    return getCourseTable({ ...globalData.account!, time })
-      .then((res) => {
-        wx.hideLoading();
-        if (res.status === "success") {
-          const { data, startTime } = res;
-          const courseTable = handleCourseTable(data, startTime);
-          const { courseData, weeks } = courseTable;
+    return login(globalData.account!)
+      .then((data) => {
+        if (data.status === "failed") throw data.msg;
 
-          this.setData({
-            courseData,
-            weeks,
-            weekIndex: getWeekIndex(startTime, weeks),
-          });
-          this.state.coursesData[time] = courseTable;
-          set("course-data-info", this.state.coursesData, 6 * MONTH);
-        } else showModal("获取失败", res.msg);
+        return getCourseTable({
+          cookies: data.cookies,
+          id: globalData.account!.id,
+          time,
+        }).then((res) => {
+          wx.hideLoading();
+          if (res.status === "success") {
+            const { data, startTime } = res;
+            const courseTable = handleCourseTable(data, startTime);
+            const { courseData, weeks } = courseTable;
+
+            this.setData({
+              courseData,
+              weeks,
+              weekIndex: getWeekIndex(startTime, weeks),
+            });
+            this.state.coursesData[time] = courseTable;
+            set("course-data-info", this.state.coursesData, 6 * MONTH);
+          } else showModal("获取失败", res.msg);
+        });
       })
       .catch((msg: string) => {
         wx.hideLoading();

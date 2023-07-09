@@ -1,7 +1,8 @@
 import { logger } from "@mptool/enhance";
-import { set } from "@mptool/file";
+import { get, set } from "@mptool/file";
 
 import { type Cookie, type CookieOptions } from "../../../typings/cookie.js";
+import { type CommonFailedResponse } from "../../../typings/response.js";
 import { request } from "../../api/net.js";
 import { service } from "../../config/info.js";
 import { LoginFailedResponse } from "../../utils/account.js";
@@ -20,7 +21,7 @@ export type UnderSystemLoginResponse =
   | UnderSystemLoginSuccessResponse
   | LoginFailedResponse;
 
-export const login = (
+const getCookie = (
   options: AccountBasicInfo
 ): Promise<UnderSystemLoginResponse> =>
   request<UnderSystemLoginResponse>(`${service}under-system/login`, {
@@ -33,6 +34,33 @@ export const login = (
 
     return data;
   });
+
+export interface CookieVerifySuccessResponse {
+  status: "success";
+  valid: boolean;
+}
+
+export type CookieVerifyResponse =
+  | CookieVerifySuccessResponse
+  | CommonFailedResponse;
+
+export const check = (cookies: Cookie[]): Promise<CookieVerifyResponse> =>
+  request<CookieVerifyResponse>(`${service}under-system/check`, {
+    method: "POST",
+    data: { cookies },
+  });
+
+export const login = (
+  account: AccountBasicInfo
+): Promise<UnderSystemLoginResponse> => {
+  const cookies = get<Cookie[]>(UNDER_SYSTEM_COOKIE);
+
+  return cookies
+    ? check(cookies).then((valid) =>
+        valid ? { status: "success", cookies } : getCookie(account)
+      )
+    : getCookie(account);
+};
 
 interface UserCourseTableExtraOptions {
   /** 学号 */
