@@ -8,28 +8,38 @@
 />
 <view class="{{theme}} grade-list-wrapper">
   <header title="课程成绩" />
-  <title config="{{ { text: '查询结果' } }}" />
+  <view class="header">
+    查询结果
+    <button
+      class="refresh-button"
+      type="default"
+      size="mini"
+      catch:tap="getGradeList"
+    >
+      <text />
+    </button>
+  </view>
   <block wx:if="{{grades.length}}">
     <scroll-view scroll-x class="grade-list">
       <view class="table">
-        <view class="headers">
+        <view class="table-headers">
           <view
             wx:for="{{grade.headers}}"
             wx:for-item="item"
             wx:for-index="index"
-            class="header"
+            class="table-header"
             data-index="{{index}}"
             catch:tap="sortResults"
           >
             <text class="text">{{item}}</text>
             {{sortIndex === index ? ascending ? '↑': '↓' : ''}}
           </view>
-          <view wx:if="{{showMark}}" class="header">成绩标识</view>
-          <view wx:if="{{showRelearn}}" class="header">补重学期</view>
-          <view wx:if="{{showStatus}}" class="header">审核状态</view>
+          <view wx:if="{{showMark}}" class="table-header">成绩标识</view>
+          <view wx:if="{{showRelearn}}" class="table-header">补重学期</view>
+          <view wx:if="{{showStatus}}" class="table-header">审核状态</view>
         </view>
 
-        <view wx:for="{{grades}}" wx:for-item="item" class="row">
+        <view wx:for="{{grades}}" wx:for-item="item" class="table-row">
           <view class="cell name">{{item.name}}</view>
           <view class="cell grade">{{item.grade}}</view>
           <view class="cell difficulty">{{item.difficulty}}</view>
@@ -50,7 +60,7 @@
         </view>
       </view>
     </scroll-view>
-    <title config="{{ { text: '数据统计' } }}" />
+    <view class="header">数据统计</view>
     <view class="information">
       <text class="label">通识必修课总学分:</text>
       <text class="value">{{totalCommonRequiredPoint}}</text>

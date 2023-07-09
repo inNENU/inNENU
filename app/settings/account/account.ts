@@ -190,6 +190,7 @@ $Page(PAGE_ID, {
     remove("user-info");
     remove("under-system-cookie");
     remove("course-data-info");
+    remove("grade-list");
     globalData.account = null;
     globalData.userInfo = null;
     showModal("删除成功", "已删除本地账号信息");
