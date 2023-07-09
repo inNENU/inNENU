@@ -34,7 +34,6 @@ $Page("grade-list", {
     showMark: false,
     showRelearn: false,
     showStatus: false,
-    extraHeaders: 0,
     totalPoint: 0,
     totalCommonRequiredPoint: 0,
     totalCommonOptionalPoint: 0,
@@ -97,30 +96,44 @@ $Page("grade-list", {
         const showMark = data.some((item) => item.mark);
         const showRelearn = data.some((item) => item.reLearn);
         const showStatus = data.some((item) => item.status);
-        const extraHeaders = [showMark, showRelearn, showStatus].filter(
-          Boolean
-        ).length;
-        const totalPoint = data.reduce((total, item) => total + item.point, 0);
-        const totalCommonRequiredPoint = data
+        const filteredData = data.filter((item, index) => {
+          const records = data.filter(
+            (record) => record.cid === item.cid && item.grade >= 60
+          );
+
+          return (
+            // the max grade
+            records.every((record) => record.grade <= item.grade) &&
+            // the last one with same grade
+            data.findLastIndex((record) => record.grade === item.grade) ===
+              index
+          );
+        });
+
+        const totalPoint = filteredData.reduce(
+          (total, item) => total + item.point,
+          0
+        );
+        const totalCommonRequiredPoint = filteredData
           .filter((item) => item.shortCourseType === "通修")
           .reduce((total, item) => total + item.point, 0);
-        const totalCommonOptionalPoint = data
+        const totalCommonOptionalPoint = filteredData
           .filter((item) => item.shortCourseType === "通选")
           .reduce((total, item) => total + item.point, 0);
-        const totalMajorRequiredPoint = data
+        const totalMajorRequiredPoint = filteredData
           .filter((item) => item.shortCourseType === "专修")
           .reduce((total, item) => total + item.point, 0);
-        const totalMajorOptionalPoint = data
+        const totalMajorOptionalPoint = filteredData
           .filter((item) => item.shortCourseType === "专选")
           .reduce((total, item) => total + item.point, 0);
-        const totalTeacherRequiredPoint = data
+        const totalTeacherRequiredPoint = filteredData
           .filter((item) => item.shortCourseType === "师修")
           .reduce((total, item) => total + item.point, 0);
-        const totalTeacherOptionalPoint = data
+        const totalTeacherOptionalPoint = filteredData
           .filter((item) => item.shortCourseType === "师选")
           .reduce((total, item) => total + item.point, 0);
 
-        const totalGradePoint = data.reduce(
+        const totalGradePoint = filteredData.reduce(
           (total, item) => total + item.gradePoint,
           0
         );
@@ -138,7 +151,6 @@ $Page("grade-list", {
           showMark,
           showRelearn,
           showStatus,
-          extraHeaders,
           totalPoint,
           totalCommonRequiredPoint,
           totalCommonOptionalPoint,
