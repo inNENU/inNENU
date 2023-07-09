@@ -1,6 +1,6 @@
 import { $Page } from "@mptool/enhance";
 
-import { getWindowInfo, showToast } from "../../api/index.js";
+import { getWindowInfo, showToast } from "../../api/ui.js";
 import { appCoverPrefix } from "../../config/index.js";
 import { ensureJSON, getJSON } from "../../utils/json.js";
 import { popNotice } from "../../utils/page.js";

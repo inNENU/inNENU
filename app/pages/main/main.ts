@@ -1,7 +1,7 @@
 import { $Page } from "@mptool/enhance";
 
 import { type PageDataWithContent } from "../../../typings/index.js";
-import { requestJSON } from "../../api/index.js";
+import { requestJSON } from "../../api/net.js";
 import { type AppOption } from "../../app.js";
 import { appCoverPrefix, appName } from "../../config/index.js";
 import { getColor, popNotice, resolvePage, setPage } from "../../utils/page.js";

@@ -1,6 +1,7 @@
 import { $Page } from "@mptool/enhance";
 
-import { addPhoneContact, getWindowInfo } from "../../api/index.js";
+import { addPhoneContact } from "../../api/phone.js";
+import { getWindowInfo } from "../../api/ui.js";
 import { type AppOption } from "../../app.js";
 import { appCoverPrefix } from "../../config/index.js";
 import { ensureJSON, getJSON } from "../../utils/json.js";

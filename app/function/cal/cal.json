@@ -1,6 +1,6 @@
 {
   "navigationBarTitleText": "绩点计算",
   "usingComponents": {
-    "navbar": "/components/common/navbar/navbar"
+    "navbar": "/base/navbar/navbar"
   }
 }

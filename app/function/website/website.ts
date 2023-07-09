@@ -1,6 +1,6 @@
 import { $Page } from "@mptool/enhance";
 
-import { getWindowInfo, showModal } from "../../api/index.js";
+import { getWindowInfo, showModal } from "../../api/ui.js";
 import { type AppOption } from "../../app.js";
 import { appCoverPrefix } from "../../config/index.js";
 import { ensureJSON, getJSON } from "../../utils/json.js";

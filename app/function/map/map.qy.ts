@@ -6,7 +6,7 @@ import {
   type MarkerConfig,
   type MarkerData,
 } from "../../../typings/index.js";
-import { getWindowInfo, showModal, showToast } from "../../api/index.js";
+import { getWindowInfo, showModal, showToast } from "../../api/ui.js";
 import { type AppOption } from "../../app.js";
 import { appCoverPrefix } from "../../config/index.js";
 import { ensureJSON, getJSON } from "../../utils/json.js";

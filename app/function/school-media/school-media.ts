@@ -1,11 +1,7 @@
 import { $Page } from "@mptool/enhance";
 
-import {
-  getWindowInfo,
-  savePhoto,
-  showModal,
-  showToast,
-} from "../../api/index.js";
+import { savePhoto } from "../../api/media.js";
+import { getWindowInfo, showModal, showToast } from "../../api/ui.js";
 import { type AppOption } from "../../app.js";
 import { appCoverPrefix } from "../../config/index.js";
 import { type Env } from "../../utils/app.js";

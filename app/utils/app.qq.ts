@@ -4,12 +4,8 @@ import { get, ls, rm, writeJSON } from "@mptool/file";
 
 import { downloadResource } from "./resource.js";
 import { type PageData, type VersionInfo } from "../../typings/index.js";
-import {
-  getDarkmode,
-  requestJSON,
-  showModal,
-  showToast,
-} from "../api/index.js";
+import { requestJSON } from "../api/net.js";
+import { getDarkmode, showModal, showToast } from "../api/ui.js";
 import { defaultAppConfig, server, version } from "../config/index.js";
 
 export type AppID =

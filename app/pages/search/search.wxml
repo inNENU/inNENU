@@ -1,4 +1,4 @@
-<import src="/components/template.wxml" />
+<import src="/base/template.wxml" />
 <page-meta
   background-text-style="{{darkmode ? 'dark' : 'light'}}"
   background-color="{{color.bgColor}}"
@@ -59,17 +59,11 @@
             >{{config[1].after}}</view
           >
           <view class="doc" wx:elif="{{config[0] === 'img'}}">
-            <image
-              class="icon"
-              src="/components/common/doc/icon/{{config[1].icon}}.svg"
-            />
+            <image class="icon" src="/base/doc/icon/{{config[1].icon}}.svg" />
             <view class="text">{{config[1].desc}}</view>
           </view>
           <view class="doc" wx:elif="{{config[0] === 'doc'}}">
-            <image
-              class="icon"
-              src="/components/common/doc/icon/{{config[1].icon}}.svg"
-            />
+            <image class="icon" src="/base/doc/icon/{{config[1].icon}}.svg" />
             <view class="text">{{config[1].name}}</view>
           </view>
           <view class="card" wx:elif="{{config[0] === 'card'}}">

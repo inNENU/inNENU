@@ -1,7 +1,7 @@
 import { $Page } from "@mptool/enhance";
 import { get, readFile } from "@mptool/file";
 
-import { showModal } from "../../api/index.js";
+import { showModal } from "../../api/ui.js";
 import { type AppOption } from "../../app.js";
 import { type WeatherData } from "../../components/weather/typings.js";
 import { appCoverPrefix, server } from "../../config/index.js";

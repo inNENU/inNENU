@@ -1,6 +1,6 @@
 import { $Page } from "@mptool/enhance";
 
-import { showModal } from "../../api/index.js";
+import { showModal } from "../../api/ui.js";
 import { appCoverPrefix } from "../../config/index.js";
 import { getJSON } from "../../utils/json.js";
 import { popNotice } from "../../utils/page.js";

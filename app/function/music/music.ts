@@ -1,7 +1,7 @@
 import { $Page } from "@mptool/enhance";
 
 import { type Lyric, type PlayMode, type SongDetail } from "./typings.js";
-import { showToast } from "../../api/index.js";
+import { showToast } from "../../api/ui.js";
 import { type AppOption } from "../../app.js";
 import { appCoverPrefix, appName } from "../../config/index.js";
 import { loadFZSSJW } from "../../utils/font.js";

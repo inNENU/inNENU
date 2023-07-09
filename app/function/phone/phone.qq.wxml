@@ -29,7 +29,7 @@
               <image
                 class="icon"
                 mode="widthFix"
-                src="/components/common/phone/icon/info.svg"
+                src="/base/phone/icon/info.svg"
               />
             </view>
 
@@ -44,7 +44,7 @@
               <image
                 class="icon"
                 mode="widthFix"
-                src="/components/common/phone/icon/call.svg"
+                src="/base/phone/icon/call.svg"
               />
             </view>
             <!-- 复制 -->
@@ -59,7 +59,7 @@
               <image
                 class="icon"
                 mode="widthFix"
-                src="/components/common/phone/icon/copy.svg"
+                src="/base/phone/icon/copy.svg"
               />
             </view>
           </view>

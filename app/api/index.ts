@@ -1,14 +1,3 @@
-export { savePhoto } from "./media.js";
-export { downLoad, netReport, fetch, requestJSON } from "./net.js";
-export { addPhoneContact } from "./phone.js";
-export {
-  confirmAction,
-  getDarkmode,
-  getWindowInfo,
-  showModal,
-  showToast,
-} from "./ui.js";
-
 /**
  * 比较版本号
  * @param versionA 版本号A

@@ -6,7 +6,7 @@ import {
   type PageDataWithContent,
   type PickerListComponentItemConfig,
 } from "../../../typings/index.js";
-import { showToast } from "../../api/index.js";
+import { showToast } from "../../api/ui.js";
 import { type AppOption } from "../../app.js";
 import { appCoverPrefix, appName, assets } from "../../config/index.js";
 import { getColor, popNotice, resolvePage, setPage } from "../../utils/page.js";

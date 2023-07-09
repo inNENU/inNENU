@@ -5,7 +5,7 @@ import {
   type ListComponentConfig,
   type ListComponentItemConfig,
 } from "../../../typings/components.js";
-import { showModal, showToast } from "../../api/index.js";
+import { showModal, showToast } from "../../api/ui.js";
 import { type AppOption } from "../../app.js";
 import { appCoverPrefix } from "../../config/index.js";
 import { getInfo, login } from "../../utils/account.js";

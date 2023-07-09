@@ -1,4 +1,4 @@
-<import src="/components/template.wxml" />
+<import src="/base/template.wxml" />
 <wxs src="./admission.wxs" module="admission" />
 
 <view

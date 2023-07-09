@@ -1,6 +1,6 @@
 import { $Page } from "@mptool/enhance";
 
-import { showToast } from "../../api/index.js";
+import { showToast } from "../../api/ui.js";
 import { type AppOption } from "../../app.js";
 import { appCoverPrefix } from "../../config/index.js";
 import { loadFZSSJW } from "../../utils/font.js";

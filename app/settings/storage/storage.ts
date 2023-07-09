@@ -3,7 +3,7 @@ import { ls, rm } from "@mptool/file";
 
 import { size } from "./size.js";
 import { type PageDataWithContent } from "../../../typings/index.js";
-import { confirmAction, showModal, showToast } from "../../api/index.js";
+import { confirmAction, showModal, showToast } from "../../api/ui.js";
 import { type AppOption } from "../../app.js";
 import { popNotice, setPage } from "../../utils/page.js";
 import { downloadResource } from "../../utils/resource.js";
