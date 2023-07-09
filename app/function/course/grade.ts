@@ -89,80 +89,87 @@ $Page("grade-list", {
   getGradeList(options: UserGradeListExtraOptions = {}) {
     wx.showLoading({ title: "获取中" });
 
-    return getGradeList({ ...globalData.account!, ...options }).then((res) => {
-      wx.hideLoading();
-      if (res.status === "success") {
-        const { data } = res;
-        const showMark = data.some((item) => item.mark);
-        const showRelearn = data.some((item) => item.reLearn);
-        const showStatus = data.some((item) => item.status);
-        const filteredData = data.filter((item, index) => {
-          const records = data.filter(
-            (record) => record.cid === item.cid && item.grade >= 60
+    return getGradeList({ ...globalData.account!, ...options })
+      .then((res) => {
+        wx.hideLoading();
+        if (res.status === "success") {
+          const { data } = res;
+          const showMark = data.some((item) => item.mark);
+          const showRelearn = data.some((item) => item.reLearn);
+          const showStatus = data.some((item) => item.status);
+          const filteredData = data.filter((item, index) => {
+            const records = data.filter(
+              (record) => record.cid === item.cid && item.grade >= 60
+            );
+
+            return (
+              // the max grade
+              records.every((record) => record.grade <= item.grade) &&
+              // the last one with same grade
+              data.findLastIndex((record) => record.grade === item.grade) ===
+                index
+            );
+          });
+
+          const totalPoint = filteredData.reduce(
+            (total, item) => total + item.point,
+            0
           );
+          const totalCommonRequiredPoint = filteredData
+            .filter((item) => item.shortCourseType === "通修")
+            .reduce((total, item) => total + item.point, 0);
+          const totalCommonOptionalPoint = filteredData
+            .filter((item) => item.shortCourseType === "通选")
+            .reduce((total, item) => total + item.point, 0);
+          const totalMajorRequiredPoint = filteredData
+            .filter((item) => item.shortCourseType === "专修")
+            .reduce((total, item) => total + item.point, 0);
+          const totalMajorOptionalPoint = filteredData
+            .filter((item) => item.shortCourseType === "专选")
+            .reduce((total, item) => total + item.point, 0);
+          const totalTeacherRequiredPoint = filteredData
+            .filter((item) => item.shortCourseType === "师修")
+            .reduce((total, item) => total + item.point, 0);
+          const totalTeacherOptionalPoint = filteredData
+            .filter((item) => item.shortCourseType === "师选")
+            .reduce((total, item) => total + item.point, 0);
 
-          return (
-            // the max grade
-            records.every((record) => record.grade <= item.grade) &&
-            // the last one with same grade
-            data.findLastIndex((record) => record.grade === item.grade) ===
-              index
+          const totalGradePoint = filteredData.reduce(
+            (total, item) => total + item.gradePoint,
+            0
           );
-        });
+          const gpa = Math.round((totalGradePoint / totalPoint) * 100) / 100;
+          const numberValueIndex = keys
+            .map((key, index) =>
+              data.some((item) => Number.isNaN(Number(item[key])))
+                ? null
+                : index
+            )
+            .filter((item): item is number => item !== null);
 
-        const totalPoint = filteredData.reduce(
-          (total, item) => total + item.point,
-          0
-        );
-        const totalCommonRequiredPoint = filteredData
-          .filter((item) => item.shortCourseType === "通修")
-          .reduce((total, item) => total + item.point, 0);
-        const totalCommonOptionalPoint = filteredData
-          .filter((item) => item.shortCourseType === "通选")
-          .reduce((total, item) => total + item.point, 0);
-        const totalMajorRequiredPoint = filteredData
-          .filter((item) => item.shortCourseType === "专修")
-          .reduce((total, item) => total + item.point, 0);
-        const totalMajorOptionalPoint = filteredData
-          .filter((item) => item.shortCourseType === "专选")
-          .reduce((total, item) => total + item.point, 0);
-        const totalTeacherRequiredPoint = filteredData
-          .filter((item) => item.shortCourseType === "师修")
-          .reduce((total, item) => total + item.point, 0);
-        const totalTeacherOptionalPoint = filteredData
-          .filter((item) => item.shortCourseType === "师选")
-          .reduce((total, item) => total + item.point, 0);
+          this.state.numberValueIndex = numberValueIndex;
 
-        const totalGradePoint = filteredData.reduce(
-          (total, item) => total + item.gradePoint,
-          0
-        );
-        const gpa = Math.round((totalGradePoint / totalPoint) * 100) / 100;
-        const numberValueIndex = keys
-          .map((key, index) =>
-            data.some((item) => Number.isNaN(Number(item[key]))) ? null : index
-          )
-          .filter((item): item is number => item !== null);
-
-        this.state.numberValueIndex = numberValueIndex;
-
-        this.setData({
-          grades: data,
-          showMark,
-          showRelearn,
-          showStatus,
-          totalPoint,
-          totalCommonRequiredPoint,
-          totalCommonOptionalPoint,
-          totalMajorRequiredPoint,
-          totalMajorOptionalPoint,
-          totalTeacherRequiredPoint,
-          totalTeacherOptionalPoint,
-          totalGradePoint: Math.round(totalGradePoint * 100) / 100,
-          gpa,
-        });
-      } else modal("获取失败", res.msg);
-    });
+          this.setData({
+            grades: data,
+            showMark,
+            showRelearn,
+            showStatus,
+            totalPoint,
+            totalCommonRequiredPoint,
+            totalCommonOptionalPoint,
+            totalMajorRequiredPoint,
+            totalMajorOptionalPoint,
+            totalTeacherRequiredPoint,
+            totalTeacherOptionalPoint,
+            totalGradePoint: Math.round(totalGradePoint * 100) / 100,
+            gpa,
+          });
+        } else modal("获取失败", res.msg);
+      })
+      .catch((msg: string) => {
+        wx.hideLoading();
+        modal("获取失败", msg);
+      });
   },
 
   sortResults({

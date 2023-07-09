@@ -1,9 +1,11 @@
 import { logger } from "@mptool/enhance";
+import { set } from "@mptool/file";
 
 import { type Cookie, type CookieOptions } from "../../../typings/cookie.js";
 import { LoginFailedResponse } from "../../utils/account.js";
 import { type AccountBasicInfo } from "../../utils/app.js";
 import { service } from "../../utils/config.js";
+import { HOUR } from "../../utils/constant.js";
 
 export interface UnderSystemLoginSuccessResponse {
   status: "success";
@@ -26,11 +28,13 @@ export const login = (
       enableHttp2: true,
       success: ({ data, statusCode }) => {
         if (statusCode === 200) {
+          if (data.status === "success") {
+            set("under-system-cookie", data.cookies, 6 * HOUR);
+          } else logger.error("登录失败", data.msg);
           resolve(data);
-          if (data.status === "failed") logger.error("登录失败", data.msg);
-        } else reject();
+        } else reject(`服务器错误: ${statusCode}`);
       },
-      fail: () => reject(),
+      fail: ({ errMsg }) => reject(errMsg),
     });
   });
 
@@ -80,9 +84,9 @@ export const getCourseTable = (
         if (statusCode === 200) {
           resolve(data);
           if (data.status === "failed") logger.error("登录失败", data.msg);
-        } else reject();
+        } else reject(`服务器错误: ${statusCode}`);
       },
-      fail: () => reject(),
+      fail: ({ errMsg }) => reject(errMsg),
     });
   });
 
@@ -168,8 +172,8 @@ export const getGradeList = (
         if (statusCode === 200) {
           resolve(data);
           if (data.status === "failed") logger.error("登录失败", data.msg);
-        } else reject();
+        } else reject(`服务器错误: ${statusCode}`);
       },
-      fail: () => reject(),
+      fail: ({ errMsg }) => reject(errMsg),
     });
   });

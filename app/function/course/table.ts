@@ -188,22 +188,27 @@ $Page(PAGE_ID, {
   getCourseData(time: string) {
     wx.showLoading({ title: "获取中" });
 
-    return getCourseTable({ ...globalData.account!, time }).then((res) => {
-      wx.hideLoading();
-      if (res.status === "success") {
-        const { data, startTime } = res;
-        const courseTable = handleCourseTable(data, startTime);
-        const { courseData, weeks } = courseTable;
+    return getCourseTable({ ...globalData.account!, time })
+      .then((res) => {
+        wx.hideLoading();
+        if (res.status === "success") {
+          const { data, startTime } = res;
+          const courseTable = handleCourseTable(data, startTime);
+          const { courseData, weeks } = courseTable;
 
-        this.setData({
-          courseData,
-          weeks,
-          weekIndex: getWeekIndex(startTime, weeks),
-        });
-        this.state.coursesData[time] = courseTable;
-        set("course-data-info", this.state.coursesData, 6 * MONTH);
-      } else modal("获取失败", res.msg);
-    });
+          this.setData({
+            courseData,
+            weeks,
+            weekIndex: getWeekIndex(startTime, weeks),
+          });
+          this.state.coursesData[time] = courseTable;
+          set("course-data-info", this.state.coursesData, 6 * MONTH);
+        } else modal("获取失败", res.msg);
+      })
+      .catch((msg: string) => {
+        wx.hideLoading();
+        modal("获取失败", msg);
+      });
   },
 
   changeTime({ detail }: WechatMiniprogram.PickerChange) {
