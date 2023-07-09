@@ -20,7 +20,7 @@ $Component({
         firstPage: getCurrentPages().length === 1,
       });
 
-      // TODO: issues in QQ where the selector not working
+      // FIXME: issues in QQ where the selector not working
     },
   },
 

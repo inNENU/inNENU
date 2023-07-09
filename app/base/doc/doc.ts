@@ -4,6 +4,9 @@ import { type DocComponentOptions } from "../../../typings/index.js";
 import { savePhoto } from "../../api/media.js";
 import { downLoad } from "../../api/net.js";
 import { showModal, showToast } from "../../api/ui.js";
+import { type AppOption } from "../../app.js";
+
+const { globalData } = getApp<AppOption>();
 
 $Component({
   properties: {
@@ -55,7 +58,7 @@ $Component({
           success: () => {
             showModal(
               "复制成功",
-              "下载链接已复制到您的剪切板。受小程序限制，请您自行打开浏览器粘贴在地址栏中以开启下载。"
+              `下载链接已复制到您的剪切板。受${globalData.envName}限制，请您自行打开浏览器粘贴在地址栏中以开启下载。`
             );
           },
         });
