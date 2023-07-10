@@ -31,9 +31,9 @@
         type="{{item.type}}"
         adjust-position="{{false}}"
         placeholder="{{item.placeholder}}"
-        catch:focus="focus"
-        catch:input="input"
-        catch:blur="blur"
+        bindfocus="focus"
+        bindinput="input"
+        bindblur="blur"
       />
     </view>
     <view wx:if="{{captcha}}" class="input-list-item">
@@ -44,9 +44,9 @@
         type="text"
         adjust-position="{{false}}"
         placeholder="请输入验证码"
-        catch:focus="focus"
-        catch:input="inputCaptcha"
-        catch:blur="blur"
+        bindfocus="focus"
+        bindinput="inputCaptcha"
+        bindblur="blur"
       />
       <image class="verify-code" src="{{captcha}}" catch:tap="changeCaptcha" />
     </view>
