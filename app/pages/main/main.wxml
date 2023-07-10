@@ -6,19 +6,17 @@
   background-color-bottom="{{color.bgColorBottom}}"
   root-background-color="{{color.bgColor}}"
 />
-<view class="{{theme}} grey">
-  <block wx:if="{{login}}">
-    <weather custom-class="weather" target="weather">
-      <today-course custom-class="course" />
-    </weather>
+<view class="{{theme}} main grey">
+  <weather wx:if="{{login}}" custom-class="weather" target="weather">
+    <today-course custom-class="course" />
     <search
-      custom-class="search"
+      custom-class="colored-search"
       words="{{words}}"
       placeholder="搜索小程序"
       catch:searching="searching"
       catch:search="search"
     />
-  </block>
+  </weather>
   <block wx:else>
     <view
       class="search-navigation-bar"
@@ -44,5 +42,7 @@
       到头啦~人家被你拉得好痛阿(*´д`*) 不许你再拉人家~╭(╯^╰)╮
     </view>
   </block>
-  <template is="components" data="{{content: page.content, theme}}" />
+  <scroll-view scroll-y class="content">
+    <template is="components" data="{{content: page.content, theme}}" />
+  </scroll-view>
 </view>

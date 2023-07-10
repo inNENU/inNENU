@@ -2,6 +2,7 @@
   <header title="图书馆" />
   <view class="content">
     <library-people />
+    <library-borrow-books />
   </view>
   <footer />
 </view>

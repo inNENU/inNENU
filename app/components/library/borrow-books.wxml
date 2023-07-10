@@ -1,0 +1,40 @@
+<wxs src="../../utils/index.wxs" module="utils" />
+<view class="borrow-books custom-class">
+  <image
+    wx:if="{{status === 'loading'}}"
+    class="loading"
+    src="/icon/loading.svg"
+  />
+  <view wx:elif="{{status === 'error'}}" class="failed">获取失败</view>
+  <block wx:else>
+    <view class="header">借阅书籍</view>
+    <view
+      wx:if="{{status === 'login'}}"
+      class="need-login"
+      hover-class="button-hover"
+      hover-start-time="0"
+      hover-stay-time="0"
+      catch:tap="login"
+    >
+      登陆账号👉
+    </view>
+    <view wx:else class="list">
+      <view wx:if="{{books.length === 0}}" class="empty">暂无借阅书籍</view>
+      <view
+        wx:for="{{books}}"
+        class="book"
+        data-index="{{index}}"
+        hover-class="button-hover"
+        hover-start-time="0"
+        hover-stay-time="0"
+        catch:tap="viewBookDetail"
+      >
+        <view class="name">{{item.name}}</view>
+        <view class="time">
+          <text>借出时间: {{utils.displayDate(item.loanDate)}}</text>
+          <text>到期时间: {{utils.displayDate(item.dueDate)}}</text>
+        </view>
+      </view>
+    </view>
+  </block>
+</view>
