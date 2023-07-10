@@ -166,6 +166,7 @@ $Page(PAGE_ID, {
 
               showModal("登陆成功", "个人信息获取成功");
               set(USER_INFO_KEY, userInfo, MONTH);
+              globalData.userInfo = userInfo;
               this.setData({
                 isSaved: true,
                 // eslint-disable-next-line @typescript-eslint/naming-convention
