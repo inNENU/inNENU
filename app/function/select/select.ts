@@ -1,17 +1,13 @@
 import { $Page, logger } from "@mptool/enhance";
 
+import { getAmount, getInfo, login, process, search } from "./api.js";
 import {
-  CourseBasicInfo,
-  CourseData,
-  CourseInfo,
-  MajorInfo,
-  SearchOptions,
-  getAmount,
-  getInfo,
-  login,
-  process,
-  search,
-} from "./api.js";
+  type CourseBasicInfo,
+  type CourseData,
+  type CourseInfo,
+  type MajorInfo,
+  type SearchOptions,
+} from "./typings.js";
 import {
   type FullCourseInfo,
   type SortKey,
