@@ -235,13 +235,7 @@
           "launchMode": "default",
           "scene": null
         },
-        {
-          "name": "绩点计算",
-          "pathName": "function/cal/cal",
-          "query": "",
-          "launchMode": "default",
-          "scene": null
-        },
+
         {
           "name": "客服",
           "pathName": "pages/action/action",

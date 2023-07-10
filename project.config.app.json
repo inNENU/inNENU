@@ -262,13 +262,7 @@
           "launchMode": "default",
           "scene": null
         },
-        {
-          "name": "绩点计算",
-          "pathName": "function/cal/cal",
-          "query": "",
-          "launchMode": "default",
-          "scene": null
-        },
+
         {
           "name": "关于",
           "pathName": "settings/about/about",

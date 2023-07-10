@@ -72,10 +72,6 @@ page {
   --gray-shadow: rgb(114 130 138 / 20%);
   --black-shadow: rgb(26 26 26 / 20%);
 
-  @media (min-width: 547px) {
-    --horizontal-margin: auto;
-  }
-
   @media (prefers-color-scheme: light) {
     --text-color: #000;
     --bg-color: #fff;
@@ -110,9 +106,6 @@ page {
 
   .grey {
     --bg-color-block: #fff;
-    --max-width: none;
-    --horizontal-margin: 15px;
-    --paragraph-horizontal-margin: 15px;
 
     @media (prefers-color-scheme: light) {
       --bg-color-block: #fff;

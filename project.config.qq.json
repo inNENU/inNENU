@@ -282,13 +282,7 @@
           "query": "word=浴池",
           "scene": null
         },
-        {
-          "id": 24,
-          "name": "绩点计算",
-          "pathName": "function/cal/cal",
-          "query": "",
-          "scene": null
-        },
+
         {
           "id": 25,
           "name": "录取查询",

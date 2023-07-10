@@ -13,7 +13,6 @@
     "settings/about/about",
     "settings/account/account",
     "settings/storage/storage",
-    "function/cal/cal",
     "function/calendar/calendar",
     "function/course/grade",
     "function/course/table",

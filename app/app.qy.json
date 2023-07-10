@@ -19,7 +19,6 @@
     {
       "root": "function",
       "pages": [
-        "cal/cal",
         "calendar/calendar",
         "course/grade",
         "course/table",
