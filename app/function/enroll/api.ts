@@ -19,7 +19,7 @@ export interface PostAdmissionPostOptions {
 }
 
 export const postAdmission = (
-  data: PostAdmissionPostOptions
+  data: PostAdmissionPostOptions,
 ): Promise<AdmissionResponse> =>
   new Promise((resolve, reject) => {
     wx.request<AdmissionResponse>({
@@ -65,7 +65,7 @@ export interface GetUnderAdmissionResponse {
 
 export const underAdmission = <T>(
   method: "GET" | "POST",
-  data: Record<string, unknown> = {}
+  data: Record<string, unknown> = {},
 ): Promise<T> =>
   new Promise((resolve, reject) => {
     wx.request({
@@ -110,7 +110,7 @@ export type EnrollGradeResponse =
   | CommonFailedResponse;
 
 export const getHistoryGrade = (
-  options: EnrollPlanOptions
+  options: EnrollPlanOptions,
 ): Promise<EnrollGradeResponse> =>
   new Promise((resolve, reject) => {
     wx.request<EnrollGradeResponse>({
@@ -164,7 +164,7 @@ export type EnrollPlanResponse =
   | CommonFailedResponse;
 
 export const getEnrollPlan = (
-  options: EnrollPlanOptions
+  options: EnrollPlanOptions,
 ): Promise<EnrollPlanResponse> =>
   new Promise((resolve, reject) => {
     wx.request<EnrollPlanResponse>({

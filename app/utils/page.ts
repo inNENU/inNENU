@@ -40,7 +40,7 @@ const resolveContent = (
     | GridComponentItemConfig
     | ListComponentItemConfig
   ) & { hidden?: boolean },
-  page: PageData
+  page: PageData,
 ):
   | ((
       | FunctionalListComponentItemConfig
@@ -159,8 +159,8 @@ const disposePage = (page: PageData, option: PageOption): PageData => {
                 | FunctionalListComponentItemConfig
                 | GridComponentItemConfig
                 | ListComponentItemConfig
-              ) & { hidden?: boolean }
-            ) => resolveContent(listElement, page)
+              ) & { hidden?: boolean },
+            ) => resolveContent(listElement, page),
           )
           .filter((listElement) => listElement !== null) as
           | FunctionalListComponentItemConfig[]
@@ -200,10 +200,10 @@ const preloadPage = (page: PageData): void => {
               | FunctionalListComponentItemConfig
               | GridComponentItemConfig
               | ListComponentItemConfig
-            ) & { hidden?: boolean }
+            ) & { hidden?: boolean },
           ) => {
             if ("path" in element) ensureJSON(`${element.path!}`);
-          }
+          },
         );
     });
   else logger.warn(`Page is empty`);
@@ -235,7 +235,7 @@ const preloadPage = (page: PageData): void => {
 export const resolvePage = (
   options: PageQuery,
   page?: PageData,
-  setGlobal = true
+  setGlobal = true,
 ): PageData | null => {
   // 控制台输出参数
   logger.info("Navigating to: ", options);
@@ -361,7 +361,7 @@ interface SetPageOption {
 export const setPage = (
   { option, ctx, handle = false }: SetPageOption,
   page?: PageData,
-  preload = true
+  preload = true,
 ): Promise<void> =>
   new Promise((resolve) => {
     // 设置页面数据
@@ -378,7 +378,7 @@ export const setPage = (
         () => {
           logger.debug(`${pageData.id || "Unknown"} pageData is set`);
           resolve();
-        }
+        },
       );
     }
     // 页面已经预处理完毕，立即写入 page 并执行本界面的预加载
@@ -405,7 +405,7 @@ export const setPage = (
             logger.debug(`Preloaded ${id} links`);
           }
           resolve();
-        }
+        },
       );
     } else if (ctx.data.page) {
       logger.debug(`${option.id || "Unknown"} not resolved`);
@@ -422,7 +422,7 @@ export const setPage = (
           darkmode: globalData.darkmode,
           page: pageData,
         },
-        resolve
+        resolve,
       );
     }
   });
@@ -472,7 +472,7 @@ export const popNotice = (id: string): void => {
 export const setOnlinePage = (
   option: PageOption,
   ctx: PageInstanceWithPage,
-  preload = true
+  preload = true,
 ): void => {
   const { id } = option;
 
@@ -496,7 +496,7 @@ export const setOnlinePage = (
             preloadPage(ctx.data.page!);
             logger.debug(`Preloaded ${id} links`);
           }
-        }
+        },
       );
     } else {
       // 需要重新载入界面
@@ -547,7 +547,7 @@ export const setOnlinePage = (
                 id: option.id,
                 from: option.from,
                 statusBarHeight: globalData.info.statusBarHeight,
-              }
+              },
             );
             popNotice(option.id || "");
 
@@ -574,7 +574,7 @@ export const setOnlinePage = (
  */
 export const loadOnlinePage = (
   option: PageOption & { path: string },
-  ctx: PageInstanceWithPage
+  ctx: PageInstanceWithPage,
 ): void => {
   if (option.path) {
     option.id = id2path(option.path);
@@ -599,7 +599,7 @@ export const loadOnlinePage = (
             id: option.id,
             from: option.from,
             statusBarHeight: globalData.info.statusBarHeight,
-          }
+          },
         );
         popNotice(option.id || "");
 

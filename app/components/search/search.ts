@@ -53,7 +53,7 @@ $Component({
         Record<string, never>,
         Record<string, never>,
         { index: number }
-      >
+      >,
     ): void {
       const value = this.data.words[event.currentTarget.dataset.index];
 

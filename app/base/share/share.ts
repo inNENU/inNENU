@@ -43,8 +43,8 @@ $Component({
         typeof config.qrcode === "string"
           ? config.qrcode
           : `${service}qrcode?appID=${appID}&page=pages/info/info&scene=${path2id(
-              config.id
-            )}`
+              config.id,
+            )}`,
       )
         .then(() => showToast("二维码已存至相册"))
         .catch(() => showToast("二维码保存失败"));
@@ -61,7 +61,7 @@ $Component({
     hint(msg: string) {
       showModal(
         "功能受限",
-        `受到微信客户端限制，请您点击右上角菜单(···)以${msg}。`
+        `受到微信客户端限制，请您点击右上角菜单(···)以${msg}。`,
       );
     },
 
@@ -76,7 +76,7 @@ $Component({
           else
             showModal(
               "链接尚未生成",
-              "请使用小程序右上角菜单(···)来复制链接。"
+              "请使用小程序右上角菜单(···)来复制链接。",
             );
         },
       });
@@ -121,7 +121,7 @@ $Component({
             icon: "./icon/star",
             text: "收藏",
             action: "wechatStar",
-          }
+          },
         );
 
         if (config.qrcode !== false)

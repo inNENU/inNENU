@@ -42,7 +42,7 @@ $Page("user", {
     console.info(
       `User page loading time: ${
         new Date().getTime() - globalData.startupTime
-      }ms`
+      }ms`,
     );
   },
 
@@ -51,7 +51,7 @@ $Page("user", {
 
     setPage(
       { option: { id: "user" }, ctx: this, handle: Boolean(preloadData) },
-      preloadData || wx.getStorageSync("user") || this.data.page
+      preloadData || wx.getStorageSync("user") || this.data.page,
     );
   },
 

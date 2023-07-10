@@ -126,7 +126,7 @@ $Page("weather", {
    */
   drawCanvas(
     weather: WeatherData,
-    windowWidth = wx.getSystemInfoSync().windowWidth
+    windowWidth = wx.getSystemInfoSync().windowWidth,
   ) {
     this.createSelectorQuery()
       .select(CANVAS_SELECTOR)
@@ -140,7 +140,7 @@ $Page("weather", {
           canvas.width = width * dpr;
           canvas.height = height * dpr;
           this.draw(canvas, weather, windowWidth);
-        }
+        },
       );
   },
 
@@ -148,7 +148,7 @@ $Page("weather", {
     canvas: WechatMiniprogram.Canvas2DNode,
     weather: WeatherData,
     // 屏幕宽度可能发生变化
-    width: number
+    width: number,
   ) {
     const highTemperature: number[] = [];
     const lowTemperature: number[] = [];
@@ -281,7 +281,7 @@ $Page("weather", {
       Record<string, never>,
       Record<string, never>,
       { id: number }
-    >
+    >,
   ) {
     const hint = this.data.weather.hints[event.currentTarget.dataset.id];
 

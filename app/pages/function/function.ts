@@ -25,12 +25,12 @@ $Page("function", {
   onPreload(res) {
     put(
       "function",
-      resolvePage(res, wx.getStorageSync("function") || this.data.page)
+      resolvePage(res, wx.getStorageSync("function") || this.data.page),
     );
     console.info(
       `Function page loading time: ${
         new Date().getTime() - globalData.startupTime
-      }ms`
+      }ms`,
     );
   },
 
@@ -39,7 +39,7 @@ $Page("function", {
 
     setPage(
       { option: { id: "function" }, ctx: this, handle: Boolean(preloadData) },
-      preloadData || wx.getStorageSync("function") || this.data.page
+      preloadData || wx.getStorageSync("function") || this.data.page,
     );
   },
 

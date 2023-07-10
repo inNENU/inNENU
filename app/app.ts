@@ -53,13 +53,21 @@ $Config({
     options.onThemeChange =
       (options.onThemeChange as (
         this: TrivialPageInstance,
-        { theme }: WechatMiniprogram.OnThemeChangeListenerResult
+        { theme }: WechatMiniprogram.OnThemeChangeListenerResult,
       ) => void | undefined) ||
       function (
         this: TrivialPageInstance,
-        { theme }: WechatMiniprogram.OnThemeChangeListenerResult
+        { theme }: WechatMiniprogram.OnThemeChangeListenerResult,
       ): void {
         this.setData({ darkmode: theme === "dark" });
+      };
+
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+    options.back =
+      options.back ||
+      function (this: TrivialPageInstance): void {
+        if (getCurrentPages().length === 1) this.$switch("main");
+        else this.$back();
       };
 
     options.onLoad = wrapFunction(
@@ -67,14 +75,14 @@ $Config({
       function (this: TrivialPageInstance & { onThemeChange: () => void }) {
         this.setData({ darkmode: getDarkmode() });
         if (wx.canIUse("onThemeChange")) wx.onThemeChange(this.onThemeChange);
-      }
+      },
     );
 
     options.onUnload = wrapFunction(
       options.onUnload,
       function (this: TrivialPageInstance & { onThemeChange: () => void }) {
         if (wx.canIUse("offThemeChange")) wx.offThemeChange(this.onThemeChange);
-      }
+      },
     );
   },
 });

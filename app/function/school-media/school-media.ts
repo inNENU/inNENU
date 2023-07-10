@@ -79,7 +79,7 @@ $Page(PAGE_ID, {
       Record<string, never>,
       Record<string, never>,
       { id: number; qrcode?: string }
-    >
+    >,
   ) {
     const { id, qrcode } = event.currentTarget.dataset;
 

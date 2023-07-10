@@ -106,7 +106,7 @@ $Page("grade-list", {
               set("grade-list", res.data, 3 * HOUR);
               this.setGradeData(res.data);
             } else showModal("获取失败", res.msg);
-          }
+          },
         );
       })
       .catch((msg: string) => {
@@ -121,7 +121,7 @@ $Page("grade-list", {
     const showStatus = grades.some((item) => item.status);
     const filteredData = grades.filter((item, index) => {
       const records = grades.filter(
-        (record) => record.cid === item.cid && item.grade >= 60
+        (record) => record.cid === item.cid && item.grade >= 60,
       );
 
       return (
@@ -129,14 +129,14 @@ $Page("grade-list", {
         records.every((record) => record.grade <= item.grade) &&
         // the last one with same grade
         grades.findLastIndex(
-          (record) => record.cid === item.cid && record.grade === item.grade
+          (record) => record.cid === item.cid && record.grade === item.grade,
         ) === index
       );
     });
 
     const totalPoint = filteredData.reduce(
       (total, item) => total + item.point,
-      0
+      0,
     );
     const totalCommonRequiredPoint = filteredData
       .filter((item) => item.shortCourseType === "通修")
@@ -159,12 +159,12 @@ $Page("grade-list", {
 
     const totalGradePoint = filteredData.reduce(
       (total, item) => total + item.gradePoint,
-      0
+      0,
     );
     const gpa = Math.round((totalGradePoint / totalPoint) * 100) / 100;
     const numberValueIndex = keys
       .map((key, index) =>
-        grades.some((item) => Number.isNaN(Number(item[key]))) ? null : index
+        grades.some((item) => Number.isNaN(Number(item[key]))) ? null : index,
       )
       .filter((item): item is number => item !== null);
 

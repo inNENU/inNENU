@@ -34,7 +34,7 @@ export const confirmReplace = (): Promise<boolean> =>
 
         confirmReading();
       },
-      () => resolve(false)
+      () => resolve(false),
     );
   });
 
@@ -48,7 +48,7 @@ export type SortKey = "className" | "teacher" | "amount" | "spare" | "capacity";
 export const courseSorter =
   (
     sortKey: SortKey,
-    ascending: boolean
+    ascending: boolean,
   ): ((courseA: FullCourseInfo, courseB: FullCourseInfo) => number) =>
   (courseA, courseB) => {
     if (courseA.isSelected) return -1;

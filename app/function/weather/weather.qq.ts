@@ -125,7 +125,7 @@ $Page("weather", {
    */
   drawCanvas(
     weather: WeatherData,
-    windowWidth = wx.getSystemInfoSync().windowWidth
+    windowWidth = wx.getSystemInfoSync().windowWidth,
   ) {
     this.draw(weather, windowWidth);
   },
@@ -138,7 +138,7 @@ $Page("weather", {
   draw(
     weather: WeatherData,
     // 屏幕宽度可能发生变化
-    width: number
+    width: number,
   ) {
     /** 天气画布组件 */
     const canvasContent = wx.createCanvasContext("weather");
@@ -271,7 +271,7 @@ $Page("weather", {
       Record<string, never>,
       Record<string, never>,
       { id: number }
-    >
+    >,
   ) {
     const hint = this.data.weather.hints[event.currentTarget.dataset.id];
 

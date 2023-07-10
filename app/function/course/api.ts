@@ -22,7 +22,7 @@ export type UnderSystemLoginResponse =
   | LoginFailedResponse;
 
 const getCookie = (
-  options: AccountBasicInfo
+  options: AccountBasicInfo,
 ): Promise<UnderSystemLoginResponse> =>
   request<UnderSystemLoginResponse>(`${service}under-system/login`, {
     method: "POST",
@@ -51,13 +51,13 @@ export const check = (cookies: Cookie[]): Promise<CookieVerifyResponse> =>
   });
 
 export const login = (
-  account: AccountBasicInfo
+  account: AccountBasicInfo,
 ): Promise<UnderSystemLoginResponse> => {
   const cookies = get<Cookie[]>(UNDER_SYSTEM_COOKIE);
 
   return cookies
     ? check(cookies).then((valid) =>
-        valid ? { status: "success", cookies } : getCookie(account)
+        valid ? { status: "success", cookies } : getCookie(account),
       )
     : getCookie(account);
 };
@@ -69,8 +69,8 @@ interface UserCourseTableExtraOptions {
   time: string;
 }
 
-export type UserCourseTableOptions =
-  | (AccountBasicInfo | CookieOptions) & UserCourseTableExtraOptions;
+export type UserCourseTableOptions = (AccountBasicInfo | CookieOptions) &
+  UserCourseTableExtraOptions;
 
 export interface ClassItem {
   name: string;
@@ -96,7 +96,7 @@ export type UserCourseTableResponse =
   | UserCourseTableFailedResponse;
 
 export const getCourseTable = (
-  options: UserCourseTableOptions
+  options: UserCourseTableOptions,
 ): Promise<UserCourseTableResponse> =>
   request<UserCourseTableResponse>(`${service}under-system/course-table`, {
     method: "POST",
@@ -177,7 +177,7 @@ export type UserGradeListResponse =
   | UserGradeListFailedResponse;
 
 export const getGradeList = (
-  options: UserGradeListOptions
+  options: UserGradeListOptions,
 ): Promise<UserGradeListResponse> =>
   request<UserGradeListResponse>(`${service}under-system/grade-list`, {
     method: "POST",

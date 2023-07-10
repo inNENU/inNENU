@@ -41,7 +41,7 @@ $Page("location", {
               {
                 error: true,
                 statusBarHeight: globalData.info.statusBarHeight,
-              }
+              },
             );
           });
 

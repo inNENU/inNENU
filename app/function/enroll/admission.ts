@@ -71,7 +71,7 @@ $Page(PAGE_ID, {
     const level =
       wx.getStorageSync<"本科生" | "研究生" | undefined>("level") || "本科生";
     const info = wx.getStorageSync<Record<string, string> | undefined>(
-      "admission-info"
+      "admission-info",
     );
 
     this.setData({
@@ -175,13 +175,13 @@ $Page(PAGE_ID, {
           {
             captcha,
             input: info.map(
-              (item) => INPUT_CONFIG.find(({ id }) => id === item)!
+              (item) => INPUT_CONFIG.find(({ id }) => id === item)!,
             ),
             notice,
           },
           () => {
             wx.hideLoading();
-          }
+          },
         );
       });
     else {
@@ -192,13 +192,13 @@ $Page(PAGE_ID, {
           cookies: [],
           captcha: "",
           input: ["name", "id"].map(
-            (item) => INPUT_CONFIG.find(({ id }) => id === item)!
+            (item) => INPUT_CONFIG.find(({ id }) => id === item)!,
           ),
           notice: "考生姓名只需输入前三个汉字",
         },
         () => {
           wx.hideLoading();
-        }
+        },
       );
     }
   },

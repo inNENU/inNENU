@@ -58,7 +58,7 @@ $Component({
           success: () => {
             showModal(
               "复制成功",
-              `下载链接已复制到您的剪切板。受${globalData.envName}限制，请您自行打开浏览器粘贴在地址栏中以开启下载。`
+              `下载链接已复制到您的剪切板。受${globalData.envName}限制，请您自行打开浏览器粘贴在地址栏中以开启下载。`,
             );
           },
         });

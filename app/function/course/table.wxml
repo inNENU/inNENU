@@ -1,5 +1,5 @@
 <wxs src="./table.wxs" module="table" />
-<wxs src="../utils/courseTable.wxs" module="utils" />
+<wxs src="../../components/today-course/courseTable.wxs" module="utils" />
 <wxs src="../utils/hash.wxs" module="hash" />
 <page-meta
   background-text-style="{{darkmode ? 'dark' : 'light'}}"

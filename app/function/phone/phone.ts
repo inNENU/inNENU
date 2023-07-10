@@ -83,7 +83,7 @@ $Page("phone", {
       Record<string, never>,
       Record<string, never>,
       { group: number; index: number }
-    >
+    >,
   ) {
     wx.makePhoneCall({
       phoneNumber: this.getNumber(this.getConfig(event)),
@@ -95,7 +95,7 @@ $Page("phone", {
       Record<string, never>,
       Record<string, never>,
       { group: number; index: number }
-    >
+    >,
   ) {
     const item = this.getConfig(event);
 
@@ -123,7 +123,7 @@ $Page("phone", {
       Record<string, never>,
       Record<string, never>,
       { group: number; index: number }
-    >
+    >,
   ): void {
     this.setData({ info: this.getConfig(event), showInfo: true });
   },

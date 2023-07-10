@@ -10,8 +10,8 @@
   </view>
   <block wx:if="{{weather.observe}}">
     <view class="detail">
-      <text class="icon-font icon-location" /> 长春市 |
-      {{weather.observe.weather}}
+      <text class="icon-font icon-location" />
+      长春市 | {{weather.observe.weather}}
     </view>
     <view class="temperature">
       <view class="now">
@@ -24,8 +24,10 @@
       </view>
     </view>
     <view class="hint" catch:tap="refresh">
-      {{weather.tips[tipIndex]}}<text class="icon-font icon-refresh" />
+      {{weather.tips[tipIndex]}}
+      <text class="icon-font icon-refresh" />
     </view>
   </block>
   <image wx:else src="/icon/loading.svg" class="loading" />
+  <slot />
 </view>

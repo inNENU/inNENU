@@ -7,27 +7,34 @@
   root-background-color="{{color.bgColor}}"
 />
 <view class="{{theme}} grey">
-  <view
-    class="search-navigation-bar"
-    style="padding-top:{{statusBarHeight}}px;"
-  >
+  <block wx:if="{{login}}">
+    <weather custom-class="weather" target="weather">
+      <today-course custom-class="course" />
+    </weather>
+  </block>
+  <block wx:else>
     <view
-      class="search-wrapper"
-      style="width: calc(100% - {{menuSpace + 10}}px)"
+      class="search-navigation-bar"
+      style="padding-top:{{statusBarHeight}}px;"
     >
-      <search
-        custom-class="search"
-        words="{{words}}"
-        catch:searching="searching"
-        catch:search="search"
-      />
+      <view
+        class="search-wrapper"
+        style="width: calc(100% - {{menuSpace + 10}}px)"
+      >
+        <search
+          custom-class="search"
+          words="{{words}}"
+          catch:searching="searching"
+          catch:search="search"
+        />
+      </view>
     </view>
-  </view>
-  <view
-    class="search-nav-placeholder"
-    style="height:{{statusBarHeight + 44}}px;"
-  >
-    到头啦~人家被你拉得好痛阿(*´д`*) 不许你再拉人家~╭(╯^╰)╮
-  </view>
+    <view
+      class="search-nav-placeholder"
+      style="height:{{statusBarHeight + 44}}px;"
+    >
+      到头啦~人家被你拉得好痛阿(*´д`*) 不许你再拉人家~╭(╯^╰)╮
+    </view>
+  </block>
   <template is="components" data="{{content: page.content, theme}}" />
 </view>

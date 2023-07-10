@@ -107,12 +107,17 @@
 .loading-logo {
   width: 100px;
   height: 125px;
-  filter: drop-shadow(-1px 1px 2px rgb(191 190 195 / 15%));
   font-family:
+    "Helvetica Neue",
     FZSSJW,
     -apple-system-font,
     "PingFang SC",
-    "Helvetica Neue";
+    Helvetica,
+    STHeiti,
+    Tahoma,
+    Simsun,
+    sans-serif;
+  filter: drop-shadow(-1px 1px 2px rgb(191 190 195 / 15%));
 
   .logo {
     position: relative;

@@ -26,7 +26,7 @@ $Page("info", {
     } else {
       // 生成页面 ID
       option.id = id2path(
-        option.scene ? decodeURIComponent(option.scene) : option.id
+        option.scene ? decodeURIComponent(option.scene) : option.id,
       );
       setOnlinePage(option, this);
     }

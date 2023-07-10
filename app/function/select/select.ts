@@ -141,7 +141,7 @@ $Page(PAGE_ID, {
                       grade: this.state.currentGrade,
                       major: this.state.currentMajor,
                     })
-                  : void 0
+                  : void 0,
               )
               .then(() => {
                 wx.hideLoading();
@@ -162,7 +162,7 @@ $Page(PAGE_ID, {
             "请检查: 是否在选课时间、网络连接是否有效",
             (): void => {
               this.$back();
-            }
+            },
           );
         });
     } else {
@@ -211,7 +211,7 @@ $Page(PAGE_ID, {
     const { courses, currentLocation } = this.state;
 
     const course: CourseInfo | undefined = courses.find(
-      (item) => item.cid === cid
+      (item) => item.cid === cid,
     );
 
     if (course) {
@@ -235,7 +235,7 @@ $Page(PAGE_ID, {
             })
             .filter(
               (item): item is FullCourseInfo =>
-                item !== null && item.cid !== course.cid
+                item !== null && item.cid !== course.cid,
             );
 
           this.state.relatedCourses = relatedCourses;
@@ -245,7 +245,7 @@ $Page(PAGE_ID, {
             relatedCourses: relatedCourses
               .filter(
                 (item) =>
-                  !filterLocation || item.place.includes(currentLocation)
+                  !filterLocation || item.place.includes(currentLocation),
               )
               .sort(courseSorter(sortKeys[sortKeyIndex], ascending)),
           });
@@ -266,7 +266,7 @@ $Page(PAGE_ID, {
     this.setData({
       sortKeyIndex,
       relatedCourses: relatedCourses.sort(
-        courseSorter(sortKeys[sortKeyIndex], ascending)
+        courseSorter(sortKeys[sortKeyIndex], ascending),
       ),
     });
   },
@@ -277,7 +277,7 @@ $Page(PAGE_ID, {
     this.setData({
       ascending: !ascending,
       relatedCourses: relatedCourses.sort(
-        courseSorter(sortKeys[sortKeyIndex], !ascending)
+        courseSorter(sortKeys[sortKeyIndex], !ascending),
       ),
     });
   },
@@ -403,7 +403,7 @@ $Page(PAGE_ID, {
           coursesDetail: coursesDetail
             .filter(
               (item): item is FullCourseInfo =>
-                !filterLocation || item.place.includes(currentLocation)
+                !filterLocation || item.place.includes(currentLocation),
             )
             .sort(courseSorter(sortKeys[sortKeyIndex], ascending)),
           showCourseDetail: true,
@@ -422,7 +422,7 @@ $Page(PAGE_ID, {
     this.setData({
       sortKeyIndex,
       coursesDetail: coursesDetail.sort(
-        courseSorter(sortKeys[sortKeyIndex], ascending)
+        courseSorter(sortKeys[sortKeyIndex], ascending),
       ),
     });
   },
@@ -433,7 +433,7 @@ $Page(PAGE_ID, {
     this.setData({
       ascending: !ascending,
       coursesDetail: coursesDetail.sort(
-        courseSorter(sortKeys[sortKeyIndex], !ascending)
+        courseSorter(sortKeys[sortKeyIndex], !ascending),
       ),
     });
   },
@@ -518,9 +518,9 @@ $Page(PAGE_ID, {
               if (res.type === "relogin") this.$redirect(PAGE_ID);
 
               return false;
-            })
+            }),
           ),
-        () => resolve(false)
+        () => resolve(false),
       );
     });
   },
@@ -561,9 +561,9 @@ $Page(PAGE_ID, {
               if (res.type === "relogin") this.$redirect(PAGE_ID);
 
               return false;
-            })
+            }),
           ),
-        () => resolve(false)
+        () => resolve(false),
       );
     });
   },
@@ -592,7 +592,7 @@ $Page(PAGE_ID, {
               | {
                   interrupted: true;
                   msg: ForceSelectMessage;
-                }
+                },
           ): void => {
             wx.hideLoading();
             completeTime += 1;
@@ -617,7 +617,7 @@ $Page(PAGE_ID, {
               },
               () => {
                 // cancel
-              }
+              },
             );
           };
 
@@ -626,7 +626,7 @@ $Page(PAGE_ID, {
         },
         () => {
           // cancel
-        }
+        },
       );
   },
 
@@ -647,15 +647,14 @@ $Page(PAGE_ID, {
               const { id, cid, oid } = currentTarget.dataset;
 
               const { capacity } = this.state.courses.find(
-                (item) => item.cid === cid
+                (item) => item.cid === cid,
               )!;
 
               resolve(
                 this.getAmount(id).then((data) => {
                   if (data.status === "success") {
-                    const amount = data.data.find(
-                      (item) => item.cid === cid
-                    )?.amount;
+                    const amount = data.data.find((item) => item.cid === cid)
+                      ?.amount;
 
                     if (
                       typeof amount === "number" &&
@@ -686,7 +685,7 @@ $Page(PAGE_ID, {
                                 if (res.status === "success") {
                                   showModal(
                                     "替换课程失败",
-                                    "由于退课后新课程人数已满，所选课程选课失败。由于原课程人数未满，已成功为您选回原课程。"
+                                    "由于退课后新课程人数已满，所选课程选课失败。由于原课程人数未满，已成功为您选回原课程。",
                                   );
 
                                   return false;
@@ -694,7 +693,7 @@ $Page(PAGE_ID, {
 
                                 showModal(
                                   "替换课程失败",
-                                  "由于退课后新课程人数已满，且旧课程人数也满，您丢失了此课程。"
+                                  "由于退课后新课程人数已满，且旧课程人数也满，您丢失了此课程。",
                                 );
 
                                 return false;
@@ -723,16 +722,16 @@ $Page(PAGE_ID, {
 
                   showModal(
                     "获取人数失败",
-                    "无法获取新课程是否已满，取消替换操作"
+                    "无法获取新课程是否已满，取消替换操作",
                   );
 
                   return false;
-                })
+                }),
               );
             },
             () => {
               resolve(false);
-            }
+            },
           );
         });
       }
@@ -768,8 +767,8 @@ $Page(PAGE_ID, {
           new Set(
             courseTable
               .map((row) => row.map((cell) => cell.map(({ cid }) => cid)))
-              .flat(3)
-          )
+              .flat(3),
+          ),
         );
 
         this.state = {
@@ -858,7 +857,7 @@ $Page(PAGE_ID, {
             type: res.type,
             msg: res.msg,
           });
-      })
+      }),
     );
 
     const selectQueue = promiseQueue<ForceSelectMessage>(queue);

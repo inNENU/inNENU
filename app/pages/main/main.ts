@@ -35,12 +35,12 @@ $Page("main", {
     console.info(
       "Main Page registerd: ",
       new Date().getTime() - globalData.startupTime,
-      "ms"
+      "ms",
     );
     const page = resolvePage(
       { id: "main" },
       wx.getStorageSync<PageDataWithContent | undefined>("main") ||
-        this.data.page
+        this.data.page,
     ) as PageDataWithContent;
 
     if (page) this.data.page = page;
@@ -58,9 +58,13 @@ $Page("main", {
       .catch(() => {
         setPage(
           { ctx: this, option: { id: "main" } },
-          wx.getStorageSync("main") || this.data.page
+          wx.getStorageSync("main") || this.data.page,
         );
       });
+
+    this.setData({
+      login: Boolean(globalData.account),
+    });
 
     popNotice("main");
   },
@@ -124,7 +128,7 @@ $Page("main", {
    */
   searching({ detail: { value } }: WechatMiniprogram.Input) {
     search<string[]>({ scope: "all", type: "word", word: value }).then(
-      (words) => this.setData({ words })
+      (words) => this.setData({ words }),
     );
   },
 

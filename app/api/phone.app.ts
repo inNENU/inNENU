@@ -7,7 +7,7 @@ export const addPhoneContact = (
   config: Omit<
     WechatMiniprogram.AddPhoneContactOption,
     "success" | "fail" | "complete"
-  >
+  >,
 ): Promise<void> =>
   new Promise((resolve) => {
     wx.addPhoneContact({

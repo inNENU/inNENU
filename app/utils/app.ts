@@ -157,13 +157,13 @@ export interface Notice {
  */
 export const updateNotice = (globalData: GlobalData): void => {
   requestJSON<Record<string, Notice>>(
-    `r/config/${globalData.appID}/${globalData.version}/notice`
+    `r/config/${globalData.appID}/${globalData.version}/notice`,
   )
     .then((noticeList) => {
       for (const pageName in noticeList) {
         const notice = noticeList[pageName];
         const oldNotice = wx.getStorageSync<Notice | undefined>(
-          `${pageName}-notice`
+          `${pageName}-notice`,
         );
 
         // 如果通知内容不同或为强制通知，写入通知信息，并重置通知状态
@@ -181,7 +181,7 @@ export const updateNotice = (globalData: GlobalData): void => {
         if (pageName === "app")
           if (!wx.getStorageSync("app-notifyed") || notice.force)
             showModal(notice.title, notice.content, () =>
-              wx.setStorageSync("app-notifyed", true)
+              wx.setStorageSync("app-notifyed", true),
             );
       }
     })
@@ -221,7 +221,7 @@ export const updateApp = (globalData: GlobalData): void => {
         .then((version) =>
           // 请求配置文件
           requestJSON<UpdateInfo>(
-            `r/config/${globalData.appID}/${version}/config`
+            `r/config/${globalData.appID}/${version}/config`,
           )
             .then(({ forceUpdate, reset }) => {
               // 更新下载就绪，提示用户重新启动
@@ -258,7 +258,7 @@ export const updateApp = (globalData: GlobalData): void => {
             .catch(() => {
               // 调试信息
               logger.warn(`config file error`);
-            })
+            }),
         )
         .catch(() => {
           // 调试信息
@@ -289,7 +289,7 @@ interface LoginCallback {
 const login = (
   appID: AppID,
   env: Env,
-  callback: (openid: string) => void
+  callback: (openid: string) => void,
 ): void => {
   const openid = wx.getStorageSync<string | undefined>("openid");
 
@@ -351,7 +351,7 @@ const registerActions = (globalData: GlobalData): void => {
 
     wx.onUserCaptureScreen(() => {
       const status = wx.getStorageSync<"never" | "noticed" | undefined>(
-        "capture-screen"
+        "capture-screen",
       );
 
       if (status !== "never" && !pending) {

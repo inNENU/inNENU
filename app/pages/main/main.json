@@ -1,6 +1,8 @@
 {
   "enablePullDownRefresh": true,
   "usingComponents": {
-    "search": "/components/search/search"
+    "search": "/components/search/search",
+    "today-course": "/components/today-course/today-course",
+    "weather": "/components/weather/weather"
   }
 }

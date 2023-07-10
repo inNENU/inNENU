@@ -59,7 +59,7 @@ $Page("video", {
 
         videoList.forEach((videoGroup, groupIndex) => {
           const listIndex = videoGroup.list.findIndex(
-            (videoItem) => videoItem.name === name
+            (videoItem) => videoItem.name === name,
           );
 
           if (listIndex !== -1) {
@@ -133,7 +133,7 @@ $Page("video", {
       Record<string, never>,
       Record<string, never>,
       { groupID: number; listID: number }
-    >
+    >,
   ) {
     const { groupID, listID } = event.currentTarget.dataset;
 

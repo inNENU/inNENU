@@ -8,6 +8,7 @@ import {
 import { showModal, showToast } from "../../api/ui.js";
 import { type AppOption } from "../../app.js";
 import { appCoverPrefix } from "../../config/info.js";
+import { COURSE_DATA_KEY } from "../../config/keys.js";
 import { getInfo, login } from "../../utils/account.js";
 import { type UserInfo } from "../../utils/app.js";
 import { MONTH } from "../../utils/constant.js";
@@ -189,7 +190,7 @@ $Page(PAGE_ID, {
     remove("account-info");
     remove("user-info");
     remove("under-system-cookie");
-    remove("course-data-info");
+    remove(COURSE_DATA_KEY);
     remove("grade-list");
     globalData.account = null;
     globalData.userInfo = null;

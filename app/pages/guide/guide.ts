@@ -33,10 +33,12 @@ $Page("guide", {
   onPreload(res) {
     put(
       "guide",
-      resolvePage(res, wx.getStorageSync("guide") || this.data.page)
+      resolvePage(res, wx.getStorageSync("guide") || this.data.page),
     );
     console.info(
-      `Guide page load time: ${new Date().getTime() - globalData.startupTime}ms`
+      `Guide page load time: ${
+        new Date().getTime() - globalData.startupTime
+      }ms`,
     );
   },
 
@@ -45,7 +47,7 @@ $Page("guide", {
 
     setPage(
       { option: { id: "guide" }, ctx: this, handle: Boolean(preloadData) },
-      preloadData || wx.getStorageSync("guide") || this.data.page
+      preloadData || wx.getStorageSync("guide") || this.data.page,
     );
   },
 
@@ -96,7 +98,7 @@ $Page("guide", {
    */
   searching({ detail: { value } }: WechatMiniprogram.Input) {
     search<string[]>({ scope: "guide", type: "word", word: value }).then(
-      (words) => this.setData({ words })
+      (words) => this.setData({ words }),
     );
   },
 

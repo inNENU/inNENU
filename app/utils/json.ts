@@ -18,7 +18,7 @@ import { server } from "../config/info.js";
  */
 export const saveJSON = (
   onlinePath: string,
-  localPath = onlinePath
+  localPath = onlinePath,
 ): Promise<void> => {
   mkdir(dirname(localPath));
 

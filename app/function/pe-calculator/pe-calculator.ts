@@ -367,7 +367,7 @@ $Page("pe-calculator", {
         console.info("Score:", peScore);
 
         callback(peScore);
-      }
+      },
     );
   },
 
@@ -391,7 +391,7 @@ $Page("pe-calculator", {
               peScore.standingLongJump * 10 +
               peScore.special * 10 +
               peScore.longRun * 20 +
-              peScore.bmi * 15
+              peScore.bmi * 15,
           ) / 100;
 
         this.setData({

@@ -67,7 +67,7 @@ $Page(PAGE_ID, {
         showModal(
           "获取失败",
           "招生计划获取失败，请稍后重试。如果该情况持续发生，请反馈给开发者",
-          () => this.back()
+          () => this.back(),
         );
       });
   },
@@ -128,7 +128,7 @@ $Page(PAGE_ID, {
       planTypes: [
         "",
         ...historyGrade[yearIndex - 1].items[provinceIndex - 1].items.map(
-          ({ plan }) => plan
+          ({ plan }) => plan,
         ),
       ],
 
@@ -240,7 +240,7 @@ $Page(PAGE_ID, {
                   : Number(itemA[0]) - Number(itemB[0])
                 : ascending
                 ? itemA[0].localeCompare(itemB[0])
-                : itemB[0].localeCompare(itemA[0])
+                : itemB[0].localeCompare(itemA[0]),
             ),
           });
         } else showModal("获取失败", data.msg);
@@ -276,7 +276,7 @@ $Page(PAGE_ID, {
               : Number(itemA[index]) - Number(itemB[index])
             : ascending
             ? itemA[index].localeCompare(itemB[index])
-            : itemB[index].localeCompare(itemA[index])
+            : itemB[index].localeCompare(itemA[index]),
         ),
       });
     }

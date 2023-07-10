@@ -24,7 +24,7 @@ export const showModal = (
   title: string,
   content: string,
   confirmFunc?: () => void,
-  cancelFunc?: () => void
+  cancelFunc?: () => void,
 ): void => {
   /** 显示取消按钮 */
   const showCancel = Boolean(cancelFunc);
@@ -50,7 +50,7 @@ export const showModal = (
 export const showToast = (
   text: string,
   duration = 1500,
-  icon: "success" | "loading" | "none" = "none"
+  icon: "success" | "loading" | "none" = "none",
 ): void => {
   wx.showToast({ icon, title: text, duration });
 };
@@ -65,7 +65,7 @@ export const showToast = (
 export const confirmAction = (
   actionText: string,
   confirmFunc: () => void,
-  cancelFunc: () => void = (): void => void 0
+  cancelFunc: () => void = (): void => void 0,
 ): void => {
   showModal("确认操作", `您确定要${actionText}么?`, confirmFunc, cancelFunc);
 };

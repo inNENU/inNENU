@@ -85,7 +85,7 @@ $Page("storage", {
         this.setData({
           // eslint-disable-next-line @typescript-eslint/naming-convention
           "page.content[0].items[1].desc": `${(currentSize / 1024).toFixed(
-            2
+            2,
           )}MB/10MB`,
         });
       },
@@ -112,7 +112,7 @@ $Page("storage", {
         this.setData({
           // eslint-disable-next-line @typescript-eslint/naming-convention
           "page.content[0].items[2].desc": `${(fileSize / 1024 / 1024).toFixed(
-            2
+            2,
           )}MB/10MB`,
         });
       },
@@ -167,7 +167,7 @@ $Page("storage", {
       `已${status ? "打开" : "关闭"}更新提示`,
       status
         ? "您将在内容更新时收到提醒。"
-        : "7天内，您不会再收到内容更新的提醒。\n警告: 这会导致您无法获取7天内新增与修正的内容，带来的后果请您自负!"
+        : "7天内，您不会再收到内容更新的提醒。\n警告: 这会导致您无法获取7天内新增与修正的内容，带来的后果请您自负!",
     );
   },
 });

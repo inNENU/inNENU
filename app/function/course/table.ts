@@ -9,50 +9,27 @@ import {
 } from "./api.js";
 import { showModal } from "../../api/ui.js";
 import { type AppOption } from "../../app.js";
+import {
+  type CourseTableData,
+  type TableData,
+  type WeekRange,
+} from "../../components/today-course/typings.js";
+import { getCurrentTime } from "../../components/today-course/utils.js";
 import { appCoverPrefix } from "../../config/info.js";
+import { COURSE_DATA_KEY } from "../../config/keys.js";
 import { DAY, MONTH } from "../../utils/constant.js";
 import { getColor, popNotice } from "../../utils/page.js";
-
-export type WeekRange = [number, number];
-
-export interface ClassData {
-  name: string;
-  teacher: string;
-  time: string;
-  location: string;
-  weeks: WeekRange[];
-}
-
-export type CellData = ClassData[];
-export type RowData = CellData[];
-export type TableData = RowData[];
-
-interface CourseTableData {
-  courseData: TableData;
-  weeks: number;
-  startTime: string;
-}
 
 const { globalData } = getApp<AppOption>();
 
 const PAGE_ID = "course-table";
 const PAGE_TITLE = "课程表";
 
-const date = new Date();
-
-const currentYear = date.getFullYear();
-const currentMonth = date.getMonth() + 1;
-
-const getCurrentTime = (): string => {
-  if (currentMonth > 2 && currentMonth < 8)
-    return `${currentYear - 1}-${currentYear}-2`;
-  if (currentMonth > 7) return `${currentYear}-${currentYear + 1}-1`;
-
-  return `${currentYear - 1}-${currentYear}-1`;
-};
-
 const getTimes = (grade: number): string[] => {
-  const currentYear = new Date().getFullYear();
+  const date = new Date();
+
+  const currentYear = date.getFullYear();
+  const currentMonth = date.getMonth() + 1;
   const times: string[] = [];
 
   for (let i = grade; i < currentYear; i++)
@@ -86,7 +63,7 @@ const getWeekRange = (timeText: string): WeekRange[] => {
 
 const handleCourseTable = (
   courseTable: TableItem,
-  startTime: string
+  startTime: string,
 ): CourseTableData => {
   let weeks = 0;
 
@@ -99,8 +76,8 @@ const handleCourseTable = (
           weeks = Math.max(courseWeeks[courseWeeks.length - 1][1], weeks);
 
         return { ...item, weeks: courseWeeks };
-      })
-    )
+      }),
+    ),
   );
 
   return { courseData, weeks, startTime };
@@ -108,7 +85,7 @@ const handleCourseTable = (
 
 const getWeekIndex = (startTime: string, maxWeek: number): number => {
   const passedWeeks = Math.floor(
-    (new Date().getTime() - new Date(startTime).getTime()) / DAY / 7
+    (new Date().getTime() - new Date(startTime).getTime()) / DAY / 7,
   );
 
   return passedWeeks >= 0 && passedWeeks + 1 <= maxWeek ? passedWeeks + 1 : 0;
@@ -138,8 +115,7 @@ $Page(PAGE_ID, {
 
   onShow() {
     const { account } = globalData;
-    const coursesData =
-      get<Record<string, CourseTableData>>("course-data-info");
+    const coursesData = get<Record<string, CourseTableData>>(COURSE_DATA_KEY);
 
     if (coursesData) this.state.coursesData = coursesData;
 
@@ -214,7 +190,7 @@ $Page(PAGE_ID, {
               weekIndex: getWeekIndex(startTime, weeks),
             });
             this.state.coursesData[time] = courseTable;
-            set("course-data-info", this.state.coursesData, 6 * MONTH);
+            set(COURSE_DATA_KEY, this.state.coursesData, 6 * MONTH);
           } else showModal("获取失败", res.msg);
         });
       })

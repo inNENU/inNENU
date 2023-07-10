@@ -40,7 +40,7 @@ type SelectLoginResponse =
   | SelectLoginFailedResponse;
 
 export const login = (
-  options: SelectLoginOptions
+  options: SelectLoginOptions,
 ): Promise<SelectLoginResponse> =>
   new Promise((resolve, reject) => {
     wx.request<SelectLoginResponse>({
@@ -153,7 +153,7 @@ export type SelectInfoResponse =
   | SelectInfoFailedResponse;
 
 export const getInfo = (
-  options: SelectBaseOptions
+  options: SelectBaseOptions,
 ): Promise<SelectInfoResponse> =>
   new Promise((resolve, reject) => {
     wx.request<SelectInfoResponse>({
@@ -191,7 +191,7 @@ export type ProcessResponse = ProcessSuccessResponse | ProcessFailedResponse;
 
 export const process = (
   type: "add" | "delete",
-  options: ProcessOptions
+  options: ProcessOptions,
 ): Promise<ProcessResponse> =>
   new Promise((resolve, reject) => {
     wx.request<ProcessResponse>({
@@ -297,7 +297,7 @@ export type StudentAmountResponse =
   | StudentAmountFailedResponse;
 
 export const getAmount = (
-  options: StudentAmountOptions
+  options: StudentAmountOptions,
 ): Promise<StudentAmountResponse> =>
   new Promise((resolve, reject) => {
     wx.request<StudentAmountResponse>({

@@ -39,7 +39,7 @@ export const savePhoto = (imgPath: string): Promise<void> =>
                       wx.openSetting({
                         success: () => reject(),
                       });
-                    }
+                    },
                   );
                 },
               });

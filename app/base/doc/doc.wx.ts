@@ -63,7 +63,7 @@ $Component({
               },
               fail: ({ errMsg }) => {
                 console.log(
-                  `Add document ${url} to favorites failed: ${errMsg}`
+                  `Add document ${url} to favorites failed: ${errMsg}`,
                 );
               },
             });

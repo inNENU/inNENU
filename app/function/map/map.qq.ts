@@ -88,7 +88,7 @@ $Page(PAGE_ID, {
     this.setMarker().then(() => {
       // 将地图缩放到对应的校区
       this.context.includePoints(
-        this.data.area === "benbu" ? benbuArea : jingyueArea
+        this.data.area === "benbu" ? benbuArea : jingyueArea,
       );
 
       // 1200ms 之后拿到缩放值和地图中心点坐标，写入地图组件配置
@@ -151,16 +151,16 @@ $Page(PAGE_ID, {
           showModal(
             "获取失败",
             "地图点位获取失败，请稍后重试。如果该情况持续发生，请反馈给开发者",
-            () => this.back()
+            () => this.back(),
           );
-        })
+        }),
     );
 
     return Promise.all(promises).then(() => {
       const { category, marker } = this.state[this.data.area];
 
       return new Promise<void>((resolve) =>
-        this.setData({ category, marker }, resolve)
+        this.setData({ category, marker }, resolve),
       );
     });
   },
@@ -211,7 +211,7 @@ $Page(PAGE_ID, {
     const { area, currentCategory } = this.data;
 
     const item = this.data.marker[currentCategory].find(
-      (item) => item.id === event.detail.markerId
+      (item) => item.id === event.detail.markerId,
     )!;
 
     if (event.type === "markertap") {

@@ -9,7 +9,7 @@ export const addPhoneContact = (
   config: Omit<
     WechatMiniprogram.AddPhoneContactOption,
     "success" | "fail" | "complete"
-  >
+  >,
 ): Promise<void> =>
   new Promise((resolve, reject) => {
     wx.getSetting({
@@ -40,7 +40,7 @@ export const addPhoneContact = (
                   wx.openSetting({
                     success: () => reject(),
                   });
-                }
+                },
               );
             },
           });

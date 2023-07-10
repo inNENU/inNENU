@@ -43,8 +43,8 @@ $Component({
         typeof config.qrcode === "string"
           ? config.qrcode
           : `${service}qrcode?appID=${appID}&page=${encodeURI(
-              `pages/info/info?path=${path2id(this.data.config.id)}`
-            )}`
+              `pages/info/info?path=${path2id(this.data.config.id)}`,
+            )}`,
       )
         .then(() => showToast("二维码已存至相册"))
         .catch(() => showToast("二维码保存失败"));
@@ -53,8 +53,8 @@ $Component({
     copyQQLink() {
       this.copy(
         `https://m.q.qq.com/a/p/${appID}?s=${encodeURI(
-          `pages/info/info?path=${path2id(this.data.config.id)}`
-        )}`
+          `pages/info/info?path=${path2id(this.data.config.id)}`,
+        )}`,
       );
     },
 
@@ -117,7 +117,7 @@ $Component({
             text: "分享到朋友圈",
             openType: "share",
             shareMode: ["wechatMoment"],
-          }
+          },
         );
 
         if (config.qrcode !== false)

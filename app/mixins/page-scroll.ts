@@ -3,7 +3,7 @@ import { getCurrentPage } from "../api/index.js";
 type Scroller = (event: WechatMiniprogram.Page.IPageScrollOption) => void;
 
 const onPageScroll = (
-  event: WechatMiniprogram.Page.IPageScrollOption
+  event: WechatMiniprogram.Page.IPageScrollOption,
 ): void => {
   const { $scrollHandler = [] } =
     getCurrentPage<{
@@ -27,10 +27,10 @@ export function defaultScroller(
         titleDisplay: boolean;
         borderDisplay: boolean;
         shadow: boolean;
-      }>
+      }>,
     ): void;
   },
-  option: WechatMiniprogram.Page.IPageScrollOption
+  option: WechatMiniprogram.Page.IPageScrollOption,
 ): void {
   // 判断情况并赋值
   const nav = {
@@ -63,7 +63,7 @@ export const pageScrollMixin = (scroller: Scroller): string =>
               : [scroller.bind(this)];
 
         page.onPageScroll = onPageScroll as (
-          arg?: WechatMiniprogram.Page.IPageScrollOption
+          arg?: WechatMiniprogram.Page.IPageScrollOption,
         ) => void;
       }
     },
@@ -75,7 +75,7 @@ export const pageScrollMixin = (scroller: Scroller): string =>
 
       if (page)
         page.$scrollHandler = (page.$scrollHandler || []).filter(
-          (item) => item !== scroller
+          (item) => item !== scroller,
         );
     },
   });

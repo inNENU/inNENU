@@ -11,7 +11,7 @@ export interface PromiseQueue<T = void> {
  */
 export const promiseQueue = <T>(
   promiseList: (() => Promise<void>)[],
-  capacity = 1
+  capacity = 1,
 ): PromiseQueue<T> => {
   let shouldCancel = false;
   let stopMsg: T | void = void 0;

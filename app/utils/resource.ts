@@ -14,7 +14,7 @@ import { assets, server } from "../config/info.js";
  */
 export const downloadResource = (
   fileName: string,
-  showProgress = true
+  showProgress = true,
 ): Promise<void> =>
   new Promise((resolve, reject) => {
     if (showProgress) wx.showLoading({ title: "下载中...", mask: true });
@@ -94,7 +94,7 @@ export const checkResource = (): void => {
   logger.debug(
     `Resource Notify status: ${notify ? "open" : "close"}`,
     "Local resource version: ",
-    localVersion
+    localVersion,
   );
 
   if (currentTime > Number(localTime) + 604800 && !notify) {

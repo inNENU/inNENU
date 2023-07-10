@@ -12,13 +12,13 @@ const getText = (page: PageDataWithContent): string => {
         element.tag === "text" ||
         element.tag === "p" ||
         element.tag === "ul" ||
-        element.tag === "ol"
+        element.tag === "ol",
     )
     .map(
       (element) =>
         `${typeof element.heading === "string" ? `${element.heading} ` : ""}${
           element.text ? `${element.text.join(" ")}` : ""
-        }`
+        }`,
     )
     .join("");
 
@@ -28,7 +28,7 @@ const getText = (page: PageDataWithContent): string => {
 const getTags = (page: PageDataWithContent): string[] => {
   const titles = page.content
     .filter(
-      (element): element is TitleComponentOptions => element.tag === "title"
+      (element): element is TitleComponentOptions => element.tag === "title",
     )
     .map((element) => element.text);
 

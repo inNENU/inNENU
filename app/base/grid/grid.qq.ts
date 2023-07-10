@@ -22,7 +22,7 @@ $Component({
         icons: (items || this.data.config.items || []).map((item) =>
           item.icon && !item.icon.includes("/")
             ? readFile(`icon/${item.icon}`) || ""
-            : ""
+            : "",
         ),
       });
     },

@@ -2,6 +2,6 @@
   "navigationBarTitleText": "功能大厅",
   "enablePullDownRefresh": true,
   "usingComponents": {
-    "weather": "../../components/weather/weather"
+    "weather": "/components/weather/weather"
   }
 }

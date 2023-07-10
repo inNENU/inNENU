@@ -71,7 +71,7 @@ $Page(PAGE_ID, {
       (page.content[0] as FunctionalListComponentConfig).items.forEach(
         (x, y) => {
           x.hidden = y !== 0;
-        }
+        },
       );
 
     resolvePage(res, page);
@@ -91,7 +91,7 @@ $Page(PAGE_ID, {
         (page.content[0] as FunctionalListComponentConfig).items.forEach(
           (x, y) => {
             x.hidden = y !== 0;
-          }
+          },
         );
 
       setPage({ option: { id: "about" }, ctx: this }, page);
@@ -105,7 +105,7 @@ $Page(PAGE_ID, {
   onReady() {
     // 读取在线文件更新页面显示
     requestJSON<ComponentConfig[]>(
-      `r/config/${globalData.appID}/${globalData.version}/about`
+      `r/config/${globalData.appID}/${globalData.version}/about`,
     )
       .then((data: ComponentConfig[]) => {
         setPage(
@@ -113,7 +113,7 @@ $Page(PAGE_ID, {
           {
             ...this.data.page,
             content: this.data.page.content.slice(0, 1).concat(data),
-          }
+          },
         );
       })
       .catch(() => {
@@ -122,7 +122,7 @@ $Page(PAGE_ID, {
           {
             ...this.data.page,
             content: this.data.page.content.slice(0, 1),
-          }
+          },
         );
       });
   },

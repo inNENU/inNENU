@@ -33,7 +33,7 @@ export interface SearchData {
  * @returns 匹配的候选词列表
  */
 export const search = <T extends string[] | SearchResult[]>(
-  data: SearchData
+  data: SearchData,
 ): Promise<T> =>
   new Promise((resolve, reject) => {
     wx.request<T>({

@@ -34,7 +34,7 @@ $Component({
         Record<string, never>,
         Record<string, never>,
         { id: string }
-      >
+      >,
     ): void {
       const { item } = this.getDetail<ButtonListComponentItemConfig>(event);
 
@@ -47,7 +47,7 @@ $Component({
         Record<string, never>,
         Record<string, never>,
         { id: string }
-      >
+      >,
     ): void {
       const { id, item } = this.getDetail<PickerListComponentItemConfig>(event);
 
@@ -59,7 +59,7 @@ $Component({
       event: WechatMiniprogram.PickerChange<
         Record<string, never>,
         { id: string }
-      >
+      >,
     ): void {
       const { id, item } = this.getDetail<PickerListComponentItemConfig>(event);
 
@@ -96,7 +96,7 @@ $Component({
       event: WechatMiniprogram.SwitchChange<
         Record<string, never>,
         { id: string }
-      >
+      >,
     ): void {
       const { id, item } = this.getDetail<SwitchListComponentItemConfig>(event);
 
@@ -105,7 +105,7 @@ $Component({
         { [`config.items[${id}].status`]: event.detail.value },
         () => {
           if (item.handler) this.$call(item.handler, event.detail.value);
-        }
+        },
       );
 
       // 将开关值写入存储的 key 变量中
@@ -117,7 +117,7 @@ $Component({
       event: WechatMiniprogram.PickerChange<
         Record<string, never>,
         { id: string }
-      >
+      >,
     ): void {
       const { id, item } = this.getDetail<SliderListComponentItemConfig>(event);
 
@@ -130,7 +130,7 @@ $Component({
       event: WechatMiniprogram.SliderChange<
         Record<string, never>,
         { id: string }
-      >
+      >,
     ): void {
       const { id, item } = this.getDetail<SliderListComponentItemConfig>(event);
       const { value } = event.detail;
@@ -148,7 +148,8 @@ $Component({
 
     /** 获得选择器位置与内容 */
     getDetail<
-      T extends FunctionalListComponentItemOptions = FunctionalListComponentItemOptions
+      T extends
+        FunctionalListComponentItemOptions = FunctionalListComponentItemOptions,
     >({
       currentTarget,
     }: WechatMiniprogram.CustomEvent<
@@ -170,7 +171,7 @@ $Component({
         icons: (items || this.data.config.items).map((item) =>
           item.icon && !item.icon.includes("/")
             ? readFile(`icon/${item.icon}`) || ""
-            : ""
+            : "",
         ),
       });
     },

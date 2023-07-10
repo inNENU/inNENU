@@ -56,10 +56,10 @@ export type FetchOptions = Pick<
  */
 export const request = <
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  T extends Record<never, never> | unknown[] | string = Record<string, any>
+  T extends Record<never, never> | unknown[] | string = Record<string, any>,
 >(
   url: string,
-  options: FetchOptions
+  options: FetchOptions,
 ): Promise<T> =>
   new Promise((resolve, reject) => {
     wx.request<T>({
@@ -74,7 +74,7 @@ export const request = <
           showToast("小程序服务器出错，请稍后重试");
           // 调试
           logger.warn(
-            `Request ${url}.json failed with statusCode: ${statusCode}`
+            `Request ${url}.json failed with statusCode: ${statusCode}`,
           );
 
           wx.reportEvent?.("service_error", {
@@ -103,9 +103,9 @@ export const request = <
  */
 export const requestJSON = <
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  T extends Record<never, never> | unknown[] | string = Record<string, any>
+  T extends Record<never, never> | unknown[] | string = Record<string, any>,
 >(
-  path: string
+  path: string,
 ): Promise<T> =>
   new Promise((resolve, reject) => {
     wx.request<T>({
@@ -121,7 +121,7 @@ export const requestJSON = <
           showToast("服务器出现问题，请稍后重试");
           // 调试
           logger.warn(
-            `Request ${path}.json failed with statusCode: ${statusCode}`
+            `Request ${path}.json failed with statusCode: ${statusCode}`,
           );
 
           wx.reportEvent?.("resource_load_failed", {
