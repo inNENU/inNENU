@@ -10,6 +10,18 @@ $Component({
 
   lifetimes: {
     attached() {
+      this.setTodayCourses();
+    },
+  },
+
+  pageLifetimes: {
+    show() {
+      this.setTodayCourses();
+    },
+  },
+
+  methods: {
+    setTodayCourses() {
       const coursesData = get<Record<string, CourseTableData>>(COURSE_DATA_KEY);
       const time = getCurrentTime();
 
@@ -29,9 +41,7 @@ $Component({
         this.setData({ missing: true });
       }
     },
-  },
 
-  methods: {
     courseTable() {
       this.$go("course-table");
     },
