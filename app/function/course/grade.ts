@@ -10,6 +10,7 @@ import {
 import { showModal } from "../../api/ui.js";
 import { type AppOption } from "../../app.js";
 import { appCoverPrefix } from "../../config/info.js";
+import { GRADE_DATA_KEY } from "../../config/keys.js";
 import { HOUR } from "../../utils/constant.js";
 import { getColor, popNotice } from "../../utils/page.js";
 
@@ -71,7 +72,7 @@ $Page("grade-list", {
         this.$go("account?update=true");
       });
     } else {
-      const grades = get<GradeResult[]>("grade-list");
+      const grades = get<GradeResult[]>(GRADE_DATA_KEY);
 
       if (grades) this.setGradeData(grades);
       else void this.getGradeList();
@@ -103,7 +104,7 @@ $Page("grade-list", {
           (res) => {
             wx.hideLoading();
             if (res.status === "success") {
-              set("grade-list", res.data, 3 * HOUR);
+              set(GRADE_DATA_KEY, res.data, 3 * HOUR);
               this.setGradeData(res.data);
             } else showModal("获取失败", res.msg);
           },

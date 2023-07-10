@@ -5,11 +5,10 @@ import { type Cookie, type CookieOptions } from "../../../typings/cookie.js";
 import { type CommonFailedResponse } from "../../../typings/response.js";
 import { request } from "../../api/net.js";
 import { service } from "../../config/info.js";
+import { UNDER_SYSTEM_COOKIE } from "../../config/keys.js";
 import { LoginFailedResponse } from "../../utils/account.js";
 import { type AccountBasicInfo } from "../../utils/app.js";
 import { HOUR } from "../../utils/constant.js";
-
-const UNDER_SYSTEM_COOKIE = "under-system-cookie";
 
 export interface UnderSystemLoginSuccessResponse {
   status: "success";

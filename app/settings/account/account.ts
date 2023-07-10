@@ -1,5 +1,5 @@
 import { $Page } from "@mptool/enhance";
-import { get, remove, set } from "@mptool/file";
+import { remove, set } from "@mptool/file";
 
 import {
   type ListComponentConfig,
@@ -8,7 +8,13 @@ import {
 import { showModal, showToast } from "../../api/ui.js";
 import { type AppOption } from "../../app.js";
 import { appCoverPrefix } from "../../config/info.js";
-import { COURSE_DATA_KEY } from "../../config/keys.js";
+import {
+  ACCOUNT_INFO_KEY,
+  COURSE_DATA_KEY,
+  GRADE_DATA_KEY,
+  UNDER_SYSTEM_COOKIE,
+  USER_INFO_KEY,
+} from "../../config/keys.js";
 import { getInfo, login } from "../../utils/account.js";
 import { type UserInfo } from "../../utils/app.js";
 import { MONTH } from "../../utils/constant.js";
@@ -78,8 +84,7 @@ $Page(PAGE_ID, {
   },
 
   onLoad({ update }) {
-    const { account } = globalData;
-    const userInfo = get<UserInfo>("user-info") || null;
+    const { account, userInfo } = globalData;
 
     if (account)
       this.setData({
@@ -145,7 +150,7 @@ $Page(PAGE_ID, {
           const account = { id: Number(id), password };
 
           globalData.account = account;
-          set("account-info", account, MONTH);
+          set(ACCOUNT_INFO_KEY, account, MONTH);
 
           wx.showLoading({ title: "获取信息" });
           getInfo(response.cookies).then((response) => {
@@ -159,7 +164,7 @@ $Page(PAGE_ID, {
               };
 
               showModal("登陆成功", "个人信息获取成功");
-              set("user-info", userInfo, MONTH);
+              set(USER_INFO_KEY, userInfo, MONTH);
               this.setData({
                 isSaved: true,
                 // eslint-disable-next-line @typescript-eslint/naming-convention
@@ -187,11 +192,11 @@ $Page(PAGE_ID, {
       "list.items": EMPTY_CONTENT,
       isSaved: false,
     });
-    remove("account-info");
-    remove("user-info");
-    remove("under-system-cookie");
+    remove(ACCOUNT_INFO_KEY);
+    remove(USER_INFO_KEY);
+    remove(UNDER_SYSTEM_COOKIE);
     remove(COURSE_DATA_KEY);
-    remove("grade-list");
+    remove(GRADE_DATA_KEY);
     globalData.account = null;
     globalData.userInfo = null;
     showModal("删除成功", "已删除本地账号信息");

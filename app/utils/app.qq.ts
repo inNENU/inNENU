@@ -8,6 +8,7 @@ import { requestJSON } from "../api/net.js";
 import { showModal, showToast } from "../api/ui.js";
 import { defaultAppConfig } from "../config/app.js";
 import { server, version } from "../config/info.js";
+import { ACCOUNT_INFO_KEY, USER_INFO_KEY } from "../config/keys.js";
 
 export type AppID =
   | "wx33acb831ee1831a5"
@@ -412,8 +413,8 @@ export const getGlobalData = (): GlobalData => {
 
   return {
     version,
-    account: get<AccountBasicInfo | undefined>("account-info") || null,
-    userInfo: get<UserInfo | undefined>("user-info") || null,
+    account: get<AccountBasicInfo | undefined>(ACCOUNT_INFO_KEY) || null,
+    userInfo: get<UserInfo | undefined>(USER_INFO_KEY) || null,
     music: { playing: false, index: 0 },
     page: {
       data: {},
