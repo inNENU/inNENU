@@ -11,6 +11,13 @@
     <weather custom-class="weather" target="weather">
       <today-course custom-class="course" />
     </weather>
+    <search
+      custom-class="search"
+      words="{{words}}"
+      placeholder="搜索小程序"
+      catch:searching="searching"
+      catch:search="search"
+    />
   </block>
   <block wx:else>
     <view
@@ -24,6 +31,7 @@
         <search
           custom-class="search"
           words="{{words}}"
+          placeholder="搜索小程序"
           catch:searching="searching"
           catch:search="search"
         />
