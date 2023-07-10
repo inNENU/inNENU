@@ -152,7 +152,7 @@
             <switch
               wx:if="{{listItem.type === 'switch'}}"
               checked="{{listItem.status}}"
-              color="{{color || '#07c160'}}"
+              color="{{color || '#41c88a'}}"
               data-id="{{index}}"
               catch:change="onToggleSwitch"
             />

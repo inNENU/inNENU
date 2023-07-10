@@ -1,7 +1,7 @@
 /* 按钮点击样式 QQ 适配 */
 // stylelint-disable selector-no-qualifying-type
 button.primary {
-  background-color: #07c160;
+  background-color: var(--theme-color);
 }
 
 button[plain] {

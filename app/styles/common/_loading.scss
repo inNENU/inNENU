@@ -108,6 +108,11 @@
   width: 100px;
   height: 125px;
   filter: drop-shadow(-1px 1px 2px rgb(191 190 195 / 15%));
+  font-family:
+    FZSSJW,
+    -apple-system-font,
+    "PingFang SC",
+    "Helvetica Neue";
 
   .logo {
     position: relative;
@@ -116,7 +121,7 @@
     height: 100px;
     border-radius: 50%;
 
-    background-color: #2ecc71;
+    background-color: var(--theme-color);
 
     animation: jump 2s linear 0s none infinite alternate-reverse;
 

@@ -13,11 +13,11 @@ function getClass(weather) {
           weatherType.indexOf("霜") !== -1 ||
           weatherType.indexOf("冰") !== -1
         ? "snowy"
-        : weatherType.indexOf("雨") === -1
-        ? weatherType.indexOf("阴") !== -1 || weatherType.indexOf("云") !== -1
-          ? "cloudy"
-          : ""
-        : "rainy"
+        : weatherType.indexOf("雨") !== -1
+        ? "rainy"
+        : weatherType.indexOf("阴") !== -1 || weatherType.indexOf("云") !== -1
+        ? "cloudy"
+        : ""
       : getDate().getHours() > 6 && getDate().getHours() < 18
       ? getDate().getSeconds() % 2 === 0
         ? "sunny"
@@ -39,6 +39,8 @@ module.exports = {
       ? "starry-bg"
       : weatherClass === "stormy"
       ? "stormy-bg"
+      : weatherClass === "rainy"
+      ? "rainy-bg"
       : "normal-bg";
   },
 };
