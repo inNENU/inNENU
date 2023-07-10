@@ -3,9 +3,9 @@ import { $Page } from "@mptool/enhance";
 import { type HistoryGradeInfoItem, getHistoryGrade } from "./api.js";
 import {
   type CategoryConfig,
-  type EnrollPlanConfig,
   type PlanConfig,
   type ProvinceConfig,
+  type SelectConfig,
   type YearConfig,
 } from "../../../typings/index.js";
 import { showModal } from "../../api/ui.js";
@@ -47,7 +47,7 @@ $Page(PAGE_ID, {
   },
 
   state: {
-    historyGrade: <EnrollPlanConfig>[],
+    historyGrade: <SelectConfig>[],
     numberValueIndex: <number[]>[],
   },
 
@@ -62,7 +62,7 @@ $Page(PAGE_ID, {
       firstPage: getCurrentPages().length === 1,
     });
 
-    getJSON<EnrollPlanConfig>("function/enroll/grade")
+    getJSON<SelectConfig>("function/enroll/grade")
       .then((historyGrade) => {
         this.state.historyGrade = historyGrade;
         this.setData({
