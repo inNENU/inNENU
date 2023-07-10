@@ -149,7 +149,7 @@ $Page(PAGE_ID, {
           }
 
           return showModal("登录失败", data.msg, (): void => {
-            this.$go("account?update=true");
+            this.$go("account?from=选课系统&update=true");
           });
         })
         .catch(() => {
@@ -163,7 +163,7 @@ $Page(PAGE_ID, {
         });
     } else {
       showModal("请先登录", "暂无账号信息，请输入", (): void => {
-        this.$go("account?update=true");
+        this.$go("account?from=选课系统&update=true");
       });
     }
 

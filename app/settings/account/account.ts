@@ -54,7 +54,7 @@ $Page(PAGE_ID, {
     nav: {
       title: "账号信息",
       statusBarHeight: globalData.info.statusBarHeight,
-      from: "功能大厅",
+      from: "返回",
     },
 
     inputTitle: {
@@ -83,11 +83,12 @@ $Page(PAGE_ID, {
     shouldNavigateBack: false,
   },
 
-  onLoad({ update }) {
+  onLoad({ from = "返回", update }) {
     const { account, userInfo } = globalData;
 
     if (account)
       this.setData({
+        from,
         id: account.id.toString(),
         password: account.password,
         isSaved: true,

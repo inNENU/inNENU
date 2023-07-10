@@ -65,7 +65,7 @@ $Page("grade-list", {
 
     if (!account) {
       showModal("请先登录", "暂无账号信息，请输入", (): void => {
-        this.$go("account?update=true");
+        this.$go("account?from=成绩查询&update=true");
       });
     } else {
       const grades = get<GradeResult[]>(GRADE_DATA_KEY);
