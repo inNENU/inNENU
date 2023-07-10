@@ -1,7 +1,13 @@
 import { $Page } from "@mptool/enhance";
 
 import { type HistoryGradeInfoItem, getHistoryGrade } from "./api.js";
-import { type EnrollPlanConfig } from "../../../typings/index.js";
+import {
+  type CategoryConfig,
+  type EnrollPlanConfig,
+  type PlanConfig,
+  type ProvinceConfig,
+  type YearConfig,
+} from "../../../typings/index.js";
 import { showModal } from "../../api/ui.js";
 import { type AppOption } from "../../app.js";
 import { appCoverPrefix } from "../../config/info.js";
@@ -91,26 +97,105 @@ $Page(PAGE_ID, {
     imageUrl: `${appCoverPrefix}.jpg`,
   }),
 
+  getProvince(yearConfig: YearConfig) {
+    const { provinces: oldProvinces, provinceIndex: oldProvinceIndex } =
+      this.data;
+    const oldProvince = oldProvinces[oldProvinceIndex];
+    const provinces = ["", ...yearConfig.items.map(({ province }) => province)];
+
+    const provinceIndex = provinces.indexOf(oldProvince);
+
+    return {
+      config: provinceIndex === -1 ? null : yearConfig.items[provinceIndex - 1],
+      provinces,
+      provinceIndex: Math.max(provinceIndex, 0),
+    };
+  },
+
+  getPlanType(provinceConfig: ProvinceConfig) {
+    const { planTypes: oldPlanTypes, planTypeIndex: oldPlanTypeIndex } =
+      this.data;
+    const oldPlanType = oldPlanTypes[oldPlanTypeIndex];
+    const planTypes = ["", ...provinceConfig.items.map(({ plan }) => plan)];
+
+    const planTypeIndex = planTypes.indexOf(oldPlanType);
+
+    return {
+      config:
+        planTypeIndex === -1 ? null : provinceConfig.items[planTypeIndex - 1],
+      planTypes,
+      planTypeIndex: Math.max(planTypeIndex, 0),
+    };
+  },
+
+  getMajorType(planTypeConfig: PlanConfig) {
+    const { majorTypes: oldMajorTypes, majorTypeIndex: oldMajorTypeIndex } =
+      this.data;
+    const oldMajorType = oldMajorTypes[oldMajorTypeIndex];
+    const majorTypes = [
+      "",
+      ...planTypeConfig.items.map(({ category }) => category),
+    ];
+
+    const majorTypeIndex = majorTypes.indexOf(oldMajorType);
+
+    return {
+      config:
+        majorTypeIndex === -1 ? null : planTypeConfig.items[majorTypeIndex - 1],
+      majorTypes,
+      majorTypeIndex: Math.max(majorTypeIndex, 0),
+    };
+  },
+
+  getReformType(majorTypeConfig: CategoryConfig) {
+    const { reformTypes: oldReformTypes, reformTypeIndex: oldReformTypeIndex } =
+      this.data;
+    const oldReformType = oldReformTypes[oldReformTypeIndex];
+    const reformTypes = ["", ...majorTypeConfig.items.map(({ type }) => type)];
+
+    const reformTypeIndex = reformTypes.indexOf(oldReformType);
+
+    return {
+      reformTypes,
+      reformTypeIndex: Math.max(reformTypeIndex, 0),
+    };
+  },
+
   yearChange({ detail }: WechatMiniprogram.PickerChange) {
     const { historyGrade } = this.state;
     const yearIndex = Number(detail.value);
 
+    const {
+      config: provinceConfig,
+      provinceIndex,
+      provinces,
+    } = this.getProvince(historyGrade[yearIndex - 1]);
+    const {
+      config: planTypeConfig = null,
+      planTypeIndex = 0,
+      planTypes = [],
+    } = provinceConfig ? this.getPlanType(provinceConfig) : {};
+    const {
+      config: majorTypeConfig = null,
+      majorTypeIndex = 0,
+      majorTypes = [],
+    } = planTypeConfig ? this.getMajorType(planTypeConfig) : {};
+    const { reformTypeIndex = 0, reformTypes = [] } = majorTypeConfig
+      ? this.getReformType(majorTypeConfig)
+      : {};
+
     this.setData({
       yearIndex,
-      provinceIndex: 0,
-      planTypeIndex: 0,
-      majorTypeIndex: 0,
-      reformTypeIndex: 0,
 
-      provinces: [
-        "",
-        ...historyGrade[yearIndex - 1].items.map(({ province }) => province),
-      ],
+      provinces,
+      planTypes,
+      majorTypes,
+      reformTypes,
 
-      // reset others
-      planTypes: [],
-      majorTypes: [],
-      reformTypes: [],
+      provinceIndex,
+      planTypeIndex,
+      majorTypeIndex,
+      reformTypeIndex,
     });
   },
 
@@ -119,22 +204,29 @@ $Page(PAGE_ID, {
     const { historyGrade } = this.state;
     const provinceIndex = Number(detail.value);
 
+    const {
+      config: planTypeConfig = null,
+      planTypeIndex = 0,
+      planTypes = [],
+    } = this.getPlanType(historyGrade[yearIndex - 1].items[provinceIndex - 1]);
+    const {
+      config: majorTypeConfig = null,
+      majorTypeIndex = 0,
+      majorTypes = [],
+    } = planTypeConfig ? this.getMajorType(planTypeConfig) : {};
+    const { reformTypeIndex = 0, reformTypes = [] } = majorTypeConfig
+      ? this.getReformType(majorTypeConfig)
+      : {};
+
     this.setData({
       provinceIndex,
-      planTypeIndex: 0,
-      majorTypeIndex: 0,
-      reformTypeIndex: 0,
 
-      planTypes: [
-        "",
-        ...historyGrade[yearIndex - 1].items[provinceIndex - 1].items.map(
-          ({ plan }) => plan,
-        ),
-      ],
-
-      // reset others
-      majorTypes: [],
-      reformTypes: [],
+      planTypes,
+      majorTypes,
+      reformTypes,
+      planTypeIndex,
+      majorTypeIndex,
+      reformTypeIndex,
     });
   },
 
@@ -143,20 +235,26 @@ $Page(PAGE_ID, {
     const { historyGrade } = this.state;
     const planTypeIndex = Number(detail.value);
 
+    const {
+      config: majorTypeConfig = null,
+      majorTypeIndex = 0,
+      majorTypes = [],
+    } = this.getMajorType(
+      historyGrade[yearIndex - 1].items[provinceIndex - 1].items[
+        planTypeIndex - 1
+      ],
+    );
+    const { reformTypeIndex = 0, reformTypes = [] } = majorTypeConfig
+      ? this.getReformType(majorTypeConfig)
+      : {};
+
     this.setData({
       planTypeIndex,
-      majorTypeIndex: 0,
-      reformTypeIndex: 0,
 
-      majorTypes: [
-        "",
-        ...historyGrade[yearIndex - 1].items[provinceIndex - 1].items[
-          planTypeIndex - 1
-        ].items.map(({ category }) => category),
-      ],
-
-      // reset others
-      reformTypes: [],
+      majorTypes,
+      reformTypes,
+      majorTypeIndex,
+      reformTypeIndex,
     });
   },
 
@@ -165,16 +263,17 @@ $Page(PAGE_ID, {
     const { historyGrade } = this.state;
     const majorTypeIndex = Number(detail.value);
 
+    const { reformTypeIndex = 0, reformTypes = [] } = this.getReformType(
+      historyGrade[yearIndex - 1].items[provinceIndex - 1].items[
+        planTypeIndex - 1
+      ].items[majorTypeIndex - 1],
+    );
+
     this.setData({
       majorTypeIndex,
-      reformTypeIndex: 0,
 
-      reformTypes: [
-        "",
-        ...historyGrade[yearIndex - 1].items[provinceIndex - 1].items[
-          planTypeIndex - 1
-        ].items[majorTypeIndex - 1].items.map(({ type }) => type),
-      ],
+      reformTypes,
+      reformTypeIndex,
     });
   },
 
