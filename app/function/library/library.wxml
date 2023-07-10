@@ -1,0 +1,7 @@
+<view class="ios library">
+  <header title="图书馆" />
+  <view class="content">
+    <library-people />
+  </view>
+  <footer />
+</view>

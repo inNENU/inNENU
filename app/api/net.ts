@@ -59,7 +59,7 @@ export const request = <
   T extends Record<never, never> | unknown[] | string = Record<string, any>,
 >(
   url: string,
-  options: FetchOptions,
+  options: FetchOptions = {},
 ): Promise<T> =>
   new Promise((resolve, reject) => {
     wx.request<T>({

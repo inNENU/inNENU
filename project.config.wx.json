@@ -88,6 +88,13 @@
           "scene": null
         },
         {
+          "name": "图书馆",
+          "pathName": "function/library/library",
+          "query": "",
+          "launchMode": "default",
+          "scene": null
+        },
+        {
           "name": "成绩",
           "pathName": "function/course/grade",
           "query": "",

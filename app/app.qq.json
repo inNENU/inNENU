@@ -26,6 +26,7 @@
         "enroll/admission",
         "enroll/grade",
         "enroll/plan",
+        "library/library",
         "location/location",
         "map/map",
         "music/music",

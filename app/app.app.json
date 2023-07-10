@@ -20,6 +20,7 @@
     "function/enroll/admission",
     "function/enroll/grade",
     "function/enroll/plan",
+    "function/library/library",
     "function/location/location",
     "function/map/map",
     "function/music/music",

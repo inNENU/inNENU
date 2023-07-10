@@ -27,6 +27,7 @@ $Config({
       [
         "admission",
         "calendar",
+        "library",
         "location",
         "map",
         "music",

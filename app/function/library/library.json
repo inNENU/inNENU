@@ -1,0 +1,7 @@
+{
+  "navigationBarTitleText": "图书馆",
+  "usingComponents": {
+    "header": "/components/header/header",
+    "library-people": "/components/library/people"
+  }
+}
