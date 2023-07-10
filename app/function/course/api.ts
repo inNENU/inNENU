@@ -18,7 +18,7 @@ import { UNDER_SYSTEM_COOKIE } from "../../config/keys.js";
 import { type AccountBasicInfo } from "../../utils/app.js";
 import { HOUR } from "../../utils/constant.js";
 
-const getCookie = (
+export const getCourseCookie = (
   options: AccountBasicInfo,
 ): Promise<UnderSystemLoginResponse> =>
   request<UnderSystemLoginResponse>(`${service}under-system/login`, {
@@ -32,22 +32,24 @@ const getCookie = (
     return data;
   });
 
-export const check = (cookies: Cookie[]): Promise<CookieVerifyResponse> =>
+export const checkCourseCookie = (
+  cookies: Cookie[],
+): Promise<CookieVerifyResponse> =>
   request<CookieVerifyResponse>(`${service}under-system/check`, {
     method: "POST",
     data: { cookies },
   });
 
-export const login = (
+export const courseLogin = (
   account: AccountBasicInfo,
 ): Promise<UnderSystemLoginResponse> => {
   const cookies = get<Cookie[]>(UNDER_SYSTEM_COOKIE);
 
   return cookies
-    ? check(cookies).then((valid) =>
-        valid ? { status: "success", cookies } : getCookie(account),
+    ? checkCourseCookie(cookies).then((valid) =>
+        valid ? { status: "success", cookies } : getCourseCookie(account),
       )
-    : getCookie(account);
+    : getCourseCookie(account);
 };
 
 export const getCourseTable = (

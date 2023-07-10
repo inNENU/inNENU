@@ -1,12 +1,8 @@
 import { $Page } from "@mptool/enhance";
 import { get, set } from "@mptool/file";
 
-import {
-  type ClassItem,
-  type TableItem,
-  getCourseTable,
-  login,
-} from "./api.js";
+import { courseLogin, getCourseTable } from "./api.js";
+import { type ClassItem, type TableItem } from "./typings.js";
 import { showModal } from "../../api/ui.js";
 import { type AppOption } from "../../app.js";
 import {
@@ -169,7 +165,7 @@ $Page(PAGE_ID, {
   getCourseData(time: string) {
     wx.showLoading({ title: "获取中" });
 
-    return login(globalData.account!)
+    return courseLogin(globalData.account!)
       .then((data) => {
         if (data.status === "failed") throw data.msg;
 

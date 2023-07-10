@@ -1,12 +1,8 @@
 import { $Page } from "@mptool/enhance";
 import { get, set } from "@mptool/file";
 
-import {
-  type GradeResult,
-  type UserGradeListExtraOptions,
-  getGradeList,
-  login,
-} from "./api.js";
+import { courseLogin, getGradeList } from "./api.js";
+import { type GradeResult, type UserGradeListExtraOptions } from "./typings.js";
 import { showModal } from "../../api/ui.js";
 import { type AppOption } from "../../app.js";
 import { appCoverPrefix } from "../../config/info.js";
@@ -96,7 +92,7 @@ $Page("grade-list", {
   getGradeList(options: UserGradeListExtraOptions = {}) {
     wx.showLoading({ title: "获取中" });
 
-    return login(globalData.account!)
+    return courseLogin(globalData.account!)
       .then((data) => {
         if (data.status === "failed") throw data.msg;
 
