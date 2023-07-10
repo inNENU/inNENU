@@ -40,8 +40,7 @@
       >
         {{config.cancel || '取消'}}
       </button>
-
-      <button class="button" type="primary" catch:tap="confirm">
+      <button class="button primary" type="primary" catch:tap="confirm">
         {{config.confirm || '确认'}}
       </button>
     </view>

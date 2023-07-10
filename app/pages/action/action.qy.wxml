@@ -1,14 +1,26 @@
 <view class="{{theme}} action-page">
-  <button wx:if="{{contact}}" type="primary" open-type="contact">
+  <button
+    wx:if="{{contact}}"
+    class="primary"
+    type="primary"
+    open-type="contact"
+  >
     联系校会君
   </button>
-  <button wx:elif="{{all || feedback}}" open-type="feedback" type="primary">
+  <button
+    wx:elif="{{all || feedback}}"
+    class="primary"
+    type="primary"
+    open-type="feedback"
+  >
     意见反馈
   </button>
   <block wx:elif="{{all || reset}}">
-    <button type="primary" catch:tap="resetApp">初始化小程序</button>
+    <button class="primary" type="primary" catch:tap="resetApp">
+      初始化小程序
+    </button>
     <navigator open-type="exit" target="miniProgram">
-      <button type="primary">退出小程序</button>
+      <button class="primary" type="primary">退出小程序</button>
     </navigator>
   </block>
   <button type="default" catch:tap="home">返回主页</button>

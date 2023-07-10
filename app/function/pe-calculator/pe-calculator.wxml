@@ -86,7 +86,7 @@
       <view class="unit">{{special.unit}}</view>
     </view>
   </view>
-  <button type="primary" class="calculate-button" catch:tap="calculate">
+  <button type="primary" class="calculate-button primary" catch:tap="calculate">
     计算
   </button>
 

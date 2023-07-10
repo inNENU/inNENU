@@ -46,7 +46,7 @@
         wx:if="{{point}}"
         type="primary"
         size="mini"
-        class="navigate"
+        class="navigate primary"
         catch:tap="navigate"
       >
         导航

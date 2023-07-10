@@ -112,6 +112,8 @@
       <text>Current: {{ id || '未知' }}\n</text>
       <text>From: {{ from || '未知' }}</text>
     </view>
-    <button type="primary" open-type="contact">反馈给 Mr.Hope</button>
+    <button type="primary" class="primary" open-type="contact">
+      反馈给 Mr.Hope
+    </button>
   </view>
 </template>

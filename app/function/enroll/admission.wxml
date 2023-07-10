@@ -1,13 +1,11 @@
 <import src="/base/template.wxml" />
 <wxs src="./admission.wxs" module="admission" />
-
 <view
   wx:if="{{type === 'search'}}"
   class="ios grey"
   style="{{isTyping ? 'padding-bottom:' + keyboardHeight + 'px;' : ''}}"
 >
   <header title="录取查询" />
-
   <view class="switch">
     <view
       class="item {{level === '本科生' ? 'active' : ''}}"
@@ -24,7 +22,6 @@
       研究生
     </view>
   </view>
-
   <view class="input-list-wrapper">
     <view wx:for="{{input}}" wx:key="id" class="input-list-item">
       <view class="text">{{item.text}}</view>
@@ -54,26 +51,23 @@
       <image class="verify-code" src="{{captcha}}" catch:tap="changeCaptcha" />
     </view>
   </view>
-  <button type="primary" class="search-button" catch:tap="search">查询</button>
-
+  <button type="primary" class="search-button primary" catch:tap="search">
+    查询
+  </button>
   <view class="notice" hover-class="button-hover" catch:tap="showDetail">
     <view class="title">
       提示
-      <view class="detail-button"> 详情 > </view>
+      <view class="detail-button">详情 ></view>
     </view>
-
     {{notice}}
   </view>
-
   <footer />
 </view>
-
 <template
   wx:else
   is="page"
   data="{{theme: 'ios', darkmode, page: admission.page}}"
 />
-
 <!-- 录取结果 -->
 <popup
   config="{{popupConfig}}"
