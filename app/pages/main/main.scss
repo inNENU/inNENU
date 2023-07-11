@@ -6,14 +6,14 @@
 }
 
 .content {
-  width: 100%;
   flex: 1;
   overflow-y: scroll;
+  width: 100%;
 }
 
 .course {
-  padding: 6px 0 0 !important;
   margin: 0 !important;
+  padding: 6px 0 0 !important;
   background-color: transparent !important;
 }
 

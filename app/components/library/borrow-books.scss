@@ -21,10 +21,12 @@
 
 .need-login {
   display: inline-block;
+
   margin: 0 auto;
   padding: 4px 8px;
-  color: var(--action-color);
   border-radius: 4px;
+
+  color: var(--action-color);
 }
 
 .button-hover {
@@ -32,9 +34,9 @@
 }
 
 .header {
-  font-size: 18px;
-  font-weight: bold;
   padding-bottom: 4px;
+  font-weight: bold;
+  font-size: 18px;
   text-align: left;
 }
 
@@ -48,8 +50,8 @@
 }
 
 .book {
-  border-top: 1px solid var(--border-color);
   padding: 4px;
+  border-top: 1px solid var(--border-color);
   border-radius: 4px;
 
   &:first-child {
@@ -59,8 +61,8 @@
 
 .name {
   font-weight: 600;
-  text-align: left;
   line-height: 2;
+  text-align: left;
 }
 
 .time {

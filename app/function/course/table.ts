@@ -1,7 +1,7 @@
 import { $Page } from "@mptool/enhance";
 import { get, set } from "@mptool/file";
 
-import { courseLogin, getCourseTable } from "./api.js";
+import { getCourseTable, getUnderSystemCookies } from "./api.js";
 import { type ClassItem, type TableItem } from "./typings.js";
 import { showModal } from "../../api/ui.js";
 import { type AppOption } from "../../app.js";
@@ -165,7 +165,7 @@ $Page(PAGE_ID, {
   getCourseData(time: string) {
     wx.showLoading({ title: "获取中" });
 
-    return courseLogin(globalData.account!)
+    return getUnderSystemCookies(globalData.account!)
       .then((data) => {
         if (!data.success) throw data.msg;
 

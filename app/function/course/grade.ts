@@ -1,7 +1,7 @@
 import { $Page } from "@mptool/enhance";
 import { get, set } from "@mptool/file";
 
-import { courseLogin, getGradeList } from "./api.js";
+import { getGradeList, getUnderSystemCookies } from "./api.js";
 import { type GradeResult, type UserGradeListExtraOptions } from "./typings.js";
 import { showModal } from "../../api/ui.js";
 import { type AppOption } from "../../app.js";
@@ -92,7 +92,7 @@ $Page("grade-list", {
   getGradeList(options: UserGradeListExtraOptions = {}) {
     wx.showLoading({ title: "获取中" });
 
-    return courseLogin(globalData.account!)
+    return getUnderSystemCookies(globalData.account!)
       .then((data) => {
         if (!data.success) throw data.msg;
 
