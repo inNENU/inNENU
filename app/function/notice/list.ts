@@ -10,13 +10,11 @@ import { getColor } from "../../utils/page.js";
 const { globalData } = getApp<AppOption>();
 
 const PAGE_ID = "notice-list";
-const PAGE_TITLE = "学校通知";
 
 $Page(PAGE_ID, {
   data: {
-    nav: {
-      title: "学校通知",
-    },
+    title: "",
+
     theme: globalData.theme,
 
     status: <"error" | "login" | "success">"success",
@@ -26,13 +24,15 @@ $Page(PAGE_ID, {
   },
 
   state: {
+    type: <"notice" | "news">"notice",
     inited: false,
   },
 
-  onLoad() {
+  onLoad({ type = "notice" }) {
     this.setData({
       color: getColor(),
       theme: globalData.theme,
+      title: `学校${type === "news" ? "新闻" : "通知"}`,
     });
   },
 
@@ -43,17 +43,24 @@ $Page(PAGE_ID, {
     } else this.setData({ status: "login" });
   },
 
-  onShareAppMessage: () => ({
-    title: PAGE_TITLE,
-    path: `/function/notice/list`,
-  }),
+  onShareAppMessage(): WechatMiniprogram.Page.ICustomShareContent {
+    return {
+      title: this.data.title,
+      path: `/function/notice/list?type=${this.state.type}`,
+    };
+  },
 
-  onShareTimeline: () => ({ title: PAGE_TITLE }),
+  onShareTimeline(): WechatMiniprogram.Page.ICustomTimelineContent {
+    return { title: this.data.title, query: `type=${this.state.type}` };
+  },
 
-  onAddToFavorites: () => ({
-    title: PAGE_TITLE,
-    imageUrl: `${appCoverPrefix}.jpg`,
-  }),
+  onAddToFavorites(): WechatMiniprogram.Page.IAddToFavoritesContent {
+    return {
+      title: this.data.title,
+      imageUrl: `${appCoverPrefix}.jpg`,
+      query: `type=${this.state.type}`,
+    };
+  },
 
   getNoticeList(page = 1, check = false) {
     if (globalData.account) {
@@ -61,22 +68,24 @@ $Page(PAGE_ID, {
 
       getActionCookie(globalData.account, check).then((res) => {
         if (res.success)
-          getNoticeList({ cookies: res.cookies, limit: 20, page }).then(
-            (res) => {
-              wx.hideLoading();
-              this.state.inited = true;
-              if (res.success) {
-                this.setData({
-                  scrollTop: 0,
-                  notices: res.data,
-                  page,
-                  currentPage: res.pageIndex,
-                  totalPage: res.totalPage,
-                  status: "success",
-                });
-              } else this.setData({ status: "error" });
-            },
-          );
+          getNoticeList({
+            cookies: res.cookies,
+            page,
+            type: this.state.type,
+          }).then((res) => {
+            wx.hideLoading();
+            this.state.inited = true;
+            if (res.success) {
+              this.setData({
+                scrollTop: 0,
+                notices: res.data,
+                page,
+                currentPage: res.pageIndex,
+                totalPage: res.totalPage,
+                status: "success",
+              });
+            } else this.setData({ status: "error" });
+          });
         else {
           wx.hideLoading();
           this.setData({ status: "error" });
@@ -106,7 +115,10 @@ $Page(PAGE_ID, {
   >) {
     const { index } = currentTarget.dataset;
     const { title, id } = this.data.notices[index];
+    const { type } = this.state;
 
-    this.$go(`notice-detail?from=学校通知&title=${title}&id=${id}`);
+    this.$go(
+      `notice-detail?from=学校通知&title=${title}&id=${id}&type=${type}`,
+    );
   },
 });

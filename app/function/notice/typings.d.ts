@@ -3,8 +3,12 @@ import { type CommonFailedResponse } from "../../../typings/response.js";
 import { type AccountBasicInfo } from "../../utils/app.ts";
 
 export type NoticeListOptions = (AccountBasicInfo | CookieOptions) & {
-  limit: number;
-  page: number;
+  /** @default 20 */
+  limit?: number;
+  /** @default 1 */
+  page?: number;
+  /** @default "notice" */
+  type?: "notice" | "news";
 };
 
 export interface NoticeItem {

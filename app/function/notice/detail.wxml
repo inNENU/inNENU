@@ -6,7 +6,7 @@
   root-background-color="{{color.bgColor}}"
 />
 <view class="{{theme}}">
-  <navbar nav="{{nav}}" />
+  <navbar nav="{{ { title } }}" />
   <view class="title">{{title}}</view>
   <view wx:if="{{content}}" class="info">
     <view class="time-icon">

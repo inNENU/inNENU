@@ -13,9 +13,8 @@ const PAGE_ID = "notice-detail";
 
 $Page(PAGE_ID, {
   data: {
-    nav: {
-      title: "通知详情",
-    },
+    title: "通知详情",
+
     status: <"error" | "login" | "success">"success",
   },
 
@@ -24,18 +23,19 @@ $Page(PAGE_ID, {
     title: "",
   },
 
-  onLoad({ id = "", title = "" }) {
+  onLoad({ id = "", title = "", type = "notice" }) {
     this.state.title = title;
     this.state.id = id;
     if (id) this.getNotice(id);
     else
-      showModal("无法获取", "请提供通知 ID", () => {
+      showModal("无法获取", "请提供 ID", () => {
         this.$back();
       });
 
     this.setData({
       color: getColor(),
       theme: globalData.theme,
+      title: `${type === "news" ? "新闻" : "通知"}详情`,
     });
   },
 
