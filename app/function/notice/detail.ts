@@ -76,11 +76,12 @@ $Page(PAGE_ID, {
           getNotice({ cookies: res.cookies, noticeID: id }).then((res) => {
             wx.hideLoading();
             if (res.success) {
-              const { title, pageView, author, from, content } = res;
+              const { title, time, pageView, author, from, content } = res;
 
               this.setData({
                 status: "success",
                 title,
+                time,
                 pageView,
                 author,
                 from,

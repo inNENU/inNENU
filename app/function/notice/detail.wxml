@@ -11,7 +11,7 @@
   <view class="title">{{title}}</view>
   <view wx:if="{{content}}" class="info">
     <view class="time-icon">
-      <text>{{item.time}}</text>
+      <text>{{time}}</text>
     </view>
     <view class="eye-icon">
       <text>{{pageView}}</text>
