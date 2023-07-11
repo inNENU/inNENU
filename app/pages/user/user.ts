@@ -62,7 +62,7 @@ $Page("user", {
     });
     this.setData({
       login: account !== null,
-      userName: userInfo?.name || "in东师",
+      userName: userInfo?.name || account ? "in东师" : "未登录",
       desc: userInfo?.email || "in 东师，就用 in 东师",
     });
     popNotice("user");

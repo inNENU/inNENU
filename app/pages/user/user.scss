@@ -62,11 +62,13 @@
     font-size: 20px;
   }
 
-  .login-button {
-    margin: 0 auto 8px 0;
-  }
-
   .detail {
     line-height: 1.5;
   }
+}
+
+.course {
+  background-color: var(--bg-color-block) !important;
+  color: var(--text-color) !important;
+  margin: 8px 15px !important;
 }

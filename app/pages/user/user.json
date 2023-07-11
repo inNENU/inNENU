@@ -2,6 +2,8 @@
   "navigationBarTitleText": "我的东师",
   "enablePullDownRefresh": true,
   "usingComponents": {
-    "add-tip": "/components/addtip/addtip"
+    "add-tip": "/components/addtip/addtip",
+    "library-borrow-books": "/components/library/borrow-books",
+    "today-course": "/components/today-course/today-course"
   }
 }

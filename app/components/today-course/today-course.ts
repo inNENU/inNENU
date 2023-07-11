@@ -47,8 +47,8 @@ $Component({
         );
 
         if (todayCourses.some((item) => item.length))
-          this.setData({ todayCourses });
-        else this.setData({ empty: true });
+          this.setData({ todayCourses, missing: false, empty: false });
+        else this.setData({ empty: true, missing: false });
       } else {
         this.setData({ missing: true });
       }

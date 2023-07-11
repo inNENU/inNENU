@@ -18,13 +18,16 @@
     >
       <image class="avatar" src="{{logo}}" />
       <view class="info">
-        <view wx:if="{{login}}" class="nickname">{{userName}}</view>
-        <button wx:else class="login-button" size="mini">登录账号</button>
+        <view class="nickname">{{userName ||'未登录'}}</view>
         <view class="detail">{{desc}}</view>
       </view>
     </view>
   </view>
-  <view class="info-placeholder" style="height:{{statusBarHeight + 96}}px" />
+  <view class="account-placeholder" style="height:{{statusBarHeight + 96}}px" />
+  <block wx:if="{{login}}">
+    <today-course custom-class="course" />
+    <library-borrow-books />
+  </block>
   <official-account />
   <template is="components" data="{{content: page.content, theme}}" />
   <footer config="{{footer}}" />
