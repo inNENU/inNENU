@@ -17,9 +17,7 @@ const { globalData } = getApp<AppOption>();
 
 $Page("user", {
   data: {
-    title: "东师青年+",
     logo: "/frameset/placeholder.png",
-    desc: "走出半生，归来仍是 —— 东师青年",
     page: <PageDataWithContent>{
       title: "我的东师",
       grey: true,
@@ -56,12 +54,16 @@ $Page("user", {
   },
 
   onShow() {
-    const { userInfo } = globalData;
+    const { account, userInfo } = globalData;
 
     refreshPage("user").then((data) => {
       setPage({ ctx: this, option: { id: "user" } }, data);
     });
-    this.setData({ userName: userInfo ? userInfo.name : "东师青年" });
+    this.setData({
+      login: account !== null,
+      userName: userInfo ? userInfo.name : "东师青年",
+      desc: userInfo?.email || "走出半生，归来仍是 —— 东师青年",
+    });
     popNotice("user");
   },
 

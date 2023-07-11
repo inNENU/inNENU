@@ -7,11 +7,21 @@
   root-background-color="{{color.bgColor}}"
 />
 <view class="{{theme}} grey">
-  <view class="info-wrapper" style="padding-top:{{statusBarHeight + 20}}px">
-    <image class="avatar" src="{{logo}}" />
-    <view class="info">
-      <view class="nickname">{{userName}}</view>
-      <view class="detail">{{desc}}</view>
+  <view class="account-wrapper" style="padding-top:{{statusBarHeight + 20}}px">
+    <view
+      class="account"
+      hover-class="button-hover"
+      hover-start-time="0"
+      hover-stay-time="0"
+      data-url="account"
+      catch:tap="$bindGo"
+    >
+      <image class="avatar" src="{{logo}}" />
+      <view class="info">
+        <view wx:if="{{login}}" class="nickname">{{userName}}</view>
+        <button wx:else class="login-button" size="mini">登录账号</button>
+        <view class="detail">{{desc}}</view>
+      </view>
     </view>
   </view>
   <view class="info-placeholder" style="height:{{statusBarHeight + 96}}px" />

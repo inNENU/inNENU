@@ -17,9 +17,8 @@ const { globalData } = getApp<AppOption>();
 
 $Page("user", {
   data: {
-    title: "in 东师",
     logo: `${assets}/img/inNENU.png`,
-    desc: "in 东师，就用 in 东师",
+
     page: <PageDataWithContent>{
       title: "我的东师",
       grey: true,
@@ -56,12 +55,16 @@ $Page("user", {
   },
 
   onShow() {
-    const { userInfo } = globalData;
+    const { account, userInfo } = globalData;
 
     refreshPage("user").then((data) => {
       setPage({ ctx: this, option: { id: "user" } }, data);
     });
-    this.setData({ userName: userInfo ? userInfo.name : "in东师" });
+    this.setData({
+      login: account !== null,
+      userName: userInfo?.name || "in东师",
+      desc: userInfo?.email || "in 东师，就用 in 东师",
+    });
     popNotice("user");
   },
 
