@@ -9,7 +9,6 @@ import {
 import { showToast } from "../../api/ui.js";
 import { type AppOption } from "../../app.js";
 import { appCoverPrefix, appName } from "../../config/info.js";
-import { loadFont } from "../../utils/app.js";
 import { getColor, popNotice, resolvePage, setPage } from "../../utils/page.js";
 import { checkResource } from "../../utils/resource.js";
 import { refreshPage } from "../../utils/tab.js";
@@ -119,7 +118,6 @@ $Page("user", {
     wx.setStorageSync("theme", theme);
     this.setData({ color: getColor(this.data.page.grey), theme });
     this.$emit("theme", theme);
-    loadFont(theme);
 
     // debug
     console.info(`Switched to ${theme} theme`);

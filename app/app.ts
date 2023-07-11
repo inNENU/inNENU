@@ -11,10 +11,10 @@ import {
   getGlobalData,
   initializeApp,
   startup,
-  updateApp,
-  updateNotice,
 } from "./utils/app.js";
+import { updateNotice } from "./utils/notice.js";
 import { checkResource } from "./utils/resource.js";
+import { updateApp } from "./utils/update.js";
 
 export interface AppOption {
   globalData: GlobalData;
@@ -115,8 +115,8 @@ $App<AppOption>({
     // 重新应用夜间模式、
     this.globalData.darkmode = wx.getSystemInfoSync().theme === "dark";
 
-    updateNotice(this.globalData);
     updateApp(this.globalData);
+    updateNotice(this.globalData);
   },
 
   onError(errorMsg) {

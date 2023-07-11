@@ -2,9 +2,9 @@
 import { type PageInstance, type PageQuery, logger } from "@mptool/enhance";
 import { readJSON, writeJSON } from "@mptool/file";
 
-import { type Notice } from "./app.js";
 import { id2path } from "./id.js";
 import { ensureJSON } from "./json.js";
+import { type Notice } from "./notice.js";
 import { getScopeData } from "./scopeData.js";
 import {
   type FunctionalListComponentItemConfig,

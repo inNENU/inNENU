@@ -1,12 +1,14 @@
 /* eslint-disable max-lines */
 import { emitter, logger } from "@mptool/enhance";
-import { get, ls, rm, writeJSON } from "@mptool/file";
+import { get, writeJSON } from "@mptool/file";
 
-import { loadFZSSJW } from "./font.js";
+import { platformActions } from "./app-platform.js";
+import { updateNotice } from "./notice.js";
 import { downloadResource } from "./resource.js";
+import { updateApp } from "./update.js";
 import { type PageData, type VersionInfo } from "../../typings/index.js";
-import { requestJSON } from "../api/net.js";
-import { showModal, showToast } from "../api/ui.js";
+import { login } from "../api/login.js";
+import { showToast } from "../api/ui.js";
 import { defaultAppConfig } from "../config/app.js";
 import { server, version } from "../config/info.js";
 import { ACCOUNT_INFO_KEY, USER_INFO_KEY } from "../config/keys.js";
@@ -141,187 +143,51 @@ export const initializeApp = (): void => {
   });
 };
 
-/** 通知格式 */
-export interface Notice {
-  /** 标题 */
-  title: string;
-  /** 内容 */
-  content: string;
-  /** 是否每次都通知 */
-  force?: boolean;
-}
+export const getGlobalData = (): GlobalData => {
+  // 获取设备与运行环境信息
+  const info = wx.getSystemInfoSync();
+  const env = "miniapp" in wx ? "app" : info.AppPlatform || "wx";
 
-/**
- * 弹窗通知检查
- *
- * @param globalData 小程序的全局数据
- */
-export const updateNotice = (globalData: GlobalData): void => {
-  requestJSON<Record<string, Notice>>(
-    `r/config/${globalData.appID}/${globalData.version}/notice`,
-  )
-    .then((noticeList) => {
-      for (const pageName in noticeList) {
-        const notice = noticeList[pageName];
-        const oldNotice = wx.getStorageSync<Notice | undefined>(
-          `${pageName}-notice`,
-        );
-
-        // 如果通知内容不同或为强制通知，写入通知信息，并重置通知状态
-        if (
-          !oldNotice ||
-          oldNotice.title !== notice.title ||
-          oldNotice.content !== notice.content ||
-          notice.force
-        ) {
-          wx.setStorageSync(`${pageName}-notice`, notice);
-          wx.removeStorageSync(`${pageName}-notifyed`);
-        }
-
-        // 如果找到 APP 级通知，进行判断
-        if (pageName === "app")
-          if (!wx.getStorageSync("app-notifyed") || notice.force)
-            showModal(notice.title, notice.content, () =>
-              wx.setStorageSync("app-notifyed", true),
-            );
-      }
-    })
-    .catch(() => {
-      // 调试信息
-      logger.warn(`noticeList error`);
-    });
-};
-
-interface UpdateInfo {
-  /** 是否进行强制更新 */
-  forceUpdate: boolean;
-  /** 是否进行强制初始化 */
-  reset: boolean;
-}
-
-/**
- * 检查小程序更新
- *
- * 如果检测到小程序更新，获取升级状态 (新版本号，是否立即更新、是否重置小程序) 并做相应处理
- *
- * @param globalData 小程序的全局数据
- */
-export const updateApp = (globalData: GlobalData): void => {
-  const updateManager = wx.getUpdateManager?.();
-
-  if (updateManager) {
-    // 检查更新
-    updateManager.onCheckForUpdate(({ hasUpdate }) => {
-      // 找到更新，提示用户获取到更新
-      if (hasUpdate) showToast("发现小程序更新，下载中...");
-    });
-
-    updateManager.onUpdateReady(() => {
-      // 请求配置文件
-      requestJSON<string>(`r/config/${globalData.appID}/version`)
-        .then((version) =>
-          // 请求配置文件
-          requestJSON<UpdateInfo>(
-            `r/config/${globalData.appID}/${version}/config`,
-          )
-            .then(({ forceUpdate, reset }) => {
-              // 更新下载就绪，提示用户重新启动
-              wx.showModal({
-                title: "已找到新版本",
-                content: `新版本${version}已下载，请重启应用更新。${
-                  reset ? "该版本会初始化小程序。" : ""
-                }`,
-                showCancel: !reset && !forceUpdate,
-                confirmText: "应用",
-                cancelText: "取消",
-                success: ({ confirm }) => {
-                  // 用户确认，应用更新
-                  if (confirm) {
-                    // 需要初始化
-                    if (reset) {
-                      // 显示提示
-                      wx.showLoading({ title: "初始化中", mask: true });
-
-                      // 清除文件系统文件与数据存储
-                      ls("").forEach((filePath) => rm(filePath));
-                      wx.clearStorageSync();
-
-                      // 隐藏提示
-                      wx.hideLoading();
-                    }
-
-                    // 应用更新
-                    updateManager.applyUpdate();
-                  }
-                },
-              });
-            })
-            .catch(() => {
-              // 调试信息
-              logger.warn(`config file error`);
-            }),
-        )
-        .catch(() => {
-          // 调试信息
-          logger.warn(`version file error`);
-        });
-    });
-
-    // 更新下载失败
-    updateManager.onUpdateFailed(() => {
-      // 提示用户网络出现问题
-      showToast("小程序更新下载失败，请检查您的网络!");
-
-      // 调试
-      logger.warn("Update App failed because of Net Error");
-    });
-  }
-};
-
-interface LoginCallback {
-  openid: string;
-}
-
-/**
- * 登录
- *
- * @param appID 小程序的appID
- */
-const login = (
-  appID: AppID,
-  env: Env,
-  callback: (openid: string) => void,
-): void => {
-  const openid = wx.getStorageSync<string | undefined>("openid");
-
-  if (openid) {
-    console.info(`User OPENID: ${openid}`);
-    callback(openid);
-  } else if (env === "qq" || env === "wx") {
-    wx.login({
-      success: ({ code }) => {
-        if (code)
-          wx.request<LoginCallback>({
-            url: `${server}service/login.php`,
-            method: "POST",
-            data: { appID, code, env },
-            enableHttp2: true,
-            success: ({ data }) => {
-              wx.setStorageSync("openid", data.openid);
-              console.info(`User OPENID: ${data.openid}`);
-              callback(data.openid);
-            },
-          });
-      },
-      fail: ({ errMsg }) => {
-        console.error(`Login failed: ${errMsg}`);
-      },
-    });
-  }
+  return {
+    version,
+    account: get<AccountBasicInfo | undefined>(ACCOUNT_INFO_KEY) || null,
+    userInfo: get<UserInfo | undefined>(USER_INFO_KEY) || null,
+    music: { playing: false, index: 0 },
+    page: {
+      data: {},
+      id: "",
+    },
+    startupTime: new Date().getTime(),
+    env,
+    envName: env === "app" ? "App" : "小程序",
+    theme: wx.getStorageSync<string>("theme"),
+    info,
+    darkmode: info.theme === "dark",
+    appID: wx.getAccountInfoSync().miniProgram.appId as AppID,
+    openid: "",
+    selectable: wx.getStorageSync<boolean>("selectable") || false,
+  };
 };
 
 /** 注册全局监听 */
 const registerActions = (globalData: GlobalData): void => {
+  const debug = wx.getStorageSync<boolean | undefined>("debugMode") || false;
+
+  wx.setEnableDebug({ enableDebug: debug });
+  (wx.env as Record<string, unknown>).DEBUG = debug;
+
+  // 获取网络信息
+  wx.getNetworkType({
+    success: ({ networkType }) => {
+      if (networkType === "none") showToast("您的网络状态不佳");
+    },
+  });
+
+  if (wx.canIUse("onThemeChange"))
+    wx.onThemeChange(({ theme }) => {
+      globalData.darkmode = theme === "dark";
+    });
+
   // 设置内存不足警告
   wx.onMemoryWarning((res) => {
     console.warn("Memory warning received.");
@@ -382,41 +248,6 @@ const registerActions = (globalData: GlobalData): void => {
   wx.onWindowResize(({ size }) => {
     globalData.info = { ...globalData.info, ...size };
   });
-
-  // 更新窗口大小
-  wx.onThemeChange?.(({ theme }) => {
-    globalData.darkmode = theme === "dark";
-  });
-};
-
-export const loadFont = (theme: string): void => {
-  if (theme === "nenu") loadFZSSJW(true);
-};
-
-export const getGlobalData = (): GlobalData => {
-  // 获取设备与运行环境信息
-  const info = wx.getSystemInfoSync();
-  const env = "miniapp" in wx ? "app" : info.AppPlatform || "wx";
-
-  return {
-    version,
-    account: get<AccountBasicInfo | undefined>(ACCOUNT_INFO_KEY) || null,
-    userInfo: get<UserInfo | undefined>(USER_INFO_KEY) || null,
-    music: { playing: false, index: 0 },
-    page: {
-      data: {},
-      id: "",
-    },
-    startupTime: new Date().getTime(),
-    env,
-    envName: env === "app" ? "App" : "小程序",
-    theme: "ios",
-    info,
-    darkmode: info.theme === "dark",
-    appID: wx.getAccountInfoSync().miniProgram.appId as AppID,
-    openid: "",
-    selectable: wx.getStorageSync<boolean>("selectable") || false,
-  };
 };
 
 /**
@@ -427,31 +258,11 @@ export const getGlobalData = (): GlobalData => {
  * @param globalData 小程序的全局数据
  */
 export const startup = (globalData: GlobalData): void => {
-  // 获取主题、夜间模式、appID
-  globalData.theme = wx.getStorageSync<string>("theme");
-
-  // 获取网络信息
-  wx.getNetworkType({
-    success: ({ networkType }) => {
-      if (networkType === "none") showToast("您的网络状态不佳");
-    },
-  });
-
-  if (wx.canIUse("onThemeChange"))
-    wx.onThemeChange(({ theme }) => {
-      globalData.darkmode = theme === "dark";
-    });
-
-  loadFont(globalData.theme);
+  registerActions(globalData);
   updateApp(globalData);
   updateNotice(globalData);
-  registerActions(globalData);
   login(globalData.appID, globalData.env, (openid) => {
     globalData.openid = openid;
   });
-
-  const debug = wx.getStorageSync<boolean | undefined>("debugMode") || false;
-
-  wx.setEnableDebug({ enableDebug: debug });
-  (wx.env as Record<string, unknown>).DEBUG = debug;
+  platformActions(globalData);
 };

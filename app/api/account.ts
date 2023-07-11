@@ -1,10 +1,10 @@
 import { logger } from "@mptool/enhance";
 import { set } from "@mptool/file";
 
-import { type AccountBasicInfo } from "./app.js";
-import { WEEK } from "./constant.js";
-import { CommonFailedResponse, Cookie } from "../../typings/index.js";
+import { type CommonFailedResponse, type Cookie } from "../../typings/index.js";
 import { service } from "../config/info.js";
+import { type AccountBasicInfo } from "../utils/app.js";
+import { WEEK } from "../utils/constant.js";
 
 export interface LoginSuccessResponse {
   status: "success";

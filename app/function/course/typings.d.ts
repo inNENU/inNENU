@@ -1,5 +1,5 @@
 import { type Cookie, type CookieOptions } from "../../../typings/cookie.js";
-import { LoginFailedResponse } from "../../utils/account.ts";
+import { type LoginFailedResponse } from "../../api/account.ts";
 import { type AccountBasicInfo } from "../../utils/app.ts";
 
 export interface UnderSystemLoginSuccessResponse {
