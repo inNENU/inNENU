@@ -29,6 +29,7 @@ $Page(PAGE_ID, {
   },
 
   onLoad({ type = "notice" }) {
+    this.state.type = <"notice" | "news">type;
     this.setData({
       color: getColor(),
       theme: globalData.theme,

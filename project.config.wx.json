@@ -230,6 +230,13 @@
           "scene": null
         },
         {
+          "name": "新闻列表",
+          "pathName": "function/notice/list",
+          "query": "type=news",
+          "launchMode": "default",
+          "scene": null
+        },
+        {
           "name": "体测计算器",
           "pathName": "function/pe-calculator/pe-calculator",
           "query": "",
