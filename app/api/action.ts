@@ -1,4 +1,4 @@
-import { get } from "@mptool/file";
+import { get, set } from "@mptool/file";
 
 import { type ActionLoginResponse } from "./login-typings.js";
 import { request } from "./net.js";
@@ -8,12 +8,16 @@ import { service } from "../config/info.js";
 import { ACTION_SYSTEM_COOKIE } from "../config/keys.js";
 import { type AccountBasicInfo } from "../utils/app.js";
 
-export const getActionCookie = (
+export const actionLogin = (
   options: AccountBasicInfo,
 ): Promise<ActionLoginResponse> =>
   request<ActionLoginResponse>(`${service}action/login`, {
     method: "POST",
     data: options,
+  }).then((data) => {
+    if (data.status === "success") set(ACTION_SYSTEM_COOKIE, data.cookies);
+
+    return data;
   });
 
 export const checkActionCookie = (
@@ -24,14 +28,17 @@ export const checkActionCookie = (
     data: { cookies },
   });
 
-export const actionLogin = (
+export const getActionCookie = (
   account: AccountBasicInfo,
+  check = false,
 ): Promise<ActionLoginResponse> => {
   const cookies = get<Cookie[]>(ACTION_SYSTEM_COOKIE);
 
   return cookies
-    ? checkActionCookie(cookies).then((valid) =>
-        valid ? { status: "success", cookies } : getActionCookie(account),
-      )
-    : getActionCookie(account);
+    ? check
+      ? checkActionCookie(cookies).then((valid) =>
+          valid ? { status: "success", cookies } : actionLogin(account),
+        )
+      : Promise.resolve({ status: "success", cookies })
+    : actionLogin(account);
 };

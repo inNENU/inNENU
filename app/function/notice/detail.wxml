@@ -1,0 +1,30 @@
+<import src="/base/template.wxml" />
+<page-meta
+  background-text-style="{{darkmode ? 'dark': 'light'}}"
+  background-color="{{color.bgColor}}"
+  background-color-top="{{color.bgColorTop}}"
+  background-color-bottom="{{color.bgColorBottom}}"
+  root-background-color="{{color.bgColor}}"
+/>
+<view class="{{theme}} main grey">
+  <navbar nav="{{nav}}" darkmode="{{darkmode}}" />
+  <view class="title">{{title}}</view>
+  <view wx:if="{{content}}" class="info">
+    <view class="time-icon">
+      <text>{{item.time}}</text>
+    </view>
+    <view class="eye-icon">
+      <text>{{pageView}}</text>
+    </view>
+    <view class="teacher-icon">
+      <text>{{from}}</text>
+    </view>
+    <view class="author-icon">
+      <text>{{author}}</text>
+    </view>
+  </view>
+  <view class="content">
+    <rich-text nodes="{{content}}" space="nbsp" />
+  </view>
+  <footer />
+</view>

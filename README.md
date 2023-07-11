@@ -33,3 +33,7 @@
 - QQ 不兼容 darkmode 的主题配置， app.json 写法有差异 (编译失败)
 - QQ 不支持 text 的 user-select (旧写法出现警告)
 - QQ 的 app.json 声明了 groupIdList (旧写法出现警告)
+
+## TODO
+
+借阅书籍添加刷新按钮

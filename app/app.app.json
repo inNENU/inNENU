@@ -23,6 +23,8 @@
     "function/location/location",
     "function/map/map",
     "function/music/music",
+    "function/notice/detail",
+    "function/notice/list",
     "function/pe-calculator/pe-calculator",
     "function/phone/phone",
     "function/school-media/school-media",

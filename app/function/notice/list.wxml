@@ -1,0 +1,58 @@
+<view class="ios notice-list-wrapper">
+  <navbar nav="{{nav}}" darkmode="{{darkmode}}" />
+  <scroll-view scroll-y class="notice-list">
+    <view wx:if="{{status === 'error'}}" class="failed">获取失败</view>
+    <view
+      wx:elif="{{status === 'login'}}"
+      class="need-login"
+      hover-class="button-hover"
+      hover-start-time="0"
+      hover-stay-time="0"
+      catch:tap="login"
+    >
+      登陆账号👉
+    </view>
+    <block wx:else>
+      <view
+        wx:for="{{notices}}"
+        wx:key="title"
+        class="notice"
+        hover-class="button-hover"
+        hover-start-time="0"
+        hover-stay-time="0"
+        data-index="{{index}}"
+        catch:tap="viewNotice"
+      >
+        <view class="title">{{item.title}}</view>
+        <view class="info">
+          <view class="time-icon">
+            <text>{{item.time}}</text>
+          </view>
+          <view class="teacher-icon">
+            <text>{{item.from}}</text>
+          </view>
+        </view>
+      </view>
+    </block>
+  </scroll-view>
+  <view class="pagination">
+    <button
+      size="mini"
+      class="prev"
+      disabled="{{currentPage === 1}}"
+      catch:tap="prevPage"
+    >
+      上一页
+    </button>
+    <view class="current">第 {{currentPage}} 页</view>
+    <button
+      size="mini"
+      class="next"
+      disabled="{{currentPage === totalPage}}"
+      catch:tap="nextPage"
+    >
+      下一页
+    </button>
+  </view>
+  <footer />
+</view>

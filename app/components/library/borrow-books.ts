@@ -1,9 +1,9 @@
 import { $Component } from "@mptool/enhance";
-import { get, set } from "@mptool/file";
+import { check, get, set } from "@mptool/file";
 
 import { getBorrowBooks } from "./api.js";
 import { type BorrowBookData } from "./typings.js";
-import { actionLogin } from "../../api/action.js";
+import { getActionCookie } from "../../api/action.js";
 import { showModal } from "../../api/ui.js";
 import { type AppOption } from "../../app.js";
 import { BORROW_BOOKS_KEY } from "../../config/keys.js";
@@ -22,7 +22,7 @@ $Component({
       const books = get<BorrowBookData[]>(BORROW_BOOKS_KEY);
 
       if (books) this.setData({ loading: false, books });
-      else this.getBooks();
+      else this.getBooks(true);
     },
   },
 
@@ -31,7 +31,7 @@ $Component({
       if (globalData.account) {
         if (this.data.status === "login") {
           this.setData({ status: "loading" });
-          this.getBooks();
+          this.getBooks(true);
         }
       } else this.setData({ status: "login" });
     },
@@ -42,9 +42,9 @@ $Component({
       this.$go("account?update=true");
     },
 
-    getBooks() {
+    getBooks(check = false) {
       if (globalData.account)
-        actionLogin(globalData.account).then((res) => {
+        getActionCookie(globalData.account, check).then((res) => {
           if (res.status === "success")
             getBorrowBooks({ cookies: res.cookies }).then((res) => {
               if (res.status === "success") {

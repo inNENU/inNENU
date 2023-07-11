@@ -29,6 +29,8 @@
         "location/location",
         "map/map",
         "music/music",
+        "notice/detail",
+        "notice/list",
         "video/video",
         "pe-calculator/pe-calculator",
         "phone/phone",

@@ -46,6 +46,8 @@ $Config({
     ["course-table", "/function/course/table"],
     ["enroll-grade", "/function/enroll/grade"],
     ["enroll-plan", "/function/enroll/plan"],
+    ["notice-detail", "/function/notice/detail"],
+    ["notice-list", "/function/notice/list"],
     ["wechat-detail", "/function/school-media/wechat"],
     [["about", "account", "privacy", "storage"], "/settings/$name/$name"],
   ],

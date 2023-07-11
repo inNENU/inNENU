@@ -1,6 +1,10 @@
 {
+  "srcMiniprogramRoot": "app/",
   "miniprogramRoot": "dist/",
   "compileType": "miniprogram",
+  "libVersion": "trial",
+  "appid": "wx33acb831ee1831a5",
+  "projectname": "in%E4%B8%9C%E5%B8%88",
   "setting": {
     "es6": false,
     "enhance": false,
@@ -41,9 +45,14 @@
     "condition": true,
     "skylineRenderEnable": true
   },
-  "libVersion": "trial",
-  "appid": "wx33acb831ee1831a5",
-  "projectname": "in%E4%B8%9C%E5%B8%88",
+  "editorSetting": {
+    "tabIndent": "insertSpaces",
+    "tabSize": 2
+  },
+  "projectArchitecture": "multiPlatform",
+  "simulatorPluginLibVersion": {
+    "wxext14566970e7e9f62": "2.27.3"
+  },
   "packOptions": {
     "ignore": [
       {
@@ -74,6 +83,34 @@
           "scene": null
         },
         {
+          "name": "搜索",
+          "pathName": "pages/search/search",
+          "query": "",
+          "launchMode": "default",
+          "scene": null
+        },
+        {
+          "name": "指定文字搜索",
+          "pathName": "pages/search/search",
+          "query": "word=浴池",
+          "launchMode": "default",
+          "scene": null
+        },
+        {
+          "name": "客服",
+          "pathName": "pages/action/action",
+          "query": "action=contact",
+          "launchMode": "default",
+          "scene": null
+        },
+        {
+          "name": "初始化小程序",
+          "pathName": "pages/action/action",
+          "query": "action=reset",
+          "launchMode": "default",
+          "scene": null
+        },
+        {
           "name": "分享",
           "pathName": "pages/info/info",
           "query": "path=Gdorm/electricity/power",
@@ -88,8 +125,22 @@
           "scene": null
         },
         {
-          "name": "图书馆",
-          "pathName": "function/library/library",
+          "name": "欢迎入群",
+          "pathName": "pages/info/info",
+          "query": "id=other/about/welcome",
+          "launchMode": "default",
+          "scene": null
+        },
+        {
+          "name": "错误页",
+          "pathName": "pages/info/info",
+          "query": "id=other/about/notexist",
+          "launchMode": "default",
+          "scene": null
+        },
+        {
+          "name": "校历",
+          "pathName": "function/calendar/calendar",
           "query": "",
           "launchMode": "default",
           "scene": null
@@ -109,37 +160,9 @@
           "scene": null
         },
         {
-          "name": "天气",
-          "pathName": "function/weather/weather",
-          "query": "",
-          "launchMode": "default",
-          "scene": null
-        },
-        {
-          "name": "地图",
-          "pathName": "function/map/map",
-          "query": "",
-          "launchMode": "default",
-          "scene": null
-        },
-        {
-          "name": "地图地点",
-          "pathName": "function/location/location",
-          "query": "id=benbu/general/index&point={\"latitude\":43.86188,\"longitude\":125.33137,\"name\":\"自由校区\"}",
-          "launchMode": "default",
-          "scene": null
-        },
-        {
-          "name": "体测计算器",
-          "pathName": "function/pe-calculator/pe-calculator",
-          "query": "",
-          "launchMode": "default",
-          "scene": null
-        },
-        {
-          "name": "校历",
-          "pathName": "function/calendar/calendar",
-          "query": "",
+          "name": "录取查询",
+          "pathName": "function/enroll/admission",
+          "query": "type=search",
           "launchMode": "default",
           "scene": null
         },
@@ -158,8 +181,22 @@
           "scene": null
         },
         {
-          "name": "选课",
-          "pathName": "function/select/select",
+          "name": "图书馆",
+          "pathName": "function/library/library",
+          "query": "",
+          "launchMode": "default",
+          "scene": null
+        },
+        {
+          "name": "地图地点",
+          "pathName": "function/location/location",
+          "query": "id=benbu/general/index&point={\"latitude\":43.86188,\"longitude\":125.33137,\"name\":\"自由校区\"}",
+          "launchMode": "default",
+          "scene": null
+        },
+        {
+          "name": "地图",
+          "pathName": "function/map/map",
           "query": "",
           "launchMode": "default",
           "scene": null
@@ -179,6 +216,28 @@
           "scene": null
         },
         {
+          "name": "通知详情",
+          "pathName": "function/notice/detail",
+          "query": "id=cc1bdeeb92c44111aba5a5051db0c1f8&title=关于申报2023年研究生创新计划类项目的通知",
+          "launchMode": "default",
+          "scene": null
+        },
+        {
+          "name": "通知列表",
+          "pathName": "function/notice/list",
+          "query": "",
+          "launchMode": "default",
+          "scene": null
+        },
+        {
+          "name": "体测计算器",
+          "pathName": "function/pe-calculator/pe-calculator",
+          "query": "",
+          "launchMode": "default",
+          "scene": null
+        },
+
+        {
           "name": "师大黄页",
           "pathName": "function/phone/phone",
           "query": "",
@@ -186,16 +245,23 @@
           "scene": null
         },
         {
-          "name": "东师网站",
-          "pathName": "function/website/website",
+          "name": "选课",
+          "pathName": "function/select/select",
           "query": "",
           "launchMode": "default",
           "scene": null
         },
         {
-          "name": "小程序资源",
-          "pathName": "settings/storage/storage",
+          "name": "公众号",
+          "pathName": "function/school-media/school-media",
           "query": "",
+          "launchMode": "default",
+          "scene": null
+        },
+        {
+          "name": "特定公众号",
+          "pathName": "function/school-media/wechat",
+          "query": "path=nenuyouth",
           "launchMode": "default",
           "scene": null
         },
@@ -221,45 +287,23 @@
           "scene": null
         },
         {
-          "name": "公众号",
-          "pathName": "function/school-media/school-media",
+          "name": "天气",
+          "pathName": "function/weather/weather",
           "query": "",
           "launchMode": "default",
           "scene": null
         },
         {
-          "name": "特定公众号",
-          "pathName": "function/school-media/wechat",
-          "query": "path=nenuyouth",
-          "launchMode": "default",
-          "scene": null
-        },
-        {
-          "name": "搜索",
-          "pathName": "pages/search/search",
+          "name": "东师网站",
+          "pathName": "function/website/website",
           "query": "",
           "launchMode": "default",
           "scene": null
         },
-
         {
-          "name": "客服",
-          "pathName": "pages/action/action",
-          "query": "action=contact",
-          "launchMode": "default",
-          "scene": null
-        },
-        {
-          "name": "初始化小程序",
-          "pathName": "pages/action/action",
-          "query": "action=reset",
-          "launchMode": "default",
-          "scene": null
-        },
-        {
-          "name": "指定文字搜索",
-          "pathName": "pages/search/search",
-          "query": "word=浴池",
+          "name": "小程序资源",
+          "pathName": "settings/storage/storage",
+          "query": "",
           "launchMode": "default",
           "scene": null
         },
@@ -276,38 +320,8 @@
           "query": "",
           "launchMode": "default",
           "scene": null
-        },
-        {
-          "name": "欢迎入群",
-          "pathName": "pages/info/info",
-          "query": "id=other/about/welcome",
-          "launchMode": "default",
-          "scene": null
-        },
-        {
-          "name": "错误页",
-          "pathName": "pages/info/info",
-          "query": "id=other/about/notexist",
-          "launchMode": "default",
-          "scene": null
-        },
-        {
-          "name": "录取查询",
-          "pathName": "function/enroll/admission",
-          "query": "type=search",
-          "launchMode": "default",
-          "scene": null
         }
       ]
     }
-  },
-  "srcMiniprogramRoot": "dist/",
-  "editorSetting": {
-    "tabIndent": "insertSpaces",
-    "tabSize": 2
-  },
-  "projectArchitecture": "multiPlatform",
-  "simulatorPluginLibVersion": {
-    "wxext14566970e7e9f62": "2.27.3"
   }
 }

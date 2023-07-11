@@ -28,12 +28,14 @@
         "location/location",
         "map/map",
         "music/music",
-        "video/video",
+        "notice/detail",
+        "notice/list",
         "pe-calculator/pe-calculator",
         "phone/phone",
         "select/select",
         "school-media/school-media",
         "school-media/wechat",
+        "video/video",
         "weather/weather",
         "website/website"
       ]
