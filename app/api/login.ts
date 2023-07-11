@@ -25,7 +25,7 @@ export const login = (
     wx.login({
       success: ({ code }) => {
         if (code)
-          request<LoginCallback>(`${server}login.php`, {
+          request<LoginCallback>(`${server}service/login.php`, {
             method: "POST",
             data: { appID, code, env },
           }).then((data) => {
