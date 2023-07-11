@@ -8,17 +8,8 @@
 <view class="{{theme}} notice-list-wrapper">
   <navbar nav="{{ { title } }}" />
   <scroll-view scroll-y scroll-top="{{scrollTop}}" class="notice-list">
-    <view wx:if="{{status === 'error'}}" class="failed">获取失败</view>
-    <view
-      wx:elif="{{status === 'login'}}"
-      class="need-login"
-      hover-class="button-hover"
-      hover-start-time="0"
-      hover-stay-time="0"
-      catch:tap="login"
-    >
-      登陆账号👉
-    </view>
+    <error-hint wx:if="{{status === 'error'}}" catch:retry="getNoticeList" />
+    <login-hint wx:elif="{{status === 'login'}}" source="学校通知" />
     <block wx:else>
       <view
         wx:for="{{notices}}"
@@ -42,7 +33,7 @@
       </view>
     </block>
   </scroll-view>
-  <view class="pagination">
+  <view wx:if="{{status === 'success'}}" class="pagination">
     <button
       size="mini"
       class="prev"

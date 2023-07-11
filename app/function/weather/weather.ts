@@ -8,9 +8,7 @@ import { appCoverPrefix, server } from "../../config/info.js";
 import { WEATHER_KEY } from "../../config/keys.js";
 import { getColor } from "../../utils/page.js";
 
-const {
-  globalData: { darkmode, info },
-} = getApp<AppOption>();
+const { globalData } = getApp<AppOption>();
 
 const PAGE_TITLE = "东师天气";
 const CANVAS_SELECTOR = ".temperature-canvas";
@@ -49,7 +47,7 @@ $Page("weather", {
 
         color: getColor(),
         firstPage: getCurrentPages().length === 1,
-        statusBarHeight: info.statusBarHeight,
+        statusBarHeight: globalData.info.statusBarHeight,
       });
     } else {
       // update icon
@@ -130,7 +128,7 @@ $Page("weather", {
         ([
           { node: canvas, width, height },
         ]: Required<WechatMiniprogram.NodeInfo>[]) => {
-          const dpr = info.pixelRatio;
+          const dpr = globalData.info.pixelRatio;
 
           canvas.width = width * dpr;
           canvas.height = height * dpr;
@@ -166,7 +164,7 @@ $Page("weather", {
     const gap = max - min;
 
     const context = canvas.getContext("2d");
-    const dpr = info.pixelRatio;
+    const dpr = globalData.info.pixelRatio;
 
     context.scale(dpr, dpr);
 

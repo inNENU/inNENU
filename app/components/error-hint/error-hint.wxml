@@ -1,0 +1,18 @@
+<view class="error-hint {{size === 'mini'? 'mini' : ''}} custom-class">
+  <view class="tip">
+    <icon
+      class="error-icon"
+      type="warn"
+      color="#ff3333"
+      size="{{size =='mini' ? 24 : 80}}"
+    />
+    <view class="text">获取失败</view>
+  </view>
+  <button
+    class="retry-button"
+    size="{{size === 'mini'? 'mini': 'default'}}"
+    catch:tap="retry"
+  >
+    重试
+  </button>
+</view>

@@ -26,7 +26,8 @@ $Page(PAGE_ID, {
   onLoad({ id = "", title = "", type = "notice" }) {
     this.state.title = title;
     this.state.id = id;
-    if (id) this.getNotice(id);
+
+    if (id) this.getNotice();
     else
       showModal("无法获取", "请提供 ID", () => {
         this.$back();
@@ -67,27 +68,29 @@ $Page(PAGE_ID, {
     };
   },
 
-  getNotice(id: string) {
+  getNotice() {
     if (globalData.account) {
       wx.showLoading({ title: "获取中" });
       getActionCookie(globalData.account).then((res) => {
         if (res.success)
-          getNotice({ cookies: res.cookies, noticeID: id }).then((res) => {
-            wx.hideLoading();
-            if (res.success) {
-              const { title, time, pageView, author, from, content } = res;
+          getNotice({ cookies: res.cookies, noticeID: this.state.id }).then(
+            (res) => {
+              wx.hideLoading();
+              if (res.success) {
+                const { title, time, pageView, author, from, content } = res;
 
-              this.setData({
-                status: "success",
-                title,
-                time,
-                pageView,
-                author,
-                from,
-                content,
-              });
-            } else this.setData({ status: "error" });
-          });
+                this.setData({
+                  status: "success",
+                  title,
+                  time,
+                  pageView,
+                  author,
+                  from,
+                  content,
+                });
+              } else this.setData({ status: "error" });
+            },
+          );
         else {
           wx.hideLoading();
           this.setData({ status: "error" });

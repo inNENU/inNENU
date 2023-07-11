@@ -7,23 +7,27 @@
 />
 <view class="{{theme}}">
   <navbar nav="{{ { title: pageTitle } }}" />
-  <view class="title">{{title}}</view>
-  <view wx:if="{{content}}" class="info">
-    <view class="time-icon">
-      <text>{{time}}</text>
+  <error-hint wx:if="{{ status === 'error' }}" catch:retry="getNotice" />
+  <login-hint wx:elif="{{ status === 'login' }}" source="学校通知" />
+  <block wx:else>
+    <view class="title">{{title}}</view>
+    <view class="info">
+      <view class="time-icon">
+        <text>{{time}}</text>
+      </view>
+      <view class="eye-icon">
+        <text>{{pageView}}</text>
+      </view>
+      <view class="teacher-icon">
+        <text>{{from}}</text>
+      </view>
+      <view class="author-icon">
+        <text>{{author}}</text>
+      </view>
     </view>
-    <view class="eye-icon">
-      <text>{{pageView}}</text>
+    <view class="content">
+      <rich-text nodes="{{content}}" space="nbsp" />
     </view>
-    <view class="teacher-icon">
-      <text>{{from}}</text>
-    </view>
-    <view class="author-icon">
-      <text>{{author}}</text>
-    </view>
-  </view>
-  <view class="content">
-    <rich-text nodes="{{content}}" space="nbsp" />
-  </view>
+  </block>
   <footer />
 </view>

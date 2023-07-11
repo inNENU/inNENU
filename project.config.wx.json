@@ -223,6 +223,13 @@
           "scene": null
         },
         {
+          "name": "新闻详情",
+          "pathName": "function/notice/detail",
+          "query": "id=7021130a8af34afca342acb02a0766a9&title=我校三个教师团队被认定为优秀团队&type=news",
+          "launchMode": "default",
+          "scene": null
+        },
+        {
           "name": "通知列表",
           "pathName": "function/notice/list",
           "query": "",

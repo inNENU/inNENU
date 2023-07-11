@@ -21,6 +21,7 @@ export interface AppOption {
 }
 
 $Config({
+  home: "/pages/main/main",
   defaultRoute: "/pages/$name/$name",
   routes: [
     [

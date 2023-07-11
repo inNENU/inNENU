@@ -12,11 +12,11 @@
       <title config="{{ { text: '个人信息' } }}" />
       <list config="{{list}}" />
       <button type="warn" class="account-button" bindtap="delete">
-        删除本地账户
+        删除全部信息
       </button>
     </block>
     <block wx:else>
-      <title config="{{ { text: '填写信息' } }}" />
+      <title config="{{ { text: '统一身份认证账号' } }}" />
       <view class="input-list-wrapper">
         <view class="input-list-item">
           <view class="text">学号</view>

@@ -1,0 +1,28 @@
+.error-hint {
+  height: 50vh;
+  text-align: center;
+  display: flex;
+  justify-content: space-evenly;
+  align-items: center;
+  flex-direction: column;
+
+  .text {
+    margin: 20px 0;
+    font-size: 20px;
+  }
+
+  &.mini {
+    height: unset;
+    margin: 4px 10px;
+
+    .tip {
+      display: flex;
+      align-items: center;
+
+      .text {
+        margin: 8px 0.25em;
+        font-size: 16px;
+      }
+    }
+  }
+}

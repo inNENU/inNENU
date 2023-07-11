@@ -5,6 +5,10 @@
 
 .content {
   flex: 1;
+  display: flex;
+  justify-content: center;
+  align-items: stretch;
+  flex-direction: column;
 }
 
 .input-list-wrapper {

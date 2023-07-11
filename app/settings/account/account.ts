@@ -23,7 +23,7 @@ import { popNotice } from "../../utils/page.js";
 const { globalData } = getApp<AppOption>();
 
 const PAGE_ID = "account";
-const PAGE_TITLE = "账号信息";
+const PAGE_TITLE = "学校账户";
 
 const EMPTY_CONTENT = [{ text: "暂无个人信息" }];
 
@@ -52,13 +52,9 @@ $Page(PAGE_ID, {
 
     /** 导航栏 */
     nav: {
-      title: "账号信息",
+      title: PAGE_TITLE,
       statusBarHeight: globalData.info.statusBarHeight,
       from: "返回",
-    },
-
-    inputTitle: {
-      text: "账号信息",
     },
 
     list: <ListComponentConfig>{

@@ -95,10 +95,6 @@ $Page(PAGE_ID, {
     } else this.setData({ status: "login" });
   },
 
-  login() {
-    this.$go("account?from=学校通知&update=true");
-  },
-
   prevPage() {
     this.getNoticeList(this.data.currentPage - 1);
   },
