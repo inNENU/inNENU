@@ -8,7 +8,7 @@ const PAGE_TITLE = "图书馆";
 $Page(PAGE_ID, {
   onShareAppMessage: () => ({
     title: PAGE_TITLE,
-    path: `/function/phone/phone`,
+    path: `/function/library/library`,
   }),
 
   onShareTimeline: () => ({ title: PAGE_TITLE }),
