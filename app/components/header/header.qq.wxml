@@ -2,11 +2,11 @@
   class="left-button"
   style="top:{{statusBarHeight + 6}}px;"
   hover-class="button-hover"
-  catch:tap="back"
+  catch:tap="$bindBack"
 >
   <view class="icon-{{firstPage ? 'home' : 'back'}}" />
 </view>
-<view class="header" style="padding-top:{{statusBarHeight + 6}}px;">
-  {{title}}
-</view>
+<view class="header" style="padding-top:{{statusBarHeight + 6}}px;"
+  >{{title}}</view
+>
 <view class="placeholder" style="height: {{statusBarHeight + 60}}px" />

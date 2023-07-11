@@ -66,7 +66,9 @@ $Page(PAGE_ID, {
         showModal(
           "获取失败",
           "招生计划获取失败，请稍后重试。如果该情况持续发生，请反馈给开发者",
-          () => this.back(),
+          () => {
+            void this.$back();
+          },
         );
       });
   },
@@ -323,10 +325,5 @@ $Page(PAGE_ID, {
 
   close() {
     this.setData({ results: [] });
-  },
-
-  back() {
-    if (getCurrentPages().length === 1) this.$switch("main");
-    else this.$back();
   },
 });

@@ -96,10 +96,4 @@ $Page("location", {
   navigate() {
     navigation(this.data.point);
   },
-
-  /** 返回按钮功能 */
-  back() {
-    if (getCurrentPages().length === 1) this.$switch("main");
-    else this.$back();
-  },
 });

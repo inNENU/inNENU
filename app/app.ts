@@ -66,14 +66,6 @@ $Config({
         this.setData({ darkmode: theme === "dark" });
       };
 
-    // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
-    options.back =
-      options.back ||
-      function (this: TrivialPageInstance): void {
-        if (getCurrentPages().length === 1) this.$switch("main");
-        else this.$back();
-      };
-
     options.onLoad = wrapFunction(
       options.onLoad,
       function (this: TrivialPageInstance & { onThemeChange: () => void }) {

@@ -78,9 +78,4 @@ $Page(PAGE_ID, {
   scrollTop() {
     wx.pageScrollTo({ scrollTop: 0 });
   },
-
-  back() {
-    if (getCurrentPages().length === 1) this.$switch("main");
-    else this.$back();
-  },
 });

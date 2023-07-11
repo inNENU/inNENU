@@ -168,7 +168,9 @@ $Page(PAGE_ID, {
           showModal(
             "获取失败",
             "地图点位获取失败，请稍后重试。如果该情况持续发生，请反馈给开发者",
-            () => this.back(),
+            () => {
+              void this.$back();
+            },
           );
         }),
     );
@@ -338,10 +340,5 @@ $Page(PAGE_ID, {
 
   update(event: WechatMiniprogram.MapUpdated) {
     console.log("update", event);
-  },
-
-  back() {
-    if (getCurrentPages().length === 1) this.$switch("main");
-    else this.$back();
   },
 });

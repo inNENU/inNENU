@@ -24,12 +24,5 @@ $Component({
     },
   },
 
-  methods: {
-    back() {
-      if (getCurrentPages().length === 1) this.$switch("main");
-      else this.$back();
-    },
-  },
-
   externalClasses: ["header-class"],
 });

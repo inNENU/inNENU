@@ -13,7 +13,7 @@
       class="left-button {{titleDisplay ? 'fade-out' : 'fade-in'}}"
       style="top:{{statusBarHeight + 6}}px;"
       hover-class="button-hover"
-      catch:tap="back"
+      catch:tap="$bindBack"
     >
       <view class="icon-{{firstPage ? 'home' : 'back'}}" />
     </view>
@@ -26,7 +26,7 @@
         hover-class="left-button-hover"
         style="position: absolute; left: 0"
         plain
-        catch:tap="back"
+        catch:tap="$bindBack"
       >
         <view class="ios-back-arrow" style="border-color: #fff" />
         <text class="ios-nav-text" style="color: #fff"

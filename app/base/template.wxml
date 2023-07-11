@@ -70,7 +70,7 @@
         style="top: 27.5px"
         hover-class="button-hover"
         hover-stay-time="100"
-        catch:tap="$back"
+        catch:tap="$bindBack"
       >
         <view class="icon-{{firstPage ? 'home' : 'back'}}" />
       </view>

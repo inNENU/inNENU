@@ -798,7 +798,7 @@ $Page(PAGE_ID, {
         });
       } else {
         showModal("获取信息失败", res.msg, () => {
-          this.back();
+          this.$back();
         });
       }
 
@@ -864,10 +864,5 @@ $Page(PAGE_ID, {
     stop = selectQueue.stop;
 
     return selectQueue.run();
-  },
-
-  back() {
-    if (getCurrentPages().length === 1) this.$switch("main");
-    else this.$back();
   },
 });

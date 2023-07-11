@@ -277,10 +277,4 @@ $Page("weather", {
 
     showModal(hint.name, hint.detail);
   },
-
-  /** 返回按钮功能 */
-  back() {
-    if (getCurrentPages().length === 1) this.$reLaunch("main");
-    else this.$back();
-  },
 });

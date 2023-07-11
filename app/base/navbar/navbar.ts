@@ -21,11 +21,6 @@ $Component({
   behaviors: [pageScrollMixin(defaultScroller)],
 
   methods: {
-    back(): void {
-      if (this.data.firstPage) this.$switch("main");
-      else this.$back();
-    },
-
     setTheme(theme: string): void {
       this.setData({ theme });
     },

@@ -4,11 +4,11 @@
 }
 
 .content {
-  flex: 1;
   display: flex;
-  justify-content: center;
-  align-items: stretch;
+  flex: 1;
   flex-direction: column;
+  align-items: stretch;
+  justify-content: center;
 }
 
 .input-list-wrapper {

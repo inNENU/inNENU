@@ -16,7 +16,7 @@
     class="left-button"
     style="top:{{statusBarHeight + 6}}px;"
     hover-class="button-hover"
-    catch:tap="back"
+    catch:tap="$bindBack"
   >
     <cover-image
       class="icon-back"

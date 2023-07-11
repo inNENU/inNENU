@@ -438,9 +438,4 @@ $Page("music", {
     this.list();
     this.switchSong(currentTarget.dataset.index);
   },
-
-  back() {
-    if (getCurrentPages().length === 1) this.$switch("main");
-    else this.$back();
-  },
 });

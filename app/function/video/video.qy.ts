@@ -161,10 +161,4 @@ $Page("video", {
       broken_url: this.data.src,
     });
   },
-
-  /** 返回按钮功能 */
-  back() {
-    if (getCurrentPages().length === 1) this.$reLaunch("main");
-    else this.$back();
-  },
 });

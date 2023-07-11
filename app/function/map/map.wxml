@@ -12,16 +12,14 @@
   catch:updated="update"
   catch:regionchange="regionChange"
 />
-
 <view
   class="left-button"
   style="top:{{statusBarHeight + 6}}px;"
   hover-class="button-hover"
-  catch:tap="back"
+  catch:tap="$bindBack"
 >
   <view class="icon-{{firstPage ? 'home' : 'back'}}" />
 </view>
-
 <view
   class="area-switch"
   style="top:{{statusBarHeight + 6}}px;"
@@ -30,7 +28,6 @@
   <view class="item {{area === 'benbu' ? 'active' : ''}}">本部</view>
   <view class="item {{area === 'jingyue' ? 'active' : ''}}">净月</view>
 </view>
-
 <view
   class="satellite-button"
   hover-class="button-hover"
@@ -39,7 +36,6 @@
 >
   <image class="icon" src="./icon/satellite.svg" />
 </view>
-
 <view
   class="filter-button"
   hover-class="button-hover"
@@ -60,15 +56,12 @@
     {{item.name}}
   </view>
 </view>
-
 <view class="navigate-button" catch:tap="toggleNavigatePopup">
   <image class="icon" src="./icon/navigate.svg" />
 </view>
-
 <view class="location-button" catch:tap="toggleLocationPopup">
   <image class="icon" src="./icon/details.svg" />
 </view>
-
 <view class="scale-buttons">
   <view
     class="item"
@@ -87,7 +80,6 @@
     <image src="./icon/zoom-in.svg" />
   </view>
 </view>
-
 <view
   class="locate-button"
   hover-class="button-hover"
@@ -95,7 +87,6 @@
 >
   <image class="icon" src="./icon/locate.svg" />
 </view>
-
 <popup
   config="{{navigatePopup}}"
   show="{{showNavigate}}"
@@ -124,7 +115,6 @@
     </block>
   </tab-bar>
 </popup>
-
 <popup
   config="{{locationPopup}}"
   show="{{showLocation}}"

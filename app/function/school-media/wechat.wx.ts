@@ -158,11 +158,6 @@ $Page(PAGE_ID, {
     wx.pageScrollTo({ scrollTop: 0 });
   },
 
-  back() {
-    if (getCurrentPages().length === 1) this.$switch("main");
-    else this.$back();
-  },
-
   ctx: null as unknown as ReturnType<
     typeof createRecycleContext<WechatArticleItem>
   >,

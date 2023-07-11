@@ -1,5 +1,4 @@
 <wxs src="./navbar.wxs" module="navbar" />
-
 <template name="iosNav">
   <view class="ios-navigation-bar" style="padding-top:{{statusBarHeight}}px;">
     <view wx:if="{{titleDisplay}}" class="ios-nav-title">{{nav.title}}</view>
@@ -9,12 +8,12 @@
       hover-class="left-button-hover"
       hover-stay-time="100"
       data-action="{{nav.action}}"
-      catch:tap="{{nav.action ? navbar.action : 'back'}}"
+      catch:tap="{{nav.action ? navbar.action : '$bindBack'}}"
     >
       <view wx:if="{{!nav.action}}" class="ios-back-arrow" />
       <view class="ios-nav-text"
-        >{{firstPage ? '主页' : (nav.from || '返回')}}
-      </view>
+        >{{firstPage ? '主页' : (nav.from || '返回')}}</view
+      >
     </view>
   </view>
   <view

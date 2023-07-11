@@ -1,12 +1,11 @@
 <wxs src="./navbar.wxs" module="navbar" />
-
 <template name="nenuNav">
   <block wx:if="{{nav.action === undefined}}">
     <view
       class="left-button {{borderDisplay ? 'fade-in' : 'fade-out'}}"
       style="top:{{statusBarHeight + 6}}px;"
       hover-class="button-hover"
-      catch:tap="back"
+      catch:tap="$bindBack"
     >
       <view class="icon-{{firstPage ? 'home' : 'back'}}" />
     </view>
@@ -18,11 +17,11 @@
         class="ios-nav-back-button"
         hover-class="left-button-hover"
         style="position: absolute; left: 0"
-        catch:tap="back"
+        catch:tap="$bindBack"
       >
         <view class="ios-back-arrow" style="border-color: #fff" />
-        <view class="ios-nav-text" style="color: #fff"
-          >{{firstPage ? '主页' : (nav.from || '返回')}}
+        <view class="ios-nav-text" style="color: #fff">
+          {{firstPage ? '主页' : (nav.from || '返回')}}
         </view>
       </view>
       <view class="nenu-nav-title">{{nav.title}}</view>

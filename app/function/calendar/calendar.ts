@@ -47,7 +47,9 @@ $Page(PAGE_ID, {
         showModal(
           "获取失败",
           "校历信息获取失败，请稍后重试。如果该情况持续发生，请反馈给开发者",
-          () => this.back(),
+          () => {
+            void this.$back();
+          },
         );
       });
   },
@@ -97,10 +99,5 @@ $Page(PAGE_ID, {
   /** 关闭校历详情 */
   close() {
     this.setData({ display: false });
-  },
-
-  back() {
-    if (getCurrentPages().length === 1) this.$switch("main");
-    else this.$back();
   },
 });
