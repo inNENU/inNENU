@@ -1,6 +1,6 @@
 import { get, set } from "@mptool/file";
 
-import { type ActionLoginResponse } from "./login-typings.js";
+import { type ActionLoginResponse } from "./api-typings.js";
 import { request } from "./net.js";
 import { type Cookie } from "../../typings/cookie.js";
 import { type CookieVerifyResponse } from "../../typings/response.js";
