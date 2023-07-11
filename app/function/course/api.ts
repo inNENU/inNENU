@@ -25,8 +25,7 @@ export const getCourseCookie = (
     method: "POST",
     data: options,
   }).then((data) => {
-    if (data.status === "success")
-      set(UNDER_SYSTEM_COOKIE, data.cookies, 6 * HOUR);
+    if (data.success) set(UNDER_SYSTEM_COOKIE, data.cookies, 6 * HOUR);
     else logger.error("登录失败", data.msg);
 
     return data;
@@ -47,7 +46,7 @@ export const courseLogin = (
 
   return cookies
     ? checkCourseCookie(cookies).then((valid) =>
-        valid ? { status: "success", cookies } : getCourseCookie(account),
+        valid ? { success: true, cookies } : getCourseCookie(account),
       )
     : getCourseCookie(account);
 };
@@ -59,7 +58,7 @@ export const getCourseTable = (
     method: "POST",
     data: options,
   }).then((data) => {
-    if (data.status === "failed") logger.error("获取失败", data.msg);
+    if (!data.success) logger.error("获取失败", data.msg);
 
     return data;
   });
@@ -71,7 +70,7 @@ export const getGradeList = (
     method: "POST",
     data: options,
   }).then((data) => {
-    if (data.status === "failed") logger.error("获取失败", data.msg);
+    if (!data.success) logger.error("获取失败", data.msg);
 
     return data;
   });

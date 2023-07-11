@@ -1,5 +1,5 @@
 import { $Component } from "@mptool/enhance";
-import { check, get, set } from "@mptool/file";
+import { get, set } from "@mptool/file";
 
 import { getBorrowBooks } from "./api.js";
 import { type BorrowBookData } from "./typings.js";
@@ -45,9 +45,9 @@ $Component({
     getBooks(check = false) {
       if (globalData.account)
         getActionCookie(globalData.account, check).then((res) => {
-          if (res.status === "success")
+          if (res.success)
             getBorrowBooks({ cookies: res.cookies }).then((res) => {
-              if (res.status === "success") {
+              if (res.success) {
                 set(BORROW_BOOKS_KEY, res.data, 3 * HOUR);
                 this.setData({ books: res.data, status: "success" });
               } else this.setData({ status: "error" });

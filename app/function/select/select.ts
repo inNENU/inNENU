@@ -115,7 +115,7 @@ $Page(PAGE_ID, {
     if (account) {
       login(account)
         .then((data) => {
-          if (data.status === "success") {
+          if (data.success) {
             this.state.cookies = data.cookies;
             this.state.server = data.server;
 
@@ -213,7 +213,7 @@ $Page(PAGE_ID, {
     if (course) {
       this.getAmount(course.id).then((data) => {
         wx.hideLoading();
-        if (data.status === "success") {
+        if (data.success) {
           const courseInfo = {
             ...course,
             isSelected: true,
@@ -296,7 +296,7 @@ $Page(PAGE_ID, {
     const { courseInfo, relatedCourses } = this.data;
 
     this.getAmount(courseInfo!.id).then((data) => {
-      if (data.status === "success") {
+      if (data.success) {
         const record = data.data.find((item) => item.cid === courseInfo!.cid);
 
         if (!record) logger.error("未找到课程人数", courseInfo!.cid);
@@ -372,7 +372,7 @@ $Page(PAGE_ID, {
 
     return this.getAmount(id).then((res) => {
       wx.hideLoading();
-      if (res.status === "success") {
+      if (res.success) {
         const { courses } = this.state;
 
         const coursesDetail = res.data
@@ -456,7 +456,7 @@ $Page(PAGE_ID, {
 
     return this.getAmount(currentCourseId).then((res) => {
       wx.hideLoading();
-      if (res.status === "success") {
+      if (res.success) {
         this.setData({
           coursesDetail: coursesDetail.map((course) => {
             const record = res.data.find((item) => item.cid === course.cid);
@@ -494,7 +494,7 @@ $Page(PAGE_ID, {
         () =>
           resolve(
             this.process("add", cid).then((res) => {
-              if (res.status === "success") {
+              if (res.success) {
                 showToast("选课成功", 1000, "success");
                 // 关闭任何可能的弹窗
                 this.setData({
@@ -537,7 +537,7 @@ $Page(PAGE_ID, {
         () =>
           resolve(
             this.process("delete", cid).then((res) => {
-              if (res.status === "success") {
+              if (res.success) {
                 showToast("退课成功", 1000, "success");
                 // 关闭任何可能的弹窗
                 this.setData({
@@ -648,7 +648,7 @@ $Page(PAGE_ID, {
 
               resolve(
                 this.getAmount(id).then((data) => {
-                  if (data.status === "success") {
+                  if (data.success) {
                     const amount = data.data.find((item) => item.cid === cid)
                       ?.amount;
 
@@ -662,12 +662,12 @@ $Page(PAGE_ID, {
                         .then((res) => {
                           wx.hideLoading();
 
-                          if (res.status === "success") {
+                          if (res.success) {
                             wx.showLoading({ title: "选课中" });
 
                             return this.process("add", cid).then((res) => {
                               wx.hideLoading();
-                              if (res.status === "success") {
+                              if (res.success) {
                                 showModal("替换课程成功", "您已成功替换课程");
 
                                 return true;
@@ -678,7 +678,7 @@ $Page(PAGE_ID, {
                               return this.process("add", oid).then((res) => {
                                 wx.hideLoading();
 
-                                if (res.status === "success") {
+                                if (res.success) {
                                   showModal(
                                     "替换课程失败",
                                     "由于退课后新课程人数已满，所选课程选课失败。由于原课程人数未满，已成功为您选回原课程。",
@@ -741,7 +741,7 @@ $Page(PAGE_ID, {
       cookies: this.state.cookies,
       server: this.state.server,
     }).then((res) => {
-      const isSuccess = res.status === "success";
+      const isSuccess = res.success;
 
       if (isSuccess) {
         const {
@@ -819,7 +819,7 @@ $Page(PAGE_ID, {
       jx0502id: this.state.jx0502id,
       ...options,
     }).then((res) => {
-      if (res.status === "success") this.setData({ courses: res.courses });
+      if (res.success) this.setData({ courses: res.courses });
       else {
         showModal("查询失败", res.msg);
         if (res.type === "relogin") this.$redirect(PAGE_ID);
@@ -843,7 +843,7 @@ $Page(PAGE_ID, {
 
     const queue = Array<() => Promise<void>>(times).fill(() =>
       this.process("add", cid).then((res) => {
-        if (res.status === "success")
+        if (res.success)
           stop({
             type: "success",
             msg: "选课成功",

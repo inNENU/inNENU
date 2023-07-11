@@ -15,7 +15,7 @@ export interface NoticeItem {
 }
 
 export interface NoticeListSuccessResponse {
-  status: "success";
+  success: true;
   data: NoticeItem[];
   pageIndex: number;
   pageSize: number;
@@ -32,7 +32,7 @@ export type NoticeOptions = (AccountBasicInfo | CookieOptions) & {
 };
 
 export interface NoticeSuccessResponse {
-  status: "success";
+  success: true;
   title: string;
   author: string;
   time: string;

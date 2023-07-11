@@ -7,7 +7,7 @@ import {
 import { service } from "../../config/info.js";
 
 export interface AdmissionSuccessResponse {
-  status: "success";
+  success: true;
   info: { text: string; value: string }[];
 }
 
@@ -101,7 +101,7 @@ export interface HistoryGradeResult {
 }
 
 export interface EnrollGradeSuccessResponse {
-  status: "success";
+  success: true;
   data: HistoryGradeResult;
 }
 
@@ -121,7 +121,7 @@ export const getHistoryGrade = (
       success: ({ data, statusCode }) => {
         if (statusCode === 200) {
           resolve(data);
-          if (data.status === "failed")
+          if (!data.success)
             logger.error("历史分数获取失败", options, data.msg);
         } else reject();
       },
@@ -155,7 +155,7 @@ export interface EnrollPlanInfo {
 }
 
 export interface EnrollPlanSuccessResponse {
-  status: "success";
+  success: true;
   data: EnrollPlanInfo[];
 }
 
@@ -175,7 +175,7 @@ export const getEnrollPlan = (
       success: ({ data, statusCode }) => {
         if (statusCode === 200) {
           resolve(data);
-          if (data.status === "failed")
+          if (!data.success)
             logger.error("招生计划获取失败", options, data.msg);
         } else reject();
       },

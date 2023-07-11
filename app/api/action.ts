@@ -15,7 +15,7 @@ export const actionLogin = (
     method: "POST",
     data: options,
   }).then((data) => {
-    if (data.status === "success") set(ACTION_SYSTEM_COOKIE, data.cookies);
+    if (data.success) set(ACTION_SYSTEM_COOKIE, data.cookies);
 
     return data;
   });
@@ -37,8 +37,8 @@ export const getActionCookie = (
   return cookies
     ? check
       ? checkActionCookie(cookies).then((valid) =>
-          valid ? { status: "success", cookies } : actionLogin(account),
+          valid ? { success: true, cookies } : actionLogin(account),
         )
-      : Promise.resolve({ status: "success", cookies })
+      : Promise.resolve({ success: true, cookies })
     : actionLogin(account);
 };

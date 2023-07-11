@@ -7,7 +7,7 @@ import { type AccountBasicInfo } from "../utils/app.js";
 import { WEEK } from "../utils/constant.js";
 
 export interface LoginSuccessResponse {
-  status: "success";
+  success: true;
   cookies: Cookie[];
 }
 
@@ -29,7 +29,7 @@ export const login = ({
       enableHttp2: true,
       success: ({ data, statusCode }) => {
         if (statusCode === 200) {
-          if (data.status === "success") set("cookies", data.cookies, WEEK);
+          if (data.success) set("cookies", data.cookies, WEEK);
           resolve(data);
         } else {
           logger.error("auth login service failed with", statusCode);
@@ -41,7 +41,7 @@ export const login = ({
   });
 
 export interface InfoSuccessResponse {
-  status: "success";
+  success: true;
 
   /** 用户姓名 */
   name: string;

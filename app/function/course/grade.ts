@@ -94,12 +94,12 @@ $Page("grade-list", {
 
     return courseLogin(globalData.account!)
       .then((data) => {
-        if (data.status === "failed") throw data.msg;
+        if (!data.success) throw data.msg;
 
         return getGradeList({ cookies: data.cookies, ...options }).then(
           (res) => {
             wx.hideLoading();
-            if (res.status === "success") {
+            if (res.success) {
               set(GRADE_DATA_KEY, res.data, 3 * HOUR);
               this.setGradeData(res.data);
             } else showModal("获取失败", res.msg);

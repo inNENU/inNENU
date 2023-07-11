@@ -1,10 +1,10 @@
 export interface CommonFailedResponse {
-  status: "failed";
+  success: false;
   msg: string;
 }
 
 export interface CookieVerifySuccessResponse {
-  status: "success";
+  success: true;
   valid: boolean;
 }
 

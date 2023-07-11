@@ -3,7 +3,7 @@ import { type LoginFailedResponse } from "../../api/account.ts";
 import { type AccountBasicInfo } from "../../utils/app.ts";
 
 export interface UnderSystemLoginSuccessResponse {
-  status: "success";
+  success: true;
 
   cookies: Cookie[];
 }
@@ -34,7 +34,7 @@ export type RowItem = CellItem[];
 export type TableItem = RowItem[];
 
 export interface UserCourseTableSuccessResponse {
-  status: "success";
+  success: true;
   data: TableItem;
   startTime: string;
 }
@@ -104,7 +104,7 @@ export interface GradeResult {
 }
 
 export interface UserGradeListSuccessResponse {
-  status: "success";
+  success: true;
   data: GradeResult[];
 }
 

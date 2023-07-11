@@ -313,10 +313,7 @@ $Page(PAGE_ID, {
     })
       .then((data) => {
         wx.hideLoading();
-        if (data.status === "success")
-          this.setData({
-            results: data.data,
-          });
+        if (data.success) this.setData({ results: data.data });
         else showModal("获取失败", data.msg);
       })
       .catch(() => {

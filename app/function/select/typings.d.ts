@@ -10,11 +10,11 @@ export interface SelectBaseOptions {
 }
 
 export interface SelectBaseSuccessResponse {
-  status: "success";
+  success: true;
 }
 
 export interface SelectBaseFailedResponse {
-  status: "failed";
+  success: false;
   /** 错误信息 */
   msg: string;
 }

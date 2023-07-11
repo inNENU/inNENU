@@ -145,22 +145,22 @@ $Page(PAGE_ID, {
     wx.showLoading({ title: "验证中..." });
 
     login({ id: Number(id), password })
-      .then((response) => {
+      .then((res) => {
         wx.hideLoading();
-        if (response.status === "success") {
+        if (res.success) {
           const account = { id: Number(id), password };
 
           globalData.account = account;
           set(ACCOUNT_INFO_KEY, account, MONTH);
 
           wx.showLoading({ title: "获取信息" });
-          getInfo(response.cookies).then((response) => {
+          getInfo(res.cookies).then((res) => {
             wx.hideLoading();
-            if (response.status === "success") {
+            if (res.success) {
               const userInfo: UserInfo = {
                 id: Number(id),
-                name: response.name,
-                email: response.email,
+                name: res.name,
+                email: res.email,
                 grade: Number(id.substring(0, 4)),
               };
 
@@ -177,7 +177,7 @@ $Page(PAGE_ID, {
 
           if (this.state.shouldNavigateBack) this.$back();
         } else {
-          showModal("登陆失败", response.msg);
+          showModal("登陆失败", res.msg);
         }
       })
       .catch(() => {

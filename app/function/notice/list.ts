@@ -59,12 +59,12 @@ $Page(PAGE_ID, {
       wx.showLoading({ title: "获取中" });
 
       getActionCookie(globalData.account, check).then((res) => {
-        if (res.status === "success")
+        if (res.success)
           getNoticeList({ cookies: res.cookies, limit: 20, page }).then(
             (res) => {
               wx.hideLoading();
               this.state.inited = true;
-              if (res.status === "success") {
+              if (res.success) {
                 this.setData({
                   notices: res.data,
                   page,

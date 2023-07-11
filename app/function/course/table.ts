@@ -167,7 +167,7 @@ $Page(PAGE_ID, {
 
     return courseLogin(globalData.account!)
       .then((data) => {
-        if (data.status === "failed") throw data.msg;
+        if (!data.success) throw data.msg;
 
         return getCourseTable({
           cookies: data.cookies,
@@ -175,7 +175,7 @@ $Page(PAGE_ID, {
           time,
         }).then((res) => {
           wx.hideLoading();
-          if (res.status === "success") {
+          if (res.success) {
             const { data, startTime } = res;
             const courseTable = handleCourseTable(data, startTime);
             const { courseData, weeks } = courseTable;

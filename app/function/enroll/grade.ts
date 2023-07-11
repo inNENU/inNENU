@@ -321,7 +321,7 @@ $Page(PAGE_ID, {
     })
       .then((data) => {
         wx.hideLoading();
-        if (data.status === "success") {
+        if (data.success) {
           const { titles, items } = data.data;
           const numberValueIndex = items
             .map((item, index) => (Number.isNaN(Number(item)) ? null : index))

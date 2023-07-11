@@ -30,7 +30,7 @@ export interface BorrowBookData {
 }
 
 export interface BorrowBooksSuccessResponse {
-  status: "success";
+  success: true;
   data: BorrowBookData[];
 }
 

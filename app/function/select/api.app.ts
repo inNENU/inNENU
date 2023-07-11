@@ -61,14 +61,14 @@ export const process = (
 
             if (msg === "系统更新了选课数据,请重新登录系统")
               return resolve(<ProcessFailedResponse>{
-                status: "failed",
+                success: false,
                 msg,
                 type: "relogin",
               });
 
             if (msg === "您的账号在其它地方登录")
               return resolve(<ProcessFailedResponse>{
-                status: "failed",
+                success: false,
                 msg,
                 type: "relogin",
               });
@@ -76,26 +76,26 @@ export const process = (
             if (type === "delete") {
               if (msg.includes("退选成功"))
                 return resolve(<ProcessSuccessResponse>{
-                  status: "success",
+                  success: true,
                   msg,
                 });
             } else {
               if (msg.endsWith("上课时间冲突"))
                 return resolve({
-                  status: "failed",
+                  success: false,
                   msg,
                   type: "conflict",
                 });
 
               if (msg.includes("选课成功"))
                 return resolve(<ProcessSuccessResponse>{
-                  status: "success",
+                  success: true,
                   msg,
                 });
             }
 
             return resolve(<ProcessFailedResponse>{
-              status: "failed",
+              success: false,
               msg,
             });
           } catch (err) {
@@ -104,7 +104,7 @@ export const process = (
         }
 
         resolve(<ProcessFailedResponse>{
-          status: "failed",
+          success: false,
           msg: "参数有误",
         });
       },
