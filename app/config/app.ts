@@ -1,7 +1,5 @@
 /** App初始化选项 */
 export interface AppConfig {
-  /** 是否开启夜间模式 */
-  darkmode?: boolean;
   /** 资源更新提示 */
   resourceNotify?: boolean;
   /** 调试模式 */
@@ -15,8 +13,6 @@ export interface AppConfig {
 export const defaultAppConfig: AppConfig = {
   theme: "ios",
   themeNum: 0,
-  /** 是否开启夜间模式 */
-  darkmode: false,
   /** 资源更新提示 */
   resourceNotify: true,
   /** 调试模式 */

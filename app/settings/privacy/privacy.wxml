@@ -7,4 +7,4 @@
 >
   <navigation-bar title="{{page ? page.title : 'in东师'}}" />
 </page-meta>
-<template is="page" data="{{page, theme, darkmode}}" />
+<template is="page" data="{{page, theme}}" />

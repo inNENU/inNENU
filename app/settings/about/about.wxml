@@ -6,7 +6,7 @@
   background-color-bottom="{{color.bgColorBottom}}"
   root-background-color="{{color.bgColor}}"
 />
-<template is="page" data="{{page, theme, darkmode}}" />
+<template is="page" data="{{page, theme}}" />
 <view
   class="password-mask {{debug ? 'fade-in' : 'fade-out'}}"
   style="top: {{debug ? 0 : '100%'}};"

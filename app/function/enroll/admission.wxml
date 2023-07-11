@@ -63,11 +63,7 @@
   </view>
   <footer />
 </view>
-<template
-  wx:else
-  is="page"
-  data="{{theme: 'ios', darkmode, page: admission.page}}"
-/>
+<template wx:else is="page" data="{{theme: 'ios', page: admission.page}}" />
 <!-- 录取结果 -->
 <popup
   config="{{popupConfig}}"

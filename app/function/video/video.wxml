@@ -1,6 +1,5 @@
 <import src="/base/template.wxml" />
 <wxs src="./video.wxs" module="video" />
-
 <view wx:if="{{type === 'video'}}" class="page video-wrapper">
   <!-- 返回按钮 -->
   <view
@@ -54,4 +53,4 @@
     </tab-bar>
   </view>
 </view>
-<template wx:else is="page" data="{{theme, darkmode, page: video.page}}" />
+<template wx:else is="page" data="{{theme, page: video.page}}" />

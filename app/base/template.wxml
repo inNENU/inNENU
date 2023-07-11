@@ -59,10 +59,7 @@
   >
     <!-- 错误显示 -->
     <block wx:if="{{page.error}}">
-      <navbar
-        darkmode="{{darkmode}}"
-        nav="{{template.getErrorNavConfig(page)}}"
-      />
+      <navbar nav="{{template.getErrorNavConfig(page)}}" />
       <template is="error" data="{{ id: page.id, from: page.from }}" />
     </block>
 
@@ -82,7 +79,7 @@
 
     <block wx:else>
       <!-- 导航栏 -->
-      <navbar darkmode="{{darkmode}}" nav="{{template.getNavConfig(page)}}" />
+      <navbar nav="{{template.getNavConfig(page)}}" />
 
       <view wx:if="{{page.outdated}}" class="outdated-banner"
         >页面内容缺少必要校对，可能已过时。Mr.Hope 会尽快校对并更新本内容!</view

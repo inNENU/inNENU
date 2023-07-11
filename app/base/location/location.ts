@@ -5,9 +5,6 @@ import {
   type LocationConfig,
 } from "../../../typings/index.js";
 import { showToast } from "../../api/ui.js";
-import { type AppOption } from "../../app.js";
-
-const { globalData } = getApp<AppOption>();
 
 const getPoint = (point: LocationConfig & { id: number }): string =>
   JSON.stringify({
@@ -26,7 +23,6 @@ $Component({
   },
 
   data: {
-    darkmode: globalData.darkmode,
     markers: <(LocationConfig & { id: number })[]>[],
     id: -1,
     title: "",

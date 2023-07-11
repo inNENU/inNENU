@@ -17,6 +17,9 @@ $Page(PAGE_ID, {
     nav: {
       title: "学校通知",
     },
+    darkmode: globalData.darkmode,
+    theme: globalData.theme,
+
     status: <"error" | "login" | "success">"success",
     notices: <NoticeItem[]>[],
     currentPage: 1,

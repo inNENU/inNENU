@@ -19,9 +19,6 @@ const PAGE_TITLE = "东师地图";
 
 $Page(PAGE_ID, {
   data: {
-    /** 夜间模式状态 */
-    darkmode: globalData.darkmode,
-
     /** 地图数据 */
     map: {
       latitude: 43.862007982140646,
@@ -96,7 +93,6 @@ $Page(PAGE_ID, {
 
     this.setData({
       area,
-      darkmode: globalData.darkmode,
       statusBarHeight: globalData.info.statusBarHeight,
       tabHeight: globalData.info.windowHeight / 2 - 20,
       firstPage: getCurrentPages().length === 1,

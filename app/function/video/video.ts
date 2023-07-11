@@ -88,7 +88,6 @@ $Page("video", {
         firstPage: getCurrentPages().length === 1,
         statusBarHeight: globalData.info.statusBarHeight,
         theme: globalData.theme,
-        darkmode: globalData.darkmode,
       });
     });
 
