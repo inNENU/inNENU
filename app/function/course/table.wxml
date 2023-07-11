@@ -34,7 +34,7 @@
       size="mini"
       catch:tap="refreshCourseTable"
     >
-      <text />
+      <text class="icon" />
     </button>
   </view>
   <view class="course-table">

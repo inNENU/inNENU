@@ -21,7 +21,7 @@ $Component({
     attached() {
       const books = get<BorrowBookData[]>(BORROW_BOOKS_KEY);
 
-      if (books) this.setData({ loading: false, books });
+      if (books) this.setData({ status: "success", books });
       else this.getBooks(true);
     },
   },
@@ -49,12 +49,20 @@ $Component({
             getBorrowBooks({ cookies: res.cookies }).then((res) => {
               if (res.success) {
                 set(BORROW_BOOKS_KEY, res.data, 3 * HOUR);
-                this.setData({ books: res.data, status: "success" });
+                this.setData({
+                  books: res.data,
+                  status: "success",
+                });
               } else this.setData({ status: "error" });
             });
           else this.setData({ status: "error" });
         });
       else this.setData({ status: "login" });
+    },
+
+    refresh() {
+      this.setData({ status: "loading" });
+      this.getBooks();
     },
 
     viewBookDetail({

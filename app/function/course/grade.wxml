@@ -16,7 +16,7 @@
       size="mini"
       catch:tap="getGradeList"
     >
-      <text />
+      <text class="icon" />
     </button>
   </view>
   <block wx:if="{{grades.length}}">

@@ -1,3 +1,5 @@
+@import "../../styles/lib/refresh-button";
+
 .borrow-books {
   overflow: hidden;
 
@@ -19,20 +21,6 @@
   height: 48px;
 }
 
-.need-login {
-  display: inline-block;
-
-  margin: 0 auto;
-  padding: 4px 8px;
-  border-radius: 4px;
-
-  color: var(--action-color);
-}
-
-.button-hover {
-  background-color: var(--hover) !important;
-}
-
 .header {
   padding-bottom: 4px;
   font-weight: bold;
@@ -40,9 +28,8 @@
   text-align: left;
 }
 
-.failed {
-  margin: 4px auto;
-  color: #f00;
+.refresh-button {
+  float: right;
 }
 
 .empty {
@@ -57,6 +44,10 @@
   &:first-child {
     border-top: none;
   }
+}
+
+.button-hover {
+  background-color: var(--hover) !important;
 }
 
 .name {
