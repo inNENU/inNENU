@@ -32,9 +32,21 @@ $Component({
         const day = new Date().getDay();
         const dayIndex = day === 0 ? 6 : day - 1;
 
-        const todayCourses = courseData.map((item) => item[dayIndex]);
+        const todayCourses = courseData.map((item) =>
+          Array.from(
+            new Set(
+              item[dayIndex]
+                .filter((course) =>
+                  course.weeks.some(
+                    ([start, end]) => weekIndex >= start && weekIndex <= end,
+                  ),
+                )
+                .map(({ name, location }) => `${name}@${location}`),
+            ),
+          ),
+        );
 
-        if (weekIndex !== 0 && todayCourses.some((item) => item.length))
+        if (todayCourses.some((item) => item.length))
           this.setData({ todayCourses });
         else this.setData({ empty: true });
       } else {

@@ -7,9 +7,9 @@
     <view wx:for="{{todayCourses}}" wx:for-item="cell">
       <view wx:if="{{cell.length}}" class="course">
         <text class="dot">·</text>
-        <text class="time">{{table.times[index]}}: </text>
+        <text class="time" decode>{{table.times[index]}}:&nbsp;</text>
         <text wx:for="{{cell}}" class="course">
-          <text class="item">{{item.name}}</text>
+          <text class="item">{{item}}</text>
         </text>
       </view>
     </view>
