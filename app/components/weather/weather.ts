@@ -4,8 +4,8 @@ import { set } from "@mptool/file";
 import { type WeatherData } from "./typings.js";
 import { type AppOption } from "../../app.js";
 import { server } from "../../config/info.js";
+import { WEATHER_KEY } from "../../config/keys.js";
 import { MINUTE } from "../../utils/constant.js";
-import { WEATHER_KEY } from "../../utils/keys.js";
 
 const { globalData } = getApp<AppOption>();
 

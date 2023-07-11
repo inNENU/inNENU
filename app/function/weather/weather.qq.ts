@@ -5,6 +5,7 @@ import { showModal } from "../../api/ui.js";
 import { type AppOption } from "../../app.js";
 import { type WeatherData } from "../../components/weather/typings.js";
 import { appCoverPrefix, server } from "../../config/info.js";
+import { WEATHER_KEY } from "../../config/keys.js";
 
 const {
   globalData: { darkmode, info },
@@ -27,7 +28,7 @@ $Page("weather", {
   },
 
   onLoad() {
-    const weather = get<WeatherData | undefined>("weather");
+    const weather = get<WeatherData>(WEATHER_KEY);
 
     if (wx.getStorageSync("app-inited")) {
       const weatherIcon = <Record<string, string>>(
