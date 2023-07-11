@@ -52,7 +52,7 @@
   padding: 4px;
   border-radius: 4px;
 
-  .book:first-child {
+  &:first-child {
     border-top: none;
   }
 }
