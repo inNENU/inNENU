@@ -13,7 +13,7 @@ const PAGE_ID = "notice-detail";
 
 $Page(PAGE_ID, {
   data: {
-    title: "通知详情",
+    pageTitle: "通知详情",
 
     status: <"error" | "login" | "success">"success",
   },
@@ -35,7 +35,7 @@ $Page(PAGE_ID, {
     this.setData({
       color: getColor(),
       theme: globalData.theme,
-      title: `${type === "news" ? "新闻" : "通知"}详情`,
+      pageTitle: `${type === "news" ? "新闻" : "通知"}详情`,
     });
   },
 
