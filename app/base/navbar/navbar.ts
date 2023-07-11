@@ -7,7 +7,6 @@ const { globalData } = getApp<AppOption>();
 
 $Component({
   properties: {
-    darkmode: Boolean,
     nav: Object,
   },
 
