@@ -1,5 +1,12 @@
-<view class="ios library">
-  <header title="图书馆" />
+<page-meta
+  background-text-style="{{darkmode ? 'dark': 'light'}}"
+  background-color="{{color.bgColor}}"
+  background-color-top="{{color.bgColorTop}}"
+  background-color-bottom="{{color.bgColorBottom}}"
+  root-background-color="{{color.bgColor}}"
+/>
+<view class="{{theme}} library">
+  <navbar nav="{{nav}}" />
   <view class="content">
     <library-people />
     <library-borrow-books />

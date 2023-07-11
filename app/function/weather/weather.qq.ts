@@ -47,7 +47,6 @@ $Page("weather", {
 
         firstPage: getCurrentPages().length === 1,
         statusBarHeight: info.statusBarHeight,
-        darkmode,
       });
     } else {
       // update icon

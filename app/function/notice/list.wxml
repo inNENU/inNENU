@@ -1,4 +1,11 @@
-<view class="ios notice-list-wrapper">
+<page-meta
+  background-text-style="{{darkmode ? 'dark': 'light'}}"
+  background-color="{{color.bgColor}}"
+  background-color-top="{{color.bgColorTop}}"
+  background-color-bottom="{{color.bgColorBottom}}"
+  root-background-color="{{color.bgColor}}"
+/>
+<view class="{{theme}} notice-list-wrapper">
   <navbar nav="{{nav}}" />
   <scroll-view scroll-y scroll-top="{{scrollTop}}" class="notice-list">
     <view wx:if="{{status === 'error'}}" class="failed">获取失败</view>

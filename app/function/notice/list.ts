@@ -17,7 +17,6 @@ $Page(PAGE_ID, {
     nav: {
       title: "学校通知",
     },
-    darkmode: globalData.darkmode,
     theme: globalData.theme,
 
     status: <"error" | "login" | "success">"success",
@@ -33,7 +32,6 @@ $Page(PAGE_ID, {
   onLoad() {
     this.setData({
       color: getColor(),
-      darkmode: globalData.darkmode,
       theme: globalData.theme,
     });
   },

@@ -35,7 +35,6 @@ $Page(PAGE_ID, {
 
     this.setData({
       color: getColor(),
-      darkmode: globalData.darkmode,
       theme: globalData.theme,
     });
   },

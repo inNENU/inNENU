@@ -1,4 +1,3 @@
-<import src="/base/template.wxml" />
 <page-meta
   background-text-style="{{darkmode ? 'dark': 'light'}}"
   background-color="{{color.bgColor}}"
@@ -6,7 +5,7 @@
   background-color-bottom="{{color.bgColorBottom}}"
   root-background-color="{{color.bgColor}}"
 />
-<view class="{{theme}} main grey">
+<view class="{{theme}}">
   <navbar nav="{{nav}}" />
   <view class="title">{{title}}</view>
   <view wx:if="{{content}}" class="info">

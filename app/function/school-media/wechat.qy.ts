@@ -31,7 +31,6 @@ $Page(PAGE_ID, {
 
   onLoad({ path = "" }) {
     this.setData({
-      darkmode: globalData.darkmode,
       firstPage: getCurrentPages().length === 1,
       color: getColor(true),
     });

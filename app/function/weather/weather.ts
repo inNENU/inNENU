@@ -6,6 +6,7 @@ import { type AppOption } from "../../app.js";
 import { type WeatherData } from "../../components/weather/typings.js";
 import { appCoverPrefix, server } from "../../config/info.js";
 import { WEATHER_KEY } from "../../config/keys.js";
+import { getColor } from "../../utils/page.js";
 
 const {
   globalData: { darkmode, info },
@@ -46,9 +47,9 @@ $Page("weather", {
         weatherIcon,
         hintIcon,
 
+        color: getColor(),
         firstPage: getCurrentPages().length === 1,
         statusBarHeight: info.statusBarHeight,
-        darkmode,
       });
     } else {
       // update icon
@@ -73,13 +74,6 @@ $Page("weather", {
         },
       });
     }
-
-    // 设置页面背景色
-    wx.setBackgroundColor({
-      backgroundColorTop: darkmode ? "#000000" : "#efeef4",
-      backgroundColor: darkmode ? "#000000" : "#efeef4",
-      backgroundColorBottom: darkmode ? "#000000" : "#efeef4",
-    });
 
     this.backgroundChange();
   },
