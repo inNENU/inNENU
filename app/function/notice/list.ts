@@ -66,6 +66,7 @@ $Page(PAGE_ID, {
               this.state.inited = true;
               if (res.success) {
                 this.setData({
+                  scrollTop: 0,
                   notices: res.data,
                   page,
                   currentPage: res.pageIndex,

@@ -1,6 +1,6 @@
 <view class="ios notice-list-wrapper">
   <navbar nav="{{nav}}" darkmode="{{darkmode}}" />
-  <scroll-view scroll-y class="notice-list">
+  <scroll-view scroll-y scroll-top="{{scrollTop}}" class="notice-list">
     <view wx:if="{{status === 'error'}}" class="failed">获取失败</view>
     <view
       wx:elif="{{status === 'login'}}"
