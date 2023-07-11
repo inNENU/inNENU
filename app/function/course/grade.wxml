@@ -7,7 +7,7 @@
   root-background-color="{{color.bgColor}}"
 />
 <view class="{{theme}} grade-list-wrapper">
-  <header title="课程成绩" />
+  <navbar nav="{{ { title } }}" />
   <view class="header">
     查询结果
     <button

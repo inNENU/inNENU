@@ -29,6 +29,8 @@ const keys = [
 
 $Page("grade-list", {
   data: {
+    title: PAGE_TITLE,
+
     grades: <GradeResult[]>[],
 
     showMark: false,
