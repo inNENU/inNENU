@@ -9,7 +9,7 @@
   root-background-color="{{color.bgColor}}"
 />
 <view class="{{theme}} select-wrapper">
-  <header title="选课系统" />
+  <navbar nav="{{nav}}" />
   <view wx:if="{{login}}" class="select-container">
     <tab-bar nav-list="{{select.titles}}" height="{{height - 20}}">
       <view slot="page1">

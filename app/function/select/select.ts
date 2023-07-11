@@ -32,7 +32,11 @@ const PAGE_ID = "select";
 
 $Page(PAGE_ID, {
   data: {
+    nav: {
+      title: PAGE_TITLE,
+    },
     theme: globalData.theme,
+    darkmode: globalData.darkmode,
 
     login: false,
     firstPage: false,
@@ -105,6 +109,7 @@ $Page(PAGE_ID, {
     this.setData({
       color: getColor(),
       theme: globalData.theme,
+      darkmode: globalData.darkmode,
       firstPage: getCurrentPages().length === 1,
     });
   },
