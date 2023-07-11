@@ -3,7 +3,7 @@ import { get, set } from "@mptool/file";
 
 import { getBorrowBooks } from "./api.js";
 import { type BorrowBookData } from "./typings.js";
-import { actionLogin } from "../../api/login.js";
+import { actionLogin } from "../../api/action.js";
 import { showModal } from "../../api/ui.js";
 import { type AppOption } from "../../app.js";
 import { BORROW_BOOKS_KEY } from "../../config/keys.js";
