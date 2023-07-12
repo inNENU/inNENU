@@ -3,16 +3,12 @@
 .card-balance {
   overflow: hidden;
 
-  max-width: 517px;
-  margin: 12px 15px;
-  padding: 8px 12px;
+  max-width: var(--max-width);
+  margin: 12px var(--horizontal-margin);
+  padding: 12px 20px;
   border-radius: 8px;
 
   background-color: var(--bg-color-block);
-
-  @media (min-width: 630px) {
-    margin: 12px auto;
-  }
 }
 
 .loading {
@@ -21,16 +17,9 @@
 }
 
 .header {
-  padding-bottom: 4px;
-  font-weight: bold;
-  font-size: 18px;
   text-align: left;
 }
 
 .refresh-button {
   float: right;
-}
-
-.empty {
-  margin: 4px auto;
 }

@@ -20,7 +20,7 @@
         size="mini"
         catch:tap="refresh"
       >
-        <text class="icon" />
+        <text class="refresh-button-icon" />
       </button>
     </view>
     <view class="list">
