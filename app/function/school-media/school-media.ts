@@ -16,6 +16,8 @@ const PAGE_TITLE = "校园媒体";
 
 $Page(PAGE_ID, {
   data: {
+    title: PAGE_TITLE,
+
     config: <unknown[]>[],
 
     type: globalData.env,

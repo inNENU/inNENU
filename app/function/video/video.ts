@@ -95,10 +95,11 @@ $Page("video", {
     popNotice("video");
   },
 
-  onShow() {
+  onReady() {
     this.createSelectorQuery()
       .select(".video-list")
       .fields({ size: true }, (res) => {
+        console.log(res);
         if (res) this.setData({ height: res.height as number });
       })
       .exec();
@@ -124,6 +125,20 @@ $Page("video", {
       imageUrl: `${appCoverPrefix}.jpg`,
       query: `type=${this.data.type}&name=${this.data.videoName}`,
     };
+  },
+
+  onResize() {
+    this.resizeTabList();
+  },
+
+  resizeTabList() {
+    this.createSelectorQuery()
+      .select(".video-list")
+      .fields({ size: true }, (res) => {
+        console.log(res);
+        if (res) this.setData({ height: res.height as number });
+      })
+      .exec();
   },
 
   /** 切换播放视频 */

@@ -42,12 +42,13 @@
 
   background-color: var(--bg-color);
 
+  text-align: center;
   font-size: 14px;
 
   .item {
-    width: 50%;
     color: #2ecc71;
     line-height: 30px;
+    flex: 1;
 
     &.active {
       background-color: #2ecc71;

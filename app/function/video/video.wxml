@@ -29,7 +29,7 @@
   />
   <!-- 视频列表 -->
   <view class="video-list">
-    <tab-bar nav-list="{{titles}}" height="{{height - 20}}">
+    <tab-bar nav-list="{{titles}}" height="{{height - 24}}">
       <block
         wx:for="{{videoList}}"
         wx:key="title"

@@ -59,8 +59,12 @@ interface PEScore {
   passScore: number;
 }
 
+const PAGE_TITLE = "体测计算器";
+
 $Page("pe-calculator", {
   data: {
+    title: PAGE_TITLE,
+
     /** 性别选择器 */
     gender: {
       keys: ["男", "女"],
@@ -162,14 +166,14 @@ $Page("pe-calculator", {
   onPageScroll() {},
 
   onShareAppMessage: () => ({
-    title: "体测计算器",
+    title: PAGE_TITLE,
     path: "/function/pe-calculator/pe-calculator",
   }),
 
-  onShareTimeline: () => ({ title: "体测计算器" }),
+  onShareTimeline: () => ({ title: PAGE_TITLE }),
 
   onAddToFavorites: () => ({
-    title: "体测计算器",
+    title: PAGE_TITLE,
     imageUrl: `${appCoverPrefix}.jpg`,
   }),
 

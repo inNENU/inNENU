@@ -15,25 +15,26 @@
 
 .score-wrapper {
   display: flex;
-  width: 100%;
-  height: 120px;
   background-color: var(--bg-color-grey);
 
   .bmi,
   .score {
     width: 50%;
-    height: 100%;
   }
 
   .title {
-    margin: 20px;
+    margin: 6px 12px;
     font-weight: 500;
-    font-size: 24px;
+    font-size: 20px;
+    line-height: 1.5;
   }
 
   .result {
+    margin: 12px;
     font-weight: 500;
-    font-size: 20px;
+    font-size: 22px;
+    min-height: 44px;
+    line-height: 2;
   }
 }
 
@@ -58,8 +59,7 @@
 /* 计算按钮 */
 
 .calculate-button {
-  width: 92% !important;
-  margin: 12px 4% !important;
+  margin: 16px auto !important;
 }
 
 /* 成绩列表 */
