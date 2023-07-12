@@ -1,0 +1,36 @@
+@import "../../styles/lib/refresh-button";
+
+.card-balance {
+  overflow: hidden;
+
+  max-width: 517px;
+  margin: 12px 15px;
+  padding: 8px 12px;
+  border-radius: 8px;
+
+  background-color: var(--bg-color-block);
+
+  @media (min-width: 630px) {
+    margin: 12px auto;
+  }
+}
+
+.loading {
+  width: 48px;
+  height: 48px;
+}
+
+.header {
+  padding-bottom: 4px;
+  font-weight: bold;
+  font-size: 18px;
+  text-align: left;
+}
+
+.refresh-button {
+  float: right;
+}
+
+.empty {
+  margin: 4px auto;
+}

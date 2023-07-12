@@ -3,6 +3,7 @@
   "enablePullDownRefresh": true,
   "usingComponents": {
     "add-tip": "/components/addtip/addtip",
+    "card-balance": "/components/card-balance/card-balance",
     "library-borrow-books": "/components/library/borrow-books",
     "today-course": "/components/today-course/today-course"
   }

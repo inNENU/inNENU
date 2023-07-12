@@ -27,6 +27,7 @@
   <block wx:if="{{login}}">
     <today-course custom-class="course" />
     <library-borrow-books />
+    <card-balance />
   </block>
   <official-account />
   <template is="components" data="{{content: page.content, theme}}" />

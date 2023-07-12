@@ -1,0 +1,27 @@
+<wxs src="../../utils/index.wxs" module="utils" />
+<view class="card-balance custom-class">
+  <image
+    wx:if="{{status === 'loading'}}"
+    class="loading"
+    src="/icon/loading.svg"
+  />
+  <error-hint
+    wx:elif="{{ status === 'error' }}"
+    size="mini"
+    catch:retry="getBooks"
+  />
+  <login-hint wx:elif="{{ status === 'login' }}" size="mini" />
+  <block wx:else>
+    <view class="header">
+      校园卡余额: {{balance}}元
+      <button
+        class="refresh-button"
+        type="default"
+        size="mini"
+        catch:tap="refresh"
+      >
+        <text class="icon" />
+      </button>
+    </view>
+  </block>
+</view>
