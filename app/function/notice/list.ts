@@ -33,7 +33,7 @@ $Page(PAGE_ID, {
     this.setData({
       color: getColor(),
       theme: globalData.theme,
-      title: `学校${type === "news" ? "新闻" : "通知"}`,
+      title: `内网${type === "news" ? "新闻" : "通知"}`,
     });
   },
 
@@ -115,7 +115,7 @@ $Page(PAGE_ID, {
     const { type } = this.state;
 
     this.$go(
-      `notice-detail?from=学校通知&title=${title}&id=${id}&type=${type}`,
+      `notice-detail?from=${this.data.title}&title=${title}&id=${id}&type=${type}`,
     );
   },
 });
