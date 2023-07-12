@@ -110,7 +110,7 @@ $Page(PAGE_ID, {
 
   onShareAppMessage: () => ({
     title: PAGE_TITLE,
-    path: "/settings/account/account",
+    path: "/pages/account/account",
     imageUrl: `${appCoverPrefix}Share.png`,
   }),
 

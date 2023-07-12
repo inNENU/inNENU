@@ -83,6 +83,13 @@
           "scene": null
         },
         {
+          "name": "账户",
+          "pathName": "pages/account/account",
+          "query": "",
+          "launchMode": "default",
+          "scene": null
+        },
+        {
           "name": "搜索",
           "pathName": "pages/search/search",
           "query": "",
@@ -324,13 +331,6 @@
         {
           "name": "关于",
           "pathName": "settings/about/about",
-          "query": "",
-          "launchMode": "default",
-          "scene": null
-        },
-        {
-          "name": "账户",
-          "pathName": "settings/account/account",
           "query": "",
           "launchMode": "default",
           "scene": null

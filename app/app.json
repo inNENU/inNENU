@@ -8,10 +8,10 @@
     "pages/user/user",
     "pages/info/info",
     "pages/search/search",
+    "pages/account/account",
     "pages/action/action",
     "pages/web/web",
     "settings/about/about",
-    "settings/account/account",
     "settings/privacy/privacy",
     "settings/storage/storage"
   ],

@@ -303,7 +303,7 @@
         },
         {
           "name": "账户",
-          "pathName": "settings/account/account",
+          "pathName": "pages/account/account",
           "query": "",
           "launchMode": "default",
           "scene": null
