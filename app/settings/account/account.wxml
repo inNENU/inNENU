@@ -27,7 +27,7 @@
             adjust-position="{{false}}"
             placeholder="10 位数字"
             value="{{id}}"
-            catch:input="input"
+            bindinput="input"
           />
         </view>
         <view class="input-list-item">
@@ -40,7 +40,7 @@
             adjust-position="{{false}}"
             placeholder="统一身份认证密码"
             value="{{password}}"
-            catch:input="input"
+            bindinput="input"
           />
           <input
             id="password"
@@ -50,7 +50,7 @@
             adjust-position="{{false}}"
             placeholder="统一身份认证密码"
             value="{{password}}"
-            catch:input="input"
+            bindinput="input"
           />
           <button
             type="default"
