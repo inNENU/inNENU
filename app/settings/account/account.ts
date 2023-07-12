@@ -138,7 +138,7 @@ $Page(PAGE_ID, {
       return;
     }
 
-    wx.showLoading({ title: "验证中..." });
+    wx.showLoading({ title: "验证中" });
 
     login({ id: Number(id), password })
       .then((res) => {
@@ -150,6 +150,7 @@ $Page(PAGE_ID, {
           set(ACCOUNT_INFO_KEY, account, MONTH);
 
           wx.showLoading({ title: "获取信息" });
+
           getInfo(res.cookies).then((res) => {
             wx.hideLoading();
             if (res.success) {
@@ -168,10 +169,10 @@ $Page(PAGE_ID, {
                 // eslint-disable-next-line @typescript-eslint/naming-convention
                 "list.items": getDisplay(userInfo),
               });
+
+              if (this.state.shouldNavigateBack) this.$back();
             }
           });
-
-          if (this.state.shouldNavigateBack) this.$back();
         } else {
           showModal("登陆失败", res.msg);
         }
