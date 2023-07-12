@@ -1,25 +1,32 @@
 /* error */
 
 .error-wrapper {
-  padding: 20% 10%;
+  height: 50vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
 
-  .hint {
+  .error-text {
     margin: 12px 0;
     color: #f00;
-    font-size: 20px;
+    font-size: 22px;
+  }
+
+  .hint {
+    color: var(--grey3);
+    font-size: 14px;
   }
 
   .desc {
+    margin: 16px 0;
+
+    text-align: left;
     color: #888;
     font-size: 16px;
-    text-align: justify !important;
 
     text {
       display: block;
     }
-  }
-
-  button {
-    margin-top: 32px;
   }
 }
