@@ -1,4 +1,5 @@
 import { type CookieOptions } from "../../../typings/cookie.js";
+import { type RichTextNode } from "../../../typings/node.js";
 import { type CommonFailedResponse } from "../../../typings/response.js";
 import { type AccountBasicInfo } from "../../utils/app.ts";
 
@@ -42,7 +43,7 @@ export interface NoticeSuccessResponse {
   time: string;
   from: string;
   pageView: number;
-  content: string;
+  content: RichTextNode[];
 }
 
 export type NoticeResponse = NoticeSuccessResponse | CommonFailedResponse;
