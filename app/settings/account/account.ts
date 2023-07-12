@@ -8,7 +8,7 @@ import {
 import { getInfo, login } from "../../api/account.js";
 import { confirmAction, showModal, showToast } from "../../api/ui.js";
 import { type AppOption } from "../../app.js";
-import { appCoverPrefix } from "../../config/info.js";
+import { appCoverPrefix, assets } from "../../config/info.js";
 import {
   ACCOUNT_INFO_KEY,
   COURSE_DATA_KEY,
@@ -23,7 +23,7 @@ import { popNotice } from "../../utils/page.js";
 const { globalData } = getApp<AppOption>();
 
 const PAGE_ID = "account";
-const PAGE_TITLE = "学校账户";
+const PAGE_TITLE = "统一身份认证信息";
 
 const EMPTY_CONTENT = [{ text: "暂无个人信息" }];
 
@@ -49,6 +49,10 @@ const getDisplay = (userInfo: UserInfo): ListComponentItemConfig[] => {
 $Page(PAGE_ID, {
   data: {
     theme: globalData.theme,
+    logo:
+      globalData.env === "qq"
+        ? `${assets}img/inNENU.png`
+        : "/frameset/placeholder.png",
 
     /** 导航栏 */
     nav: {
@@ -106,7 +110,7 @@ $Page(PAGE_ID, {
 
   onShareAppMessage: () => ({
     title: PAGE_TITLE,
-    path: "/settings/about/about",
+    path: "/settings/account/account",
     imageUrl: `${appCoverPrefix}Share.png`,
   }),
 

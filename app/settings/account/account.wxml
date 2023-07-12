@@ -8,6 +8,7 @@
 <view class="account {{theme}}">
   <navbar nav="{{nav}}" />
   <view class="content">
+    <image src="{{logo}}" class="logo" />
     <block wx:if="{{isSaved}}">
       <title config="{{ { text: '个人信息' } }}" />
       <list config="{{list}}" />
@@ -16,7 +17,6 @@
       </button>
     </block>
     <block wx:else>
-      <title config="{{ { text: '统一身份认证账号' } }}" />
       <view class="input-list-wrapper">
         <view class="input-list-item">
           <view class="text">学号</view>

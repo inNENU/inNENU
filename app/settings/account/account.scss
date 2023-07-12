@@ -11,6 +11,12 @@
   justify-content: center;
 }
 
+.logo {
+  width: 96px;
+  height: 96px;
+  margin: 24px auto;
+}
+
 .input-list-wrapper {
   max-width: var(--max-width);
   margin: 0 var(--horizontal-margin);

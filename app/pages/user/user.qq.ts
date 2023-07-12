@@ -16,7 +16,7 @@ const { globalData } = getApp<AppOption>();
 
 $Page("user", {
   data: {
-    logo: `${assets}/img/inNENU.png`,
+    logo: `${assets}img/inNENU.png`,
     page: <PageDataWithContent>{
       title: "我的东师",
       grey: true,
