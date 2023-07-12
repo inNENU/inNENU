@@ -1,5 +1,4 @@
 <wxs module="utils" src="./school-media.wxs" />
-
 <template name="account">
   <image class="logo" src="{{logo}}" />
   <view class="detail">
@@ -7,7 +6,6 @@
     <view class="desc">{{desc}}</view>
   </view>
 </template>
-
 <page-meta
   background-text-style="{{darkmode ? 'dark' : 'light'}}"
   background-color="{{color.bgColor}}"
@@ -15,24 +13,21 @@
   background-color-bottom="{{color.bgColorBottom}}"
   root-background-color="{{color.bgColor}}"
 />
-
 <view class="ios">
-  <header title="校园媒体" />
+  <header title="{{title}}" />
   <view class="switch">
     <view
       class="item {{type === 'qq' ? 'active' : ''}}"
       data-type="qq"
       catch:tap="switch"
+      >QQ</view
     >
-      QQ
-    </view>
     <view
       class="item {{type === 'wx' ? 'active' : ''}}"
       data-type="wx"
       catch:tap="switch"
+      >微信</view
     >
-      微信
-    </view>
   </view>
   <tab-bar nav-list="{{utils.getName(config)}}" height="{{height || 300}}">
     <block
