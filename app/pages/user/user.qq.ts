@@ -61,7 +61,7 @@ $Page("user", {
     this.setData({
       login: account !== null,
       userName: userInfo?.name || (account ? "in东师" : "未登录"),
-      desc: "以下是你的今日概览" || "in 东师，就用 in 东师",
+      desc: account === null ? "in 东师，就用 in 东师" : "以下是你的今日概览",
     });
     popNotice("user");
   },

@@ -61,7 +61,10 @@ $Page("user", {
     this.setData({
       login: account !== null,
       userName: userInfo?.name || (account ? appName : "未登录"),
-      desc: "以下是你的今日概览" || "走出半生，归来仍是 —— 东师青年",
+      desc:
+        account === null
+          ? "走出半生，归来仍是 —— 东师青年"
+          : "以下是你的今日概览",
     });
     popNotice("user");
   },
