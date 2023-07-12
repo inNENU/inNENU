@@ -8,6 +8,7 @@
     "pages/user/user",
     "pages/info/info",
     "pages/search/search",
+    "pages/action/action",
     "pages/web/web",
     "settings/about/about",
     "settings/account/account",
