@@ -6,7 +6,7 @@
       color="#ffc83d"
       size="{{size =='mini' ? 24 : 80}}"
     />
-    <view class="text">尚未登录学校账户</view>
+    <view class="text">尚未设置统一身份认证信息</view>
   </view>
   <button
     class="login-button"
