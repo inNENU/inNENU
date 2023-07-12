@@ -6,7 +6,7 @@ import {
   type ListComponentItemConfig,
 } from "../../../typings/components.js";
 import { getInfo, login } from "../../api/account.js";
-import { showModal, showToast } from "../../api/ui.js";
+import { confirmAction, showModal, showToast } from "../../api/ui.js";
 import { type AppOption } from "../../app.js";
 import { appCoverPrefix } from "../../config/info.js";
 import {
@@ -184,20 +184,22 @@ $Page(PAGE_ID, {
   },
 
   delete() {
-    this.setData({
-      id: "",
-      password: "",
-      // eslint-disable-next-line @typescript-eslint/naming-convention
-      "list.items": EMPTY_CONTENT,
-      isSaved: false,
+    confirmAction("删除账号(会清除本地的全部个人信息与数据且无法恢复)", () => {
+      this.setData({
+        id: "",
+        password: "",
+        // eslint-disable-next-line @typescript-eslint/naming-convention
+        "list.items": EMPTY_CONTENT,
+        isSaved: false,
+      });
+      remove(ACCOUNT_INFO_KEY);
+      remove(USER_INFO_KEY);
+      remove(UNDER_SYSTEM_COOKIE);
+      remove(COURSE_DATA_KEY);
+      remove(GRADE_DATA_KEY);
+      globalData.account = null;
+      globalData.userInfo = null;
+      showModal("删除成功", "已删除本地账号信息");
     });
-    remove(ACCOUNT_INFO_KEY);
-    remove(USER_INFO_KEY);
-    remove(UNDER_SYSTEM_COOKIE);
-    remove(COURSE_DATA_KEY);
-    remove(GRADE_DATA_KEY);
-    globalData.account = null;
-    globalData.userInfo = null;
-    showModal("删除成功", "已删除本地账号信息");
   },
 });
