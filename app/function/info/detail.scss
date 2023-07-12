@@ -1,0 +1,26 @@
+@import "../utils/icon";
+
+.title {
+  margin: 6px 15px;
+  font-weight: bold;
+  font-size: 20px;
+  line-height: 1.5;
+}
+
+.info {
+  font-size: 14px;
+}
+
+.content {
+  width: calc(100% - 30px);
+  margin: 8px 15px;
+  text-align: justify;
+  word-break: break-all;
+
+  .img {
+    width: 92%;
+    max-width: 517px;
+    border-radius: 16px;
+    margin: 16px auto;
+  }
+}

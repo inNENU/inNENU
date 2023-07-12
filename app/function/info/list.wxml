@@ -1,0 +1,58 @@
+<page-meta
+  background-text-style="{{darkmode ? 'dark': 'light'}}"
+  background-color="{{color.bgColor}}"
+  background-color-top="{{color.bgColorTop}}"
+  background-color-bottom="{{color.bgColorBottom}}"
+  root-background-color="{{color.bgColor}}"
+/>
+<view class="{{theme}} info-list-wrapper">
+  <navbar nav="{{ { title } }}" />
+  <scroll-view scroll-y scroll-top="{{scrollTop}}" class="info-list">
+    <error-hint wx:if="{{status === 'error'}}" catch:retry="retry" />
+    <block wx:else>
+      <view
+        wx:for="{{items}}"
+        wx:key="title"
+        class="info-item"
+        hover-class="button-hover"
+        hover-start-time="0"
+        hover-stay-time="0"
+        data-index="{{index}}"
+        catch:tap="viewItem"
+      >
+        <view class="title">{{item.title}}</view>
+        <view class="info">
+          <view class="time-icon">
+            <text>{{item.time}}</text>
+          </view>
+          <view class="teacher-icon">
+            <text>{{item.from}}</text>
+          </view>
+          <view class="eye-icon">
+            <text>{{item.pageView}}</text>
+          </view>
+        </view>
+      </view>
+    </block>
+  </scroll-view>
+  <view wx:if="{{status === 'success'}}" class="pagination">
+    <button
+      size="mini"
+      class="prev"
+      disabled="{{currentPage === 1}}"
+      catch:tap="prevPage"
+    >
+      上一页
+    </button>
+    <view class="current">第 {{currentPage}} 页</view>
+    <button
+      size="mini"
+      class="next"
+      disabled="{{currentPage === totalPage}}"
+      catch:tap="nextPage"
+    >
+      下一页
+    </button>
+  </view>
+  <footer />
+</view>

@@ -21,10 +21,12 @@ $Page(PAGE_ID, {
   state: {
     id: "",
     title: "",
+    type: "",
   },
 
   onLoad({ id = "", title = "", type = "notice" }) {
     this.state.title = title;
+    this.state.type = type;
     this.state.id = id;
 
     if (id) this.getNotice();
@@ -41,30 +43,30 @@ $Page(PAGE_ID, {
   },
 
   onShareAppMessage(): WechatMiniprogram.Page.ICustomShareContent {
-    const { id, title } = this.state;
+    const { type, id, title } = this.state;
 
     return {
       title,
-      path: `/function/notice/detail?id=${id}&title=${title}`,
+      path: `/function/notice/detail?type=${type}&id=${id}&title=${title}`,
     };
   },
 
   onShareTimeline(): WechatMiniprogram.Page.ICustomTimelineContent {
-    const { id, title } = this.state;
+    const { type, id, title } = this.state;
 
     return {
       title,
-      query: `id=${id}&title=${title}`,
+      query: `type=${type}&id=${id}&title=${title}`,
     };
   },
 
   onAddToFavorites(): WechatMiniprogram.Page.IAddToFavoritesContent {
-    const { id, title } = this.state;
+    const { type, id, title } = this.state;
 
     return {
       title,
       imageUrl: `${appCoverPrefix}.jpg`,
-      query: `id=${id}&title=${title}`,
+      query: `type=${type}&id=${id}&title=${title}`,
     };
   },
 

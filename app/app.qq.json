@@ -25,6 +25,8 @@
         "enroll/admission",
         "enroll/grade",
         "enroll/plan",
+        "info/detail",
+        "info/list",
         "library/library",
         "location/location",
         "map/map",

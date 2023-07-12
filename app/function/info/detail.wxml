@@ -1,0 +1,33 @@
+<page-meta
+  background-text-style="{{darkmode ? 'dark': 'light'}}"
+  background-color="{{color.bgColor}}"
+  background-color-top="{{color.bgColorTop}}"
+  background-color-bottom="{{color.bgColorBottom}}"
+  root-background-color="{{color.bgColor}}"
+/>
+<view class="{{theme}}">
+  <navbar nav="{{ { title: pageTitle } }}" />
+  <error-hint wx:if="{{ status === 'error' }}" catch:retry="getInfo" />
+  <login-hint wx:elif="{{ status === 'login' }}" source="{{pageTitle}}" />
+  <block wx:elif="{{content}}">
+    <view class="title">{{title}}</view>
+    <view class="info">
+      <view class="time-icon">
+        <text>{{time}}</text>
+      </view>
+      <view class="eye-icon">
+        <text>{{pageView}}</text>
+      </view>
+      <view wx:if="{{from}}" class="teacher-icon">
+        <text>{{from}}</text>
+      </view>
+      <view wx:if="{{author || editor}}" class="author-icon">
+        <text>{{author || editor}}</text>
+      </view>
+    </view>
+    <view class="content">
+      <rich-text nodes="{{content}}" space="nbsp" />
+    </view>
+  </block>
+  <footer />
+</view>

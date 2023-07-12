@@ -13,7 +13,7 @@
     "minifyWXSS": true,
     "minifyWXML": true,
     "uglifyFileName": false,
-    "ignoreUploadUnusedFiles": false,
+    "ignoreUploadUnusedFiles": true,
     "autoAudits": false,
     "urlCheck": true,
     "compileHotReLoad": true,
@@ -39,6 +39,7 @@
     "checkInvalidKey": true,
     "showShadowRootInWxmlPanel": true,
     "useIsolateContext": true,
+    "useMultiFrameRuntime": true,
     "useApiHook": false,
     "useApiHostProcess": true,
     "showES6CompileOption": false,
@@ -78,6 +79,20 @@
         {
           "name": "用户",
           "pathName": "pages/user/user",
+          "query": "",
+          "launchMode": "default",
+          "scene": null
+        },
+        {
+          "name": "账户",
+          "pathName": "pages/account/account",
+          "query": "",
+          "launchMode": "default",
+          "scene": null
+        },
+        {
+          "name": "小程序设置",
+          "pathName": "pages/settings/settings",
           "query": "",
           "launchMode": "default",
           "scene": null
@@ -181,6 +196,48 @@
           "scene": null
         },
         {
+          "name": "学校通知详情",
+          "pathName": "function/info/detail",
+          "query": "from=学校通知&title=关于2023年9月（第70次）全国计算机等级考试报名通知&type=notice&url=info/1056/15931.htm",
+          "launchMode": "default",
+          "scene": null
+        },
+        {
+          "name": "学校新闻详情",
+          "pathName": "function/info/detail",
+          "query": "from=学校新闻&title=我校学习贯彻习近平新时代中国特色社会主义思想主题教育领导班子调研成果交流会举行&type=news&url=info/1055/16002.htm",
+          "launchMode": "default",
+          "scene": null
+        },
+        {
+          "name": "学术会议详情",
+          "pathName": "function/info/detail",
+          "query": "from=学术会议&title=中国社会科学院世界历史研究所一行来我校调研&type=academic&url=info/1057/15976.htm",
+          "launchMode": "default",
+          "scene": null
+        },
+        {
+          "name": "学校通知列表",
+          "pathName": "function/info/list",
+          "query": "",
+          "launchMode": "default",
+          "scene": null
+        },
+        {
+          "name": "学校新闻列表",
+          "pathName": "function/info/list",
+          "query": "type=news",
+          "launchMode": "default",
+          "scene": null
+        },
+        {
+          "name": "学术会议列表",
+          "pathName": "function/info/list",
+          "query": "type=academic",
+          "launchMode": "default",
+          "scene": null
+        },
+        {
           "name": "图书馆",
           "pathName": "function/library/library",
           "query": "",
@@ -215,7 +272,34 @@
           "launchMode": "default",
           "scene": null
         },
-
+        {
+          "name": "通知详情",
+          "pathName": "function/notice/detail",
+          "query": "id=cc1bdeeb92c44111aba5a5051db0c1f8&title=关于申报2023年研究生创新计划类项目的通知",
+          "launchMode": "default",
+          "scene": null
+        },
+        {
+          "name": "新闻详情",
+          "pathName": "function/notice/detail",
+          "query": "id=7021130a8af34afca342acb02a0766a9&title=我校三个教师团队被认定为优秀团队&type=news",
+          "launchMode": "default",
+          "scene": null
+        },
+        {
+          "name": "通知列表",
+          "pathName": "function/notice/list",
+          "query": "",
+          "launchMode": "default",
+          "scene": null
+        },
+        {
+          "name": "新闻列表",
+          "pathName": "function/notice/list",
+          "query": "type=news",
+          "launchMode": "default",
+          "scene": null
+        },
         {
           "name": "体测计算器",
           "pathName": "function/pe-calculator/pe-calculator",
@@ -288,22 +372,8 @@
           "scene": null
         },
         {
-          "name": "小程序资源",
-          "pathName": "pages/settings/settings",
-          "query": "",
-          "launchMode": "default",
-          "scene": null
-        },
-        {
           "name": "关于",
           "pathName": "settings/about/about",
-          "query": "",
-          "launchMode": "default",
-          "scene": null
-        },
-        {
-          "name": "账户",
-          "pathName": "pages/account/account",
           "query": "",
           "launchMode": "default",
           "scene": null

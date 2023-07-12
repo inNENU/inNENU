@@ -10,22 +10,17 @@
     "enhance": false,
     "postcss": true,
     "preloadBackgroundData": false,
-    "minified": false,
-    "newFeature": true,
+    "minified": true,
     "coverView": true,
-    "nodeModules": true,
     "autoAudits": false,
     "showShadowRootInWxmlPanel": true,
     "ignoreDevUnusedFiles": true,
-    "scopeDataCheck": true,
     "uglifyFileName": false,
     "checkInvalidKey": true,
-    "checkSiteMap": true,
     "uploadWithSourceMap": true,
     "compileHotReLoad": true,
     "lazyloadPlaceholderEnable": false,
-    "useMultiFrameRuntime": true,
-    "useApiHook": true,
+    "useApiHook": false,
     "useApiHostProcess": true,
     "babelSetting": {
       "ignore": [],
@@ -33,7 +28,6 @@
       "outputPath": ""
     },
     "useIsolateContext": true,
-    "userConfirmedBundleSwitch": true,
     "packNpmManually": true,
     "packNpmRelationList": [
       {
@@ -45,11 +39,8 @@
     "disableUseStrict": false,
     "minifyWXML": true,
     "showES6CompileOption": false,
-    "useCompilerPlugins": false,
-    "remoteDebugLogEnable": false,
-    "prefetch": false,
-    "ignoreUploadUnusedFiles": true,
-    "useStaticServer": true
+    "condition": true,
+    "ignoreUploadUnusedFiles": false
   },
   "watchOptions": {
     "ignore": ["app/**", "node_modules/**", "server/**"]
@@ -63,34 +54,11 @@
     ],
     "include": []
   },
-  "simulatorType": "wechat",
-  "simulatorPluginLibVersion": {},
-  "srcMiniprogramRoot": "dist/",
   "editorSetting": {
     "tabIndent": "insertSpaces",
-    "tabSize": 4
-  },
-  "scripts": {
-    "beforeCompile": "",
-    "beforePreview": "",
-    "beforeUpload": ""
+    "tabSize": 2
   },
   "condition": {
-    "plugin": {
-      "list": []
-    },
-    "game": {
-      "list": []
-    },
-    "gamePlugin": {
-      "list": []
-    },
-    "search": {
-      "list": []
-    },
-    "conversation": {
-      "list": []
-    },
     "miniprogram": {
       "list": [
         {
@@ -109,210 +77,300 @@
         },
         {
           "id": 2,
-          "name": "分享",
-          "pathName": "pages/info/info",
-          "query": "path=Gdorm/electricity/power",
+          "name": "账户",
+          "pathName": "pages/account/account",
+          "query": "",
           "scene": null
         },
         {
           "id": 3,
-          "name": "二维码分享",
-          "pathName": "pages/info/info",
-          "query": "scene=guide/dorm/index",
-          "scene": null
-        },
-        {
-          "id": 29,
-          "name": "成绩",
-          "pathName": "function/course/grade",
-          "query": "",
-          "scene": null
-        },
-        {
-          "id": 4,
-          "name": "课程表",
-          "pathName": "function/course/table",
-          "query": "",
-          "scene": null
-        },
-        {
-          "id": 4,
-          "name": "天气",
-          "pathName": "function/weather/weather",
-          "query": "",
-          "scene": null
-        },
-        {
-          "id": 5,
-          "name": "地图",
-          "pathName": "function/map/map",
-          "query": "",
-          "scene": null
-        },
-        {
-          "id": 6,
-          "name": "地图地点",
-          "pathName": "function/map/location",
-          "query": "id=benbu/general/index",
-          "scene": null
-        },
-        {
-          "id": 7,
-          "name": "体测计算器",
-          "pathName": "function/pe-calculator/pe-calculator",
-          "query": "",
-          "scene": null
-        },
-        {
-          "id": 8,
-          "name": "校历",
-          "pathName": "function/calendar/calendar",
-          "query": "",
-          "scene": null
-        },
-        {
-          "id": 8,
-          "name": "历史分数",
-          "pathName": "function/enroll/grade",
-          "query": "",
-          "scene": null
-        },
-        {
-          "id": 8,
-          "name": "招生计划",
-          "pathName": "function/enroll/plan",
-          "query": "",
-          "scene": null
-        },
-        {
-          "id": 9,
-          "name": "播放器",
-          "pathName": "function/music/music",
-          "query": "",
-          "scene": null
-        },
-        {
-          "id": 10,
-          "name": "特定歌曲",
-          "pathName": "function/music/music",
-          "query": "index=17",
-          "scene": null
-        },
-        {
-          "id": 11,
-          "name": "师大黄页",
-          "pathName": "function/phone/phone",
-          "query": "",
-          "scene": null
-        },
-        {
-          "id": 12,
-          "name": "东师网站",
-          "pathName": "function/website/website",
-          "query": "",
-          "scene": null
-        },
-        {
-          "id": 13,
-          "name": "客服",
-          "pathName": "pages/action/action",
-          "query": "action=contact",
-          "scene": null
-        },
-        {
-          "id": 14,
-          "name": "初始化小程序",
-          "pathName": "pages/action/action",
-          "query": "action=reset",
-          "scene": null
-        },
-        {
-          "id": 16,
-          "name": "小程序资源",
+          "name": "小程序设置",
           "pathName": "pages/settings/settings",
           "query": "",
           "scene": null
         },
         {
-          "id": 17,
-          "name": "工作室关于",
-          "pathName": "function/video/video",
-          "query": "",
-          "scene": null
-        },
-        {
-          "id": 18,
-          "name": "视频",
-          "pathName": "function/video/video",
-          "query": "type=video",
-          "scene": null
-        },
-        {
-          "id": 19,
-          "name": "特定视频",
-          "pathName": "function/video/video",
-          "query": "type=video&name=师德公约",
-          "scene": null
-        },
-        {
-          "id": 20,
-          "name": "公众号",
-          "pathName": "function/school-media/school-media",
-          "query": "",
-          "scene": null
-        },
-        {
-          "id": 21,
-          "name": "特定公众号",
-          "pathName": "function/school-media/wechat",
-          "query": "path=nenuyouth",
-          "scene": null
-        },
-        {
-          "id": 22,
+          "id": 4,
           "name": "搜索",
           "pathName": "pages/search/search",
           "query": "",
           "scene": null
         },
         {
-          "id": 23,
+          "id": 5,
           "name": "指定文字搜索",
           "pathName": "pages/search/search",
           "query": "word=浴池",
           "scene": null
         },
-
         {
-          "id": 25,
-          "name": "录取查询",
-          "pathName": "function/enroll/admission",
-          "query": "type=search",
+          "id": 6,
+          "name": "客服",
+          "pathName": "pages/action/action",
+          "query": "action=contact",
           "scene": null
         },
         {
-          "id": 26,
-          "name": "关于",
-          "pathName": "settings/about/about",
-          "query": "",
+          "id": 7,
+          "name": "初始化小程序",
+          "pathName": "pages/action/action",
+          "query": "action=reset",
           "scene": null
         },
         {
-          "id": 27,
+          "id": 8,
+          "name": "分享",
+          "pathName": "pages/info/info",
+          "query": "path=Gdorm/electricity/power",
+          "scene": null
+        },
+        {
+          "id": 9,
+          "name": "二维码分享",
+          "pathName": "pages/info/info",
+          "query": "scene=guide/dorm/index",
+          "scene": null
+        },
+        {
+          "id": 10,
           "name": "欢迎入群",
           "pathName": "pages/info/info",
           "query": "id=other/about/welcome",
           "scene": null
         },
         {
-          "id": 28,
+          "id": 11,
           "name": "错误页",
           "pathName": "pages/info/info",
           "query": "id=other/about/notexist",
           "scene": null
+        },
+        {
+          "id": 12,
+          "name": "校历",
+          "pathName": "function/calendar/calendar",
+          "query": "",
+          "scene": null
+        },
+        {
+          "id": 13,
+          "name": "成绩",
+          "pathName": "function/course/grade",
+          "query": "",
+          "scene": null
+        },
+        {
+          "id": 14,
+          "name": "课程表",
+          "pathName": "function/course/table",
+          "query": "",
+          "scene": null
+        },
+        {
+          "id": 15,
+          "name": "录取查询",
+          "pathName": "function/enroll/admission",
+          "query": "type=search",
+          "scene": null
+        },
+        {
+          "id": 16,
+          "name": "历史分数",
+          "pathName": "function/enroll/grade",
+          "query": "",
+          "scene": null
+        },
+        {
+          "id": 17,
+          "name": "招生计划",
+          "pathName": "function/enroll/plan",
+          "query": "",
+          "scene": null
+        },
+        {
+          "id": 18,
+          "name": "学校通知详情",
+          "pathName": "function/info/detail",
+          "query": "from=学校通知&title=关于2023年9月（第70次）全国计算机等级考试报名通知&type=notice&url=info/1056/15931.htm",
+          "scene": null
+        },
+        {
+          "id": 19,
+          "name": "学校新闻详情",
+          "pathName": "function/info/detail",
+          "query": "from=学校新闻&title=我校学习贯彻习近平新时代中国特色社会主义思想主题教育领导班子调研成果交流会举行&type=news&url=info/1055/16002.htm",
+          "scene": null
+        },
+        {
+          "id": 20,
+          "name": "学术会议详情",
+          "pathName": "function/info/detail",
+          "query": "from=学术会议&title=中国社会科学院世界历史研究所一行来我校调研&type=academic&url=info/1057/15976.htm",
+          "scene": null
+        },
+        {
+          "id": 21,
+          "name": "学校通知列表",
+          "pathName": "function/info/list",
+          "query": "",
+          "scene": null
+        },
+        {
+          "id": 22,
+          "name": "学校新闻列表",
+          "pathName": "function/info/list",
+          "query": "type=news",
+          "scene": null
+        },
+        {
+          "id": 23,
+          "name": "学术会议列表",
+          "pathName": "function/info/list",
+          "query": "type=academic",
+          "scene": null
+        },
+        {
+          "id": 24,
+          "name": "图书馆",
+          "pathName": "function/library/library",
+          "query": "",
+          "scene": null
+        },
+        {
+          "id": 25,
+          "name": "地图地点",
+          "pathName": "function/location/location",
+          "query": "id=benbu/general/index&point={\"latitude\":43.86188,\"longitude\":125.33137,\"name\":\"自由校区\"}",
+          "scene": null
+        },
+        {
+          "id": 26,
+          "name": "地图",
+          "pathName": "function/map/map",
+          "query": "",
+          "scene": null
+        },
+        {
+          "id": 27,
+          "name": "播放器",
+          "pathName": "function/music/music",
+          "query": "",
+          "scene": null
+        },
+        {
+          "id": 28,
+          "name": "特定歌曲",
+          "pathName": "function/music/music",
+          "query": "index=17",
+          "scene": null
+        },
+        {
+          "id": 29,
+          "name": "通知详情",
+          "pathName": "function/notice/detail",
+          "query": "id=cc1bdeeb92c44111aba5a5051db0c1f8&title=关于申报2023年研究生创新计划类项目的通知",
+          "scene": null
+        },
+        {
+          "id": 30,
+          "name": "新闻详情",
+          "pathName": "function/notice/detail",
+          "query": "id=7021130a8af34afca342acb02a0766a9&title=我校三个教师团队被认定为优秀团队&type=news",
+          "scene": null
+        },
+        {
+          "id": 31,
+          "name": "通知列表",
+          "pathName": "function/notice/list",
+          "query": "",
+          "scene": null
+        },
+        {
+          "id": 32,
+          "name": "新闻列表",
+          "pathName": "function/notice/list",
+          "query": "type=news",
+          "scene": null
+        },
+        {
+          "id": 33,
+          "name": "体测计算器",
+          "pathName": "function/pe-calculator/pe-calculator",
+          "query": "",
+          "scene": null
+        },
+        {
+          "id": 34,
+          "name": "师大黄页",
+          "pathName": "function/phone/phone",
+          "query": "",
+          "scene": null
+        },
+        {
+          "id": 35,
+          "name": "选课",
+          "pathName": "function/select/select",
+          "query": "",
+          "scene": null
+        },
+        {
+          "id": 36,
+          "name": "公众号",
+          "pathName": "function/school-media/school-media",
+          "query": "",
+          "scene": null
+        },
+        {
+          "id": 37,
+          "name": "特定公众号",
+          "pathName": "function/school-media/wechat",
+          "query": "path=nenuyouth",
+          "scene": null
+        },
+        {
+          "id": 38,
+          "name": "工作室关于",
+          "pathName": "function/video/video",
+          "query": "",
+          "scene": null
+        },
+        {
+          "id": 39,
+          "name": "视频",
+          "pathName": "function/video/video",
+          "query": "type=video",
+          "scene": null
+        },
+        {
+          "id": 40,
+          "name": "特定视频",
+          "pathName": "function/video/video",
+          "query": "type=video&name=师德公约",
+          "scene": null
+        },
+        {
+          "id": 41,
+          "name": "天气",
+          "pathName": "function/weather/weather",
+          "query": "",
+          "scene": null
+        },
+        {
+          "id": 42,
+          "name": "东师网站",
+          "pathName": "function/website/website",
+          "query": "",
+          "scene": null
+        },
+        {
+          "id": 43,
+          "name": "关于",
+          "pathName": "settings/about/about",
+          "query": "",
+          "scene": null
         }
       ],
-      "current": 22
+      "current": 0
     }
   }
 }

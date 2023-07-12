@@ -1,0 +1,50 @@
+@import "../utils/icon";
+
+.info-list-wrapper {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+}
+
+.info-list {
+  flex: 1;
+  overflow-y: auto;
+  width: calc(100% - 30px);
+  margin: 6px 15px;
+}
+
+.info-item {
+  padding: 6px;
+  border-top: 1px solid var(--border-color);
+
+  &:first-child {
+    border-top: none;
+  }
+}
+
+.button-hover {
+  background-color: var(--hover) !important;
+}
+
+.title {
+  font-weight: 600;
+  line-height: 1.5;
+  text-align: left;
+}
+
+.info {
+  text-align: left;
+}
+
+.pagination {
+  display: flex;
+  align-items: center;
+  justify-content: space-evenly;
+
+  .prev,
+  .next {
+    margin: 2px 4px;
+    padding: 4px 6px;
+    font-size: 14px;
+  }
+}
