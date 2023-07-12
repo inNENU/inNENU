@@ -6,7 +6,6 @@ import {
   type PageDataWithContent,
   type PickerListComponentItemConfig,
 } from "../../../typings/index.js";
-import { showToast } from "../../api/ui.js";
 import { type AppOption } from "../../app.js";
 import { appCoverPrefix, appName, assets } from "../../config/info.js";
 import { getColor, popNotice, resolvePage, setPage } from "../../utils/page.js";
@@ -62,7 +61,7 @@ $Page("user", {
     this.setData({
       login: account !== null,
       userName: userInfo?.name || (account ? "in东师" : "未登录"),
-      desc: userInfo?.email || "in 东师，就用 in 东师",
+      desc: "以下是你的今日概览" || "in 东师，就用 in 东师",
     });
     popNotice("user");
   },
@@ -90,14 +89,6 @@ $Page("user", {
     title: appName,
     imageUrl: `${appCoverPrefix}.jpg`,
   }),
-
-  openProfile() {
-    if (wx.canIUse("openChannelsUserProfile"))
-      wx.openChannelsUserProfile?.({
-        finderUserName: "sphQlMRqDF84Orm",
-      });
-    else showToast("请升级微信版本");
-  },
 
   addToDesktop() {
     wx.saveAppToDesktop({

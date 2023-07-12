@@ -6,9 +6,8 @@ import {
   type PageDataWithContent,
   type PickerListComponentItemConfig,
 } from "../../../typings/index.js";
-import { showToast } from "../../api/ui.js";
 import { type AppOption } from "../../app.js";
-import { appCoverPrefix, appName, assets } from "../../config/info.js";
+import { appCoverPrefix, appName } from "../../config/info.js";
 import { getColor, popNotice, resolvePage, setPage } from "../../utils/page.js";
 import { checkResource } from "../../utils/resource.js";
 import { refreshPage } from "../../utils/tab.js";
@@ -17,7 +16,7 @@ const { globalData } = getApp<AppOption>();
 
 $Page("user", {
   data: {
-    logo: `${assets}/img/inNENU.png`,
+    logo: "/frameset/placeholder.png",
 
     page: <PageDataWithContent>{
       title: "我的东师",
@@ -33,7 +32,7 @@ $Page("user", {
 
     theme: globalData.theme,
     statusBarHeight: globalData.info.statusBarHeight,
-    userName: "in东师",
+    userName: appName,
   },
 
   onPreload(res) {
@@ -62,8 +61,8 @@ $Page("user", {
     });
     this.setData({
       login: account !== null,
-      userName: userInfo?.name || (account ? "in东师" : "未登录"),
-      desc: userInfo?.email || "in 东师，就用 in 东师",
+      userName: userInfo?.name || (account ? appName : "未登录"),
+      desc: "以下是你的今日概览" || "in 东师，就用 in 东师",
     });
     popNotice("user");
   },
@@ -91,22 +90,6 @@ $Page("user", {
     title: appName,
     imageUrl: `${appCoverPrefix}.jpg`,
   }),
-
-  openProfile() {
-    if (wx.canIUse("openChannelsUserProfile"))
-      wx.openChannelsUserProfile?.({
-        finderUserName: "sphQlMRqDF84Orm",
-      });
-    else showToast("请升级微信版本");
-  },
-
-  addToDesktop() {
-    wx.saveAppToDesktop({
-      success: () => {
-        console.log("Add to desktop success!");
-      },
-    });
-  },
 
   updateTheme(value: string) {
     // get the updated theme

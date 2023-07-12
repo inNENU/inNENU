@@ -6,7 +6,6 @@ import {
   type PageDataWithContent,
   type PickerListComponentItemConfig,
 } from "../../../typings/index.js";
-import { showToast } from "../../api/ui.js";
 import { type AppOption } from "../../app.js";
 import { appCoverPrefix, appName } from "../../config/info.js";
 import { getColor, popNotice, resolvePage, setPage } from "../../utils/page.js";
@@ -32,7 +31,7 @@ $Page("user", {
 
     theme: globalData.theme,
     statusBarHeight: globalData.info.statusBarHeight,
-    userName: "东师青年",
+    userName: appName,
   },
 
   onPreload(res) {
@@ -61,8 +60,8 @@ $Page("user", {
     });
     this.setData({
       login: account !== null,
-      userName: userInfo?.name || (account ? "in东师" : "未登录"),
-      desc: userInfo?.email || "走出半生，归来仍是 —— 东师青年",
+      userName: userInfo?.name || (account ? appName : "未登录"),
+      desc: "以下是你的今日概览" || "走出半生，归来仍是 —— 东师青年",
     });
     popNotice("user");
   },
@@ -90,22 +89,6 @@ $Page("user", {
     title: appName,
     imageUrl: `${appCoverPrefix}.jpg`,
   }),
-
-  openProfile() {
-    if (wx.canIUse("openChannelsUserProfile"))
-      wx.openChannelsUserProfile?.({
-        finderUserName: "sphYDhg2G2Qp1Mt",
-      });
-    else showToast("请升级微信版本");
-  },
-
-  addToDesktop() {
-    wx.saveAppToDesktop({
-      success: () => {
-        console.log("Add to desktop success!");
-      },
-    });
-  },
 
   updateTheme(value: string) {
     // get the updated theme
