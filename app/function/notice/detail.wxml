@@ -9,7 +9,7 @@
   <navbar nav="{{ { title: pageTitle } }}" />
   <error-hint wx:if="{{ status === 'error' }}" catch:retry="getNotice" />
   <login-hint wx:elif="{{ status === 'login' }}" source="学校通知" />
-  <block wx:else>
+  <block wx:elif="{{content}}">
     <view class="title">{{title}}</view>
     <view class="info">
       <view class="time-icon">
