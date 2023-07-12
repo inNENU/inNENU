@@ -61,7 +61,7 @@ $Page("user", {
     });
     this.setData({
       login: account !== null,
-      userName: userInfo?.name || account ? "in东师" : "未登录",
+      userName: userInfo?.name || (account ? "in东师" : "未登录"),
       desc: userInfo?.email || "走出半生，归来仍是 —— 东师青年",
     });
     popNotice("user");
