@@ -13,7 +13,7 @@
     "pages/web/web",
     "settings/about/about",
     "settings/privacy/privacy",
-    "settings/storage/storage"
+    "pages/settings/settings"
   ],
   "subPackages": [
     {

@@ -90,6 +90,13 @@
           "scene": null
         },
         {
+          "name": "小程序设置",
+          "pathName": "pages/settings/settings",
+          "query": "",
+          "launchMode": "default",
+          "scene": null
+        },
+        {
           "name": "搜索",
           "pathName": "pages/search/search",
           "query": "",
@@ -321,13 +328,7 @@
           "launchMode": "default",
           "scene": null
         },
-        {
-          "name": "小程序资源",
-          "pathName": "settings/storage/storage",
-          "query": "",
-          "launchMode": "default",
-          "scene": null
-        },
+
         {
           "name": "关于",
           "pathName": "settings/about/about",

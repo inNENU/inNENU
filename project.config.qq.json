@@ -229,7 +229,7 @@
         {
           "id": 16,
           "name": "小程序资源",
-          "pathName": "settings/storage/storage",
+          "pathName": "pages/settings/settings",
           "query": "",
           "scene": null
         },

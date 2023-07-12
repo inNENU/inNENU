@@ -7,7 +7,16 @@
   root-background-color="{{color.bgColor}}"
 />
 <view class="{{theme}} grey">
-  <view class="account-wrapper" style="padding-top:{{statusBarHeight + 20}}px">
+  <view
+    class="left-button"
+    style="top:{{statusBarHeight + 6}}px;"
+    hover-class="button-hover"
+    data-url="settings"
+    catch:tap="$bindGo"
+  >
+    <view class="icon-setting" />
+  </view>
+  <view class="account-wrapper" style="padding-top:{{statusBarHeight}}px">
     <view
       class="account"
       hover-class="button-hover"
@@ -16,16 +25,16 @@
       data-url="account"
       catch:tap="$bindGo"
     >
-      <image class="avatar" src="{{logo}}" />
       <view class="info">
-        <view class="nickname">{{userName ||'未登录'}}</view>
-        <view class="detail">{{desc}}</view>
+        <view class="name">{{userName || '未登录'}}</view>
+        <view class="desc">{{desc}}</view>
       </view>
     </view>
   </view>
-  <view class="account-placeholder" style="height:{{statusBarHeight + 96}}px" />
+  <view class="account-placeholder" style="height:{{statusBarHeight + 66}}px" />
   <block wx:if="{{login}}">
     <today-course custom-class="course" />
+    <card-balance />
     <library-borrow-books />
   </block>
   <official-account />

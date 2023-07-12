@@ -289,7 +289,7 @@
         },
         {
           "name": "小程序资源",
-          "pathName": "settings/storage/storage",
+          "pathName": "pages/settings/settings",
           "query": "",
           "launchMode": "default",
           "scene": null
