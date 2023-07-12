@@ -8,7 +8,7 @@
 <view class="{{theme}} notice-list-wrapper">
   <navbar nav="{{ { title } }}" />
   <scroll-view scroll-y scroll-top="{{scrollTop}}" class="notice-list">
-    <error-hint wx:if="{{status === 'error'}}" catch:retry="getNoticeList" />
+    <error-hint wx:if="{{status === 'error'}}" catch:retry="retry" />
     <login-hint wx:elif="{{status === 'login'}}" source="学校通知" />
     <block wx:else>
       <view

@@ -95,6 +95,10 @@ $Page(PAGE_ID, {
     } else this.setData({ status: "login" });
   },
 
+  retry() {
+    this.getNoticeList(1, true);
+  },
+
   prevPage() {
     this.getNoticeList(this.data.currentPage - 1);
   },
