@@ -11,7 +11,7 @@
     "pages/search/search",
     "pages/account/account",
     "pages/web/web",
-    "settings/about/about",
+    "pages/about/about",
     "pages/settings/settings",
     "function/calendar/calendar",
     "function/course/grade",

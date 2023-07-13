@@ -52,7 +52,6 @@ $Config({
     ["notice-detail", "/function/notice/detail"],
     ["notice-list", "/function/notice/list"],
     ["wechat-detail", "/function/school-media/wechat"],
-    [["about", "privacy"], "/settings/$name/$name"],
   ],
 
   injectPage: (_name, options) => {

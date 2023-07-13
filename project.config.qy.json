@@ -373,7 +373,7 @@
         },
         {
           "name": "关于",
-          "pathName": "settings/about/about",
+          "pathName": "pages/about/about",
           "query": "",
           "launchMode": "default",
           "scene": null

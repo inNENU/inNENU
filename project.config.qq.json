@@ -365,7 +365,7 @@
         {
           "id": 43,
           "name": "关于",
-          "pathName": "settings/about/about",
+          "pathName": "pages/about/about",
           "query": "",
           "scene": null
         }

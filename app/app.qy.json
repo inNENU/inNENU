@@ -11,8 +11,8 @@
     "pages/account/account",
     "pages/action/action",
     "pages/web/web",
-    "settings/about/about",
-    "settings/privacy/privacy",
+    "pages/about/about",
+    "pages/privacy/privacy",
     "pages/settings/settings"
   ],
   "subPackages": [
