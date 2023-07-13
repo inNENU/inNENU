@@ -170,7 +170,7 @@ $Page("course-grade", {
     this.state.numberValueIndex = numberValueIndex;
 
     this.setData({
-      grades: grades,
+      grades,
       showMark,
       showRelearn,
       showStatus,

@@ -41,7 +41,9 @@
 
         <view wx:for="{{grades}}" wx:for-item="item" class="table-row">
           <view class="cell name">{{item.name}}</view>
-          <view class="cell grade">{{item.grade}}</view>
+          <view class="cell grade {{grade.getGradeState(item.grade)}}"
+            >{{item.grade}}</view
+          >
           <view class="cell difficulty">{{item.difficulty}}</view>
           <view class="cell point">{{item.point}}</view>
           <view class="cell grade-point">{{item.gradePoint}}</view>

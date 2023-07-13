@@ -13,4 +13,7 @@ var headers = [
 
 module.exports = {
   headers: headers,
+  getGradeState: function (grade) {
+    return grade === 0 ? "absent" : grade < 60 ? "failed" : "normal";
+  },
 };

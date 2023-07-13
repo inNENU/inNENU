@@ -42,6 +42,16 @@
   .name {
     max-width: 8em;
   }
+
+  .grade {
+    &.absent {
+      color: var(--action-color);
+    }
+
+    &.failed {
+      color: #f00;
+    }
+  }
 }
 
 .table-headers,
