@@ -14,15 +14,27 @@ import { getColor, popNotice } from "../../utils/page.js";
 const { globalData } = getApp<AppOption>();
 const PAGE_ID = "wechat-detail";
 
+interface WechatArticleItemWithSize extends WechatArticleItem {
+  width: number;
+  height: number;
+}
+
 $Page(PAGE_ID, {
   data: {
     loading: true,
-    config: <WechatConfig>{},
+    name: "",
+    desc: "",
+    logo: "",
+    id: "",
+    qrcode: "",
+    authorized: false,
+    follow: "",
+
     statusBarHeight: globalData.info.statusBarHeight,
+    showBackToTop: false,
     footer: {
       desc: "更新文章，请联系 Mr.Hope",
     },
-    showBackToTop: false,
   },
 
   state: {
@@ -41,7 +53,7 @@ $Page(PAGE_ID, {
 
     this.state.path = path;
 
-    popNotice(`wechat/${this.data.config.name}`);
+    popNotice(`wechat/${this.data.name}`);
   },
 
   onShow() {
@@ -54,11 +66,11 @@ $Page(PAGE_ID, {
   },
 
   onReady() {
-    const ctx = createRecycleContext<WechatArticleItem>({
+    const ctx = createRecycleContext<WechatArticleItemWithSize>({
       id: "recycleId",
       dataKey: "recycleList",
       page: this,
-      itemSize: this.getItemSize,
+      itemSize: ({ width, height }) => ({ width, height }),
     });
 
     this.ctx = ctx;
@@ -70,9 +82,29 @@ $Page(PAGE_ID, {
       enableHttp2: true,
       success: ({ data, statusCode }) => {
         if (statusCode === 200) {
-          this.setData({ loading: false, config: data });
+          const {
+            article,
+            name,
+            desc,
+            logo,
+            id,
+            qrcode,
+            authorized = false,
+            follow = "",
+          } = data;
 
-          ctx.append(data.article);
+          this.setData({
+            loading: false,
+            name,
+            desc,
+            logo,
+            id,
+            qrcode,
+            authorized,
+            follow,
+          });
+
+          ctx.append(article.map(this.appendSize));
         } else showToast("服务器出现问题");
       },
     });
@@ -86,6 +118,7 @@ $Page(PAGE_ID, {
 
   onResize({ size }) {
     this.setData(size);
+    this.ctx.updateList(0, this.ctx.getList().map(this.appendSize));
     this.ctx.forceUpdate(() => {
       // do nothing
     }, false);
@@ -93,34 +126,47 @@ $Page(PAGE_ID, {
 
   onShareAppMessage(): WechatMiniprogram.Page.ICustomShareContent {
     return {
-      title: this.data.config.name,
+      title: this.data.name,
       path: `/function/school-media/wechat?path=${this.state.path}`,
     };
   },
 
   onShareTimeline(): WechatMiniprogram.Page.ICustomTimelineContent {
     return {
-      title: this.data.config.name,
+      title: this.data.name,
       query: `path=${this.state.path}`,
     };
   },
 
   onAddToFavorites(): WechatMiniprogram.Page.IAddToFavoritesContent {
     return {
-      title: this.data.config.name,
+      title: this.data.name,
       imageUrl: `${appCoverPrefix}.jpg`,
       query: `path=${this.state.path}`,
     };
   },
 
-  getItemSize(item: WechatArticleItem) {
-    const width = globalData.info.windowWidth - 30;
+  appendSize(item: WechatArticleItem) {
+    const width = Math.min(globalData.info.windowWidth - 30, 517);
+    const titleCharPerLine = Math.floor((width - 30) / 16);
+    const descCharPerLine = Math.floor((width - 30) / 14);
 
     return {
+      ...item,
       width,
       height:
-        Math.min((globalData.info.windowWidth / 75) * 29, 220) +
-        (item.desc ? 68 : 48),
+        // image height
+        (width / 47) * 20 +
+        // card margin + info padding
+        30 +
+        // title height
+        Math.ceil(item.title.length / titleCharPerLine) * 24 +
+        (item.desc
+          ? // desc height
+            Math.ceil(item.desc.length / descCharPerLine) * 21 +
+            // desc margin
+            4
+          : 0),
     };
   },
 
@@ -133,7 +179,7 @@ $Page(PAGE_ID, {
   >) {
     const { title, url } = currentTarget.dataset;
 
-    if (this.data.config.authorized) this.$go(`web?url=${url}&title=${title}`);
+    if (this.data.authorized) this.$go(`web?url=${url}&title=${title}`);
     // 无法跳转，复制链接到剪切板
     else
       wx.setClipboardData({
@@ -148,7 +194,7 @@ $Page(PAGE_ID, {
   },
 
   follow() {
-    const { follow, qrcode } = this.data.config;
+    const { follow, qrcode } = this.data;
 
     if (follow) this.$go(`web?url=${follow}&title=欢迎关注`);
     else wx.previewImage({ urls: [qrcode] });

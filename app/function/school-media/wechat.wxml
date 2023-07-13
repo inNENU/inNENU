@@ -30,16 +30,16 @@
     <block wx:else>
       <view class="intro-wrapper" style="padding-top: {{statusBarHeight}}px;">
         <!-- 高斯模糊背景 -->
-        <image class="background" src="{{config.logo}}" mode="aspectFill" />
+        <image class="background" src="{{logo}}" mode="aspectFill" />
         <view class="intro">
           <!-- 图标 -->
-          <image class="icon" src="{{config.logo}}" />
+          <image class="icon" src="{{logo}}" />
           <!-- 名称 -->
-          <view class="name">{{config.name}}</view>
+          <view class="name">{{name}}</view>
           <!-- 详情 -->
-          <view class="detail">{{config.detail}}</view>
+          <view class="detail">{{detail}}</view>
           <!-- 介绍 -->
-          <view class="desc">{{config.desc}}</view>
+          <view class="desc">{{desc}}</view>
           <!-- 关注 -->
           <view class="follow" hover-class="hover" catch:tap="follow"
             >关注</view
@@ -49,10 +49,11 @@
       <view class="wechat-wrapper"> </view>
     </block>
   </block>
-  <recycle-item wx:for="{{config.article}}" wx:key="id">
+  <recycle-item wx:for="{{recycleList}}" wx:key="id">
     <view
-      class="card"
       wx:key="title"
+      class="card"
+      style="height: {{item.height}}px"
       hover-class="button-hover"
       hover-stay-time="100"
       data-title="{{item.title}}"
@@ -66,7 +67,7 @@
           <view class="name">{{item.name}}</view>
         </view>
         <view class="title">{{item.title}}</view>
-        <view class="desc">{{item.desc}}</view>
+        <view wx:if="{{item.desc}}" class="desc">{{item.desc}}</view>
       </view>
     </view>
   </recycle-item>
