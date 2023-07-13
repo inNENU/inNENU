@@ -7,67 +7,51 @@
 @keyframes jump {
   0% {
     top: 0;
-    transform: rotate(0deg);
-  }
-
-  10% {
-    top: -18rpx;
-    transform: rotate(-7.2deg);
   }
 
   20% {
-    top: -32rpx;
-    transform: rotate(-28.8deg);
-  }
-
-  30% {
-    top: -42rpx;
-    transform: rotate(-64.8deg);
+    top: -18rpx;
   }
 
   40% {
-    top: -48rpx;
-    transform: rotate(-115.2deg);
-  }
-
-  50% {
-    top: -50rpx;
-    transform: rotate(-180deg);
+    top: -32rpx;
   }
 
   60% {
-    top: -48rpx;
-    transform: rotate(-244.8deg);
-  }
-
-  70% {
     top: -42rpx;
-    transform: rotate(-295.2deg);
   }
 
   80% {
-    top: -32rpx;
-    transform: rotate(-331.2deg);
-  }
-
-  90% {
-    top: -18rpx;
-    transform: rotate(-352.8deg);
+    top: -48rpx;
   }
 
   100% {
-    top: 0;
-    transform: rotate(-360deg);
+    top: -50rpx;
   }
 }
 
 @keyframes shadow {
-  0%,
-  100% {
+  0% {
     transform: scaleX(1.4);
   }
 
-  50% {
+  20% {
+    transform: scaleX(1.26);
+  }
+
+  40% {
+    transform: scaleX(1.16);
+  }
+
+  60% {
+    transform: scaleX(1.08);
+  }
+
+  80% {
+    transform: scaleX(1.02);
+  }
+
+  100% {
     transform: scaleX(1);
   }
 }
@@ -94,13 +78,13 @@
   .shadow {
     width: 60px;
     height: 10px;
-    margin: -10px 20px 0;
+    margin: 0 20px 0;
     border-radius: 50%;
 
     background-color: rgb(191 190 195 / 15%);
     box-shadow: 0 0 5px rgb(191 190 195 / 15%);
 
-    animation: shadow 2s ease 0s none infinite alternate-reverse;
+    animation: shadow 1s ease 0s none infinite alternate-reverse;
   }
 }
 
@@ -128,33 +112,37 @@
 
     background-color: var(--theme-color);
 
-    animation: jump 2s linear 0s none infinite alternate-reverse;
+    animation: jump 1s linear 0s none infinite alternate-reverse;
 
     .in {
       position: absolute;
-      left: 40px;
+      left: 50px;
       color: #fff;
-      font-size: 32px;
+      font-size: 40px;
+      top: 6px;
+      font-weight: 500;
     }
 
     .dong {
       position: absolute;
-      top: 36px;
-      left: 15px;
+      top: 34px;
+      left: 14px;
 
       color: #fff;
 
-      font-size: 32px;
+      font-size: 36px;
+      font-weight: bold;
     }
 
     .shi {
       position: absolute;
-      top: 44px;
+      top: 46px;
       right: 15px;
 
       color: #fff;
 
-      font-size: 32px;
+      font-size: 36px;
+      font-weight: bold;
     }
   }
 }
