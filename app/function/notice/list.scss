@@ -15,10 +15,9 @@
 
 .notice {
   padding: 6px;
-  border-top: 1px solid var(--border-color);
 
-  &:first-child {
-    border-top: none;
+  &:first-child::before {
+    display: none;
   }
 }
 
@@ -27,13 +26,14 @@
 }
 
 .title {
-  font-weight: 600;
-  line-height: 1.5;
+  line-height: 1.25;
   text-align: left;
 }
 
 .info {
+  margin-top: 4px;
   text-align: left;
+  font-size: 14px;
 }
 
 .pagination {

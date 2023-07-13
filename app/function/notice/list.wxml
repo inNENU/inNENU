@@ -14,7 +14,7 @@
       <view
         wx:for="{{notices}}"
         wx:key="title"
-        class="notice"
+        class="notice bt"
         hover-class="button-hover"
         hover-start-time="0"
         hover-stay-time="0"
