@@ -2,7 +2,7 @@
 
 <!-- components -->
 <template name="components">
-  <block wx:if="{{content && content.length}}">
+  <block wx:if="{{content.length}}">
     <block wx:for="{{content}}" wx:key="id">
       <block wx:if="{{!item.hidden}}">
         <plain-text wx:if="{{template.isText(item.tag)}}" config="{{item}}" />
