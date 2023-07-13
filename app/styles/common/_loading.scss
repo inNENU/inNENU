@@ -97,7 +97,7 @@
     margin: -10px 20px 0;
     border-radius: 50%;
 
-    background: rgb(191 190 195 / 15%);
+    background-color: rgb(191 190 195 / 15%);
     box-shadow: 0 0 5px rgb(191 190 195 / 15%);
 
     animation: shadow 2s ease 0s none infinite alternate-reverse;
@@ -165,13 +165,13 @@
   margin: 8px 15px;
   padding: 4px 12px;
 
-  background: #fff7d0;
+  background-color: #fff7d0;
   color: color.scale(#f4cd00, $lightness: -20%);
 
   font-size: 10px;
   text-align: left;
 
   @media (prefers-color-scheme: dark) {
-    background: #353535;
+    background-color: #353535;
   }
 }

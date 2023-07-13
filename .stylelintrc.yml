@@ -9,3 +9,4 @@ rules:
     - ignoreTypes:
         - page
         - picker
+  shorthand-property-no-redundant-values: null

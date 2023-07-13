@@ -1,10 +1,13 @@
 .mask {
-  background: rgb(0 0 0 / 60%);
+  background-color: rgb(0 0 0 / 60%);
 }
 
 .mask,
 .mask-transparent {
   position: fixed;
   z-index: 999;
-  inset: 0;
+  top: 0;
+  right: 0;
+  left: 0;
+  bottom: 0;
 }
