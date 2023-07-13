@@ -9,12 +9,12 @@
 .notice-list {
   flex: 1;
   overflow-y: auto;
-  width: calc(100% - 30px);
-  margin: 6px 15px;
+  padding: 6px 0;
 }
 
 .notice {
-  padding: 6px;
+  margin: 0 15px;
+  padding: 8px 6px;
 
   &:first-child::before {
     display: none;
@@ -32,14 +32,20 @@
 
 .info {
   margin-top: 4px;
-  text-align: left;
   font-size: 14px;
+  text-align: left;
 }
 
 .pagination {
   display: flex;
   align-items: center;
   justify-content: space-evenly;
+
+  padding-bottom: 10px;
+
+  @supports (padding-bottom: env(safe-area-inset-bottom)) {
+    padding-bottom: env(safe-area-inset-bottom);
+  }
 
   .prev,
   .next {

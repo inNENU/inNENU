@@ -9,20 +9,23 @@
 
 .arrow {
   content: " ";
-  z-index: 1102;
+
   position: absolute;
   right: 40px;
   bottom: 100%;
+  z-index: 1102;
+
   width: 0;
   height: 0;
-  border-left: 8px solid transparent;
   border-right: 8px solid transparent;
   border-bottom: 8px solid var(--bg-color-block);
+  border-left: 8px solid transparent;
 }
 
 .addtip {
   position: relative;
   z-index: 1101;
+
   display: flex;
   align-items: center;
   justify-content: center;
@@ -34,8 +37,8 @@
   color: var(--text-color);
   box-shadow: 1px 0 8px 4px rgb(0 0 0 / 15%);
 
-  line-height: 2.5;
   font-size: 14px;
+  line-height: 2.5;
 
   @media (prefers-color-scheme: dark) {
     box-shadow: 1px 0 8px 4px rgb(0 0 0 / 50%);

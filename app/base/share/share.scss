@@ -105,7 +105,6 @@
     width: 100%;
     min-height: 48px;
     padding: 12px 24px;
-    padding-bottom: calc(12px + env(safe-area-inset-bottom));
     border: none;
     border-radius: 0;
 
@@ -113,5 +112,9 @@
     color: var(--text-color);
 
     font-weight: 400;
+
+    @supports (padding-bottom: env(safe-area-inset-bottom)) {
+      padding-bottom: calc(12px + env(safe-area-inset-bottom));
+    }
   }
 }

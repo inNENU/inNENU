@@ -29,8 +29,9 @@
 .song-info {
   height: 10%;
   padding: 0 15px;
+
   color: var(--dark-grey);
-  text-align: center;
+
   font-family:
     FZSSJW,
     -apple-system-font,
@@ -41,6 +42,7 @@
     Tahoma,
     Simsun,
     sans-serif !important;
+  text-align: center;
 
   .name {
     margin-bottom: 10px;
@@ -101,7 +103,9 @@
 
 .lyric-text {
   min-height: 30px;
+
   color: var(--dark-grey);
+
   font-size: 16px;
   line-height: 2;
   text-align: center;

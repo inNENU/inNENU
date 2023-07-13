@@ -5,7 +5,7 @@
   background-color-bottom="{{color.bgColorBottom}}"
   root-background-color="{{color.bgColor}}"
 />
-<view class="{{theme}}">
+<view class="{{theme}}" info-detail>
   <navbar nav="{{ { title: pageTitle } }}" />
   <error-hint wx:if="{{ status === 'error' }}" catch:retry="getInfo" />
   <login-hint wx:elif="{{ status === 'login' }}" source="{{pageTitle}}" />

@@ -30,10 +30,11 @@
   }
 
   .result {
+    min-height: 44px;
     margin: 12px;
+
     font-weight: 500;
     font-size: 22px;
-    min-height: 44px;
     line-height: 2;
   }
 }

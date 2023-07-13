@@ -1,11 +1,12 @@
 /* error */
 
 .error-wrapper {
-  height: 50vh;
   display: flex;
   flex-direction: column;
-  justify-content: center;
   align-items: center;
+  justify-content: center;
+
+  height: 50vh;
 
   .error-text {
     margin: 12px 0;
@@ -20,10 +21,9 @@
 
   .desc {
     margin: 16px 0;
-
-    text-align: left;
     color: #888;
     font-size: 16px;
+    text-align: left;
 
     text {
       display: block;

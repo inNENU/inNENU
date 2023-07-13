@@ -1,19 +1,30 @@
 @import "../utils/icon";
 
+.notice-detail {
+  text-align: left;
+}
+
 .title {
   margin: 6px 15px;
   font-weight: bold;
   font-size: 20px;
-  line-height: 1.5;
+  line-height: 1.25;
 }
 
 .info {
+  margin: 4px 15px;
   font-size: 14px;
 }
 
 .content {
   width: calc(100% - 30px);
   margin: 8px 15px;
+
+  font-size: 15px;
   text-align: justify;
   word-break: break-all;
+
+  @media (min-width: 480px) {
+    font-size: 16px;
+  }
 }
