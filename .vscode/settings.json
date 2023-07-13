@@ -36,7 +36,7 @@
   "git.ignoreLimitWarning": true,
   "minapp-vscode.cssExtname": "scss",
   "minapp-vscode.jsExtname": "ts",
-  "minapp-vscode.wxmlFormatter": "wxml",
+  "minapp-vscode.wxmlFormatter": "prettier",
   "prettier.prettierPath": "./node_modules/prettier",
   "typescript.tsdk": "./node_modules/typescript/lib",
   "yaml.schemas": {

@@ -16,6 +16,8 @@
         wx:if="{{config.qqid}}"
         class="action"
         hover-class="button-hover"
+        hover-start-time="0"
+        hover-stay-time="0"
         open-type="addFriend"
         open-id="{{config.qqid}}"
       >
@@ -25,6 +27,8 @@
         wx:elif="{{config.qq || config.qqcode}}"
         class="action"
         hover-class="button-hover"
+        hover-start-time="0"
+        hover-stay-time="0"
         catch:tap="addQQ"
       >
         <image class="icon" src="/icon/qq.svg" />
@@ -43,6 +47,8 @@
         wx:elif="{{config.wxid || config.wxcode}}"
         class="action"
         hover-class="button-hover"
+        hover-start-time="0"
+        hover-stay-time="0"
         catch:tap="addWechat"
       >
         <image class="icon" src="/icon/wechat.svg" />
@@ -51,6 +57,8 @@
         wx:if="{{config.site}}"
         class="action"
         hover-class="button-hover"
+        hover-start-time="0"
+        hover-stay-time="0"
         catch:tap="openSite"
       >
         <image class="icon" src="./icon/web.svg" />
@@ -59,6 +67,8 @@
         wx:if="{{config.mail}}"
         class="action"
         hover-class="button-hover"
+        hover-start-time="0"
+        hover-stay-time="0"
         catch:tap="copyEmail"
       >
         <image class="icon" src="./icon/mail.svg" />
