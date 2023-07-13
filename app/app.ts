@@ -43,7 +43,7 @@ $Config({
       "/function/$name/$name",
     ],
     ["admission", "/function/enroll/admission"],
-    ["grade-list", "/function/course/grade"],
+    ["course-grade", "/function/course/grade"],
     ["course-table", "/function/course/table"],
     ["enroll-grade", "/function/enroll/grade"],
     ["enroll-plan", "/function/enroll/plan"],

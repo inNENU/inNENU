@@ -12,7 +12,7 @@ import { getColor, popNotice } from "../../utils/page.js";
 
 const { globalData } = getApp<AppOption>();
 
-const PAGE_ID = "grade-list";
+const PAGE_ID = "course-grade";
 const PAGE_TITLE = "成绩查询";
 const keys = [
   "name",
@@ -27,7 +27,7 @@ const keys = [
   "examType",
 ] as const;
 
-$Page("grade-list", {
+$Page("course-grade", {
   data: {
     title: PAGE_TITLE,
 
