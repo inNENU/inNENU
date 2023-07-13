@@ -7,8 +7,18 @@
   text-align: left;
 }
 
-.refresh-button {
-  float: right;
+.grade-list-actions {
+  display: flex;
+  justify-content: space-between;
+  margin: 8px 15px;
+  align-items: center;
+}
+
+.picker {
+  padding: 5px 8px;
+  border-radius: 8px;
+  background-color: var(--bg-color-block);
+  line-height: 1.5;
 }
 
 .grade-list {

@@ -8,8 +8,15 @@
 />
 <view class="{{theme}} grade-list-wrapper">
   <navbar nav="{{ { title } }}" />
-  <view class="header">
-    查询结果
+  <view class="grade-list-actions">
+    <picker
+      class="picker"
+      range="{{timeDisplays}}"
+      value="{{timeIndex}}"
+      bindchange="changeTime"
+    >
+      {{(timeDisplays[timeIndex])}}
+    </picker>
     <button
       class="refresh-button"
       type="default"
@@ -19,6 +26,7 @@
       <text class="refresh-button-icon" />
     </button>
   </view>
+  <view class="header"> 查询结果 </view>
   <block wx:if="{{grades.length}}">
     <scroll-view scroll-x class="grade-list">
       <view class="table">
@@ -39,7 +47,13 @@
           <view wx:if="{{showStatus}}" class="table-header">审核状态</view>
         </view>
 
-        <view wx:for="{{grades}}" wx:for-item="item" class="table-row">
+        <view
+          wx:for="{{grades}}"
+          wx:for-item="item"
+          class="table-row"
+          data-index="{{index}}"
+          catch:tap="showScoreDetail"
+        >
           <view class="cell name">{{item.name}}</view>
           <view class="cell grade {{grade.getGradeState(item.grade)}}"
             >{{item.grade}}</view

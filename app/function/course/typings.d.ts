@@ -70,6 +70,16 @@ export interface UserGradeListExtraOptions {
 export type UserGradeListOptions = (AccountBasicInfo | CookieOptions) &
   UserGradeListExtraOptions;
 
+export interface ScoreDetail {
+  score: number;
+  percent: number;
+}
+
+export interface GradeDetail {
+  usual: ScoreDetail[];
+  exam: ScoreDetail;
+}
+
 export interface GradeResult {
   /** 修读时间 */
   time: string;
@@ -81,6 +91,8 @@ export interface GradeResult {
   difficulty: number;
   /** 分数 */
   grade: number;
+  /** 分数详情 */
+  gradeDetail: GradeDetail | null;
   /** 绩点成绩 */
   gradePoint: number;
   /** 成绩标志 */

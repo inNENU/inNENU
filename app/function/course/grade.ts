@@ -27,11 +27,39 @@ const keys = [
   "examType",
 ] as const;
 
+const getTimes = (grade: number): string[] => {
+  const date = new Date();
+
+  const currentYear = date.getFullYear();
+  const currentMonth = date.getMonth() + 1;
+  const times: string[] = [];
+
+  for (let i = grade; i < currentYear - 1; i++)
+    times.push(`${i}-${i + 1}-1`, `${i}-${i + 1}-2`);
+
+  times.push(`${currentYear - 1}-${currentYear}-1`);
+  if (currentMonth >= 6) times.push(`${currentYear - 1}-${currentYear}-2`);
+  if (currentMonth === 12) times.push(`${currentYear}-${currentYear + 1}-1`);
+
+  return times.reverse();
+};
+
+const getDisplayTime = (time: string): string => {
+  if (time === "") return "全部";
+
+  const [startYear, endYear, semester] = time.split("-");
+
+  return semester === "1" ? `${startYear}年秋季学期` : `${endYear}年春季学期`;
+};
+
 $Page("course-grade", {
   data: {
     title: PAGE_TITLE,
 
     grades: <GradeResult[]>[],
+
+    times: <string[]>[],
+    timeIndex: 0,
 
     showMark: false,
     showRelearn: false,
@@ -70,10 +98,16 @@ $Page("course-grade", {
         this.$go("account?from=成绩查询&update=true");
       });
     } else {
+      const grade = Math.floor(account.id / 1000000);
+      const times = ["", ...getTimes(grade)];
+      const timeDisplays = times.map(getDisplayTime);
       const grades = get<GradeResult[]>(GRADE_DATA_KEY);
 
-      if (grades) this.setGradeData(grades);
-      else void this.getGradeList();
+      if (grades) {
+        this.setGradeData(grades);
+        this.setStatistics(grades);
+      } else void this.getGradeList();
+      this.setData({ times, timeDisplays });
     }
 
     popNotice(PAGE_ID);
@@ -102,8 +136,13 @@ $Page("course-grade", {
           (res) => {
             wx.hideLoading();
             if (res.success) {
-              set(GRADE_DATA_KEY, res.data, 3 * HOUR);
+              set(
+                `${GRADE_DATA_KEY}${options.time ? `-${options.time}` : ""}`,
+                res.data,
+                3 * HOUR,
+              );
               this.setGradeData(res.data);
+              if (!options.time) this.setStatistics(res.data);
             } else showModal("获取失败", res.msg);
           },
         );
@@ -118,6 +157,23 @@ $Page("course-grade", {
     const showMark = grades.some((item) => item.mark);
     const showRelearn = grades.some((item) => item.reLearn);
     const showStatus = grades.some((item) => item.status);
+    const numberValueIndex = keys
+      .map((key, index) =>
+        grades.some((item) => Number.isNaN(Number(item[key]))) ? null : index,
+      )
+      .filter((item): item is number => item !== null);
+
+    this.state.numberValueIndex = numberValueIndex;
+
+    this.setData({
+      grades,
+      showMark,
+      showRelearn,
+      showStatus,
+    });
+  },
+
+  setStatistics(grades: GradeResult[]) {
     const filteredData = grades.filter((item, index) => {
       const records = grades.filter(
         (record) => record.cid === item.cid && item.grade >= 60,
@@ -170,10 +226,6 @@ $Page("course-grade", {
     this.state.numberValueIndex = numberValueIndex;
 
     this.setData({
-      grades,
-      showMark,
-      showRelearn,
-      showStatus,
       totalPoint,
       totalCommonRequiredPoint,
       totalCommonOptionalPoint,
@@ -184,6 +236,18 @@ $Page("course-grade", {
       totalGradePoint: Math.round(totalGradePoint * 100) / 100,
       gpa,
     });
+  },
+
+  changeTime({ detail }: WechatMiniprogram.PickerChange) {
+    const timeIndex = Number(detail.value);
+    const { times, timeIndex: timeOldIndex } = this.data;
+
+    if (timeIndex !== timeOldIndex) {
+      const time = times[timeIndex];
+
+      this.setData({ timeIndex });
+      this.getGradeList({ time });
+    }
   },
 
   sortResults({
@@ -221,6 +285,34 @@ $Page("course-grade", {
             : (<string>itemB[key])?.localeCompare(<string>itemA[key]);
         }),
       });
+    }
+  },
+
+  showScoreDetail({
+    currentTarget,
+  }: WechatMiniprogram.TouchEvent<
+    Record<never, never>,
+    Record<never, never>,
+    { index: number }
+  >) {
+    const { index } = currentTarget.dataset;
+    const { grades } = this.data;
+    const { name, gradeDetail } = grades[index];
+
+    if (gradeDetail) {
+      const { usual, exam } = gradeDetail;
+
+      showModal(
+        `${name}成绩详情`,
+        `${usual
+          .map(
+            ({ score, percent }, index) =>
+              `平时成绩${index + 1}: ${score}分，占比${percent}%`,
+          )
+          .join("\n")}${
+          exam ? `\n期末成绩: ${exam.score}，占比${exam.percent}%` : ""
+        }`,
+      );
     }
   },
 });
