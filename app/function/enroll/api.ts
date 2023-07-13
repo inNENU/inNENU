@@ -60,7 +60,7 @@ export interface GetUnderAdmissionResponse {
   info: string[];
   captcha: string;
   notice: string;
-  detail: { title: string; content: string };
+  detail: { title: string; content: string } | null;
 }
 
 export const underAdmission = <T>(

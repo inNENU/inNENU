@@ -54,13 +54,20 @@
   <button type="primary" class="search-button primary" catch:tap="search">
     查询
   </button>
-  <view class="notice" hover-class="button-hover" catch:tap="showDetail">
+  <view
+    class="notice"
+    hover-class="{{detail? 'button-hover': ''}}"
+    hover-start-time="0"
+    hover-stay-time="0"
+    catch:tap="showDetail"
+  >
     <view class="title">
-      提示
-      <view class="detail-button">详情 ></view>
+      说明
+      <view wx:if="{{detail}}" class="detail-button">详情 ></view>
     </view>
     {{notice}}
   </view>
+  <plain-text config="{{admission.hint}}"></plain-text>
   <footer />
 </view>
 <template wx:else is="page" data="{{theme: 'ios', page: admission.page}}" />

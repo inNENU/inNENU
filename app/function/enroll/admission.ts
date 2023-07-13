@@ -6,6 +6,7 @@ import {
   postAdmission,
   underAdmission,
 } from "./api.js";
+import { showModal } from "../../api/ui.js";
 import { appCoverPrefix } from "../../config/info.js";
 import { popNotice } from "../../utils/page.js";
 import { validateId } from "../utils/validate.js";
@@ -39,6 +40,8 @@ $Page(PAGE_ID, {
     /** 验证码 */
     captcha: "",
 
+    detail: <{ title: string; content: string } | null>null,
+
     /** 弹窗配置 */
     popupConfig: { title: "查询结果", cancel: false },
 
@@ -60,8 +63,6 @@ $Page(PAGE_ID, {
 
     /** 验证码 */
     captcha: "",
-
-    detail: <{ title: string; content: string } | null>null,
 
     /** Cookies */
     cookies: <unknown[]>[],
@@ -169,7 +170,6 @@ $Page(PAGE_ID, {
         const { cookies, info, captcha, notice, detail } = data;
 
         this.state.cookies = cookies;
-        this.state.detail = detail;
         this.state.info = info;
         this.setData(
           {
@@ -178,6 +178,7 @@ $Page(PAGE_ID, {
               (item) => INPUT_CONFIG.find(({ id }) => id === item)!,
             ),
             notice,
+            detail,
           },
           () => {
             wx.hideLoading();
@@ -186,7 +187,6 @@ $Page(PAGE_ID, {
       });
     else {
       this.state.cookies = [];
-      this.state.detail = null;
       this.setData(
         {
           cookies: [],
@@ -195,6 +195,7 @@ $Page(PAGE_ID, {
             (item) => INPUT_CONFIG.find(({ id }) => id === item)!,
           ),
           notice: "考生姓名只需输入前三个汉字",
+          detail: null,
         },
         () => {
           wx.hideLoading();
@@ -244,9 +245,13 @@ $Page(PAGE_ID, {
   },
 
   showDetail() {
-    const { detail } = this.state;
+    const { detail } = this.data;
 
-    if (detail) wx.showModal({ ...detail, showCancel: false });
+    if (detail) {
+      const { title, content } = detail;
+
+      showModal(title, content);
+    }
   },
 
   closePopup() {
