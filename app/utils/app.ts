@@ -88,9 +88,13 @@ export const initializeApp = (): void => {
   wx.showLoading({ title: "初始化中...", mask: true });
   logger.info("First launch");
 
-  // 设置主题
+  // 写入预设数据
+  Object.entries(defaultAppConfig).forEach(([key, data]) => {
+    wx.setStorageSync(key, data);
+  });
+
+  // 主题为 auto
   if (defaultAppConfig.theme === "auto") {
-    // 主题为 auto
     let num;
     let theme;
     const { platform } = wx.getSystemInfoSync();
@@ -101,8 +105,11 @@ export const initializeApp = (): void => {
         theme = "android";
         num = 1;
         break;
-      case "ios":
       case "windows":
+        theme = "nenu";
+        num = 3;
+        break;
+      case "ios":
       default:
         theme = "ios";
         num = 0;
@@ -114,11 +121,6 @@ export const initializeApp = (): void => {
     wx.setStorageSync("theme", defaultAppConfig.theme);
     wx.setStorageSync("themeNum", defaultAppConfig.themeNum);
   }
-
-  // 写入预设数据
-  Object.keys(defaultAppConfig).forEach((data) => {
-    wx.setStorageSync(data, defaultAppConfig[data]);
-  });
 
   downloadResource("function-guide-icon-intro", false).then(() => {
     // 下载资源文件并写入更新时间
@@ -160,7 +162,7 @@ export const getGlobalData = (): GlobalData => {
     startupTime: new Date().getTime(),
     env,
     envName: env === "app" ? "App" : "小程序",
-    theme: wx.getStorageSync<string>("theme"),
+    theme: wx.getStorageSync<string>("theme") || "ios",
     info,
     darkmode: info.theme === "dark",
     appID: wx.getAccountInfoSync().miniProgram.appId as AppID,
