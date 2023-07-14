@@ -1,3 +1,4 @@
+<wxs src="../utils/panigation.wxs" module="panigation" />
 <page-meta
   background-text-style="{{darkmode ? 'dark': 'light'}}"
   background-color="{{color.bgColor}}"
@@ -42,7 +43,12 @@
     >
       上一页
     </button>
-    <view class="current">第 {{currentPage}} 页</view>
+    <picker
+      class="current"
+      range="{{panigation.getRanges(totalPage)}}"
+      bindchange="changePage"
+      >第 {{currentPage}} 页</picker
+    >
     <button
       size="mini"
       class="next"

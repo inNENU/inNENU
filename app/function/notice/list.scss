@@ -50,7 +50,15 @@
   .prev,
   .next {
     margin: 2px 4px;
-    padding: 4px 6px;
+    padding: 5px 8px;
     font-size: 14px;
+    line-height: 1.5;
+  }
+
+  .current {
+    padding: 5px 8px;
+    border-radius: 8px;
+    background-color: var(--bg-color-block);
+    line-height: 1.5;
   }
 }

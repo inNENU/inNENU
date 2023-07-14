@@ -1,0 +1,11 @@
+module.exports = {
+  getRanges: function (range) {
+    var ranges = [];
+
+    for (var i = 1; i <= range; i++) {
+      ranges.push("第" + i + "页");
+    }
+
+    return ranges;
+  },
+};

@@ -107,6 +107,10 @@ $Page(PAGE_ID, {
     this.getNoticeList(this.data.currentPage + 1);
   },
 
+  changePage({ detail }: WechatMiniprogram.PickerChange) {
+    this.getNoticeList(Number(detail.value) + 1);
+  },
+
   viewNotice({
     currentTarget,
   }: WechatMiniprogram.TouchEvent<
