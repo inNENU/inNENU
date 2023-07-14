@@ -108,7 +108,7 @@
     "prefix": ["ls", "list"],
     "body": [
       "  - tag: list",
-      "${1:    heading: $2}",
+      "${1:    header: $2}",
       "    items:",
       "      - $0"
     ],
@@ -117,16 +117,16 @@
   "list item": {
     "scope": "yaml",
     "prefix": ["li"],
-    "body": ["      - text: $0", "        icon: $1", "        path: $1"],
+    "body": ["      - tag: $0", "        icon: $1", "        path: $1"],
     "description": "inset list item"
   },
   "phone": {
     "scope": "yaml",
     "prefix": ["phone"],
     "body": [
-      "  - text: phone",
-      "${1:    heading: $2}",
-      "    fName: $1",
+      "  - tag: phone",
+      "${1:    header: $2}",
+      "    fName: $3",
       "    num: $0"
     ],
     "description": "inset table"
@@ -134,7 +134,7 @@
   "table": {
     "scope": "yaml",
     "prefix": ["table"],
-    "body": ["  - text: table", "    header:", "      - $0", "    body:"],
+    "body": ["  - tag: table", "    header:", "      - $0", "    body:"],
     "description": "inset table"
   },
   "video component": {
