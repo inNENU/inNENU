@@ -307,12 +307,14 @@ $Page("course-grade", {
         `${usual
           .map(
             ({ score, percent }, index) =>
-              `平时成绩${index + 1}: ${score}分，占比${percent}%`,
+              `平时成绩${
+                usual.length > 1 ? index + 1 : ""
+              }: ${score}分，占比${percent}%`,
           )
           .join("\n")}${
-          exam ? `\n期末成绩: ${exam.score}，占比${exam.percent}%` : ""
+          exam ? `\n期末成绩: ${exam.score}分，占比${exam.percent}%` : ""
         }`,
       );
-    }
+    } else showModal(name, "暂无成绩详情");
   },
 });
