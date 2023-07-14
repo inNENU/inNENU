@@ -1,5 +1,6 @@
 export const ACCOUNT_INFO_KEY = "account-info";
 export const USER_INFO_KEY = "user-info";
+
 export const ACTION_SYSTEM_COOKIE = "action-system-cookie";
 export const UNDER_SYSTEM_COOKIE = "under-system-cookie";
 

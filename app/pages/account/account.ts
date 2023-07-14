@@ -11,6 +11,9 @@ import { type AppOption } from "../../app.js";
 import { appCoverPrefix, assets } from "../../config/info.js";
 import {
   ACCOUNT_INFO_KEY,
+  ACTION_SYSTEM_COOKIE,
+  BORROW_BOOKS_KEY,
+  CARD_BALANCE_KEY,
   COURSE_DATA_KEY,
   GRADE_DATA_KEY,
   UNDER_SYSTEM_COOKIE,
@@ -189,6 +192,11 @@ $Page(PAGE_ID, {
 
   delete() {
     confirmAction("删除账号(会清除本地的全部个人信息与数据且无法恢复)", () => {
+      // account data
+      remove(ACCOUNT_INFO_KEY);
+      remove(USER_INFO_KEY);
+      globalData.account = null;
+      globalData.userInfo = null;
       this.setData({
         id: "",
         password: "",
@@ -196,13 +204,17 @@ $Page(PAGE_ID, {
         "list.items": EMPTY_CONTENT,
         isSaved: false,
       });
-      remove(ACCOUNT_INFO_KEY);
-      remove(USER_INFO_KEY);
+
+      // cookies
+      remove(ACTION_SYSTEM_COOKIE);
       remove(UNDER_SYSTEM_COOKIE);
+
+      // data
+      remove(BORROW_BOOKS_KEY);
+      remove(CARD_BALANCE_KEY);
       remove(COURSE_DATA_KEY);
       remove(GRADE_DATA_KEY);
-      globalData.account = null;
-      globalData.userInfo = null;
+
       showModal("删除成功", "已删除本地账号信息");
     });
   },
