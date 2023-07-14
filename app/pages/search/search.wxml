@@ -32,11 +32,7 @@
 
   <title config="{{ { text: '搜索结果' } }}" />
 
-  <view wx:if="{{result.length === 0 }}" class="info"
-    >Oops... 没有找到任何结果</view
-  >
-
-  <block wx:else>
+  <block wx:if="{{result.length}}">
     <view
       class="search-item"
       hover-class="button-hover"
@@ -74,6 +70,7 @@
       </view>
     </view>
   </block>
+  <view wx:elif="{{searchWord}}" class="info">Oops... 没有找到任何结果</view>
 
   <footer />
 
