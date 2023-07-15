@@ -15,7 +15,7 @@ import { request } from "../../api/net.js";
 import { service } from "../../config/info.js";
 import { UNDER_SYSTEM_COOKIE } from "../../config/keys.js";
 import { type AccountBasicInfo } from "../../utils/app.js";
-import { HOUR } from "../../utils/constant.js";
+import { MINUTE } from "../../utils/constant.js";
 
 export const underSystemLogin = (
   options: AccountBasicInfo,
@@ -24,7 +24,7 @@ export const underSystemLogin = (
     method: "POST",
     data: options,
   }).then((data) => {
-    if (data.success) set(UNDER_SYSTEM_COOKIE, data.cookies, 6 * HOUR);
+    if (data.success) set(UNDER_SYSTEM_COOKIE, data.cookies, 30 * MINUTE);
     else logger.error("登录失败", data.msg);
 
     return data;

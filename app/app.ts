@@ -1,10 +1,12 @@
 import {
   $App,
   $Config,
+  type CookieStore,
   type TrivialPageInstance,
   wrapFunction,
 } from "@mptool/all";
 
+import { cookieStore } from "./api/cookie.js";
 import { getDarkmode } from "./api/ui.js";
 import {
   type GlobalData,
@@ -18,6 +20,7 @@ import { updateApp } from "./utils/update.js";
 
 export interface AppOption {
   globalData: GlobalData;
+  cookieStore: CookieStore;
 }
 
 $Config({
@@ -87,6 +90,9 @@ $Config({
 $App<AppOption>({
   /** 全局数据 */
   globalData: getGlobalData(),
+
+  /** Cookie 存储器 */
+  cookieStore,
 
   onLaunch(options) {
     // 调试
