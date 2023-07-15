@@ -52,7 +52,7 @@
     }
   },
   "dependencies": {
-    "@mptool/all": "0.3.0",
+    "@mptool/all": "0.3.2",
     "miniprogram-recycle-view": "0.1.5"
   },
   "devDependencies": {

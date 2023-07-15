@@ -1,6 +1,6 @@
 import { $Page } from "@mptool/all";
 
-import { getInfoList } from "./api.js";
+import { getInfoList, getOnlineInfoList } from "./info-list.js";
 import { type InfoItem, type MainInfoType } from "./typings.js";
 import { type AppOption } from "../../app.js";
 import { appCoverPrefix } from "../../config/info.js";
@@ -64,7 +64,9 @@ $Page(PAGE_ID, {
   getInfoList(page = 1) {
     wx.showLoading({ title: "获取中" });
 
-    return getInfoList({
+    return (
+      globalData.service[PAGE_ID] === "online" ? getOnlineInfoList : getInfoList
+    )({
       page,
       type: this.state.type,
       totalPage: this.data.totalPage,

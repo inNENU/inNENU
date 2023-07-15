@@ -1,12 +1,13 @@
 import { logger, ls, rm } from "@mptool/all";
 
 import { type GlobalData } from "./app.js";
+import { Settings } from "./settings.js";
 import { requestJSON } from "../api/net.js";
 import { showToast } from "../api/ui.js";
 
-interface UpdateInfo {
+export interface UpdateInfo {
   /** 是否进行强制更新 */
-  forceUpdate: boolean;
+  force: boolean;
   /** 是否进行强制初始化 */
   reset: boolean;
 }
@@ -33,24 +34,24 @@ export const updateApp = (globalData: GlobalData): void => {
       requestJSON<string>(`r/config/${globalData.appID}/version`)
         .then((version) =>
           // 请求配置文件
-          requestJSON<UpdateInfo>(
-            `r/config/${globalData.appID}/${version}/config`,
+          requestJSON<Settings>(
+            `r/config/${globalData.appID}/${version}/settings`,
           )
-            .then(({ forceUpdate, reset }) => {
+            .then(({ update }) => {
               // 更新下载就绪，提示用户重新启动
               wx.showModal({
                 title: "已找到新版本",
                 content: `新版本${version}已下载，请重启应用更新。${
-                  reset ? "该版本会初始化小程序。" : ""
+                  update.reset ? "该版本会初始化小程序。" : ""
                 }`,
-                showCancel: !reset && !forceUpdate,
+                showCancel: !update.reset && !update.force,
                 confirmText: "应用",
                 cancelText: "取消",
                 success: ({ confirm }) => {
                   // 用户确认，应用更新
                   if (confirm) {
                     // 需要初始化
-                    if (reset) {
+                    if (update.reset) {
                       // 显示提示
                       wx.showLoading({ title: "初始化中", mask: true });
 

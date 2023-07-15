@@ -1,6 +1,6 @@
 import { $Page } from "@mptool/all";
 
-import { getInfo } from "./api.js";
+import { getInfo, getOnlineInfo } from "./info.js";
 import { type MainInfoType } from "./typings.js";
 import { showModal } from "../../api/ui.js";
 import { type AppOption } from "../../app.js";
@@ -77,7 +77,9 @@ $Page(PAGE_ID, {
   },
 
   getInfo() {
-    getInfo(this.state.url).then((res) => {
+    (globalData.service[PAGE_ID] === "online" ? getOnlineInfo : getInfo)(
+      this.state.url,
+    ).then((res) => {
       wx.hideLoading();
       if (res.success) {
         const { title, time, pageView, author, editor, from, content } = res;

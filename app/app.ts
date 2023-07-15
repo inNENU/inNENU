@@ -14,8 +14,8 @@ import {
   initializeApp,
   startup,
 } from "./utils/app.js";
-import { updateNotice } from "./utils/notice.js";
 import { checkResource } from "./utils/resource.js";
+import { updateSettings } from "./utils/settings.js";
 import { updateApp } from "./utils/update.js";
 
 export interface AppOption {
@@ -118,7 +118,7 @@ $App<AppOption>({
     this.globalData.darkmode = wx.getSystemInfoSync().theme === "dark";
 
     updateApp(this.globalData);
-    updateNotice(this.globalData);
+    updateSettings(this.globalData);
   },
 
   onError(errorMsg) {

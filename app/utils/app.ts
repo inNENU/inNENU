@@ -2,8 +2,8 @@
 import { emitter, get, logger, writeJSON } from "@mptool/all";
 
 import { platformActions } from "./app-platform.js";
-import { updateNotice } from "./notice.js";
 import { downloadResource } from "./resource.js";
+import { ServiceSettings, updateSettings } from "./settings.js";
 import { updateApp } from "./update.js";
 import { type PageData, type VersionInfo } from "../../typings/index.js";
 import { login } from "../api/login.js";
@@ -79,6 +79,7 @@ export interface GlobalData {
   openid: string;
   /** 是否能复制 */
   selectable: boolean;
+  service: ServiceSettings;
 }
 
 /** 初始化小程序 */
@@ -167,6 +168,7 @@ export const getGlobalData = (): GlobalData => {
     appID: wx.getAccountInfoSync().miniProgram.appId as AppID,
     openid: "",
     selectable: wx.getStorageSync<boolean>("selectable") || false,
+    service: wx.getStorageSync<ServiceSettings>("service") || {},
   };
 };
 
@@ -261,7 +263,7 @@ const registerActions = (globalData: GlobalData): void => {
 export const startup = (globalData: GlobalData): void => {
   registerActions(globalData);
   updateApp(globalData);
-  updateNotice(globalData);
+  updateSettings(globalData);
   login(globalData.appID, globalData.env, (openid) => {
     globalData.openid = openid;
   });
