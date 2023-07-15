@@ -84,7 +84,7 @@ const getStyleJob = (id, ext = "wxss") => {
 
 const getAssetsJob = (id) => {
   const assetsJob = () =>
-    src("app/**/*.{json,svg,png,webp}", {
+    src("app/**/*.{js,json,svg,png,webp}", {
       read: (value) => {
         const { name, ext } = parse(value.path);
 
