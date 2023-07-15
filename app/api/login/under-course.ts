@@ -40,7 +40,7 @@ export const ensureUnderSystemLogin = (
 
   return cookies
     ? check
-      ? checkUnderSystemCookie().then((valid) =>
+      ? checkUnderSystemCookie().then(({ valid }) =>
           valid
             ? null
             : underSystemLogin(account).then((res) =>

@@ -10,4 +10,5 @@ export interface CookieVerifySuccessResponse {
 
 export type CookieVerifyResponse =
   | CookieVerifySuccessResponse
-  | CommonFailedResponse;
+  // make valid key exists
+  | (CommonFailedResponse & { valid?: undefined });

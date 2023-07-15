@@ -6,7 +6,7 @@ import { ensureActionLogin } from "../../api/login/action.js";
 import { showToast } from "../../api/ui.js";
 import { type AppOption } from "../../app.js";
 import { appCoverPrefix } from "../../config/info.js";
-import { getColor } from "../../utils/page.js";
+import { getColor, popNotice } from "../../utils/page.js";
 
 const { globalData } = getApp<AppOption>();
 
@@ -43,6 +43,8 @@ $Page(PAGE_ID, {
     else if (globalData.account) {
       if (this.data.status === "login") this.getNoticeList(1, true);
     } else this.setData({ status: "login" });
+
+    popNotice(PAGE_ID);
   },
 
   onShareAppMessage(): WechatMiniprogram.Page.ICustomShareContent {

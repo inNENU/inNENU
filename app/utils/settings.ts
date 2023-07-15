@@ -34,7 +34,7 @@ export interface Settings {
 
 export const updateSettings = (globalData: GlobalData): void => {
   requestJSON<Settings>(
-    `r/config/${globalData.appID}/${globalData.version}/notice`,
+    `r/config/${globalData.appID}/${globalData.version}/settings`,
   )
     .then(({ service, notice }) => {
       globalData.service = service;

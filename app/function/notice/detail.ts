@@ -5,7 +5,7 @@ import { ensureActionLogin } from "../../api/login/action.js";
 import { showModal, showToast } from "../../api/ui.js";
 import { type AppOption } from "../../app.js";
 import { appCoverPrefix } from "../../config/info.js";
-import { getColor } from "../../utils/page.js";
+import { getColor, popNotice } from "../../utils/page.js";
 
 const { globalData } = getApp<AppOption>();
 
@@ -40,6 +40,10 @@ $Page(PAGE_ID, {
       theme: globalData.theme,
       pageTitle: `${type === "news" ? "新闻" : "通知"}详情`,
     });
+  },
+
+  onShow() {
+    popNotice(PAGE_ID);
   },
 
   onShareAppMessage(): WechatMiniprogram.Page.ICustomShareContent {

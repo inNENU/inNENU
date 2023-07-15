@@ -4,7 +4,7 @@ import { getInfoList, getOnlineInfoList } from "./info-list.js";
 import { type InfoItem, type MainInfoType } from "./typings.js";
 import { type AppOption } from "../../app.js";
 import { appCoverPrefix } from "../../config/info.js";
-import { getColor } from "../../utils/page.js";
+import { getColor, popNotice } from "../../utils/page.js";
 
 const { globalData } = getApp<AppOption>();
 
@@ -14,7 +14,7 @@ const type2Title = {
   academic: "学术会议",
 };
 
-const PAGE_ID = "news-list";
+const PAGE_ID = "info-list";
 
 $Page(PAGE_ID, {
   data: {
@@ -40,6 +40,10 @@ $Page(PAGE_ID, {
       title: type2Title[<MainInfoType>type],
     });
     this.getInfoList(1);
+  },
+
+  onShow() {
+    popNotice(PAGE_ID);
   },
 
   onShareAppMessage(): WechatMiniprogram.Page.ICustomShareContent {

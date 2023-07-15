@@ -40,7 +40,7 @@ export const ensureActionLogin = (
 
   return cookies.length
     ? check
-      ? checkActionCookie().then((valid) =>
+      ? checkActionCookie().then(({ valid }) =>
           valid
             ? null
             : actionLogin(account).then((res) => (res.success ? null : res)),
