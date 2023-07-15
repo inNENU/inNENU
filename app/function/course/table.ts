@@ -164,7 +164,7 @@ $Page(PAGE_ID, {
   getCourseData(time: string) {
     wx.showLoading({ title: "获取中" });
 
-    return getUnderSystemCookies(globalData.account!)
+    return getUnderSystemCookies(globalData.account!, true)
       .then((data) => {
         if (!data.success) throw data.msg;
 
