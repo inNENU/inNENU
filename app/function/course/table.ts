@@ -1,7 +1,8 @@
 import { $Page, get, set } from "@mptool/all";
 
-import { getCourseTable, getUnderSystemCookies } from "./api.js";
+import { getCourseTable } from "./api.js";
 import { type ClassItem, type TableItem } from "./typings.js";
+import { ensureUnderSystemLogin } from "../../api/login/under-course.js";
 import { showModal } from "../../api/ui.js";
 import { type AppOption } from "../../app.js";
 import {
@@ -164,12 +165,11 @@ $Page(PAGE_ID, {
   getCourseData(time: string) {
     wx.showLoading({ title: "获取中" });
 
-    return getUnderSystemCookies(globalData.account!, true)
-      .then((data) => {
-        if (!data.success) throw data.msg;
+    return ensureUnderSystemLogin(globalData.account!, true)
+      .then((err) => {
+        if (err) throw err.msg;
 
         return getCourseTable({
-          cookies: data.cookies,
           id: globalData.account!.id,
           time,
         }).then((res) => {

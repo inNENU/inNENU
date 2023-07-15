@@ -1,57 +1,14 @@
-import { get, logger, set } from "@mptool/all";
+import { logger } from "@mptool/all";
 
 import {
-  type UnderSystemLoginResponse,
   type UserCourseTableOptions,
   type UserCourseTableResponse,
   type UserGradeListOptions,
   type UserGradeListResponse,
 } from "./typings.js";
-import {
-  type Cookie,
-  type CookieVerifyResponse,
-} from "../../../typings/index.js";
+import { UNDER_SYSTEM_SERVER } from "../../api/login/under-course.js";
 import { request } from "../../api/net.js";
 import { service } from "../../config/info.js";
-import { UNDER_SYSTEM_COOKIE } from "../../config/keys.js";
-import { type AccountBasicInfo } from "../../utils/app.js";
-import { MINUTE } from "../../utils/constant.js";
-
-export const underSystemLogin = (
-  options: AccountBasicInfo,
-): Promise<UnderSystemLoginResponse> =>
-  request<UnderSystemLoginResponse>(`${service}under-system/login`, {
-    method: "POST",
-    data: options,
-  }).then((data) => {
-    if (data.success) set(UNDER_SYSTEM_COOKIE, data.cookies, 30 * MINUTE);
-    else logger.error("登录失败", data.msg);
-
-    return data;
-  });
-
-export const checkUnderSystemCookie = (
-  cookies: Cookie[],
-): Promise<CookieVerifyResponse> =>
-  request<CookieVerifyResponse>(`${service}under-system/check`, {
-    method: "POST",
-    data: { cookies },
-  });
-
-export const getUnderSystemCookies = (
-  account: AccountBasicInfo,
-  check = false,
-): Promise<UnderSystemLoginResponse> => {
-  const cookies = get<Cookie[]>(UNDER_SYSTEM_COOKIE);
-
-  return cookies
-    ? check
-      ? checkUnderSystemCookie(cookies).then((valid) =>
-          valid ? { success: true, cookies } : underSystemLogin(account),
-        )
-      : Promise.resolve({ success: true, cookies })
-    : underSystemLogin(account);
-};
 
 export const getCourseTable = (
   options: UserCourseTableOptions,
@@ -59,6 +16,7 @@ export const getCourseTable = (
   request<UserCourseTableResponse>(`${service}under-system/course-table`, {
     method: "POST",
     data: options,
+    scope: UNDER_SYSTEM_SERVER,
   }).then((data) => {
     if (!data.success) logger.error("获取失败", data.msg);
 
@@ -71,6 +29,7 @@ export const getGradeList = (
   request<UserGradeListResponse>(`${service}under-system/grade-list`, {
     method: "POST",
     data: options,
+    scope: UNDER_SYSTEM_SERVER,
   }).then((data) => {
     if (!data.success) logger.error("获取失败", data.msg);
 

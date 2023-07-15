@@ -1,5 +1,6 @@
 import { logger } from "@mptool/all";
 
+import { cookieStore } from "./cookie.js";
 import { showToast } from "./ui.js";
 import { assets, server, service } from "../config/info.js";
 
@@ -44,7 +45,7 @@ export const netReport = (): void => {
 export type FetchOptions = Pick<
   WechatMiniprogram.RequestOption,
   "data" | "header" | "method" | "timeout"
->;
+> & { scope?: string };
 
 /**
  * 执行网络请求
@@ -58,17 +59,23 @@ export const request = <
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   T extends Record<never, never> | unknown[] | string = Record<string, any>,
 >(
-  url: string,
+  link: string,
   options: FetchOptions = {},
 ): Promise<T> =>
   new Promise((resolve, reject) => {
+    const url = link.startsWith("http") ? link : `${service}${link}`;
+
     wx.request<T>({
-      url: url.startsWith("http") ? url : `${service}${url}`,
+      url,
       enableHttp2: true,
-      success: ({ data, statusCode }) => {
+
+      success: (res) => {
+        const { data, statusCode } = res;
+
         if (statusCode === 200) {
           // 调试
           logger.debug(`Request response: `, data);
+          cookieStore.applyResponse(res, options.scope || url);
           resolve(data);
         } else {
           showToast("小程序服务器出错，请稍后重试");
@@ -93,6 +100,10 @@ export const request = <
         logger.warn(`Request ${url}.json failed: ${errMsg}`);
       },
       ...options,
+      header: {
+        Cookie: cookieStore.getHeader(options.scope || url),
+        ...options.header,
+      },
     });
   });
 

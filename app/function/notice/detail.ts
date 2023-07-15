@@ -1,8 +1,8 @@
 import { $Page } from "@mptool/all";
 
 import { getNotice } from "./api.js";
-import { getActionCookie } from "../../api/action.js";
-import { showModal } from "../../api/ui.js";
+import { ensureActionLogin } from "../../api/login/action.js";
+import { showModal, showToast } from "../../api/ui.js";
 import { type AppOption } from "../../app.js";
 import { appCoverPrefix } from "../../config/info.js";
 import { getColor } from "../../utils/page.js";
@@ -73,30 +73,28 @@ $Page(PAGE_ID, {
   getNotice() {
     if (globalData.account) {
       wx.showLoading({ title: "获取中" });
-      getActionCookie(globalData.account).then((res) => {
-        if (res.success)
-          getNotice({ cookies: res.cookies, noticeID: this.state.id }).then(
-            (res) => {
-              wx.hideLoading();
-              if (res.success) {
-                const { title, time, pageView, author, from, content } = res;
-
-                this.setData({
-                  status: "success",
-                  title,
-                  time,
-                  pageView,
-                  author,
-                  from,
-                  content,
-                });
-              } else this.setData({ status: "error" });
-            },
-          );
-        else {
+      ensureActionLogin(globalData.account).then((err) => {
+        if (err) {
           wx.hideLoading();
+          showToast(err.msg);
           this.setData({ status: "error" });
-        }
+        } else
+          getNotice({ noticeID: this.state.id }).then((res) => {
+            wx.hideLoading();
+            if (res.success) {
+              const { title, time, pageView, author, from, content } = res;
+
+              this.setData({
+                status: "success",
+                title,
+                time,
+                pageView,
+                author,
+                from,
+                content,
+              });
+            } else this.setData({ status: "error" });
+          });
       });
     } else this.setData({ status: "login" });
   },

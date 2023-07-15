@@ -1,16 +1,14 @@
-import { type CookieOptions } from "../../../typings/cookie.js";
 import { type RichTextNode } from "../../../typings/node.js";
 import { type CommonFailedResponse } from "../../../typings/response.js";
-import { type AccountBasicInfo } from "../../utils/app.ts";
 
-export type NoticeListOptions = (AccountBasicInfo | CookieOptions) & {
+export interface NoticeListOptions {
   /** @default 20 */
   limit?: number;
   /** @default 1 */
   page?: number;
   /** @default "notice" */
   type?: "notice" | "news";
-};
+}
 
 export interface NoticeItem {
   title: string;
@@ -32,9 +30,9 @@ export type NoticeListResponse =
   | NoticeListSuccessResponse
   | CommonFailedResponse;
 
-export type NoticeOptions = (AccountBasicInfo | CookieOptions) & {
+export interface NoticeOptions {
   noticeID: string;
-};
+}
 
 export interface NoticeSuccessResponse {
   success: true;

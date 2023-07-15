@@ -2,7 +2,8 @@ import { $Page } from "@mptool/all";
 
 import { getNoticeList } from "./api.js";
 import { type NoticeItem } from "./typings.js";
-import { getActionCookie } from "../../api/action.js";
+import { ensureActionLogin } from "../../api/login/action.js";
+import { showToast } from "../../api/ui.js";
 import { type AppOption } from "../../app.js";
 import { appCoverPrefix } from "../../config/info.js";
 import { getColor } from "../../utils/page.js";
@@ -67,10 +68,13 @@ $Page(PAGE_ID, {
     if (globalData.account) {
       wx.showLoading({ title: "获取中" });
 
-      getActionCookie(globalData.account, check).then((res) => {
-        if (res.success)
+      ensureActionLogin(globalData.account, check).then((err) => {
+        if (err) {
+          wx.hideLoading();
+          showToast(err.msg);
+          this.setData({ status: "error" });
+        } else
           getNoticeList({
-            cookies: res.cookies,
             page,
             type: this.state.type,
           }).then((res) => {
@@ -87,10 +91,6 @@ $Page(PAGE_ID, {
               });
             } else this.setData({ status: "error" });
           });
-        else {
-          wx.hideLoading();
-          this.setData({ status: "error" });
-        }
       });
     } else this.setData({ status: "login" });
   },

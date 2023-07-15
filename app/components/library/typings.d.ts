@@ -1,8 +1,4 @@
-import { type CookieOptions } from "../../../typings/cookie.js";
 import { type CommonFailedResponse } from "../../../typings/response.js";
-import { type AccountBasicInfo } from "../../utils/app.ts";
-
-export type BorrowBooksOptions = AccountBasicInfo | CookieOptions;
 
 export interface BorrowBookData {
   /** 书名 */

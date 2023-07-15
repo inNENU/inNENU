@@ -1,26 +1,19 @@
-import { type Cookie, type CookieOptions } from "../../../typings/cookie.js";
-import { type LoginFailedResponse } from "../../api/account.ts";
-import { type AccountBasicInfo } from "../../utils/app.ts";
+import { type LoginFailedResponse } from "../../api/login/account.ts";
 
 export interface UnderSystemLoginSuccessResponse {
   success: true;
-
-  cookies: Cookie[];
 }
 
 export type UnderSystemLoginResponse =
   | UnderSystemLoginSuccessResponse
   | LoginFailedResponse;
 
-interface UserCourseTableExtraOptions {
+interface UserCourseTableOptions {
   /** 学号 */
   id: number;
   /** 查询时间 */
   time: string;
 }
-
-export type UserCourseTableOptions = (AccountBasicInfo | CookieOptions) &
-  UserCourseTableExtraOptions;
 
 export interface ClassItem {
   name: string;
@@ -57,7 +50,7 @@ export type CourseType =
   | "教师教育必修课"
   | "教师教育选修课";
 
-export interface UserGradeListExtraOptions {
+export interface UserGradeListOptions {
   /** 查询时间 */
   time?: string;
   /** 课程名称 */
@@ -66,9 +59,6 @@ export interface UserGradeListExtraOptions {
   courseType?: CourseType;
   gradeType?: "all" | "best";
 }
-
-export type UserGradeListOptions = (AccountBasicInfo | CookieOptions) &
-  UserGradeListExtraOptions;
 
 export interface ScoreDetail {
   score: number;

@@ -2,8 +2,8 @@ import { $Component, get, set } from "@mptool/all";
 
 import { getBorrowBooks } from "./api.js";
 import { type BorrowBookData } from "./typings.js";
-import { getActionCookie } from "../../api/action.js";
-import { showModal } from "../../api/ui.js";
+import { ensureActionLogin } from "../../api/login/action.js";
+import { showModal, showToast } from "../../api/ui.js";
 import { type AppOption } from "../../app.js";
 import { BORROW_BOOKS_KEY } from "../../config/keys.js";
 import { HOUR } from "../../utils/constant.js";
@@ -43,9 +43,12 @@ $Component({
 
     getBooks(check = false) {
       if (globalData.account)
-        getActionCookie(globalData.account, check).then((res) => {
-          if (res.success)
-            getBorrowBooks({ cookies: res.cookies }).then((res) => {
+        ensureActionLogin(globalData.account, check).then((err) => {
+          if (err) {
+            showToast(err.msg);
+            this.setData({ status: "error" });
+          } else
+            getBorrowBooks().then((res) => {
               if (res.success) {
                 set(BORROW_BOOKS_KEY, res.data, 3 * HOUR);
                 this.setData({
@@ -54,7 +57,6 @@ $Component({
                 });
               } else this.setData({ status: "error" });
             });
-          else this.setData({ status: "error" });
         });
       else this.setData({ status: "login" });
     },

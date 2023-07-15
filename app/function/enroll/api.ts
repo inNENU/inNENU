@@ -1,9 +1,6 @@
-import { logger } from "@mptool/all";
+import { CookieType, logger } from "@mptool/all";
 
-import {
-  type CommonFailedResponse,
-  type Cookie,
-} from "../../../typings/index.js";
+import { type CommonFailedResponse } from "../../../typings/index.js";
 import { service } from "../../config/info.js";
 
 export interface AdmissionSuccessResponse {
@@ -52,11 +49,11 @@ export interface UnderAdmissionPostOptions {
   name: string;
   id: string;
   testId: string;
-  cookies: Cookie[];
+  cookies: CookieType[];
 }
 
 export interface GetUnderAdmissionResponse {
-  cookies: Cookie[];
+  cookies: CookieType[];
   info: string[];
   captcha: string;
   notice: string;

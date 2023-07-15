@@ -4,18 +4,17 @@ import {
   type ListComponentConfig,
   type ListComponentItemConfig,
 } from "../../../typings/components.js";
-import { getInfo, login } from "../../api/account.js";
+import { cookieStore } from "../../api/cookie.js";
+import { getInfo, login } from "../../api/login/account.js";
 import { confirmAction, showModal, showToast } from "../../api/ui.js";
 import { type AppOption } from "../../app.js";
 import { appCoverPrefix, assets } from "../../config/info.js";
 import {
   ACCOUNT_INFO_KEY,
-  ACTION_SYSTEM_COOKIE,
   BORROW_BOOKS_KEY,
   CARD_BALANCE_KEY,
   COURSE_DATA_KEY,
   GRADE_DATA_KEY,
-  UNDER_SYSTEM_COOKIE,
   USER_INFO_KEY,
 } from "../../config/keys.js";
 import { type UserInfo } from "../../utils/app.js";
@@ -157,7 +156,7 @@ $Page(PAGE_ID, {
 
           wx.showLoading({ title: "获取信息" });
 
-          getInfo(res.cookies).then((res) => {
+          getInfo().then((res) => {
             wx.hideLoading();
             if (res.success) {
               const userInfo: UserInfo = {
@@ -205,9 +204,7 @@ $Page(PAGE_ID, {
       });
 
       // cookies
-      remove(ACTION_SYSTEM_COOKIE);
-      remove(UNDER_SYSTEM_COOKIE);
-
+      cookieStore.clear();
       // data
       remove(BORROW_BOOKS_KEY);
       remove(CARD_BALANCE_KEY);

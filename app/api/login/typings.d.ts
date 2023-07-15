@@ -1,9 +1,7 @@
-import { type Cookie } from "../../typings/cookie.js";
-import { type CommonFailedResponse } from "../../typings/response.js";
+import { type CommonFailedResponse } from "../../../typings/response.js";
 
 export interface AuthLoginSuccessResponse {
   success: true;
-  cookies: Cookie[];
   location: string;
 }
 
@@ -17,7 +15,6 @@ export type AuthLoginResponse =
 
 export interface VPNLoginSuccessResponse {
   success: true;
-  cookies: Cookie[];
 }
 
 export interface VPNLoginFailedResponse extends CommonFailedResponse {
@@ -31,11 +28,18 @@ export type VPNLoginResponse =
 
 export interface ActionLoginSuccessResponse {
   success: true;
-
-  cookies: Cookie[];
 }
 
 export type ActionLoginResponse =
   | ActionLoginSuccessResponse
+  | AuthLoginFailedResponse
+  | VPNLoginFailedResponse;
+
+export interface UnderSystemLoginSuccessResponse {
+  success: true;
+}
+
+export type UnderSystemLoginResponse =
+  | UnderSystemLoginSuccessResponse
   | AuthLoginFailedResponse
   | VPNLoginFailedResponse;

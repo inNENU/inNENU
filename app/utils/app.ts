@@ -6,7 +6,7 @@ import { downloadResource } from "./resource.js";
 import { ServiceSettings, updateSettings } from "./settings.js";
 import { updateApp } from "./update.js";
 import { type PageData, type VersionInfo } from "../../typings/index.js";
-import { login } from "../api/login.js";
+import { login } from "../api/login/app.js";
 import { showToast } from "../api/ui.js";
 import { defaultAppConfig } from "../config/app.js";
 import { server, version } from "../config/info.js";

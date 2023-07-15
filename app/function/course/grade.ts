@@ -1,7 +1,8 @@
 import { $Page, get, set } from "@mptool/all";
 
-import { getGradeList, getUnderSystemCookies } from "./api.js";
-import { type GradeResult, type UserGradeListExtraOptions } from "./typings.js";
+import { getGradeList } from "./api.js";
+import { type GradeResult, type UserGradeListOptions } from "./typings.js";
+import { ensureUnderSystemLogin } from "../../api/login/under-course.js";
 import { showModal } from "../../api/ui.js";
 import { type AppOption } from "../../app.js";
 import { appCoverPrefix } from "../../config/info.js";
@@ -124,27 +125,25 @@ $Page("course-grade", {
     imageUrl: `${appCoverPrefix}.jpg`,
   }),
 
-  getGradeList(options: UserGradeListExtraOptions = {}) {
+  getGradeList(options: UserGradeListOptions = {}) {
     wx.showLoading({ title: "获取中" });
 
-    return getUnderSystemCookies(globalData.account!, true)
-      .then((data) => {
-        if (!data.success) throw data.msg;
+    return ensureUnderSystemLogin(globalData.account!, true)
+      .then((err) => {
+        if (err) throw err.msg;
 
-        return getGradeList({ cookies: data.cookies, ...options }).then(
-          (res) => {
-            wx.hideLoading();
-            if (res.success) {
-              set(
-                `${GRADE_DATA_KEY}${options.time ? `-${options.time}` : ""}`,
-                res.data,
-                3 * HOUR,
-              );
-              this.setGradeData(res.data);
-              if (!options.time) this.setStatistics(res.data);
-            } else showModal("获取失败", res.msg);
-          },
-        );
+        return getGradeList(options).then((res) => {
+          wx.hideLoading();
+          if (res.success) {
+            set(
+              `${GRADE_DATA_KEY}${options.time ? `-${options.time}` : ""}`,
+              res.data,
+              3 * HOUR,
+            );
+            this.setGradeData(res.data);
+            if (!options.time) this.setStatistics(res.data);
+          } else showModal("获取失败", res.msg);
+        });
       })
       .catch((msg: string) => {
         wx.hideLoading();

@@ -1,7 +1,8 @@
 import { $Component, get, set } from "@mptool/all";
 
 import { getCardBalance } from "./api.js";
-import { getActionCookie } from "../../api/action.js";
+import { ensureActionLogin } from "../../api/login/action.js";
+import { showToast } from "../../api/ui.js";
 import { type AppOption } from "../../app.js";
 import { CARD_BALANCE_KEY } from "../../config/keys.js";
 import { MINUTE } from "../../utils/constant.js";
@@ -36,9 +37,12 @@ $Component({
   methods: {
     getCardBalance(check = false) {
       if (globalData.account)
-        getActionCookie(globalData.account, check).then((res) => {
-          if (res.success)
-            getCardBalance({ cookies: res.cookies }).then((res) => {
+        ensureActionLogin(globalData.account, check).then((err) => {
+          if (err) {
+            showToast(err.msg);
+            this.setData({ status: "error" });
+          } else
+            getCardBalance().then((res) => {
               if (res.success) {
                 set(CARD_BALANCE_KEY, res.data, 5 * MINUTE);
                 this.setData({
@@ -47,7 +51,6 @@ $Component({
                 });
               } else this.setData({ status: "error" });
             });
-          else this.setData({ status: "error" });
         });
       else this.setData({ status: "login" });
     },
