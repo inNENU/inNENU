@@ -3,16 +3,16 @@
   margin: auto auto 0;
   padding: 10px 15px 8px;
 
-  @supports (padding-bottom: env(safe-area-inset-bottom)) {
-    padding-bottom: env(safe-area-inset-bottom);
-  }
-
   color: #86868b;
 
   font-size: 12px;
   line-height: 1.3333;
   letter-spacing: -0.01em;
   text-align: left;
+
+  @supports (padding-bottom: env(safe-area-inset-bottom)) {
+    padding-bottom: env(safe-area-inset-bottom);
+  }
 
   @media (min-width: 768px) {
     font-size: 13px;

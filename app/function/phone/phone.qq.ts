@@ -1,4 +1,4 @@
-import { $Page } from "@mptool/enhance";
+import { $Page } from "@mptool/all";
 
 import { showToast } from "../../api/ui.js";
 import { type AppOption } from "../../app.js";

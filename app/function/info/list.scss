@@ -40,7 +40,6 @@
   display: flex;
   align-items: center;
   justify-content: space-evenly;
-
   padding-bottom: 10px;
 
   @supports (padding-bottom: env(safe-area-inset-bottom)) {

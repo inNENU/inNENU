@@ -1,4 +1,4 @@
-import { get, set } from "@mptool/file";
+import { get, set } from "@mptool/all";
 
 import { type AppOption } from "../../app.js";
 import { MONTH } from "../../utils/constant.js";

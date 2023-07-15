@@ -1,4 +1,4 @@
-import { $Component, type PropType } from "@mptool/enhance";
+import { $Component, type PropType } from "@mptool/all";
 
 import { type AccountComponentOptions } from "../../../typings/index.js";
 import { savePhoto } from "../../api/media.js";

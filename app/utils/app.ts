@@ -1,6 +1,5 @@
 /* eslint-disable max-lines */
-import { emitter, logger } from "@mptool/enhance";
-import { get, writeJSON } from "@mptool/file";
+import { emitter, get, logger, writeJSON } from "@mptool/all";
 
 import { platformActions } from "./app-platform.js";
 import { updateNotice } from "./notice.js";

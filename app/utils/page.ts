@@ -1,6 +1,11 @@
 /* eslint-disable max-lines */
-import { type PageInstance, type PageQuery, logger } from "@mptool/enhance";
-import { readJSON, writeJSON } from "@mptool/file";
+import {
+  type PageInstance,
+  type PageQuery,
+  logger,
+  readJSON,
+  writeJSON,
+} from "@mptool/all";
 
 import { id2path } from "./id.js";
 import { ensureJSON } from "./json.js";

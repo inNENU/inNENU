@@ -1,4 +1,4 @@
-import { $Page } from "@mptool/enhance";
+import { $Page } from "@mptool/all";
 
 import { getNoticeList } from "./api.js";
 import { type NoticeItem } from "./typings.js";

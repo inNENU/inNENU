@@ -1,4 +1,4 @@
-import { $Page } from "@mptool/enhance";
+import { $Page } from "@mptool/all";
 
 import { type WechatConfig } from "../../../typings/index.js";
 import { showToast } from "../../api/ui.js";

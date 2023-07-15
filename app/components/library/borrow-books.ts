@@ -1,5 +1,4 @@
-import { $Component } from "@mptool/enhance";
-import { get, set } from "@mptool/file";
+import { $Component, get, set } from "@mptool/all";
 
 import { getBorrowBooks } from "./api.js";
 import { type BorrowBookData } from "./typings.js";

@@ -1,4 +1,4 @@
-import { $Page } from "@mptool/enhance";
+import { $Page } from "@mptool/all";
 
 import { type AppOption } from "../../app.js";
 import { appCoverPrefix } from "../../config/info.js";

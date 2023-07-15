@@ -1,4 +1,4 @@
-import { $Component, type PropType } from "@mptool/enhance";
+import { $Component, type PropType } from "@mptool/all";
 
 import { type VideoComponentOptions } from "../../../typings/index.js";
 import { showToast } from "../../api/ui.js";

@@ -1,5 +1,4 @@
-import { $Component, type PropType } from "@mptool/enhance";
-import { readFile } from "@mptool/file";
+import { $Component, type PropType, readFile } from "@mptool/all";
 
 import {
   type ListComponentConfig,

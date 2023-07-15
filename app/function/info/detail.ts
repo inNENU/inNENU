@@ -1,4 +1,4 @@
-import { $Page } from "@mptool/enhance";
+import { $Page } from "@mptool/all";
 
 import { getInfo } from "./api.js";
 import { type MainInfoType } from "./typings.js";

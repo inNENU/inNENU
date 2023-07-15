@@ -1,5 +1,4 @@
-import { $Component } from "@mptool/enhance";
-import { get, set } from "@mptool/file";
+import { $Component, get, set } from "@mptool/all";
 
 import { getCardBalance } from "./api.js";
 import { getActionCookie } from "../../api/action.js";

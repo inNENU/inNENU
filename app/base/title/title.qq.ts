@@ -1,4 +1,4 @@
-import { $Component, type PropType } from "@mptool/enhance";
+import { $Component, type PropType } from "@mptool/all";
 
 import { type TitleComponentOptions } from "../../../typings/index.js";
 import { type AppOption } from "../../app.js";

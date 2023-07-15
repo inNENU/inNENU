@@ -1,5 +1,4 @@
-import { $Page } from "@mptool/enhance";
-import { remove, set } from "@mptool/file";
+import { $Page, remove, set } from "@mptool/all";
 
 import {
   type ListComponentConfig,

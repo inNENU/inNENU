@@ -1,5 +1,4 @@
-import { $Component } from "@mptool/enhance";
-import { set } from "@mptool/file";
+import { $Component, set } from "@mptool/all";
 
 import { type WeatherData } from "./typings.js";
 import { type AppOption } from "../../app.js";

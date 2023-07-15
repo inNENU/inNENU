@@ -1,4 +1,4 @@
-import { $Component, type PropType } from "@mptool/enhance";
+import { $Component, type PropType } from "@mptool/all";
 
 import { type ActionComponentOptions } from "../../../typings/index.js";
 import { showModal } from "../../api/ui.js";

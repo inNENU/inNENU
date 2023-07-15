@@ -77,6 +77,9 @@
 }
 
 .card {
+  display: flex;
+  flex-direction: column;
+
   overflow: hidden;
 
   max-width: 517px;
@@ -87,16 +90,14 @@
   box-shadow: 1px 1px 2px 3px var(--card-shadow);
 
   text-align: left;
-  display: flex;
-  flex-direction: column;
 
   @media (min-width: 547px) {
     margin: 6px auto;
   }
 
   .img {
-    width: 100%;
     flex: 1;
+    width: 100%;
   }
 
   .detail {

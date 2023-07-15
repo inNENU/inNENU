@@ -1,5 +1,4 @@
-import { logger } from "@mptool/enhance";
-import { set } from "@mptool/file";
+import { logger, set } from "@mptool/all";
 
 import { type CommonFailedResponse, type Cookie } from "../../typings/index.js";
 import { service } from "../config/info.js";

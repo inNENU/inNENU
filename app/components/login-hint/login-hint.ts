@@ -1,4 +1,4 @@
-import { $Component, PropType } from "@mptool/enhance";
+import { $Component, PropType } from "@mptool/all";
 
 $Component({
   properties: {

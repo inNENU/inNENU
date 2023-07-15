@@ -1,4 +1,4 @@
-import { $Page } from "@mptool/enhance";
+import { $Page } from "@mptool/all";
 import createRecycleContext = require("miniprogram-recycle-view");
 
 import {

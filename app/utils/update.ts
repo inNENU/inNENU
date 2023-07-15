@@ -1,5 +1,4 @@
-import { logger } from "@mptool/enhance";
-import { ls, rm } from "@mptool/file";
+import { logger, ls, rm } from "@mptool/all";
 
 import { type GlobalData } from "./app.js";
 import { requestJSON } from "../api/net.js";

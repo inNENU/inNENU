@@ -1,4 +1,4 @@
-import { $Page } from "@mptool/enhance";
+import { $Page } from "@mptool/all";
 
 import { type PageDataWithContent } from "../../../typings/index.js";
 import { requestJSON } from "../../api/net.js";

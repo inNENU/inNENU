@@ -1,4 +1,4 @@
-import { $Page } from "@mptool/enhance";
+import { $Page } from "@mptool/all";
 
 import { type PageData, type PageOption } from "../../../typings/index.js";
 import { appCoverPrefix } from "../../config/info.js";

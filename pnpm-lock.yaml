@@ -17,12 +17,9 @@ importers:
 
   .:
     dependencies:
-      '@mptool/enhance':
-        specifier: 0.2.2
-        version: 0.2.2(miniprogram-api-typings@3.10.0)
-      '@mptool/file':
-        specifier: 0.2.2
-        version: 0.2.2(miniprogram-api-typings@3.10.0)
+      '@mptool/all':
+        specifier: 0.3.0
+        version: 0.3.0(miniprogram-api-typings@3.10.0)
       miniprogram-recycle-view:
         specifier: 0.1.5
         version: 0.1.5
@@ -2468,25 +2465,10 @@ packages:
       markdown-it: 13.0.1
     dev: false
 
-  /@mptool/enhance@0.2.2(miniprogram-api-typings@3.10.0):
-    resolution: {integrity: sha512-7A8Eg/6rslhOlnfcvIwrGxDxtxDGK31NmIyum+YwaJjzZx6Ci6EBfJGMI6yPzfwwWx4AtyQHfDzZl1R1huLthw==}
+  /@mptool/all@0.3.0(miniprogram-api-typings@3.10.0):
+    resolution: {integrity: sha512-TJZhuUpKo0rnr8sXB90cr8+AFfxQ9pZkdaqrQgOSCbqmGiGjYCbgs1DwwP4pTrrA6iMXRZ7Pdeok4GrYlx5FkA==}
     peerDependencies:
-      miniprogram-api-typings: ^3.9.1
-    dependencies:
-      '@mptool/shared': 0.2.2
-      miniprogram-api-typings: 3.10.0
-    dev: false
-
-  /@mptool/file@0.2.2(miniprogram-api-typings@3.10.0):
-    resolution: {integrity: sha512-13gMrmWpM4nMyvWjifY6UHIfsL97HIa0JTvq96IAqNz6u/O8nEsLctKo80EThlr8H7rMgPecRtoakltsAduiSQ==}
-    peerDependencies:
-      miniprogram-api-typings: ^3.9.1
-    dependencies:
-      miniprogram-api-typings: 3.10.0
-    dev: false
-
-  /@mptool/shared@0.2.2:
-    resolution: {integrity: sha512-rwolPzB2dMcaQTpq0Al/fN8awpyKFAmqsuYWpWynWxJw31JGxuyeOjJKPEfQdYmAtsx2mAqjqCsxerHvX/wX8w==}
+      miniprogram-api-typings: ^3.10.0
     dependencies:
       miniprogram-api-typings: 3.10.0
     dev: false

@@ -1,4 +1,4 @@
-import { $Component } from "@mptool/enhance";
+import { $Component } from "@mptool/all";
 
 import { getWindowInfo } from "../../api/ui.js";
 

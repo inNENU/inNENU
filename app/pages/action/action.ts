@@ -1,5 +1,4 @@
-import { $Page } from "@mptool/enhance";
-import { ls, rm } from "@mptool/file";
+import { $Page, ls, rm } from "@mptool/all";
 
 import { showModal } from "../../api/ui.js";
 import { type AppOption } from "../../app.js";

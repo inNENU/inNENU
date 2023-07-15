@@ -1,4 +1,4 @@
-import { $Page } from "@mptool/enhance";
+import { $Page } from "@mptool/all";
 
 import { savePhoto } from "../../api/media.js";
 import { showModal, showToast } from "../../api/ui.js";

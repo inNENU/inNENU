@@ -1,4 +1,4 @@
-import { $Page } from "@mptool/enhance";
+import { $Page } from "@mptool/all";
 
 import { type Area, benbuArea, jingyueArea } from "./info.js";
 import {

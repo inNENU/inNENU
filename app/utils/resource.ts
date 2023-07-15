@@ -1,6 +1,13 @@
 /* eslint-disable max-lines */
-import { logger } from "@mptool/enhance";
-import { exists, readJSON, rm, saveFile, unzip, writeJSON } from "@mptool/file";
+import {
+  exists,
+  logger,
+  readJSON,
+  rm,
+  saveFile,
+  unzip,
+  writeJSON,
+} from "@mptool/all";
 
 import { type VersionInfo } from "../../typings/index.js";
 import { showToast } from "../api/ui.js";

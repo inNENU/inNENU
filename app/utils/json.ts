@@ -1,12 +1,12 @@
-import { logger } from "@mptool/enhance";
 import {
   dirname,
   exists,
+  logger,
   mkdir,
   readJSON,
   rm,
   saveOnlineFile,
-} from "@mptool/file";
+} from "@mptool/all";
 
 import { server } from "../config/info.js";
 

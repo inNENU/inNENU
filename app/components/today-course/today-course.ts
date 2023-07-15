@@ -1,5 +1,4 @@
-import { $Component } from "@mptool/enhance";
-import { get } from "@mptool/file";
+import { $Component, get } from "@mptool/all";
 
 import { type CourseTableData } from "./typings.js";
 import { getCurrentTime, getWeekIndex } from "./utils.js";

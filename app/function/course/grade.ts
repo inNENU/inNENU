@@ -1,5 +1,4 @@
-import { $Page } from "@mptool/enhance";
-import { get, set } from "@mptool/file";
+import { $Page, get, set } from "@mptool/all";
 
 import { getGradeList, getUnderSystemCookies } from "./api.js";
 import { type GradeResult, type UserGradeListExtraOptions } from "./typings.js";

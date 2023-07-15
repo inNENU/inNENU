@@ -1,4 +1,4 @@
-import { $Page } from "@mptool/enhance";
+import { $Page } from "@mptool/all";
 
 import { type Lyric, type PlayMode, type SongDetail } from "./typings.js";
 import { showToast } from "../../api/ui.js";

@@ -3,7 +3,7 @@ import {
   $Config,
   type TrivialPageInstance,
   wrapFunction,
-} from "@mptool/enhance";
+} from "@mptool/all";
 
 import { getDarkmode } from "./api/ui.js";
 import {

@@ -1,4 +1,4 @@
-import { get, set } from "@mptool/file";
+import { get, set } from "@mptool/all";
 
 import { type ActionLoginResponse } from "./api-typings.js";
 import { request } from "./net.js";

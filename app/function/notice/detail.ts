@@ -1,4 +1,4 @@
-import { $Page } from "@mptool/enhance";
+import { $Page } from "@mptool/all";
 
 import { getNotice } from "./api.js";
 import { getActionCookie } from "../../api/action.js";

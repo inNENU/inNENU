@@ -1,4 +1,4 @@
-import { $Component, type PropType, logger } from "@mptool/enhance";
+import { $Component, type PropType, logger } from "@mptool/all";
 
 import { type PageData } from "../../../typings/index.js";
 import { savePhoto } from "../../api/media.js";

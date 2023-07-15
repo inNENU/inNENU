@@ -1,4 +1,4 @@
-import { $Page, logger } from "@mptool/enhance";
+import { $Page, logger } from "@mptool/all";
 
 import { getAmount, getInfo, login, process, search } from "./api.js";
 import {

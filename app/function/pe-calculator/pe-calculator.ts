@@ -1,4 +1,4 @@
-import { $Page } from "@mptool/enhance";
+import { $Page } from "@mptool/all";
 
 import { showModal } from "../../api/ui.js";
 import { appCoverPrefix } from "../../config/info.js";

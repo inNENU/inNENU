@@ -1,4 +1,4 @@
-import { $Component } from "@mptool/enhance";
+import { $Component } from "@mptool/all";
 
 import { type AppOption } from "../../app.js";
 import { defaultScroller, pageScrollMixin } from "../../mixins/page-scroll.js";

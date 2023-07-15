@@ -1,5 +1,4 @@
-import { $Page } from "@mptool/enhance";
-import { put, take } from "@mptool/file";
+import { $Page, put, take } from "@mptool/all";
 
 import { type PageDataWithContent } from "../../../typings/index.js";
 import { type AppOption } from "../../app.js";
