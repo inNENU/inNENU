@@ -1,21 +1,19 @@
 import { logger, query } from "@mptool/all";
 
-import {
-  type CourseType,
-  type GradeDetail,
-  type GradeResult,
-  type ScoreDetail,
-  type UserGradeListOptions,
-  type UserGradeListResponse,
-  type UserGradeListSuccessResponse,
+import type {
+  CourseType,
+  GradeDetail,
+  GradeResult,
+  ScoreDetail,
+  UserGradeListOptions,
+  UserGradeListResponse,
+  UserGradeListSuccessResponse,
 } from "./typings.js";
 import { CommonFailedResponse } from "../../../typings/response.js";
-import {
-  type AuthLoginFailedResponse,
-  UNDER_SYSTEM_SERVER,
-  request,
-} from "../../api/index.js";
+import { request } from "../../api/index.js";
 import { service } from "../../config/index.js";
+import type { AuthLoginFailedResponse } from "../../login/index.js";
+import { UNDER_SYSTEM_SERVER } from "../../login/index.js";
 import { getIETimeStamp } from "../../utils/browser.js";
 
 const gradeItemRegExp = /<tr.+?class="smartTr"[^>]*?>([\s\S]*?)<\/tr>/g;

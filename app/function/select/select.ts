@@ -1,21 +1,17 @@
 import { $Page, logger } from "@mptool/all";
 
 import { getAmount, getInfo, login, process, search } from "./api.js";
-import {
-  type CourseBasicInfo,
-  type CourseData,
-  type CourseInfo,
-  type MajorInfo,
-  type SearchOptions,
+import type {
+  CourseBasicInfo,
+  CourseData,
+  CourseInfo,
+  MajorInfo,
+  SearchOptions,
 } from "./typings.js";
-import {
-  type FullCourseInfo,
-  type SortKey,
-  confirmReplace,
-  courseSorter,
-} from "./utils.js";
+import type { FullCourseInfo, SortKey } from "./utils.js";
+import { confirmReplace, courseSorter } from "./utils.js";
 import { showModal, showToast } from "../../api/index.js";
-import { type AppOption } from "../../app.js";
+import type { AppOption } from "../../app.js";
 import { appCoverPrefix } from "../../config/index.js";
 import { getColor, popNotice } from "../../utils/page.js";
 import { promiseQueue } from "../utils/promiseQueue.js";

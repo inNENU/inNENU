@@ -1,6 +1,7 @@
-import { $Component, type PropType } from "@mptool/all";
+import type { PropType } from "@mptool/all";
+import { $Component } from "@mptool/all";
 
-import { type PhoneComponentOptions } from "../../../typings/index.js";
+import type { PhoneComponentOptions } from "../../../typings/index.js";
 import { addPhoneContact } from "../../api/index.js";
 
 $Component({

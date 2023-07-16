@@ -1,10 +1,11 @@
 import { $Page } from "@mptool/all";
 
 import { getNoticeList, getOnlineNoticeList } from "./notice-list.js";
-import { type NoticeItem } from "./typings.js";
-import { ensureActionLogin, showToast } from "../../api/index.js";
-import { type AppOption } from "../../app.js";
+import type { NoticeItem } from "./typings.js";
+import { showToast } from "../../api/index.js";
+import type { AppOption } from "../../app.js";
 import { appCoverPrefix } from "../../config/index.js";
+import { ensureActionLogin } from "../../login/index.js";
 import { getColor, popNotice } from "../../utils/page.js";
 
 const { globalData, useOnlineService } = getApp<AppOption>();

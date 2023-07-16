@@ -1,9 +1,9 @@
-import {
-  type MainInfoListOptions,
-  type MainInfoListResponse,
-  type MainInfoListSuccessResponse,
+import type {
+  MainInfoListOptions,
+  MainInfoListResponse,
+  MainInfoListSuccessResponse,
 } from "./typings.js";
-import { type CommonFailedResponse } from "../../../typings/response.js";
+import type { CommonFailedResponse } from "../../../typings/response.js";
 import { request } from "../../api/index.js";
 import { service } from "../../config/index.js";
 

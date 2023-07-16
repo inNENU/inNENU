@@ -1,10 +1,11 @@
-import { $Component, type PropType } from "@mptool/all";
+import type { PropType } from "@mptool/all";
+import { $Component } from "@mptool/all";
 
-import {
-  type LocationComponentOptions,
-  type LocationConfig,
+import type {
+  LocationComponentOptions,
+  LocationConfig,
 } from "../../../typings/index.js";
-import { type AppOption } from "../../app.js";
+import type { AppOption } from "../../app.js";
 
 const { globalData } = getApp<AppOption>();
 

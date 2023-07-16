@@ -1,6 +1,6 @@
 import { $Page } from "@mptool/all";
 
-import { type AppOption } from "../../app.js";
+import type { AppOption } from "../../app.js";
 import { appCoverPrefix } from "../../config/index.js";
 import { getColor, popNotice } from "../../utils/page.js";
 import { SearchResult, search } from "../../utils/search.js";

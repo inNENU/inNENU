@@ -1,26 +1,21 @@
 /* eslint-disable max-lines */
-import {
-  type PageInstance,
-  type PageQuery,
-  logger,
-  readJSON,
-  writeJSON,
-} from "@mptool/all";
+import type { PageInstance, PageQuery } from "@mptool/all";
+import { logger, readJSON, writeJSON } from "@mptool/all";
 
 import { id2path } from "./id.js";
 import { ensureJSON } from "./json.js";
-import { type Notice } from "./notice.js";
+import type { Notice } from "./notice.js";
 import { getScopeData } from "./scopeData.js";
-import {
-  type FunctionalListComponentItemConfig,
-  type GridComponentItemConfig,
-  type ListComponentItemConfig,
-  type PageData,
-  type PageDataWithContent,
-  type PageOption,
+import type {
+  FunctionalListComponentItemConfig,
+  GridComponentItemConfig,
+  ListComponentItemConfig,
+  PageData,
+  PageDataWithContent,
+  PageOption,
 } from "../../typings/index.js";
 import { requestJSON, showModal } from "../api/index.js";
-import { type AppOption } from "../app.js";
+import type { AppOption } from "../app.js";
 import { imageWaterMark } from "../config/index.js";
 
 type PageInstanceWithPage = PageInstance<

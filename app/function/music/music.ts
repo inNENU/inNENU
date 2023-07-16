@@ -1,10 +1,10 @@
 import { $Page } from "@mptool/all";
 
-import { type Lyric, type PlayMode, type SongDetail } from "./typings.js";
+import type { Lyric, PlayMode, SongDetail } from "./typings.js";
+import { loadFZSSJW } from "../../api/font.js";
 import { showToast } from "../../api/index.js";
-import { type AppOption } from "../../app.js";
+import type { AppOption } from "../../app.js";
 import { appCoverPrefix, appName } from "../../config/index.js";
-import { loadFZSSJW } from "../../utils/font.js";
 import { ensureJSON, getJSON } from "../../utils/json.js";
 import { popNotice } from "../../utils/page.js";
 

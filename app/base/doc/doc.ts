@@ -1,8 +1,9 @@
-import { $Component, type PropType } from "@mptool/all";
+import type { PropType } from "@mptool/all";
+import { $Component } from "@mptool/all";
 
-import { type DocComponentOptions } from "../../../typings/index.js";
+import type { DocComponentOptions } from "../../../typings/index.js";
 import { downLoad, savePhoto, showModal, showToast } from "../../api/index.js";
-import { type AppOption } from "../../app.js";
+import type { AppOption } from "../../app.js";
 
 const { globalData } = getApp<AppOption>();
 

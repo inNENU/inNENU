@@ -1,15 +1,12 @@
 import { logger } from "@mptool/all";
 
-import {
-  type CardBalanceResponse,
-  type CardBalanceSuccessResponse,
+import type {
+  CardBalanceResponse,
+  CardBalanceSuccessResponse,
 } from "./typings.js";
-import {
-  ACTION_SERVER,
-  AuthLoginFailedResponse,
-  request,
-} from "../../api/index.js";
+import { request } from "../../api/index.js";
 import { service } from "../../config/index.js";
+import { ACTION_SERVER, AuthLoginFailedResponse } from "../../login/index.js";
 
 type RawCardBalanceData =
   | {

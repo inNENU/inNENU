@@ -1,13 +1,13 @@
 import { $Page } from "@mptool/all";
 
-import {
-  type ComponentConfig,
-  type FunctionalListComponentConfig,
-  type PageDataWithContent,
-  type SwitchListComponentItemConfig,
+import type {
+  ComponentConfig,
+  FunctionalListComponentConfig,
+  PageDataWithContent,
+  SwitchListComponentItemConfig,
 } from "../../../typings/index.js";
 import { requestJSON, showToast } from "../../api/index.js";
-import { type AppOption } from "../../app.js";
+import type { AppOption } from "../../app.js";
 import { appCoverPrefix } from "../../config/index.js";
 import { popNotice, resolvePage, setPage } from "../../utils/page.js";
 

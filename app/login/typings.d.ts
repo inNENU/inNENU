@@ -1,4 +1,4 @@
-import { type CommonFailedResponse } from "../../../typings/response.js";
+import type { CommonFailedResponse } from "../../typings/response.js";
 
 export interface AuthLoginSuccessResponse {
   success: true;

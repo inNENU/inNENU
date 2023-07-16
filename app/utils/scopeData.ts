@@ -1,8 +1,8 @@
-import {
-  type GeneralScopeData,
-  type PageDataWithContent,
-  type TextComponentOptions,
-  type TitleComponentOptions,
+import type {
+  GeneralScopeData,
+  PageDataWithContent,
+  TextComponentOptions,
+  TitleComponentOptions,
 } from "../../typings/index.js";
 
 const getText = (page: PageDataWithContent): string => {

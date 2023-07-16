@@ -1,4 +1,5 @@
-import { $Component, type PropType } from "@mptool/all";
+import type { PropType } from "@mptool/all";
+import { $Component } from "@mptool/all";
 
 $Component({
   properties: {

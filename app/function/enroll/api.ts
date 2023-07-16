@@ -1,6 +1,6 @@
 import { CookieType, logger } from "@mptool/all";
 
-import { type CommonFailedResponse } from "../../../typings/index.js";
+import type { CommonFailedResponse } from "../../../typings/index.js";
 import { service } from "../../config/index.js";
 
 export interface AdmissionSuccessResponse {

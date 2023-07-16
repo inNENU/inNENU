@@ -1,15 +1,15 @@
 import { logger } from "@mptool/all";
 
-import {
-  type ActionLoginResponse,
-  type AuthLoginFailedResponse,
-  type VPNLoginFailedResponse,
+import type {
+  ActionLoginResponse,
+  AuthLoginFailedResponse,
+  VPNLoginFailedResponse,
 } from "./typings.js";
-import { type CookieVerifyResponse } from "../../../typings/response.js";
-import { service } from "../../config/index.js";
-import { type AccountBasicInfo } from "../../utils/app.js";
-import { cookieStore } from "../../utils/cookie.js";
-import { request } from "../net.js";
+import type { CookieVerifyResponse } from "../../typings/response.js";
+import { request } from "../api/net.js";
+import { service } from "../config/index.js";
+import type { AccountBasicInfo } from "../utils/app.js";
+import { cookieStore } from "../utils/cookie.js";
 
 export const ACTION_SERVER = "https://m-443.webvpn.nenu.edu.cn";
 

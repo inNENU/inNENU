@@ -1,6 +1,7 @@
-import { $Component, type PropType, readFile } from "@mptool/all";
+import type { PropType } from "@mptool/all";
+import { $Component, readFile } from "@mptool/all";
 
-import { type CardComponentOptions } from "../../../typings/index.js";
+import type { CardComponentOptions } from "../../../typings/index.js";
 import { showModal } from "../../api/index.js";
 
 $Component({

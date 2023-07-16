@@ -1,17 +1,9 @@
-import {
-  $App,
-  $Config,
-  type TrivialPageInstance,
-  wrapFunction,
-} from "@mptool/all";
+import type { TrivialPageInstance } from "@mptool/all";
+import { $App, $Config, wrapFunction } from "@mptool/all";
 
 import { getDarkmode } from "./api/index.js";
-import {
-  type GlobalData,
-  getGlobalData,
-  initializeApp,
-  startup,
-} from "./utils/app.js";
+import type { GlobalData } from "./utils/app.js";
+import { getGlobalData, initializeApp, startup } from "./utils/app.js";
 import { checkResource } from "./utils/resource.js";
 import { updateSettings } from "./utils/settings.js";
 import { updateApp } from "./utils/update.js";

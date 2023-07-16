@@ -1,13 +1,13 @@
 import { $Page, ls, rm } from "@mptool/all";
 
 import { size } from "./size.js";
-import {
-  type FunctionalListComponentConfig,
-  type PageDataWithContent,
-  type PickerListComponentItemConfig,
+import type {
+  FunctionalListComponentConfig,
+  PageDataWithContent,
+  PickerListComponentItemConfig,
 } from "../../../typings/index.js";
 import { confirmAction, showModal, showToast } from "../../api/index.js";
-import { type AppOption } from "../../app.js";
+import type { AppOption } from "../../app.js";
 import { getColor, popNotice, setPage } from "../../utils/page.js";
 import { downloadResource } from "../../utils/resource.js";
 

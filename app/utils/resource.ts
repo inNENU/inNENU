@@ -9,7 +9,7 @@ import {
   writeJSON,
 } from "@mptool/all";
 
-import { type VersionInfo } from "../../typings/index.js";
+import type { VersionInfo } from "../../typings/index.js";
 import { showToast } from "../api/index.js";
 import { assets, server } from "../config/index.js";
 

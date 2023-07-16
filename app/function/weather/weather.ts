@@ -1,8 +1,8 @@
 import { $Page, get, readFile } from "@mptool/all";
 
 import { showModal } from "../../api/index.js";
-import { type AppOption } from "../../app.js";
-import { type WeatherData } from "../../components/weather/typings.js";
+import type { AppOption } from "../../app.js";
+import type { WeatherData } from "../../components/weather/typings.js";
 import { WEATHER_KEY, appCoverPrefix, server } from "../../config/index.js";
 import { getColor } from "../../utils/page.js";
 

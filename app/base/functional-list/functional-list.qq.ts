@@ -1,14 +1,15 @@
-import { $Component, type PropType, readFile } from "@mptool/all";
+import type { PropType } from "@mptool/all";
+import { $Component, readFile } from "@mptool/all";
 
-import {
-  type ButtonListComponentItemConfig,
-  type FunctionalListComponentConfig,
-  type FunctionalListComponentItemOptions,
-  type PickerListComponentItemConfig,
-  type SliderListComponentItemConfig,
-  type SwitchListComponentItemConfig,
+import type {
+  ButtonListComponentItemConfig,
+  FunctionalListComponentConfig,
+  FunctionalListComponentItemOptions,
+  PickerListComponentItemConfig,
+  SliderListComponentItemConfig,
+  SwitchListComponentItemConfig,
 } from "../../../typings/index.js";
-import { type AppOption } from "../../app.js";
+import type { AppOption } from "../../app.js";
 
 interface ListDetail<T = FunctionalListComponentItemOptions> {
   id: string;

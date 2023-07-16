@@ -1,6 +1,6 @@
 import { $Component, get } from "@mptool/all";
 
-import { type CourseTableData } from "./typings.js";
+import type { CourseTableData } from "./typings.js";
 import { getCurrentTime, getWeekIndex } from "./utils.js";
 import { COURSE_DATA_KEY } from "../../config/index.js";
 

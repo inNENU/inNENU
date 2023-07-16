@@ -1,8 +1,9 @@
-import { $Component, type PropType, readFile } from "@mptool/all";
+import type { PropType } from "@mptool/all";
+import { $Component, readFile } from "@mptool/all";
 
-import {
-  type GridComponentItemOptions,
-  type GridComponentOptions,
+import type {
+  GridComponentItemOptions,
+  GridComponentOptions,
 } from "../../../typings/index.js";
 
 $Component({

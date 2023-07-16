@@ -1,12 +1,12 @@
 import { $Page } from "@mptool/all";
 
-import {
-  type ButtonListComponentItemConfig,
-  type ListComponentConfig,
-  type PageDataWithContent,
+import type {
+  ButtonListComponentItemConfig,
+  ListComponentConfig,
+  PageDataWithContent,
 } from "../../../typings/index.js";
 import { showModal, showToast } from "../../api/index.js";
-import { type AppOption } from "../../app.js";
+import type { AppOption } from "../../app.js";
 import { popNotice, resolvePage, setPage } from "../../utils/page.js";
 
 const { globalData } = getApp<AppOption>();

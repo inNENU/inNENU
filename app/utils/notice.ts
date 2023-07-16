@@ -1,4 +1,4 @@
-import { type NoticeSettings } from "./settings.js";
+import type { NoticeSettings } from "./settings.js";
 import { showModal } from "../api/index.js";
 
 /** 通知格式 */

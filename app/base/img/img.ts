@@ -1,6 +1,7 @@
-import { $Component, type PropType } from "@mptool/all";
+import type { PropType } from "@mptool/all";
+import { $Component } from "@mptool/all";
 
-import { type ImageComponentOptions } from "../../../typings/index.js";
+import type { ImageComponentOptions } from "../../../typings/index.js";
 import { imageWaterMark } from "../../config/index.js";
 
 $Component({

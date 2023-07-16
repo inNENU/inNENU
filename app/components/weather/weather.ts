@@ -1,7 +1,7 @@
 import { $Component, set } from "@mptool/all";
 
-import { type WeatherData } from "./typings.js";
-import { type AppOption } from "../../app.js";
+import type { WeatherData } from "./typings.js";
+import type { AppOption } from "../../app.js";
 import { WEATHER_KEY, server } from "../../config/index.js";
 import { MINUTE } from "../../utils/constant.js";
 

@@ -1,9 +1,9 @@
 import { logger } from "@mptool/all";
 
-import { type CommonFailedResponse } from "../../../typings/index.js";
-import { service } from "../../config/index.js";
-import { type AccountBasicInfo } from "../../utils/app.js";
-import { request } from "../net.js";
+import type { CommonFailedResponse } from "../../typings/index.js";
+import { request } from "../api/net.js";
+import { service } from "../config/index.js";
+import type { AccountBasicInfo } from "../utils/app.js";
 
 export const AUTH_SERVER = "https://authserver.nenu.edu.cn";
 export const WEB_VPN_AUTH_SERVER = "https://authserver-443.webvpn.nenu.edu.cn";

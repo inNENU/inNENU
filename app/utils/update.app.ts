@@ -1,5 +1,6 @@
-import { type GlobalData } from "./app.js";
-import { compareVersion, requestJSON, showModal } from "../api/index.js";
+import type { GlobalData } from "./app.js";
+import { compareVersion } from "./version.js";
+import { requestJSON, showModal } from "../api/index.js";
 import { assets } from "../config/index.js";
 
 /**

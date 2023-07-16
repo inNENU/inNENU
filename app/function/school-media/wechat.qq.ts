@@ -1,12 +1,12 @@
 import { $Page } from "@mptool/all";
 import createRecycleContext = require("miniprogram-recycle-view");
 
-import {
-  type WechatArticleItem,
-  type WechatConfig,
+import type {
+  WechatArticleItem,
+  WechatConfig,
 } from "../../../typings/index.js";
 import { savePhoto, showModal, showToast } from "../../api/index.js";
-import { type AppOption } from "../../app.js";
+import type { AppOption } from "../../app.js";
 import { appCoverPrefix, server } from "../../config/index.js";
 import { ensureJSON } from "../../utils/json.js";
 import { getColor, popNotice } from "../../utils/page.js";

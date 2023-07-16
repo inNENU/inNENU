@@ -1,5 +1,5 @@
-import { type RichTextNode } from "../../../typings/node.js";
-import { type CommonFailedResponse } from "../../../typings/response.js";
+import type { RichTextNode } from "../../../typings/node.js";
+import type { CommonFailedResponse } from "../../../typings/response.js";
 
 export interface NoticeListOptions {
   /** @default 20 */

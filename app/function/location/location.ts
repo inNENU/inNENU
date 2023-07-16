@@ -1,7 +1,7 @@
 import { $Page, readJSON } from "@mptool/all";
 
-import { type LocationConfig, type PageData } from "../../../typings/index.js";
-import { type AppOption } from "../../app.js";
+import type { LocationConfig, PageData } from "../../../typings/index.js";
+import type { AppOption } from "../../app.js";
 import { appCoverPrefix } from "../../config/index.js";
 import { defaultScroller } from "../../mixins/page-scroll.js";
 import { getJSON } from "../../utils/json.js";

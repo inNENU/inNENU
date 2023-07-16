@@ -2,16 +2,17 @@ import { $Page, get, set } from "@mptool/all";
 
 import { getCourseTable, getOnlineCourseTable } from "./course-table.js";
 import { getDisplayTime } from "./grade-list.js";
-import { type ClassItem, type TableItem } from "./typings.js";
-import { ensureUnderSystemLogin, showModal } from "../../api/index.js";
-import { type AppOption } from "../../app.js";
-import {
-  type CourseTableData,
-  type TableData,
-  type WeekRange,
+import type { ClassItem, TableItem } from "./typings.js";
+import { showModal } from "../../api/index.js";
+import type { AppOption } from "../../app.js";
+import type {
+  CourseTableData,
+  TableData,
+  WeekRange,
 } from "../../components/today-course/typings.js";
 import { getCurrentTime } from "../../components/today-course/utils.js";
 import { COURSE_DATA_KEY, appCoverPrefix } from "../../config/index.js";
+import { ensureUnderSystemLogin } from "../../login/index.js";
 import { DAY, MONTH } from "../../utils/constant.js";
 import { getColor, popNotice } from "../../utils/page.js";
 

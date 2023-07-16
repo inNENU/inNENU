@@ -1,13 +1,14 @@
 import { $Page } from "@mptool/all";
 
-import { type Area, benbuArea, jingyueArea } from "./info.js";
-import {
-  type Category,
-  type MarkerConfig,
-  type MarkerData,
+import type { Area } from "./info.js";
+import { benbuArea, jingyueArea } from "./info.js";
+import type {
+  Category,
+  MarkerConfig,
+  MarkerData,
 } from "../../../typings/index.js";
 import { showModal, showToast } from "../../api/index.js";
-import { type AppOption } from "../../app.js";
+import type { AppOption } from "../../app.js";
 import { appCoverPrefix } from "../../config/index.js";
 import { ensureJSON, getJSON } from "../../utils/json.js";
 import { popNotice } from "../../utils/page.js";

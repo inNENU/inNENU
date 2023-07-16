@@ -1,17 +1,15 @@
 import { logger, query } from "@mptool/all";
 
-import {
-  type TableItem,
-  type UserCourseTableOptions,
-  type UserCourseTableResponse,
+import type {
+  TableItem,
+  UserCourseTableOptions,
+  UserCourseTableResponse,
   UserCourseTableSuccessResponse,
 } from "./typings.js";
-import {
-  AuthLoginFailedResponse,
-  UNDER_SYSTEM_SERVER,
-  request,
-} from "../../api/index.js";
+import { request } from "../../api/index.js";
 import { service } from "../../config/index.js";
+import type { AuthLoginFailedResponse } from "../../login/index.js";
+import { UNDER_SYSTEM_SERVER } from "../../login/index.js";
 import { getJSON } from "../../utils/json.js";
 
 const courseRowRegExp =

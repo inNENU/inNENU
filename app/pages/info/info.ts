@@ -1,6 +1,6 @@
 import { $Page } from "@mptool/all";
 
-import { type PageData, type PageOption } from "../../../typings/index.js";
+import type { PageData, PageOption } from "../../../typings/index.js";
 import { appCoverPrefix } from "../../config/index.js";
 import { id2path } from "../../utils/id.js";
 import {

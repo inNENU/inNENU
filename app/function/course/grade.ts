@@ -1,10 +1,11 @@
 import { $Page, get, set } from "@mptool/all";
 
 import { getGradeList, getOnlineGradeList } from "./grade-list.js";
-import { type GradeResult, type UserGradeListOptions } from "./typings.js";
-import { ensureUnderSystemLogin, showModal } from "../../api/index.js";
-import { type AppOption } from "../../app.js";
+import type { GradeResult, UserGradeListOptions } from "./typings.js";
+import { showModal } from "../../api/index.js";
+import type { AppOption } from "../../app.js";
 import { GRADE_DATA_KEY, appCoverPrefix } from "../../config/index.js";
+import { ensureUnderSystemLogin } from "../../login/index.js";
 import { HOUR } from "../../utils/constant.js";
 import { getColor, popNotice } from "../../utils/page.js";
 

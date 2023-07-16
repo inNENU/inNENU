@@ -1,22 +1,20 @@
 import { query } from "@mptool/all";
 
-import {
-  type NoticeItem,
-  type NoticeListOptions,
-  type NoticeListResponse,
-  type NoticeListSuccessResponse,
+import type {
+  NoticeItem,
+  NoticeListOptions,
+  NoticeListResponse,
+  NoticeListSuccessResponse,
 } from "./typings.js";
-import {
-  ACTION_SERVER,
-  AuthLoginFailedResponse,
-  request,
-} from "../../api/index.js";
+import { request } from "../../api/index.js";
 import { service } from "../../config/index.js";
+import { ACTION_SERVER, AuthLoginFailedResponse } from "../../login/index.js";
 
 interface RawNoticeItem {
   LLCS: number;
   FBSJ: string;
   KEYWORDS_: string;
+  // eslint-disable-next-line @typescript-eslint/naming-convention
   ID__: string;
   SFZD: string;
   FLAG: string;

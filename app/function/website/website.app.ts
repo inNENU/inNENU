@@ -1,6 +1,6 @@
 import { $Page } from "@mptool/all";
 
-import { type AppOption } from "../../app.js";
+import type { AppOption } from "../../app.js";
 import { ensureJSON, getJSON } from "../../utils/json.js";
 import { popNotice } from "../../utils/page.js";
 

@@ -1,16 +1,16 @@
-import {
-  type ProcessFailedResponse,
-  type ProcessOptions,
-  type ProcessResponse,
-  type ProcessSuccessResponse,
-  type SearchOptions,
-  type SelectBaseOptions,
-  type SelectInfoResponse,
-  type SelectLoginOptions,
-  type SelectLoginResponse,
-  type SelectSearchResponse,
-  type StudentAmountOptions,
-  type StudentAmountResponse,
+import type {
+  ProcessFailedResponse,
+  ProcessOptions,
+  ProcessResponse,
+  ProcessSuccessResponse,
+  SearchOptions,
+  SelectBaseOptions,
+  SelectInfoResponse,
+  SelectLoginOptions,
+  SelectLoginResponse,
+  SelectSearchResponse,
+  StudentAmountOptions,
+  StudentAmountResponse,
 } from "./typings.js";
 import { request } from "../../api/index.js";
 import { service } from "../../config/index.js";

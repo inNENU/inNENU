@@ -1,9 +1,10 @@
 import { $Component, get, set } from "@mptool/all";
 
 import { getCardBalance, getOnlineCardBalance } from "./api.js";
-import { ensureActionLogin, showToast } from "../../api/index.js";
-import { type AppOption } from "../../app.js";
+import { showToast } from "../../api/index.js";
+import type { AppOption } from "../../app.js";
 import { CARD_BALANCE_KEY } from "../../config/index.js";
+import { ensureActionLogin } from "../../login/index.js";
 import { MINUTE } from "../../utils/constant.js";
 
 const { globalData, useOnlineService } = getApp<AppOption>();

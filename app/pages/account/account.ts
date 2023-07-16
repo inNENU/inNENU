@@ -1,17 +1,11 @@
 import { $Page, remove, set } from "@mptool/all";
 
-import {
-  type ListComponentConfig,
-  type ListComponentItemConfig,
+import type {
+  ListComponentConfig,
+  ListComponentItemConfig,
 } from "../../../typings/components.js";
-import {
-  confirmAction,
-  getInfo,
-  login,
-  showModal,
-  showToast,
-} from "../../api/index.js";
-import { type AppOption } from "../../app.js";
+import { confirmAction, showModal, showToast } from "../../api/index.js";
+import type { AppOption } from "../../app.js";
 import {
   ACCOUNT_INFO_KEY,
   BORROW_BOOKS_KEY,
@@ -22,7 +16,8 @@ import {
   appCoverPrefix,
   assets,
 } from "../../config/index.js";
-import { type UserInfo } from "../../utils/app.js";
+import { getInfo, login } from "../../login/index.js";
+import type { UserInfo } from "../../utils/app.js";
 import { MONTH } from "../../utils/constant.js";
 import { cookieStore } from "../../utils/cookie.js";
 import { popNotice } from "../../utils/page.js";

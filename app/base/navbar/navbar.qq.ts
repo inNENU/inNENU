@@ -1,6 +1,6 @@
 import { $Component } from "@mptool/all";
 
-import { type AppOption } from "../../app.js";
+import type { AppOption } from "../../app.js";
 import { defaultScroller, pageScrollMixin } from "../../mixins/page-scroll.js";
 
 const { globalData } = getApp<AppOption>();

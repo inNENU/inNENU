@@ -1,6 +1,6 @@
-import { server } from "../../config/index.js";
-import { type AppID, type Env } from "../../utils/app.js";
-import { request } from "../net.js";
+import { request } from "../api/net.js";
+import { server } from "../config/index.js";
+import type { AppID, Env } from "../utils/app.js";
 
 interface LoginCallback {
   openid: string;

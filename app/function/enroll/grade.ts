@@ -1,15 +1,16 @@
 import { $Page } from "@mptool/all";
 
-import { type HistoryGradeInfoItem, getHistoryGrade } from "./api.js";
-import {
-  type CategoryConfig,
-  type PlanConfig,
-  type ProvinceConfig,
-  type SelectConfig,
-  type YearConfig,
+import type { HistoryGradeInfoItem } from "./api.js";
+import { getHistoryGrade } from "./api.js";
+import type {
+  CategoryConfig,
+  PlanConfig,
+  ProvinceConfig,
+  SelectConfig,
+  YearConfig,
 } from "../../../typings/index.js";
 import { showModal } from "../../api/index.js";
-import { type AppOption } from "../../app.js";
+import type { AppOption } from "../../app.js";
 import { appCoverPrefix } from "../../config/index.js";
 import { ensureJSON, getJSON } from "../../utils/json.js";
 import { getColor, popNotice } from "../../utils/page.js";

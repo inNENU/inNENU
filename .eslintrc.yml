@@ -33,7 +33,7 @@ rules:
 
   import/consistent-type-specifier-style:
     - error
-    - prefer-inline
+    - prefer-top-level
 
   import/dynamic-import-chunkname:
     - error
@@ -74,7 +74,7 @@ rules:
       newlines-between: always
 
   no-duplicate-imports:
-    - error
+    - off
 
   no-unmodified-loop-condition:
     - error

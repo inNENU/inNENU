@@ -1,8 +1,9 @@
-import { $Component, type PropType, logger } from "@mptool/all";
+import type { PropType } from "@mptool/all";
+import { $Component, logger } from "@mptool/all";
 
-import { type PageData } from "../../../typings/index.js";
+import type { PageData } from "../../../typings/index.js";
 import { savePhoto, showToast } from "../../api/index.js";
-import { type AppOption } from "../../app.js";
+import type { AppOption } from "../../app.js";
 import { appName, service } from "../../config/index.js";
 import { path2id } from "../../utils/id.js";
 
