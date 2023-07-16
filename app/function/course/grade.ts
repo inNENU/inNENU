@@ -45,7 +45,7 @@ const getTimes = (grade: number): string[] => {
 };
 
 const getDisplayTime = (time: string): string => {
-  if (time === "") return "全部";
+  if (time === "") return "全部学期";
 
   const [startYear, endYear, semester] = time.split("-");
 
