@@ -1,6 +1,6 @@
 import { $Component, get, set } from "@mptool/all";
 
-import { getCardBalance } from "./api.js";
+import { getCardBalance, getOnlineCardBalance } from "./api.js";
 import { ensureActionLogin, showToast } from "../../api/index.js";
 import { type AppOption } from "../../app.js";
 import { CARD_BALANCE_KEY } from "../../config/index.js";
@@ -43,7 +43,10 @@ $Component({
           this.setData({ status: "error" });
         } else {
           try {
-            const result = await getCardBalance();
+            const result = await (globalData.service["card-balance"] ===
+              "online"
+              ? getOnlineCardBalance
+              : getCardBalance)();
 
             if (result.success) {
               set(CARD_BALANCE_KEY, result.data, 5 * MINUTE);
