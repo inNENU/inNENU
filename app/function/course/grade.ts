@@ -75,9 +75,12 @@ $Page("course-grade", {
 
     sortIndex: 7,
     ascending: false,
+
+    desc: "数据来自教务处本科教学服务系统，请以各学院实际安排与认定为准。",
   },
 
   state: {
+    loginMethod: <"check" | "login" | "validate">"validate",
     numberValueIndex: <number[]>[],
   },
 
@@ -127,7 +130,7 @@ $Page("course-grade", {
   getGradeList(options: UserGradeListOptions = {}) {
     wx.showLoading({ title: "获取中" });
 
-    return ensureUnderSystemLogin(globalData.account!, true)
+    return ensureUnderSystemLogin(globalData.account!, "validate")
       .then((err) => {
         if (err) throw err.msg;
 
@@ -143,7 +146,13 @@ $Page("course-grade", {
             );
             this.setGradeData(res.data);
             if (!options.time) this.setStatistics(res.data);
-          } else showModal("获取失败", res.msg);
+            this.state.loginMethod = "check";
+          } else if (res.type === "expired") {
+            this.state.loginMethod = "login";
+            this.getGradeList(options);
+          } else {
+            showModal("获取失败", res.msg);
+          }
         });
       })
       .catch((msg: string) => {

@@ -18,7 +18,7 @@ export interface VPNLoginSuccessResponse {
 }
 
 export interface VPNLoginFailedResponse extends CommonFailedResponse {
-  type: "locked" | "wrong" | "unknown";
+  type: "locked" | "wrong" | "unknown" | "expired";
 }
 
 export type VPNLoginResponse =

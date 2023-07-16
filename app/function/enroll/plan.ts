@@ -1,7 +1,7 @@
 import { $Page } from "@mptool/all";
 
-import type { EnrollPlanInfo } from "./api.js";
 import { getEnrollPlan } from "./api.js";
+import type { EnrollPlanInfo } from "./typings.js";
 import type { SelectConfig } from "../../../typings/index.js";
 import {
   CategoryConfig,

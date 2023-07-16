@@ -1,181 +1,44 @@
-import { CookieType, logger } from "@mptool/all";
-
-import type { CommonFailedResponse } from "../../../typings/index.js";
+import type {
+  AdmissionResponse,
+  EnrollGradeResponse,
+  EnrollPlanOptions,
+  EnrollPlanResponse,
+  PostAdmissionPostOptions,
+} from "./typings.js";
+import { request } from "../../api/net.js";
 import { service } from "../../config/index.js";
-
-export interface AdmissionSuccessResponse {
-  success: true;
-  info: { text: string; value: string }[];
-}
-
-export type AdmissionResponse = AdmissionSuccessResponse | CommonFailedResponse;
-
-export interface PostAdmissionPostOptions {
-  name: string;
-  id: string;
-}
 
 export const postAdmission = (
   data: PostAdmissionPostOptions,
 ): Promise<AdmissionResponse> =>
-  new Promise((resolve, reject) => {
-    wx.request<AdmissionResponse>({
-      method: "POST",
-      url: `${service}enroll/post-admission`,
-      enableHttp2: true,
-      data,
-      success: ({ data, statusCode }) => {
-        if (statusCode === 200) {
-          resolve(data);
-        } else {
-          logger.error("获取研究生录取信息失败", statusCode);
-          reject();
-        }
-      },
-      fail: () => reject(),
-    });
+  request<AdmissionResponse>(`${service}enroll/post-admission`, {
+    method: "POST",
+    data,
   });
 
-// export const postAdmission = (
-//   data: PostAdmissionPostOptions
-// ): Promise<AdmissionResponse> =>
-//   fetch<AdmissionResponse>(`${service}enroll/post-admission`, {
-//     method: "POST",
-//     data,
-//   });
-
-export interface UnderAdmissionPostOptions {
-  captcha: string;
-  name: string;
-  id: string;
-  testId: string;
-  cookies: CookieType[];
-}
-
-export interface GetUnderAdmissionResponse {
-  cookies: CookieType[];
-  info: string[];
-  captcha: string;
-  notice: string;
-  detail: { title: string; content: string } | null;
-}
-
-export const underAdmission = <T>(
+export const underAdmission = <
+  T extends string | Record<never, never> | unknown[],
+>(
   method: "GET" | "POST",
   data: Record<string, unknown> = {},
 ): Promise<T> =>
-  new Promise((resolve, reject) => {
-    wx.request({
-      method,
-      url: `${service}enroll/under-admission`,
-      enableHttp2: true,
-      ...(data ? { data } : {}),
-      success: ({ data, statusCode }) => {
-        if (statusCode === 200) {
-          resolve(<T>data);
-        } else {
-          logger.error("获取本科录取信息失败", statusCode);
-          reject();
-        }
-      },
-      fail: () => reject(),
-    });
+  request<T>(`${service}enroll/under-admission`, {
+    method,
+    ...(data ? { data } : {}),
   });
-
-export interface HistoryGradeOptions {
-  year: string;
-  province: string;
-  planType: string;
-  majorType: string;
-  reformType: string;
-}
-
-export type HistoryGradeInfoItem = string[];
-
-export interface HistoryGradeResult {
-  titles: string[];
-  items: HistoryGradeInfoItem[];
-}
-
-export interface EnrollGradeSuccessResponse {
-  success: true;
-  data: HistoryGradeResult;
-}
-
-export type EnrollGradeResponse =
-  | EnrollGradeSuccessResponse
-  | CommonFailedResponse;
 
 export const getHistoryGrade = (
   options: EnrollPlanOptions,
 ): Promise<EnrollGradeResponse> =>
-  new Promise((resolve, reject) => {
-    wx.request<EnrollGradeResponse>({
-      method: "POST",
-      url: `${service}enroll/grade`,
-      data: options,
-      enableHttp2: true,
-      success: ({ data, statusCode }) => {
-        if (statusCode === 200) {
-          resolve(data);
-          if (!data.success)
-            logger.error("历史分数获取失败", options, data.msg);
-        } else reject();
-      },
-      fail: () => reject(),
-    });
+  request<EnrollGradeResponse>(`${service}enroll/grade`, {
+    method: "POST",
+    data: options,
   });
-
-export interface EnrollPlanOptions {
-  year: string;
-  province: string;
-  planType: string;
-  majorType: string;
-  reformType: string;
-}
-
-export interface EnrollPlanInfo {
-  /** 专业名称 */
-  major: string;
-  /** 专业属性 */
-  majorType: string;
-  /** 科类 */
-  planType: string;
-  /** 招生人数 */
-  count: string;
-  /** 学费 */
-  year: string;
-  /** 学费 */
-  fee: string;
-  /** 备注 */
-  remark: string;
-}
-
-export interface EnrollPlanSuccessResponse {
-  success: true;
-  data: EnrollPlanInfo[];
-}
-
-export type EnrollPlanResponse =
-  | EnrollPlanSuccessResponse
-  | CommonFailedResponse;
 
 export const getEnrollPlan = (
   options: EnrollPlanOptions,
 ): Promise<EnrollPlanResponse> =>
-  new Promise((resolve, reject) => {
-    wx.request<EnrollPlanResponse>({
-      method: "POST",
-      url: `${service}enroll/plan`,
-      data: options,
-      enableHttp2: true,
-      success: ({ data, statusCode }) => {
-        if (statusCode === 200) {
-          resolve(data);
-          if (!data.success)
-            logger.error("招生计划获取失败", options, data.msg);
-        } else reject();
-      },
-      fail: () => reject(),
-    });
+  request<EnrollPlanResponse>(`${service}enroll/plan`, {
+    method: "POST",
+    data: options,
   });

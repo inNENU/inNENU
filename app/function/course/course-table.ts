@@ -8,8 +8,11 @@ import type {
 } from "./typings.js";
 import { request } from "../../api/index.js";
 import { service } from "../../config/index.js";
-import type { AuthLoginFailedResponse } from "../../login/index.js";
-import { UNDER_SYSTEM_SERVER } from "../../login/index.js";
+import type {
+  AuthLoginFailedResponse,
+  VPNLoginFailedResponse,
+} from "../../login/index.js";
+import { UNDER_SYSTEM_SERVER, isWebVPNPage } from "../../login/index.js";
 import { getJSON } from "../../utils/json.js";
 
 const courseRowRegExp =
@@ -51,6 +54,13 @@ export const getCourseTable = async ({
     const content = await request<string>(
       `${UNDER_SYSTEM_SERVER}/tkglAction.do?${query.stringify(params)}`,
     );
+
+    if (isWebVPNPage(content))
+      return <VPNLoginFailedResponse>{
+        success: false,
+        type: "expired",
+        msg: "登陆已过期，请重新登录",
+      };
 
     const tableData = getCourses(content);
 

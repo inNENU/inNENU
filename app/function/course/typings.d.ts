@@ -1,5 +1,8 @@
 import type { CommonFailedResponse } from "../../../typings/response.js";
-import type { LoginFailedResponse } from "../../login/index.js";
+import type {
+  LoginFailedResponse,
+  VPNLoginFailedResponse,
+} from "../../login/index.js";
 
 export interface UserCourseTableOptions {
   /** 查询时间 */
@@ -23,7 +26,9 @@ export interface UserCourseTableSuccessResponse {
   startTime: string;
 }
 
-export type UserCourseTableFailedResponse = LoginFailedResponse;
+export type UserCourseTableFailedResponse =
+  | LoginFailedResponse
+  | VPNLoginFailedResponse;
 
 export type UserCourseTableResponse =
   | UserCourseTableSuccessResponse
@@ -101,9 +106,11 @@ export interface UserGradeListSuccessResponse {
   data: GradeResult[];
 }
 
-export type UserGradeListFailedResponse = LoginFailedResponse;
+export type UserGradeListFailedResponse =
+  | LoginFailedResponse
+  | VPNLoginFailedResponse
+  | (CommonFailedResponse & { type: "error" });
 
 export type UserGradeListResponse =
   | UserGradeListSuccessResponse
-  | UserGradeListFailedResponse
-  | CommonFailedResponse;
+  | UserGradeListFailedResponse;

@@ -1,7 +1,7 @@
 import { $Page } from "@mptool/all";
 
-import type { HistoryGradeInfoItem } from "./api.js";
 import { getHistoryGrade } from "./api.js";
+import type { HistoryGradeInfoItem } from "./typings.js";
 import type {
   CategoryConfig,
   PlanConfig,

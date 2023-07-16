@@ -5,15 +5,14 @@ import type {
   GradeDetail,
   GradeResult,
   ScoreDetail,
+  UserGradeListFailedResponse,
   UserGradeListOptions,
   UserGradeListResponse,
   UserGradeListSuccessResponse,
 } from "./typings.js";
-import { CommonFailedResponse } from "../../../typings/response.js";
 import { request } from "../../api/index.js";
 import { service } from "../../config/index.js";
-import type { AuthLoginFailedResponse } from "../../login/index.js";
-import { UNDER_SYSTEM_SERVER } from "../../login/index.js";
+import { UNDER_SYSTEM_SERVER, isWebVPNPage } from "../../login/index.js";
 import { getIETimeStamp } from "../../utils/browser.js";
 
 const gradeItemRegExp = /<tr.+?class="smartTr"[^>]*?>([\s\S]*?)<\/tr>/g;
@@ -266,9 +265,17 @@ export const getGradeList = async ({
       }),
     });
 
-    if (content.includes("评教未完成，不能查询成绩！"))
-      return <CommonFailedResponse>{
+    if (isWebVPNPage(content))
+      return <UserGradeListFailedResponse>{
         success: false,
+        type: "expired",
+        msg: "登陆已过期，请重新登录",
+      };
+
+    if (content.includes("评教未完成，不能查询成绩！"))
+      return <UserGradeListFailedResponse>{
+        success: false,
+        type: "error",
         msg: time
           ? "此学期评教未完成，不能查询成绩！"
           : "部分学期评教未完成，不能查阅全部成绩! 请分学期查询。",
@@ -285,7 +292,7 @@ export const getGradeList = async ({
 
     console.error(err);
 
-    return <AuthLoginFailedResponse>{
+    return <UserGradeListFailedResponse>{
       success: false,
       msg: message,
     };

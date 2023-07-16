@@ -91,6 +91,7 @@ $Page(PAGE_ID, {
   },
 
   state: {
+    loginMethod: <"check" | "login" | "validate">"validate",
     coursesData: <Record<string, CourseTableData>>{},
     grade: new Date().getFullYear(),
   },
@@ -159,7 +160,7 @@ $Page(PAGE_ID, {
   getCourseData(time: string) {
     wx.showLoading({ title: "获取中" });
 
-    return ensureUnderSystemLogin(globalData.account!, true)
+    return ensureUnderSystemLogin(globalData.account!, this.state.loginMethod)
       .then((err) => {
         if (err) throw err.msg;
 
@@ -178,8 +179,14 @@ $Page(PAGE_ID, {
               weekIndex: getWeekIndex(startTime, weeks),
             });
             this.state.coursesData[time] = courseTable;
+            this.state.loginMethod = "check";
             set(COURSE_DATA_KEY, this.state.coursesData, 6 * MONTH);
-          } else showModal("获取失败", res.msg);
+          } else if (res.type === "expired") {
+            this.state.loginMethod = "login";
+            this.getCourseData(time);
+          } else {
+            showModal("获取失败", res.msg);
+          }
         });
       })
       .catch((msg: string) => {
