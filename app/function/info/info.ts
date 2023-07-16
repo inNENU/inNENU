@@ -49,7 +49,12 @@ export const getInfo = async (url: string): Promise<MainInfoResponse> => {
               ? `img ${className}`
               : "img"
             : className ?? null,
-        getImageSrc: (src) => (src.startsWith("/") ? `${MAIN_URL}${src}` : src),
+        getImageSrc: (src) =>
+          src.includes("/fileTypeImages/")
+            ? null
+            : src.startsWith("/")
+            ? `${MAIN_URL}${src}`
+            : src,
       }),
     };
   } catch (err) {
