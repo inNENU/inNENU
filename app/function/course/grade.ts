@@ -299,14 +299,14 @@ $Page("course-grade", {
   >) {
     const { index } = currentTarget.dataset;
     const { grades } = this.data;
-    const { name, gradeDetail } = grades[index];
+    const { name, gradeDetail, mark } = grades[index];
 
     if (gradeDetail) {
       const { usual, exam } = gradeDetail;
 
       showModal(
         `${name}成绩详情`,
-        `${usual
+        `${mark ? `${mark}\n` : ""}${usual
           .map(
             ({ score, percent }, index) =>
               `平时成绩${
