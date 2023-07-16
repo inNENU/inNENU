@@ -7,7 +7,7 @@
   "projectname": "in%E4%B8%9C%E5%B8%88",
   "setting": {
     "urlCheck": true,
-    "es6": false,
+    "es6": true,
     "postcss": true,
     "prefetch": false,
     "minified": false,
@@ -48,6 +48,12 @@
     },
     "game": {
       "currentL": -1,
+      "list": []
+    },
+    "plugin": {
+      "list": []
+    },
+    "gamePlugin": {
       "list": []
     },
     "miniprogram": {
@@ -361,7 +367,7 @@
           "scene": null
         }
       ],
-      "current": 0
+      "current": -1
     }
   }
 }
