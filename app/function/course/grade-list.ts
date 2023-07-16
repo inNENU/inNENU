@@ -285,7 +285,9 @@ export const getGradeList = ({
       if (content.includes("评教未完成，不能查询成绩！"))
         return <CommonFailedResponse>{
           success: false,
-          msg: "评教未完成，不能查询成绩！",
+          msg: time
+            ? "此学期评教未完成，不能查询成绩！"
+            : "部分学期评教未完成，不能查阅全部成绩! 请分学期查询。",
         };
 
       return getGradeLists(content).then(
