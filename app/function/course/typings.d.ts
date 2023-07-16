@@ -1,16 +1,7 @@
+import { type CommonFailedResponse } from "../../../typings/response.js";
 import { type LoginFailedResponse } from "../../api/login/account.ts";
 
-export interface UnderSystemLoginSuccessResponse {
-  success: true;
-}
-
-export type UnderSystemLoginResponse =
-  | UnderSystemLoginSuccessResponse
-  | LoginFailedResponse;
-
-interface UserCourseTableOptions {
-  /** 学号 */
-  id: number;
+export interface UserCourseTableOptions {
   /** 查询时间 */
   time: string;
 }
@@ -56,7 +47,7 @@ export interface UserGradeListOptions {
   /** 课程名称 */
   name?: string;
   /** 课程性质 */
-  courseType?: CourseType;
+  courseType?: CourseType | "";
   gradeType?: "all" | "best";
 }
 
@@ -67,7 +58,7 @@ export interface ScoreDetail {
 
 export interface GradeDetail {
   usual: ScoreDetail[];
-  exam: ScoreDetail;
+  exam: ScoreDetail | null;
 }
 
 export interface GradeResult {
@@ -114,4 +105,5 @@ export type UserGradeListFailedResponse = LoginFailedResponse;
 
 export type UserGradeListResponse =
   | UserGradeListSuccessResponse
-  | UserGradeListFailedResponse;
+  | UserGradeListFailedResponse
+  | CommonFailedResponse;

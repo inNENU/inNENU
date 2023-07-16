@@ -1,6 +1,6 @@
 import { $Page, get, set } from "@mptool/all";
 
-import { getGradeList } from "./api.js";
+import { getGradeList, getOnlineGradeList } from "./grade-list.js";
 import { type GradeResult, type UserGradeListOptions } from "./typings.js";
 import { ensureUnderSystemLogin } from "../../api/login/under-course.js";
 import { showModal } from "../../api/ui.js";
@@ -132,7 +132,11 @@ $Page("course-grade", {
       .then((err) => {
         if (err) throw err.msg;
 
-        return getGradeList(options).then((res) => {
+        return (
+          globalData.service[PAGE_ID] === "online"
+            ? getOnlineGradeList
+            : getGradeList
+        )(options).then((res) => {
           wx.hideLoading();
           if (res.success) {
             set(

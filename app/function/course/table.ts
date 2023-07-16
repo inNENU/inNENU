@@ -1,6 +1,7 @@
 import { $Page, get, set } from "@mptool/all";
 
-import { getCourseTable } from "./api.js";
+import { getCourseTable, getOnlineCourseTable } from "./course-table.js";
+import { getDisplayTime } from "./grade-list.js";
 import { type ClassItem, type TableItem } from "./typings.js";
 import { ensureUnderSystemLogin } from "../../api/login/under-course.js";
 import { showModal } from "../../api/ui.js";
@@ -35,12 +36,6 @@ const getTimes = (grade: number): string[] => {
   if (currentMonth > 7) times.push(`${currentYear}-${currentYear + 1}-2`);
 
   return times.reverse();
-};
-
-const getDisplayTime = (time: string): string => {
-  const [startYear, endYear, semester] = time.split("-");
-
-  return semester === "1" ? `${startYear}年秋季学期` : `${endYear}年春季学期`;
 };
 
 const getWeekRange = (timeText: string): WeekRange[] => {
@@ -169,10 +164,11 @@ $Page(PAGE_ID, {
       .then((err) => {
         if (err) throw err.msg;
 
-        return getCourseTable({
-          id: globalData.account!.id,
-          time,
-        }).then((res) => {
+        return (
+          globalData.service[PAGE_ID] === "online"
+            ? getOnlineCourseTable
+            : getCourseTable
+        )({ time }).then((res) => {
           wx.hideLoading();
           if (res.success) {
             const { data, startTime } = res;
