@@ -29,7 +29,7 @@ $Page(PAGE_ID, {
     this.state.type = type;
     this.state.id = id;
 
-    if (id) this.getNotice();
+    if (id) this.getNotice(this.$state.firstOpen);
     else
       showModal("无法获取", "请提供 ID", () => {
         this.$back();
@@ -74,10 +74,10 @@ $Page(PAGE_ID, {
     };
   },
 
-  getNotice() {
+  getNotice(check: boolean) {
     if (globalData.account) {
       wx.showLoading({ title: "获取中" });
-      ensureActionLogin(globalData.account).then((err) => {
+      ensureActionLogin(globalData.account, check).then((err) => {
         if (err) {
           wx.hideLoading();
           showToast(err.msg);
