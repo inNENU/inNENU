@@ -1,6 +1,6 @@
 import { type GlobalData } from "./app.js";
 import { requestJSON, showModal } from "../api/index.js";
-import { assets } from "../config/info.js";
+import { assets } from "../config/index.js";
 
 /**
  * 检查小程序更新

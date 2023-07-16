@@ -1,4 +1,4 @@
-import { server } from "../../config/info.js";
+import { server } from "../../config/index.js";
 import { type AppID, type Env } from "../../utils/app.js";
 import { request } from "../net.js";
 

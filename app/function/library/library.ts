@@ -1,7 +1,7 @@
 import { $Page } from "@mptool/all";
 
 import { type AppOption } from "../../app.js";
-import { appCoverPrefix } from "../../config/info.js";
+import { appCoverPrefix } from "../../config/index.js";
 import { getColor } from "../../utils/page.js";
 
 const { globalData } = getApp<AppOption>();

@@ -11,7 +11,7 @@ import {
 
 import { type VersionInfo } from "../../typings/index.js";
 import { showToast } from "../api/index.js";
-import { assets, server } from "../config/info.js";
+import { assets, server } from "../config/index.js";
 
 /**
  * 资源下载

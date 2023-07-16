@@ -2,7 +2,7 @@ import { $Page, put, take } from "@mptool/all";
 
 import { type PageDataWithContent } from "../../../typings/index.js";
 import { type AppOption } from "../../app.js";
-import { appCoverPrefix } from "../../config/info.js";
+import { appCoverPrefix } from "../../config/index.js";
 import { getColor, popNotice, resolvePage, setPage } from "../../utils/page.js";
 import { checkResource } from "../../utils/resource.js";
 import { search } from "../../utils/search.js";

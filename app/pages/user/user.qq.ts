@@ -2,7 +2,7 @@ import { $Page, put, take } from "@mptool/all";
 
 import { type PageDataWithContent } from "../../../typings/index.js";
 import { type AppOption } from "../../app.js";
-import { appCoverPrefix, appName, assets } from "../../config/info.js";
+import { appCoverPrefix, appName, assets } from "../../config/index.js";
 import { popNotice, resolvePage, setPage } from "../../utils/page.js";
 import { checkResource } from "../../utils/resource.js";
 import { refreshPage } from "../../utils/tab.js";

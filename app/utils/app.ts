@@ -8,9 +8,13 @@ import { updateApp } from "./update.js";
 import { type PageData, type VersionInfo } from "../../typings/index.js";
 import { showToast } from "../api/index.js";
 import { login } from "../api/login/app.js";
-import { defaultAppConfig } from "../config/app.js";
-import { server, version } from "../config/info.js";
-import { ACCOUNT_INFO_KEY, USER_INFO_KEY } from "../config/keys.js";
+import {
+  ACCOUNT_INFO_KEY,
+  USER_INFO_KEY,
+  defaultAppConfig,
+  server,
+  version,
+} from "../config/index.js";
 
 export type AppID =
   | "wx33acb831ee1831a5"

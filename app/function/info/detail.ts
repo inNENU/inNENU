@@ -4,7 +4,7 @@ import { getInfo, getOnlineInfo } from "./info.js";
 import { type MainInfoType } from "./typings.js";
 import { showModal } from "../../api/index.js";
 import { type AppOption } from "../../app.js";
-import { appCoverPrefix } from "../../config/info.js";
+import { appCoverPrefix } from "../../config/index.js";
 import { getColor, popNotice } from "../../utils/page.js";
 
 const { globalData } = getApp<AppOption>();

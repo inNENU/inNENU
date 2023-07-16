@@ -13,7 +13,6 @@ import {
   showToast,
 } from "../../api/index.js";
 import { type AppOption } from "../../app.js";
-import { appCoverPrefix, assets } from "../../config/info.js";
 import {
   ACCOUNT_INFO_KEY,
   BORROW_BOOKS_KEY,
@@ -21,7 +20,9 @@ import {
   COURSE_DATA_KEY,
   GRADE_DATA_KEY,
   USER_INFO_KEY,
-} from "../../config/keys.js";
+  appCoverPrefix,
+  assets,
+} from "../../config/index.js";
 import { type UserInfo } from "../../utils/app.js";
 import { MONTH } from "../../utils/constant.js";
 import { popNotice } from "../../utils/page.js";

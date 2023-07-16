@@ -15,7 +15,7 @@ import {
   UNDER_SYSTEM_SERVER,
   request,
 } from "../../api/index.js";
-import { service } from "../../config/info.js";
+import { service } from "../../config/index.js";
 import { IE_8_USER_AGENT, getIETimeStamp } from "../../utils/browser.js";
 
 const gradeItemRegExp = /<tr.+?class="smartTr"[^>]*?>([\s\S]*?)<\/tr>/g;

@@ -8,7 +8,7 @@ import {
   AuthLoginFailedResponse,
   request,
 } from "../../api/index.js";
-import { service } from "../../config/info.js";
+import { service } from "../../config/index.js";
 import { getRichTextNodes } from "../utils/parser.js";
 
 const titleRegExp = /var title = '(.*?)';/;

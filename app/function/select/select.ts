@@ -16,7 +16,7 @@ import {
 } from "./utils.js";
 import { showModal, showToast } from "../../api/index.js";
 import { type AppOption } from "../../app.js";
-import { appCoverPrefix } from "../../config/info.js";
+import { appCoverPrefix } from "../../config/index.js";
 import { getColor, popNotice } from "../../utils/page.js";
 import { promiseQueue } from "../utils/promiseQueue.js";
 

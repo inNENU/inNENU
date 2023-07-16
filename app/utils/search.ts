@@ -2,7 +2,7 @@ import { logger } from "@mptool/all";
 
 import { type SearchIndex } from "../../typings/index.js";
 import { netReport, showToast } from "../api/index.js";
-import { server } from "../config/info.js";
+import { server } from "../config/index.js";
 
 /** 搜索结果 */
 export interface SearchResult {

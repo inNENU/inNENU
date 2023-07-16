@@ -11,8 +11,7 @@ import {
   type WeekRange,
 } from "../../components/today-course/typings.js";
 import { getCurrentTime } from "../../components/today-course/utils.js";
-import { appCoverPrefix } from "../../config/info.js";
-import { COURSE_DATA_KEY } from "../../config/keys.js";
+import { COURSE_DATA_KEY, appCoverPrefix } from "../../config/index.js";
 import { DAY, MONTH } from "../../utils/constant.js";
 import { getColor, popNotice } from "../../utils/page.js";
 

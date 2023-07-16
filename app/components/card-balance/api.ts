@@ -2,7 +2,7 @@ import { logger } from "@mptool/all";
 
 import { type CardBalanceResponse } from "./typings.js";
 import { ACTION_SERVER, request } from "../../api/index.js";
-import { service } from "../../config/info.js";
+import { service } from "../../config/index.js";
 
 export const getCardBalance = (): Promise<CardBalanceResponse> =>
   request<CardBalanceResponse>(`${service}action/card-balance`, {

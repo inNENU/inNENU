@@ -8,7 +8,7 @@ import {
   saveOnlineFile,
 } from "@mptool/all";
 
-import { server } from "../config/info.js";
+import { server } from "../config/index.js";
 
 /**
  * 保存 JSON

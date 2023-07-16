@@ -3,7 +3,7 @@ import { $Page } from "@mptool/all";
 import { type WechatConfig } from "../../../typings/index.js";
 import { showToast } from "../../api/index.js";
 import { type AppOption } from "../../app.js";
-import { server } from "../../config/info.js";
+import { server } from "../../config/index.js";
 import { ensureJSON } from "../../utils/json.js";
 import { getColor, popNotice } from "../../utils/page.js";
 

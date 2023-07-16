@@ -11,7 +11,7 @@ import {
   AuthLoginFailedResponse,
   request,
 } from "../../api/index.js";
-import { service } from "../../config/info.js";
+import { service } from "../../config/index.js";
 
 interface RawNoticeItem {
   LLCS: number;

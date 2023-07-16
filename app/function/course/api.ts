@@ -7,7 +7,7 @@ import {
   type UserGradeListResponse,
 } from "./typings.js";
 import { UNDER_SYSTEM_SERVER, request } from "../../api/index.js";
-import { service } from "../../config/info.js";
+import { service } from "../../config/index.js";
 
 export const getCourseTable = (
   options: UserCourseTableOptions,

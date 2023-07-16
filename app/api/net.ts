@@ -2,7 +2,7 @@ import { logger } from "@mptool/all";
 
 import { cookieStore } from "./cookie.js";
 import { showToast } from "./ui.js";
-import { assets, server, service } from "../config/info.js";
+import { assets, server, service } from "../config/index.js";
 
 /** 网络状态汇报 */
 export const netReport = (): void => {

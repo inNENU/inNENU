@@ -3,8 +3,7 @@ import { $Page, get, readFile } from "@mptool/all";
 import { showModal } from "../../api/index.js";
 import { type AppOption } from "../../app.js";
 import { type WeatherData } from "../../components/weather/typings.js";
-import { appCoverPrefix, server } from "../../config/info.js";
-import { WEATHER_KEY } from "../../config/keys.js";
+import { WEATHER_KEY, appCoverPrefix, server } from "../../config/index.js";
 import { getColor } from "../../utils/page.js";
 
 const { globalData } = getApp<AppOption>();

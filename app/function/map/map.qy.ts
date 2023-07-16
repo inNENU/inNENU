@@ -8,7 +8,7 @@ import {
 } from "../../../typings/index.js";
 import { showModal, showToast } from "../../api/index.js";
 import { type AppOption } from "../../app.js";
-import { appCoverPrefix } from "../../config/info.js";
+import { appCoverPrefix } from "../../config/index.js";
 import { ensureJSON, getJSON } from "../../utils/json.js";
 import { navigation } from "../../utils/location.js";
 import { popNotice } from "../../utils/page.js";

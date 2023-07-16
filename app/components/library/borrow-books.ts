@@ -4,7 +4,7 @@ import { getBorrowBooks } from "./api.js";
 import { type BorrowBookData } from "./typings.js";
 import { ensureActionLogin, showModal, showToast } from "../../api/index.js";
 import { type AppOption } from "../../app.js";
-import { BORROW_BOOKS_KEY } from "../../config/keys.js";
+import { BORROW_BOOKS_KEY } from "../../config/index.js";
 import { HOUR } from "../../utils/constant.js";
 
 const { globalData } = getApp<AppOption>();

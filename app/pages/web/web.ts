@@ -1,6 +1,6 @@
 import { $Page } from "@mptool/all";
 
-import { appName } from "../../config/info.js";
+import { appName } from "../../config/index.js";
 
 $Page<{ title: string; url: string }, Record<string, unknown>>("web", {
   onLoad({ title, url }) {

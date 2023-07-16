@@ -11,7 +11,7 @@ import {
   type StudentAmountResponse,
 } from "./typings.js";
 import { request } from "../../api/index.js";
-import { service } from "../../config/info.js";
+import { service } from "../../config/index.js";
 
 export const login = (
   options: SelectLoginOptions,

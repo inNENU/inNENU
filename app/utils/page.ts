@@ -21,7 +21,7 @@ import {
 } from "../../typings/index.js";
 import { requestJSON, showModal } from "../api/index.js";
 import { type AppOption } from "../app.js";
-import { imageWaterMark } from "../config/info.js";
+import { imageWaterMark } from "../config/index.js";
 
 type PageInstanceWithPage = PageInstance<
   // eslint-disable-next-line @typescript-eslint/no-explicit-any

@@ -1,7 +1,7 @@
 import { logger } from "@mptool/all";
 
 import { type CommonFailedResponse } from "../../../typings/index.js";
-import { service } from "../../config/info.js";
+import { service } from "../../config/index.js";
 import { type AccountBasicInfo } from "../../utils/app.js";
 import { request } from "../net.js";
 
