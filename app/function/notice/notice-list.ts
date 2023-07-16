@@ -61,7 +61,6 @@ export const getNoticeList = async ({
           Accept: "application/json, text/javascript, */*; q=0.01",
           // eslint-disable-next-line @typescript-eslint/naming-convention
           "Content-Type": "application/x-www-form-urlencoded; charset=UTF-8",
-          Referer: `${ACTION_SERVER}/basicInfo/studentPageTurn?type=lifeschool`,
         },
         data: query.stringify({
           type,

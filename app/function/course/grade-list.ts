@@ -221,7 +221,6 @@ export const getGradeLists = async (
         method: "POST",
         header: {
           "Content-Type": "application/x-www-form-urlencoded",
-          Referer: QUERY_URL,
         },
         data: query.stringify({
           xsId,
@@ -259,7 +258,6 @@ export const getGradeList = async ({
       method: "POST",
       header: {
         "Content-Type": "application/x-www-form-urlencoded",
-        Referer: `${UNDER_SYSTEM_SERVER}/jiaowu/cjgl/xszq/query_xscj.jsp?tktime=${getIETimeStamp()}`,
       },
       data: query.stringify({
         kksj: time,

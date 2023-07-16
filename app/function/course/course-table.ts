@@ -12,7 +12,6 @@ import {
   request,
 } from "../../api/index.js";
 import { service } from "../../config/index.js";
-import { getIETimeStamp } from "../../utils/browser.js";
 import { getJSON } from "../../utils/json.js";
 
 const courseRowRegExp =
@@ -53,11 +52,6 @@ export const getCourseTable = async ({
 
     const content = await request<string>(
       `${UNDER_SYSTEM_SERVER}/tkglAction.do?${query.stringify(params)}`,
-      {
-        header: {
-          Referer: `${UNDER_SYSTEM_SERVER}/tkglAction.do?method=kbxxXs&tktime=${getIETimeStamp()}`,
-        },
-      },
     );
 
     const tableData = getCourses(content);

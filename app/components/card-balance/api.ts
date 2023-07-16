@@ -33,7 +33,6 @@ export const getCardBalance = async (): Promise<CardBalanceResponse> => {
       header: {
         Accept: "application/json, text/javascript, */*; q=0.01",
         "Content-Type": "application/x-www-form-urlencoded; charset=UTF-8",
-        Referer: `${ACTION_SERVER}/basicInfo/studentPageTurn?type=lifeschool`,
       },
       data: "serviceAddress=wis-apis%2Fsoap%2F00001_00083_01_02_20181210185800&serviceSource=ds2&params=%7B%22xgh%22%3Anull%7D",
     });
