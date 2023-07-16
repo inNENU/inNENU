@@ -8,3 +8,4 @@ export const server = "https://mp.innenu.com/";
 export const service = "https://service.innenu.com/";
 // export const service = "http://localhost:8080/";
 export const appCoverPrefix = `${server}img/myNENU`;
+export const imageWaterMark = "";

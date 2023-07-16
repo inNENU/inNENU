@@ -1,6 +1,7 @@
 import { $Component, type PropType } from "@mptool/all";
 
 import { type ImageComponentOptions } from "../../../typings/index.js";
+import { imageWaterMark } from "../../config/info.js";
 
 $Component({
   properties: {
@@ -25,22 +26,27 @@ $Component({
 
     /** 图片加载出错 */
     error(): void {
+      const { src } = this.data.config;
+
       this.setData({ error: true });
 
-      console.warn(`${this.data.config.src}图片加载失败`);
+      console.warn(`${src}图片加载失败`);
       wx.reportEvent?.("resource_load_failed", {
         // eslint-disable-next-line @typescript-eslint/naming-convention
-        broken_url: this.data.config.src,
+        broken_url: src,
       });
     },
 
     /** 进行图片预览 */
     view(): void {
-      const current = this.data.config.res || this.data.config.src;
+      const { config, images } = this.data;
+      const { res, src, watermark } = config;
+
+      const current = `${res || src}${watermark ? imageWaterMark : ""}`;
 
       wx.previewImage({
         current,
-        urls: this.data.images.length === 0 ? [current] : this.data.images,
+        urls: images.length === 0 ? [current] : images,
       });
     },
   },

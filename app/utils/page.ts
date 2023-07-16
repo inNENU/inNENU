@@ -22,6 +22,7 @@ import {
 import { requestJSON } from "../api/net.js";
 import { showModal } from "../api/ui.js";
 import { type AppOption } from "../app.js";
+import { imageWaterMark } from "../config/info.js";
 
 type PageInstanceWithPage = PageInstance<
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -132,19 +133,21 @@ const disposePage = (page: PageData, option: PageOption): PageData => {
 
   if (page.content) {
     page.content.forEach((component) => {
+      const { tag } = component;
+
       // 设置隐藏
       if ("env" in component)
         component.hidden = !component.env?.includes(globalData.env);
 
-      if (component.tag === "img")
-        page.images!.push(component.res || component.src);
+      if (tag === "img") {
+        const { src, res, watermark } = component;
+
+        page.images!.push(`${res || src}${watermark ? imageWaterMark : ""}`);
+      }
 
       if (
         "path" in component &&
-        (component.tag === "p" ||
-          component.tag === "ol" ||
-          component.tag === "ul" ||
-          component.tag === "text")
+        (tag === "p" || tag === "ol" || tag === "ul" || tag === "text")
       )
         component.path = `info?from=${
           page.title || "返回"
@@ -153,9 +156,7 @@ const disposePage = (page: PageData, option: PageOption): PageData => {
       // 设置 list 组件
       if (
         "items" in component &&
-        (component.tag === "list" ||
-          component.tag === "grid" ||
-          component.tag === "functional-list")
+        (tag === "list" || tag === "grid" || tag === "functional-list")
       )
         component.items = component.items
           .map(
@@ -192,11 +193,11 @@ const disposePage = (page: PageData, option: PageOption): PageData => {
 const preloadPage = (page: PageData): void => {
   if (page && page.content)
     page.content.forEach((component) => {
+      const { tag } = component;
+
       if (
         "items" in component &&
-        (component.tag === "list" ||
-          component.tag === "grid" ||
-          component.tag === "functional-list")
+        (tag === "list" || tag === "grid" || tag === "functional-list")
       )
         // 该组件是列表或九宫格，需要预加载界面，提前获取界面到存储
         component.items.forEach(
@@ -250,9 +251,9 @@ export const resolvePage = (
   if (page) {
     pageData = disposePage(page, options);
   } else if (options.id) {
-    const jsonContent = readJSON<PageData>(`${options.id}`);
+    const pageContent = readJSON<PageData>(`${options.id}`);
 
-    if (jsonContent) pageData = disposePage(jsonContent, options);
+    if (pageContent) pageData = disposePage(pageContent, options);
     else logger.warn(`Can't resolve ${options.id} because file doesn't exist`);
   }
 

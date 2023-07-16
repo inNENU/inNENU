@@ -14,7 +14,7 @@
   style="{{loaded ? '' : 'height: 0px;'}}"
   lazy-load="{{config.lazy !== false}}"
   mode="{{config.imgMode || 'widthFix'}}"
-  src="{{config.src}}"
+  src="{{config.src}}?x-oss-process=image/resize,mfit,h_800,w_800"
   catch:load="load"
   catch:error="error"
   catch:tap="view"
