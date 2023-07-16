@@ -4,8 +4,7 @@ import {
   type BorrowBooksResponse,
   type LibraryPeopleResponse,
 } from "./typings.js";
-import { ACTION_SERVER } from "../../api/login/action.js";
-import { request } from "../../api/net.js";
+import { ACTION_SERVER, request } from "../../api/index.js";
 import { service } from "../../config/info.js";
 
 export const getBorrowBooks = (): Promise<BorrowBooksResponse> =>

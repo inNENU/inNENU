@@ -19,8 +19,7 @@ import {
   type PageDataWithContent,
   type PageOption,
 } from "../../typings/index.js";
-import { requestJSON } from "../api/net.js";
-import { showModal } from "../api/ui.js";
+import { requestJSON, showModal } from "../api/index.js";
 import { type AppOption } from "../app.js";
 import { imageWaterMark } from "../config/info.js";
 

@@ -1,7 +1,6 @@
 import { $Page } from "@mptool/all";
 
-import { savePhoto } from "../../api/media.js";
-import { showModal, showToast } from "../../api/ui.js";
+import { savePhoto, showModal, showToast } from "../../api/index.js";
 import { type AppOption } from "../../app.js";
 import { type Env } from "../../utils/app.js";
 import { ensureJSON, getJSON } from "../../utils/json.js";

@@ -1,6 +1,5 @@
 import { type GlobalData } from "./app.js";
-import { requestJSON } from "../api/net.js";
-import { showModal } from "../api/ui.js";
+import { requestJSON, showModal } from "../api/index.js";
 import { assets } from "../config/info.js";
 
 /**

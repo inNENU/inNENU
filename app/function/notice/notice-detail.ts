@@ -3,9 +3,11 @@ import {
   type NoticeResponse,
   type NoticeSuccessResponse,
 } from "./typings.js";
-import { ACTION_SERVER } from "../../api/login/action.js";
-import { AuthLoginFailedResponse } from "../../api/login/typings.js";
-import { request } from "../../api/net.js";
+import {
+  ACTION_SERVER,
+  AuthLoginFailedResponse,
+  request,
+} from "../../api/index.js";
 import { service } from "../../config/info.js";
 import { getRichTextNodes } from "../utils/parser.js";
 

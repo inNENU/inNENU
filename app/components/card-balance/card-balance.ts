@@ -1,8 +1,7 @@
 import { $Component, get, set } from "@mptool/all";
 
 import { getCardBalance } from "./api.js";
-import { ensureActionLogin } from "../../api/login/action.js";
-import { showToast } from "../../api/ui.js";
+import { ensureActionLogin, showToast } from "../../api/index.js";
 import { type AppOption } from "../../app.js";
 import { CARD_BALANCE_KEY } from "../../config/keys.js";
 import { MINUTE } from "../../utils/constant.js";

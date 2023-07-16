@@ -1,5 +1,5 @@
 import { type PageData } from "../../typings/index.js";
-import { requestJSON } from "../api/net.js";
+import { requestJSON } from "../api/index.js";
 import { type AppOption } from "../app.js";
 
 const { globalData } = getApp<AppOption>();

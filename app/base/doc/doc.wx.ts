@@ -1,9 +1,7 @@
 import { $Component, type PropType } from "@mptool/all";
 
 import { type DocComponentOptions } from "../../../typings/index.js";
-import { savePhoto } from "../../api/media.js";
-import { downLoad } from "../../api/net.js";
-import { showModal, showToast } from "../../api/ui.js";
+import { downLoad, savePhoto, showModal, showToast } from "../../api/index.js";
 
 $Component({
   properties: {

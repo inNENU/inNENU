@@ -1,6 +1,6 @@
 import { $Page } from "@mptool/all";
 
-import { addPhoneContact } from "../../api/phone.js";
+import { addPhoneContact } from "../../api/index.js";
 import { type AppOption } from "../../app.js";
 import { appCoverPrefix } from "../../config/info.js";
 import { ensureJSON, getJSON } from "../../utils/json.js";

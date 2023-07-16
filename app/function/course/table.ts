@@ -3,8 +3,7 @@ import { $Page, get, set } from "@mptool/all";
 import { getCourseTable, getOnlineCourseTable } from "./course-table.js";
 import { getDisplayTime } from "./grade-list.js";
 import { type ClassItem, type TableItem } from "./typings.js";
-import { ensureUnderSystemLogin } from "../../api/login/under-course.js";
-import { showModal } from "../../api/ui.js";
+import { ensureUnderSystemLogin, showModal } from "../../api/index.js";
 import { type AppOption } from "../../app.js";
 import {
   type CourseTableData,

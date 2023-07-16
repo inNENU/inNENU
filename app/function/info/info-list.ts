@@ -4,7 +4,7 @@ import {
   type MainInfoListSuccessResponse,
 } from "./typings.js";
 import { type CommonFailedResponse } from "../../../typings/response.js";
-import { request } from "../../api/net.js";
+import { request } from "../../api/index.js";
 import { service } from "../../config/info.js";
 
 const MAIN_URL = "https://www.nenu.edu.cn";

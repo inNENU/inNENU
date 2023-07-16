@@ -1,8 +1,7 @@
 import { $Component, type PropType } from "@mptool/all";
 
 import { type AccountComponentOptions } from "../../../typings/index.js";
-import { savePhoto } from "../../api/media.js";
-import { showModal, showToast } from "../../api/ui.js";
+import { savePhoto, showModal, showToast } from "../../api/index.js";
 import { navigation } from "../../utils/location.js";
 
 $Component({

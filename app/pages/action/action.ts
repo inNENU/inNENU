@@ -1,6 +1,6 @@
 import { $Page, ls, rm } from "@mptool/all";
 
-import { showModal } from "../../api/ui.js";
+import { showModal } from "../../api/index.js";
 import { type AppOption } from "../../app.js";
 import { appCoverPrefix } from "../../config/info.js";
 

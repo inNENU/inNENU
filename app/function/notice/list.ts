@@ -2,8 +2,7 @@ import { $Page } from "@mptool/all";
 
 import { getNoticeList, getOnlineNoticeList } from "./notice-list.js";
 import { type NoticeItem } from "./typings.js";
-import { ensureActionLogin } from "../../api/login/action.js";
-import { showToast } from "../../api/ui.js";
+import { ensureActionLogin, showToast } from "../../api/index.js";
 import { type AppOption } from "../../app.js";
 import { appCoverPrefix } from "../../config/info.js";
 import { getColor, popNotice } from "../../utils/page.js";

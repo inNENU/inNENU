@@ -4,9 +4,14 @@ import {
   type ListComponentConfig,
   type ListComponentItemConfig,
 } from "../../../typings/components.js";
-import { cookieStore } from "../../api/cookie.js";
-import { getInfo, login } from "../../api/login/account.js";
-import { confirmAction, showModal, showToast } from "../../api/ui.js";
+import {
+  confirmAction,
+  cookieStore,
+  getInfo,
+  login,
+  showModal,
+  showToast,
+} from "../../api/index.js";
 import { type AppOption } from "../../app.js";
 import { appCoverPrefix, assets } from "../../config/info.js";
 import {

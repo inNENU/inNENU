@@ -4,7 +4,7 @@ import {
   type LocationComponentOptions,
   type LocationConfig,
 } from "../../../typings/index.js";
-import { showToast } from "../../api/ui.js";
+import { showToast } from "../../api/index.js";
 import { navigation } from "../../utils/location.js";
 
 const getPoint = (point: LocationConfig & { id: number }): string =>

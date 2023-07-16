@@ -2,8 +2,7 @@ import { $Page, get, set } from "@mptool/all";
 
 import { getGradeList, getOnlineGradeList } from "./grade-list.js";
 import { type GradeResult, type UserGradeListOptions } from "./typings.js";
-import { ensureUnderSystemLogin } from "../../api/login/under-course.js";
-import { showModal } from "../../api/ui.js";
+import { ensureUnderSystemLogin, showModal } from "../../api/index.js";
 import { type AppOption } from "../../app.js";
 import { appCoverPrefix } from "../../config/info.js";
 import { GRADE_DATA_KEY } from "../../config/keys.js";

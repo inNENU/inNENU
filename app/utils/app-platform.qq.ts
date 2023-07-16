@@ -1,5 +1,5 @@
 import { type GlobalData } from "./app.js";
-import { showModal } from "../api/ui.js";
+import { showModal } from "../api/index.js";
 
 const checkGroupApp = (): void => {
   const { entryDataHash } = wx.getLaunchOptionsSync();

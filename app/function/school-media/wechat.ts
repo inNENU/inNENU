@@ -5,7 +5,7 @@ import {
   type WechatArticleItem,
   type WechatConfig,
 } from "../../../typings/index.js";
-import { showModal, showToast } from "../../api/ui.js";
+import { showModal, showToast } from "../../api/index.js";
 import { type AppOption } from "../../app.js";
 import { appCoverPrefix, server } from "../../config/info.js";
 import { ensureJSON } from "../../utils/json.js";

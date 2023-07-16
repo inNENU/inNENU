@@ -2,8 +2,7 @@ import { logger, ls, rm } from "@mptool/all";
 
 import { type GlobalData } from "./app.js";
 import { Settings } from "./settings.js";
-import { requestJSON } from "../api/net.js";
-import { showToast } from "../api/ui.js";
+import { requestJSON, showToast } from "../api/index.js";
 
 export interface UpdateInfo {
   /** 是否进行强制更新 */

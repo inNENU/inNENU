@@ -6,7 +6,7 @@ import {
   postAdmission,
   underAdmission,
 } from "./api.js";
-import { showModal } from "../../api/ui.js";
+import { showModal } from "../../api/index.js";
 import { appCoverPrefix } from "../../config/info.js";
 import { popNotice } from "../../utils/page.js";
 import { validateId } from "../utils/validate.js";

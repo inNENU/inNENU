@@ -1,6 +1,6 @@
 import { $Component } from "@mptool/all";
 
-import { getWindowInfo } from "../../api/ui.js";
+import { getWindowInfo } from "../../api/index.js";
 
 export interface PopupConfig {
   /** 主标题 */

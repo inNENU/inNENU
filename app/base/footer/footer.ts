@@ -1,7 +1,7 @@
 import { $Component, type PropType } from "@mptool/all";
 
 import { type FooterComponentOptions } from "../../../typings/index.js";
-import { showModal } from "../../api/ui.js";
+import { showModal } from "../../api/index.js";
 
 $Component({
   properties: {

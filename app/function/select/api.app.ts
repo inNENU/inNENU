@@ -12,7 +12,7 @@ import {
   type StudentAmountOptions,
   type StudentAmountResponse,
 } from "./typings.js";
-import { request } from "../../api/net.js";
+import { request } from "../../api/index.js";
 import { service } from "../../config/info.js";
 
 export const login = (

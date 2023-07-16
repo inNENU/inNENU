@@ -1,5 +1,5 @@
 import { type NoticeSettings } from "./settings.js";
-import { showModal } from "../api/ui.js";
+import { showModal } from "../api/index.js";
 
 /** 通知格式 */
 export interface Notice {

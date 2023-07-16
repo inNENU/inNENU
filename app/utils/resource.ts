@@ -10,7 +10,7 @@ import {
 } from "@mptool/all";
 
 import { type VersionInfo } from "../../typings/index.js";
-import { showToast } from "../api/ui.js";
+import { showToast } from "../api/index.js";
 import { assets, server } from "../config/info.js";
 
 /**

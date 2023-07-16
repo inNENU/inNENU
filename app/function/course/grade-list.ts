@@ -10,9 +10,11 @@ import {
   type UserGradeListSuccessResponse,
 } from "./typings.js";
 import { CommonFailedResponse } from "../../../typings/response.js";
-import { type AuthLoginFailedResponse } from "../../api/login/typings.js";
-import { UNDER_SYSTEM_SERVER } from "../../api/login/under-course.js";
-import { request } from "../../api/net.js";
+import {
+  type AuthLoginFailedResponse,
+  UNDER_SYSTEM_SERVER,
+  request,
+} from "../../api/index.js";
 import { service } from "../../config/info.js";
 import { IE_8_USER_AGENT, getIETimeStamp } from "../../utils/browser.js";
 

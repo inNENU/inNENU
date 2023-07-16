@@ -14,7 +14,7 @@ import {
   confirmReplace,
   courseSorter,
 } from "./utils.js";
-import { showModal, showToast } from "../../api/ui.js";
+import { showModal, showToast } from "../../api/index.js";
 import { type AppOption } from "../../app.js";
 import { appCoverPrefix } from "../../config/info.js";
 import { getColor, popNotice } from "../../utils/page.js";

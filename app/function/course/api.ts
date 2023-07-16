@@ -6,8 +6,7 @@ import {
   type UserGradeListOptions,
   type UserGradeListResponse,
 } from "./typings.js";
-import { UNDER_SYSTEM_SERVER } from "../../api/login/under-course.js";
-import { request } from "../../api/net.js";
+import { UNDER_SYSTEM_SERVER, request } from "../../api/index.js";
 import { service } from "../../config/info.js";
 
 export const getCourseTable = (

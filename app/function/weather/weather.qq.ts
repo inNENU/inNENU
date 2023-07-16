@@ -1,6 +1,6 @@
 import { $Page, get, readFile } from "@mptool/all";
 
-import { showModal } from "../../api/ui.js";
+import { showModal } from "../../api/index.js";
 import { type AppOption } from "../../app.js";
 import { type WeatherData } from "../../components/weather/typings.js";
 import { appCoverPrefix, server } from "../../config/info.js";

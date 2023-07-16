@@ -2,8 +2,7 @@ import { $Component, get, set } from "@mptool/all";
 
 import { getBorrowBooks } from "./api.js";
 import { type BorrowBookData } from "./typings.js";
-import { ensureActionLogin } from "../../api/login/action.js";
-import { showModal, showToast } from "../../api/ui.js";
+import { ensureActionLogin, showModal, showToast } from "../../api/index.js";
 import { type AppOption } from "../../app.js";
 import { BORROW_BOOKS_KEY } from "../../config/keys.js";
 import { HOUR } from "../../utils/constant.js";

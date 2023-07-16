@@ -8,7 +8,7 @@ import {
   type SelectConfig,
   type YearConfig,
 } from "../../../typings/index.js";
-import { showModal } from "../../api/ui.js";
+import { showModal } from "../../api/index.js";
 import { type AppOption } from "../../app.js";
 import { appCoverPrefix } from "../../config/info.js";
 import { ensureJSON, getJSON } from "../../utils/json.js";

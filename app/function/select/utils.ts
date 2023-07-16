@@ -1,5 +1,5 @@
 import { type CourseInfo } from "./typings.js";
-import { showModal } from "../../api/ui.js";
+import { showModal } from "../../api/index.js";
 
 const CONFIRM_KEY = "select-replace-confirmed";
 

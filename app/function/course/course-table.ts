@@ -6,9 +6,11 @@ import {
   type UserCourseTableResponse,
   UserCourseTableSuccessResponse,
 } from "./typings.js";
-import { AuthLoginFailedResponse } from "../../api/login/typings.js";
-import { UNDER_SYSTEM_SERVER } from "../../api/login/under-course.js";
-import { request } from "../../api/net.js";
+import {
+  AuthLoginFailedResponse,
+  UNDER_SYSTEM_SERVER,
+  request,
+} from "../../api/index.js";
 import { service } from "../../config/info.js";
 import { getIETimeStamp } from "../../utils/browser.js";
 import { getJSON } from "../../utils/json.js";

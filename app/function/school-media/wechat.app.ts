@@ -1,7 +1,7 @@
 import { $Page } from "@mptool/all";
 
 import { type WechatConfig } from "../../../typings/index.js";
-import { showToast } from "../../api/ui.js";
+import { showToast } from "../../api/index.js";
 import { type AppOption } from "../../app.js";
 import { server } from "../../config/info.js";
 import { ensureJSON } from "../../utils/json.js";

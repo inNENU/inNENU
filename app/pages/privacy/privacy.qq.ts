@@ -5,7 +5,7 @@ import {
   type ListComponentConfig,
   type PageDataWithContent,
 } from "../../../typings/index.js";
-import { showModal, showToast } from "../../api/ui.js";
+import { showModal, showToast } from "../../api/index.js";
 import { type AppOption } from "../../app.js";
 import { popNotice, resolvePage, setPage } from "../../utils/page.js";
 

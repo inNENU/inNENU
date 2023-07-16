@@ -1,5 +1,5 @@
 import { type CommonFailedResponse } from "../../../typings/response.js";
-import { type LoginFailedResponse } from "../../api/login/account.ts";
+import { type LoginFailedResponse } from "../../api/index.js";
 
 export interface UserCourseTableOptions {
   /** 查询时间 */

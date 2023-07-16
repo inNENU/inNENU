@@ -6,7 +6,7 @@ import {
   VPNLoginFailedResponse,
 } from "./typings.js";
 import { type CookieVerifyResponse } from "../../../typings/index.js";
-import { request } from "../../api/net.js";
+import { request } from "../../api/index.js";
 import { service } from "../../config/info.js";
 import { type AccountBasicInfo } from "../../utils/app.js";
 import { cookieStore } from "../cookie.js";
