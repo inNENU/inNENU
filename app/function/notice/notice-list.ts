@@ -46,7 +46,7 @@ const getNoticeItem = ({
   from: CJBM,
 });
 
-export const getNoticeList = ({
+export const getNoticeList = async ({
   limit = 20,
   page = 1,
   type = "notice",
@@ -54,46 +54,47 @@ export const getNoticeList = ({
   try {
     const queryUrl = `${ACTION_SERVER}/page/queryList`;
 
-    return request<RawNoticeListData>(queryUrl, {
-      method: "POST",
-      header: {
-        Accept: "application/json, text/javascript, */*; q=0.01",
-        // eslint-disable-next-line @typescript-eslint/naming-convention
-        "Content-Type": "application/x-www-form-urlencoded; charset=UTF-8",
-        Referer: `${ACTION_SERVER}/basicInfo/studentPageTurn?type=lifeschool`,
-      },
-      data: query.stringify({
-        type,
-        _search: "false",
-        nd: new Date().getTime().toString(),
-        limit: limit.toString(),
-        page: page.toString(),
-      }),
-    }).then(({ data, pageIndex, pageSize, totalCount, totalPage }) => {
-      if (data.length)
-        return <NoticeListSuccessResponse>{
-          success: true,
-          data: data.map(getNoticeItem),
-          pageIndex,
-          pageSize,
-          totalCount,
-          totalPage,
-        };
+    const { data, pageIndex, pageSize, totalCount, totalPage } =
+      await request<RawNoticeListData>(queryUrl, {
+        method: "POST",
+        header: {
+          Accept: "application/json, text/javascript, */*; q=0.01",
+          // eslint-disable-next-line @typescript-eslint/naming-convention
+          "Content-Type": "application/x-www-form-urlencoded; charset=UTF-8",
+          Referer: `${ACTION_SERVER}/basicInfo/studentPageTurn?type=lifeschool`,
+        },
+        data: query.stringify({
+          type,
+          _search: "false",
+          nd: new Date().getTime().toString(),
+          limit: limit.toString(),
+          page: page.toString(),
+        }),
+      });
 
-      return <AuthLoginFailedResponse>{
-        success: false,
-        msg: JSON.stringify(data),
+    if (data.length)
+      return <NoticeListSuccessResponse>{
+        success: true,
+        data: data.map(getNoticeItem),
+        pageIndex,
+        pageSize,
+        totalCount,
+        totalPage,
       };
-    });
+
+    return <AuthLoginFailedResponse>{
+      success: false,
+      msg: JSON.stringify(data),
+    };
   } catch (err) {
     const { message } = <Error>err;
 
     console.error(err);
 
-    return Promise.resolve(<AuthLoginFailedResponse>{
+    return <AuthLoginFailedResponse>{
       success: false,
       msg: message,
-    });
+    };
   }
 };
 

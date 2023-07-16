@@ -37,47 +37,45 @@ const getCourses = (content: string): TableItem =>
     ),
   );
 
-export const getCourseTable = ({
+export const getCourseTable = async ({
   time,
 }: UserCourseTableOptions): Promise<UserCourseTableResponse> => {
   try {
-    return getJSON<Record<string, string>>(
+    const semesterStartTime = await getJSON<Record<string, string>>(
       "function/data/semester-start-time",
-    ).then((semesterStartTime) => {
-      const params = {
-        method: "goListKbByXs",
-        istsxx: "no",
-        xnxqh: time,
-        zc: "",
-      };
+    );
+    const params = {
+      method: "goListKbByXs",
+      istsxx: "no",
+      xnxqh: time,
+      zc: "",
+    };
 
-      const url = `${UNDER_SYSTEM_SERVER}/tkglAction.do?${query.stringify(
-        params,
-      )}`;
-
-      return request<string>(url, {
+    const content = await request<string>(
+      `${UNDER_SYSTEM_SERVER}/tkglAction.do?${query.stringify(params)}`,
+      {
         header: {
           Referer: `${UNDER_SYSTEM_SERVER}/tkglAction.do?method=kbxxXs&tktime=${getIETimeStamp()}`,
         },
-      }).then((content) => {
-        const tableData = getCourses(content);
+      },
+    );
 
-        return <UserCourseTableSuccessResponse>{
-          success: true,
-          data: tableData,
-          startTime: semesterStartTime[time],
-        };
-      });
-    });
+    const tableData = getCourses(content);
+
+    return <UserCourseTableSuccessResponse>{
+      success: true,
+      data: tableData,
+      startTime: semesterStartTime[time],
+    };
   } catch (err) {
     const { message } = <Error>err;
 
     console.error(err);
 
-    return Promise.resolve(<AuthLoginFailedResponse>{
+    return <AuthLoginFailedResponse>{
       success: false,
       msg: message,
-    });
+    };
   }
 };
 

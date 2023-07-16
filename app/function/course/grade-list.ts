@@ -16,7 +16,7 @@ import {
   request,
 } from "../../api/index.js";
 import { service } from "../../config/index.js";
-import { IE_8_USER_AGENT, getIETimeStamp } from "../../utils/browser.js";
+import { getIETimeStamp } from "../../utils/browser.js";
 
 const gradeItemRegExp = /<tr.+?class="smartTr"[^>]*?>([\s\S]*?)<\/tr>/g;
 const jsGradeItemRegExp = /<tr.+?class=\\"smartTr\\"[^>]*?>(.*?)<\/tr>/g;
@@ -93,8 +93,7 @@ export const getGrades = (
   Promise.all(
     Array.from(
       content.matchAll(isJS ? jsGradeItemRegExp : gradeItemRegExp),
-    ).map(([, item]) => {
-      console.log(item, gradeCellRegExp.exec(item)!);
+    ).map(async ([, item]) => {
       const [
         ,
         time,
@@ -130,43 +129,35 @@ export const getGrades = (
       if (gradeLink) {
         const gradeUrl = `${UNDER_SYSTEM_SERVER}${gradeLink}&tktime=${getIETimeStamp()}`;
 
-        request<string>(gradeUrl)
-          .then((content) => {
-            const matched = gradeDetailRegExp.exec(content);
+        try {
+          const content = await request<string>(gradeUrl);
+          const matched = gradeDetailRegExp.exec(content);
 
-            if (matched) {
-              const [
-                ,
-                grade1,
-                grade2,
-                grade3,
-                grade4,
-                grade5,
-                grade6,
-                examGrade,
-              ] = matched;
-              const usualGrades = [
-                grade1,
-                grade2,
-                grade3,
-                grade4,
-                grade5,
-                grade6,
-              ]
-                .map((item) => getScoreDetail(item))
-                .filter((item): item is ScoreDetail => !!item);
-              const exam = getScoreDetail(examGrade);
+          if (matched) {
+            const [
+              ,
+              grade1,
+              grade2,
+              grade3,
+              grade4,
+              grade5,
+              grade6,
+              examGrade,
+            ] = matched;
+            const usualGrades = [grade1, grade2, grade3, grade4, grade5, grade6]
+              .map((item) => getScoreDetail(item))
+              .filter((item): item is ScoreDetail => !!item);
+            const exam = getScoreDetail(examGrade);
 
-              if (exam || usualGrades.length)
-                gradeDetail = {
-                  usual: usualGrades,
-                  exam,
-                };
-            }
-          })
-          .catch(() => {
-            // do nothing
-          });
+            if (exam || usualGrades.length)
+              gradeDetail = {
+                usual: usualGrades,
+                exam,
+              };
+          }
+        } catch (err) {
+          // do nothing
+        }
       }
 
       return {
@@ -190,7 +181,9 @@ export const getGrades = (
     }),
   );
 
-export const getGradeLists = (content: string): Promise<GradeResult[]> => {
+export const getGradeLists = async (
+  content: string,
+): Promise<GradeResult[]> => {
   // We force writing these 2 field to ensure we care getting the default table structure
   const tableFields = tableFieldsRegExp.exec(content)![1];
   const otherFields = String(otherFieldsRegExp.exec(content)?.[1]);
@@ -200,115 +193,106 @@ export const getGradeLists = (content: string): Promise<GradeResult[]> => {
   const shouldRefetch =
     tableFields !== DEFAULT_TABLE_FIELD || otherFields !== DEFAULT_OTHER_FIELD;
 
-  return (shouldRefetch ? Promise.resolve([]) : getGrades(content)).then(
-    (grades) => {
-      console.log("Total pages:", totalPages);
+  const grades = shouldRefetch ? [] : await getGrades(content);
 
-      if (totalPages === 1 && !shouldRefetch) return grades;
+  console.log("Total pages:", totalPages);
 
-      const field = String(fieldRegExp.exec(content)?.[1]);
-      const isSql = sqlRegExp.exec(content)![1];
-      const printPageSize = String(printPageSizeRegExp.exec(content)?.[1]);
-      const key = String(keyRegExp.exec(content)?.[1]);
-      const keyCode = String(keyCodeRegExp.exec(content)?.[1]);
-      const printHQL =
-        String(printHQLInputRegExp.exec(content)?.[1]) ||
-        String(printHQLJSRegExp.exec(content)?.[1]);
-      const sqlString = sqlStringRegExp.exec(content)?.[1];
-      const xsId = xsIdRegExp.exec(content)![1];
+  if (totalPages === 1 && !shouldRefetch) return grades;
 
-      const pages: number[] = [];
+  const field = String(fieldRegExp.exec(content)?.[1]);
+  const isSql = sqlRegExp.exec(content)![1];
+  const printPageSize = String(printPageSizeRegExp.exec(content)?.[1]);
+  const key = String(keyRegExp.exec(content)?.[1]);
+  const keyCode = String(keyCodeRegExp.exec(content)?.[1]);
+  const printHQL =
+    String(printHQLInputRegExp.exec(content)?.[1]) ||
+    String(printHQLJSRegExp.exec(content)?.[1]);
+  const sqlString = sqlStringRegExp.exec(content)?.[1];
+  const xsId = xsIdRegExp.exec(content)![1];
 
-      for (let page = shouldRefetch ? 1 : 2; page <= totalPages; page++)
-        pages.push(page);
+  const pages: number[] = [];
 
-      return Promise.all(
-        pages.map((page) => {
-          const params = {
-            xsId,
-            keyCode,
-            PageNum: page.toString(),
-            printHQL,
-            ...(sqlString ? { sqlString } : {}),
-            isSql,
-            printPageSize,
-            key,
-            field,
-            totalPages: totalPages.toString(),
-            tableFields: DEFAULT_TABLE_FIELD,
-            otherFields: DEFAULT_OTHER_FIELD,
-          };
+  for (let page = shouldRefetch ? 1 : 2; page <= totalPages; page++)
+    pages.push(page);
 
-          return request<string>(QUERY_URL, {
-            method: "POST",
-            header: {
-              "Content-Type": "application/x-www-form-urlencoded",
-              Referer: QUERY_URL,
-              "User-Agent": IE_8_USER_AGENT,
-            },
-            data: query.stringify(params),
-          }).then((content) =>
-            getGrades(content, true).then((newGrades) => {
-              grades.push(...newGrades);
-            }),
-          );
+  await Promise.all(
+    pages.map(async (page) => {
+      const content = await request<string>(QUERY_URL, {
+        method: "POST",
+        header: {
+          "Content-Type": "application/x-www-form-urlencoded",
+          Referer: QUERY_URL,
+        },
+        data: query.stringify({
+          xsId,
+          keyCode,
+          PageNum: page.toString(),
+          printHQL,
+          ...(sqlString ? { sqlString } : {}),
+          isSql,
+          printPageSize,
+          key,
+          field,
+          totalPages: totalPages.toString(),
+          tableFields: DEFAULT_TABLE_FIELD,
+          otherFields: DEFAULT_OTHER_FIELD,
         }),
-      ).then(() => grades);
-    },
+      });
+
+      const newGrades = await getGrades(content, true);
+
+      grades.push(...newGrades);
+    }),
   );
+
+  return grades;
 };
 
-export const getGradeList = ({
+export const getGradeList = async ({
   time = "",
   name = "",
   courseType = "",
   gradeType = "all",
 }: UserGradeListOptions): Promise<UserGradeListResponse> => {
   try {
-    const params = {
-      kksj: time,
-      kcxz: courseType ? COURSE_TYPES[courseType] || "" : "",
-      kcmc: name,
-      xsfs: gradeType === "best" ? "zhcj" : gradeType === "all" ? "qbcj" : "",
-      ok: "",
-    };
-
-    console.log("Requesting with params:", params);
-
-    return request<string>(QUERY_URL, {
+    const content = await request<string>(QUERY_URL, {
       method: "POST",
       header: {
         "Content-Type": "application/x-www-form-urlencoded",
         Referer: `${UNDER_SYSTEM_SERVER}/jiaowu/cjgl/xszq/query_xscj.jsp?tktime=${getIETimeStamp()}`,
-        "User-Agent": IE_8_USER_AGENT,
       },
-      data: query.stringify(params),
-    }).then((content) => {
-      if (content.includes("评教未完成，不能查询成绩！"))
-        return <CommonFailedResponse>{
-          success: false,
-          msg: time
-            ? "此学期评教未完成，不能查询成绩！"
-            : "部分学期评教未完成，不能查阅全部成绩! 请分学期查询。",
-        };
-
-      return getGradeLists(content).then(
-        (gradeList) =>
-          <UserGradeListSuccessResponse>{
-            success: true,
-            data: gradeList,
-          },
-      );
+      data: query.stringify({
+        kksj: time,
+        kcxz: courseType ? COURSE_TYPES[courseType] || "" : "",
+        kcmc: name,
+        xsfs: gradeType === "best" ? "zhcj" : gradeType === "all" ? "qbcj" : "",
+        ok: "",
+      }),
     });
+
+    if (content.includes("评教未完成，不能查询成绩！"))
+      return <CommonFailedResponse>{
+        success: false,
+        msg: time
+          ? "此学期评教未完成，不能查询成绩！"
+          : "部分学期评教未完成，不能查阅全部成绩! 请分学期查询。",
+      };
+
+    const gradeList = await getGradeLists(content);
+
+    return <UserGradeListSuccessResponse>{
+      success: true,
+      data: gradeList,
+    };
   } catch (err) {
     const { message } = <Error>err;
 
     console.error(err);
 
-    return Promise.resolve(<AuthLoginFailedResponse>{
+    return <AuthLoginFailedResponse>{
       success: false,
       msg: message,
-    });
+    };
   }
 };
 

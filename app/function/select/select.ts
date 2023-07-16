@@ -117,43 +117,39 @@ $Page(PAGE_ID, {
 
     if (account) {
       login(account)
-        .then((data) => {
-          if (data.success) {
-            this.state.cookies = data.cookies;
-            this.state.server = data.server;
-
-            this.setData({ login: true }, () => {
-              this.createSelectorQuery()
-                .select(".select-container")
-                .fields({ size: true }, (res) => {
-                  if (res) this.setData({ height: res.height as number });
-                })
-                .exec();
+        .then(async (data) => {
+          if (!data.success)
+            return showModal("登录失败", data.msg, (): void => {
+              this.$go("account?from=选课系统&update=true");
             });
 
-            wx.showLoading({ title: "获取信息" });
+          this.state.cookies = data.cookies;
+          this.state.server = data.server;
 
-            return this.loadInfo()
-              .then((isSuccess) =>
-                isSuccess
-                  ? this.search({
-                      grade: this.state.currentGrade,
-                      major: this.state.currentMajor,
-                    })
-                  : void 0,
-              )
-              .then(() => {
-                wx.hideLoading();
+          this.setData({ login: true }, () => {
+            this.createSelectorQuery()
+              .select(".select-container")
+              .fields({ size: true }, (res) => {
+                if (res) this.setData({ height: res.height as number });
               })
-              .catch(() => {
-                wx.hideLoading();
-                showToast("获取信息失败");
-              });
-          }
-
-          return showModal("登录失败", data.msg, (): void => {
-            this.$go("account?from=选课系统&update=true");
+              .exec();
           });
+
+          wx.showLoading({ title: "获取信息" });
+
+          try {
+            const isSuccess = await this.loadInfo();
+
+            if (isSuccess)
+              await this.search({
+                grade: this.state.currentGrade,
+                major: this.state.currentMajor,
+              });
+            wx.hideLoading();
+          } catch (err) {
+            wx.hideLoading();
+            showToast("获取信息失败");
+          }
         })
         .catch(() => {
           showModal(
@@ -295,32 +291,32 @@ $Page(PAGE_ID, {
     });
   },
 
-  refreshInfoAmount() {
+  async refreshInfoAmount() {
     const { courseInfo, relatedCourses } = this.data;
 
-    this.getAmount(courseInfo!.id).then((data) => {
-      if (data.success) {
-        const record = data.data.find((item) => item.cid === courseInfo!.cid);
+    const data = await this.getAmount(courseInfo!.id);
 
-        if (!record) logger.error("未找到课程人数", courseInfo!.cid);
+    if (data.success) {
+      const record = data.data.find((item) => item.cid === courseInfo!.cid);
 
-        this.setData({
-          courseInfo: {
-            ...courseInfo!,
-            amount: record ? record.amount : 0,
-          },
-          relatedCourses: relatedCourses.map((course) => {
-            const record = data.data.find((item) => item.cid === course.cid);
+      if (!record) logger.error("未找到课程人数", courseInfo!.cid);
 
-            if (!record) logger.error("未找到课程人数", courseInfo!.cid);
+      this.setData({
+        courseInfo: {
+          ...courseInfo!,
+          amount: record ? record.amount : 0,
+        },
+        relatedCourses: relatedCourses.map((course) => {
+          const record = data.data.find((item) => item.cid === course.cid);
 
-            return { ...course, amount: record ? record.amount : 0 };
-          }),
-        });
-      } else {
-        showModal("获取课程人数失败", data.msg);
-      }
-    });
+          if (!record) logger.error("未找到课程人数", courseInfo!.cid);
+
+          return { ...course, amount: record ? record.amount : 0 };
+        }),
+      });
+    } else {
+      showModal("获取课程人数失败", data.msg);
+    }
   },
 
   closeInfoPopup() {
@@ -360,7 +356,7 @@ $Page(PAGE_ID, {
     this.search(options).then(() => wx.hideLoading());
   },
 
-  showCourseDetail({
+  async showCourseDetail({
     currentTarget,
   }: WechatMiniprogram.TouchEvent<
     Record<never, never>,
@@ -373,45 +369,45 @@ $Page(PAGE_ID, {
 
     wx.showLoading({ title: "获取人数" });
 
-    return this.getAmount(id).then((res) => {
-      wx.hideLoading();
-      if (res.success) {
-        const { courses } = this.state;
+    const result = await this.getAmount(id);
 
-        const coursesDetail = res.data
-          .map(({ cid, amount }) => {
-            const course = courses.find((item) => item.cid === cid);
+    wx.hideLoading();
+    if (result.success) {
+      const { courses } = this.state;
 
-            if (course)
-              return {
-                ...course,
-                isSelected: selectedCourseIds.includes(cid),
-                amount,
-              };
+      const coursesDetail = result.data
+        .map(({ cid, amount }) => {
+          const course = courses.find((item) => item.cid === cid);
 
-            logger.error("未找到匹配课程", cid);
+          if (course)
+            return {
+              ...course,
+              isSelected: selectedCourseIds.includes(cid),
+              amount,
+            };
 
-            return null;
-          })
-          .filter((item): item is FullCourseInfo => item !== null);
+          logger.error("未找到匹配课程", cid);
 
-        this.state.currentCourseId = id;
-        this.state.coursesDetail = coursesDetail;
+          return null;
+        })
+        .filter((item): item is FullCourseInfo => item !== null);
 
-        this.setData({
-          coursesDetail: coursesDetail
-            .filter(
-              (item): item is FullCourseInfo =>
-                !filterLocation || item.place.includes(currentLocation),
-            )
-            .sort(courseSorter(sortKeys[sortKeyIndex], ascending)),
-          showCourseDetail: true,
-        });
-      } else {
-        showModal("获取人数失败", res.msg);
-        if (res.type === "relogin") this.$redirect(PAGE_ID);
-      }
-    });
+      this.state.currentCourseId = id;
+      this.state.coursesDetail = coursesDetail;
+
+      this.setData({
+        coursesDetail: coursesDetail
+          .filter(
+            (item): item is FullCourseInfo =>
+              !filterLocation || item.place.includes(currentLocation),
+          )
+          .sort(courseSorter(sortKeys[sortKeyIndex], ascending)),
+        showCourseDetail: true,
+      });
+    } else {
+      showModal("获取人数失败", result.msg);
+      if (result.type === "relogin") this.$redirect(PAGE_ID);
+    }
   },
 
   changeDetailSorter({ detail }: WechatMiniprogram.PickerChange) {
@@ -451,28 +447,28 @@ $Page(PAGE_ID, {
     });
   },
 
-  refreshDetailAmount() {
+  async refreshDetailAmount() {
     const { coursesDetail } = this.data;
     const { currentCourseId } = this.state;
 
     wx.showLoading({ title: "刷新人数" });
 
-    return this.getAmount(currentCourseId).then((res) => {
-      wx.hideLoading();
-      if (res.success) {
-        this.setData({
-          coursesDetail: coursesDetail.map((course) => {
-            const record = res.data.find((item) => item.cid === course.cid);
+    const res = await this.getAmount(currentCourseId);
 
-            if (!record) logger.error("未找到课程人数", course.cid);
+    wx.hideLoading();
+    if (res.success) {
+      this.setData({
+        coursesDetail: coursesDetail.map((course) => {
+          const record = res.data.find((item) => item.cid === course.cid);
 
-            return { ...course, amount: record ? record.amount : 0 };
-          }),
-        });
-      } else {
-        showModal("刷新人数失败", res.msg);
-      }
-    });
+          if (!record) logger.error("未找到课程人数", course.cid);
+
+          return { ...course, amount: record ? record.amount : 0 };
+        }),
+      });
+    } else {
+      showModal("刷新人数失败", res.msg);
+    }
   },
 
   closeDetailPopup() {

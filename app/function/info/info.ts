@@ -20,56 +20,50 @@ const infoContentRegExp =
   /<div class="v_news_content">([\s\S]+?)<\/div><\/div><div id="div_vote_id">/;
 const pageViewParamRegExp = /_showDynClicks\("wbnews",\s*(\d+),\s*(\d+)\)/;
 
-export const getInfo = (url: string): Promise<MainInfoResponse> => {
+export const getInfo = async (url: string): Promise<MainInfoResponse> => {
   try {
-    return request<string>(`${MAIN_URL}/${url}`).then((data) => {
-      const body = infoBodyRegExp.exec(data)![1];
-      const title = infoTitleRegExp.exec(body)![1];
-      const time = infoTimeRegExp.exec(body)![1];
-      const content = infoContentRegExp.exec(body)![1];
-      const [, owner, clickID] = pageViewParamRegExp.exec(body)!;
+    const text = await request<string>(`${MAIN_URL}/${url}`);
 
-      const from = infoFromRegExp.exec(body)?.[1];
-      const author = infoAuthorRegExp.exec(body)?.[1];
-      const editor = infoEditorRegExp.exec(body)?.[1];
+    const body = infoBodyRegExp.exec(text)![1];
+    const title = infoTitleRegExp.exec(body)![1];
+    const time = infoTimeRegExp.exec(body)![1];
+    const content = infoContentRegExp.exec(body)![1];
+    const [, owner, clickID] = pageViewParamRegExp.exec(body)!;
 
-      const pageViewUrl = `${MAIN_URL}/system/resource/code/news/click/dynclicks.jsp?clickid=${clickID}&owner=${owner}&clicktype=wbnews`;
+    const from = infoFromRegExp.exec(body)?.[1];
+    const author = infoAuthorRegExp.exec(body)?.[1];
+    const editor = infoEditorRegExp.exec(body)?.[1];
 
-      return request<string>(pageViewUrl).then((pageView) => {
-        return getRichTextNodes(content, {
-          getClass: (tag, className) =>
-            tag === "img"
-              ? className
-                ? `img ${className}`
-                : "img"
-              : className ?? null,
-          getImageSrc: (src) =>
-            src.startsWith("/") ? `${MAIN_URL}${src}` : src,
-        }).then(
-          (content) =>
-            <MainInfoSuccessResponse>{
-              success: true,
-              status: "success",
-              title: getText(title),
-              time,
-              from,
-              author,
-              editor,
-              pageView: Number(pageView),
-              content,
-            },
-        );
-      });
-    });
+    const pageViewUrl = `${MAIN_URL}/system/resource/code/news/click/dynclicks.jsp?clickid=${clickID}&owner=${owner}&clicktype=wbnews`;
+
+    return <MainInfoSuccessResponse>{
+      success: true,
+      status: "success",
+      title: getText(title),
+      time,
+      from,
+      author,
+      editor,
+      pageView: Number(await request<string>(pageViewUrl)),
+      content: await getRichTextNodes(content, {
+        getClass: (tag, className) =>
+          tag === "img"
+            ? className
+              ? `img ${className}`
+              : "img"
+            : className ?? null,
+        getImageSrc: (src) => (src.startsWith("/") ? `${MAIN_URL}${src}` : src),
+      }),
+    };
   } catch (err) {
     const { message } = <Error>err;
 
     console.error(err);
 
-    return Promise.resolve(<CommonFailedResponse>{
+    return <CommonFailedResponse>{
       success: false,
       msg: message,
-    });
+    };
   }
 };
 

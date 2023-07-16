@@ -21,21 +21,28 @@ const pageViewRegExp =
 const contentRegExp =
   /<div class="read" id="WBNR">\s+([\s\S]*?)\s+<\/div>\s+<p id="zrbj"/;
 
-export const getNotice = ({
+export const getNotice = async ({
   noticeID,
 }: NoticeOptions): Promise<NoticeResponse> => {
   try {
     const url = `${ACTION_SERVER}/page/viewNews?ID=${noticeID}`;
 
-    return request<string>(url).then((responseText) => {
-      const title = titleRegExp.exec(responseText)![1];
-      const author = authorRegExp.exec(responseText)![1];
-      const time = timeRegExp.exec(responseText)![1];
-      const from = fromRegExp.exec(responseText)![1];
-      const pageView = pageViewRegExp.exec(responseText)![1];
-      const content = contentRegExp.exec(responseText)![1];
+    const responseText = await request<string>(url);
+    const title = titleRegExp.exec(responseText)![1];
+    const author = authorRegExp.exec(responseText)![1];
+    const time = timeRegExp.exec(responseText)![1];
+    const from = fromRegExp.exec(responseText)![1];
+    const pageView = pageViewRegExp.exec(responseText)![1];
+    const content = contentRegExp.exec(responseText)![1];
 
-      return getRichTextNodes(content, {
+    return <NoticeSuccessResponse>{
+      success: true,
+      title,
+      author,
+      from,
+      time,
+      pageView: Number(pageView),
+      content: await getRichTextNodes(content, {
         getLinkText: (link) =>
           link.startsWith(ACTION_SERVER) ||
           link.startsWith("https://my.webvpn.nenu.edu.cn")
@@ -43,28 +50,17 @@ export const getNotice = ({
             : link,
         // TODO: Support image
         getImageSrc: () => null,
-      }).then(
-        (content) =>
-          <NoticeSuccessResponse>{
-            success: true,
-            title,
-            author,
-            from,
-            time,
-            pageView: Number(pageView),
-            content,
-          },
-      );
-    });
+      }),
+    };
   } catch (err) {
     const { message } = <Error>err;
 
     console.error(err);
 
-    return Promise.resolve(<AuthLoginFailedResponse>{
+    return <AuthLoginFailedResponse>{
       success: false,
       msg: message,
-    });
+    };
   }
 };
 

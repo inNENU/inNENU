@@ -26,7 +26,7 @@ const newsItemRegExp =
 
 const totalPageState: Record<string, number> = {};
 
-export const getInfoList = (
+export const getInfoList = async (
   options: MainInfoListOptions,
 ): Promise<MainInfoListResponse> => {
   const { type, page = 1, totalPage = totalPageState[type] || 0 } = options;
@@ -37,49 +37,49 @@ export const getInfoList = (
       : `${MAIN_URL}/index/${type2ID[type]}.htm`;
 
   try {
-    return request<string>(url).then((content) => {
-      totalPageState[type] = Number(totalPageRegExp.exec(content)![1]);
+    const content = await request<string>(url);
 
-      const matched = pageViewRegExp.exec(content)!.slice(1).map(Number);
+    totalPageState[type] = Number(totalPageRegExp.exec(content)![1]);
 
-      const owner = matched.pop();
+    const matched = pageViewRegExp.exec(content)!.slice(1).map(Number);
 
-      const pageViewUrl = `${MAIN_URL}/system/resource/code/news/click/dynclicksbatch.jsp?clickids=${matched.join(
-        ",",
-      )}&owner=${owner}&clicktype=wbnews`;
+    const owner = matched.pop();
 
-      return request<string>(pageViewUrl).then((pageViewContent) => {
-        const pageViews = pageViewContent.split(",").map(Number);
+    const pageViewUrl = `${MAIN_URL}/system/resource/code/news/click/dynclicksbatch.jsp?clickids=${matched.join(
+      ",",
+    )}&owner=${owner}&clicktype=wbnews`;
 
-        const data = Array.from(
-          listBodyRegExp
-            .exec(content)![1]
-            .matchAll(type === "notice" ? noticeItemRegExp : newsItemRegExp),
-        ).map(([, url, title, from, time], index) => ({
-          url,
-          title,
-          from,
-          time,
-          pageView: pageViews[index],
-        }));
+    const pageViews = (await request<string>(pageViewUrl))
+      .split(",")
+      .map(Number);
 
-        return <MainInfoListSuccessResponse>{
-          success: true,
-          data,
-          page,
-          totalPage: totalPageState[type],
-        };
-      });
-    });
+    const data = Array.from(
+      listBodyRegExp
+        .exec(content)![1]
+        .matchAll(type === "notice" ? noticeItemRegExp : newsItemRegExp),
+    ).map(([, url, title, from, time], index) => ({
+      url,
+      title,
+      from,
+      time,
+      pageView: pageViews[index],
+    }));
+
+    return <MainInfoListSuccessResponse>{
+      success: true,
+      data,
+      page,
+      totalPage: totalPageState[type],
+    };
   } catch (err) {
     const { message } = <Error>err;
 
     console.error(err);
 
-    return Promise.resolve(<CommonFailedResponse>{
+    return <CommonFailedResponse>{
       success: false,
       msg: message,
-    });
+    };
   }
 };
 
