@@ -65,6 +65,8 @@ export const request = <
   new Promise((resolve, reject) => {
     const url = link.startsWith("http") ? link : `${service}${link}`;
 
+    logger.info(`Requesting ${url} with options:`, options);
+
     wx.request<T>({
       url,
       enableHttp2: true,
@@ -72,10 +74,13 @@ export const request = <
       success: (res) => {
         const { data, statusCode } = res;
 
+        logger.info(`Request ends with ${statusCode}`);
+
         if (statusCode === 200) {
           // 调试
-          logger.debug(`Request response: `, data);
+          logger.info(`Request response: `, data);
           cookieStore.applyResponse(res, options.scope || url);
+
           resolve(data);
         } else {
           showToast("小程序服务器出错，请稍后重试");

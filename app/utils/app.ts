@@ -172,7 +172,9 @@ export const getGlobalData = (): GlobalData => {
     appID: wx.getAccountInfoSync().miniProgram.appId as AppID,
     openid: "",
     selectable: wx.getStorageSync<boolean>("selectable") || false,
-    service: wx.getStorageSync<ServiceSettings>("service") || {},
+    service: wx.getStorageSync<ServiceSettings>("service") || {
+      forceOnline: false,
+    },
   };
 };
 

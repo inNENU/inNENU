@@ -8,7 +8,7 @@ import { GRADE_DATA_KEY, appCoverPrefix } from "../../config/index.js";
 import { HOUR } from "../../utils/constant.js";
 import { getColor, popNotice } from "../../utils/page.js";
 
-const { globalData } = getApp<AppOption>();
+const { globalData, useOnlineService } = getApp<AppOption>();
 
 const PAGE_ID = "course-grade";
 const PAGE_TITLE = "成绩查询";
@@ -130,11 +130,9 @@ $Page("course-grade", {
       .then((err) => {
         if (err) throw err.msg;
 
-        return (
-          globalData.service[PAGE_ID] === "online"
-            ? getOnlineGradeList
-            : getGradeList
-        )(options).then((res) => {
+        return (useOnlineService(PAGE_ID) ? getOnlineGradeList : getGradeList)(
+          options,
+        ).then((res) => {
           wx.hideLoading();
           if (res.success) {
             set(

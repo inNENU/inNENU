@@ -7,7 +7,7 @@ import { type AppOption } from "../../app.js";
 import { appCoverPrefix } from "../../config/index.js";
 import { getColor, popNotice } from "../../utils/page.js";
 
-const { globalData } = getApp<AppOption>();
+const { globalData, useOnlineService } = getApp<AppOption>();
 
 const type2Title = {
   news: "学校新闻",
@@ -81,24 +81,24 @@ $Page(PAGE_ID, {
   },
 
   getInfo() {
-    (globalData.service[PAGE_ID] === "online" ? getOnlineInfo : getInfo)(
-      this.state.url,
-    ).then((res) => {
-      wx.hideLoading();
-      if (res.success) {
-        const { title, time, pageView, author, editor, from, content } = res;
+    (useOnlineService(PAGE_ID) ? getOnlineInfo : getInfo)(this.state.url).then(
+      (res) => {
+        wx.hideLoading();
+        if (res.success) {
+          const { title, time, pageView, author, editor, from, content } = res;
 
-        this.setData({
-          status: "success",
-          title,
-          time,
-          pageView,
-          author,
-          editor,
-          from,
-          content,
-        });
-      } else this.setData({ status: "error" });
-    });
+          this.setData({
+            status: "success",
+            title,
+            time,
+            pageView,
+            author,
+            editor,
+            from,
+            content,
+          });
+        } else this.setData({ status: "error" });
+      },
+    );
   },
 });

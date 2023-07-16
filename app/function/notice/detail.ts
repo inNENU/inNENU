@@ -6,7 +6,7 @@ import { type AppOption } from "../../app.js";
 import { appCoverPrefix } from "../../config/index.js";
 import { getColor, popNotice } from "../../utils/page.js";
 
-const { globalData } = getApp<AppOption>();
+const { globalData, useOnlineService } = getApp<AppOption>();
 
 const PAGE_ID = "notice-detail";
 
@@ -82,9 +82,9 @@ $Page(PAGE_ID, {
           showToast(err.msg);
           this.setData({ status: "error" });
         } else
-          (globalData.service[PAGE_ID] === "online"
-            ? getOnlineNotice
-            : getNotice)({ noticeID: this.state.id }).then((res) => {
+          (useOnlineService(PAGE_ID) ? getOnlineNotice : getNotice)({
+            noticeID: this.state.id,
+          }).then((res) => {
             wx.hideLoading();
             if (res.success) {
               const { title, time, pageView, author, from, content } = res;

@@ -18,6 +18,7 @@ import { updateApp } from "./utils/update.js";
 
 export interface AppOption {
   globalData: GlobalData;
+  useOnlineService: (id: string) => boolean;
 }
 
 $Config({
@@ -87,6 +88,14 @@ $Config({
 $App<AppOption>({
   /** 全局数据 */
   globalData: getGlobalData(),
+
+  useOnlineService(id: string) {
+    return (
+      this.globalData.service[id] === "online" ||
+      this.globalData.service.forceOnline ||
+      false
+    );
+  },
 
   onLaunch(options) {
     // 调试

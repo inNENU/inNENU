@@ -17,7 +17,10 @@ export type NoticeSettings = Record<string, Notice>;
 
 export type ServiceStatus = "local" | "online";
 
-export type ServiceSettings = Record<string, ServiceStatus>;
+export type ServiceSettings = { forceOnline?: boolean } & Record<
+  string,
+  ServiceStatus
+>;
 
 export interface UpdateSettings {
   /** 是否进行强制更新 */

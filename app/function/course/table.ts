@@ -15,7 +15,7 @@ import { COURSE_DATA_KEY, appCoverPrefix } from "../../config/index.js";
 import { DAY, MONTH } from "../../utils/constant.js";
 import { getColor, popNotice } from "../../utils/page.js";
 
-const { globalData } = getApp<AppOption>();
+const { globalData, useOnlineService } = getApp<AppOption>();
 
 const PAGE_ID = "course-table";
 const PAGE_TITLE = "课程表";
@@ -163,9 +163,7 @@ $Page(PAGE_ID, {
         if (err) throw err.msg;
 
         return (
-          globalData.service[PAGE_ID] === "online"
-            ? getOnlineCourseTable
-            : getCourseTable
+          useOnlineService(PAGE_ID) ? getOnlineCourseTable : getCourseTable
         )({ time }).then((res) => {
           wx.hideLoading();
           if (res.success) {

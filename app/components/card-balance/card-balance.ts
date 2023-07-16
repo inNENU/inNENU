@@ -6,7 +6,7 @@ import { type AppOption } from "../../app.js";
 import { CARD_BALANCE_KEY } from "../../config/index.js";
 import { MINUTE } from "../../utils/constant.js";
 
-const { globalData } = getApp<AppOption>();
+const { globalData, useOnlineService } = getApp<AppOption>();
 
 $Component({
   data: {
@@ -43,8 +43,7 @@ $Component({
           this.setData({ status: "error" });
         } else {
           try {
-            const result = await (globalData.service["card-balance"] ===
-              "online"
+            const result = await (useOnlineService("card-balance")
               ? getOnlineCardBalance
               : getCardBalance)();
 

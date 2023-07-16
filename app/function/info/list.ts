@@ -6,7 +6,7 @@ import { type AppOption } from "../../app.js";
 import { appCoverPrefix } from "../../config/index.js";
 import { getColor, popNotice } from "../../utils/page.js";
 
-const { globalData } = getApp<AppOption>();
+const { globalData, useOnlineService } = getApp<AppOption>();
 
 const type2Title = {
   news: "学校新闻",
@@ -68,9 +68,7 @@ $Page(PAGE_ID, {
   getInfoList(page = 1) {
     wx.showLoading({ title: "获取中" });
 
-    return (
-      globalData.service[PAGE_ID] === "online" ? getOnlineInfoList : getInfoList
-    )({
+    return (useOnlineService(PAGE_ID) ? getOnlineInfoList : getInfoList)({
       page,
       type: this.state.type,
       totalPage: this.data.totalPage,
