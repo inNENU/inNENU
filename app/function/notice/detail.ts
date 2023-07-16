@@ -1,6 +1,6 @@
 import { $Page } from "@mptool/all";
 
-import { getNotice } from "./api.js";
+import { getNotice, getOnlineNotice } from "./notice-detail.js";
 import { ensureActionLogin } from "../../api/login/action.js";
 import { showModal, showToast } from "../../api/ui.js";
 import { type AppOption } from "../../app.js";
@@ -83,7 +83,9 @@ $Page(PAGE_ID, {
           showToast(err.msg);
           this.setData({ status: "error" });
         } else
-          getNotice({ noticeID: this.state.id }).then((res) => {
+          (globalData.service[PAGE_ID] === "online"
+            ? getOnlineNotice
+            : getNotice)({ noticeID: this.state.id }).then((res) => {
             wx.hideLoading();
             if (res.success) {
               const { title, time, pageView, author, from, content } = res;

@@ -1,6 +1,6 @@
 import { $Page } from "@mptool/all";
 
-import { getNoticeList } from "./api.js";
+import { getNoticeList, getOnlineNoticeList } from "./notice-list.js";
 import { type NoticeItem } from "./typings.js";
 import { ensureActionLogin } from "../../api/login/action.js";
 import { showToast } from "../../api/ui.js";
@@ -76,7 +76,9 @@ $Page(PAGE_ID, {
           showToast(err.msg);
           this.setData({ status: "error" });
         } else
-          getNoticeList({
+          (globalData.service[PAGE_ID] === "online"
+            ? getOnlineNoticeList
+            : getNoticeList)({
             page,
             type: this.state.type,
           }).then((res) => {
