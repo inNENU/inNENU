@@ -26,13 +26,13 @@ export const saveJSON = (
     .then(() => {
       logger.debug(`Save ${onlinePath}.json success`);
 
-      return Promise.resolve();
+      return;
     })
     .catch((err: string | number) => {
       logger.error(`Download ${onlinePath}.json failed with error:`, err);
       rm(`${localPath}.json`);
 
-      return Promise.reject(err);
+      throw err;
     });
 };
 

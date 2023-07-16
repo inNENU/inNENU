@@ -18,19 +18,20 @@ export interface LoginFailedResponse extends CommonFailedResponse {
 
 export type LoginResponse = LoginSuccessResponse | LoginFailedResponse;
 
-export const login = ({
+export const login = async ({
   id,
   password,
-}: AccountBasicInfo): Promise<LoginResponse> =>
-  request<LoginResponse>(`${service}auth/login`, {
+}: AccountBasicInfo): Promise<LoginResponse> => {
+  const data = await request<LoginResponse>(`${service}auth/login`, {
     method: "POST",
     data: { id, password },
     scope: AUTH_SERVER,
-  }).then((data) => {
-    if (!data.success) logger.error("登陆失败", data.msg);
-
-    return data;
   });
+
+  if (!data.success) logger.error("登陆失败", data.msg);
+
+  return data;
+};
 
 export interface InfoSuccessResponse {
   success: true;
@@ -44,12 +45,13 @@ export interface InfoSuccessResponse {
 
 export type InfoResponse = InfoSuccessResponse | CommonFailedResponse;
 
-export const getInfo = (): Promise<InfoResponse> =>
-  request<InfoResponse>(`${service}auth/info`, {
+export const getInfo = async (): Promise<InfoResponse> => {
+  const data = await request<InfoResponse>(`${service}auth/info`, {
     method: "POST",
     scope: `${AUTH_SERVER}/authserver/`,
-  }).then((data) => {
-    if (!data.success) logger.error("获取信息失败", data.msg);
-
-    return data;
   });
+
+  if (!data.success) logger.error("获取信息失败", data.msg);
+
+  return data;
+};

@@ -1,5 +1,5 @@
 import { type GlobalData } from "./app.js";
-import { requestJSON, showModal } from "../api/index.js";
+import { compareVersion, requestJSON, showModal } from "../api/index.js";
 import { assets } from "../config/index.js";
 
 /**
@@ -9,38 +9,23 @@ import { assets } from "../config/index.js";
  *
  * @param globalData 小程序的全局数据
  */
-export const updateApp = (globalData: GlobalData): void => {
+export const updateApp = async (globalData: GlobalData): Promise<void> => {
   // 请求配置文件
-  requestJSON<string>(`r/config/${globalData.appID}/version`).then(
-    (onlineVersion) => {
-      const getNeedUpdate = (): boolean => {
-        const [onlineMajor, onlineMinor, onlinePatch] =
-          onlineVersion.split(".");
-        const [localMajor, localMinor, localPatch] =
-          globalData.version.split(".");
-
-        if (onlineMajor > localMajor) return true;
-        if (localMajor > onlineMajor) return false;
-        if (onlineMinor > localMinor) return true;
-        if (localMinor > onlineMinor) return false;
-        if (onlinePatch > localPatch) return true;
-
-        return false;
-      };
-
-      if (getNeedUpdate())
-        showModal(
-          "App有新版本",
-          `App 的最新版本是 ${onlineVersion}，点击确定复制下载链接到剪切板。请手动粘贴到浏览器开启下载。`,
-          () => {
-            wx.setClipboardData({
-              data: `${assets}innenu-v${onlineVersion}.apk`,
-            });
-          },
-          () => {
-            // do nothing
-          },
-        );
-    },
+  const onlineVersion = await requestJSON<string>(
+    `r/config/${globalData.appID}/version`,
   );
+
+  if (compareVersion(onlineVersion, globalData.version))
+    showModal(
+      "App有新版本",
+      `App 的最新版本是 ${onlineVersion}，点击确定复制下载链接到剪切板。请手动粘贴到浏览器开启下载。`,
+      () => {
+        wx.setClipboardData({
+          data: `${assets}innenu-v${onlineVersion}.apk`,
+        });
+      },
+      () => {
+        // do nothing
+      },
+    );
 };

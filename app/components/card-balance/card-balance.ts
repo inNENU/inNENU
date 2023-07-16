@@ -34,24 +34,31 @@ $Component({
   },
 
   methods: {
-    getCardBalance(check = false) {
-      if (globalData.account)
-        ensureActionLogin(globalData.account, check).then((err) => {
-          if (err) {
-            showToast(err.msg);
+    async getCardBalance(check = false) {
+      if (globalData.account) {
+        const err = await ensureActionLogin(globalData.account, check);
+
+        if (err) {
+          showToast(err.msg);
+          this.setData({ status: "error" });
+        } else {
+          try {
+            const result = await getCardBalance();
+
+            if (result.success) {
+              set(CARD_BALANCE_KEY, result.data, 5 * MINUTE);
+              this.setData({
+                balance: result.data,
+                status: "success",
+              });
+            } else {
+              this.setData({ status: "error" });
+            }
+          } catch (err) {
             this.setData({ status: "error" });
-          } else
-            getCardBalance().then((res) => {
-              if (res.success) {
-                set(CARD_BALANCE_KEY, res.data, 5 * MINUTE);
-                this.setData({
-                  balance: res.data,
-                  status: "success",
-                });
-              } else this.setData({ status: "error" });
-            });
-        });
-      else this.setData({ status: "login" });
+          }
+        }
+      } else this.setData({ status: "login" });
     },
 
     refresh() {

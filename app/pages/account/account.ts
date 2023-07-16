@@ -140,7 +140,7 @@ $Page(PAGE_ID, {
     this.setData({ showPassword: !this.data.showPassword });
   },
 
-  save() {
+  async save() {
     const { id, password } = this.data;
 
     if (!id || !password) {
@@ -151,47 +151,50 @@ $Page(PAGE_ID, {
 
     wx.showLoading({ title: "验证中" });
 
-    login({ id: Number(id), password })
-      .then((res) => {
+    try {
+      const result = await login({ id: Number(id), password });
+
+      wx.hideLoading();
+
+      if (result.success) {
+        const account = { id: Number(id), password };
+
+        globalData.account = account;
+        set(ACCOUNT_INFO_KEY, account, MONTH);
+
+        wx.showLoading({ title: "获取信息" });
+
+        const infoResult = await getInfo();
+
         wx.hideLoading();
-        if (res.success) {
-          const account = { id: Number(id), password };
 
-          globalData.account = account;
-          set(ACCOUNT_INFO_KEY, account, MONTH);
+        if (infoResult.success) {
+          const userInfo: UserInfo = {
+            id: Number(id),
+            name: infoResult.name,
+            email: infoResult.email,
+            grade: Number(id.substring(0, 4)),
+          };
 
-          wx.showLoading({ title: "获取信息" });
+          showModal("登陆成功", "个人信息获取成功");
+          set(USER_INFO_KEY, userInfo, MONTH);
+          globalData.userInfo = userInfo;
 
-          getInfo().then((res) => {
-            wx.hideLoading();
-            if (res.success) {
-              const userInfo: UserInfo = {
-                id: Number(id),
-                name: res.name,
-                email: res.email,
-                grade: Number(id.substring(0, 4)),
-              };
-
-              showModal("登陆成功", "个人信息获取成功");
-              set(USER_INFO_KEY, userInfo, MONTH);
-              globalData.userInfo = userInfo;
-              this.setData({
-                isSaved: true,
-                // eslint-disable-next-line @typescript-eslint/naming-convention
-                "list.items": getDisplay(userInfo),
-              });
-
-              if (this.state.shouldNavigateBack) this.$back();
-            }
+          this.setData({
+            isSaved: true,
+            // eslint-disable-next-line @typescript-eslint/naming-convention
+            "list.items": getDisplay(userInfo),
           });
-        } else {
-          showModal("登陆失败", res.msg);
+
+          if (this.state.shouldNavigateBack) this.$back();
         }
-      })
-      .catch(() => {
-        wx.hideLoading();
-        showToast("验证失败");
-      });
+      } else {
+        showModal("登陆失败", result.msg);
+      }
+    } catch (err) {
+      wx.hideLoading();
+      showToast("验证失败");
+    }
   },
 
   delete() {

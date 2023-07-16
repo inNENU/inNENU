@@ -83,15 +83,16 @@ $Page("search", {
    *
    * @param value 输入的搜索词
    */
-  searching({ detail: { value } }: WechatMiniprogram.Input) {
+  async searching({ detail: { value } }: WechatMiniprogram.Input) {
     this.state.typing = true;
-    search<string[]>({
+
+    const words = await search<string[]>({
       word: value,
       scope: this.state.name,
       type: "word",
-    }).then((words) => {
-      if (this.state.typing) this.setData({ words });
     });
+
+    if (this.state.typing) this.setData({ words });
   },
 
   /**
@@ -99,20 +100,20 @@ $Page("search", {
    *
    * @param value 搜索词
    */
-  search({ detail: { value } }: { detail: { value: string } }) {
+  async search({ detail: { value } }: { detail: { value: string } }) {
     this.state.typing = false;
     this.setData({ words: [] });
     wx.showLoading({ title: "搜索中..." });
 
-    search<SearchResult[]>({
+    const result = await search<SearchResult[]>({
       word: value,
       scope: this.state.name,
       type: "result",
-    }).then((result) => {
-      this.setData({ result });
-      this.state.value = value;
-      wx.hideLoading();
     });
+
+    this.setData({ result });
+    this.state.value = value;
+    wx.hideLoading();
   },
 
   scrollTop() {

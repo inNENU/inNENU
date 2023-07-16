@@ -739,71 +739,69 @@ $Page(PAGE_ID, {
     });
   },
 
-  loadInfo() {
-    return getInfo({
+  async loadInfo() {
+    const data = await getInfo({
       cookies: this.state.cookies,
       server: this.state.server,
-    }).then((res) => {
-      const isSuccess = res.success;
-
-      if (isSuccess) {
-        const {
-          courseOffices,
-          courseTable,
-          courseTypes,
-          courses,
-          currentGrade,
-          currentLocation,
-          currentMajor,
-          grades,
-          majors,
-          info,
-          jx0502id,
-          jx0502zbid,
-        } = res;
-
-        const selectedCourseIds = Array.from(
-          new Set(
-            courseTable
-              .map((row) => row.map((cell) => cell.map(({ cid }) => cid)))
-              .flat(3),
-          ),
-        );
-
-        this.state = {
-          ...this.state,
-          currentGrade,
-          currentLocation,
-          currentMajor,
-          jx0502id,
-          jx0502zbid,
-          courses,
-          selectedCourseIds,
-        };
-
-        const currentCredit = selectedCourseIds
-          .map((cid) => courses.find((item) => item.cid === cid))
-          .reduce((sum, item) => (item ? item.point + sum : sum), 0);
-
-        this.setData({
-          courseOffices,
-          courseTable,
-          courseTypes,
-          currentCredit,
-          grades,
-          gradeIndex: grades.findIndex((item) => item === currentGrade) + 1,
-          majors,
-          majorIndex: majors.findIndex((item) => item.id === currentMajor) + 1,
-          info,
-        });
-      } else {
-        showModal("获取信息失败", res.msg, () => {
-          this.$back();
-        });
-      }
-
-      return isSuccess;
     });
+
+    if (data.success) {
+      const {
+        courseOffices,
+        courseTable,
+        courseTypes,
+        courses,
+        currentGrade,
+        currentLocation,
+        currentMajor,
+        grades,
+        majors,
+        info,
+        jx0502id,
+        jx0502zbid,
+      } = data;
+
+      const selectedCourseIds = Array.from(
+        new Set(
+          courseTable
+            .map((row) => row.map((cell) => cell.map(({ cid }) => cid)))
+            .flat(3),
+        ),
+      );
+
+      this.state = {
+        ...this.state,
+        currentGrade,
+        currentLocation,
+        currentMajor,
+        jx0502id,
+        jx0502zbid,
+        courses,
+        selectedCourseIds,
+      };
+
+      const currentCredit = selectedCourseIds
+        .map((cid) => courses.find((item) => item.cid === cid))
+        .reduce((sum, item) => (item ? item.point + sum : sum), 0);
+
+      this.setData({
+        courseOffices,
+        courseTable,
+        courseTypes,
+        currentCredit,
+        grades,
+        gradeIndex: grades.findIndex((item) => item === currentGrade) + 1,
+        majors,
+        majorIndex: majors.findIndex((item) => item.id === currentMajor) + 1,
+        info,
+      });
+    } else {
+      showModal("获取信息失败", data.msg, () => {
+        this.$back();
+      });
+    }
+
+    return data.success;
   },
 
   getAmount(id: string) {
@@ -815,19 +813,21 @@ $Page(PAGE_ID, {
     });
   },
 
-  search(options: Omit<SearchOptions, "cookies" | "server" | "jx0502id">) {
-    return search({
+  async search(
+    options: Omit<SearchOptions, "cookies" | "server" | "jx0502id">,
+  ) {
+    const data = await search({
       cookies: this.state.cookies,
       server: this.state.server,
       jx0502id: this.state.jx0502id,
       ...options,
-    }).then((res) => {
-      if (res.success) this.setData({ courses: res.courses });
-      else {
-        showModal("查询失败", res.msg);
-        if (res.type === "relogin") this.$redirect(PAGE_ID);
-      }
     });
+
+    if (data.success) this.setData({ courses: data.courses });
+    else {
+      showModal("查询失败", data.msg);
+      if (data.type === "relogin") this.$redirect(PAGE_ID);
+    }
   },
 
   process(type: "add" | "delete", cid: string) {

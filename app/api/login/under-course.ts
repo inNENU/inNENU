@@ -13,18 +13,22 @@ import { cookieStore } from "../cookie.js";
 
 export const UNDER_SYSTEM_SERVER = "https://dsjx.webvpn.nenu.edu.cn";
 
-export const underSystemLogin = (
+export const underSystemLogin = async (
   options: AccountBasicInfo,
-): Promise<UnderSystemLoginResponse> =>
-  request<UnderSystemLoginResponse>(`${service}under-system/login`, {
-    method: "POST",
-    data: options,
-    scope: UNDER_SYSTEM_SERVER,
-  }).then((data) => {
-    if (!data.success) logger.error("登录失败", data);
+): Promise<UnderSystemLoginResponse> => {
+  const data = await request<UnderSystemLoginResponse>(
+    `${service}under-system/login`,
+    {
+      method: "POST",
+      data: options,
+      scope: UNDER_SYSTEM_SERVER,
+    },
+  );
 
-    return data;
-  });
+  if (!data.success) logger.error("登录失败", data);
+
+  return data;
+};
 
 export const checkUnderSystemCookie = (): Promise<CookieVerifyResponse> =>
   request<CookieVerifyResponse>(`${service}under-system/check`, {
@@ -32,21 +36,21 @@ export const checkUnderSystemCookie = (): Promise<CookieVerifyResponse> =>
     scope: UNDER_SYSTEM_SERVER,
   });
 
-export const ensureUnderSystemLogin = (
+export const ensureUnderSystemLogin = async (
   account: AccountBasicInfo,
   check = false,
 ): Promise<AuthLoginFailedResponse | VPNLoginFailedResponse | null> => {
   const cookies = cookieStore.getCookies(UNDER_SYSTEM_SERVER);
 
-  return cookies
-    ? check
-      ? checkUnderSystemCookie().then(({ valid }) =>
-          valid
-            ? null
-            : underSystemLogin(account).then((res) =>
-                res.success ? null : res,
-              ),
-        )
-      : Promise.resolve(null)
-    : underSystemLogin(account).then((res) => (res.success ? null : res));
+  if (cookies.length) {
+    if (!check) return null;
+
+    const { valid } = await checkUnderSystemCookie();
+
+    if (valid) return null;
+  }
+
+  const result = await underSystemLogin(account);
+
+  return result.success ? null : result;
 };

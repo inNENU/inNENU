@@ -23,16 +23,20 @@ export const login = (
     callback(openid);
   } else if (env === "qq" || env === "wx") {
     wx.login({
-      success: ({ code }) => {
-        if (code)
-          request<LoginCallback>(`${server}service/login.php`, {
-            method: "POST",
-            data: { appID, code, env },
-          }).then((data) => {
-            wx.setStorageSync("openid", data.openid);
-            console.info(`User OPENID: ${data.openid}`);
-            callback(data.openid);
-          });
+      success: async ({ code }) => {
+        if (code) {
+          const data = await request<LoginCallback>(
+            `${server}service/login.php`,
+            {
+              method: "POST",
+              data: { appID, code, env },
+            },
+          );
+
+          wx.setStorageSync("openid", data.openid);
+          console.info(`User OPENID: ${data.openid}`);
+          callback(data.openid);
+        }
       },
       fail: ({ errMsg }) => {
         console.error(`Login failed: ${errMsg}`);

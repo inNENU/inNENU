@@ -4,12 +4,16 @@ import { type CardBalanceResponse } from "./typings.js";
 import { ACTION_SERVER, request } from "../../api/index.js";
 import { service } from "../../config/index.js";
 
-export const getCardBalance = (): Promise<CardBalanceResponse> =>
-  request<CardBalanceResponse>(`${service}action/card-balance`, {
-    method: "POST",
-    scope: ACTION_SERVER,
-  }).then((data) => {
-    if (!data.success) logger.error("获取校园卡余额出错", data);
+export const getCardBalance = async (): Promise<CardBalanceResponse> => {
+  const data = await request<CardBalanceResponse>(
+    `${service}action/card-balance`,
+    {
+      method: "POST",
+      scope: ACTION_SERVER,
+    },
+  );
 
-    return data;
-  });
+  if (!data.success) logger.error("获取校园卡余额出错", data);
+
+  return data;
+};

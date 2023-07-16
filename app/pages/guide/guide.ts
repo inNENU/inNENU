@@ -95,10 +95,14 @@ $Page("guide", {
    *
    * @param value 输入的搜索词
    */
-  searching({ detail: { value } }: WechatMiniprogram.Input) {
-    search<string[]>({ scope: "guide", type: "word", word: value }).then(
-      (words) => this.setData({ words }),
-    );
+  async searching({ detail: { value } }: WechatMiniprogram.Input) {
+    const words = await search<string[]>({
+      scope: "guide",
+      type: "word",
+      word: value,
+    });
+
+    this.setData({ words });
   },
 
   /**

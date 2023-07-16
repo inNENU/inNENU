@@ -32,17 +32,17 @@ export interface Settings {
   update: UpdateSettings;
 }
 
-export const updateSettings = (globalData: GlobalData): void => {
-  requestJSON<Settings>(
-    `r/config/${globalData.appID}/${globalData.version}/settings`,
-  )
-    .then(({ service, notice }) => {
-      globalData.service = service;
-      wx.setStorageSync("service", service);
-      updateNotice(notice);
-    })
-    .catch(() => {
-      // 调试信息
-      logger.warn(`Fetch settings failed`);
-    });
+export const updateSettings = async (globalData: GlobalData): Promise<void> => {
+  try {
+    const { service, notice } = await requestJSON<Settings>(
+      `r/config/${globalData.appID}/${globalData.version}/settings`,
+    );
+
+    globalData.service = service;
+    wx.setStorageSync("service", service);
+    updateNotice(notice);
+  } catch (err) {
+    // 调试信息
+    logger.warn(`Fetch settings failed`);
+  }
 };

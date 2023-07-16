@@ -13,18 +13,19 @@ import { request } from "../net.js";
 
 export const ACTION_SERVER = "https://m-443.webvpn.nenu.edu.cn";
 
-export const actionLogin = (
+export const actionLogin = async (
   options: AccountBasicInfo,
-): Promise<ActionLoginResponse> =>
-  request<ActionLoginResponse>(`${service}action/login`, {
+): Promise<ActionLoginResponse> => {
+  const data = await request<ActionLoginResponse>(`${service}action/login`, {
     method: "POST",
     data: options,
     scope: ACTION_SERVER,
-  }).then((data) => {
-    if (!data.success) logger.error("登陆失败", data.msg);
-
-    return data;
   });
+
+  if (!data.success) logger.error("登陆失败", data.msg);
+
+  return data;
+};
 
 export const checkActionCookie = (): Promise<CookieVerifyResponse> =>
   request<CookieVerifyResponse>(`${service}action/check`, {
@@ -32,19 +33,21 @@ export const checkActionCookie = (): Promise<CookieVerifyResponse> =>
     scope: ACTION_SERVER,
   });
 
-export const ensureActionLogin = (
+export const ensureActionLogin = async (
   account: AccountBasicInfo,
   check = false,
 ): Promise<AuthLoginFailedResponse | VPNLoginFailedResponse | null> => {
   const cookies = cookieStore.getCookies(ACTION_SERVER);
 
-  return cookies.length
-    ? check
-      ? checkActionCookie().then(({ valid }) =>
-          valid
-            ? null
-            : actionLogin(account).then((res) => (res.success ? null : res)),
-        )
-      : Promise.resolve(null)
-    : actionLogin(account).then((res) => (res.success ? null : res));
+  if (cookies.length) {
+    if (!check) return null;
+
+    const { valid } = await checkActionCookie();
+
+    if (valid) return null;
+  }
+
+  const result = await actionLogin(account);
+
+  return result.success ? null : result;
 };
