@@ -3,8 +3,5 @@ export const loadFZSSJW = (global = false): void => {
     family: "FZSSJW",
     source: "url('https://assets.innenu.com/assets/nenu.ttf')",
     global,
-    complete: ({ status }) => {
-      console.log(status);
-    },
   });
 };
