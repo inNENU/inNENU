@@ -1,5 +1,6 @@
 {
   "miniprogramRoot": "dist/",
+  "projectid": "1109559721",
   "compileType": "miniprogram",
   "qqLibVersion": "1.62.2",
   "qqappid": "1109559721",
@@ -7,44 +8,18 @@
   "setting": {
     "urlCheck": true,
     "es6": false,
-    "enhance": false,
     "postcss": true,
-    "preloadBackgroundData": false,
-    "minified": true,
-    "coverView": true,
+    "prefetch": false,
+    "minified": false,
     "autoAudits": false,
-    "showShadowRootInWxmlPanel": true,
-    "ignoreDevUnusedFiles": true,
     "uglifyFileName": false,
-    "checkInvalidKey": true,
     "uploadWithSourceMap": true,
-    "compileHotReLoad": true,
-    "lazyloadPlaceholderEnable": false,
-    "useApiHook": false,
-    "useApiHostProcess": true,
-    "babelSetting": {
-      "ignore": [],
-      "disablePlugins": [],
-      "outputPath": ""
-    },
-    "useIsolateContext": true,
-    "packNpmManually": true,
-    "packNpmRelationList": [
-      {
-        "packageJsonPath": "./package.json",
-        "miniprogramNpmDistDir": "./dist"
-      }
-    ],
-    "minifyWXSS": true,
-    "disableUseStrict": false,
-    "minifyWXML": true,
-    "showES6CompileOption": false,
-    "condition": true,
-    "ignoreUploadUnusedFiles": false
+    "remoteDebugLogEnable": false,
+    "nodeModules": true,
+    "newFeature": true
   },
-  "watchOptions": {
-    "ignore": ["app/**", "node_modules/**", "server/**"]
-  },
+  "createTime": 1689498612931,
+  "accessTime": 1689498612931,
   "packOptions": {
     "ignore": [
       {
@@ -54,11 +29,27 @@
     ],
     "include": []
   },
-  "editorSetting": {
-    "tabIndent": "insertSpaces",
-    "tabSize": 2
+  "debugOptions": {
+    "hidedInDevtools": []
+  },
+  "scripts": {
+    "beforeCompile": "",
+    "beforePreview": "",
+    "beforeUpload": ""
   },
   "condition": {
+    "search": {
+      "current": -1,
+      "list": []
+    },
+    "conversation": {
+      "current": -1,
+      "list": []
+    },
+    "game": {
+      "currentL": -1,
+      "list": []
+    },
     "miniprogram": {
       "list": [
         {

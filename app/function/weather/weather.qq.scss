@@ -427,6 +427,8 @@ $asset-url: "https://mp.innenu.com/";
 
   background-color: var(--bg-color-block);
 
+  text-align: center;
+
   .item {
     display: flex;
     flex-shrink: 0;
@@ -471,10 +473,6 @@ $asset-url: "https://mp.innenu.com/";
     color: #b2b2b2;
     font-size: 12px;
     line-height: 1;
-
-    @media (prefers-color-scheme: dark) {
-      color: #434343;
-    }
   }
 }
 

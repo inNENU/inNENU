@@ -1,0 +1,96 @@
+.page.video-wrapper {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+
+  height: 90vh;
+  padding-top: 10vh;
+}
+
+.video-info {
+  padding: 15px;
+  color: var(--dark-grey);
+  font-family:
+    FZSSJW,
+    -apple-system-font,
+    "PingFang SC",
+    "Helvetica Neue",
+    Helvetica,
+    STHeiti,
+    Tahoma,
+    Simsun,
+    sans-serif !important;
+  text-align: center;
+
+  .name {
+    margin-bottom: 10px;
+    font-weight: 500;
+    font-size: 28px;
+  }
+
+  .author {
+    font-size: 16px;
+  }
+}
+
+.player {
+  width: 700rpx;
+  max-height: 400rpx;
+  margin: 20px auto;
+  border-radius: 16rpx;
+}
+
+.video-list {
+  flex: 1;
+
+  overflow-y: scroll;
+  -webkit-overflow-scrolling: touch;
+
+  padding: 10px 0;
+  border-top-left-radius: 12px;
+  border-top-right-radius: 12px;
+
+  box-shadow: 0 -2px 5px rgb(219 218 223 / 95%);
+
+  .title {
+    margin: 0 auto;
+    padding: 8px 15px 4px;
+
+    font-weight: 500;
+    font-size: 20px;
+    text-align: left;
+  }
+
+  .item {
+    width: 100%;
+    padding: 8px 15px;
+    text-align: left;
+  }
+
+  .name {
+    color: #333;
+    font-size: 16px;
+    font-family:
+      FZSSJW,
+      -apple-system-font,
+      "PingFang SC",
+      "Helvetica Neue",
+      Helvetica,
+      STHeiti,
+      Tahoma,
+      Simsun,
+      sans-serif !important;
+  }
+
+  .author {
+    color: #888;
+    font-size: 13px;
+  }
+
+  .active {
+    .name,
+    .author {
+      color: #3478f7;
+    }
+  }
+}

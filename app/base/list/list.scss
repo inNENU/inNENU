@@ -119,15 +119,11 @@
 
     max-width: 40%;
 
-    color: #8a8a8e;
+    color: #808080;
 
     text-align: right;
     text-overflow: ellipsis;
     white-space: nowrap;
-
-    @media (prefers-color-scheme: dark) {
-      color: #98989f;
-    }
   }
 
   .access {

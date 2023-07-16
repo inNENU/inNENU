@@ -1,0 +1,136 @@
+@use "../../styles/common/mask";
+@import "../../styles/lib/icon";
+
+.popup {
+  position: fixed;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  z-index: 5000;
+
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+
+  overflow: hidden;
+
+  max-height: 80vh;
+  padding: 0 24px;
+  border-top-left-radius: 12px;
+  border-top-right-radius: 12px;
+
+  background-color: #fff;
+
+  line-height: 1.4;
+
+  transition: all 0.3s;
+  transform: translateY(100%);
+}
+
+.popup-wrapper {
+  position: absolute;
+  opacity: 0;
+  visibility: hidden;
+  transition: all 0.3s;
+
+  &.show {
+    opacity: 1;
+    visibility: visible;
+
+    .popup {
+      transform: translateY(0);
+    }
+  }
+}
+
+.popup-head {
+  display: flex;
+  flex: 0;
+  align-items: center;
+
+  min-height: 8em;
+
+  font-size: 8px;
+
+  .icon-button {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+  }
+}
+
+.popup-head-button {
+  position: relative;
+}
+
+.popup-head-title {
+  flex: 1;
+
+  .title {
+    display: block;
+    color: var(--text-color);
+    font-weight: 700;
+    font-size: 15px;
+  }
+
+  .subtitle {
+    display: block;
+    color: var(--grey);
+    font-size: 10px;
+  }
+}
+
+.popup-head-button + .popup-head-title {
+  padding: 0 40px;
+  text-align: center;
+}
+
+.popup-head-title + .popup-head-button {
+  left: auto;
+}
+
+.popup-head-title + .popup-head-button .icon-button {
+  right: 0;
+}
+
+.popup-body {
+  position: relative;
+
+  flex: 1;
+
+  overflow-y: scroll;
+  -webkit-overflow-scrolling: touch;
+
+  word-wrap: break-word;
+  hyphens: auto;
+
+  .text {
+    padding-top: 4px;
+
+    color: var(--text-color);
+
+    font-weight: 700;
+    font-size: 17px;
+    line-height: 1.4;
+  }
+
+  .desc {
+    padding-top: 16px;
+    color: var(--light-grey);
+    font-size: 14px;
+    line-height: 1.4;
+  }
+}
+
+.popup-foot {
+  padding: 24px 24px 0;
+  text-align: center;
+
+  .button:nth-last-child(n + 2),
+  .button:nth-last-child(n + 2) + .button {
+    display: inline-block;
+    vertical-align: top;
+    width: 120px;
+    margin: 0 8px;
+  }
+}

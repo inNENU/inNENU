@@ -1,0 +1,69 @@
+@use "sass:color";
+@use "sass:list";
+
+.course-table-header {
+  display: flex;
+  font-weight: bold;
+}
+
+.course-table-header-item {
+  flex: 1;
+  flex-basis: 0;
+  border-left: 1px dashed var(--border-color);
+}
+
+.course-table-row {
+  display: flex;
+}
+
+.course-row-header {
+  flex: 0;
+  flex-basis: 24px;
+
+  padding: 16px 0;
+  border-bottom: 1px dashed var(--border-color);
+
+  writing-mode: vertical-lr;
+
+  .course-table-header & {
+    padding: 0;
+  }
+}
+
+.course-table-item {
+  flex: 1;
+  flex-basis: 0;
+  border-top: 1px dashed var(--border-color);
+  border-left: 1px dashed var(--border-color);
+}
+
+.course-table-item:first-child {
+  font-weight: bold;
+}
+
+.course-table-course-item {
+  margin: 4px 2px;
+  border: 1px solid var(--border-color);
+  border-radius: 4px;
+  font-size: 13px;
+
+  .name {
+    font-weight: 600;
+  }
+}
+
+$colors: #c0392b, #d35400, #f39c12, #27ae60, #16a085, #2980b9, #8e44ad, #2c3e50,
+  #7f8c8d;
+
+@each $color in $colors {
+  $index: list.index($colors, $color) - 1;
+
+  .course-item#{$index} {
+    background-color: color.scale($color, $lightness: 90%);
+    color: color.scale($color, $lightness: -10%);
+
+    &.hover {
+      background-color: color.scale($color, $lightness: 75%);
+    }
+  }
+}

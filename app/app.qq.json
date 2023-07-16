@@ -107,7 +107,7 @@
     "uploadFile": 8000,
     "downloadFile": 25000
   },
-  "darkmode": true,
+  "darkmode": false,
   "debug": false,
   "resizable": true,
   "permission": {
