@@ -33,6 +33,7 @@ export const showModal = (
     title,
     content,
     showCancel,
+    theme: "day",
     success: ({ cancel, confirm }) => {
       if (confirm && confirmFunc) confirmFunc();
       else if (cancel && cancelFunc) cancelFunc();

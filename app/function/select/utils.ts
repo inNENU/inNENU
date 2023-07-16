@@ -21,6 +21,7 @@ export const confirmReplace = (): Promise<boolean> =>
             editable: true,
             confirmText: "输入完成",
             cancelText: "取消",
+            theme: "day",
             success: ({ confirm, content }) => {
               if (confirm) {
                 if (content === "我已确认") {

@@ -1,8 +1,8 @@
 import { logger } from "@mptool/all";
 
-import { cookieStore } from "./cookie.js";
 import { showToast } from "./ui.js";
 import { assets, server, service } from "../config/index.js";
+import { cookieStore } from "../utils/cookie.js";
 
 /** 网络状态汇报 */
 export const netReport = (): void => {
@@ -64,8 +64,14 @@ export const request = <
 ): Promise<T> =>
   new Promise((resolve, reject) => {
     const url = link.startsWith("http") ? link : `${service}${link}`;
+    const cookieHeader = cookieStore.getHeader(options.scope || url);
 
-    logger.info(`Requesting ${url} with options:`, options);
+    logger.info(
+      `Requesting ${url} with cookie`,
+      cookieHeader,
+      `and options:`,
+      options,
+    );
 
     wx.request<T>({
       url,
@@ -106,7 +112,7 @@ export const request = <
       },
       ...options,
       header: {
-        Cookie: cookieStore.getHeader(options.scope || url),
+        Cookie: cookieHeader,
         ...options.header,
       },
     });

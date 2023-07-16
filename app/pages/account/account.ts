@@ -6,7 +6,6 @@ import {
 } from "../../../typings/components.js";
 import {
   confirmAction,
-  cookieStore,
   getInfo,
   login,
   showModal,
@@ -25,6 +24,7 @@ import {
 } from "../../config/index.js";
 import { type UserInfo } from "../../utils/app.js";
 import { MONTH } from "../../utils/constant.js";
+import { cookieStore } from "../../utils/cookie.js";
 import { popNotice } from "../../utils/page.js";
 
 const { globalData } = getApp<AppOption>();

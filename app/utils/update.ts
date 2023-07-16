@@ -46,6 +46,7 @@ export const updateApp = (globalData: GlobalData): void => {
                 showCancel: !update.reset && !update.force,
                 confirmText: "应用",
                 cancelText: "取消",
+                theme: "day",
                 success: ({ confirm }) => {
                   // 用户确认，应用更新
                   if (confirm) {

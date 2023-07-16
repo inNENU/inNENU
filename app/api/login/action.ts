@@ -8,7 +8,7 @@ import {
 import { type CookieVerifyResponse } from "../../../typings/response.js";
 import { service } from "../../config/index.js";
 import { type AccountBasicInfo } from "../../utils/app.js";
-import { cookieStore } from "../cookie.js";
+import { cookieStore } from "../../utils/cookie.js";
 import { request } from "../net.js";
 
 export const ACTION_SERVER = "https://m-443.webvpn.nenu.edu.cn";

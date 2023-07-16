@@ -141,6 +141,7 @@ export const checkResource = (): void => {
               cancelText: "取消",
               cancelColor: "#ff0000",
               confirmText: "更新",
+              theme: "day",
               success: ({ confirm, cancel }) => {
                 // 用户确认，下载更新
                 if (confirm)
@@ -157,6 +158,7 @@ export const checkResource = (): void => {
                     confirmColor: "#ff0000",
                     confirmText: "确定",
                     showCancel: false,
+                    theme: "day",
                   });
               },
             });

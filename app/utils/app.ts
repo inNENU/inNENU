@@ -238,6 +238,7 @@ const registerActions = (globalData: GlobalData): void => {
             "您可以点击右上角选择分享到好友、分享到朋友圈/空间\n您也可以点击页面右下角的分享图标，选择保存二维码分享小程序",
           showCancel: status === "noticed",
           cancelText: "不再提示",
+          theme: "day",
           success: ({ cancel, confirm }) => {
             if (confirm) {
               wx.setStorageSync("capture-screen", "noticed");

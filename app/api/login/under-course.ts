@@ -9,7 +9,7 @@ import { type CookieVerifyResponse } from "../../../typings/index.js";
 import { request } from "../../api/index.js";
 import { service } from "../../config/index.js";
 import { type AccountBasicInfo } from "../../utils/app.js";
-import { cookieStore } from "../cookie.js";
+import { cookieStore } from "../../utils/cookie.js";
 
 export const UNDER_SYSTEM_SERVER = "https://dsjx.webvpn.nenu.edu.cn";
 
