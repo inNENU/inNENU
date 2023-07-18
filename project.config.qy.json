@@ -154,6 +154,13 @@
           "scene": null
         },
         {
+          "name": "激活账户",
+          "pathName": "function/activate/activate",
+          "query": "",
+          "launchMode": "default",
+          "scene": null
+        },
+        {
           "name": "校历",
           "pathName": "function/calendar/calendar",
           "query": "",

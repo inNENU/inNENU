@@ -19,6 +19,7 @@
     {
       "root": "function",
       "pages": [
+        "activate/activate",
         "calendar/calendar",
         "course/grade",
         "course/table",

@@ -1,10 +1,10 @@
 @import "../utils/icon";
 
 .notice-detail {
-  text-align: left;
   display: flex;
   flex-direction: column;
   height: 100vh;
+  text-align: left;
 }
 
 .title {
@@ -20,9 +20,10 @@
 }
 
 .content {
+  flex: 1;
+
   width: calc(100% - 30px);
   margin: 8px 15px;
-  flex: 1;
 
   font-size: 15px;
   text-align: justify;

@@ -56,9 +56,9 @@ export type FetchOptions = Pick<
  * @param errorFunc 状态码错误回调函数
  */
 export const request = <
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   T extends Record<never, never> | unknown[] | string | ArrayBuffer = Record<
     string,
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     any
   >,
 >(
