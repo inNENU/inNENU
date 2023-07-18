@@ -44,7 +44,7 @@ export const netReport = (): void => {
 
 export type FetchOptions = Pick<
   WechatMiniprogram.RequestOption,
-  "data" | "header" | "method" | "timeout"
+  "data" | "header" | "method" | "timeout" | "responseType"
 > & { scope?: string };
 
 /**
