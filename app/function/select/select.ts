@@ -157,9 +157,16 @@ $Page(PAGE_ID, {
           );
         });
     } else {
-      showModal("请先登录", "暂无账号信息，请输入", (): void => {
-        this.$go("account?from=选课系统&update=true");
-      });
+      showModal(
+        "请先登录",
+        "暂无账号信息，请输入",
+        (): void => {
+          this.$go("account?from=选课系统&update=true");
+        },
+        () => {
+          this.$back();
+        },
+      );
     }
 
     popNotice(PAGE_ID);

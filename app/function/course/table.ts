@@ -111,9 +111,16 @@ $Page(PAGE_ID, {
     if (coursesData) this.state.coursesData = coursesData;
 
     if (!account) {
-      showModal("请先登录", "暂无账号信息，请输入", (): void => {
-        this.$go("account?from=课程表&update=true");
-      });
+      showModal(
+        "请先登录",
+        "暂无账号信息，请输入",
+        (): void => {
+          this.$go("account?from=课程表&update=true");
+        },
+        () => {
+          this.$back();
+        },
+      );
     } else {
       const grade = Math.floor(account.id / 1000000);
       const times = getTimes(grade);
