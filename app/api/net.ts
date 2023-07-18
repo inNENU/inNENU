@@ -57,7 +57,10 @@ export type FetchOptions = Pick<
  */
 export const request = <
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  T extends Record<never, never> | unknown[] | string = Record<string, any>,
+  T extends Record<never, never> | unknown[] | string | ArrayBuffer = Record<
+    string,
+    any
+  >,
 >(
   link: string,
   options: FetchOptions = {},

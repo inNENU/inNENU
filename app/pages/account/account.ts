@@ -123,7 +123,6 @@ $Page(PAGE_ID, {
     imageUrl: `${appCoverPrefix}.jpg`,
   }),
 
-  /** 输入成绩 */
   input({ currentTarget, detail }: WechatMiniprogram.Input) {
     const { id } = currentTarget;
     const { value } = detail;
