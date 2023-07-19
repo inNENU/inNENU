@@ -44,7 +44,6 @@
             <input
               id="name"
               class="input"
-              type="digit"
               adjust-position="{{false}}"
               value="{{name}}"
               bindinput="input"
@@ -79,7 +78,7 @@
             <input
               id="id"
               class="input"
-              type="digit"
+              type="idcard"
               adjust-position="{{false}}"
               value="{{id}}"
               bindinput="input"
@@ -90,7 +89,6 @@
             <input
               id="captcha"
               class="input"
-              type="text"
               adjust-position="{{false}}"
               value="{{captcha}}"
               bindinput="input"
@@ -115,7 +113,7 @@
             <input
               id="phone"
               class="input"
-              type="text"
+              type="digit"
               adjust-position="{{false}}"
               placeholder="这是账户将绑定的手机号"
               value="{{phone}}"
@@ -127,7 +125,7 @@
             <input
               id="smsCode"
               class="input"
-              type="text"
+              type="digit"
               adjust-position="{{false}}"
               value="{{smsCode}}"
               bindinput="input"
