@@ -104,7 +104,7 @@ $Page(PAGE_ID, {
   onReady() {
     // 读取在线文件更新页面显示
     requestJSON<ComponentConfig[]>(
-      `r/config/${globalData.appID}/${globalData.version}/about`,
+      `d/config/${globalData.appID}/${globalData.version}/about`,
     )
       .then((data: ComponentConfig[]) => {
         setPage(
