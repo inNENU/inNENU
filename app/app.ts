@@ -19,6 +19,7 @@ $Config({
   routes: [
     [
       [
+        "activate",
         "admission",
         "calendar",
         "library",
