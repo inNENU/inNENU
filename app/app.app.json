@@ -13,7 +13,7 @@
     "pages/web/web",
     "pages/about/about",
     "pages/settings/settings",
-    "fucntion/activate/activate",
+    "function/activate/activate",
     "function/calendar/calendar",
     "function/course/grade",
     "function/course/table",

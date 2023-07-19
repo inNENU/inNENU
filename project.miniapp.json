@@ -1,9 +1,9 @@
 {
   "miniVersion": "v2",
   "name": "in东师",
-  "version": "6.0.0",
+  "version": "5.8.2",
   "mini-android": {
-    "sdkVersion": "1.0.5",
+    "sdkVersion": "1.0.7",
     "toolkitVersion": "0.7.3",
     "useExtendedSdk": {
       "media": true,
@@ -34,10 +34,13 @@
     "privateDescriptions": {
       "ACCESS_COARSE_LOCATION": "您的位置将用于地图显示",
       "ACCESS_FINE_LOCATION": "您的位置将用于校园地图导航"
+    },
+    "map": {
+      "qmapAPIKey": "NLVBZ-PGJRQ-T7K5F-GQ54N-GIXDH-FCBC4"
     }
   },
   "mini-ios": {
-    "sdkVersion": "1.0.9",
+    "sdkVersion": "1.0.14",
     "toolkitVersion": "0.0.9",
     "useExtendedSdk": {
       "WeAppOpenFuns": false,
@@ -53,14 +56,14 @@
       "mainIcon180": "assets/ios-retina.png",
       "spotlightIcon80": "assets/spotlight.png",
       "spotlightIcon120": "assets/ios.png",
-      "settingsIcon58": "",
-      "settingsIcon87": "",
-      "notificationIcon40": "",
-      "notificationIcon60": "",
+      "settingsIcon58": "assets/ios-settings-small.png",
+      "settingsIcon87": "assets/ios-settings.png",
+      "notificationIcon40": "assets/ios-notify-small.png",
+      "notificationIcon60": "assets/ios-notify.png",
       "appStore1024": "assets/app-store.png"
     },
     "splashScreen": {
-      "customImage": ""
+      "customImage": "assets/splash-xxhdpi.jpg"
     },
     "privacy": {
       "enable": true,
@@ -69,7 +72,11 @@
     "privateDescriptions": {
       "NSPhotoLibraryAddUsageDescription": "写入图片至你的相册",
       "NSLocationWhenInUseUsageDescription": "您的位置将用于校园地图导航"
+    },
+    "qmapAPIKey": "NLVBZ-PGJRQ-T7K5F-GQ54N-GIXDH-FCBC4",
+    "infoPlist": {
+      "AudioInBackgroundMode": true
     }
   },
-  "versionCode": 4
+  "versionCode": 5
 }
