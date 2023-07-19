@@ -5,7 +5,7 @@ import type {
   WechatArticleItem,
   WechatConfig,
 } from "../../../typings/index.js";
-import { showModal, showToast } from "../../api/index.js";
+import { request, showModal, showToast } from "../../api/index.js";
 import type { AppOption } from "../../app.js";
 import { appCoverPrefix, server } from "../../config/index.js";
 import { ensureJSON } from "../../utils/json.js";
@@ -75,39 +75,38 @@ $Page(PAGE_ID, {
 
     this.ctx = ctx;
 
-    wx.request<WechatConfig>({
+    request<WechatConfig>(`${server}service/account.php`, {
       method: "POST",
-      url: `${server}service/account.php`,
       data: { id: this.state.path },
-      enableHttp2: true,
-      success: ({ data, statusCode }) => {
-        if (statusCode === 200) {
-          const {
-            article,
-            name,
-            desc,
-            logo,
-            id,
-            qrcode,
-            authorized = false,
-            follow = "",
-          } = data;
+    })
+      .then((data) => {
+        const {
+          article,
+          name,
+          desc,
+          logo,
+          id,
+          qrcode,
+          authorized = false,
+          follow = "",
+        } = data;
 
-          this.setData({
-            loading: false,
-            name,
-            desc,
-            logo,
-            id,
-            qrcode,
-            authorized,
-            follow,
-          });
+        this.setData({
+          loading: false,
+          name,
+          desc,
+          logo,
+          id,
+          qrcode,
+          authorized,
+          follow,
+        });
 
-          ctx.append(article.map(this.appendSize));
-        } else showToast("服务器出现问题");
-      },
-    });
+        ctx.append(article.map(this.appendSize));
+      })
+      .catch(() => {
+        showToast("服务器出现问题");
+      });
   },
 
   onPageScroll(options) {

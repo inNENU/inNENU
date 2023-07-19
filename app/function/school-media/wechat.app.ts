@@ -1,7 +1,7 @@
 import { $Page } from "@mptool/all";
 
 import type { WechatConfig } from "../../../typings/index.js";
-import { showToast } from "../../api/index.js";
+import { request, showToast } from "../../api/index.js";
 import type { AppOption } from "../../app.js";
 import { server } from "../../config/index.js";
 import { ensureJSON } from "../../utils/json.js";
@@ -34,16 +34,16 @@ $Page(PAGE_ID, {
       color: getColor(true),
     });
 
-    wx.request<WechatConfig>({
+    request<WechatConfig>(`${server}service/account.php`, {
       method: "POST",
-      url: `${server}service/account.php`,
       data: { id: path },
-      enableHttp2: true,
-      success: ({ data, statusCode }) => {
-        if (statusCode === 200) this.setData({ loading: false, config: data });
-        else showToast("服务器出现问题");
-      },
-    });
+    })
+      .then((data) => {
+        this.setData({ loading: false, config: data });
+      })
+      .catch(() => {
+        showToast("服务器出现问题");
+      });
 
     this.state.path = path;
 

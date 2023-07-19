@@ -68,8 +68,8 @@ export const downloadResource = async (
 
                 // 判断取消提示
                 if (showProgress) {
-                  progressNumber -= 1;
-                  if (progressNumber === 0) wx.hideLoading();
+                  progressNumber += 1;
+                  if (progressNumber === total) wx.hideLoading();
                   else
                     wx.showLoading({
                       title: `更新中(${progressNumber}/${total})`,

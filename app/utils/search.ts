@@ -1,7 +1,5 @@
-import { logger } from "@mptool/all";
-
 import type { SearchIndex } from "../../typings/index.js";
-import { netReport, showToast } from "../api/index.js";
+import { request } from "../api/index.js";
 import { server } from "../config/index.js";
 
 /** 搜索结果 */
@@ -33,36 +31,12 @@ export interface SearchData {
  */
 export const search = <T extends string[] | SearchResult[]>(
   data: SearchData,
-): Promise<T> =>
-  new Promise((resolve, reject) => {
-    wx.request<T>({
-      url: `${server}service/search.php`,
-      method: "POST",
-      enableHttp2: true,
-      data,
-      success: ({ data, statusCode }) => {
-        if (statusCode === 200) {
-          // 调试
-          logger.debug(`Request success: `, data);
+): Promise<T> => {
+  // eslint-disable-next-line @typescript-eslint/naming-convention
+  wx.reportEvent?.("search", { search_word: data.word });
 
-          resolve(data);
-        } else {
-          showToast("服务器出现问题，请稍后重试");
-          // 调试
-          logger.warn(`Request failed with statusCode: ${statusCode}`);
-
-          reject(statusCode);
-        }
-      },
-      fail: ({ errMsg }) => {
-        reject(errMsg);
-        netReport();
-
-        // 调试
-        logger.warn(`Request failed: ${errMsg}`);
-      },
-    });
-
-    // eslint-disable-next-line @typescript-eslint/naming-convention
-    wx.reportEvent?.("search", { search_word: data.word });
+  return request<T>(`${server}service/search.php`, {
+    method: "POST",
+    data,
   });
+};

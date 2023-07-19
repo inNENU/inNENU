@@ -6,7 +6,7 @@ import { defaultResources, downloadResource } from "./resource.js";
 import { ServiceSettings, updateSettings } from "./settings.js";
 import { updateApp } from "./update.js";
 import type { PageData, VersionInfo } from "../../typings/index.js";
-import { showToast } from "../api/index.js";
+import { request, showToast } from "../api/index.js";
 import {
   ACCOUNT_INFO_KEY,
   USER_INFO_KEY,
@@ -126,27 +126,23 @@ export const initializeApp = (): void => {
     wx.setStorageSync("themeNum", defaultAppConfig.themeNum);
   }
 
-  downloadResource(defaultResources, false).then(() => {
-    // 下载资源文件并写入更新时间
-    const timeStamp = new Date().getTime();
+  downloadResource(defaultResources, false)
+    .then(() => {
+      // 下载资源文件并写入更新时间
+      const timeStamp = new Date().getTime();
 
-    wx.setStorageSync("resource-update-time", Math.round(timeStamp / 1000));
+      wx.setStorageSync("resource-update-time", Math.round(timeStamp / 1000));
 
-    wx.request<VersionInfo>({
-      url: `${server}service/version.php`,
-      enableHttp2: true,
-      success: ({ statusCode, data }) => {
-        console.log("Version info", data);
-        if (statusCode === 200) {
-          writeJSON("resource-version", data.version);
-          // 成功初始化
-          wx.setStorageSync("app-inited", true);
-          emitter.emit("inited");
-          wx.hideLoading();
-        }
-      },
+      return request<VersionInfo>(`${server}service/version.php`);
+    })
+    .then((data) => {
+      console.log("Version info", data);
+      writeJSON("resource-version", data.version);
+      // 成功初始化
+      wx.setStorageSync("app-inited", true);
+      emitter.emit("inited");
+      wx.hideLoading();
     });
-  });
 };
 
 export const getGlobalData = (): GlobalData => {

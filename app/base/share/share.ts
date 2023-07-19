@@ -2,7 +2,7 @@ import type { PropType } from "@mptool/all";
 import { $Component, logger } from "@mptool/all";
 
 import type { PageData } from "../../../typings/index.js";
-import { savePhoto, showModal, showToast } from "../../api/index.js";
+import { request, savePhoto, showModal, showToast } from "../../api/index.js";
 import type { AppOption } from "../../app.js";
 import { appName, server, service } from "../../config/index.js";
 import { path2id } from "../../utils/id.js";
@@ -66,19 +66,13 @@ $Component({
     },
 
     copyWechatLink() {
-      wx.request<LinkData>({
-        url: `${server}service/share-link.php`,
-        enableHttp2: true,
+      request<LinkData>(`${server}service/share-link.php`, {
         method: "POST",
         data: { appID, id: this.data.config.id! },
-        success: ({ data, statusCode }) => {
-          if (statusCode === 200 && !data.error) this.copy(data.link);
-          else
-            showModal(
-              "链接尚未生成",
-              "请使用小程序右上角菜单(···)来复制链接。",
-            );
-        },
+      }).then((data) => {
+        if (data.error)
+          showModal("链接尚未生成", "请使用小程序右上角菜单(···)来复制链接。");
+        else this.copy(data.link);
       });
     },
 
