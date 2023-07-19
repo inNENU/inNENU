@@ -62,7 +62,7 @@ $Page(PAGE_ID, {
     id: "",
     captcha: "",
 
-    phone: "",
+    mobile: "",
     smsCode: "",
 
     password: "",
@@ -158,9 +158,9 @@ $Page(PAGE_ID, {
   },
 
   sendSMS() {
-    const { phone } = this.data;
+    const { mobile } = this.data;
 
-    if (phone.length !== 11) {
+    if (mobile.length !== 11) {
       showModal("手机号码有误", "请输入正确的手机号");
 
       return;
@@ -168,7 +168,7 @@ $Page(PAGE_ID, {
 
     const options: ActivatePhoneSmsOptions = {
       type: "sms",
-      phone,
+      mobile,
       activationId: this.state.activationId,
     };
 
@@ -185,11 +185,11 @@ $Page(PAGE_ID, {
   },
 
   bindPhone() {
-    const { phone, smsCode } = this.data;
+    const { mobile, smsCode } = this.data;
 
     const options: ActivateBindPhoneOptions = {
       type: "bind-phone",
-      phone,
+      mobile,
       activationId: this.state.activationId,
       code: smsCode,
     };
@@ -204,7 +204,7 @@ $Page(PAGE_ID, {
         showModal("手机号冲突", `${data.msg}是否绑定该手机号？`, () => {
           const options: ActivateReplacePhoneOptions = {
             type: "replace-phone",
-            phone,
+            mobile,
             activationId: this.state.activationId,
             code: smsCode,
           };

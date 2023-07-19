@@ -41,7 +41,7 @@ export type ActivateInfoResponse =
 export interface ActivatePhoneSmsOptions {
   type: "sms";
   activationId: string;
-  phone: string;
+  mobile: string;
 }
 
 export type ActivatePhoneSmsResponse =
@@ -51,7 +51,7 @@ export type ActivatePhoneSmsResponse =
 export interface ActivateBindPhoneOptions {
   type: "bind-phone";
   activationId: string;
-  phone: string;
+  mobile: string;
   code: string;
 }
 
@@ -67,7 +67,7 @@ export type ActivateBindPhoneResponse =
 export interface ActivateReplacePhoneOptions {
   type: "replace-phone";
   activationId: string;
-  phone: string;
+  mobile: string;
   code: string;
 }
 

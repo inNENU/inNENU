@@ -125,7 +125,7 @@ export type ActivatePhoneSmsResponse =
 
 export const sendSms = async ({
   activationId,
-  phone,
+  mobile,
 }: ActivatePhoneSmsOptions): Promise<ActivatePhoneSmsResponse> => {
   const sendCodeResult = await request<
     CodeRawSuccessResponse | CodeRawFailedResponse
@@ -136,7 +136,7 @@ export const sendSms = async ({
     },
     data: {
       activationId,
-      phone,
+      mobile,
     },
   });
 
@@ -162,7 +162,7 @@ interface PhoneRawSuccessResponse {
 export const bindPhone = async ({
   activationId,
   code,
-  phone,
+  mobile,
 }: ActivateBindPhoneOptions): Promise<ActivateBindPhoneResponse> => {
   const content = await request<PhoneRawSuccessResponse | RawErrorResponse>(
     `${ACTIVATE_SERVER}/api/staff/activate/mobile`,
@@ -171,7 +171,7 @@ export const bindPhone = async ({
       header: {
         "Content-Type": "application/json;charset=UTF-8",
       },
-      data: { activationId, phone, checkCode: code },
+      data: { activationId, mobile, checkCode: code },
     },
   );
 
@@ -197,7 +197,7 @@ export const bindPhone = async ({
 export const replacePhone = async ({
   activationId,
   code,
-  phone,
+  mobile,
 }: ActivateReplacePhoneOptions): Promise<ActivateReplacePhoneResponse> => {
   const content = await request<PhoneRawSuccessResponse | RawErrorResponse>(
     `${ACTIVATE_SERVER}/api/staff/activate/mobile/unbind`,
@@ -206,7 +206,7 @@ export const replacePhone = async ({
       header: {
         "Content-Type": "application/json;charset=UTF-8",
       },
-      data: JSON.stringify({ activationId, phone, checkCode: code }),
+      data: JSON.stringify({ activationId, mobile, checkCode: code }),
     },
   );
 

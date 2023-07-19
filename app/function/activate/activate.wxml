@@ -104,19 +104,19 @@
           验证信息
         </button>
       </block>
-      <block wx:elif="{{stage=== 'phone'}}">
+      <block wx:elif="{{stage === 'phone'}}">
         <view class="activate-title">绑定手机</view>
 
         <view class="input-list-wrapper">
           <view class="input-list-item">
             <view class="text">手机号</view>
             <input
-              id="phone"
+              id="mobile"
               class="input"
               type="digit"
               adjust-position="{{false}}"
               placeholder="这是账户将绑定的手机号"
-              value="{{phone}}"
+              value="{{mobile}}"
               bindinput="input"
             />
           </view>
