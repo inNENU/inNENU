@@ -10,8 +10,18 @@ import {
 } from "@mptool/all";
 
 import type { VersionInfo } from "../../typings/index.js";
-import { showToast } from "../api/index.js";
+import { request, showToast } from "../api/index.js";
 import { assets, server } from "../config/index.js";
+
+export const defaultResources = [
+  "apartment",
+  "function",
+  "guide",
+  "icon",
+  "intro",
+  "newcomer",
+  "school",
+];
 
 /**
  * 资源下载
@@ -19,63 +29,71 @@ import { assets, server } from "../config/index.js";
  * @param fileName 下载资源名称
  * @param showProgress 是否开启进度提示
  */
-export const downloadResource = (
-  fileName: string,
+export const downloadResource = async (
+  fileNames: string[],
   showProgress = true,
-): Promise<void> =>
-  new Promise((resolve, reject) => {
-    if (showProgress) wx.showLoading({ title: "下载中...", mask: true });
+): Promise<void> => {
+  const total = fileNames.length;
+  let progressNumber = 0;
 
-    // 取消下载成功提示并移除对应资源文件
-    fileName.split("-").forEach((resource) => {
-      if (resource) {
-        wx.setStorageSync(`${resource}Download`, false);
-        if (exists(resource)) rm(resource, "dir");
-      }
-    });
+  if (showProgress) wx.showLoading({ title: `更新中(0/${total})`, mask: true });
 
-    const downLoadTask = wx.downloadFile({
-      url: `${assets}r/${fileName}.zip`,
-      success: ({ statusCode, tempFilePath }) => {
-        if (statusCode === 200) {
-          if (showProgress) wx.showLoading({ title: "保存中...", mask: true });
+  // 取消下载成功提示并移除对应资源文件
+  await Promise.all(
+    fileNames.map((resource) => {
+      wx.setStorageSync(`${resource}Download`, false);
+      if (exists(resource)) rm(resource, "dir");
 
-          // 保存压缩文件到压缩目录
-          saveFile(tempFilePath, "zipTemp");
+      return new Promise<void>((resolve, reject) => {
+        wx.downloadFile({
+          url: `${assets}d/${resource}.zip`,
+          success: ({ statusCode, tempFilePath }) => {
+            if (statusCode === 200) {
+              // if (showProgress)
+              //   wx.showLoading({ title: "保存中...", mask: true });
 
-          if (showProgress) wx.showLoading({ title: "解压中...", mask: true });
+              // 保存压缩文件到压缩目录
+              saveFile(tempFilePath, `${resource}.zip`);
 
-          // 解压文件到根目录
-          unzip("zipTemp", "").then(() => {
-            // 删除压缩包
-            rm("zipTemp", "file");
+              // if (showProgress)
+              //   wx.showLoading({ title: "解压中...", mask: true });
 
-            // 将下载成功信息写入存储
-            fileName.split("-").forEach((resource) => {
-              if (resource) wx.setStorageSync(`${resource}Download`, true);
-            });
+              // 解压文件到根目录
+              unzip(`${resource}.zip`, "").then(() => {
+                // 删除压缩包
+                rm(`${resource}.zip`, "file");
 
-            // 判断取消提示
-            if (showProgress) wx.hideLoading();
-            resolve();
-          });
-        } else {
-          reject(statusCode);
-        }
-      },
+                // 将下载成功信息写入存储
+                wx.setStorageSync(`${resource}Download`, true);
 
-      // 下载失败
-      fail: ({ errMsg }) => {
-        logger.error(`download ${fileName} fail: ${errMsg}`);
-        reject(errMsg);
-      },
-    });
+                // 判断取消提示
+                if (showProgress) {
+                  progressNumber -= 1;
+                  if (progressNumber === 0) wx.hideLoading();
+                  else
+                    wx.showLoading({
+                      title: `更新中(${progressNumber}/${total})`,
+                      mask: true,
+                    });
+                }
 
-    downLoadTask.onProgressUpdate(({ progress }) => {
-      if (showProgress)
-        wx.showLoading({ title: `下载中...${progress}%`, mask: true });
-    });
-  });
+                resolve();
+              });
+            } else {
+              reject(statusCode);
+            }
+          },
+
+          // 下载失败
+          fail: ({ errMsg }) => {
+            logger.error(`download ${resource} fail: ${errMsg}`);
+            reject(errMsg);
+          },
+        });
+      });
+    }),
+  );
+};
 
 let hasResPopup = false;
 
@@ -91,9 +109,12 @@ export const checkResource = (): void => {
   /** 资源提醒状态 */
   let notify = wx.getStorageSync<boolean | undefined>("resourceNotify");
   /** 本地资源版本 */
-  const localVersion: Record<string, number> = readJSON("version") || {};
+  const localVersion: Record<string, number> =
+    readJSON("resource-version") || {};
   /** 上次更新时间 */
-  const localTime = wx.getStorageSync<number | undefined>(`resourceUpdateTime`);
+  const localTime = wx.getStorageSync<number | undefined>(
+    `resource-update-time`,
+  );
   /** 当前时间 */
   const currentTime = Math.round(new Date().getTime() / 1000);
 
@@ -112,65 +133,62 @@ export const checkResource = (): void => {
 
   // 需要检查更新
   if (notify && !hasResPopup)
-    wx.request<VersionInfo>({
-      url: `${server}service/resource.php`,
-      enableHttp2: true,
+    request<VersionInfo>(`${server}service/version.php`, {
       method: "POST",
-      success: ({ statusCode, data }) => {
-        // 资源为最新
-        if (statusCode === 200) {
-          const updateList: string[] = [];
+    })
+      .then((data) => {
+        const updateList: string[] = [];
 
-          for (const key in data.version)
-            if (data.version[key] !== localVersion[key]) updateList.push(key);
+        for (const key in data.version)
+          if (data.version[key] !== localVersion[key]) updateList.push(key);
 
-          // 需要更新
-          if (updateList.length > 0) {
-            // 调试
-            logger.info("Newer resource detected");
-
-            const fileName = updateList.join("-");
-            const size = data.size[fileName];
-
-            hasResPopup = true;
-
-            // 需要提醒
-            wx.showModal({
-              title: "内容更新",
-              content: `请更新资源以获得最新内容。(会消耗${size}K流量)`,
-              cancelText: "取消",
-              cancelColor: "#ff0000",
-              confirmText: "更新",
-              theme: "day",
-              success: ({ confirm, cancel }) => {
-                // 用户确认，下载更新
-                if (confirm)
-                  downloadResource(fileName).then(() => {
-                    writeJSON("version", data.version);
-                    hasResPopup = false;
-                  });
-                // 用户取消，警告用户
-                else if (cancel)
-                  wx.showModal({
-                    title: "更新已取消",
-                    content:
-                      "您会错过本次新增与修正的内容，导致的后果请您自负!",
-                    confirmColor: "#ff0000",
-                    confirmText: "确定",
-                    showCancel: false,
-                    theme: "day",
-                  });
-              },
-            });
-          }
+        // 需要更新
+        if (updateList.length > 0) {
           // 调试
-          else {
-            logger.debug("Newest resource already downloaded");
-          }
-        } else {
-          showToast("服务器出现问题");
+          logger.info("Newer resource detected");
+
+          const size = updateList.reduce(
+            (sum, item) => sum + data.size[item],
+            0,
+          );
+
+          hasResPopup = true;
+
+          // 需要提醒
+          wx.showModal({
+            title: "内容更新",
+            content: `请更新资源以获得最新内容。(会消耗${size}K流量)`,
+            cancelText: "取消",
+            cancelColor: "#ff0000",
+            confirmText: "更新",
+            theme: "day",
+            success: ({ confirm, cancel }) => {
+              // 用户确认，下载更新
+              if (confirm)
+                downloadResource(updateList).then(() => {
+                  writeJSON("resource-version", data.version);
+                  hasResPopup = false;
+                });
+              // 用户取消，警告用户
+              else if (cancel)
+                wx.showModal({
+                  title: "更新已取消",
+                  content: "您会错过本次新增与修正的内容，导致的后果请您自负!",
+                  confirmColor: "#ff0000",
+                  confirmText: "确定",
+                  showCancel: false,
+                  theme: "day",
+                });
+            },
+          });
         }
-      },
-      fail: () => showToast("服务器出现问题"),
-    });
+        // 调试
+        else {
+          logger.debug("Newest resource already downloaded");
+        }
+      })
+      .catch((err) => {
+        console.error("Resource check failed: ", err);
+        showToast("服务器出现问题");
+      });
 };

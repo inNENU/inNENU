@@ -75,7 +75,7 @@ $Page("main", {
 
     // 执行 tab 页预加载
     ["function", "guide", "intro", "user"].forEach((x) => {
-      requestJSON(`r/config/${globalData.appID}/${globalData.version}/${x}`)
+      requestJSON(`d/config/${globalData.appID}/${globalData.version}/${x}`)
         .then((data) => {
           wx.setStorageSync(x, data);
           this.$preload(`${x}?id=${x}`);

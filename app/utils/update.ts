@@ -30,11 +30,11 @@ export const updateApp = (globalData: GlobalData): void => {
 
     updateManager.onUpdateReady(() => {
       // 请求配置文件
-      requestJSON<string>(`r/config/${globalData.appID}/version`)
+      requestJSON<string>(`d/config/${globalData.appID}/version`)
         .then((version) =>
           // 请求配置文件
           requestJSON<Settings>(
-            `r/config/${globalData.appID}/${version}/settings`,
+            `d/config/${globalData.appID}/${version}/settings`,
           )
             .then(({ update }) => {
               // 更新下载就绪，提示用户重新启动

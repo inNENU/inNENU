@@ -2,7 +2,7 @@
 import { emitter, get, logger, writeJSON } from "@mptool/all";
 
 import { platformActions } from "./app-platform.js";
-import { downloadResource } from "./resource.js";
+import { defaultResources, downloadResource } from "./resource.js";
 import { ServiceSettings, updateSettings } from "./settings.js";
 import { updateApp } from "./update.js";
 import type { PageData, VersionInfo } from "../../typings/index.js";
@@ -126,19 +126,19 @@ export const initializeApp = (): void => {
     wx.setStorageSync("themeNum", defaultAppConfig.themeNum);
   }
 
-  downloadResource("function-guide-icon-intro", false).then(() => {
+  downloadResource(defaultResources, false).then(() => {
     // 下载资源文件并写入更新时间
     const timeStamp = new Date().getTime();
 
-    wx.setStorageSync("resourceUpdateTime", Math.round(timeStamp / 1000));
+    wx.setStorageSync("resource-update-time", Math.round(timeStamp / 1000));
 
     wx.request<VersionInfo>({
-      url: `${server}service/resource.php`,
+      url: `${server}service/version.php`,
       enableHttp2: true,
       success: ({ statusCode, data }) => {
         console.log("Version info", data);
         if (statusCode === 200) {
-          writeJSON("version", data.version);
+          writeJSON("resource-version", data.version);
           // 成功初始化
           wx.setStorageSync("app-inited", true);
           emitter.emit("inited");

@@ -9,7 +9,7 @@ import type {
 import { confirmAction, showModal, showToast } from "../../api/index.js";
 import type { AppOption } from "../../app.js";
 import { getColor, popNotice, setPage } from "../../utils/page.js";
-import { downloadResource } from "../../utils/resource.js";
+import { defaultResources, downloadResource } from "../../utils/resource.js";
 
 const { globalData } = getApp<AppOption>();
 const { envName, version } = globalData;
@@ -169,7 +169,7 @@ $Page("settings", {
   /** 刷新所有资源 */
   updateResource() {
     confirmAction("更新资源文件", () => {
-      downloadResource("function-guide-icon-intro");
+      downloadResource(defaultResources);
     });
   },
 

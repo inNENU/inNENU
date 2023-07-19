@@ -38,7 +38,7 @@ export interface Settings {
 export const updateSettings = async (globalData: GlobalData): Promise<void> => {
   try {
     const { service, notice } = await requestJSON<Settings>(
-      `r/config/${globalData.appID}/${globalData.version}/settings`,
+      `d/config/${globalData.appID}/${globalData.version}/settings`,
     );
 
     globalData.service = service;

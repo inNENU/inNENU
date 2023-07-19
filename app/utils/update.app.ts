@@ -13,7 +13,7 @@ import { assets } from "../config/index.js";
 export const updateApp = async (globalData: GlobalData): Promise<void> => {
   // 请求配置文件
   const onlineVersion = await requestJSON<string>(
-    `r/config/${globalData.appID}/version`,
+    `d/config/${globalData.appID}/version`,
   );
 
   if (compareVersion(onlineVersion, globalData.version))

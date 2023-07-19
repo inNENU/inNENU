@@ -15,7 +15,7 @@ export const refreshPage = async (name: string): Promise<PageData> => {
   const test = wx.getStorageSync<boolean | undefined>("test");
 
   const data = await requestJSON<PageData>(
-    `r/config/${globalData.appID}/${
+    `d/config/${globalData.appID}/${
       test ? "test" : globalData.version
     }/${name}`,
   );
