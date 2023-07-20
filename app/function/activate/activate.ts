@@ -263,6 +263,8 @@ $Page(PAGE_ID, {
       ? <Promise<ActivatePasswordResponse>>activateAccountOnline(options)
       : setPassword(options));
 
+    wx.hideLoading();
+
     if (data.success) this.setData({ stage: "success" });
     else showModal("设置密码失败", data.msg);
   },
