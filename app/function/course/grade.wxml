@@ -56,7 +56,7 @@
         >
           <view class="cell name">{{item.name}}</view>
           <view class="cell grade {{grade.getGradeState(item.grade)}}"
-            >{{item.grade}}</view
+            >{{item.gradeText || item.grade}}</view
           >
           <view class="cell difficulty">{{item.difficulty}}</view>
           <view class="cell point">{{item.point}}</view>

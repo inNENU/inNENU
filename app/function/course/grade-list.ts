@@ -111,12 +111,12 @@ export const getGrades = (
       ] = Array.from(gradeCellRegExp.exec(item)!).map((item) =>
         item.replace(/&nbsp;/g, " ").trim(),
       );
-      const [, gradeLink, gradeNumber] = gradeRegExp.exec(grade) || [];
+      const [, gradeLink, gradeText] = gradeRegExp.exec(grade) || [];
       const actualDifficulty = Number(difficulty) || 1;
 
       const actualGrade =
-        gradeNumber && !Number.isNaN(Number(gradeNumber))
-          ? Number(gradeNumber)
+        gradeText && !Number.isNaN(Number(gradeText))
+          ? Number(gradeText)
           : Math.round(
               (Number(gradePoint) / Number(point) / actualDifficulty) * 10 + 50,
             );
@@ -163,6 +163,8 @@ export const getGrades = (
         name,
         difficulty: Number(difficulty) || 1,
         grade: actualGrade,
+        gradeText:
+          gradeText && Number.isNaN(Number(gradeText)) ? gradeText : null,
         gradeDetail,
         gradePoint: actualGrade < 60 ? 0 : Number(gradePoint),
         mark,

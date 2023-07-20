@@ -77,6 +77,8 @@ export interface GradeResult {
   difficulty: number;
   /** 分数 */
   grade: number;
+  /** 分数文本 */
+  gradeText: string | null;
   /** 分数详情 */
   gradeDetail: GradeDetail | null;
   /** 绩点成绩 */
