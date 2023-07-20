@@ -226,7 +226,7 @@ export const setPassword = async ({
   password,
 }: ActivatePasswordOptions): Promise<ActivatePasswordResponse> => {
   const content = await request<ActivateRawSuccessResponse | RawErrorResponse>(
-    `${ACTIVATE_SERVER}/api/staff/activate/mobile`,
+    `${ACTIVATE_SERVER}/api/staff/activate/password`,
     {
       method: "POST",
       header: {

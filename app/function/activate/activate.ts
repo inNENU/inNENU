@@ -206,24 +206,31 @@ $Page(PAGE_ID, {
 
     if (data.success) this.setData({ stage: "password" });
     else if (data.type === "conflict")
-      showModal("手机号冲突", `${data.msg}是否绑定该手机号？`, () => {
-        const options: ActivateReplacePhoneOptions = {
-          type: "replace-phone",
-          mobile,
-          activationId: this.state.activationId,
-          code: smsCode,
-        };
+      showModal(
+        "手机号冲突",
+        `${data.msg}是否绑定该手机号？`,
+        () => {
+          const options: ActivateReplacePhoneOptions = {
+            type: "replace-phone",
+            mobile,
+            activationId: this.state.activationId,
+            code: smsCode,
+          };
 
-        (useOnlineService(PAGE_ID)
-          ? <Promise<ActivateReplacePhoneResponse>>(
-              activateAccountOnline(options)
-            )
-          : replacePhone(options)
-        ).then((data) => {
-          if (data.success) this.setData({ stage: "password" });
-          else showModal("替换失败", data.msg);
-        });
-      });
+          (useOnlineService(PAGE_ID)
+            ? <Promise<ActivateReplacePhoneResponse>>(
+                activateAccountOnline(options)
+              )
+            : replacePhone(options)
+          ).then((data) => {
+            if (data.success) this.setData({ stage: "password" });
+            else showModal("替换失败", data.msg);
+          });
+        },
+        () => {
+          // do nothing
+        },
+      );
     else showModal("绑定失败", data.msg);
   },
 
