@@ -59,6 +59,8 @@
   }
 
   .password-button {
+    flex-shrink: 0;
+
     width: 40px;
     padding: 4px 8px;
 
