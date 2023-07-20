@@ -1,7 +1,7 @@
 /** 小程序名称 */
 export const appName = "in东师";
 /** 小程序版本 */
-export const version = "5.8.2";
+export const version = "5.9.0";
 /** 小程序服务器地址 */
 export const assets = "https://assets.innenu.com/";
 export const server = "https://mp.innenu.com/";
