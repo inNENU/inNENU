@@ -41,13 +41,7 @@
         <view class="input-list-wrapper">
           <view class="input-list-item">
             <view class="text">姓名</view>
-            <input
-              id="name"
-              class="input"
-              adjust-position="{{false}}"
-              value="{{name}}"
-              bindinput="input"
-            />
+            <input id="name" class="input" value="{{name}}" bindinput="input" />
           </view>
           <view class="input-list-item">
             <view class="text">学号</view>
@@ -55,7 +49,6 @@
               id="schoolID"
               class="input"
               type="digit"
-              adjust-position="{{false}}"
               placeholder="录取通知书证书编号"
               value="{{schoolID}}"
               bindinput="input"
@@ -79,7 +72,6 @@
               id="id"
               class="input"
               type="idcard"
-              adjust-position="{{false}}"
               value="{{id}}"
               bindinput="input"
             />
@@ -89,7 +81,6 @@
             <input
               id="captcha"
               class="input"
-              adjust-position="{{false}}"
               value="{{captcha}}"
               bindinput="input"
             />
@@ -114,7 +105,6 @@
               id="mobile"
               class="input"
               type="digit"
-              adjust-position="{{false}}"
               placeholder="这是账户将绑定的手机号"
               value="{{mobile}}"
               bindinput="input"
@@ -126,7 +116,6 @@
               id="smsCode"
               class="input"
               type="digit"
-              adjust-position="{{false}}"
               value="{{smsCode}}"
               bindinput="input"
             />
@@ -157,7 +146,6 @@
               id="password"
               class="input"
               type="text"
-              adjust-position="{{false}}"
               value="{{password}}"
               bindinput="input"
             />
@@ -166,7 +154,6 @@
               wx:else
               class="input"
               type="password"
-              adjust-position="{{false}}"
               value="{{password}}"
               bindinput="input"
             />
@@ -185,7 +172,6 @@
               id="confirmPassword"
               class="input"
               type="text"
-              adjust-position="{{false}}"
               value="{{confirmPassword}}"
               bindinput="input"
             />
@@ -194,7 +180,6 @@
               wx:else
               class="input"
               type="password"
-              adjust-position="{{false}}"
               value="{{confirmPassword}}"
               bindinput="input"
             />

@@ -30,7 +30,7 @@ import { popNotice } from "../../utils/page.js";
 const { globalData, useOnlineService } = getApp<AppOption>();
 
 const PAGE_ID = "activate";
-const PAGE_TITLE = "统一身份认证账号激活";
+const PAGE_TITLE = "校园账户激活";
 
 $Page(PAGE_ID, {
   data: {
