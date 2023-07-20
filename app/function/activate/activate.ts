@@ -22,7 +22,7 @@ import type {
   ActivateReplacePhoneOptions,
   ActivateReplacePhoneResponse,
 } from "./typings.js";
-import { showModal } from "../../api/ui.js";
+import { showModal, showToast } from "../../api/ui.js";
 import type { AppOption } from "../../app.js";
 import { appCoverPrefix, assets } from "../../config/info.js";
 import { popNotice } from "../../utils/page.js";
@@ -51,7 +51,7 @@ $Page(PAGE_ID, {
       desc: "『激活说明』\n小程序提供和官方相同的激活流程，您所填写的信息会直接发送(或经小程序转发)给官方服务器，在这一过程中，Mr.Hope 不会收集并存储您的任何信息。",
     },
 
-    stage: <"license" | "info" | "phone" | "password" | "success ">"license",
+    stage: <"license" | "info" | "phone" | "password" | "success">"license",
 
     accept: false,
 
@@ -128,7 +128,7 @@ $Page(PAGE_ID, {
     else showModal("未确认协议", '请先勾选"我已阅读并同意"');
   },
 
-  verify() {
+  async verify() {
     const { name, id, idTypeIndex, idTypes, schoolID, captcha } = this.data;
 
     const options = {
@@ -140,24 +140,26 @@ $Page(PAGE_ID, {
       captcha,
     } as const;
 
-    return (
-      useOnlineService(PAGE_ID)
-        ? <Promise<ActivateInfoResponse>>activateAccountOnline(options)
-        : checkAccount(options)
-    ).then((data) => {
-      if (data.success) {
-        this.state.activationId = data.activationId;
+    wx.showLoading({ title: "正在验证" });
 
-        return this.setData({ stage: "phone" });
-      } else {
-        showModal("信息有误", data.msg);
+    const data = await (useOnlineService(PAGE_ID)
+      ? <Promise<ActivateInfoResponse>>activateAccountOnline(options)
+      : checkAccount(options));
 
-        return this.getCaptcha();
-      }
-    });
+    wx.hideLoading();
+
+    if (data.success) {
+      this.state.activationId = data.activationId;
+
+      return this.setData({ stage: "phone" });
+    }
+
+    showModal("信息有误", data.msg);
+
+    return this.getCaptcha();
   },
 
-  sendSMS() {
+  async sendSMS() {
     const { mobile } = this.data;
 
     if (mobile.length !== 11) {
@@ -172,19 +174,19 @@ $Page(PAGE_ID, {
       activationId: this.state.activationId,
     };
 
-    (useOnlineService(PAGE_ID)
+    wx.showLoading({ title: "发送中" });
+
+    const data = await (useOnlineService(PAGE_ID)
       ? <Promise<ActivatePhoneSmsResponse>>activateAccountOnline(options)
-      : sendSms(options)
-    ).then((data) => {
-      if (data.success) {
-        this.setData({ stage: "success " });
-      } else {
-        showModal("验证码发送失败", data.msg);
-      }
-    });
+      : sendSms(options));
+
+    wx.hideLoading();
+
+    if (data.success) showToast("发送成功", 1000, "success");
+    else showModal("验证码发送失败", data.msg);
   },
 
-  bindPhone() {
+  async bindPhone() {
     const { mobile, smsCode } = this.data;
 
     const options: ActivateBindPhoneOptions = {
@@ -194,35 +196,35 @@ $Page(PAGE_ID, {
       code: smsCode,
     };
 
-    (useOnlineService(PAGE_ID)
-      ? <Promise<ActivateBindPhoneResponse>>activateAccountOnline(options)
-      : bindPhone(options)
-    ).then((data) => {
-      if (data.success) {
-        this.setData({ stage: "password" });
-      } else if (data.type === "conflict") {
-        showModal("手机号冲突", `${data.msg}是否绑定该手机号？`, () => {
-          const options: ActivateReplacePhoneOptions = {
-            type: "replace-phone",
-            mobile,
-            activationId: this.state.activationId,
-            code: smsCode,
-          };
+    wx.showLoading({ title: "绑定中" });
 
-          (useOnlineService(PAGE_ID)
-            ? <Promise<ActivateReplacePhoneResponse>>(
-                activateAccountOnline(options)
-              )
-            : replacePhone(options)
-          ).then((data) => {
-            if (data.success) this.setData({ stage: "password" });
-            else showModal("替换失败", data.msg);
-          });
+    const data = await (useOnlineService(PAGE_ID)
+      ? <Promise<ActivateBindPhoneResponse>>activateAccountOnline(options)
+      : bindPhone(options));
+
+    wx.hideLoading();
+
+    if (data.success) this.setData({ stage: "password" });
+    else if (data.type === "conflict")
+      showModal("手机号冲突", `${data.msg}是否绑定该手机号？`, () => {
+        const options: ActivateReplacePhoneOptions = {
+          type: "replace-phone",
+          mobile,
+          activationId: this.state.activationId,
+          code: smsCode,
+        };
+
+        (useOnlineService(PAGE_ID)
+          ? <Promise<ActivateReplacePhoneResponse>>(
+              activateAccountOnline(options)
+            )
+          : replacePhone(options)
+        ).then((data) => {
+          if (data.success) this.setData({ stage: "password" });
+          else showModal("替换失败", data.msg);
         });
-      } else {
-        showModal("绑定失败", data.msg);
-      }
-    });
+      });
+    else showModal("绑定失败", data.msg);
   },
 
   togglePassword() {
@@ -233,7 +235,7 @@ $Page(PAGE_ID, {
     this.setData({ showConfirmPassword: !this.data.showConfirmPassword });
   },
 
-  setPassword() {
+  async setPassword() {
     const { password, confirmPassword } = this.data;
 
     if (password !== confirmPassword) {
@@ -242,21 +244,19 @@ $Page(PAGE_ID, {
       return;
     }
 
+    wx.showLoading({ title: "设置密码" });
+
     const options: ActivatePasswordOptions = {
       type: "password",
       password,
       activationId: this.state.activationId,
     };
 
-    (useOnlineService(PAGE_ID)
+    const data = await (useOnlineService(PAGE_ID)
       ? <Promise<ActivatePasswordResponse>>activateAccountOnline(options)
-      : setPassword(options)
-    ).then((data) => {
-      if (data.success) {
-        this.setData({ stage: "success " });
-      } else {
-        showModal("设置密码失败", data.msg);
-      }
-    });
+      : setPassword(options));
+
+    if (data.success) this.setData({ stage: "success" });
+    else showModal("设置密码失败", data.msg);
   },
 });
