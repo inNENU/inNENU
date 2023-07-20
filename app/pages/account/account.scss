@@ -72,8 +72,13 @@
   }
 }
 
-.account-button {
-  margin: 16px;
+.save-button {
+  margin: 16px auto 8px;
+}
+
+.activate-button {
+  margin: 8px auto 16px;
+  color: var(--grey3);
 }
 
 .list-component-content .desc {

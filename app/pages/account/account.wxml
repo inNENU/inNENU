@@ -61,8 +61,12 @@
           </button>
         </view>
       </view>
-      <button type="primary" class="account-button primary" catch:tap="save">
+      <button type="primary" class="save-button primary" catch:tap="save">
         保存在本地
+      </button>
+
+      <button class="activate-button" data-url="activate" catch:tap="$bindGo">
+        新生账户激活
       </button>
     </block>
   </view>
