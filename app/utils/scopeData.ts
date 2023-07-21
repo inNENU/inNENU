@@ -4,6 +4,7 @@ import type {
   TextComponentOptions,
   TitleComponentOptions,
 } from "../../typings/index.js";
+import { appCoverPrefix } from "../config/info.js";
 
 const getText = (page: PageDataWithContent): string => {
   const pageContent = page.content
@@ -46,9 +47,9 @@ const getImages = (page: PageDataWithContent): string[] =>
     ? page.images.length > 10
       ? page.images.slice(0, 10)
       : page.images.length === 0
-      ? ["https://mp.innenu.com/img/inNENU.jpg"]
+      ? [`${appCoverPrefix}jpg`]
       : page.images
-    : ["https://mp.innenu.com/img/inNENU.jpg"];
+    : [`${appCoverPrefix}jpg`];
 
 export const getScopeData = (page: PageDataWithContent): GeneralScopeData => ({
   // eslint-disable-next-line @typescript-eslint/naming-convention

@@ -2,6 +2,7 @@
   "navigationBarTitleText": "我的东师",
   "enablePullDownRefresh": true,
   "usingComponents": {
+    "card-balance": "/components/card-balance/card-balance",
     "today-course": "/components/today-course/today-course"
   }
 }
