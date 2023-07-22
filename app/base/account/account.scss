@@ -18,17 +18,13 @@
 
   .content {
     position: relative;
-    top: 0;
-    left: 0;
     z-index: 2;
+    padding: 10px 15px;
 
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
-
-    width: 100%;
-    height: 100%;
   }
 
   .logo {
@@ -36,16 +32,15 @@
     max-width: 150px;
     height: 200rpx;
     max-height: 150px;
-    margin-top: 12px;
   }
 
   .name {
     margin: 4px 0;
-    font-size: 18px;
+    font-size: 20px;
     text-shadow: 0 0 1px var(--grey);
   }
 
-  .desc {
+  .detail {
     max-width: 80%;
     margin: 4px auto;
     color: var(--grey3);
@@ -60,10 +55,10 @@
   .action {
     overflow: hidden;
 
-    width: 40px;
-    height: 40px;
+    width: 24px;
+    height: 24px;
     margin: 6px;
-    padding: 0;
+    padding: 8px;
     border-radius: 50%;
 
     background-color: var(--bg-color);
@@ -72,6 +67,9 @@
   .icon {
     width: 24px;
     height: 24px;
-    margin: 8px;
   }
+}
+
+.button-hover {
+  background-color: var(--hover) !important;
 }
