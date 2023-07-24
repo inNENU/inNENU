@@ -1,8 +1,7 @@
 import type { GlobalData } from "./app.js";
 import { loadFZSSJW } from "../api/font.js";
 
-export const platformActions = (globalData: GlobalData): void => {
-  // do nothing
-  globalData;
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+export const platformActions = (_globalData: GlobalData): void => {
   loadFZSSJW(true);
 };

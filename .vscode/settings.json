@@ -41,9 +41,9 @@
   "typescript.tsdk": "./node_modules/typescript/lib",
   "yaml.schemas": {
     "./server/.vscode/res.schema.json": [
-      "/server/res/guide/**/*.yml",
-      "/server/res/intro/**/*.yml",
-      "/server/res/other/**/*.yml"
+      "/server/pages/guide/**/*.yml",
+      "/server/pages/intro/**/*.yml",
+      "/server/pages/other/**/*.yml"
     ]
   }
 }
