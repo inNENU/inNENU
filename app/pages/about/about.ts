@@ -7,7 +7,7 @@ import type {
 } from "../../../typings/index.js";
 import { showToast } from "../../api/index.js";
 import type { AppOption } from "../../app.js";
-import { appCoverPrefix } from "../../config/index.js";
+import { appCoverPrefix, appName } from "../../config/index.js";
 import { DAY } from "../../utils/constant.js";
 import { popNotice, resolvePage, setPage } from "../../utils/page.js";
 
@@ -23,7 +23,7 @@ $Page(PAGE_ID, {
     theme: globalData.theme,
     darkmode: globalData.darkmode,
     page: <PageDataWithContent>{
-      title: "关于 in 东师",
+      title: `关于 ${appName}`,
       desc: `当前版本: ${globalData.version}`,
       grey: true,
       content: [
