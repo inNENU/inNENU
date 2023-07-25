@@ -12,7 +12,7 @@
     <block wx:if="{{isSaved}}">
       <title config="{{ { text: '个人信息' } }}" />
       <list config="{{list}}" />
-      <button type="warn" class="account-button" bindtap="delete">
+      <button type="warn" class="delete-button" bindtap="delete">
         删除全部信息
       </button>
     </block>
