@@ -1,8 +1,9 @@
 import { logger, ls, rm } from "@mptool/all";
 
 import type { GlobalData } from "./app.js";
-import { Settings } from "./settings.js";
-import { requestJSON, showToast } from "../api/index.js";
+import { Data } from "./settings.js";
+import { request, showToast } from "../api/index.js";
+import { server } from "../config/info.js";
 
 export interface UpdateInfo {
   /** 是否进行强制更新 */
@@ -30,12 +31,21 @@ export const updateApp = (globalData: GlobalData): void => {
 
     updateManager.onUpdateReady(() => {
       // 请求配置文件
-      requestJSON<string>(`d/config/${globalData.appID}/version`)
+      request<string>(`${server}service/app-version.php`, {
+        method: "POST",
+        data: {
+          appID: globalData.appID,
+        },
+      })
         .then((version) =>
           // 请求配置文件
-          requestJSON<Settings>(
-            `d/config/${globalData.appID}/${version}/settings`,
-          )
+          request<Data>(`${server}service/settings.php`, {
+            method: "POST",
+            data: {
+              version,
+              appID: globalData.appID,
+            },
+          })
             .then(({ update }) => {
               // 更新下载就绪，提示用户重新启动
               wx.showModal({

@@ -1,16 +1,27 @@
-import { $Page, put, take } from "@mptool/all";
+import { $Page, get, set } from "@mptool/all";
 
-import type { PageDataWithContent } from "../../../typings/index.js";
+import type { GridComponentConfig } from "../../../typings/index.js";
 import type { AppOption } from "../../app.js";
 import { appCoverPrefix } from "../../config/index.js";
-import { getColor, popNotice, resolvePage, setPage } from "../../utils/page.js";
+import { DAY } from "../../utils/constant.js";
+import { getColor, popNotice } from "../../utils/page.js";
 import { checkResource } from "../../utils/resource.js";
 import { search } from "../../utils/search.js";
-import { refreshPage } from "../../utils/tab.js";
+import { getIdentity } from "../../utils/settings.js";
 
 const { globalData } = getApp<AppOption>();
 
-$Page("guide", {
+const PAGE_ID = "intro";
+const PAGE_TITLE = "东师介绍";
+
+interface IntroData {
+  items: Omit<GridComponentConfig, "tag">[];
+  more: Omit<GridComponentConfig, "tag">[];
+}
+
+const defaultData = get<IntroData | undefined>(PAGE_ID);
+
+$Page(PAGE_ID, {
   data: {
     theme: globalData.theme,
 
@@ -19,42 +30,28 @@ $Page("guide", {
     /** 候选词 */
     words: <string[]>[],
 
+    menuSpace: globalData.env === "app" ? 10 : 90,
+
     /** 页面数据 */
     page: {
-      title: "东师介绍",
+      title: PAGE_TITLE,
       grey: true,
       hidden: true,
     },
 
-    menuSpace: globalData.env === "app" ? 10 : 90,
-  },
-
-  onPreload(res) {
-    put(
-      "intro",
-      resolvePage(res, wx.getStorageSync("intro") || this.data.page),
-    );
-    console.info(
-      `Intro page load time: ${
-        new Date().getTime() - globalData.startupTime
-      }ms`,
-    );
+    displayMore: false,
+    ...defaultData,
   },
 
   onLoad() {
-    const preloadData = take<PageDataWithContent>("intro");
-
-    setPage(
-      { option: { id: "intro" }, ctx: this, handle: Boolean(preloadData) },
-      preloadData || wx.getStorageSync("intro") || this.data.page,
-    );
+    this.setData({ color: getColor(true) });
+    this.$on("data", () => this.setPage());
   },
 
   onShow() {
-    refreshPage("intro").then((data) => {
-      setPage({ ctx: this, option: { id: "intro" } }, data);
-    });
-    popNotice("intro");
+    popNotice(PAGE_ID);
+
+    this.setPage();
   },
 
   onReady() {
@@ -63,9 +60,7 @@ $Page("guide", {
   },
 
   onPullDownRefresh() {
-    refreshPage("intro").then((data) => {
-      setPage({ ctx: this, option: { id: "intro" } }, data);
-    });
+    this.setPage();
     checkResource();
     wx.stopPullDownRefresh();
   },
@@ -73,12 +68,12 @@ $Page("guide", {
   // eslint-disable-next-line @typescript-eslint/no-empty-function
   onPageScroll() {},
 
-  onShareAppMessage: () => ({ title: "东师介绍", path: "/pages/intro/intro" }),
+  onShareAppMessage: () => ({ title: PAGE_TITLE, path: "/pages/intro/intro" }),
 
-  onShareTimeline: () => ({ title: "东师介绍" }),
+  onShareTimeline: () => ({ title: PAGE_TITLE }),
 
   onAddToFavorites: () => ({
-    title: "东师介绍",
+    title: PAGE_TITLE,
     imageUrl: `${appCoverPrefix}.jpg`,
   }),
 
@@ -90,6 +85,59 @@ $Page("guide", {
     this.setData({ color: getColor(this.data.page.grey), theme });
   },
 
+  setPage(): void {
+    if (globalData.data) {
+      const identify = getIdentity(globalData.account);
+
+      const { data, "intro-page": introPageConfig } = globalData.data;
+
+      const introConfig = introPageConfig[identify] || introPageConfig.default;
+
+      const config = Object.entries(data);
+
+      const introData = {
+        items: introConfig.items.map((item) => {
+          const record = config.find(([key]) => key === item)![1];
+
+          return {
+            header: record.name,
+            items: record.items.map((item) => {
+              if (item.path)
+                item.url = `info?from=${PAGE_TITLE}&id=${item.path}`;
+
+              return item;
+            }),
+          };
+        }),
+        more: introConfig.more.map((item) => {
+          const record = config.find(([key]) => key === item)![1];
+
+          return {
+            header: record.name,
+            items: record.items.map((item) => {
+              if (item.path)
+                item.url = `info?from=${PAGE_TITLE}&id=${item.path}`;
+
+              return item;
+            }),
+          };
+        }),
+      };
+
+      set(PAGE_ID, introData, 3 * DAY);
+
+      this.setData(introData);
+    }
+  },
+
+  openMore() {
+    this.setData({ displayMore: true });
+  },
+
+  toggleMore() {
+    this.setData({ displayMore: !this.data.displayMore });
+  },
+
   /**
    * 在搜索框中输入时触发的函数
    *
@@ -97,7 +145,7 @@ $Page("guide", {
    */
   async searching({ detail: { value } }: WechatMiniprogram.Input) {
     const words = await search<string[]>({
-      scope: "intro",
+      scope: PAGE_ID,
       type: "word",
       word: value,
     });
@@ -111,6 +159,6 @@ $Page("guide", {
    * @param value 输入的搜索词
    */
   search({ detail }: WechatMiniprogram.Input) {
-    this.$go(`search?name=intro&word=${detail.value}`);
+    this.$go(`search?name=${PAGE_ID}&word=${detail.value}`);
   },
 });

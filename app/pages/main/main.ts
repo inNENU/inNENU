@@ -1,17 +1,20 @@
-import { $Page } from "@mptool/all";
+import { $Page, get, put, set, take } from "@mptool/all";
 
 import type { PageDataWithContent } from "../../../typings/index.js";
 import { requestJSON } from "../../api/index.js";
 import type { AppOption } from "../../app.js";
 import { appCoverPrefix, appName } from "../../config/index.js";
+import { DAY } from "../../utils/constant.js";
 import { getColor, popNotice, resolvePage, setPage } from "../../utils/page.js";
 import { checkResource } from "../../utils/resource.js";
 import { search } from "../../utils/search.js";
-import { refreshPage } from "../../utils/tab.js";
+import { getIdentity } from "../../utils/settings.js";
 
 const { globalData } = getApp<AppOption>();
 
-$Page("main", {
+const PAGE_ID = "main";
+
+$Page(PAGE_ID, {
   data: {
     theme: globalData.theme,
 
@@ -22,7 +25,6 @@ $Page("main", {
 
     page: <PageDataWithContent>{
       title: "首页",
-      id: "main",
       grey: true,
       hidden: true,
       content: [{ tag: "loading" }],
@@ -32,41 +34,43 @@ $Page("main", {
   },
 
   onRegister() {
-    console.info(
-      "Main Page registerd: ",
+    const page = resolvePage(
+      { id: PAGE_ID },
+      get<PageDataWithContent>(PAGE_ID) || this.data.page,
+    ) as PageDataWithContent;
+
+    put(PAGE_ID, page);
+
+    if (page) this.data.page = page;
+
+    console.debug(
+      "Main page registered: ",
       new Date().getTime() - globalData.startupTime,
       "ms",
     );
-    const page = resolvePage(
-      { id: "main" },
-      wx.getStorageSync<PageDataWithContent | undefined>("main") ||
-        this.data.page,
-    ) as PageDataWithContent;
-
-    if (page) this.data.page = page;
   },
 
   onLoad() {
-    setPage({ option: { id: "main" }, ctx: this, handle: true });
+    setPage(
+      {
+        option: { id: PAGE_ID },
+        ctx: this,
+        handle: true,
+      },
+      take<PageDataWithContent>(PAGE_ID) || this.data.page,
+    );
+
+    this.$on("data", () => this.setPage());
   },
 
-  onShow() {
-    refreshPage("main")
-      .then((data) => {
-        setPage({ ctx: this, option: { id: "main" } }, data);
-      })
-      .catch(() => {
-        setPage(
-          { ctx: this, option: { id: "main" } },
-          wx.getStorageSync("main") || this.data.page,
-        );
-      });
-
+  async onShow() {
     this.setData({
       login: Boolean(globalData.account),
     });
 
-    popNotice("main");
+    popNotice(PAGE_ID);
+
+    await this.setPage();
   },
 
   onReady() {
@@ -74,23 +78,13 @@ $Page("main", {
     this.$on("theme", this.setTheme);
 
     // 执行 tab 页预加载
-    ["function", "guide", "intro", "user"].forEach((x) => {
-      requestJSON(`d/config/${globalData.appID}/${globalData.version}/${x}`)
-        .then((data) => {
-          wx.setStorageSync(x, data);
-          this.$preload(`${x}?id=${x}`);
-        })
-        .catch(() => {
-          this.$preload(`${x}?id=${x}`);
-        });
+    ["function", "guide", "intro", "user"].forEach((item) => {
+      this.$preload(item);
     });
   },
 
-  onPullDownRefresh() {
-    refreshPage("main").then((data) => {
-      setPage({ ctx: this, option: { id: "main" } }, data);
-    });
-
+  async onPullDownRefresh() {
+    await this.setPage();
     checkResource();
     wx.stopPullDownRefresh();
   },
@@ -119,6 +113,47 @@ $Page("main", {
 
   setTheme(theme: string): void {
     this.setData({ color: getColor(this.data.page.grey), theme });
+  },
+
+  async loadPage(): Promise<PageDataWithContent | null> {
+    const test = wx.getStorageSync<boolean | undefined>("test");
+
+    if (test)
+      return await requestJSON<PageDataWithContent>(
+        `d/config/${globalData.appID}/test/main`,
+      );
+
+    if (!globalData.data) return null;
+
+    const identify = getIdentity(globalData.account);
+    const { "main-page": mainConfig, "main-presets": mainPresets } =
+      globalData.data;
+
+    const configName = mainConfig[identify] || mainConfig.default;
+
+    const mainPage = {
+      title: "首页",
+      grey: true,
+      hidden: true,
+      content: mainPresets[configName],
+    };
+
+    set(PAGE_ID, mainPage, 3 * DAY);
+
+    return mainPage;
+  },
+
+  async setPage(): Promise<void> {
+    try {
+      const pageData = await this.loadPage();
+
+      if (pageData) setPage({ ctx: this, option: { id: PAGE_ID } }, pageData);
+    } catch (err) {
+      setPage(
+        { ctx: this, option: { id: PAGE_ID } },
+        get(PAGE_ID) || this.data.page,
+      );
+    }
   },
 
   /**

@@ -3,7 +3,8 @@ import { emitter, get, logger, writeJSON } from "@mptool/all";
 
 import { platformActions } from "./app-platform.js";
 import { defaultResources, downloadResource } from "./resource.js";
-import { ServiceSettings, updateSettings } from "./settings.js";
+import type { Data } from "./settings.js";
+import { ServiceSettings } from "./settings.js";
 import { updateApp } from "./update.js";
 import type { PageData, VersionInfo } from "../../typings/index.js";
 import { request, showToast } from "../api/index.js";
@@ -83,6 +84,7 @@ export interface GlobalData {
   openid: string;
   /** 是否能复制 */
   selectable: boolean;
+  data: Omit<Data, "service" | "notice" | "update"> | null;
   service: ServiceSettings;
 }
 
@@ -164,6 +166,7 @@ export const getGlobalData = (): GlobalData => {
     envName: env === "app" ? "App" : "小程序",
     theme: wx.getStorageSync<string>("theme") || "ios",
     info,
+    data: null,
     darkmode: info.theme === "dark",
     appID: wx.getAccountInfoSync().miniProgram.appId as AppID,
     openid: "",
@@ -266,7 +269,6 @@ const registerActions = (globalData: GlobalData): void => {
 export const startup = (globalData: GlobalData): void => {
   registerActions(globalData);
   updateApp(globalData);
-  updateSettings(globalData);
   login(globalData.appID, globalData.env, (openid) => {
     globalData.openid = openid;
   });

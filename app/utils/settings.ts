@@ -1,8 +1,13 @@
 import { logger } from "@mptool/all";
 
-import type { GlobalData } from "./app.js";
+import type { AccountBasicInfo, GlobalData } from "./app.js";
 import { updateNotice } from "./notice.js";
-import { requestJSON } from "../api/index.js";
+import type {
+  ComponentConfig,
+  GridComponentItemConfig,
+} from "../../typings/components.js";
+import { request } from "../api/index.js";
+import { server } from "../config/info.js";
 
 export interface Notice {
   /** 标题 */
@@ -29,18 +34,55 @@ export interface UpdateSettings {
   reset: boolean;
 }
 
-export interface Settings {
+export interface DataItem {
+  name: string;
+  path: string;
+  items: GridComponentItemConfig[];
+}
+
+export interface Data {
+  data: Record<string, DataItem>;
+  "main-page": Record<string, string>;
+  "intro-page": Record<
+    string,
+    {
+      items: string[];
+      more: string[];
+    }
+  >;
+  "guide-page": Record<
+    string,
+    {
+      items: string[];
+      more: string[];
+    }
+  >;
+  "function-page": Record<string, string>;
+  "main-presets": Record<string, ComponentConfig[]>;
+  "function-presets": Record<string, ComponentConfig[]>;
+  user: ComponentConfig[];
   notice: NoticeSettings;
   service: ServiceSettings;
   update: UpdateSettings;
 }
 
-export const updateSettings = async (globalData: GlobalData): Promise<void> => {
+export const getIdentity = (account: AccountBasicInfo | null): string =>
+  account ? account.id.toString().substring(0, 4) : "unlogin";
+
+export const fetchData = async (globalData: GlobalData): Promise<void> => {
   try {
-    const { service, notice } = await requestJSON<Settings>(
-      `d/config/${globalData.appID}/${globalData.version}/settings`,
+    const { service, notice, ...data } = await request<Data>(
+      `${server}service/settings.php`,
+      {
+        method: "POST",
+        data: {
+          version: globalData.version,
+          appID: globalData.appID,
+        },
+      },
     );
 
+    globalData.data = data;
     globalData.service = service;
     wx.setStorageSync("service", service);
     updateNotice(notice);

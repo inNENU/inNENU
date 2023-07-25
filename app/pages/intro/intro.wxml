@@ -1,12 +1,12 @@
 <import src="/base/template.wxml" />
 <page-meta
-  background-text-style="{{darkmode ? 'dark': 'light'}}"
+  background-text-style="{{darkmode ? 'dark' : 'light'}}"
   background-color="{{color.bgColor}}"
   background-color-top="{{color.bgColorTop}}"
   background-color-bottom="{{color.bgColorBottom}}"
   root-background-color="{{color.bgColor}}"
 />
-<view class="{{theme}} grey">
+<view class="intro {{theme}} grey">
   <view
     class="search-navigation-bar"
     style="padding-top:{{statusBarHeight}}px;"
@@ -30,5 +30,28 @@
   >
     到头啦~人家被你拉得好痛阿(*´д`*) 不许你再拉人家~╭(╯^╰)╮
   </view>
-  <template is="components" data="{{content: page.content, theme}}" />
+  <grid
+    wx:for="{{items}}"
+    wx:for-item="config"
+    wx:key="header"
+    config="{{config}}"
+  />
+  <view
+    wx:if="{{more.length}}"
+    class="more {{displayMore ? 'show': 'hide'}}"
+    catch:tap="openMore"
+  >
+    <view class="more-title">
+      <text>更多内容</text>
+      <view class="icon" catch:tap="toggleMore" />
+    </view>
+    <view class="more-content">
+      <grid
+        wx:for="{{more}}"
+        wx:for-item="config"
+        wx:key="header"
+        config="{{config}}"
+      />
+    </view>
+  </view>
 </view>

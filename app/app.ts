@@ -5,7 +5,7 @@ import { getDarkmode } from "./api/index.js";
 import type { GlobalData } from "./utils/app.js";
 import { getGlobalData, initializeApp, startup } from "./utils/app.js";
 import { checkResource } from "./utils/resource.js";
-import { updateSettings } from "./utils/settings.js";
+import { fetchData } from "./utils/settings.js";
 import { updateApp } from "./utils/update.js";
 
 export interface AppOption {
@@ -97,6 +97,9 @@ $App<AppOption>({
     // 如果初次启动执行初始化
     if (!wx.getStorageSync("app-inited")) initializeApp();
 
+    fetchData(this.globalData).then(() => {
+      this.$emit("data");
+    });
     startup(this.globalData);
 
     console.info("GlobalData:", this.globalData);
@@ -113,8 +116,10 @@ $App<AppOption>({
     // 重新应用夜间模式、
     this.globalData.darkmode = wx.getSystemInfoSync().theme === "dark";
 
+    fetchData(this.globalData).then(() => {
+      this.$emit("data");
+    });
     updateApp(this.globalData);
-    updateSettings(this.globalData);
   },
 
   onError(errorMsg) {

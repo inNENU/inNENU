@@ -7,6 +7,7 @@ import { ensureJSON } from "./json.js";
 import type { Notice } from "./notice.js";
 import { getScopeData } from "./scopeData.js";
 import type {
+  ComponentConfig,
   FunctionalListComponentItemConfig,
   GridComponentItemConfig,
   ListComponentItemConfig,
@@ -40,7 +41,7 @@ const resolveContent = (
     | GridComponentItemConfig
     | ListComponentItemConfig
   ) & { hidden?: boolean },
-  page: PageData,
+  title = "返回",
 ):
   | ((
       | FunctionalListComponentItemConfig
@@ -57,11 +58,9 @@ const resolveContent = (
 
   // 设置列表导航
   if ("url" in listElement && !listElement.url!.startsWith("plugin://"))
-    listElement.url += `?from=${page.title || "返回"}`;
+    listElement.url += `?from=${title}`;
   if ("path" in listElement)
-    listElement.url = `info?from=${
-      page.title || "返回"
-    }&id=${listElement.path!}`;
+    listElement.url = `info?from=${title}&id=${listElement.path!}`;
 
   if ("type" in listElement)
     if (listElement.type === "switch")
@@ -110,6 +109,53 @@ const resolveContent = (
   return listElement;
 };
 
+export const handleComponents = (
+  components: ComponentConfig[],
+  images: string[] = [],
+  title = "返回",
+): ComponentConfig[] =>
+  components.map((component) => {
+    const { tag } = component;
+
+    // 设置隐藏
+    if ("env" in component)
+      component.hidden = !component.env?.includes(globalData.env);
+
+    if (tag === "img") {
+      const { src, res, watermark } = component;
+
+      images.push(`${res || src}${watermark ? imageWaterMark : ""}`);
+    }
+
+    if (
+      "path" in component &&
+      (tag === "p" || tag === "ol" || tag === "ul" || tag === "text")
+    )
+      component.path = `info?from=${title || "返回"}&id=${component.path!}`;
+
+    // 设置 list 组件
+    if (
+      "items" in component &&
+      (tag === "list" || tag === "grid" || tag === "functional-list")
+    )
+      component.items = component.items
+        .map(
+          (
+            listElement: (
+              | FunctionalListComponentItemConfig
+              | GridComponentItemConfig
+              | ListComponentItemConfig
+            ) & { hidden?: boolean },
+          ) => resolveContent(listElement, title),
+        )
+        .filter((listElement) => listElement !== null) as
+        | FunctionalListComponentItemConfig[]
+        | GridComponentItemConfig[]
+        | ListComponentItemConfig[];
+
+    return component;
+  });
+
 /**
  * 获得界面数据，生成正确的界面数据
  *
@@ -123,51 +169,9 @@ const disposePage = (page: PageData, option: PageOption): PageData => {
   page.id = option.id || page.title;
   // 设置页面来源
   page.from = option.from || "返回";
-  page.images = [];
 
   if (page.content) {
-    page.content.forEach((component) => {
-      const { tag } = component;
-
-      // 设置隐藏
-      if ("env" in component)
-        component.hidden = !component.env?.includes(globalData.env);
-
-      if (tag === "img") {
-        const { src, res, watermark } = component;
-
-        page.images!.push(`${res || src}${watermark ? imageWaterMark : ""}`);
-      }
-
-      if (
-        "path" in component &&
-        (tag === "p" || tag === "ol" || tag === "ul" || tag === "text")
-      )
-        component.path = `info?from=${
-          page.title || "返回"
-        }&id=${component.path!}`;
-
-      // 设置 list 组件
-      if (
-        "items" in component &&
-        (tag === "list" || tag === "grid" || tag === "functional-list")
-      )
-        component.items = component.items
-          .map(
-            (
-              listElement: (
-                | FunctionalListComponentItemConfig
-                | GridComponentItemConfig
-                | ListComponentItemConfig
-              ) & { hidden?: boolean },
-            ) => resolveContent(listElement, page),
-          )
-          .filter((listElement) => listElement !== null) as
-          | FunctionalListComponentItemConfig[]
-          | GridComponentItemConfig[]
-          | ListComponentItemConfig[];
-    });
-
+    handleComponents(page.content, (page.images ??= []), page.title);
     page.scopeData = getScopeData(page as PageDataWithContent);
   }
 
