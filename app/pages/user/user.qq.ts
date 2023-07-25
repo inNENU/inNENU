@@ -1,25 +1,37 @@
-import { $Page, put, take } from "@mptool/all";
+import { $Page, get, put, set, take } from "@mptool/all";
 
 import type { PageDataWithContent } from "../../../typings/index.js";
+import { requestJSON } from "../../api/net.js";
 import type { AppOption } from "../../app.js";
-import { appCoverPrefix, appName, assets } from "../../config/index.js";
-import { popNotice, resolvePage, setPage } from "../../utils/page.js";
+import { appCoverPrefix, appName } from "../../config/index.js";
+import { DAY } from "../../utils/constant.js";
+import { getColor, popNotice, resolvePage, setPage } from "../../utils/page.js";
 import { checkResource } from "../../utils/resource.js";
-import { refreshPage } from "../../utils/tab.js";
 
 const { globalData } = getApp<AppOption>();
 const { envName, version } = globalData;
 
-$Page("user", {
-  data: {
-    logo: `${assets}img/inNENU.png`,
-    page: <PageDataWithContent>{
-      title: "我的东师",
+const PAGE_ID = "user";
+const PAGE_TITLE = "我的东师";
+
+const defaultPage = <PageDataWithContent>resolvePage(
+  { id: PAGE_ID },
+  get<PageDataWithContent>(PAGE_ID) ||
+    <PageDataWithContent>{
+      title: PAGE_TITLE,
       grey: true,
       hidden: true,
       content: [{ tag: "loading" }],
     },
+);
 
+$Page(PAGE_ID, {
+  data: {
+    page: defaultPage,
+
+    userName: appName,
+
+    logo: `${assets}img/inNENU.png`,
     footer: {
       author: "",
       desc: `当前版本: ${version}\n${envName}由 Mr.Hope 个人制作，如有错误还请见谅`,
@@ -27,12 +39,14 @@ $Page("user", {
 
     theme: globalData.theme,
     statusBarHeight: globalData.info.statusBarHeight,
-    userName: "in东师",
   },
 
-  onPreload(res) {
-    put("user", resolvePage(res, wx.getStorageSync("user") || this.data.page));
-    console.info(
+  async onPreload() {
+    const data = await this.loadPage();
+
+    if (data) put(PAGE_ID, resolvePage({ id: PAGE_ID }, data));
+
+    console.debug(
       `User page loading time: ${
         new Date().getTime() - globalData.startupTime
       }ms`,
@@ -40,32 +54,36 @@ $Page("user", {
   },
 
   onLoad() {
-    const preloadData = take<PageDataWithContent>("user");
+    const preloadData = take<PageDataWithContent>(PAGE_ID);
 
     setPage(
-      { option: { id: "user" }, ctx: this, handle: Boolean(preloadData) },
-      preloadData || wx.getStorageSync("user") || this.data.page,
+      { option: { id: PAGE_ID }, ctx: this, handle: Boolean(preloadData) },
+      preloadData || this.data.page,
     );
+
+    this.$on("data", () => this.setPage());
   },
 
-  onShow() {
+  async onShow() {
     const { account, userInfo } = globalData;
 
-    refreshPage("user").then((data) => {
-      setPage({ ctx: this, option: { id: "user" } }, data);
-    });
     this.setData({
       login: account !== null,
-      userName: userInfo?.name || (account ? "in东师" : "未登录"),
+      userName: userInfo?.name || (account ? appName : "未登录"),
       desc: account === null ? "in 东师，就用 in 东师" : "以下是你的今日概览",
     });
-    popNotice("user");
+    popNotice(PAGE_ID);
+
+    await this.setPage();
   },
 
-  onPullDownRefresh() {
-    refreshPage("user").then((data) => {
-      setPage({ ctx: this, option: { id: "user" } }, data);
-    });
+  onReady() {
+    // 注册事件监听器
+    this.$on("theme", this.setTheme);
+  },
+
+  async onPullDownRefresh() {
+    await this.setPage();
     checkResource();
     wx.stopPullDownRefresh();
   },
@@ -86,11 +104,50 @@ $Page("user", {
     imageUrl: `${appCoverPrefix}.jpg`,
   }),
 
+  onUnload() {
+    this.$off("theme", this.setTheme);
+  },
+
+  setTheme(theme: string): void {
+    this.setData({ color: getColor(this.data.page.grey), theme });
+  },
+
+  async loadPage(): Promise<PageDataWithContent | null> {
+    const test = wx.getStorageSync<boolean | undefined>("test");
+
+    if (test)
+      return await requestJSON<PageDataWithContent>(
+        `d/config/${globalData.appID}/test/user`,
+      );
+
+    if (!globalData.data) return null;
+
+    const userPage = {
+      title: PAGE_TITLE,
+      grey: true,
+      hidden: true,
+      content: globalData.data.user,
+    };
+
+    set(PAGE_ID, userPage, 3 * DAY);
+
+    return userPage;
+  },
+
+  async setPage(): Promise<void> {
+    try {
+      const pageData = await this.loadPage();
+
+      if (pageData) setPage({ ctx: this, option: { id: PAGE_ID } }, pageData);
+    } catch (err) {
+      setPage(
+        { ctx: this, option: { id: PAGE_ID } },
+        get(PAGE_ID) || this.data.page,
+      );
+    }
+  },
+
   addToDesktop() {
-    wx.saveAppToDesktop({
-      success: () => {
-        console.log("Add to desktop success!");
-      },
-    });
+    wx.saveAppToDesktop();
   },
 });

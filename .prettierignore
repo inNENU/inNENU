@@ -4,7 +4,7 @@ app/function/utils/parser.d.ts
 
 dist/**
 
-server/r/**
+server/d/**
 server/site/**/*.md
 !server/site/README.md
 !server/site/about/**/*.md

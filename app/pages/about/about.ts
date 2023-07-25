@@ -1,14 +1,14 @@
-import { $Page } from "@mptool/all";
+import { $Page, set } from "@mptool/all";
 
 import type {
-  ComponentConfig,
   FunctionalListComponentConfig,
   PageDataWithContent,
   SwitchListComponentItemConfig,
 } from "../../../typings/index.js";
-import { requestJSON, showToast } from "../../api/index.js";
+import { showToast } from "../../api/index.js";
 import type { AppOption } from "../../app.js";
 import { appCoverPrefix } from "../../config/index.js";
+import { DAY } from "../../utils/constant.js";
 import { popNotice, resolvePage, setPage } from "../../utils/page.js";
 
 const { globalData } = getApp<AppOption>();
@@ -95,35 +95,13 @@ $Page(PAGE_ID, {
 
       setPage({ option: { id: "about" }, ctx: this }, page);
     }
+
+    this.$on("data", () => this.setPage());
   },
 
   onShow() {
+    this.setPage();
     popNotice(PAGE_ID);
-  },
-
-  onReady() {
-    // 读取在线文件更新页面显示
-    requestJSON<ComponentConfig[]>(
-      `d/config/${globalData.appID}/${globalData.version}/about`,
-    )
-      .then((data: ComponentConfig[]) => {
-        setPage(
-          { option: { id: "关于" }, ctx: this },
-          {
-            ...this.data.page,
-            content: this.data.page.content.slice(0, 1).concat(data),
-          },
-        );
-      })
-      .catch(() => {
-        setPage(
-          { option: { id: "关于" }, ctx: this },
-          {
-            ...this.data.page,
-            content: this.data.page.content.slice(0, 1),
-          },
-        );
-      });
   },
 
   // eslint-disable-next-line @typescript-eslint/no-empty-function
@@ -141,6 +119,31 @@ $Page(PAGE_ID, {
     title: PAGE_TITLE,
     imageUrl: `${appCoverPrefix}.jpg`,
   }),
+
+  loadPage(): PageDataWithContent | null {
+    if (!globalData.data) return null;
+
+    const { about } = globalData.data;
+
+    const aboutPage = {
+      ...this.data.page,
+      content: this.data.page.content.slice(0, 1).concat(about),
+    };
+
+    set(PAGE_ID, aboutPage, 3 * DAY);
+
+    return aboutPage;
+  },
+
+  setPage(): void {
+    try {
+      const pageData = this.loadPage();
+
+      if (pageData) setPage({ ctx: this, option: { id: PAGE_ID } }, pageData);
+    } catch (err) {
+      // do nothing
+    }
+  },
 
   /** 点击版本号时触发的函数 */
   debugMode() {
@@ -164,14 +167,14 @@ $Page(PAGE_ID, {
     else if (clickNumber < 10) {
       showToast(`再点击${10 - clickNumber}次即可启用开发者模式`);
       clickNumber += 1;
-
-      // 启用开发者模式
-    } else {
-      this.setData({ debug: true }, () => {
+    }
+    // 启用开发者模式
+    else {
+      this.setData({ debug: true }, () =>
         wx.nextTick(() => {
           this.setData({ focus: true });
-        });
-      });
+        }),
+      );
     }
   },
 

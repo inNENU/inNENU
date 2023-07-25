@@ -10,6 +10,7 @@ import type { PageData, VersionInfo } from "../../typings/index.js";
 import { request, showToast } from "../api/index.js";
 import {
   ACCOUNT_INFO_KEY,
+  INITIALIZED_KEY,
   USER_INFO_KEY,
   defaultAppConfig,
   server,
@@ -141,7 +142,7 @@ export const initializeApp = (): void => {
       console.log("Version info", data);
       writeJSON("resource-version", data.version);
       // 成功初始化
-      wx.setStorageSync("app-inited", true);
+      wx.setStorageSync(INITIALIZED_KEY, true);
       emitter.emit("inited");
       wx.hideLoading();
     });

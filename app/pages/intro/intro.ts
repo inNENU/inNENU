@@ -1,13 +1,18 @@
 import { $Page, get, set } from "@mptool/all";
 
-import type { GridComponentConfig } from "../../../typings/index.js";
+import type {
+  GridComponentConfig,
+  ListComponentItemConfig,
+} from "../../../typings/index.js";
 import type { AppOption } from "../../app.js";
 import { appCoverPrefix } from "../../config/index.js";
 import { DAY } from "../../utils/constant.js";
+import { getJSON } from "../../utils/json.js";
 import { getColor, popNotice } from "../../utils/page.js";
 import { checkResource } from "../../utils/resource.js";
 import { search } from "../../utils/search.js";
 import { getIdentity } from "../../utils/settings.js";
+import { TabData } from "../typings.js";
 
 const { globalData } = getApp<AppOption>();
 
@@ -85,15 +90,31 @@ $Page(PAGE_ID, {
     this.setData({ color: getColor(this.data.page.grey), theme });
   },
 
-  setPage(): void {
+  async setPage(): Promise<void> {
     if (globalData.data) {
+      const data = await getJSON<TabData>("function/data/tab");
+
       const identify = getIdentity(globalData.account);
 
-      const { data, "intro-page": introPageConfig } = globalData.data;
+      const { "intro-page": introPageConfig } = globalData.data;
 
       const introConfig = introPageConfig[identify] || introPageConfig.default;
 
       const config = Object.entries(data);
+
+      const more = introConfig.more.map((item) => {
+        const record = config.find(([key]) => key === item)![1];
+
+        return {
+          header: record.name,
+          path: record.path,
+          items: record.items.map((item) => {
+            if (item.path) item.url = `info?from=${PAGE_TITLE}&id=${item.path}`;
+
+            return item;
+          }),
+        };
+      });
 
       const introData = {
         items: introConfig.items.map((item) => {
@@ -109,18 +130,13 @@ $Page(PAGE_ID, {
             }),
           };
         }),
-        more: introConfig.more.map((item) => {
-          const record = config.find(([key]) => key === item)![1];
+        more,
+        moreItems: more.map(({ header, path }) => {
+          const item: ListComponentItemConfig = { text: header };
 
-          return {
-            header: record.name,
-            items: record.items.map((item) => {
-              if (item.path)
-                item.url = `info?from=${PAGE_TITLE}&id=${item.path}`;
+          if (path) item.url = `info?from=${PAGE_TITLE}&id=${path}`;
 
-              return item;
-            }),
-          };
+          return item;
         }),
       };
 

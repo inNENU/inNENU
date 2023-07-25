@@ -36,14 +36,13 @@
     wx:key="header"
     config="{{config}}"
   />
-  <view
-    wx:if="{{more.length}}"
-    class="more {{displayMore ? 'show': 'hide'}}"
-    catch:tap="openMore"
-  >
-    <view class="more-title">
+  <view wx:if="{{more.length}}" class="more {{displayMore ? 'show': 'hide'}}">
+    <view catch:tap="openMore" class="more-title">
       <text>更多内容</text>
       <view class="icon" catch:tap="toggleMore" />
+    </view>
+    <view class="more-list">
+      <list config="{{ { header: false, items: moreItems } }}" />
     </view>
     <view class="more-content">
       <grid

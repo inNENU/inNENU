@@ -2,6 +2,7 @@ import type { TrivialPageInstance } from "@mptool/all";
 import { $App, $Config, wrapFunction } from "@mptool/all";
 
 import { getDarkmode } from "./api/index.js";
+import { INITIALIZED_KEY } from "./config/keys.js";
 import type { GlobalData } from "./utils/app.js";
 import { getGlobalData, initializeApp, startup } from "./utils/app.js";
 import { checkResource } from "./utils/resource.js";
@@ -95,7 +96,7 @@ $App<AppOption>({
     console.info("App launched with options:", options);
 
     // 如果初次启动执行初始化
-    if (!wx.getStorageSync("app-inited")) initializeApp();
+    if (!wx.getStorageSync(INITIALIZED_KEY)) initializeApp();
 
     fetchData(this.globalData).then(() => {
       this.$emit("data");
@@ -107,7 +108,7 @@ $App<AppOption>({
 
   onShow() {
     //初始化完成，检查页面资源
-    if (wx.getStorageSync("app-inited")) checkResource();
+    if (wx.getStorageSync(INITIALIZED_KEY)) checkResource();
   },
 
   onAwake(time: number) {

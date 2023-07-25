@@ -3,65 +3,85 @@
 }
 
 .more {
-  text-align: center;
-  transition: all 0.5s ease-in-out;
-  background-color: var(--bg-color-block);
+  margin: 15px;
   border-radius: 15px;
 
-  margin: 15px;
+  background-color: var(--bg-color-block);
+
+  text-align: center;
+
+  transition: all 0.5s ease-in-out;
 
   .more-title {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    padding: 10px 15px;
+
     font-weight: 600;
     font-size: 18px;
-    padding: 10px 15px;
     line-height: 2;
     text-align: center;
-    display: flex;
-    justify-content: center;
-    align-items: center;
 
     .icon {
-      display: inline-block;
-      height: 16px;
-      width: 16px;
       position: relative;
+
+      display: inline-block;
       vertical-align: baseline;
+
+      width: 24px;
+      height: 24px;
       margin-left: 10px;
-      background-color: rgba(0, 0, 0, 0.1);
-      padding: 4px;
       border-radius: 50%;
+
+      background-color: rgb(127 127 127 / 15%);
 
       &::before {
         content: " ";
+
         position: absolute;
         top: calc(50% - 2px);
-        left: 12.5%;
+        left: 15%;
+
+        width: 70%;
         height: 4px;
-        width: 75%;
+
         background-color: var(--text-color);
       }
 
       &::after {
         content: " ";
+
         position: absolute;
-        top: 12.5%;
+        top: 15%;
         left: calc(50% - 2px);
+
         width: 4px;
-        height: 75%;
+        height: 70%;
+
         background-color: var(--text-color);
       }
     }
   }
 
-  .more-content {
-    transform: translateY(-40px);
-    height: 0;
+  .more-list {
     overflow: hidden;
+
+    .list-component-content {
+      margin: 0;
+    }
+  }
+
+  .more-content {
+    overflow: hidden;
+    height: 0;
+    transform: translateY(-40px);
   }
 
   &.show {
-    background-color: transparent;
     margin: 15px 0;
+    background-color: transparent;
 
     .more-title {
       justify-content: space-between;
@@ -71,9 +91,13 @@
       }
     }
 
+    .more-list {
+      height: 0;
+    }
+
     .more-content {
-      transform: translateY(0%);
       height: auto;
+      transform: translateY(0%);
     }
   }
 }

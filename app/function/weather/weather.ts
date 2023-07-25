@@ -3,7 +3,12 @@ import { $Page, get, readFile } from "@mptool/all";
 import { showModal } from "../../api/index.js";
 import type { AppOption } from "../../app.js";
 import type { WeatherData } from "../../components/weather/typings.js";
-import { WEATHER_KEY, appCoverPrefix, server } from "../../config/index.js";
+import {
+  INITIALIZED_KEY,
+  WEATHER_KEY,
+  appCoverPrefix,
+  server,
+} from "../../config/index.js";
 import { getColor } from "../../utils/page.js";
 
 const { globalData } = getApp<AppOption>();
@@ -28,7 +33,7 @@ $Page("weather", {
   onLoad() {
     const weather = get<WeatherData>(WEATHER_KEY);
 
-    if (wx.getStorageSync("app-inited")) {
+    if (wx.getStorageSync(INITIALIZED_KEY)) {
       const weatherIcon = <Record<string, string>>(
         JSON.parse((readFile("./icon/weather/icon") as string) || "{}")
       );

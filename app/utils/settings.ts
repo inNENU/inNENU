@@ -2,10 +2,7 @@ import { logger } from "@mptool/all";
 
 import type { AccountBasicInfo, GlobalData } from "./app.js";
 import { updateNotice } from "./notice.js";
-import type {
-  ComponentConfig,
-  GridComponentItemConfig,
-} from "../../typings/components.js";
+import type { ComponentConfig } from "../../typings/components.js";
 import { request } from "../api/index.js";
 import { server } from "../config/info.js";
 
@@ -34,14 +31,7 @@ export interface UpdateSettings {
   reset: boolean;
 }
 
-export interface DataItem {
-  name: string;
-  path: string;
-  items: GridComponentItemConfig[];
-}
-
 export interface Data {
-  data: Record<string, DataItem>;
   "main-page": Record<string, string>;
   "intro-page": Record<
     string,
@@ -61,6 +51,7 @@ export interface Data {
   "main-presets": Record<string, ComponentConfig[]>;
   "function-presets": Record<string, ComponentConfig[]>;
   user: ComponentConfig[];
+  about: ComponentConfig[];
   notice: NoticeSettings;
   service: ServiceSettings;
   update: UpdateSettings;

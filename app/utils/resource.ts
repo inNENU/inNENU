@@ -157,7 +157,7 @@ export const checkResource = (): void => {
           // 需要提醒
           wx.showModal({
             title: "内容更新",
-            content: `请更新资源以获得最新内容。(会消耗${size}K流量)`,
+            content: `请更新资源以获得最新内容 (大小${size}KB)`,
             cancelText: "取消",
             cancelColor: "#ff0000",
             confirmText: "更新",

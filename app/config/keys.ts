@@ -1,3 +1,4 @@
+export const INITIALIZED_KEY = "initialized";
 export const ACCOUNT_INFO_KEY = "account-info";
 export const USER_INFO_KEY = "user-info";
 
