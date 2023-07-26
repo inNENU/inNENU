@@ -4,11 +4,13 @@ function getAddress(config) {
 
 module.exports = {
   getName: function (config) {
-    return config.header || (config.lName || "") + (config.fName || "");
+    return config
+      ? config.header || (config.lName || "") + (config.fName || "")
+      : "";
   },
 
   hasAddress: function (config) {
-    return getAddress(config) !== "";
+    return getAddress(config || {}) !== "";
   },
 
   getAddress: getAddress,
