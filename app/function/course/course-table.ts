@@ -13,6 +13,7 @@ import type {
   VPNLoginFailedResponse,
 } from "../../login/index.js";
 import { UNDER_SYSTEM_SERVER, isWebVPNPage } from "../../login/index.js";
+import { cookieStore } from "../../utils/cookie.js";
 import { getJSON } from "../../utils/json.js";
 
 const courseRowRegExp =
@@ -55,12 +56,15 @@ export const getCourseTable = async ({
       `${UNDER_SYSTEM_SERVER}/tkglAction.do?${query.stringify(params)}`,
     );
 
-    if (isWebVPNPage(content))
+    if (isWebVPNPage(content)) {
+      cookieStore.delete(UNDER_SYSTEM_SERVER);
+
       return <VPNLoginFailedResponse>{
         success: false,
         type: "expired",
         msg: "登陆已过期，请重新登录",
       };
+    }
 
     const tableData = getCourses(content);
 

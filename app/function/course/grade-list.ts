@@ -14,6 +14,7 @@ import { request } from "../../api/index.js";
 import { service } from "../../config/index.js";
 import { UNDER_SYSTEM_SERVER, isWebVPNPage } from "../../login/index.js";
 import { getIETimeStamp } from "../../utils/browser.js";
+import { cookieStore } from "../../utils/cookie.js";
 
 const gradeItemRegExp = /<tr.+?class="smartTr"[^>]*?>([\s\S]*?)<\/tr>/g;
 const jsGradeItemRegExp = /<tr.+?class=\\"smartTr\\"[^>]*?>(.*?)<\/tr>/g;
@@ -267,12 +268,15 @@ export const getGradeList = async ({
       }),
     });
 
-    if (isWebVPNPage(content))
+    if (isWebVPNPage(content)) {
+      cookieStore.clear(UNDER_SYSTEM_SERVER);
+
       return <UserGradeListFailedResponse>{
         success: false,
         type: "expired",
         msg: "登陆已过期，请重新登录",
       };
+    }
 
     if (content.includes("评教未完成，不能查询成绩！"))
       return <UserGradeListFailedResponse>{
