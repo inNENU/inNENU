@@ -77,11 +77,14 @@ $Page("course-grade", {
     ascending: false,
 
     desc: "数据来自教务处本科教学服务系统，请以各学院实际安排与认定为准。",
+
+    needLogin: false,
   },
 
   state: {
     loginMethod: <"check" | "login" | "validate">"validate",
     numberValueIndex: <number[]>[],
+    inited: false,
   },
 
   onLoad() {
@@ -93,31 +96,25 @@ $Page("course-grade", {
   },
 
   onShow() {
-    const { account } = globalData;
+    if (globalData.account) {
+      if (!this.state.inited || this.data.needLogin) {
+        const grade = Math.floor(globalData.account.id / 1000000);
+        const times = ["", ...getTimes(grade)];
+        const timeDisplays = times.map(getDisplayTime);
+        const grades = get<GradeResult[]>(GRADE_DATA_KEY);
 
-    if (!account) {
-      showModal(
-        "请先登录",
-        "暂无账号信息，请输入",
-        (): void => {
-          this.$go("account?from=成绩查询&update=true");
-        },
-        () => {
-          this.$back();
-        },
-      );
-    } else {
-      const grade = Math.floor(account.id / 1000000);
-      const times = ["", ...getTimes(grade)];
-      const timeDisplays = times.map(getDisplayTime);
-      const grades = get<GradeResult[]>(GRADE_DATA_KEY);
+        this.setData({ times, timeDisplays });
 
-      if (grades) {
-        this.setGradeData(grades);
-        this.setStatistics(grades);
-      } else void this.getGradeList();
-      this.setData({ times, timeDisplays });
+        if (grades) {
+          this.setGradeData(grades);
+          this.setStatistics(grades);
+        } else {
+          this.getGradeList();
+        }
+      }
     }
+
+    this.setData({ needLogin: !globalData.account });
 
     popNotice(PAGE_ID);
   },
@@ -145,6 +142,7 @@ $Page("course-grade", {
           options,
         ).then((res) => {
           wx.hideLoading();
+          this.state.inited = true;
           if (res.success) {
             set(
               `${GRADE_DATA_KEY}${options.time ? `-${options.time}` : ""}`,
@@ -156,7 +154,7 @@ $Page("course-grade", {
             this.state.loginMethod = "check";
           } else if (res.type === "expired") {
             this.state.loginMethod = "login";
-            this.getGradeList(options);
+            showModal("登陆过期", res.msg);
           } else {
             showModal("获取失败", res.msg);
           }

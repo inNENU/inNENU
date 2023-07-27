@@ -88,12 +88,15 @@ $Page(PAGE_ID, {
     timeIndex: 0,
     weeks: 0,
     weekIndex: 0,
+
+    needLogin: false,
   },
 
   state: {
     loginMethod: <"check" | "login" | "validate">"validate",
     coursesData: <Record<string, CourseTableData>>{},
     grade: new Date().getFullYear(),
+    inited: false,
   },
 
   onLoad() {
@@ -110,18 +113,7 @@ $Page(PAGE_ID, {
 
     if (coursesData) this.state.coursesData = coursesData;
 
-    if (!account) {
-      showModal(
-        "请先登录",
-        "暂无账号信息，请输入",
-        (): void => {
-          this.$go("account?from=课程表&update=true");
-        },
-        () => {
-          this.$back();
-        },
-      );
-    } else {
+    if (account) {
       const grade = Math.floor(account.id / 1000000);
       const times = getTimes(grade);
       const timeDisplays = times.map(getDisplayTime);
@@ -149,6 +141,8 @@ $Page(PAGE_ID, {
       }
     }
 
+    this.setData({ needLogin: !globalData.account });
+
     popNotice(PAGE_ID);
   },
 
@@ -175,6 +169,7 @@ $Page(PAGE_ID, {
           useOnlineService(PAGE_ID) ? getOnlineCourseTable : getCourseTable
         )({ time }).then((res) => {
           wx.hideLoading();
+          this.state.inited = true;
           if (res.success) {
             const { data, startTime } = res;
             const courseTable = handleCourseTable(data, startTime);
@@ -190,7 +185,7 @@ $Page(PAGE_ID, {
             set(COURSE_DATA_KEY, this.state.coursesData, 6 * MONTH);
           } else if (res.type === "expired") {
             this.state.loginMethod = "login";
-            this.getCourseData(time);
+            showModal("登陆过期", res.msg);
           } else {
             showModal("获取失败", res.msg);
           }

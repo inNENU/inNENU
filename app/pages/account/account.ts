@@ -90,17 +90,23 @@ $Page(PAGE_ID, {
 
     if (account)
       this.setData({
-        from,
         id: account.id.toString(),
         password: account.password,
         isSaved: true,
       });
+
     if (userInfo)
       this.setData({
         // eslint-disable-next-line @typescript-eslint/naming-convention
         "list.items": getDisplay(userInfo),
       });
+
     if (update) this.state.shouldNavigateBack = true;
+
+    this.setData({
+      // eslint-disable-next-line @typescript-eslint/naming-convention
+      "nav.from": from,
+    });
   },
 
   onShow() {

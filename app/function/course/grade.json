@@ -1,6 +1,7 @@
 {
   "navigationBarTitleText": "课程成绩",
   "usingComponents": {
+    "login-hint": "/components/login-hint/login-hint",
     "header": "/components/header/header"
   }
 }

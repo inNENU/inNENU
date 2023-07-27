@@ -8,104 +8,107 @@
 />
 <view class="{{theme}} grade-list-wrapper">
   <navbar nav="{{ { title } }}" />
-  <view class="grade-list-actions">
-    <picker
-      class="picker"
-      range="{{timeDisplays}}"
-      value="{{timeIndex}}"
-      bindchange="changeTime"
-    >
-      {{(timeDisplays[timeIndex])}}
-    </picker>
-    <button
-      class="refresh-button"
-      type="default"
-      size="mini"
-      catch:tap="getGradeList"
-    >
-      <text class="refresh-button-icon" />
-    </button>
-  </view>
-  <view class="header"> 查询结果 </view>
-  <block wx:if="{{grades.length}}">
-    <scroll-view scroll-x class="grade-list">
-      <view class="table">
-        <view class="table-headers">
-          <view
-            wx:for="{{grade.headers}}"
-            wx:for-item="item"
-            wx:for-index="index"
-            class="table-header"
-            data-index="{{index}}"
-            catch:tap="sortResults"
-          >
-            <text class="text">{{item}}</text>
-            {{sortIndex === index ? ascending ? '↑': '↓' : ''}}
-          </view>
-          <view wx:if="{{showMark}}" class="table-header">成绩标识</view>
-          <view wx:if="{{showRelearn}}" class="table-header">补重学期</view>
-          <view wx:if="{{showStatus}}" class="table-header">审核状态</view>
-        </view>
-
-        <view
-          wx:for="{{grades}}"
-          wx:for-item="item"
-          class="table-row"
-          data-index="{{index}}"
-          catch:tap="showScoreDetail"
-        >
-          <view class="cell name">{{item.name}}</view>
-          <view class="cell grade {{grade.getGradeState(item.grade)}}"
-            >{{item.gradeText || item.grade}}</view
-          >
-          <view class="cell difficulty">{{item.difficulty}}</view>
-          <view class="cell point">{{item.point}}</view>
-          <view class="cell grade-point">{{item.gradePoint}}</view>
-          <view class="cell course-type">{{item.shortCourseType}}</view>
-          <view class="cell common-type">{{item.commonType || ''}}</view>
-          <view class="cell time">{{item.time}}</view>
-          <view class="cell time">{{item.hours || ''}}</view>
-          <view class="cell examType">{{item.examType}}</view>
-          <view wx:if="{{showMark}}" class="cell mark">{{item.mark}}</view>
-          <view wx:if="{{showRelearn}}" class="cell relearn"
-            >{{grade.reLearn}}</view
-          >
-          <view wx:if="{{showStatus}}" class="cell status"
-            >{{grade.status}}</view
-          >
-        </view>
-      </view>
-    </scroll-view>
-    <view class="header">数据统计</view>
-    <view class="information">
-      <text class="label">通识必修课总学分:</text>
-      <text class="value">{{totalCommonRequiredPoint}}</text>
-
-      <text class="label">通识选修课总学分:</text>
-      <text class="value">{{totalCommonOptionalPoint}}</text>
-
-      <text class="label">专业必修课总学分:</text>
-      <text class="value">{{totalMajorRequiredPoint}}</text>
-
-      <text class="label">专业选修课总学分:</text>
-      <text class="value">{{totalMajorOptionalPoint}}</text>
-
-      <text class="label">教师职业必修课总学分:</text>
-      <text class="value">{{totalTeacherRequiredPoint}}</text>
-
-      <text class="label">教师职业选修课总学分:</text>
-      <text class="value">{{totalTeacherOptionalPoint}}</text>
-
-      <text class="label">总学分:</text>
-      <text class="value">{{totalPoint}}</text>
-
-      <text class="label">总绩点:</text>
-      <text class="value">{{totalGradePoint}}</text>
-
-      <text class="label">平均绩点:</text>
-      <text class="value">{{gpa}}</text>
+  <login-hint wx:if="{{needLogin}}" source="成绩列表" />
+  <block wx:else>
+    <view class="grade-list-actions">
+      <picker
+        class="picker"
+        range="{{timeDisplays}}"
+        value="{{timeIndex}}"
+        bindchange="changeTime"
+      >
+        {{(timeDisplays[timeIndex])}}
+      </picker>
+      <button
+        class="refresh-button"
+        type="default"
+        size="mini"
+        catch:tap="getGradeList"
+      >
+        <text class="refresh-button-icon" />
+      </button>
     </view>
+    <view class="header"> 查询结果 </view>
+    <block wx:if="{{grades.length}}">
+      <scroll-view scroll-x class="grade-list">
+        <view class="table">
+          <view class="table-headers">
+            <view
+              wx:for="{{grade.headers}}"
+              wx:for-item="item"
+              wx:for-index="index"
+              class="table-header"
+              data-index="{{index}}"
+              catch:tap="sortResults"
+            >
+              <text class="text">{{item}}</text>
+              {{sortIndex === index ? ascending ? '↑': '↓' : ''}}
+            </view>
+            <view wx:if="{{showMark}}" class="table-header">成绩标识</view>
+            <view wx:if="{{showRelearn}}" class="table-header">补重学期</view>
+            <view wx:if="{{showStatus}}" class="table-header">审核状态</view>
+          </view>
+
+          <view
+            wx:for="{{grades}}"
+            wx:for-item="item"
+            class="table-row"
+            data-index="{{index}}"
+            catch:tap="showScoreDetail"
+          >
+            <view class="cell name">{{item.name}}</view>
+            <view class="cell grade {{grade.getGradeState(item.grade)}}"
+              >{{item.gradeText || item.grade}}</view
+            >
+            <view class="cell difficulty">{{item.difficulty}}</view>
+            <view class="cell point">{{item.point}}</view>
+            <view class="cell grade-point">{{item.gradePoint}}</view>
+            <view class="cell course-type">{{item.shortCourseType}}</view>
+            <view class="cell common-type">{{item.commonType || ''}}</view>
+            <view class="cell time">{{item.time}}</view>
+            <view class="cell time">{{item.hours || ''}}</view>
+            <view class="cell examType">{{item.examType}}</view>
+            <view wx:if="{{showMark}}" class="cell mark">{{item.mark}}</view>
+            <view wx:if="{{showRelearn}}" class="cell relearn"
+              >{{grade.reLearn}}</view
+            >
+            <view wx:if="{{showStatus}}" class="cell status"
+              >{{grade.status}}</view
+            >
+          </view>
+        </view>
+      </scroll-view>
+      <view class="header">数据统计</view>
+      <view class="information">
+        <text class="label">通识必修课总学分:</text>
+        <text class="value">{{totalCommonRequiredPoint}}</text>
+
+        <text class="label">通识选修课总学分:</text>
+        <text class="value">{{totalCommonOptionalPoint}}</text>
+
+        <text class="label">专业必修课总学分:</text>
+        <text class="value">{{totalMajorRequiredPoint}}</text>
+
+        <text class="label">专业选修课总学分:</text>
+        <text class="value">{{totalMajorOptionalPoint}}</text>
+
+        <text class="label">教师职业必修课总学分:</text>
+        <text class="value">{{totalTeacherRequiredPoint}}</text>
+
+        <text class="label">教师职业选修课总学分:</text>
+        <text class="value">{{totalTeacherOptionalPoint}}</text>
+
+        <text class="label">总学分:</text>
+        <text class="value">{{totalPoint}}</text>
+
+        <text class="label">总绩点:</text>
+        <text class="value">{{totalGradePoint}}</text>
+
+        <text class="label">平均绩点:</text>
+        <text class="value">{{gpa}}</text>
+      </view>
+      <footer config="{{ { desc } }}" />
+    </block>
+    <view wx:else class="empty">暂无成绩结果</view>
   </block>
-  <view wx:else class="empty">暂无成绩结果</view>
-  <footer config="{{ { desc } }}" />
 </view>

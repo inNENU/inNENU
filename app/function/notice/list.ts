@@ -39,10 +39,12 @@ $Page(PAGE_ID, {
   },
 
   onShow() {
-    if (!this.state.inited) this.getNoticeList(1, true);
-    else if (globalData.account) {
-      if (this.data.status === "login") this.getNoticeList(1, true);
-    } else this.setData({ status: "login" });
+    if (globalData.account) {
+      if (this.data.status === "login" || !this.state.inited)
+        this.getNoticeList(1, true);
+    } else {
+      this.setData({ status: "login" });
+    }
 
     popNotice(PAGE_ID);
   },
