@@ -53,7 +53,7 @@ $Page(PAGE_ID, {
 
     this.state.path = path;
 
-    popNotice(`wechat/${this.data.name}`);
+    popNotice(`wechat/${path}`);
   },
 
   onShow() {
