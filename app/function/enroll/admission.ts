@@ -3,7 +3,7 @@ import { $Page } from "@mptool/all";
 import { postAdmission, underAdmission } from "./api.js";
 import type {
   AdmissionResponse,
-  GetUnderAdmissionResponse,
+  UnderAdmissionPostOptions,
 } from "./typings.js";
 import { showModal } from "../../api/index.js";
 import { appCoverPrefix } from "../../config/index.js";
@@ -36,9 +36,6 @@ $Page(PAGE_ID, {
     /** 输入列表 */
     input: <InputConfig[]>[],
 
-    /** 验证码 */
-    captcha: "",
-
     detail: <{ title: string; content: string } | null>null,
 
     /** 弹窗配置 */
@@ -59,12 +56,6 @@ $Page(PAGE_ID, {
 
     /** 输入信息 */
     input: <Record<string, string>>{},
-
-    /** 验证码 */
-    captcha: "",
-
-    /** Cookies */
-    cookies: <unknown[]>[],
   },
 
   onLoad({ type = "debug" }) {
@@ -154,43 +145,34 @@ $Page(PAGE_ID, {
     this.state.input[currentTarget.id] = detail.value;
   },
 
-  inputCaptcha({ detail }: WechatMiniprogram.Input) {
-    this.state.captcha = detail.value;
-  },
-
   blur() {
     this.setData({ isTyping: false });
   },
 
   getInfo(level: string) {
     wx.showLoading({ title: "获取中" });
-    if (level === "本科生")
-      void underAdmission<GetUnderAdmissionResponse>("GET").then((data) => {
-        const { cookies, info, captcha, notice, detail } = data;
+    if (level === "本科生") {
+      const info = ["name", "id", "testId"];
 
-        this.state.cookies = cookies;
-        this.state.info = info;
-        this.setData(
-          {
-            captcha,
-            input: info.map(
-              (item) => INPUT_CONFIG.find(({ id }) => id === item)!,
-            ),
-            notice,
-            detail,
-          },
-          () => {
-            wx.hideLoading();
-          },
-        );
-      });
-    else {
-      this.state.cookies = [];
+      this.state.info = info;
+
       this.setData(
         {
-          cookies: [],
-          captcha: "",
-          input: ["name", "id"].map(
+          input: info.map(
+            (item) => INPUT_CONFIG.find(({ id }) => id === item)!,
+          ),
+        },
+        () => {
+          wx.hideLoading();
+        },
+      );
+    } else {
+      const info = ["name", "id"];
+
+      this.state.info = info;
+      this.setData(
+        {
+          input: info.map(
             (item) => INPUT_CONFIG.find(({ id }) => id === item)!,
           ),
           notice: "考生姓名只需输入前三个汉字",
@@ -203,10 +185,6 @@ $Page(PAGE_ID, {
     }
   },
 
-  changeCaptcha() {
-    this.getInfo(this.data.level);
-  },
-
   tip(title: string) {
     wx.showToast({
       title,
@@ -216,7 +194,7 @@ $Page(PAGE_ID, {
   },
 
   search() {
-    const { captcha, cookies, info, input } = this.state;
+    const { info, input } = this.state;
 
     if (info.includes("name") && !input.name) return this.tip("未填写姓名");
 
@@ -228,13 +206,10 @@ $Page(PAGE_ID, {
 
     wx.setStorageSync("admission-info", input);
 
-    // TODO: 研究生
     if (this.data.level === "本科生")
-      underAdmission<AdmissionResponse>("POST", {
-        cookies,
-        ...input,
-        captcha,
-      }).then((response) => {
+      underAdmission<AdmissionResponse>(
+        input as unknown as UnderAdmissionPostOptions,
+      ).then((response) => {
         this.setData({ result: response });
       });
     else

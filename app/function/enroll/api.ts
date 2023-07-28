@@ -4,6 +4,7 @@ import type {
   EnrollPlanOptions,
   EnrollPlanResponse,
   PostAdmissionPostOptions,
+  UnderAdmissionPostOptions,
 } from "./typings.js";
 import { request } from "../../api/net.js";
 import { service } from "../../config/index.js";
@@ -19,11 +20,10 @@ export const postAdmission = (
 export const underAdmission = <
   T extends string | Record<never, never> | unknown[],
 >(
-  method: "GET" | "POST",
-  data: Record<string, unknown> = {},
+  data: UnderAdmissionPostOptions,
 ): Promise<T> =>
   request<T>(`${service}enroll/under-admission`, {
-    method,
+    method: "POST",
     ...(data ? { data } : {}),
   });
 

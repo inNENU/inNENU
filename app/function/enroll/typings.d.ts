@@ -1,5 +1,3 @@
-import type { CookieType } from "@mptool/all";
-
 import type { CommonFailedResponse } from "../../../typings/index.js";
 
 export interface AdmissionSuccessResponse {
@@ -15,19 +13,9 @@ export interface PostAdmissionPostOptions {
 }
 
 export interface UnderAdmissionPostOptions {
-  captcha: string;
   name: string;
   id: string;
   testId: string;
-  cookies: CookieType[];
-}
-
-export interface GetUnderAdmissionResponse {
-  cookies: CookieType[];
-  info: string[];
-  captcha: string;
-  notice: string;
-  detail: { title: string; content: string } | null;
 }
 
 export interface HistoryGradeOptions {
