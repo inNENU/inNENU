@@ -269,7 +269,7 @@ export const getGradeList = async ({
     });
 
     if (isWebVPNPage(content)) {
-      cookieStore.clear(UNDER_SYSTEM_SERVER);
+      cookieStore.clear();
 
       return <UserGradeListFailedResponse>{
         success: false,

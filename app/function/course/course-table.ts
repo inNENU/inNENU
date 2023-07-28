@@ -57,7 +57,7 @@ export const getCourseTable = async ({
     );
 
     if (isWebVPNPage(content)) {
-      cookieStore.delete(UNDER_SYSTEM_SERVER);
+      cookieStore.clear();
 
       return <VPNLoginFailedResponse>{
         success: false,
