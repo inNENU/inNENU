@@ -161,6 +161,7 @@ $Page(PAGE_ID, {
           input: info.map(
             (item) => INPUT_CONFIG.find(({ id }) => id === item)!,
           ),
+          notice: "",
         },
         () => {
           wx.hideLoading();
