@@ -187,46 +187,44 @@ $Page("course-grade", {
   },
 
   setStatistics(grades: GradeResult[]) {
-    const filteredData = grades.filter((item, index) => {
-      const records = grades.filter(
-        (record) => record.cid === item.cid && item.grade >= 60,
-      );
+    const gradeMap = new Map<string, GradeResult>();
 
-      return (
-        // the max grade
-        records.every((record) => record.grade <= item.grade) &&
-        // the last one with same grade
-        grades.findLastIndex(
-          (record) => record.cid === item.cid && record.grade === item.grade,
-        ) === index
-      );
+    grades.forEach((item) => {
+      if (
+        item.grade >= 60 &&
+        (!gradeMap.has(item.cid) || item.grade > gradeMap.get(item.cid)!.grade)
+      ) {
+        gradeMap.set(item.cid, item);
+      }
     });
 
+    const filteredData = Array.from(gradeMap.values());
+
     const totalPoint = filteredData.reduce(
-      (total, item) => total + item.point,
+      (total, { point }) => total + point,
       0,
     );
     const totalCommonRequiredPoint = filteredData
-      .filter((item) => item.shortCourseType === "通修")
-      .reduce((total, item) => total + item.point, 0);
+      .filter(({ shortCourseType }) => shortCourseType === "通修")
+      .reduce((total, { point }) => total + point, 0);
     const totalCommonOptionalPoint = filteredData
-      .filter((item) => item.shortCourseType === "通选")
-      .reduce((total, item) => total + item.point, 0);
+      .filter(({ shortCourseType }) => shortCourseType === "通选")
+      .reduce((total, { point }) => total + point, 0);
     const totalMajorRequiredPoint = filteredData
-      .filter((item) => item.shortCourseType === "专修")
-      .reduce((total, item) => total + item.point, 0);
+      .filter(({ shortCourseType }) => shortCourseType === "专修")
+      .reduce((total, { point }) => total + point, 0);
     const totalMajorOptionalPoint = filteredData
-      .filter((item) => item.shortCourseType === "专选")
-      .reduce((total, item) => total + item.point, 0);
+      .filter(({ shortCourseType }) => shortCourseType === "专选")
+      .reduce((total, { point }) => total + point, 0);
     const totalTeacherRequiredPoint = filteredData
-      .filter((item) => item.shortCourseType === "师修")
-      .reduce((total, item) => total + item.point, 0);
+      .filter(({ shortCourseType }) => shortCourseType === "师修")
+      .reduce((total, { point }) => total + point, 0);
     const totalTeacherOptionalPoint = filteredData
-      .filter((item) => item.shortCourseType === "师选")
-      .reduce((total, item) => total + item.point, 0);
+      .filter(({ shortCourseType }) => shortCourseType === "师选")
+      .reduce((total, { point }) => total + point, 0);
 
     const totalGradePoint = filteredData.reduce(
-      (total, item) => total + item.gradePoint,
+      (total, { gradePoint }) => total + gradePoint,
       0,
     );
     const gpa = Math.round((totalGradePoint / totalPoint) * 100) / 100;
