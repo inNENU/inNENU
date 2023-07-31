@@ -125,7 +125,7 @@ $Page(PAGE_ID, {
             header: record.name,
             items: record.items.map((item) => {
               if (item.path)
-                item.url = `info?from=${PAGE_TITLE}&id=${item.path}`;
+                item.url = `info?from=${PAGE_TITLE}&path=${item.path}`;
 
               return item;
             }),
@@ -135,7 +135,7 @@ $Page(PAGE_ID, {
         moreItems: more.map(({ header, path }) => {
           const item: ListComponentItemConfig = { text: header };
 
-          if (path) item.url = `info?from=${PAGE_TITLE}&id=${path}`;
+          if (path) item.url = `info?from=${PAGE_TITLE}&path=${path}`;
 
           return item;
         }),

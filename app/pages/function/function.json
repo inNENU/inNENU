@@ -1,6 +1,7 @@
 {
   "navigationBarTitleText": "功能大厅",
   "enablePullDownRefresh": true,
+  "initialRenderingCache": "static",
   "usingComponents": {
     "weather": "/components/weather/weather"
   }

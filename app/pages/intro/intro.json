@@ -1,6 +1,7 @@
 {
   "navigationBarTitleText": "东师介绍",
   "enablePullDownRefresh": true,
+  "initialRenderingCache": "static",
   "usingComponents": {
     "search": "/components/search/search"
   }

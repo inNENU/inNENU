@@ -1,4 +1,4 @@
-import { $Page, get, put, set, take } from "@mptool/all";
+import { $Page, get, set } from "@mptool/all";
 
 import type { PageDataWithContent } from "../../../typings/index.js";
 import { requestJSON } from "../../api/index.js";
@@ -14,6 +14,17 @@ const { globalData } = getApp<AppOption>();
 
 const PAGE_ID = "main";
 
+const defaultPage = <PageDataWithContent>resolvePage(
+  { id: PAGE_ID },
+  get<PageDataWithContent>(PAGE_ID) ||
+    <PageDataWithContent>{
+      title: "首页",
+      grey: true,
+      hidden: true,
+      content: [{ tag: "loading" }],
+    },
+);
+
 $Page(PAGE_ID, {
   data: {
     theme: globalData.theme,
@@ -23,31 +34,9 @@ $Page(PAGE_ID, {
     /** 候选词 */
     words: <string[]>[],
 
-    page: <PageDataWithContent>{
-      title: "首页",
-      grey: true,
-      hidden: true,
-      content: [{ tag: "loading" }],
-    },
+    page: defaultPage,
 
     menuSpace: globalData.env === "app" ? 10 : 90,
-  },
-
-  onRegister() {
-    const page = resolvePage(
-      { id: PAGE_ID },
-      get<PageDataWithContent>(PAGE_ID) || this.data.page,
-    ) as PageDataWithContent;
-
-    put(PAGE_ID, page);
-
-    if (page) this.data.page = page;
-
-    console.debug(
-      "Main page registered: ",
-      new Date().getTime() - globalData.startupTime,
-      "ms",
-    );
   },
 
   onLoad() {
@@ -57,7 +46,7 @@ $Page(PAGE_ID, {
         ctx: this,
         handle: true,
       },
-      take<PageDataWithContent>(PAGE_ID) || this.data.page,
+      this.data.page,
     );
 
     this.$on("data", () => this.setPage());
