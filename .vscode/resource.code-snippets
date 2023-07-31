@@ -16,13 +16,13 @@
   },
   "title component": {
     "scope": "yaml",
-    "prefix": ["title", "h"],
+    "prefix": ["title", "t"],
     "body": ["  - tag: title", "    text: $0"],
     "description": "inset title"
   },
   "text component": {
     "scope": "yaml",
-    "prefix": ["t", "text"],
+    "prefix": ["text"],
     "body": ["  - tag: text", "    text: $0"],
     "description": "inset text"
   },
@@ -37,6 +37,17 @@
     "prefix": ["ts", "texts"],
     "body": ["  - tag: text", "    text:", "      - $0"],
     "description": "inset texts"
+  },
+  "text component with title": {
+    "scope": "yaml",
+    "prefix": ["h", "text"],
+    "body": [
+      "  - tag: text",
+      "${1:    heading: $2}",
+      "    text:",
+      "      - $0"
+    ],
+    "description": "inset texts with title"
   },
   "unordered list component": {
     "scope": "yaml",
@@ -106,18 +117,13 @@
   "list component": {
     "scope": "yaml",
     "prefix": ["ls", "list"],
-    "body": [
-      "  - tag: list",
-      "${1:    header: $2}",
-      "    items:",
-      "      - $0"
-    ],
+    "body": ["  - tag: list", "${1:    header: $2}", "    items:", "$0"],
     "description": "inset list"
   },
   "list item": {
     "scope": "yaml",
     "prefix": ["li"],
-    "body": ["      - tag: $0", "        icon: $1", "        path: $1"],
+    "body": ["      - text: $1", "        icon: $2", "        path: $0"],
     "description": "inset list item"
   },
   "phone": {
@@ -129,7 +135,23 @@
       "    fName: $3",
       "    num: $0"
     ],
-    "description": "inset table"
+    "description": "inset phone"
+  },
+  "location": {
+    "scope": "yaml",
+    "prefix": ["loc"],
+    "body": ["  - tag: location", "    title: $1", "    points:", "$0"],
+    "description": "inset location"
+  },
+  "location item": {
+    "scope": "yaml",
+    "prefix": ["point"],
+    "body": [
+      "      - latitude: $1",
+      "        longitude: $2",
+      "${3:        detail: $4}"
+    ],
+    "description": "inset location"
   },
   "table": {
     "scope": "yaml",

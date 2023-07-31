@@ -65,7 +65,7 @@
   catch:confirm="closePopup"
   catch:close="closePopup"
 >
-  <view wx:if="{{result.status === 'success'}}" class="result-list">
+  <view wx:if="{{result.success}}" class="result-list">
     <view class="item" wx:for="{{result.info}}" wx:key="text">
       <view class="text">{{item.text}}</view>
       <view class="result">{{item.value}}</view>
