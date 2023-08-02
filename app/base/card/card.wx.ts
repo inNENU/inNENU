@@ -19,6 +19,7 @@ $Component({
 
       if ("options" in config) wx.navigateToMiniProgram(config.options);
       // 页面路径
+      else if ("path" in config) this.$go(`info?path=${config.path}`);
       else if (!config.url.match(/^https?:\/\//)) this.$go(config.url);
       // 判断是否是可以跳转的微信图文
       else if (config.url.startsWith("https://mp.weixin.qq.com"))

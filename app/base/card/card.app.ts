@@ -17,6 +17,7 @@ $Component({
       const { config } = this.data;
 
       if ("options" in config) wx.navigateToMiniProgram(config.options);
+      else if ("path" in config) this.$go(`info?path=${config.path}`);
       // 页面路径
       else if (!config.url.match(/^https?:\/\//)) this.$go(config.url);
       // 无法跳转，复制链接到剪切板

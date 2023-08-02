@@ -8,3 +8,5 @@ export const getCurrentPage = <T extends Record<string, any>>():
 
   return pages[pages.length - 1] || null;
 };
+
+export const getCurrentRoute = (): string => getCurrentPage()?.route || "";
