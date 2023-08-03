@@ -14,7 +14,7 @@ server/site/.vuepress/.temp/**
 server/site/.vuepress/dist/**
 
 server/service/vendor/**
-service/service/composer.lock
+server/service/composer.lock
 server/pnpm-lock.yaml
 
 project.config.json
