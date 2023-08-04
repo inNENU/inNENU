@@ -38,14 +38,6 @@
     "lint:wxs": "prettier --check --parser babel-flow **/*.wxs",
     "prepare": "husky install"
   },
-  "lint-staged": {
-    "*.{js,ts}": "eslint --fix",
-    "*.{js,ts,json,yaml,yml,md}": "prettier --write",
-    "*.wxss": "stylelint --fix",
-    "*.wxml": "prettier --parser html --write",
-    "*.wxs": "prettier --parser babel-flow --write",
-    "package.json": "sort-package-json"
-  },
   "config": {
     "commitizen": {
       "path": "./node_modules/cz-git"
@@ -54,37 +46,44 @@
   "dependencies": {
     "@mptool/all": "0.3.6",
     "miniprogram-recycle-view": "0.1.5",
-    "tslib": "2.6.0"
+    "tslib": "2.6.1"
   },
   "devDependencies": {
-    "@commitlint/cli": "17.6.6",
-    "@commitlint/config-conventional": "17.6.6",
+    "@commitlint/cli": "17.6.7",
+    "@commitlint/config-conventional": "17.6.7",
     "@mr-hope/gulp-sass": "3.1.1",
-    "@typescript-eslint/eslint-plugin": "6.0.0",
-    "@typescript-eslint/parser": "6.0.0",
+    "@typescript-eslint/eslint-plugin": "6.2.1",
+    "@typescript-eslint/parser": "6.2.1",
     "commitizen": "4.3.0",
     "cz-git": "1.7.0",
     "del": "7.0.0",
-    "eslint": "8.45.0",
-    "eslint-config-prettier": "8.8.0",
-    "eslint-plugin-import": "2.27.5",
+    "eslint": "8.46.0",
+    "eslint-config-prettier": "8.10.0",
+    "eslint-plugin-import": "2.28.0",
     "eslint-plugin-prettier": "5.0.0",
     "gulp": "4.0.2",
     "gulp-rename": "2.0.0",
     "gulp-sourcemaps": "3.0.0",
     "gulp-typescript": "6.0.0-alpha.1",
     "husky": "8.0.3",
-    "lint-staged": "13.2.3",
-    "miniprogram-api-typings": "3.10.0",
-    "postcss": "8.4.26",
-    "prettier": "3.0.0",
+    "miniprogram-api-typings": "3.11.0",
+    "nano-staged": "0.8.0",
+    "postcss": "8.4.27",
+    "prettier": "3.0.1",
     "sort-package-json": "2.5.1",
     "standard-version": "9.5.0",
-    "stylelint": "15.10.1",
+    "stylelint": "15.10.2",
     "stylelint-config-hope": "3.0.0",
     "typescript": "5.1.6"
   },
-  "packageManager": "pnpm@8.6.7",
+  "packageManager": "pnpm@8.6.11",
+  "nano-staged": {
+    "*.{js,ts}": "eslint --fix",
+    "*.{js,ts,json,yaml,yml,md}": "prettier --write",
+    "*.wxss": "stylelint --fix",
+    "*.wxml": "prettier --parser html --write",
+    "*.wxs": "prettier --parser babel-flow --write"
+  },
   "pnpm": {
     "overrides": {
       "cacache": "^17.0.5",
