@@ -1,6 +1,6 @@
 import type { CommonFailedResponse } from "../../../typings/response.js";
 import type {
-  LoginFailedResponse,
+  AuthLoginFailedResponse,
   VPNLoginFailedResponse,
 } from "../../login/index.js";
 
@@ -27,7 +27,7 @@ export interface UserCourseTableSuccessResponse {
 }
 
 export type UserCourseTableFailedResponse =
-  | LoginFailedResponse
+  | AuthLoginFailedResponse
   | VPNLoginFailedResponse;
 
 export type UserCourseTableResponse =
@@ -109,7 +109,7 @@ export interface UserGradeListSuccessResponse {
 }
 
 export type UserGradeListFailedResponse =
-  | LoginFailedResponse
+  | AuthLoginFailedResponse
   | VPNLoginFailedResponse
   | (CommonFailedResponse & { type: "error" });
 

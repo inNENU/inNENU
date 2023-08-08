@@ -12,7 +12,7 @@
     <block wx:if="{{isSaved}}">
       <title config="{{ { text: '个人信息' } }}" />
       <list config="{{list}}" />
-      <button type="warn" class="delete-button" bindtap="delete">
+      <button type="warn" class="delete-button" catch:tap="delete">
         删除全部信息
       </button>
     </block>
@@ -55,10 +55,27 @@
           <button
             type="default"
             class="password-button"
-            bindtap="togglePassword"
+            catch:tap="togglePassword"
           >
             {{showPassword? '隐藏': '显示'}}
           </button>
+        </view>
+        <view wx:if="{{captchaContent}}" class="input-list-item">
+          <view class="text">验证码</view>
+          <input
+            id="captcha"
+            class="input"
+            type="text"
+            adjust-position="{{false}}"
+            placeholder="验证码"
+            value="{{captcha}}"
+            bindinput="input"
+          />
+          <image
+            class="captcha-image"
+            src="{{captchaContent}}"
+            catch:tap="init"
+          />
         </view>
       </view>
       <button type="primary" class="save-button primary" catch:tap="save">

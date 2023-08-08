@@ -3,8 +3,7 @@ import { emitter, get, logger, writeJSON } from "@mptool/all";
 
 import { platformActions } from "./app-platform.js";
 import { defaultResources, downloadResource } from "./resource.js";
-import type { Data } from "./settings.js";
-import { ServiceSettings } from "./settings.js";
+import type { Data, ServiceSettings } from "./settings.js";
 import { updateApp } from "./update.js";
 import type { PageData, VersionInfo } from "../../typings/index.js";
 import { request, showToast } from "../api/index.js";
@@ -37,10 +36,12 @@ export interface UserInfo {
   name: string;
   /** 学号 */
   id: number;
+  /** 登录别名 */
+  alias: string;
   /** 年级 */
   grade: number;
-  /** 邮箱 */
-  email: string;
+  // /** 邮箱 */
+  // email: string;
 }
 
 export interface MusicState {

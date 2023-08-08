@@ -4,7 +4,7 @@ import type {
   ListComponentConfig,
   ListComponentItemConfig,
 } from "../../../typings/components.js";
-import { confirmAction, showModal, showToast } from "../../api/index.js";
+import { showModal, showToast } from "../../api/index.js";
 import type { AppOption } from "../../app.js";
 import {
   ACCOUNT_INFO_KEY,
@@ -16,7 +16,7 @@ import {
   appCoverPrefix,
   assets,
 } from "../../config/index.js";
-import { getInfo, login } from "../../login/index.js";
+import { LoginFailType, authInit, getAuthInit } from "../../login/index.js";
 import type { UserInfo } from "../../utils/app.js";
 import { MONTH } from "../../utils/constant.js";
 import { cookieStore } from "../../utils/cookie.js";
@@ -29,8 +29,18 @@ const PAGE_TITLE = "统一身份认证信息";
 
 const EMPTY_CONTENT = [{ text: "暂无个人信息" }];
 
+const FOOTER = `
+『登录说明』
+小程序需自动完成登录以提供基于账户的功能。您可能需要在以下情况时进行额外操作:
+1. 小程序的不同功能可能基于不同系统，需要同时保持多处登录。为正常使用小程序您必须关闭「单处登录」功能，如您已开启请前往统一身份认证官网关闭。
+2. 当账户因登录失败次数过多或登录将需要验证码，在此情况下你需要重新登陆。
+
+『隐私说明』
+Mr.Hope 会严格遵守隐私协议的要求，您的账号、密码与个人信息将仅存储在本地，并在卸载 App 或小程序时一并删除。Mr.Hope 不会收集并存储您的任何信息。
+`;
+
 const getDisplay = (userInfo: UserInfo): ListComponentItemConfig[] => {
-  const { id, name, email } = userInfo;
+  const { id, name, alias } = userInfo;
 
   return [
     {
@@ -42,8 +52,8 @@ const getDisplay = (userInfo: UserInfo): ListComponentItemConfig[] => {
       desc: name,
     },
     {
-      text: "邮箱",
-      desc: email,
+      text: "登陆别名",
+      desc: alias || "暂未设置",
     },
   ];
 };
@@ -69,20 +79,20 @@ $Page(PAGE_ID, {
     },
 
     footer: {
-      desc: "『登陆说明』\n小程序需自动完成登录以提供基于账户的功能。您可能需要在以下情况时进行额外操作:\n1. 当账户连续登陆失败 5 次后，登录将需要验证码，如遇此情况请前往统一身份认证官网手动登录成功一次，即可继续自动登录。\n2. 小程序的不同功能可能基于不同系统，需要同时保持多处登录。为正常使用小程序您必须关闭「单处登录」功能，如您已开启请前往统一身份认证官网关闭。\n『隐私说明』\nMr.Hope 会严格遵守隐私协议的要求，您的账号、密码与个人信息将仅存储在本地，并在卸载 App或小程序时一并删除。Mr.Hope 不会收集并存储您的任何信息。",
+      desc: FOOTER,
     },
 
     id: "",
     password: "",
+    captcha: "",
     isSaved: false,
     showPassword: false,
-
-    name: "",
-    email: "",
+    captchaContent: "",
   },
 
   state: {
     shouldNavigateBack: false,
+    initOptions: <{ params: Record<string, string>; salt: string }>{},
   },
 
   onLoad({ from = "返回", update }) {
@@ -133,15 +143,32 @@ $Page(PAGE_ID, {
     const { id } = currentTarget;
     const { value } = detail;
 
-    this.setData({ [id]: value });
+    this.setData({ [id]: value }, () => {
+      if (id === "id" && value.length === 10) this.init();
+    });
   },
 
   togglePassword() {
     this.setData({ showPassword: !this.data.showPassword });
   },
 
+  async init() {
+    const { id } = this.data;
+
+    if (id.length !== 10) return;
+
+    return getAuthInit(id).then((result) => {
+      if (!result.success) return showModal("登陆失败", result.msg);
+
+      const { captcha, params, salt } = result;
+
+      this.setData({ captchaContent: captcha });
+      this.state.initOptions = { params, salt };
+    });
+  },
+
   async save() {
-    const { id, password } = this.data;
+    const { id, password, captcha } = this.data;
 
     if (!id || !password) {
       wx.showToast({ title: "请输入完整信息", icon: "error" });
@@ -152,7 +179,12 @@ $Page(PAGE_ID, {
     wx.showLoading({ title: "验证中" });
 
     try {
-      const result = await login({ id: Number(id), password });
+      const result = await authInit({
+        ...this.state.initOptions,
+        id: Number(id),
+        password,
+        captcha,
+      });
 
       wx.hideLoading();
 
@@ -162,21 +194,16 @@ $Page(PAGE_ID, {
         globalData.account = account;
         set(ACCOUNT_INFO_KEY, account, MONTH);
 
-        wx.showLoading({ title: "获取信息" });
-
-        const infoResult = await getInfo();
-
-        wx.hideLoading();
-
-        if (infoResult.success) {
+        if (result.info) {
           const userInfo: UserInfo = {
             id: Number(id),
-            name: infoResult.name,
-            email: infoResult.email,
+            name: result.info.name,
+            alias: result.info.alias,
             grade: Number(id.substring(0, 4)),
           };
 
-          showModal("登陆成功", "个人信息获取成功");
+          showModal("登陆成功", "您已成功登录");
+
           set(USER_INFO_KEY, userInfo, MONTH);
           globalData.userInfo = userInfo;
 
@@ -187,9 +214,16 @@ $Page(PAGE_ID, {
           });
 
           if (this.state.shouldNavigateBack) this.$back();
+        } else {
+          showModal("登陆成功", "您已成功登录，但未能获取个人信息。");
+          if (this.state.shouldNavigateBack) this.$back();
         }
       } else {
-        showModal("登陆失败", result.msg);
+        this.init();
+
+        if (result.type === LoginFailType.NeedCaptcha)
+          showModal("登陆失败", "需要验证码，请输入验证码");
+        else showModal("登陆失败", result.msg);
       }
     } catch (err) {
       wx.hideLoading();
@@ -198,29 +232,36 @@ $Page(PAGE_ID, {
   },
 
   delete() {
-    confirmAction("删除账号(会清除本地的全部个人信息与数据且无法恢复)", () => {
-      // account data
-      remove(ACCOUNT_INFO_KEY);
-      remove(USER_INFO_KEY);
-      globalData.account = null;
-      globalData.userInfo = null;
-      this.setData({
-        id: "",
-        password: "",
-        // eslint-disable-next-line @typescript-eslint/naming-convention
-        "list.items": EMPTY_CONTENT,
-        isSaved: false,
-      });
+    showModal(
+      "删除账号",
+      "确认删除账号? 这会清除本地的全部个人信息与数据且无法恢复。",
+      () => {
+        // account data
+        remove(ACCOUNT_INFO_KEY);
+        remove(USER_INFO_KEY);
+        globalData.account = null;
+        globalData.userInfo = null;
+        this.setData({
+          id: "",
+          password: "",
+          // eslint-disable-next-line @typescript-eslint/naming-convention
+          "list.items": EMPTY_CONTENT,
+          isSaved: false,
+        });
 
-      // cookies
-      cookieStore.clear();
-      // data
-      remove(BORROW_BOOKS_KEY);
-      remove(CARD_BALANCE_KEY);
-      remove(COURSE_DATA_KEY);
-      remove(GRADE_DATA_KEY);
+        // cookies
+        cookieStore.clear();
+        // data
+        remove(BORROW_BOOKS_KEY);
+        remove(CARD_BALANCE_KEY);
+        remove(COURSE_DATA_KEY);
+        remove(GRADE_DATA_KEY);
 
-      showModal("删除成功", "已删除本地账号信息");
-    });
+        showModal("删除成功", "已删除本地账号信息");
+      },
+      () => {
+        // do nothing
+      },
+    );
   },
 });

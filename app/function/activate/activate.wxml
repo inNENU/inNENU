@@ -18,7 +18,7 @@
         ></view
         >我已阅读并同意协议
       </view>
-      <button type="primary" class="license-button" bindtap="confirmLicense">
+      <button type="primary" class="license-button" catch:tap="confirmLicense">
         开始激活账号
       </button>
     </block>
@@ -119,7 +119,7 @@
               value="{{smsCode}}"
               bindinput="input"
             />
-            <button type="default" class="sms-button" bindtap="sendSMS">
+            <button type="default" class="sms-button" catch:tap="sendSMS">
               发送验证码
             </button>
           </view>
@@ -160,7 +160,7 @@
             <button
               type="default"
               class="password-button"
-              bindtap="togglePassword"
+              catch:tap="togglePassword"
             >
               {{showPassword? '隐藏': '显示'}}
             </button>
@@ -186,7 +186,7 @@
             <button
               type="default"
               class="password-button"
-              bindtap="toggleConfirmPassword"
+              catch:tap="toggleConfirmPassword"
             >
               {{showConfirmPassword? '隐藏': '显示'}}
             </button>

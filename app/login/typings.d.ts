@@ -1,16 +1,23 @@
+import { LoginFailType } from "./loginFailTypes.ts";
 import type { CommonFailedResponse } from "../../typings/response.js";
 
 export interface AuthLoginSuccessResponse {
   success: true;
-  location: string;
 }
 
 export interface AuthLoginFailedResponse extends CommonFailedResponse {
-  type: "captcha" | "wrong" | "unknown";
+  type: Exclude<LoginFailType, LoginFailType.NeedCaptcha>;
+}
+
+export interface AuthLoginCaptchaResponse {
+  success: false;
+  type: LoginFailType.NeedCaptcha;
+  captcha: string;
 }
 
 export type AuthLoginResponse =
   | AuthLoginSuccessResponse
+  | AuthLoginCaptchaResponse
   | AuthLoginFailedResponse;
 
 export interface VPNLoginSuccessResponse {
