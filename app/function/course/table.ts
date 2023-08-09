@@ -185,7 +185,7 @@ $Page(PAGE_ID, {
             set(COURSE_DATA_KEY, this.state.coursesData, 6 * MONTH);
           } else if (res.type === "expired") {
             this.state.loginMethod = "login";
-            showModal("登陆过期", res.msg);
+            showModal("登录过期", res.msg);
           } else {
             showModal("获取失败", res.msg);
           }

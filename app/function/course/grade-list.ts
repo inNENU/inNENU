@@ -274,7 +274,7 @@ export const getGradeList = async ({
       return <UserGradeListFailedResponse>{
         success: false,
         type: "expired",
-        msg: "登陆已过期，请重新登录",
+        msg: "登录已过期，请重新登录",
       };
     }
 

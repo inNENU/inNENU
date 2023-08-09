@@ -24,7 +24,7 @@ export const actionLogin = async (
   });
 
   if (!data.success) {
-    logger.error("登陆失败", data.msg);
+    logger.error("登录失败", data.msg);
     handleFailResponse(data);
   }
 

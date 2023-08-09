@@ -43,7 +43,7 @@ export interface AuthInitOptions extends LoginInfo {
 }
 
 export interface AuthInfo {
-  /** 登陆别名 */
+  /** 登录别名 */
   alias: string;
   /** 姓名 */
   name: string;
@@ -120,7 +120,7 @@ export const authLogin = async ({
   });
 
   if (!data.success)
-    logger.error("登陆失败", "captcha" in data ? "需要验证码" : data.msg);
+    logger.error("登录失败", "captcha" in data ? "需要验证码" : data.msg);
 
   return data;
 };
@@ -138,7 +138,7 @@ export const handleFailResponse = (
     globalData.userInfo = null;
     remove(ACCOUNT_INFO_KEY);
     remove(USER_INFO_KEY);
-    showToast("需要重新登陆");
+    showToast("需要重新登录");
 
     if (getCurrentRoute() !== "/pages/account/account")
       wx.navigateTo({ url: "/pages/account/account?update=true" });

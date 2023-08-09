@@ -37,7 +37,7 @@ const FOOTER = `
 『登录说明』
 小程序需自动完成登录以提供基于账户的功能。您可能需要在以下情况时进行额外操作:
 1. 小程序的不同功能可能基于不同系统，需要同时保持多处登录。为正常使用小程序您必须关闭「单处登录」功能，如您已开启请前往统一身份认证官网关闭。
-2. 当账户因登录失败次数过多或登录将需要验证码，在此情况下你需要重新登陆。
+2. 当账户因登录失败次数过多或登录将需要验证码，在此情况下你需要重新登录。
 
 『隐私说明』
 Mr.Hope 会严格遵守隐私协议的要求，您的账号、密码与个人信息将仅存储在本地，并在卸载 App 或小程序时一并删除。Mr.Hope 不会收集并存储您的任何信息。
@@ -172,7 +172,7 @@ $Page(PAGE_ID, {
     if (id.length !== 10) return;
 
     return getAuthInit(id).then((result) => {
-      if (!result.success) return showModal("登陆失败", result.msg);
+      if (!result.success) return showModal("登录失败", result.msg);
 
       const { captcha, params, salt } = result;
 
@@ -209,7 +209,7 @@ $Page(PAGE_ID, {
         set(ACCOUNT_INFO_KEY, account, MONTH);
 
         if (result.info) {
-          showModal("登陆成功", "您已成功登录");
+          showModal("登录成功", "您已成功登录");
 
           set(USER_INFO_KEY, result.info, MONTH);
           globalData.userInfo = result.info;
@@ -222,15 +222,15 @@ $Page(PAGE_ID, {
 
           if (this.state.shouldNavigateBack) this.$back();
         } else {
-          showModal("登陆成功", "您已成功登录，但未能获取个人信息。");
+          showModal("登录成功", "您已成功登录，但未能获取个人信息。");
           if (this.state.shouldNavigateBack) this.$back();
         }
       } else {
         this.init();
 
         if (result.type === LoginFailType.NeedCaptcha)
-          showModal("登陆失败", "需要验证码，请输入验证码");
-        else showModal("登陆失败", result.msg);
+          showModal("登录失败", "需要验证码，请输入验证码");
+        else showModal("登录失败", result.msg);
       }
     } catch (err) {
       console.error(err);

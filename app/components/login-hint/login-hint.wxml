@@ -13,6 +13,6 @@
     size="{{size === 'mini'? 'mini': 'default'}}"
     catch:tap="login"
   >
-    登陆账号👉
+    登录账号👉
   </button>
 </view>
