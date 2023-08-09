@@ -1,5 +1,6 @@
 {
   "recommendations": [
+    "ms-ceintl.vscode-language-pack-zh-hans",
     "mrmlnc.vscode-scss",
     "redhat.vscode-yaml",
     "dbaeumer.vscode-eslint",
