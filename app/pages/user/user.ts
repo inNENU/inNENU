@@ -1,5 +1,6 @@
 import { $Page, get, put, set, take } from "@mptool/all";
 
+import { description, footer } from "./info.js";
 import type { PageDataWithContent } from "../../../typings/index.js";
 import { requestJSON } from "../../api/net.js";
 import type { AppOption } from "../../app.js";
@@ -8,8 +9,10 @@ import { DAY } from "../../utils/constant.js";
 import { getColor, popNotice, resolvePage, setPage } from "../../utils/page.js";
 import { checkResource } from "../../utils/resource.js";
 
+const plugin = <{ openComment: (option: unknown) => void }>(
+  requirePlugin("wxacommentplugin")
+);
 const { globalData } = getApp<AppOption>();
-const { envName, version } = globalData;
 
 const PAGE_ID = "user";
 const PAGE_TITLE = "我的东师";
@@ -34,7 +37,7 @@ $Page(PAGE_ID, {
     logo: "/frameset/placeholder.png",
     footer: {
       author: "",
-      desc: `当前版本: ${version}\n${envName}由 Mr.Hope 个人制作，如有错误还请见谅`,
+      desc: footer,
     },
 
     theme: globalData.theme,
@@ -70,7 +73,7 @@ $Page(PAGE_ID, {
     this.setData({
       login: account !== null,
       userName: userInfo?.name || (account ? appName : "未登录"),
-      desc: account === null ? "in 东师，就用 in 东师" : "以下是你的今日概览",
+      desc: account === null ? description : "以下是你的今日概览",
     });
     popNotice(PAGE_ID);
 
@@ -106,6 +109,10 @@ $Page(PAGE_ID, {
 
   onUnload() {
     this.$off("theme", this.setTheme);
+  },
+
+  rate() {
+    plugin.openComment({});
   },
 
   setTheme(theme: string): void {

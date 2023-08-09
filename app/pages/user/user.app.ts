@@ -34,7 +34,7 @@ $Page(PAGE_ID, {
     logo: "/frameset/placeholder.png",
     footer: {
       author: "",
-      desc: `当前版本: ${version}\nMr.Hope 已授权东北师范大学团委融媒体中心使用${envName}代码。\n${envName}由 Mr.Hope 个人制作，如有错误还请见谅`,
+      desc: `当前版本: ${version}\n${envName}由 Mr.Hope 个人制作，如有错误还请见谅`,
     },
 
     theme: globalData.theme,
@@ -70,10 +70,7 @@ $Page(PAGE_ID, {
     this.setData({
       login: account !== null,
       userName: userInfo?.name || (account ? appName : "未登录"),
-      desc:
-        account === null
-          ? "走出半生，归来仍是 —— 东师青年"
-          : "以下是你的今日概览",
+      desc: account === null ? "in 东师，就用 in 东师" : "以下是你的今日概览",
     });
     popNotice(PAGE_ID);
 

@@ -45,7 +45,7 @@
       ],
       "plugins": {
         "player": {
-          "version": "2.3.2",
+          "version": "latest",
           "provider": "wxa75efa648b60994b"
         }
       }
@@ -59,8 +59,12 @@
   },
   "plugins": {
     "routePlan": {
-      "version": "1.0.19",
+      "version": "latest",
       "provider": "wx50b5593e81dd937a"
+    },
+    "wxacommentplugin": {
+      "version": "latest",
+      "provider": "wx82e6ae1175f264fa"
     }
   },
   "window": {
