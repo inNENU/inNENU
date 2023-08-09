@@ -1,0 +1,49 @@
+<import src="/base/template.wxml" />
+<page-meta
+  background-text-style="{{darkmode ? 'dark' : 'light'}}"
+  background-color="{{color.bgColor}}"
+  background-color-top="{{color.bgColorTop}}"
+  background-color-bottom="{{color.bgColorBottom}}"
+  root-background-color="{{color.bgColor}}"
+/>
+<view class="{{theme}} {{page.grey ? 'grey' : ''}}">
+  <template wx:if="{{page.error}}" is="error" data="{{ id: page.id }}" />
+  <block wx:else>
+    <view
+      class="left-button {{titleDisplay ? 'fade-out' : 'fade-in'}}"
+      style="top:{{statusBarHeight + 6}}px;"
+      hover-class="button-hover"
+      catch:tap="$bindBack"
+    >
+      <view class="icon-{{firstPage ? 'home' : 'back'}}" />
+    </view>
+    <view
+      class="nenu-navigation-bar {{borderDisplay ? 'fade-in' : 'fade-out'}}"
+      style="background-color: {{page.color}}; padding-top: {{statusBarHeight}}px;"
+    >
+      <view
+        class="ios-nav-back-button"
+        hover-class="left-button-hover"
+        style="position: absolute; left: 0"
+        plain
+        catch:tap="$bindBack"
+      >
+        <view class="ios-back-arrow" style="border-color: #fff" />
+        <text class="ios-nav-text" style="color: #fff"
+          >{{firstPage ? '主页' : '返回'}}</text
+        >
+      </view>
+      <view class="nenu-nav-title">{{page.title}} </view>
+    </view>
+    <carousel
+      wx:if="{{page.photo}}"
+      config="{{ { fill: true, images: page.photo } }}"
+    />
+    <view wx:else style="height: {{statusBarHeight + 44}}px;" />
+    <view class="title"> {{page.title}} </view>
+    <template is="components" data="{{content: page.content, theme}}" />
+    <footer config="{{page}}" />
+    <share config="{{page}}" />
+  </block>
+</view>
+<map id="tool" style="width: 0; height: 0" />

@@ -16,7 +16,7 @@ export const updateApp = async (globalData: GlobalData): Promise<void> => {
     `d/config/${globalData.appID}/version`,
   );
 
-  if (compareVersion(onlineVersion, globalData.version))
+  if (compareVersion(onlineVersion, globalData.version) > 0)
     showModal(
       "App有新版本",
       `App 的最新版本是 ${onlineVersion}，点击确定复制下载链接到剪切板。请手动粘贴到浏览器开启下载。`,

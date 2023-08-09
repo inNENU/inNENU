@@ -89,13 +89,8 @@ $Page("video", {
     popNotice("video");
   },
 
-  onShow() {
-    this.createSelectorQuery()
-      .select(".video-list")
-      .fields({ size: true }, (res) => {
-        if (res) this.setData({ height: res.height as number });
-      })
-      .exec();
+  onReady() {
+    this.resizeTabList();
   },
 
   onShareAppMessage(): WechatMiniprogram.Page.ICustomShareContent {
@@ -118,6 +113,19 @@ $Page("video", {
       imageUrl: `${appCoverPrefix}.jpg`,
       query: `type=${this.data.type}&name=${this.data.videoName}`,
     };
+  },
+
+  onResize() {
+    this.resizeTabList();
+  },
+
+  resizeTabList() {
+    this.createSelectorQuery()
+      .select(".video-list")
+      .fields({ size: true }, (res) => {
+        if (res) this.setData({ height: res.height as number });
+      })
+      .exec();
   },
 
   /** 切换播放视频 */

@@ -96,13 +96,7 @@ $Page("video", {
   },
 
   onReady() {
-    this.createSelectorQuery()
-      .select(".video-list")
-      .fields({ size: true }, (res) => {
-        console.log(res);
-        if (res) this.setData({ height: res.height as number });
-      })
-      .exec();
+    this.resizeTabList();
   },
 
   onShareAppMessage(): WechatMiniprogram.Page.ICustomShareContent {
@@ -135,7 +129,6 @@ $Page("video", {
     this.createSelectorQuery()
       .select(".video-list")
       .fields({ size: true }, (res) => {
-        console.log(res);
         if (res) this.setData({ height: res.height as number });
       })
       .exec();
