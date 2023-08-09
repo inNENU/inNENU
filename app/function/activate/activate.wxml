@@ -18,7 +18,11 @@
         ></view
         >我已阅读并同意协议
       </view>
-      <button type="primary" class="license-button" catch:tap="confirmLicense">
+      <button
+        type="primary"
+        class="license-button primary"
+        catch:tap="confirmLicense"
+      >
         开始激活账号
       </button>
     </block>

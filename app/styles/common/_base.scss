@@ -17,8 +17,16 @@ page {
   opacity: 0.7 !important;
 }
 
+button.primary {
+  background-color: var(--theme-color);
+}
+
 button[type="primary"].primary {
   background-color: var(--theme-color);
+}
+
+button[type="plain"] {
+  color: inherit;
 }
 
 picker {

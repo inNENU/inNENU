@@ -78,14 +78,17 @@
 }
 
 .delete-button {
+  min-width: 240px;
   margin: 16px auto 8px;
 }
 
 .save-button {
+  min-width: 240px;
   margin: 16px auto 8px;
 }
 
 .activate-button {
+  min-width: 240px;
   margin: 8px auto 16px;
   color: var(--grey3);
 }
