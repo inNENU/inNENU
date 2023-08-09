@@ -15,6 +15,7 @@ import {
   server,
   version,
 } from "../config/index.js";
+import { AuthInfo } from "../login/account.js";
 import { login } from "../login/app.js";
 
 export type AppID =
@@ -24,24 +25,11 @@ export type AppID =
   | 1109559721;
 export type Env = "app" | "qq" | "wx" | "web";
 
-export interface AccountBasicInfo {
+export interface LoginInfo {
   /** 学号 */
   id: number;
   /** 密码 */
   password: string;
-}
-
-export interface UserInfo {
-  /** 姓名 */
-  name: string;
-  /** 学号 */
-  id: number;
-  /** 登录别名 */
-  alias: string;
-  /** 年级 */
-  grade: number;
-  // /** 邮箱 */
-  // email: string;
 }
 
 export interface MusicState {
@@ -66,8 +54,8 @@ export interface GlobalData {
   /** 版本号 */
   version: string;
   /** 账号信息 */
-  account: AccountBasicInfo | null;
-  userInfo: UserInfo | null;
+  account: LoginInfo | null;
+  userInfo: AuthInfo | null;
   /** 播放器信息 */
   music: MusicState;
   /** 页面信息 */
@@ -156,8 +144,8 @@ export const getGlobalData = (): GlobalData => {
 
   return {
     version,
-    account: get<AccountBasicInfo | undefined>(ACCOUNT_INFO_KEY) || null,
-    userInfo: get<UserInfo | undefined>(USER_INFO_KEY) || null,
+    account: get<LoginInfo | undefined>(ACCOUNT_INFO_KEY) || null,
+    userInfo: get<AuthInfo | undefined>(USER_INFO_KEY) || null,
     music: { playing: false, index: 0 },
     page: {
       data: {},

@@ -1,17 +1,21 @@
 import { logger } from "@mptool/all";
 
-import type { UnderSystemLoginResponse } from "./typings.js";
-import { AuthLoginFailedResponse, VPNLoginFailedResponse } from "./typings.js";
+import { handleFailResponse } from "./account.js";
+import type {
+  AuthLoginFailedResponse,
+  UnderSystemLoginResponse,
+  VPNLoginFailedResponse,
+} from "./typings.js";
 import type { CookieVerifyResponse } from "../../typings/index.js";
 import { request } from "../api/index.js";
 import { service } from "../config/index.js";
-import type { AccountBasicInfo } from "../utils/app.js";
+import type { LoginInfo } from "../utils/app.js";
 import { cookieStore } from "../utils/cookie.js";
 
 export const UNDER_SYSTEM_SERVER = "https://dsjx.webvpn.nenu.edu.cn";
 
 export const underSystemLogin = async (
-  options: AccountBasicInfo,
+  options: LoginInfo,
 ): Promise<UnderSystemLoginResponse> => {
   const data = await request<UnderSystemLoginResponse>(
     `${service}under-system/login`,
@@ -22,7 +26,10 @@ export const underSystemLogin = async (
     },
   );
 
-  if (!data.success) logger.error("登录失败", data);
+  if (!data.success) {
+    logger.error("登录失败", data);
+    handleFailResponse(data);
+  }
 
   return data;
 };
@@ -34,7 +41,7 @@ export const checkUnderSystemCookie = (): Promise<CookieVerifyResponse> =>
   });
 
 export const ensureUnderSystemLogin = async (
-  account: AccountBasicInfo,
+  account: LoginInfo,
   status: "check" | "validate" | "login" = "check",
 ): Promise<AuthLoginFailedResponse | VPNLoginFailedResponse | null> => {
   const cookies = cookieStore.getCookies(UNDER_SYSTEM_SERVER);

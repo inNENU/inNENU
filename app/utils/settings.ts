@@ -1,10 +1,11 @@
 import { logger } from "@mptool/all";
 
-import type { AccountBasicInfo, GlobalData } from "./app.js";
+import type { GlobalData } from "./app.js";
 import { updateNotice } from "./notice.js";
 import type { ComponentConfig } from "../../typings/components.js";
 import { request } from "../api/index.js";
 import { server } from "../config/info.js";
+import { AuthInfo } from "../login/account.js";
 
 export interface Notice {
   /** 标题 */
@@ -57,8 +58,8 @@ export interface Data {
   update: UpdateSettings;
 }
 
-export const getIdentity = (account: AccountBasicInfo | null): string =>
-  account ? account.id.toString().substring(0, 4) : "unlogin";
+export const getIdentity = (userInfo: AuthInfo | null): string =>
+  userInfo ? userInfo.grade.toString() : "unlogin";
 
 export const fetchData = async (globalData: GlobalData): Promise<void> => {
   try {

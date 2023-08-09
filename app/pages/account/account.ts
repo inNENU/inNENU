@@ -16,8 +16,12 @@ import {
   appCoverPrefix,
   assets,
 } from "../../config/index.js";
-import { LoginFailType, authInit, getAuthInit } from "../../login/index.js";
-import type { UserInfo } from "../../utils/app.js";
+import {
+  AuthInfo,
+  LoginFailType,
+  authInit,
+  getAuthInit,
+} from "../../login/index.js";
 import { MONTH } from "../../utils/constant.js";
 import { cookieStore } from "../../utils/cookie.js";
 import { popNotice } from "../../utils/page.js";
@@ -39,24 +43,34 @@ const FOOTER = `
 Mr.Hope 会严格遵守隐私协议的要求，您的账号、密码与个人信息将仅存储在本地，并在卸载 App 或小程序时一并删除。Mr.Hope 不会收集并存储您的任何信息。
 `;
 
-const getDisplay = (userInfo: UserInfo): ListComponentItemConfig[] => {
-  const { id, name, alias } = userInfo;
-
-  return [
-    {
-      text: "学号",
-      desc: id.toString(),
-    },
-    {
-      text: "姓名",
-      desc: name,
-    },
-    {
-      text: "登陆别名",
-      desc: alias || "暂未设置",
-    },
-  ];
-};
+const getDisplay = ({
+  name,
+  grade,
+  id,
+  school,
+  major,
+}: AuthInfo): ListComponentItemConfig[] => [
+  {
+    text: "姓名",
+    desc: name,
+  },
+  {
+    text: "学号",
+    desc: id.toString(),
+  },
+  {
+    text: "年级",
+    desc: grade.toString(),
+  },
+  {
+    text: "学院",
+    desc: school.toString(),
+  },
+  {
+    text: "专业",
+    desc: major.toString(),
+  },
+];
 
 $Page(PAGE_ID, {
   data: {
@@ -195,22 +209,15 @@ $Page(PAGE_ID, {
         set(ACCOUNT_INFO_KEY, account, MONTH);
 
         if (result.info) {
-          const userInfo: UserInfo = {
-            id: Number(id),
-            name: result.info.name,
-            alias: result.info.alias,
-            grade: Number(id.substring(0, 4)),
-          };
-
           showModal("登陆成功", "您已成功登录");
 
-          set(USER_INFO_KEY, userInfo, MONTH);
-          globalData.userInfo = userInfo;
+          set(USER_INFO_KEY, result.info, MONTH);
+          globalData.userInfo = result.info;
 
           this.setData({
             isSaved: true,
             // eslint-disable-next-line @typescript-eslint/naming-convention
-            "list.items": getDisplay(userInfo),
+            "list.items": getDisplay(result.info),
           });
 
           if (this.state.shouldNavigateBack) this.$back();
@@ -226,6 +233,7 @@ $Page(PAGE_ID, {
         else showModal("登陆失败", result.msg);
       }
     } catch (err) {
+      console.error(err);
       wx.hideLoading();
       showToast("验证失败");
     }

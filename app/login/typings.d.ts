@@ -1,4 +1,4 @@
-import { LoginFailType } from "./loginFailTypes.ts";
+import type { LoginFailType } from "./loginFailTypes.ts";
 import type { CommonFailedResponse } from "../../typings/response.js";
 
 export interface AuthLoginSuccessResponse {
@@ -6,7 +6,7 @@ export interface AuthLoginSuccessResponse {
 }
 
 export interface AuthLoginFailedResponse extends CommonFailedResponse {
-  type: Exclude<LoginFailType, LoginFailType.NeedCaptcha>;
+  type: LoginFailType;
 }
 
 export interface AuthLoginCaptchaResponse {

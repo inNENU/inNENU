@@ -94,7 +94,7 @@ $Page(PAGE_ID, {
     if (globalData.data) {
       const data = await getJSON<TabData>("function/data/tab");
 
-      const identify = getIdentity(globalData.account);
+      const identify = getIdentity(globalData.userInfo);
 
       const { "intro-page": introPageConfig } = globalData.data;
 

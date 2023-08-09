@@ -7,6 +7,8 @@ export const enum LoginFailType {
   WrongPassword = "wrong-password",
   /** 验证码 */
   NeedCaptcha = "need-captcha",
+  /** 无权限 */
+  Forbidden = "forbidden",
   /** 单点登录 */
   EnabledSSO = "sso",
   /** 未知错误 */

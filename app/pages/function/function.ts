@@ -106,7 +106,7 @@ $Page(PAGE_ID, {
 
     if (!globalData.data) return null;
 
-    const identify = getIdentity(globalData.account);
+    const identify = getIdentity(globalData.userInfo);
     const {
       "function-page": functionConfig,
       "function-presets": functionPresets,

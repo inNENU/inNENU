@@ -50,10 +50,11 @@ rules:
   import/no-cycle:
     - error
 
-  import/no-duplicates:
-    - error
-    - considerQueryString: true
-      prefer-inline: true
+  # https://github.com/import-js/eslint-plugin-import/issues/2792
+  # import/no-duplicates:
+  #   - error
+  #   - considerQueryString: true
+  #     prefer-inline: true
 
   import/no-named-default:
     - error

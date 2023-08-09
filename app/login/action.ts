@@ -1,5 +1,6 @@
 import { logger } from "@mptool/all";
 
+import { handleFailResponse } from "./account.js";
 import type {
   ActionLoginResponse,
   AuthLoginFailedResponse,
@@ -8,13 +9,13 @@ import type {
 import type { CookieVerifyResponse } from "../../typings/response.js";
 import { request } from "../api/net.js";
 import { service } from "../config/index.js";
-import type { AccountBasicInfo } from "../utils/app.js";
+import type { LoginInfo } from "../utils/app.js";
 import { cookieStore } from "../utils/cookie.js";
 
 export const ACTION_SERVER = "https://m-443.webvpn.nenu.edu.cn";
 
 export const actionLogin = async (
-  options: AccountBasicInfo,
+  options: LoginInfo,
 ): Promise<ActionLoginResponse> => {
   const data = await request<ActionLoginResponse>(`${service}action/login`, {
     method: "POST",
@@ -22,7 +23,10 @@ export const actionLogin = async (
     scope: ACTION_SERVER,
   });
 
-  if (!data.success) logger.error("登陆失败", data.msg);
+  if (!data.success) {
+    logger.error("登陆失败", data.msg);
+    handleFailResponse(data);
+  }
 
   return data;
 };
@@ -34,7 +38,7 @@ export const checkActionCookie = (): Promise<CookieVerifyResponse> =>
   });
 
 export const ensureActionLogin = async (
-  account: AccountBasicInfo,
+  account: LoginInfo,
   check = false,
 ): Promise<AuthLoginFailedResponse | VPNLoginFailedResponse | null> => {
   const cookies = cookieStore.getCookies(ACTION_SERVER);

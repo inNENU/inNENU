@@ -1,6 +1,6 @@
 import { $Component, get, set } from "@mptool/all";
 
-import { getBorrowBooks } from "./api.js";
+import { getBorrowBooks, getOnlineBorrowBooks } from "./api.js";
 import type { BorrowBookData } from "./typings.js";
 import { showModal, showToast } from "../../api/index.js";
 import type { AppOption } from "../../app.js";
@@ -8,7 +8,7 @@ import { BORROW_BOOKS_KEY } from "../../config/index.js";
 import { ensureActionLogin } from "../../login/index.js";
 import { HOUR } from "../../utils/constant.js";
 
-const { globalData } = getApp<AppOption>();
+const { globalData, useOnlineService } = getApp<AppOption>();
 
 $Component({
   data: {
@@ -48,7 +48,9 @@ $Component({
             showToast(err.msg);
             this.setData({ status: "error" });
           } else
-            getBorrowBooks().then((res) => {
+            (useOnlineService("borrow-books")
+              ? getOnlineBorrowBooks
+              : getBorrowBooks)().then((res) => {
               if (res.success) {
                 set(BORROW_BOOKS_KEY, res.data, 3 * HOUR);
                 this.setData({
