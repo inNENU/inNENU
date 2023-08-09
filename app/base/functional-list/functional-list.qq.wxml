@@ -67,6 +67,8 @@
         url="{{listItem.url}}"
         open-type="{{listItem.openType}}"
         target="{{listItem.target}}"
+        app-id="{{listItem.appId}}"
+        path="{{listItem.path}}"
       >
         <image wx:if="{{icons[index]}}" class="icon" src="{{icons[index]}}" />
         <image
