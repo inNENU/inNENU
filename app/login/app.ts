@@ -1,5 +1,5 @@
 import { request } from "../api/net.js";
-import { server } from "../config/index.js";
+import { service } from "../config/index.js";
 import type { AppID, Env } from "../utils/app.js";
 
 interface LoginCallback {
@@ -25,13 +25,10 @@ export const login = (
     wx.login({
       success: async ({ code }) => {
         if (code) {
-          const data = await request<LoginCallback>(
-            `${server}service/login.php`,
-            {
-              method: "POST",
-              data: { appID, code, env },
-            },
-          );
+          const data = await request<LoginCallback>(`${service}mp/login`, {
+            method: "POST",
+            data: { appID, code, env },
+          });
 
           wx.setStorageSync("openid", data.openid);
           console.info(`User OPENID: ${data.openid}`);
