@@ -47,8 +47,8 @@ const getDisplay = ({
   name,
   grade,
   id,
-  school,
-  major,
+  school = "未知",
+  major = "未知",
 }: AuthInfo): ListComponentItemConfig[] => [
   {
     text: "姓名",
@@ -64,11 +64,11 @@ const getDisplay = ({
   },
   {
     text: "学院",
-    desc: school.toString(),
+    desc: school,
   },
   {
     text: "专业",
-    desc: major.toString(),
+    desc: major,
   },
 ];
 
