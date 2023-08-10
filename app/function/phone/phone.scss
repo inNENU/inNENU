@@ -86,7 +86,11 @@
   max-height: 90%;
   border-radius: 12px;
 
-  background-color: var(--white);
+  background-color: #fff;
+
+  @media (prefers-color-scheme: dark) {
+    background-color: #1c1c1e;
+  }
 
   text-align: center;
 

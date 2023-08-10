@@ -79,19 +79,23 @@
     padding: 0 10px;
 
     .icon-wrapper {
-      width: 56px;
-      height: 56px;
-      margin-bottom: 6px;
+      width: 52px;
+      height: 52px;
+      margin-bottom: 8px;
       padding: 10px;
       border: none;
-      border-radius: 8px;
+      border-radius: 12px;
 
-      background-color: var(--bg-color-block);
+      background-color: #fff;
+
+      @media (prefers-color-scheme: dark) {
+        background-color: #1c1c1e;
+      }
     }
 
     .icon {
-      width: 36px;
-      height: 36px;
+      width: 32px;
+      height: 32px;
     }
 
     .text {
@@ -108,10 +112,14 @@
     border: none;
     border-radius: 0;
 
-    background-color: var(--bg-color-block);
+    background-color: #fff;
     color: var(--text-color);
 
     font-weight: 400;
+
+    @media (prefers-color-scheme: dark) {
+      background-color: #1c1c1e;
+    }
 
     @supports (padding-bottom: env(safe-area-inset-bottom)) {
       padding-bottom: calc(12px + env(safe-area-inset-bottom));

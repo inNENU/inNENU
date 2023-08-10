@@ -84,12 +84,17 @@
 
   overflow: hidden;
 
-  width: calc(100% - 32px);
+  width: calc(100% - 48px);
   max-width: var(--max-width);
   max-height: 90%;
   border-radius: 12px;
 
-  background-color: var(--bg-color-block);
+  background-color: #fff;
+
+  @media (prefers-color-scheme: dark) {
+    background-color: #1c1c1e;
+  }
+
   color: var(--grey3);
 
   text-align: center;

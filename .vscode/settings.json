@@ -53,10 +53,6 @@
     "./server/.vscode/marker.schema.json": [
       "/server/data/function/map/marker/*.yml"
     ],
-    "./server/.vscode/page.schema.json": [
-      "/server/pages/guide/**/*.yml",
-      "/server/pages/intro/**/*.yml",
-      "/server/pages/other/**/*.yml"
-    ]
+    "./server/.vscode/page.schema.json": ["/server/pages/**/*.yml"]
   }
 }
