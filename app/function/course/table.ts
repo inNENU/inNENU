@@ -114,6 +114,13 @@ $Page(PAGE_ID, {
     if (coursesData) this.state.coursesData = coursesData;
 
     if (account) {
+      const { id } = account;
+
+      if (id.toString()[4] !== "0")
+        return showModal("提示", "目前此功能仅支持本科生", () => {
+          this.$back();
+        });
+
       const grade = Math.floor(account.id / 1000000);
       const times = getTimes(grade);
       const timeDisplays = times.map(getDisplayTime);

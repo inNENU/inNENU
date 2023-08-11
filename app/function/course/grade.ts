@@ -98,7 +98,14 @@ $Page("course-grade", {
   onShow() {
     if (globalData.account) {
       if (!this.state.inited || this.data.needLogin) {
-        const grade = Math.floor(globalData.account.id / 1000000);
+        const { id } = globalData.account;
+
+        if (id.toString()[4] !== "0")
+          return showModal("提示", "目前此功能仅支持本科生", () => {
+            this.$back();
+          });
+
+        const grade = Math.floor(id / 1000000);
         const times = ["", ...getTimes(grade)];
         const timeDisplays = times.map(getDisplayTime);
         const grades = get<GradeResult[]>(GRADE_DATA_KEY);
