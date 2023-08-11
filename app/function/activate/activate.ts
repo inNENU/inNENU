@@ -78,7 +78,10 @@ $Page(PAGE_ID, {
   onLoad() {
     const { account } = globalData;
 
-    if (account) showModal("无需激活", "当前已登录统一身份认证账户");
+    if (account)
+      showModal("无需激活", "当前已登录统一身份认证账户", () => {
+        this.$back();
+      });
     else this.getCaptcha();
   },
 
