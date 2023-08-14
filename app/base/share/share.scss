@@ -117,12 +117,12 @@
 
     font-weight: 400;
 
-    @media (prefers-color-scheme: dark) {
-      background-color: #1c1c1e;
-    }
-
     @supports (padding-bottom: env(safe-area-inset-bottom)) {
       padding-bottom: calc(12px + env(safe-area-inset-bottom));
+    }
+
+    @media (prefers-color-scheme: dark) {
+      background-color: #1c1c1e;
     }
   }
 }

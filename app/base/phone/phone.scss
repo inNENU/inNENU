@@ -90,14 +90,13 @@
   border-radius: 12px;
 
   background-color: #fff;
+  color: var(--grey3);
+
+  text-align: center;
 
   @media (prefers-color-scheme: dark) {
     background-color: #1c1c1e;
   }
-
-  color: var(--grey3);
-
-  text-align: center;
 
   .title {
     padding: 32px 24px 16px;
