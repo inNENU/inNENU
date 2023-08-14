@@ -12,7 +12,7 @@ import type {
 } from "../../components/today-course/typings.js";
 import { getCurrentTime } from "../../components/today-course/utils.js";
 import { COURSE_DATA_KEY, appCoverPrefix } from "../../config/index.js";
-import { ensureUnderSystemLogin } from "../../login/index.js";
+import { LoginFailType, ensureUnderSystemLogin } from "../../login/index.js";
 import { DAY, MONTH } from "../../utils/constant.js";
 import { getColor, popNotice } from "../../utils/page.js";
 
@@ -190,7 +190,7 @@ $Page(PAGE_ID, {
             this.state.coursesData[time] = courseTable;
             this.state.loginMethod = "check";
             set(COURSE_DATA_KEY, this.state.coursesData, 6 * MONTH);
-          } else if (res.type === "expired") {
+          } else if (res.type === LoginFailType.Expired) {
             this.state.loginMethod = "login";
             showModal("登录过期", res.msg);
           } else {

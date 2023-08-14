@@ -3,9 +3,10 @@ import { emitter, get, logger, writeJSON } from "@mptool/all";
 
 import { platformActions } from "./app-platform.js";
 import { defaultResources, downloadResource } from "./resource.js";
-import type { Data, ServiceSettings } from "./settings.js";
+import type { ServiceSettings } from "./settings.js";
+import type { AccountInfo, AppID, GlobalData, UserInfo } from "./typings.js";
 import { updateApp } from "./update.js";
-import type { PageData, VersionInfo } from "../../typings/index.js";
+import type { VersionInfo } from "../../typings/index.js";
 import { request, showToast } from "../api/index.js";
 import {
   ACCOUNT_INFO_KEY,
@@ -15,68 +16,7 @@ import {
   server,
   version,
 } from "../config/index.js";
-import { AuthInfo } from "../login/account.js";
 import { login } from "../login/app.js";
-
-export type AppID =
-  | "wx33acb831ee1831a5"
-  | "wx9ce37d9662499df3"
-  | "wx69e79c3d87753512"
-  | 1109559721;
-export type Env = "app" | "qq" | "wx" | "web";
-
-export interface LoginInfo {
-  /** 学号 */
-  id: number;
-  /** 密码 */
-  password: string;
-}
-
-export interface MusicState {
-  /** 是否正在播放 */
-  playing: boolean;
-  /** 播放歌曲序号 */
-  index: number;
-}
-
-export interface PageState {
-  /** 页面数据 */
-  data?: PageData;
-  /** 页面标识符 */
-  id?: string;
-}
-
-export interface GlobalData {
-  /** 运行环境 */
-  env: Env;
-  /** 运行环境名称 */
-  envName: string;
-  /** 版本号 */
-  version: string;
-  /** 账号信息 */
-  account: LoginInfo | null;
-  userInfo: AuthInfo | null;
-  /** 播放器信息 */
-  music: MusicState;
-  /** 页面信息 */
-  page: PageState;
-  /** 启动时间 */
-  startupTime: number;
-  /** 正在应用的主题 */
-  theme: string;
-  /** 夜间模式开启状态 */
-  darkmode: boolean;
-  /** 设备信息 */
-  info: WechatMiniprogram.SystemInfo;
-  /** 小程序 appid */
-  appID: AppID;
-  /** 用户 OPENID */
-  openid: string;
-  /** 是否能复制 */
-  selectable: boolean;
-  data: Omit<Data, "service" | "notice" | "update"> | null;
-  service: ServiceSettings;
-}
 
 /** 初始化小程序 */
 export const initializeApp = (): void => {
@@ -144,8 +84,8 @@ export const getGlobalData = (): GlobalData => {
 
   return {
     version,
-    account: get<LoginInfo | undefined>(ACCOUNT_INFO_KEY) || null,
-    userInfo: get<AuthInfo | undefined>(USER_INFO_KEY) || null,
+    account: get<AccountInfo | undefined>(ACCOUNT_INFO_KEY) || null,
+    userInfo: get<UserInfo | undefined>(USER_INFO_KEY) || null,
     music: { playing: false, index: 0 },
     page: {
       data: {},

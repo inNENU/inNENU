@@ -9,13 +9,13 @@ import type {
 import type { CookieVerifyResponse } from "../../typings/response.js";
 import { request } from "../api/net.js";
 import { service } from "../config/index.js";
-import type { LoginInfo } from "../utils/app.js";
 import { cookieStore } from "../utils/cookie.js";
+import type { AccountInfo } from "../utils/typings.js";
 
 export const ACTION_SERVER = "https://m-443.webvpn.nenu.edu.cn";
 
 export const actionLogin = async (
-  options: LoginInfo,
+  options: AccountInfo,
 ): Promise<ActionLoginResponse> => {
   const data = await request<ActionLoginResponse>(`${service}action/login`, {
     method: "POST",
@@ -38,7 +38,7 @@ export const checkActionCookie = (): Promise<CookieVerifyResponse> =>
   });
 
 export const ensureActionLogin = async (
-  account: LoginInfo,
+  account: AccountInfo,
   check = false,
 ): Promise<AuthLoginFailedResponse | VPNLoginFailedResponse | null> => {
   const cookies = cookieStore.getCookies(ACTION_SERVER);

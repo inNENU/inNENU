@@ -1,4 +1,4 @@
-import type { GlobalData } from "./app.js";
+import type { GlobalData } from "./typings.js";
 import { loadFZSSJW } from "../api/font.js";
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars

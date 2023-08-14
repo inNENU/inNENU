@@ -1,6 +1,7 @@
 import type { CommonFailedResponse } from "../../../typings/response.js";
 import type {
   AuthLoginFailedResponse,
+  LoginFailType,
   VPNLoginFailedResponse,
 } from "../../login/index.js";
 
@@ -28,7 +29,8 @@ export interface UserCourseTableSuccessResponse {
 
 export type UserCourseTableFailedResponse =
   | AuthLoginFailedResponse
-  | VPNLoginFailedResponse;
+  | VPNLoginFailedResponse
+  | (CommonFailedResponse & { type: LoginFailType.Expired });
 
 export type UserCourseTableResponse =
   | UserCourseTableSuccessResponse
@@ -111,6 +113,7 @@ export interface UserGradeListSuccessResponse {
 export type UserGradeListFailedResponse =
   | AuthLoginFailedResponse
   | VPNLoginFailedResponse
+  | (CommonFailedResponse & { type: LoginFailType.Expired })
   | (CommonFailedResponse & { type: "error" });
 
 export type UserGradeListResponse =

@@ -8,11 +8,12 @@ import type {
 } from "./typings.js";
 import { request } from "../../api/index.js";
 import { service } from "../../config/index.js";
-import type {
-  AuthLoginFailedResponse,
-  VPNLoginFailedResponse,
+import type { AuthLoginFailedResponse } from "../../login/index.js";
+import {
+  LoginFailType,
+  UNDER_SYSTEM_SERVER,
+  isWebVPNPage,
 } from "../../login/index.js";
-import { UNDER_SYSTEM_SERVER, isWebVPNPage } from "../../login/index.js";
 import { cookieStore } from "../../utils/cookie.js";
 import { getJSON } from "../../utils/json.js";
 
@@ -59,9 +60,9 @@ export const getCourseTable = async ({
     if (isWebVPNPage(content)) {
       cookieStore.clear();
 
-      return <VPNLoginFailedResponse>{
+      return {
         success: false,
-        type: "expired",
+        type: LoginFailType.Expired,
         msg: "登录已过期，请重新登录",
       };
     }

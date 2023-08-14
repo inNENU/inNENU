@@ -5,6 +5,8 @@ export const enum LoginFailType {
   WrongCaptcha = "wrong-captcha",
   /** 账号密码错误 */
   WrongPassword = "wrong-password",
+  /** 登陆过期 */
+  Expired = "expired",
   /** 验证码 */
   NeedCaptcha = "need-captcha",
   /** 无权限 */

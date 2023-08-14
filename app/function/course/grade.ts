@@ -5,7 +5,7 @@ import type { GradeResult, UserGradeListOptions } from "./typings.js";
 import { showModal } from "../../api/index.js";
 import type { AppOption } from "../../app.js";
 import { GRADE_DATA_KEY, appCoverPrefix } from "../../config/index.js";
-import { ensureUnderSystemLogin } from "../../login/index.js";
+import { LoginFailType, ensureUnderSystemLogin } from "../../login/index.js";
 import { HOUR } from "../../utils/constant.js";
 import { getColor, popNotice } from "../../utils/page.js";
 
@@ -159,7 +159,7 @@ $Page("course-grade", {
             this.setGradeData(res.data);
             if (!options.time) this.setStatistics(res.data);
             this.state.loginMethod = "check";
-          } else if (res.type === "expired") {
+          } else if (res.type === LoginFailType.Expired) {
             this.state.loginMethod = "login";
             showModal("登录过期", res.msg);
           } else {

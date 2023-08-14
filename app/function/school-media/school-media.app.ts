@@ -2,9 +2,9 @@ import { $Page } from "@mptool/all";
 
 import { savePhoto, showModal, showToast } from "../../api/index.js";
 import type { AppOption } from "../../app.js";
-import type { Env } from "../../utils/app.js";
 import { ensureJSON, getJSON } from "../../utils/json.js";
 import { popNotice } from "../../utils/page.js";
+import type { Env } from "../../utils/typings.js";
 
 const { globalData } = getApp<AppOption>();
 const { env } = globalData;

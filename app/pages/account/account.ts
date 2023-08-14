@@ -1,5 +1,6 @@
 import { $Page, remove, set } from "@mptool/all";
 
+import { authInit, getAuthInit } from "./api.js";
 import type {
   ListComponentConfig,
   ListComponentItemConfig,
@@ -16,15 +17,11 @@ import {
   appCoverPrefix,
   assets,
 } from "../../config/index.js";
-import {
-  AuthInfo,
-  LoginFailType,
-  authInit,
-  getAuthInit,
-} from "../../login/index.js";
+import { LoginFailType } from "../../login/index.js";
 import { MONTH } from "../../utils/constant.js";
 import { cookieStore } from "../../utils/cookie.js";
 import { popNotice } from "../../utils/page.js";
+import type { UserInfo } from "../../utils/typings.js";
 
 const { globalData } = getApp<AppOption>();
 
@@ -47,9 +44,9 @@ const getDisplay = ({
   name,
   grade,
   id,
-  school = "未知",
+  org = "未知",
   major = "未知",
-}: AuthInfo): ListComponentItemConfig[] => [
+}: UserInfo): ListComponentItemConfig[] => [
   {
     text: "姓名",
     desc: name,
@@ -64,7 +61,7 @@ const getDisplay = ({
   },
   {
     text: "学院",
-    desc: school,
+    desc: org,
   },
   {
     text: "专业",

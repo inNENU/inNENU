@@ -1,7 +1,7 @@
 import { logger, ls, rm } from "@mptool/all";
 
-import type { GlobalData } from "./app.js";
 import { Data } from "./settings.js";
+import type { GlobalData } from "./typings.js";
 import { request, showToast } from "../api/index.js";
 import { server } from "../config/info.js";
 

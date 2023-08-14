@@ -3,21 +3,15 @@ import type { CommonFailedResponse } from "../../typings/response.js";
 
 export interface AuthLoginSuccessResponse {
   success: true;
+  location: string;
 }
 
 export interface AuthLoginFailedResponse extends CommonFailedResponse {
-  type: LoginFailType;
-}
-
-export interface AuthLoginCaptchaResponse {
-  success: false;
-  type: LoginFailType.NeedCaptcha;
-  captcha: string;
+  type: Exclude<LoginFailType, LoginFailType.WrongCaptcha>;
 }
 
 export type AuthLoginResponse =
   | AuthLoginSuccessResponse
-  | AuthLoginCaptchaResponse
   | AuthLoginFailedResponse;
 
 export interface VPNLoginSuccessResponse {
@@ -25,13 +19,16 @@ export interface VPNLoginSuccessResponse {
 }
 
 export interface VPNLoginFailedResponse extends CommonFailedResponse {
-  type: "locked" | "wrong" | "unknown" | "expired";
+  type:
+    | LoginFailType.AccountLocked
+    | LoginFailType.WrongPassword
+    | LoginFailType.Unknown;
 }
 
 export type VPNLoginResponse =
   | VPNLoginSuccessResponse
-  | VPNLoginFailedResponse
-  | AuthLoginFailedResponse;
+  | AuthLoginFailedResponse
+  | VPNLoginFailedResponse;
 
 export interface ActionLoginSuccessResponse {
   success: true;

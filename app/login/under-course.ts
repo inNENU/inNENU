@@ -9,13 +9,13 @@ import type {
 import type { CookieVerifyResponse } from "../../typings/index.js";
 import { request } from "../api/index.js";
 import { service } from "../config/index.js";
-import type { LoginInfo } from "../utils/app.js";
 import { cookieStore } from "../utils/cookie.js";
+import type { AccountInfo } from "../utils/typings.js";
 
 export const UNDER_SYSTEM_SERVER = "https://dsjx.webvpn.nenu.edu.cn";
 
 export const underSystemLogin = async (
-  options: LoginInfo,
+  options: AccountInfo,
 ): Promise<UnderSystemLoginResponse> => {
   const data = await request<UnderSystemLoginResponse>(
     `${service}under-system/login`,
@@ -41,7 +41,7 @@ export const checkUnderSystemCookie = (): Promise<CookieVerifyResponse> =>
   });
 
 export const ensureUnderSystemLogin = async (
-  account: LoginInfo,
+  account: AccountInfo,
   status: "check" | "validate" | "login" = "check",
 ): Promise<AuthLoginFailedResponse | VPNLoginFailedResponse | null> => {
   const cookies = cookieStore.getCookies(UNDER_SYSTEM_SERVER);
