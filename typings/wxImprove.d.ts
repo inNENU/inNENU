@@ -1,3 +1,4 @@
+/* eslint-disable */
 declare namespace WechatMiniprogram {
   /** 地图设置 */
   interface MapSettings {
@@ -68,4 +69,22 @@ declare namespace WechatMiniprogram {
         node: Canvas2DNode;
       }
   >;
+}
+
+// FIXME: https://github.com/wechat-miniprogram/api-typings/issues/306
+// prettier-ignore
+declare namespace WechatMiniprogram.Component {
+  interface PassiveEventOptions {
+    touchstart: boolean;
+    touchmove: boolean;
+    wheel: boolean;
+  }
+
+  interface InstanceMethods<D extends DataOption> {
+    /** 设置被动事件 */
+    setPassiveEvent: (events: Partial<PassiveEventOptions>) => void;
+
+    /** 获取节点信息 */
+    getPassiveEvent: (callback: (options: PassiveEventOptions) => void) => void;
+  }
 }

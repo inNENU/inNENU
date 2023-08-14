@@ -134,5 +134,7 @@
   "darkmode": true,
   "themeLocation": "styles/theme.json",
   "sitemapLocation": "sitemap.json",
-  "lazyCodeLoading": "requiredComponents"
+  "lazyCodeLoading": "requiredComponents",
+  "componentFramework": "glass-easel",
+  "enablePassiveEvent": true
 }

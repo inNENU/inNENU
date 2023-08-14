@@ -152,5 +152,7 @@
   "lazyCodeLoading": "requiredComponents",
   "singlePage": {
     "navigationBarFit": "float"
-  }
+  },
+  "componentFramework": "glass-easel",
+  "enablePassiveEvent": true
 }

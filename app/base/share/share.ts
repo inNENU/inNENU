@@ -34,6 +34,16 @@ $Component({
     },
   },
 
+  lifetimes: {
+    attached() {
+      this.setPassiveEvent({
+        touchstart: false,
+        touchmove: false,
+        wheel: false,
+      });
+    },
+  },
+
   methods: {
     /** 二维码下载 */
     download(): void {
