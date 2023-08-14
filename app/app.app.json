@@ -17,6 +17,7 @@
     "function/calendar/calendar",
     "function/course/grade",
     "function/course/table",
+    "function/email/email",
     "function/enroll/admission",
     "function/enroll/grade",
     "function/enroll/plan",

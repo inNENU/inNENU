@@ -23,6 +23,7 @@ $Config({
         "activate",
         "admission",
         "calendar",
+        "email",
         "library",
         "location",
         "map",

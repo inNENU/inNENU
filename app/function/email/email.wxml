@@ -1,0 +1,85 @@
+<page-meta
+  background-text-style="{{darkmode ? 'dark' : 'light'}}"
+  background-color="{{color.bgColor}}"
+  background-color-top="{{color.bgColorTop}}"
+  background-color-bottom="{{color.bgColorBottom}}"
+  root-background-color="{{color.bgColor}}"
+/>
+<view class="email {{theme}}">
+  <navbar nav="{{nav}}" />
+  <view class="content">
+    <error-hint wx:if="{{status === 'error'}}" catch:retry="retry" />
+    <login-hint wx:elif="{{status === 'login'}}" source="校园邮箱" />
+    <block wx:elif="{{ type === 'apply'}}">
+      <image src="{{logo}}" class="logo" />
+      <view class="apply-title">申请校园邮箱</view>
+      <view class="input-list-wrapper">
+        <view wx:if="{{isCustom}}" class="input-list-item">
+          <view class="text">自定义邮箱名称</view>
+          <input id="name" class="input" value="{{name}}" bindinput="input" />
+        </view>
+        <block wx:else>
+          <view class="input-list-item">
+            <view class="text">邮箱名称</view>
+            <picker
+              id="account"
+              class="input"
+              range="{{accounts}}"
+              value="{{accountIndex}}"
+              bindchange="picker"
+            >
+              {{accounts[accountIndex]}}
+            </picker>
+          </view>
+          <view class="input-list-item">
+            <view class="text">额外账号后缀</view>
+            <input
+              id="suffix"
+              class="input"
+              type="digit"
+              placeholder="选填，需为三位数字"
+              value="{{suffix}}"
+              bindinput="input"
+            />
+          </view>
+        </block>
+        <view class="input-list-item">
+          <view class="text">邮箱初始密码</view>
+          <input
+            id="password"
+            class="input"
+            type="password"
+            placeholder="不填生成固定初始密码"
+            value="{{password}}"
+            bindinput="input"
+          />
+        </view>
+        <view wx:if="{{password}}" class="input-list-item">
+          <view class="text">确认初始密码</view>
+          <input
+            id="confirmPassword"
+            class="input"
+            type="password"
+            value="{{confirmPassword}}"
+            bindinput="input"
+          />
+        </view>
+        <view class="input-list-item">
+          <view class="text">密保手机</view>
+          <input
+            id="phone"
+            class="input"
+            type="digit"
+            value="{{phone}}"
+            bindinput="input"
+          />
+        </view>
+      </view>
+      <button type="primary" class="apply-button primary" catch:tap="apply">
+        申请邮箱
+      </button>
+    </block>
+    <view wx:else> </view>
+  </view>
+  <footer config="{{footer}}" />
+</view>

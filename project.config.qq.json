@@ -164,6 +164,13 @@
           "scene": null
         },
         {
+          "name": "校园邮箱",
+          "pathName": "function/email/email",
+          "query": "",
+          "launchMode": "default",
+          "scene": null
+        },
+        {
           "id": 15,
           "name": "录取查询",
           "pathName": "function/enroll/admission",

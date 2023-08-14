@@ -23,6 +23,7 @@
         "calendar/calendar",
         "course/grade",
         "course/table",
+        "email/email",
         "enroll/admission",
         "enroll/grade",
         "enroll/plan",
