@@ -1,10 +1,19 @@
 import { $Page } from "@mptool/all";
 
-import { activateEmail, getEmailInfo, onlineEmail } from "./api.js";
+import {
+  activateEmail,
+  emailPage,
+  getEmail,
+  onlineEmailPage,
+  onlineMyEmail,
+  onlineRecentEmails,
+  recentEmails,
+} from "./api.js";
 import { ActivateEmailOptions } from "./typings.js";
 import { showModal, showToast } from "../../api/ui.js";
 import type { AppOption } from "../../app.js";
 import { appCoverPrefix, appName, assets } from "../../config/info.js";
+import { ensureActionLogin } from "../../login/action.js";
 import { ensureMyLogin } from "../../login/my.js";
 import { popNotice } from "../../utils/page.js";
 
@@ -46,8 +55,8 @@ $Page(PAGE_ID, {
     /** 密保电话 */
     phone: "",
 
-    status: <"success" | "error" | "login">"success",
     type: <"apply" | "email" | "loading">"loading",
+    status: <"success" | "error" | "login">"success",
   },
 
   state: {
@@ -55,51 +64,15 @@ $Page(PAGE_ID, {
     instanceId: "",
   },
 
-  onLoad() {
+  onShow() {
     const { account } = globalData;
 
     if (account) {
-      wx.showLoading({ title: "加载中" });
-
-      ensureMyLogin(account, true).then((err) => {
-        if (err) {
-          wx.hideLoading();
-          showToast(err.msg);
-          this.setData({ status: "error" });
-        } else {
-          (useOnlineService("email") ? onlineEmail : getEmailInfo)().then(
-            (res) => {
-              wx.hideLoading();
-
-              if (res.success) {
-                if (res.hasEmail) {
-                  showModal(
-                    "已申请邮箱",
-                    `您已有我校邮箱 ${res.email}@nenu.edu.cn。`,
-                    () => {
-                      this.$back();
-                    },
-                  );
-                } else {
-                  const { accounts, taskId, instanceId } = res;
-
-                  this.state = { taskId, instanceId };
-                  this.setData({
-                    type: "apply",
-                    accounts: ["请选择", ...accounts, "自定义"],
-                  });
-                }
-              } else this.setData({ status: "error" });
-            },
-          );
-        }
-      });
+      this.checkEmail();
     } else {
       this.setData({ status: "login" });
     }
-  },
 
-  onShow() {
     popNotice(PAGE_ID);
   },
 
@@ -150,6 +123,38 @@ $Page(PAGE_ID, {
         },
       });
     else this.setData({ accountIndex, isCustom });
+  },
+
+  checkEmail() {
+    wx.showLoading({ title: "加载中" });
+
+    return ensureMyLogin(globalData.account!, true).then((err) => {
+      if (err) {
+        wx.hideLoading();
+        showToast(err.msg);
+        this.setData({ status: "error" });
+      } else {
+        (useOnlineService("check-email") ? onlineMyEmail : getEmail)().then(
+          (res) => {
+            wx.hideLoading();
+
+            if (res.success) {
+              if (res.hasEmail) {
+                this.getEmails();
+              } else {
+                const { accounts, taskId, instanceId } = res;
+
+                this.state = { taskId, instanceId };
+                this.setData({
+                  type: "apply",
+                  accounts: ["请选择", ...accounts, "自定义"],
+                });
+              }
+            } else this.setData({ status: "error" });
+          },
+        );
+      }
+    });
   },
 
   apply() {
@@ -216,8 +221,6 @@ $Page(PAGE_ID, {
 
     const { taskId, instanceId } = this.state;
 
-    wx.showLoading({ title: "加载中" });
-
     const options: ActivateEmailOptions = {
       type: "set",
       ...(isCustom
@@ -243,24 +246,122 @@ ${
 }\
 密保手机: ${phone}
 `,
+      () => {
+        wx.showLoading({ title: "申请中" });
+
+        void (useOnlineService("email") ? onlineMyEmail : activateEmail)(
+          options,
+        ).then((res) => {
+          wx.hideLoading();
+
+          if (res.success)
+            if (globalData.env === "app") {
+              showModal(
+                "已申请邮箱",
+                `\
+                  您已成功申请邮箱 ${res.email}，密码为 ${password}。
+                  请立即登录并初始化邮箱。
+                  `,
+                () => {
+                  this.$go("web?url=https://mail.nenu.edu.cn");
+                },
+              );
+            } else {
+              wx.setClipboardData({
+                data: "https://mail.nenu.edu.cn",
+                success: () => {
+                  showModal(
+                    "已申请邮箱",
+                    `\
+                  您已成功申请邮箱 ${res.email}，密码为 ${password}。
+                  请立即前往 https://mail.nenu.edu.cn 手动登录初始化邮箱。(网址已复制到剪切板)
+                  `,
+                    () => {
+                      this.$back();
+                    },
+                  );
+                },
+              });
+            }
+          else showModal("申请邮箱失败", res.msg);
+        });
+      },
+      () => {
+        // do nothing
+      },
     );
+  },
 
-    return (useOnlineService("email") ? onlineEmail : activateEmail)(
-      options,
-    ).then((res) => {
-      wx.hideLoading();
+  getEmails() {
+    wx.showLoading({ title: "获取邮件" });
 
-      if (res.success)
-        showModal(
-          "已申请邮箱",
-          `您已成功申请邮箱 ${res.email}，密码为 ${password}。`,
-          () => {
-            // TODO: Update
-            this.$back();
-            // this.setData({ type: "email" });
-          },
-        );
-      else showModal("申请邮箱失败", res.msg);
+    return ensureActionLogin(globalData.account!, true).then((err) => {
+      if (err) {
+        wx.hideLoading();
+        showToast(err.msg);
+        this.setData({ status: "error" });
+      } else {
+        (useOnlineService("recent-email")
+          ? onlineRecentEmails
+          : recentEmails)().then((res) => {
+          wx.hideLoading();
+
+          if (res.success) {
+            this.setData({
+              unread: res.unread,
+              recent: res.recent.map(({ receivedDate, ...item }) => ({
+                date: new Date(receivedDate).toLocaleDateString(),
+                ...item,
+              })),
+            });
+            this.setData({ type: "email" });
+          } else this.setData({ status: "error" });
+        });
+      }
     });
+  },
+
+  openEmail({
+    currentTarget,
+  }: WechatMiniprogram.TouchEvent<
+    Record<never, never>,
+    Record<never, never>,
+    { mid: string }
+  >) {
+    wx.showLoading({ title: "加载中" });
+
+    return ensureActionLogin(globalData.account!, true).then((err) => {
+      if (err) {
+        wx.hideLoading();
+        showToast(err.msg);
+        this.setData({ status: "error" });
+      } else {
+        (useOnlineService("email-page") ? onlineEmailPage : emailPage)(
+          currentTarget.dataset.mid,
+        ).then((res) => {
+          wx.hideLoading();
+
+          if (res.success) {
+            if (globalData.env === "app") {
+              this.$go(`web?url=${res.url}`);
+            } else {
+              wx.setClipboardData({
+                data: res.url,
+                success: () => {
+                  showModal(
+                    "复制成功",
+                    "相关链接已复制到剪切板。受小程序限制，请使用浏览器打开。",
+                  );
+                },
+              });
+            }
+          } else showToast("加载页面失败");
+        });
+      }
+    });
+  },
+
+  retry() {
+    return this.checkEmail();
   },
 });

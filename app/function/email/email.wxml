@@ -79,7 +79,27 @@
         申请邮箱
       </button>
     </block>
-    <view wx:else> </view>
+    <block wx:elif="{{ type === 'email' }}">
+      <button class="enter-button" catch:tap="openEmail">进入邮箱</button>
+      <view class="recent-title"
+        >近期邮件{{unread ? ' (未读' + unread + '封)' : ''}}</view
+      >
+      <view class="email-list">
+        <view
+          wx:for="{{recent}}"
+          class="email-item"
+          hover-class="button-hover"
+          data-mid="{{item.mid}}"
+          catch:tap="openEmail"
+        >
+          <view class="subject">{{item.subject}}</view>
+          <view class="info">
+            <view class="time">时间: {{item.date}}</view>
+            <view class="from">发件人: {{item.from}}</view>
+          </view>
+        </view>
+      </view>
+    </block>
   </view>
   <footer config="{{footer}}" />
 </view>

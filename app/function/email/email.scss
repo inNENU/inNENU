@@ -68,7 +68,40 @@
   }
 }
 
-.apply-button {
+.apply-button,
+.enter-button {
   min-width: 240px;
   margin: 8px auto;
+}
+
+.recent-title {
+  box-sizing: border-box;
+
+  max-width: var(--max-width);
+  min-height: 24px;
+  margin: 0 var(--horizontal-margin);
+  padding: 12px 5px 6px;
+
+  font-weight: 500;
+  font-size: 22px;
+  text-align: left;
+}
+
+.email-list {
+  flex: 1;
+  padding: 8px;
+}
+
+.email-item {
+  padding: 8px 8px;
+  text-align: left;
+
+  .subject {
+    font-size: 17px;
+  }
+
+  .info {
+    margin: 4px 0;
+    font-size: 12px;
+  }
 }

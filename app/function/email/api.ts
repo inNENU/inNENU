@@ -1,16 +1,22 @@
 import { logger, query } from "@mptool/all";
 
 import type {
+  ActionEmailPageResponse,
+  ActionRecentMailResponse,
   ActivateEmailOptions,
   ActivateEmailResponse,
   GetEmailInfoResponse,
   GetEmailResponse,
   RawAccountList,
   RawCheckMailData,
+  RawEmailPageResponse,
+  RawRecentMailResponse,
 } from "./typings.js";
+import { CommonFailedResponse } from "../../../typings/index.js";
 import { request } from "../../api/net.js";
 import type { AppOption } from "../../app.js";
 import { service } from "../../config/info.js";
+import { ACTION_MAIN_PAGE, ACTION_SERVER } from "../../login/action.js";
 import { MY_SERVER, getProcess } from "../../login/my.js";
 
 const { globalData } = getApp<AppOption>();
@@ -18,7 +24,7 @@ const { globalData } = getApp<AppOption>();
 // Note: This can be inferred from app list
 const APPLY_MAIL_APP_ID = "GRYXSQ";
 
-export const getEmailInfo = async (): Promise<GetEmailResponse> => {
+export const getEmail = async (): Promise<GetEmailResponse> => {
   const info = globalData.userInfo!;
 
   const checkResult = await request<RawCheckMailData>(
@@ -167,7 +173,7 @@ export const activateEmail = async ({
   };
 };
 
-export const onlineEmail = async <T>(
+export const onlineMyEmail = async <T>(
   options?: T,
 ): Promise<
   T extends ActivateEmailOptions ? ActivateEmailResponse : GetEmailInfoResponse
@@ -183,6 +189,102 @@ export const onlineEmail = async <T>(
     scope: MY_SERVER,
   }).then((data) => {
     if (!data.success) logger.error("邮箱接口出错", data);
+
+    return data;
+  });
+
+const EMAIL_INFO_URL = `${ACTION_SERVER}/extract/getEmailInfo`;
+
+export const recentEmails = async (): Promise<
+  ActionRecentMailResponse | CommonFailedResponse
+> => {
+  const checkResult = await request<RawRecentMailResponse>(EMAIL_INFO_URL, {
+    method: "POST",
+    header: {
+      Accept: "application/json, text/javascript, */*; q=0.01",
+      "Content-Type": "application/x-www-form-urlencoded; charset=UTF-8",
+      Referer: ACTION_MAIN_PAGE,
+    },
+    data: `domain=nenu.edu.cn&type=1&format=json`,
+    scope: EMAIL_INFO_URL,
+  });
+
+  if (
+    typeof checkResult === "object" &&
+    "success" in checkResult &&
+    checkResult.success
+  )
+    return {
+      success: true,
+      unread: Number(checkResult.count),
+      recent: checkResult.emailList.con.var.map(
+        ({ subject, receivedDate, from, id }) => ({
+          subject,
+          receivedDate,
+          from,
+          mid: id,
+        }),
+      ),
+    };
+
+  return {
+    success: false,
+    msg: "用户无邮箱",
+  };
+};
+
+export const onlineRecentEmails = async (): Promise<ActionRecentMailResponse> =>
+  request<ActionRecentMailResponse>(`${service}action/recent-email`, {
+    method: "POST",
+    scope: ACTION_SERVER,
+  }).then((data) => {
+    if (!data.success) logger.error("获取最近邮件失败", data);
+
+    return data;
+  });
+
+const EMAIL_PAGE_URL = `${ACTION_SERVER}/extract/sendRedirect2Email`;
+const EMAIL_URL = `${ACTION_SERVER}/extract/sendRedirect2EmailPage`;
+
+export const emailPage = async (mid = ""): Promise<ActionEmailPageResponse> => {
+  const emailPageResult = await request<RawEmailPageResponse>(
+    mid ? EMAIL_PAGE_URL : EMAIL_URL,
+    {
+      method: "POST",
+      header: {
+        Accept: "application/json, text/javascript, */*; q=0.01",
+        "Content-Type": "application/x-www-form-urlencoded; charset=UTF-8",
+        Referer: ACTION_MAIN_PAGE,
+      },
+      data: query.stringify({
+        ...(mid ? { domain: "nenu.edu.cn", mid } : {}),
+        // eslint-disable-next-line @typescript-eslint/naming-convention
+        account_name: "",
+      }),
+    },
+  );
+
+  if (typeof emailPageResult === "object" && emailPageResult.success)
+    return {
+      success: true,
+      url: emailPageResult.url,
+    };
+
+  return {
+    success: false,
+    msg: "获取邮件页面失败",
+  };
+};
+
+export const onlineEmailPage = async (
+  mid = "",
+): Promise<ActionEmailPageResponse> =>
+  request<ActionEmailPageResponse>(`${service}action/email-page`, {
+    method: "POST",
+    data: { mid },
+    scope: ACTION_SERVER,
+  }).then((data) => {
+    if (!data.success) logger.error("获取最近邮件失败", data);
 
     return data;
   });
