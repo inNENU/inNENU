@@ -215,13 +215,13 @@ $Page(PAGE_ID, {
           "密码长度应在 10 至 16 位之间，且不能包含符号。您可以留空来使用默认密码。",
         );
 
-      if (!/A-Z/.test(password))
+      if (!/[A-Z]/.test(password))
         return showModal("密码不符合规则", "密码需包含大写字母。");
 
-      if (!/a-z/.test(password))
+      if (!/[a-z]/.test(password))
         return showModal("密码不符合规则", "密码需包含小写字母。");
 
-      if (!/0-9/.test(password))
+      if (!/[0-9]/.test(password))
         return showModal("密码不符合规则", "密码需包含数字。");
     }
 
