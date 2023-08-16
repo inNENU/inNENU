@@ -212,8 +212,17 @@ $Page(PAGE_ID, {
       if (!/^[A-z0-9]{10,16}$/.test(password))
         return showModal(
           "密码不符合规则",
-          "密码长度应在 10 至 16 位之间，且同时包含大写字母、小写字母和数字，不能包含符号。您可以留空来使用默认密码。",
+          "密码长度应在 10 至 16 位之间，且不能包含符号。您可以留空来使用默认密码。",
         );
+
+      if (!/A-Z/.test(password))
+        return showModal("密码不符合规则", "密码需包含大写字母。");
+
+      if (!/a-z/.test(password))
+        return showModal("密码不符合规则", "密码需包含小写字母。");
+
+      if (!/0-9/.test(password))
+        return showModal("密码不符合规则", "密码需包含数字。");
     }
 
     if (!/^1\d{10}$/.test(phone))
@@ -259,8 +268,8 @@ ${
               showModal(
                 "已申请邮箱",
                 `\
-                  您已成功申请邮箱 ${res.email}，密码为 ${password}。
-                  请立即登录并初始化邮箱。
+您已成功申请邮箱 ${res.email}，密码为 ${password}。
+请立即登录并初始化邮箱。
                   `,
                 () => {
                   this.$go("web?url=https://mail.nenu.edu.cn");
@@ -273,8 +282,8 @@ ${
                   showModal(
                     "已申请邮箱",
                     `\
-                  您已成功申请邮箱 ${res.email}，密码为 ${password}。
-                  请立即前往 https://mail.nenu.edu.cn 手动登录初始化邮箱。(网址已复制到剪切板)
+您已成功申请邮箱 ${res.email}，密码为 ${password}。
+请立即前往 https://mail.nenu.edu.cn 手动登录初始化邮箱。(网址已复制到剪切板)
                   `,
                     () => {
                       this.$back();
@@ -298,7 +307,10 @@ ${
     return ensureActionLogin(globalData.account!, true).then((err) => {
       if (err) {
         wx.hideLoading();
-        showToast(err.msg);
+        showModal(
+          "获取邮件失败",
+          "请确认已手动登录邮箱，完成开启手机密保与修改初始密码工作。",
+        );
         this.setData({ status: "error" });
       } else {
         (useOnlineService("recent-email")
