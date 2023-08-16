@@ -139,7 +139,8 @@
     "share": "/base/share/share",
     "table": "/base/table/table",
     "title": "/base/title/title",
-    "video-player": "/base/video/video"
+    "video-player": "/base/video/video",
+    "license": "/components/license/license"
   },
   "sitemapLocation": "sitemap.json",
   "lazyCodeLoading": "requiredComponents",

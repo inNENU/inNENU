@@ -1,4 +1,4 @@
-import type { GlobalData } from "./app.js";
+import type { GlobalData } from "./typings.js";
 import { showModal } from "../api/index.js";
 
 const checkGroupApp = (): void => {
