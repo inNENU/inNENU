@@ -131,7 +131,7 @@ export const handleComponents = (
       "path" in component &&
       (tag === "p" || tag === "ol" || tag === "ul" || tag === "text")
     )
-      component.path = `info?from=${title || "返回"}&id=${component.path!}`;
+      component.url = `info?from=${title || "返回"}&id=${component.path!}`;
 
     // 设置 list 组件
     if (

@@ -24,6 +24,11 @@ import type {
   VideoComponentOptions,
 } from "../server/typings/index.js";
 
+export interface TextComponentConfig extends TextComponentOptions {
+  /** 跳转路径 */
+  url?: string;
+}
+
 export interface GridComponentItemConfig extends GridComponentItemOptions {
   /** Base64 icon 路径 */
   base64Icon?: string;
@@ -113,7 +118,7 @@ export type ComponentConfig = (
   | ListComponentConfig
   | LoadingComponentOptions
   | PhoneComponentOptions
-  | TextComponentOptions
+  | TextComponentConfig
   | TitleComponentOptions
   | VideoComponentOptions
 ) &
