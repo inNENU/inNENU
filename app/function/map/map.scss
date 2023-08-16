@@ -5,12 +5,8 @@
 
 @mixin button() {
   position: fixed;
-  background-color: var(--bg-color);
+  background-color: #fff;
   box-shadow: -1px 3px 5px rgb(219 218 223 / 80%);
-
-  @media (prefers-color-scheme: dark) {
-    box-shadow: -1px 3px 5px rgb(75 77 71 / 80%);
-  }
 }
 
 @mixin single-button() {
@@ -40,7 +36,7 @@
   border: 1px solid #2ecc71;
   border-radius: 14px;
 
-  background-color: var(--bg-color);
+  background-color: #fff;
 
   font-size: 14px;
   text-align: center;
@@ -52,7 +48,7 @@
 
     &.active {
       background-color: #2ecc71;
-      color: var(--bg-color);
+      color: #fff;
     }
   }
 }
@@ -141,8 +137,8 @@
     padding: 5px 10px;
     border-radius: 4px;
 
-    background-color: var(--bg-color);
-    color: var(--dark-grey);
+    background-color: #fff;
+    color: #666;
 
     font-size: 14px;
     line-height: 20px;
@@ -176,7 +172,7 @@
     left: 0;
 
     height: 1px;
-    border-bottom: 1px solid var(--border-color);
+    border-bottom: 1px solid #cccccf;
 
     transform: scaleY(0.4);
     transform-origin: 0 100%;
@@ -187,12 +183,12 @@
   }
 
   .name {
-    color: var(--grey3);
+    color: #333;
     font-size: 16px;
   }
 
   .desc {
-    color: var(--dark-grey);
+    color: #666;
     font-size: 14px;
   }
 }
