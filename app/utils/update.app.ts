@@ -1,6 +1,6 @@
 import type { GlobalData } from "./typings.js";
 import { compareVersion } from "./version.js";
-import { requestJSON, showModal } from "../api/index.js";
+import { downLoad, requestJSON, showModal } from "../api/index.js";
 import { assets } from "../config/index.js";
 
 /**
@@ -21,8 +21,9 @@ export const updateApp = async (globalData: GlobalData): Promise<void> => {
       "App有新版本",
       `App 的最新版本是 ${onlineVersion}，点击确定复制下载链接到剪切板。请手动粘贴到浏览器开启下载。`,
       () => {
-        wx.setClipboardData({
-          data: `${assets}innenu-v${onlineVersion}.apk`,
+        downLoad(`${assets}innenu-v${onlineVersion}.apk`).then((filePath) => {
+          if (globalData.info.platform === "android")
+            wx.miniapp.installApp({ filePath });
         });
       },
       () => {
