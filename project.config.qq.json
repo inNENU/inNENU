@@ -101,6 +101,13 @@
           "scene": null
         },
         {
+          "id": 100,
+          "name": "隐私协议",
+          "pathName": "pages/privacy/privacy",
+          "query": "",
+          "scene": null
+        },
+        {
           "id": 6,
           "name": "客服",
           "pathName": "pages/action/action",

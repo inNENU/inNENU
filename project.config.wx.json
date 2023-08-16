@@ -112,6 +112,13 @@
           "scene": null
         },
         {
+          "name": "隐私协议",
+          "pathName": "pages/privacy/privacy",
+          "query": "",
+          "launchMode": "default",
+          "scene": null
+        },
+        {
           "name": "客服",
           "pathName": "pages/action/action",
           "query": "action=contact",
