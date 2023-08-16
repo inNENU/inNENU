@@ -94,9 +94,7 @@ export const request = <
         } else {
           showToast("小程序服务器出错，请稍后重试");
           // 调试
-          logger.warn(
-            `Request ${url}.json failed with statusCode: ${statusCode}`,
-          );
+          logger.warn(`Request ${url} failed with statusCode: ${statusCode}`);
 
           wx.reportEvent?.("service_error", {
             // eslint-disable-next-line @typescript-eslint/naming-convention
