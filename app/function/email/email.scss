@@ -68,10 +68,13 @@
   }
 }
 
-.apply-button,
-.enter-button {
+.apply-button {
   min-width: 240px;
   margin: 8px auto;
+}
+
+.enter-button {
+  float: right;
 }
 
 .recent-title {

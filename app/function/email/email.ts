@@ -19,6 +19,7 @@ import { popNotice } from "../../utils/page.js";
 
 const { globalData, useOnlineService } = getApp<AppOption>();
 
+const MAIL_LINK = "https://mail.nenu.edu.cn";
 const PAGE_ID = "email";
 const PAGE_TITLE = "校园邮箱";
 
@@ -68,6 +69,7 @@ $Page(PAGE_ID, {
     const { account } = globalData;
 
     if (account) {
+      this.setData({ status: "success" });
       this.checkEmail();
     } else {
       this.setData({ status: "login" });
@@ -272,7 +274,7 @@ ${
 请立即登录并初始化邮箱。
                   `,
                 () => {
-                  this.$go("web?url=https://mail.nenu.edu.cn");
+                  this.$go(`web?url=${encodeURIComponent(MAIL_LINK)}`);
                 },
               );
             } else {
@@ -355,7 +357,7 @@ ${
 
           if (res.success) {
             if (globalData.env === "app") {
-              this.$go(`web?url=${res.url}`);
+              this.$go(`web?url=${encodeURIComponent(res.url)}`);
             } else {
               wx.setClipboardData({
                 data: res.url,

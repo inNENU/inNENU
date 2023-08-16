@@ -80,10 +80,17 @@
       </button>
     </block>
     <block wx:elif="{{ type === 'email' }}">
-      <button class="enter-button" catch:tap="openEmail">进入邮箱</button>
       <view class="recent-title"
-        >近期邮件{{unread ? ' (未读' + unread + '封)' : ''}}</view
-      >
+        >近期邮件{{unread ? ' (未读' + unread + '封)' : ''}}
+        <button
+          class="enter-button primary"
+          type="primary"
+          size="mini"
+          catch:tap="openEmail"
+        >
+          进入邮箱
+        </button>
+      </view>
       <view class="email-list">
         <view
           wx:for="{{recent}}"

@@ -49,7 +49,7 @@ $Component({
     openSite(): void {
       const { site } = this.data.config;
 
-      this.$go(`web?url=${site!}`);
+      this.$go(`web?url=${encodeURIComponent(site!)}`);
     },
 
     copyEmail(): void {

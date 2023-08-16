@@ -42,6 +42,6 @@ $Page("website", {
     Record<string, never>,
     { link: string }
   >) {
-    this.$go(`web?url=${currentTarget.dataset.link}`);
+    this.$go(`web?url=${encodeURIComponent(currentTarget.dataset.link)}`);
   },
 });

@@ -23,7 +23,9 @@ $Component({
       else if (!config.url.match(/^https?:\/\//)) this.$go(config.url);
       // 判断是否是可以跳转的微信图文
       else if (config.url.startsWith("https://mp.weixin.qq.com"))
-        this.$go(`web?url=${config.url}&title=${config.title}`);
+        this.$go(
+          `web?url=${encodeURIComponent(config.url)}&title=${config.title}`,
+        );
       // 无法跳转，复制链接到剪切板
       else
         wx.setClipboardData({

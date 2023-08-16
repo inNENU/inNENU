@@ -178,7 +178,8 @@ $Page(PAGE_ID, {
   >) {
     const { title, url } = currentTarget.dataset;
 
-    if (this.data.authorized) this.$go(`web?url=${url}&title=${title}`);
+    if (this.data.authorized)
+      this.$go(`web?url=${encodeURIComponent(url)}&title=${title}`);
     // 无法跳转，复制链接到剪切板
     else
       wx.setClipboardData({

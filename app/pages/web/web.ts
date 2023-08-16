@@ -8,13 +8,16 @@ $Page<{ title: string; url: string }, Record<string, unknown>>("web", {
     const navigationBarTitle = title || appName;
 
     wx.setNavigationBarTitle({ title: navigationBarTitle });
-    this.setData({ url, title: navigationBarTitle });
+    this.setData({
+      url: decodeURIComponent(url || ""),
+      title: navigationBarTitle,
+    });
   },
 
   onShareAppMessage(): WechatMiniprogram.Page.ICustomShareContent {
     return {
       title: this.data.title,
-      path: `/pages/web/web?url=${this.data.url}`,
+      path: `/pages/web/web?url=${encodeURIComponent(this.data.url)}`,
     };
   },
 

@@ -21,7 +21,10 @@ $Component({
       // 页面路径
       else if (!config.url.match(/^https?:\/\//)) this.$go(config.url);
       // 网页
-      else this.$go(`web?url=${config.url}&title=${config.title}`);
+      else
+        this.$go(
+          `web?url=${encodeURIComponent(config.url)}&title=${config.title}`,
+        );
     },
 
     setLogo(value?: string) {

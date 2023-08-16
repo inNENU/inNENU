@@ -156,13 +156,14 @@ $Page(PAGE_ID, {
   >) {
     const { title, url } = currentTarget.dataset;
 
-    this.$go(`web?url=${url}&title=${title}`);
+    this.$go(`web?url=${encodeURIComponent(url)}&title=${title}`);
   },
 
   follow() {
     const { follow, qrcode } = this.data;
 
-    if (follow) this.$go(`web?url=${follow}&title=欢迎关注`);
+    if (follow)
+      this.$go(`web?url=${encodeURIComponent(follow)}&title=欢迎关注`);
     else wx.previewImage({ urls: [qrcode] });
   },
 

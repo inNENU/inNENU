@@ -22,7 +22,7 @@ $Component({
     >) {
       const site = this.data.config.cite![currentTarget.dataset.index];
 
-      this.$go(`web?url=${site}`);
+      this.$go(`web?url=${encodeURIComponent(site)}`);
     },
   },
 });
