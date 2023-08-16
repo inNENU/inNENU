@@ -1,4 +1,6 @@
 export const INITIALIZED_KEY = "initialized";
+export const LICENSE_KEY = "license-agreement";
+export const PRIVACY_KEY = "privacy-agreement";
 export const ACCOUNT_INFO_KEY = "nenu-account-info-v2";
 export const USER_INFO_KEY = "nenu-user-info-v2";
 

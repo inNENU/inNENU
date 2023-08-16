@@ -5,6 +5,7 @@
   background-color-bottom="{{color.bgColorBottom}}"
   root-background-color="{{color.bgColor}}"
 />
+<license />
 <view class="{{theme}} library">
   <navbar nav="{{nav}}" />
   <view class="content">

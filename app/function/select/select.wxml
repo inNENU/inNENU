@@ -8,6 +8,7 @@
   background-color-bottom="{{color.bgColorBottom}}"
   root-background-color="{{color.bgColor}}"
 />
+<license />
 <view class="{{theme}} select-wrapper">
   <navbar nav="{{nav}}" />
   <view wx:if="{{login}}" class="select-container">

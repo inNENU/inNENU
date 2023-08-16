@@ -6,6 +6,7 @@
   background-color-bottom="{{color.bgColorBottom}}"
   root-background-color="{{color.bgColor}}"
 />
+<license />
 <view class="{{theme}} main grey">
   <weather wx:if="{{login}}" custom-class="weather" target="weather">
     <today-course custom-class="course" />

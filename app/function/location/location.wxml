@@ -6,6 +6,7 @@
   background-color-bottom="{{color.bgColorBottom}}"
   root-background-color="{{color.bgColor}}"
 />
+<license />
 <view class="{{theme}} {{page.grey ? 'grey' : ''}}">
   <template wx:if="{{page.error}}" is="error" data="{{ id: page.id }}" />
   <block wx:else>

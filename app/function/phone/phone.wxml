@@ -1,5 +1,6 @@
 <wxs module="phone" src="./phone.wxs" />
 
+<license />
 <view class="ios">
   <header title="师大黄页" />
   <view style="height: 15px" />

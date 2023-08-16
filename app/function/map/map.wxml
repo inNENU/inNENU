@@ -1,5 +1,6 @@
 <wxs src="../../utils/map.wxs" module="helper" />
 <wxs src="./map.wxs" module="tool" />
+<license />
 <map
   id="map"
   longitude="{{map.longitude}}"

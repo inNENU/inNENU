@@ -77,6 +77,24 @@
   }
 }
 
+.license-checkbox {
+  display: flex;
+  align-items: center;
+
+  max-width: var(--max-width);
+  margin: 0 var(--horizontal-margin);
+  padding: 4px 8px;
+
+  color: #888;
+
+  font-size: 14px;
+  text-align: left;
+
+  .license-text {
+    color: var(--action-color);
+  }
+}
+
 .delete-button {
   min-width: 240px;
   margin: 16px auto 8px;

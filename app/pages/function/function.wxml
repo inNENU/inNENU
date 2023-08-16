@@ -6,6 +6,7 @@
   background-color-bottom="{{color.bgColorBottom}}"
   root-background-color="{{color.bgColor}}"
 />
+<license />
 <view class="{{theme}} function-wrapper grey">
   <weather custom-class="weather" target="weather" />
   <scroll-view scroll-y class="functions">

@@ -18,6 +18,7 @@ import {
   assets,
 } from "../../config/index.js";
 import { LoginFailType } from "../../login/index.js";
+import { getLicenseStatus } from "../../utils/agreement.js";
 import { MONTH } from "../../utils/constant.js";
 import { cookieStore } from "../../utils/cookie.js";
 import { popNotice } from "../../utils/page.js";
@@ -99,6 +100,7 @@ $Page(PAGE_ID, {
     isSaved: false,
     showPassword: false,
     captchaContent: "",
+    accept: false,
   },
 
   state: {
@@ -178,8 +180,12 @@ $Page(PAGE_ID, {
     });
   },
 
+  acceptLicense() {
+    this.setData({ accept: !this.data.accept });
+  },
+
   async save() {
-    const { id, password, captcha } = this.data;
+    const { id, password, captcha, accept } = this.data;
 
     if (!id || !password) {
       wx.showToast({ title: "请输入完整信息", icon: "error" });
@@ -187,7 +193,16 @@ $Page(PAGE_ID, {
       return;
     }
 
+    if (!accept) {
+      wx.showToast({ title: "请同意用户协议", icon: "error" });
+
+      return;
+    }
+
     wx.showLoading({ title: "验证中" });
+
+    // 设置协议版本
+    wx.setStorageSync("license", (await getLicenseStatus()).version);
 
     try {
       const result = await authInit({

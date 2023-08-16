@@ -1,5 +1,6 @@
 <import src="/base/template.wxml" />
 <wxs src="./admission.wxs" module="admission" />
+<license />
 <view
   wx:if="{{type === 'search'}}"
   class="ios grey"

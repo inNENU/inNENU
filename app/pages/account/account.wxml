@@ -78,6 +78,18 @@
           />
         </view>
       </view>
+      <view class="license-checkbox">
+        <view
+          class="check-box{{accept? ' checked': ''}}"
+          catch:tap="acceptLicense"
+        ></view
+        >我已阅读并同意<text
+          class="license-text"
+          data-url="license?type=license"
+          catch:tap="$bindGo"
+          >《用户协议》</text
+        >
+      </view>
       <button type="primary" class="save-button primary" catch:tap="save">
         保存在本地
       </button>

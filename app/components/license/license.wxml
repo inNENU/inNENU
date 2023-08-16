@@ -1,0 +1,56 @@
+<import src="/base/template.wxml" />
+
+<view wx:if="{{type === 'privacy' && show}}" class="license-popup-wrapper">
+  <view class="license-popup">
+    <view class="license-header">
+      <image class="license-logo" src="{{logo}}" />
+      <view class="license-title">{{appName}}隐私政策提示</view>
+    </view>
+    <view class="license-body">
+      在你使用 {{appName}} 的当前服务前，请仔细阅读<text
+        class="license-link"
+        data-url="license"
+        catch:tap="$bindGo"
+        >《隐私政策》</text
+      >。如果你完全同意我们的<text>《隐私政策》</text>，请点击“同意”开始使用。
+    </view>
+    <view class="license-footer">
+      <button class="license-button cancel" catch:tap="refuse">拒绝</button>
+      <button
+        class="license-button primary"
+        id="agree-privacy"
+        type="primary"
+        open-type="agreePrivacyAuthorization"
+        bindagreeprivacyauthorization="accept"
+        catch:tap="accept"
+      >
+        同意
+      </button>
+    </view>
+  </view></view
+>
+<view wx:elif="{{show}}" class="license-popup-wrapper">
+  <view class="license-popup">
+    <view class="license-header">
+      <image class="license-logo" src="{{logo}}" />
+      <view class="license-title">{{appName}}用户协议提示</view>
+    </view>
+    <view class="license-body">
+      在你使用 {{appName}} 的当前服务前，请仔细阅读<text
+        class="license-link"
+        data-url="license?type=license"
+        catch:tap="$bindGo"
+        >《用户协议》</text
+      >。如果你完全同意我们的《用户协议》，请点击“同意”开始使用当前服务。
+    </view>
+    <view class="license-footer">
+      <button class="license-button cancel" catch:tap="refuse">拒绝</button>
+      <button type="primary" class="license-button primary" catch:tap="accept">
+        同意
+      </button>
+    </view>
+  </view>
+</view>
+<view class="license-detail {{theme}}">
+  <template is="components" data="{{content: page.content, theme}}" />
+</view>

@@ -12,6 +12,7 @@
     "pages/account/account",
     "pages/web/web",
     "pages/about/about",
+    "pages/license/license",
     "pages/settings/settings",
     "function/activate/activate",
     "function/calendar/calendar",

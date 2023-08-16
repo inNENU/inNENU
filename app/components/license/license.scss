@@ -1,0 +1,51 @@
+.license-popup-wrapper {
+  position: fixed;
+  inset: 0 0 0 0;
+  z-index: 9999;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  background-color: rgb(0 0 0 / 50%);
+}
+
+.license-popup {
+  margin: 20px;
+  padding: 24px;
+  border-radius: 16px;
+  background-color: var(--bg-color);
+}
+
+.license-header {
+  display: flex;
+  align-items: center;
+  font-weight: bold;
+  font-size: 18px;
+
+  .license-logo {
+    width: 28px;
+    height: 28px;
+    margin-right: 4px;
+  }
+}
+
+.license-body {
+  margin: 16px 0;
+}
+
+.license-link {
+  color: var(--action-color);
+  text-decoration: underline;
+}
+
+.license-footer {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 16px;
+
+  .license-button {
+    width: unset !important;
+    margin: 8px;
+  }
+}

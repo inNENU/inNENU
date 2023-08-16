@@ -7,6 +7,7 @@ import type {
 } from "../../../typings/index.js";
 import { showModal, showToast } from "../../api/index.js";
 import type { AppOption } from "../../app.js";
+import { getPrivacyStatus } from "../../utils/agreement.js";
 import { popNotice, resolvePage, setPage } from "../../utils/page.js";
 
 const { globalData } = getApp<AppOption>();
@@ -49,8 +50,9 @@ $Page("privacy", {
           items: [
             {
               text: "查看详情",
-              url: `info?path=other/about/${globalData.env}-privacy`,
+              url: "license",
             },
+            { text: "已同意当前隐私协议", desc: "否" },
           ],
         },
         {
@@ -121,6 +123,15 @@ $Page("privacy", {
     else setPage({ option: { id: "authorize" }, ctx: this });
 
     popNotice("privacy");
+  },
+
+  onShow() {
+    getPrivacyStatus().then(({ needAuthorize }) => {
+      this.setData({
+        // eslint-disable-next-line @typescript-eslint/naming-convention
+        "page.content[0].items[1].desc": needAuthorize ? "否" : "是",
+      });
+    });
   },
 
   onReady() {

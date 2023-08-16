@@ -6,6 +6,7 @@
   background-color-bottom="{{color.bgColorBottom}}"
   root-background-color="{{color.bgColor}}"
 />
+<license />
 <recycle-view
   class="ios grey"
   batch="{{batchSetRecycleData}}"

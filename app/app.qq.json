@@ -12,6 +12,7 @@
     "pages/account/account",
     "pages/web/web",
     "pages/about/about",
+    "pages/license/license",
     "pages/privacy/privacy",
     "pages/settings/settings"
   ],
