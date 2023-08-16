@@ -1,7 +1,7 @@
 import { $Page, get, put, set, take } from "@mptool/all";
 
 import type { PageDataWithContent } from "../../../typings/index.js";
-import { requestJSON } from "../../api/net.js";
+import { requestJSON } from "../../api/index.js";
 import type { AppOption } from "../../app.js";
 import { appCoverPrefix } from "../../config/index.js";
 import { DAY } from "../../utils/constant.js";

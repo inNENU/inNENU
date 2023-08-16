@@ -90,10 +90,14 @@ interface RawInfo {
                 xznj: string;
                 lb: string;
                 zzmm: string;
+                // eslint-disable-next-line @typescript-eslint/naming-convention
                 wf_dhhm: string;
                 dhhm: string;
+                // eslint-disable-next-line @typescript-eslint/naming-convention
                 wf_wx: string;
+                // eslint-disable-next-line @typescript-eslint/naming-convention
                 wf_qq: string;
+                // eslint-disable-next-line @typescript-eslint/naming-convention
                 wf_email: string;
                 status: string;
                 pycc: string;

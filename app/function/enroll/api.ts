@@ -6,7 +6,7 @@ import type {
   PostAdmissionPostOptions,
   UnderAdmissionPostOptions,
 } from "./typings.js";
-import { request } from "../../api/net.js";
+import { request } from "../../api/index.js";
 import { service } from "../../config/index.js";
 
 export const postAdmission = (

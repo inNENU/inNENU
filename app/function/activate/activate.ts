@@ -22,7 +22,7 @@ import type {
   ActivateReplacePhoneOptions,
   ActivateReplacePhoneResponse,
 } from "./typings.js";
-import { showModal, showToast } from "../../api/ui.js";
+import { showModal, showToast } from "../../api/index.js";
 import type { AppOption } from "../../app.js";
 import { appCoverPrefix, assets } from "../../config/info.js";
 import { popNotice } from "../../utils/page.js";

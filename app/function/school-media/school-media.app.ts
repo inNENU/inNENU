@@ -1,6 +1,11 @@
 import { $Page } from "@mptool/all";
 
-import { savePhoto, showModal, showToast } from "../../api/index.js";
+import {
+  savePhoto,
+  setClipboard,
+  showModal,
+  showToast,
+} from "../../api/index.js";
 import type { AppOption } from "../../app.js";
 import { ensureJSON, getJSON } from "../../utils/json.js";
 import { popNotice } from "../../utils/page.js";
@@ -74,11 +79,8 @@ $Page(PAGE_ID, {
         .then(() => showToast("二维码已保存至相册"))
         .catch(() => showToast("二维码下载失败"));
     else
-      wx.setClipboardData({
-        data: id.toString(),
-        success: () => {
-          showModal("复制成功", "由于暂无二维码，QQ号已复制至您的剪切板");
-        },
+      setClipboard(id.toString()).then(() => {
+        showModal("复制成功", "由于暂无二维码，QQ号已复制至您的剪切板");
       });
   },
 });

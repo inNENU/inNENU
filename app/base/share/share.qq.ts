@@ -2,7 +2,7 @@ import type { PropType } from "@mptool/all";
 import { $Component, logger } from "@mptool/all";
 
 import type { PageData } from "../../../typings/index.js";
-import { savePhoto, showToast } from "../../api/index.js";
+import { savePhoto, setClipboard, showToast } from "../../api/index.js";
 import type { AppOption } from "../../app.js";
 import { appName, service } from "../../config/index.js";
 import { path2id } from "../../utils/id.js";
@@ -62,12 +62,9 @@ $Component({
       const { title } = this.data.config;
       const content = `${title ? `${appName}查看『${title}』:` : ""}${link}`;
 
-      wx.setClipboardData({
-        data: content,
-        success: () => {
-          showToast("链接已复制");
-          logger.debug(`Share content is copied: ${content}`);
-        },
+      setClipboard(content).then(() => {
+        showToast("链接已复制");
+        logger.debug(`Share content is copied: ${content}`);
       });
     },
   },

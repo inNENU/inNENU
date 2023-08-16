@@ -1,6 +1,6 @@
 import { $Page } from "@mptool/all";
 
-import { showModal } from "../../api/index.js";
+import { setClipboard, showModal } from "../../api/index.js";
 import type { AppOption } from "../../app.js";
 import { appCoverPrefix } from "../../config/index.js";
 import { ensureJSON, getJSON } from "../../utils/json.js";
@@ -57,14 +57,11 @@ $Page(PAGE_ID, {
     Record<string, never>,
     { link: string }
   >) {
-    wx.setClipboardData({
-      data: currentTarget.dataset.link,
-      success: () => {
-        showModal(
-          "功能受限",
-          "受到小程序限制，无法直接打开网页，网址已复制到剪切板",
-        );
-      },
+    setClipboard(currentTarget.dataset.link).then(() => {
+      showModal(
+        "功能受限",
+        "受到小程序限制，无法直接打开网页，网址已复制到剪切板",
+      );
     });
   },
 });

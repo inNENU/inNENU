@@ -2,7 +2,7 @@ import type { PropType } from "@mptool/all";
 import { $Component } from "@mptool/all";
 
 import type { FooterComponentOptions } from "../../../typings/index.js";
-import { showModal } from "../../api/index.js";
+import { setClipboard, showModal } from "../../api/index.js";
 
 $Component({
   properties: {
@@ -21,14 +21,13 @@ $Component({
       Record<string, never>,
       { index: number }
     >) {
-      wx.setClipboardData({
-        data: this.data.config.cite![currentTarget.dataset.index],
-        success: () => {
-          showModal(
-            "无法直接打开",
-            "小程序无法直接打开网页，链接地址已复制至剪切板。请打开浏览器粘贴查看",
-          );
-        },
+      const url = this.data.config.cite![currentTarget.dataset.index];
+
+      setClipboard(url).then(() => {
+        showModal(
+          "无法直接打开",
+          "小程序无法直接打开网页，链接已复制至剪切板，请打开浏览器粘贴查看。",
+        );
       });
     },
   },

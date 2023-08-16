@@ -10,7 +10,7 @@ import {
   recentEmails,
 } from "./api.js";
 import { ActivateEmailOptions } from "./typings.js";
-import { showModal, showToast } from "../../api/ui.js";
+import { setClipboard, showModal, showToast } from "../../api/index.js";
 import type { AppOption } from "../../app.js";
 import { appCoverPrefix, appName, assets } from "../../config/info.js";
 import { ensureActionLogin } from "../../login/action.js";
@@ -278,20 +278,17 @@ ${
                 },
               );
             } else {
-              wx.setClipboardData({
-                data: "https://mail.nenu.edu.cn",
-                success: () => {
-                  showModal(
-                    "已申请邮箱",
-                    `\
+              setClipboard("https://mail.nenu.edu.cn").then(() => {
+                showModal(
+                  "已申请邮箱",
+                  `\
 您已成功申请邮箱 ${res.email}，密码为 ${password}。
 请立即前往 https://mail.nenu.edu.cn 手动登录初始化邮箱。(网址已复制到剪切板)
                   `,
-                    () => {
-                      this.$back();
-                    },
-                  );
-                },
+                  () => {
+                    this.$back();
+                  },
+                );
               });
             }
           else showModal("申请邮箱失败", res.msg);
@@ -359,14 +356,11 @@ ${
             if (globalData.env === "app") {
               this.$go(`web?url=${encodeURIComponent(res.url)}`);
             } else {
-              wx.setClipboardData({
-                data: res.url,
-                success: () => {
-                  showModal(
-                    "复制成功",
-                    "相关链接已复制到剪切板。受小程序限制，请使用浏览器打开。",
-                  );
-                },
+              setClipboard(res.url).then(() => {
+                showModal(
+                  "复制成功",
+                  "相关链接已复制到剪切板。受小程序限制，请使用浏览器打开。",
+                );
               });
             }
           } else showToast("加载页面失败");

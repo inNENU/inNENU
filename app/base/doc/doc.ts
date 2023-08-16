@@ -2,7 +2,13 @@ import type { PropType } from "@mptool/all";
 import { $Component } from "@mptool/all";
 
 import type { DocComponentOptions } from "../../../typings/index.js";
-import { downLoad, savePhoto, showModal, showToast } from "../../api/index.js";
+import {
+  downLoad,
+  savePhoto,
+  setClipboard,
+  showModal,
+  showToast,
+} from "../../api/index.js";
 import type { AppOption } from "../../app.js";
 
 const { globalData } = getApp<AppOption>();
@@ -83,14 +89,11 @@ $Component({
               });
             });
         else
-          wx.setClipboardData({
-            data: url,
-            success: () => {
-              showModal(
-                "复制成功",
-                `下载链接已复制到您的剪切板。受${globalData.envName}限制，请您自行打开浏览器粘贴在地址栏中以下载。`,
-              );
-            },
+          setClipboard(url).then(() => {
+            showModal(
+              "复制成功",
+              `下载链接已复制到您的剪切板。受${globalData.envName}限制，请您自行打开浏览器粘贴在地址栏中以下载。`,
+            );
           });
       } else if (["jpg", "png", "gif"].includes(icon))
         // 检测到图片，开始图片下载

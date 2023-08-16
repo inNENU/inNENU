@@ -2,7 +2,7 @@ import type { PropType } from "@mptool/all";
 import { $Component } from "@mptool/all";
 
 import type { PhoneComponentOptions } from "../../../typings/index.js";
-import { showToast } from "../../api/index.js";
+import { setClipboard, showToast } from "../../api/index.js";
 
 $Component({
   properties: {
@@ -24,11 +24,8 @@ $Component({
     },
 
     copyContact() {
-      wx.setClipboardData({
-        data: this.data.config.num,
-        success: () => {
-          showToast("号码已复制");
-        },
+      setClipboard(this.data.config.num).then(() => {
+        showToast("号码已复制");
       });
     },
 

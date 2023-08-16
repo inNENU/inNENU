@@ -2,6 +2,7 @@ import type { PropType } from "@mptool/all";
 import { $Component } from "@mptool/all";
 
 import type { ActionComponentOptions } from "../../../typings/index.js";
+import { setClipboard } from "../../api/index.js";
 
 $Component({
   properties: {
@@ -21,9 +22,8 @@ $Component({
     copy(): void {
       const { content } = this.data.config;
 
-      wx.setClipboardData({
-        data: content,
-        success: () => console.log(`Copied '${content}'`),
+      setClipboard(content).then(() => {
+        console.log(`Copied '${content}'`);
       });
     },
 

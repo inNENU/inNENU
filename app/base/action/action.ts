@@ -2,7 +2,7 @@ import type { PropType } from "@mptool/all";
 import { $Component } from "@mptool/all";
 
 import type { ActionComponentOptions } from "../../../typings/index.js";
-import { showModal } from "../../api/index.js";
+import { setClipboard, showModal } from "../../api/index.js";
 
 $Component({
   properties: {
@@ -22,21 +22,20 @@ $Component({
     copy(): void {
       const { content } = this.data.config;
 
-      wx.setClipboardData({
-        data: content,
-        success: () => console.log(`Copied '${content}'`),
+      setClipboard(content).then(() => {
+        console.log(`Copied '${content}'`);
       });
     },
 
     link(): void {
       const { content } = this.data.config;
 
-      wx.setClipboardData({
-        data: content,
-        success: () => {
-          showModal("功能受限", "小程序无法直接打开网页，链接已复制至剪切板");
-          console.log(`Copied '${content}'`);
-        },
+      setClipboard(content).then(() => {
+        showModal(
+          "功能受限",
+          "小程序无法直接打开网页，链接已复制至剪切板，请打开浏览器粘贴查看。",
+        );
+        console.log(`Copied '${content}'`);
       });
     },
   },

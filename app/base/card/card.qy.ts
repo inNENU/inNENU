@@ -2,6 +2,7 @@ import type { PropType } from "@mptool/all";
 import { $Component, readFile } from "@mptool/all";
 
 import type { CardComponentOptions } from "../../../typings/index.js";
+import { setClipboard, showModal } from "../../api/index.js";
 
 $Component({
   properties: {
@@ -20,11 +21,13 @@ $Component({
       else if ("path" in config) this.$go(`info?path=${config.path}`);
       // 页面路径
       else if (!config.url.match(/^https?:\/\//)) this.$go(config.url);
-      // 网页
       else
-        this.$go(
-          `web?url=${encodeURIComponent(config.url)}&title=${config.title}`,
-        );
+        setClipboard(config.url).then(() => {
+          showModal(
+            "无法直接打开",
+            "小程序无法直接打开网页，链接已复制至剪切板，请打开浏览器粘贴查看。",
+          );
+        });
     },
 
     setLogo(value?: string) {

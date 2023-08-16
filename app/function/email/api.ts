@@ -13,7 +13,7 @@ import type {
   RawRecentMailResponse,
 } from "./typings.js";
 import { CommonFailedResponse } from "../../../typings/index.js";
-import { request } from "../../api/net.js";
+import { request } from "../../api/index.js";
 import type { AppOption } from "../../app.js";
 import { service } from "../../config/info.js";
 import { ACTION_MAIN_PAGE, ACTION_SERVER } from "../../login/action.js";

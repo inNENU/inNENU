@@ -15,7 +15,7 @@ import type {
   ActivateReplacePhoneResponse,
   ActivateSuccessResponse,
 } from "./typings.js";
-import { request } from "../../api/net.js";
+import { request } from "../../api/index.js";
 import { service } from "../../config/info.js";
 
 export const ACTIVATE_SERVER = "https://activate.nenu.edu.cn";

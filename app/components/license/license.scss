@@ -1,6 +1,5 @@
 .license-popup-wrapper {
   position: fixed;
-  inset: 0 0 0 0;
   z-index: 9999;
 
   display: flex;
@@ -8,6 +7,8 @@
   justify-content: center;
 
   background-color: rgb(0 0 0 / 50%);
+
+  inset: 0 0 0 0;
 }
 
 .license-popup {

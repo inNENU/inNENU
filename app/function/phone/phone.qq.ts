@@ -1,6 +1,6 @@
 import { $Page } from "@mptool/all";
 
-import { showToast } from "../../api/index.js";
+import { setClipboard, showToast } from "../../api/index.js";
 import type { AppOption } from "../../app.js";
 import { appCoverPrefix } from "../../config/index.js";
 import { ensureJSON, getJSON } from "../../utils/json.js";
@@ -99,11 +99,8 @@ $Page("phone", {
   ) {
     const item = this.getConfig(event);
 
-    wx.setClipboardData({
-      data: this.getNumber(item),
-      success: () => {
-        showToast("号码已复制");
-      },
+    setClipboard(this.getNumber(item)).then(() => {
+      showToast("号码已复制");
     });
   },
 

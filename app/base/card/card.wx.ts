@@ -2,7 +2,7 @@ import type { PropType } from "@mptool/all";
 import { $Component, readFile } from "@mptool/all";
 
 import type { CardComponentOptions } from "../../../typings/index.js";
-import { showModal } from "../../api/index.js";
+import { setClipboard, showModal } from "../../api/index.js";
 
 $Component({
   properties: {
@@ -28,14 +28,11 @@ $Component({
         );
       // 无法跳转，复制链接到剪切板
       else
-        wx.setClipboardData({
-          data: config.url,
-          success: () => {
-            showModal(
-              "无法直接打开",
-              "小程序无法直接打开网页，链接地址已复制至剪切板。请打开浏览器粘贴查看",
-            );
-          },
+        setClipboard(config.url).then(() => {
+          showModal(
+            "无法直接打开",
+            "小程序无法直接打开网页，链接已复制至剪切板，请打开浏览器粘贴查看。",
+          );
         });
     },
 

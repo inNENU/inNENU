@@ -5,7 +5,12 @@ import type {
   WechatArticleItem,
   WechatConfig,
 } from "../../../typings/index.js";
-import { request, showModal, showToast } from "../../api/index.js";
+import {
+  request,
+  setClipboard,
+  showModal,
+  showToast,
+} from "../../api/index.js";
 import type { AppOption } from "../../app.js";
 import { appCoverPrefix, server } from "../../config/index.js";
 import { ensureJSON } from "../../utils/json.js";
@@ -182,14 +187,11 @@ $Page(PAGE_ID, {
       this.$go(`web?url=${encodeURIComponent(url)}&title=${title}`);
     // 无法跳转，复制链接到剪切板
     else
-      wx.setClipboardData({
-        data: url,
-        success: () => {
-          showModal(
-            "尚未授权",
-            "目前暂不支持跳转到该微信公众号图文，链接地址已复制至剪切板。请打开浏览器粘贴查看",
-          );
-        },
+      setClipboard(url).then(() => {
+        showModal(
+          "尚未授权",
+          "目前暂不支持跳转到该微信公众号图文，链接地址已复制至剪切板。请打开浏览器粘贴查看",
+        );
       });
   },
 

@@ -5,7 +5,13 @@ import type {
   WechatArticleItem,
   WechatConfig,
 } from "../../../typings/index.js";
-import { request, savePhoto, showModal, showToast } from "../../api/index.js";
+import {
+  request,
+  savePhoto,
+  setClipboard,
+  showModal,
+  showToast,
+} from "../../api/index.js";
 import type { AppOption } from "../../app.js";
 import { appCoverPrefix, server } from "../../config/index.js";
 import { ensureJSON } from "../../utils/json.js";
@@ -178,14 +184,11 @@ $Page(PAGE_ID, {
   >) {
     const { url } = currentTarget.dataset;
 
-    wx.setClipboardData({
-      data: url,
-      success: () => {
-        showModal(
-          "无法跳转",
-          "QQ小程序并不支持跳转微信图文，链接地址已复制至剪切板。请打开浏览器粘贴查看",
-        );
-      },
+    setClipboard(url).then(() => {
+      showModal(
+        "无法跳转",
+        "小程序不支持跳转微信图文，链接地址已复制至剪切板。请打开浏览器粘贴查看",
+      );
     });
   },
 
