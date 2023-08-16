@@ -103,6 +103,10 @@ $Page(PAGE_ID, {
     popNotice(PAGE_ID);
   },
 
+  onShow() {
+    wx.requirePrivacyAuthorize?.({});
+  },
+
   onReady() {
     this.setMarker().then(() => {
       // 将地图缩放到对应的校区
