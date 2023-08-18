@@ -61,11 +61,11 @@
           <view class="input-list-item">
             <view class="text">证件类型</view>
             <picker
-              id="idType"
+              id="idTypeIndex"
               class="picker"
               range="{{idTypes}}"
               value="{{idTypeIndex}}"
-              bindinput="input"
+              bindchange="input"
             >
               {{idTypes[idTypeIndex]}}
             </picker>
