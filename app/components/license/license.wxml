@@ -15,11 +15,19 @@
       >。如果你完全同意我们的<text>《隐私政策》</text>，请点击“同意”开始使用。
     </view>
     <view class="license-footer">
-      <button class="license-button cancel" catch:tap="refuse">拒绝</button>
+      <button
+        class="license-button refuse"
+        type="warn"
+        size="mini"
+        catch:tap="refuse"
+      >
+        拒绝
+      </button>
       <button
         class="license-button primary"
         id="agree-privacy"
         type="primary"
+        size="mini"
         open-type="agreePrivacyAuthorization"
         bindagreeprivacyauthorization="accept"
         catch:tap="accept"
@@ -44,8 +52,20 @@
       >。如果你完全同意我们的《用户协议》，请点击“同意”开始使用当前服务。
     </view>
     <view class="license-footer">
-      <button class="license-button cancel" catch:tap="refuse">拒绝</button>
-      <button type="primary" class="license-button primary" catch:tap="accept">
+      <button
+        class="license-button refuse"
+        type="warn"
+        size="mini"
+        catch:tap="refuse"
+      >
+        拒绝
+      </button>
+      <button
+        class="license-button primary"
+        type="primary"
+        size="mini"
+        catch:tap="accept"
+      >
         同意
       </button>
     </view>

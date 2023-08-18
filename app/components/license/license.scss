@@ -25,9 +25,9 @@
   font-size: 18px;
 
   .license-logo {
-    width: 28px;
-    height: 28px;
-    margin-right: 4px;
+    width: 30px;
+    height: 30px;
+    margin-right: 8px;
   }
 }
 
@@ -44,9 +44,13 @@
   display: flex;
   justify-content: flex-end;
   margin-top: 16px;
+}
 
-  .license-button {
-    width: unset !important;
-    margin: 8px;
+.license-button {
+  width: unset !important;
+  margin: 0 8px;
+
+  &.refuse {
+    color: red;
   }
 }
