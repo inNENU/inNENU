@@ -37,10 +37,6 @@ $Page(PAGE_ID, {
       from: "返回",
     },
 
-    footer: {
-      desc: "『隐私说明』\n使用过程中的所有数据均会直接(或经小程序)接收自/发送到官方服务器，在这一过程中，Mr.Hope 不会收集并存储您的任何信息。",
-    },
-
     isCustom: false,
 
     accounts: <string[]>[],
