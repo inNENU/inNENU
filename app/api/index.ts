@@ -1,4 +1,4 @@
-export * from "./clipBoard.js";
+export * from "./clipboard.js";
 export * from "./font.js";
 export * from "./framework.js";
 export * from "./media.js";
