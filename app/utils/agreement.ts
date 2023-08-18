@@ -73,3 +73,13 @@ export const getPrivacyStatus = (): Promise<PrivacyStatus> => {
     };
   });
 };
+
+export const agreeLicense = (): void => {
+  needLicense = false;
+  wx.setStorageSync(LICENSE_KEY, onlineLicenseVersion!);
+};
+
+export const agreePrivacy = (): void => {
+  needPrivacy = false;
+  wx.setStorageSync(PRIVACY_KEY, onlinePrivacyVersion!);
+};

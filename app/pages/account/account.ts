@@ -13,6 +13,7 @@ import {
   CARD_BALANCE_KEY,
   COURSE_DATA_KEY,
   GRADE_DATA_KEY,
+  LICENSE_KEY,
   USER_INFO_KEY,
   appCoverPrefix,
   assets,
@@ -276,6 +277,7 @@ $Page(PAGE_ID, {
         remove(CARD_BALANCE_KEY);
         remove(COURSE_DATA_KEY);
         remove(GRADE_DATA_KEY);
+        remove(LICENSE_KEY);
 
         showModal("删除成功", "已删除本地账号信息");
       },

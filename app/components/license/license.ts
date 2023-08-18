@@ -1,10 +1,11 @@
 import { $Component, PropType } from "@mptool/all";
 
 import { appCoverPrefix, appName } from "../../config/info.js";
-import { LICENSE_KEY, PRIVACY_KEY } from "../../config/keys.js";
 import {
   LicenseStatus,
   PrivacyStatus,
+  agreeLicense,
+  agreePrivacy,
   getLicenseStatus,
   getPrivacyStatus,
 } from "../../utils/agreement.js";
@@ -66,11 +67,11 @@ $Component({
           resolvePrivacy({ buttonId: "", event: "agree" });
           this.setData({ show: false });
         } else {
-          wx.setStorageSync(PRIVACY_KEY, privacyStatus!.version);
+          agreePrivacy();
           this.setData({ show: false });
         }
       } else {
-        wx.setStorageSync(LICENSE_KEY, licenseStatus!.version);
+        agreeLicense();
         this.setData({ show: false });
       }
     },
