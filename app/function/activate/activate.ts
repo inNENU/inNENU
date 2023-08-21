@@ -13,7 +13,6 @@ import {
 import type {
   ActivateBindPhoneOptions,
   ActivateBindPhoneResponse,
-  ActivateImageResponse,
   ActivateInfoResponse,
   ActivatePasswordOptions,
   ActivatePasswordResponse,
@@ -25,7 +24,7 @@ import type {
 import { showModal, showToast } from "../../api/index.js";
 import type { AppOption } from "../../app.js";
 import { appCoverPrefix, assets } from "../../config/info.js";
-import { popNotice } from "../../utils/page.js";
+import { getColor, popNotice } from "../../utils/page.js";
 
 const { globalData, useOnlineService } = getApp<AppOption>();
 
@@ -86,6 +85,10 @@ $Page(PAGE_ID, {
         this.$back();
       });
     else this.getCaptcha();
+
+    this.setData({
+      color: getColor(),
+    });
   },
 
   onShow() {
@@ -97,7 +100,7 @@ $Page(PAGE_ID, {
 
   onShareAppMessage: () => ({
     title: PAGE_TITLE,
-    path: "/pages/account/account",
+    path: "/function/activate/activate",
     imageUrl: `${appCoverPrefix}Share.png`,
   }),
 
@@ -117,9 +120,7 @@ $Page(PAGE_ID, {
 
   getCaptcha() {
     return (
-      useOnlineService(PAGE_ID)
-        ? <Promise<ActivateImageResponse>>activateAccountOnline("GET")
-        : getImage()
+      useOnlineService(PAGE_ID) ? activateAccountOnline("GET") : getImage()
     ).then(({ license, image }) => {
       this.setData({ license, image });
     });

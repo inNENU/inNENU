@@ -247,15 +247,17 @@ export const setPassword = async ({
   };
 };
 
-export const activateAccountOnline = async (
-  options: ActivateOptions | "GET",
+export const activateAccountOnline = async <T extends ActivateOptions | "GET">(
+  options: T,
 ): Promise<
-  | ActivateImageResponse
-  | ActivateInfoResponse
-  | ActivatePhoneSmsResponse
-  | ActivateBindPhoneOptions
-  | ActivateReplacePhoneResponse
-  | ActivatePasswordResponse
+  T extends "GET"
+    ? ActivateImageResponse
+    :
+        | ActivateInfoResponse
+        | ActivatePhoneSmsResponse
+        | ActivateBindPhoneOptions
+        | ActivateReplacePhoneResponse
+        | ActivatePasswordResponse
 > =>
   request(`${service}/auth/activate`, {
     method: options === "GET" ? "GET" : "POST",
