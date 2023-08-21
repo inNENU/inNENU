@@ -1,9 +1,9 @@
 {
   "miniVersion": "v2",
   "name": "in东师",
-  "version": "6.1.0",
+  "version": "6.1.1",
   "mini-android": {
-    "sdkVersion": "1.0.13",
+    "sdkVersion": "1.0.14",
     "toolkitVersion": "0.7.3",
     "useExtendedSdk": {
       "media": true,
@@ -46,7 +46,7 @@
     }
   },
   "mini-ios": {
-    "sdkVersion": "1.0.21",
+    "sdkVersion": "1.0.22",
     "toolkitVersion": "0.0.9",
     "useExtendedSdk": {
       "WeAppOpenFuns": false,
@@ -84,5 +84,5 @@
       "AudioInBackgroundMode": true
     }
   },
-  "versionCode": 9
+  "versionCode": 10
 }
