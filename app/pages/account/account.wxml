@@ -93,10 +93,25 @@
       <button type="primary" class="save-button primary" catch:tap="save">
         保存在本地
       </button>
+      <view class="actions">
+        <view
+          class="activate-button"
+          hover-class="button-hover"
+          data-url="activate"
+          catch:tap="$bindGo"
+        >
+          账号激活
+        </view>
 
-      <button class="activate-button" data-url="activate" catch:tap="$bindGo">
-        账号激活
-      </button>
+        <view
+          class="reset-button"
+          hover-class="button-hover"
+          data-url="reset"
+          catch:tap="$bindGo"
+        >
+          忘记密码?
+        </view>
+      </view>
     </block>
   </view>
   <footer config="{{footer}}" />

@@ -30,6 +30,7 @@ $Config({
         "music",
         "pe-calculator",
         "phone",
+        "reset",
         "school-media",
         "select",
         "video",

@@ -318,6 +318,13 @@
           "scene": null
         },
         {
+          "id": 127,
+          "name": "重置密码",
+          "pathName": "function/reset/reset",
+          "query": "",
+          "scene": null
+        },
+        {
           "id": 35,
           "name": "选课",
           "pathName": "function/select/select",

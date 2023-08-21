@@ -105,10 +105,19 @@
   margin: 16px auto 8px;
 }
 
-.activate-button {
-  min-width: 240px;
-  margin: 8px auto 16px;
+.actions {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 8px 20px;
+}
+
+.activate-button,
+.reset-button {
+  font-size: 14px;
   color: var(--grey3);
+  padding: 4px 8px;
+  border-radius: 4px;
 }
 
 .list-component-content .desc {

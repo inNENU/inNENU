@@ -1,0 +1,113 @@
+.reset {
+  display: flex;
+  flex-direction: column;
+}
+
+.content {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  align-items: stretch;
+  justify-content: center;
+  padding-bottom: 64px;
+}
+
+.confirm-button,
+.verify-button {
+  min-width: 240px;
+  margin: 8px auto;
+}
+
+.logo {
+  width: 72px;
+  height: 72px;
+  margin: 8px auto;
+}
+
+.reset-title {
+  margin: 8px 15px 12px;
+  font-size: 18px;
+}
+
+.reset-description {
+  margin: 8px 15px;
+  font-size: 14px;
+}
+
+.input-list-wrapper {
+  max-width: var(--max-width);
+  margin: 0 var(--horizontal-margin);
+}
+
+.input-list-item {
+  position: relative;
+  display: flex;
+  align-items: center;
+  padding: 12px 24px;
+
+  &::after {
+    content: " ";
+
+    position: absolute;
+    right: 24px;
+    bottom: 0;
+    left: 24px;
+
+    height: 1px;
+    border-bottom: 1px solid var(--border-color);
+
+    transform: scaleY(0.4);
+    transform-origin: 0 100%;
+  }
+
+  &:last-child::after {
+    display: none;
+  }
+
+  .text {
+    flex: none;
+    padding-right: 16px;
+    text-align: left;
+  }
+
+  .input {
+    flex: 1;
+    text-align: left;
+  }
+
+  .picker {
+    text-align: left;
+  }
+
+  .captcha-image {
+    flex-shrink: 0;
+    width: 80px;
+    height: 32px;
+  }
+
+  .sms-button {
+    flex-shrink: 0;
+
+    width: 80px;
+    padding: 4px 8px;
+
+    color: var(--text-color);
+
+    font-weight: normal;
+    font-size: 12px;
+    line-height: 1.5;
+  }
+
+  .password-button {
+    flex-shrink: 0;
+
+    width: 40px;
+    padding: 4px 8px;
+
+    color: var(--text-color);
+
+    font-weight: normal;
+    font-size: 12px;
+    line-height: 1.5;
+  }
+}

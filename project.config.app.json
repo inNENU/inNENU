@@ -337,6 +337,13 @@
           "scene": null
         },
         {
+          "name": "重置密码",
+          "pathName": "function/reset/reset",
+          "query": "",
+          "launchMode": "default",
+          "scene": null
+        },
+        {
           "name": "选课",
           "pathName": "function/select/select",
           "query": "",

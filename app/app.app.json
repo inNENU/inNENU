@@ -32,6 +32,7 @@
     "function/notice/list",
     "function/pe-calculator/pe-calculator",
     "function/phone/phone",
+    "function/reset/reset",
     "function/school-media/school-media",
     "function/school-media/wechat",
     "function/select/select",
