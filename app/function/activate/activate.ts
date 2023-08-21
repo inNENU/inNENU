@@ -1,4 +1,4 @@
-import { $Page } from "@mptool/all";
+import { $Page, get, set } from "@mptool/all";
 
 import {
   activateAccountOnline,
@@ -24,10 +24,12 @@ import type {
 import { showModal, showToast } from "../../api/index.js";
 import type { AppOption } from "../../app.js";
 import { appCoverPrefix, assets } from "../../config/info.js";
+import { MINUTE } from "../../utils/constant.js";
 import { getColor, popNotice } from "../../utils/page.js";
 
 const { globalData, useOnlineService } = getApp<AppOption>();
 
+const ACTIVATE_SMS_KEY = "activate-sms-code";
 const PAGE_ID = "activate";
 const PAGE_TITLE = "账号激活";
 
@@ -174,6 +176,8 @@ $Page(PAGE_ID, {
   },
 
   async sendSMS() {
+    if (get(ACTIVATE_SMS_KEY)) return showModal("验证码已发送", "请勿重复发送");
+
     const { mobile } = this.data;
 
     if (!/1\d{10}/.test(mobile)) {
@@ -196,8 +200,10 @@ $Page(PAGE_ID, {
 
     wx.hideLoading();
 
-    if (data.success) showToast("发送成功", 1000, "success");
-    else showModal("验证码发送失败", data.msg);
+    if (data.success) {
+      showToast("发送成功", 1000, "success");
+      set(ACTIVATE_SMS_KEY, true, 10 * MINUTE);
+    } else showModal("验证码发送失败", data.msg);
   },
 
   async bindPhone() {
@@ -266,6 +272,7 @@ $Page(PAGE_ID, {
 
     if (password.length < 8)
       return showModal("密码格式不合法", "密码至少为 8 位");
+
     if (
       [
         /[A-Z]/.test(password),

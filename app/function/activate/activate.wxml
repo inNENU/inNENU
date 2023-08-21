@@ -30,7 +30,7 @@
       <icon type="success" size="120" />
       <view class="activate-title">激活成功</view>
       <view class="activate-description"
-        >您的统一身份认证账号已完成激活，请牢记密码。</view
+        >您的统一身份认证账号已完成激活，请牢记密码 {{password}}。</view
       >
       <view class="activate-description"
         >如忘记密码，可通过绑定手机号找回。</view
