@@ -36,7 +36,6 @@ export type GetEmailResponse =
 export interface ActivateEmailOptions {
   type: "set";
   name: string;
-  emailPassword?: string;
   phone: number | string;
   suffix?: number | string;
   taskId: string;

@@ -45,10 +45,6 @@ $Page(PAGE_ID, {
     name: "",
     /** 邮箱数字后缀 */
     suffix: "",
-    /** 邮箱初始密码 */
-    password: "",
-    /** 确认密码 */
-    confirmPassword: "",
     /** 密保电话 */
     phone: "",
 
@@ -156,16 +152,7 @@ $Page(PAGE_ID, {
   },
 
   apply() {
-    const {
-      accounts,
-      accountIndex,
-      isCustom,
-      name,
-      password,
-      suffix,
-      confirmPassword,
-      phone,
-    } = this.data;
+    const { accounts, accountIndex, isCustom, name, suffix, phone } = this.data;
 
     if (isCustom) {
       if (!name) return showModal("无法申请", "请输入自定义邮箱名称");
@@ -200,29 +187,6 @@ $Page(PAGE_ID, {
       }
     }
 
-    if (password) {
-      if (confirmPassword !== password)
-        return showModal(
-          "密码设置有误",
-          "两次输入的密码不一致，请留空或输入一致的密码",
-        );
-
-      if (!/^[A-z0-9]{10,16}$/.test(password))
-        return showModal(
-          "密码不符合规则",
-          "密码长度应在 10 至 16 位之间，且不能包含符号。您可以留空来使用默认密码。",
-        );
-
-      if (!/[A-Z]/.test(password))
-        return showModal("密码不符合规则", "密码需包含大写字母。");
-
-      if (!/[a-z]/.test(password))
-        return showModal("密码不符合规则", "密码需包含小写字母。");
-
-      if (!/[0-9]/.test(password))
-        return showModal("密码不符合规则", "密码需包含数字。");
-    }
-
     if (!/^1\d{10}$/.test(phone))
       return showModal("手机号码有误", "请输入正确的 11 位手机号码。");
 
@@ -233,7 +197,6 @@ $Page(PAGE_ID, {
       ...(isCustom
         ? { name }
         : { name: accounts[accountIndex], suffix: suffix ?? "" }),
-      ...(password ? { emailPassword: password } : {}),
       phone,
       taskId,
       instanceId,
@@ -244,13 +207,6 @@ $Page(PAGE_ID, {
       `\
 您正在申请我校邮箱。
 账号: ${options.name}${options.suffix || ""}@nenu.edu.cn
-${
-  options.emailPassword
-    ? `\
-密码: ${options.emailPassword}
-`
-    : ""
-}\
 密保手机: ${phone}
 `,
       () => {
@@ -266,7 +222,7 @@ ${
               showModal(
                 "已申请邮箱",
                 `\
-您已成功申请邮箱 ${res.email}，密码为 ${password}。
+您已成功申请邮箱 ${res.email}，密码为 ${res.password}。
 请立即登录并初始化邮箱。
                   `,
                 () => {
@@ -278,7 +234,7 @@ ${
                 showModal(
                   "已申请邮箱",
                   `\
-您已成功申请邮箱 ${res.email}，密码为 ${password}。
+您已成功申请邮箱 ${res.email}，密码为 ${res.password}。
 请立即前往 https://mail.nenu.edu.cn 手动登录初始化邮箱。(网址已复制到剪切板)
                   `,
                   () => {

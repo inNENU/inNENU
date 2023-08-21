@@ -44,27 +44,6 @@
           </view>
         </block>
         <view class="input-list-item">
-          <view class="text">邮箱初始密码</view>
-          <input
-            id="password"
-            class="input"
-            type="password"
-            placeholder="不填生成固定初始密码"
-            value="{{password}}"
-            bindinput="input"
-          />
-        </view>
-        <view wx:if="{{password}}" class="input-list-item">
-          <view class="text">确认初始密码</view>
-          <input
-            id="confirmPassword"
-            class="input"
-            type="password"
-            value="{{confirmPassword}}"
-            bindinput="input"
-          />
-        </view>
-        <view class="input-list-item">
           <view class="text">密保手机</view>
           <input
             id="phone"

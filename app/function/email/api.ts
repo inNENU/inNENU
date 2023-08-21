@@ -23,6 +23,7 @@ const { globalData } = getApp<AppOption>();
 
 // Note: This can be inferred from app list
 const APPLY_MAIL_APP_ID = "GRYXSQ";
+const DEFAULT_PASSWORD = "inNENU4ever";
 
 export const getEmail = async (): Promise<GetEmailResponse> => {
   const info = globalData.userInfo!;
@@ -91,14 +92,12 @@ export const getEmail = async (): Promise<GetEmailResponse> => {
 
 export const activateEmail = async ({
   name,
-  emailPassword,
   phone,
   suffix,
   taskId,
   instanceId,
 }: ActivateEmailOptions): Promise<ActivateEmailResponse> => {
   const info = globalData.userInfo!;
-  const password = emailPassword || "inNENU4ever";
   const checkResult = await request<{ suc: boolean }>(
     "https://my.webvpn.nenu.edu.cn/Gryxsq/checkMailBoxAccount",
     {
@@ -155,7 +154,7 @@ export const activateEmail = async ({
         YXMC: name ?? "",
         SFSYSZ: suffix ? "2" : "1",
         YXHZ: suffix?.toString() ?? "",
-        MM: password,
+        MM: DEFAULT_PASSWORD,
       }),
     },
   );
@@ -164,7 +163,7 @@ export const activateEmail = async ({
     return {
       success: true,
       email: `${name}${suffix ?? ""}@nenu.edu.cn`,
-      password,
+      password: DEFAULT_PASSWORD,
     };
 
   return {

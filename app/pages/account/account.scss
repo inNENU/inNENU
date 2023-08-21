@@ -107,17 +107,17 @@
 
 .actions {
   display: flex;
-  justify-content: space-between;
   align-items: center;
+  justify-content: space-between;
   padding: 8px 20px;
 }
 
 .activate-button,
 .reset-button {
-  font-size: 14px;
-  color: var(--grey3);
   padding: 4px 8px;
   border-radius: 4px;
+  color: var(--grey3);
+  font-size: 14px;
 }
 
 .list-component-content .desc {
