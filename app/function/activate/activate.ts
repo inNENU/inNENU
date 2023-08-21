@@ -48,7 +48,10 @@ $Page(PAGE_ID, {
     },
 
     footer: {
-      desc: "『激活说明』\n小程序提供和官方相同的激活流程，您所填写的信息会直接发送(或经小程序转发)给官方服务器，在这一过程中，Mr.Hope 不会收集并存储您的任何信息。",
+      desc: `\
+『激活说明』
+小程序提供和官方相同的激活流程，您所填写的信息会直接发送(或经小程序转发)给官方服务器，在这一过程中，Mr.Hope 不会收集并存储您的任何信息。\
+`,
     },
 
     stage: <"license" | "info" | "phone" | "password" | "success">"license",
@@ -134,6 +137,13 @@ $Page(PAGE_ID, {
   async verify() {
     const { name, id, idTypeIndex, idTypes, schoolID, captcha } = this.data;
 
+    if (!name) return showModal("信息缺失", "请输入姓名");
+    if (!id) return showModal("信息缺失", "请输入证件号");
+    if (!schoolID) return showModal("信息缺失", "请输入学号");
+    if (!/\d{10}/.test(schoolID))
+      return showModal("信息有误", "学号应为10位数字");
+    if (!captcha) return showModal("信息缺失", "请输入验证码");
+
     const options = {
       type: "info",
       name,
@@ -165,7 +175,7 @@ $Page(PAGE_ID, {
   async sendSMS() {
     const { mobile } = this.data;
 
-    if (mobile.length !== 11) {
+    if (!/1\d{10}/.test(mobile)) {
       showModal("手机号码有误", "请输入正确的手机号");
 
       return;
@@ -248,11 +258,25 @@ $Page(PAGE_ID, {
   async setPassword() {
     const { password, confirmPassword } = this.data;
 
-    if (password !== confirmPassword) {
-      showModal("密码不一致", "请确认两次输入的密码一致");
+    if (!password) return showModal("密码缺失", "请输入拟设定的密码");
 
-      return;
-    }
+    if (password !== confirmPassword)
+      return showModal("密码不一致", "请确认两次输入的密码一致");
+
+    if (password.length < 8)
+      return showModal("密码格式不合法", "密码至少为 8 位");
+    if (
+      [
+        /[A-Z]/.test(password),
+        /[a-z]/.test(password),
+        /[0-9]/.test(password),
+        /[!~`@#$%^&*()_+-=[\]{}\\|;':",./?<>]/.test(password),
+      ].filter(Boolean).length < 3
+    )
+      return showModal(
+        "密码格式不合法",
+        "密码至少包含大写字母、小写字母、数字和特殊字符中的三种",
+      );
 
     wx.showLoading({ title: "设置密码" });
 
