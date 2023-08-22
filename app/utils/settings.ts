@@ -58,7 +58,7 @@ export interface Data {
 }
 
 export const getIdentity = (userInfo: UserInfo | null): string =>
-  userInfo ? userInfo.grade.toString() : "unlogin";
+  userInfo?.grade.toString() ?? "unlogin";
 
 export const fetchData = async (globalData: GlobalData): Promise<void> => {
   try {
