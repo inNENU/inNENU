@@ -42,7 +42,7 @@ $Component({
 
   lifetimes: {
     attached() {
-      this.setPassiveEvent({
+      this.setPassiveEvent?.({
         touchstart: false,
         touchmove: false,
         wheel: false,
