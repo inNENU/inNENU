@@ -70,7 +70,7 @@
       </view>
     </view>
   </block>
-  <view wx:elif="{{searchWord}}" class="info">Oops... 没有找到任何结果</view>
+  <view wx:elif="{{searchWord}}" class="info">没有找到任何结果</view>
 
   <footer />
 
