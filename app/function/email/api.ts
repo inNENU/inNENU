@@ -211,7 +211,8 @@ export const recentEmails = async (): Promise<
   if (
     typeof checkResult === "object" &&
     "success" in checkResult &&
-    checkResult.success
+    checkResult.success &&
+    checkResult.emailList.con
   )
     return {
       success: true,
