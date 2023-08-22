@@ -19,7 +19,7 @@ export const updateApp = async (globalData: GlobalData): Promise<void> => {
   if (compareVersion(onlineVersion, globalData.version) > 0)
     showModal(
       "App有新版本",
-      `App 的最新版本是 ${onlineVersion}，点击确定复制下载链接到剪切板。请手动粘贴到浏览器开启下载。`,
+      `App 的最新版本是 ${onlineVersion}，点击确定以更新至最新版本。`,
       () => {
         downLoad(`${assets}innenu-v${onlineVersion}.apk`).then((filePath) => {
           if (globalData.info.platform === "android")
