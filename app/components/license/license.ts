@@ -2,8 +2,6 @@ import { $Component, PropType } from "@mptool/all";
 
 import { appCoverPrefix, appName } from "../../config/info.js";
 import {
-  LicenseStatus,
-  PrivacyStatus,
   agreeLicense,
   agreePrivacy,
   getLicenseStatus,
@@ -13,9 +11,6 @@ import {
 type ResolvePrivacy = (
   options: { buttonId: string; event: "agree" } | { event: "disagree" },
 ) => void;
-
-let licenseStatus: LicenseStatus | null = null;
-let privacyStatus: PrivacyStatus | null = null;
 
 let resolvePrivacy: ResolvePrivacy | null = null;
 
@@ -44,16 +39,12 @@ $Component({
             this.setData({ show: true });
           });
         } else {
-          if (privacyStatus === null) privacyStatus = await getPrivacyStatus();
-
           this.setData({
-            show: privacyStatus.needAuthorize,
+            show: (await getPrivacyStatus()).needAuthorize,
           });
         }
       } else {
-        if (licenseStatus === null) licenseStatus = await getLicenseStatus();
-
-        this.setData({ show: licenseStatus.needAuthorize });
+        this.setData({ show: (await getLicenseStatus()).needAuthorize });
       }
     },
   },
