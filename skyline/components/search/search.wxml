@@ -1,0 +1,45 @@
+<view class="search-bar custom-class">
+  <view
+    class="search-wrapper-{{showInput ? 'input' : 'placeholder'}} {{(words.length > 0 && focus) ? 'has-words' : ''}}"
+    catch:tap="showInput"
+  >
+    <icon class="search-icon" type="search" size="22" />
+
+    <block wx:if="{{showInput}}">
+      <input
+        class="input"
+        type="text"
+        placeholder="{{placeholder}}"
+        value="{{value}}"
+        focus="{{showInput && focus}}"
+        confirm-type="search"
+        bind:blur="blur"
+        catch:tap="focus"
+        catch:input="onInputChange"
+        catch:confirm="confirm"
+      />
+
+      <icon
+        wx:if="{{value.length > 0}}"
+        catch:tap="clearInput"
+        class="clear"
+        type="clear"
+        size="18"
+      />
+    </block>
+    <text wx:else class="text">{{placeholder}}</text>
+  </view>
+  <view hidden="{{!showInput}}" class="cancel" catch:tap="hideInput">取消</view>
+  <view class="word-wrapper" wx:if="{{words.length > 0 && showInput && focus}}">
+    <view
+      wx:for="{{words}}"
+      wx:key="*this"
+      class="word"
+      hover-class="button-hover"
+      data-index="{{index}}"
+      catch:tap="select"
+    >
+      {{item}}
+    </view>
+  </view>
+</view>

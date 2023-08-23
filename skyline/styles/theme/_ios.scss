@@ -1,0 +1,19 @@
+/*
+
+ * @Description: ios主题
+ * @Version: 2.0
+ */
+
+.ios {
+  width: 100%;
+  min-height: 100%;
+
+  background-color: var(--bg-color);
+  color: var(--text-color);
+
+  text-align: center;
+}
+
+.ios.grey {
+  background-color: var(--bg-color-grey);
+}

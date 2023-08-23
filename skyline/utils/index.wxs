@@ -1,0 +1,24 @@
+var REGEXP = getRegExp('{|}|"', "g");
+
+function isArray(array) {
+  return array && array.constructor === "Array";
+}
+
+function keys(obj) {
+  return JSON.stringify(obj)
+    .replace(REGEXP, "")
+    .split(",")
+    .map(function (item) {
+      return item.split(":")[0];
+    });
+}
+
+function displayDate(date) {
+  return getDate(date).toLocaleDateString();
+}
+
+module.exports = {
+  displayDate: displayDate,
+  isArray: isArray,
+  keys: keys,
+};

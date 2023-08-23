@@ -1,0 +1,15 @@
+page {
+  --max-width: 517px;
+  --horizontal-margin: 15px;
+  --paragraph-horizontal-margin: auto;
+
+  @media (min-width: 547px) {
+    --horizontal-margin: auto;
+  }
+
+  .grey {
+    --max-width: initial;
+    --horizontal-margin: 15px;
+    --paragraph-horizontal-margin: 15px;
+  }
+}

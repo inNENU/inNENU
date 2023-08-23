@@ -1,0 +1,79 @@
+.text-component-header {
+  display: block;
+
+  max-width: var(--max-width);
+  min-height: 13px;
+  margin: 0 var(--paragraph-horizontal-margin);
+  padding: 12px 15px 4px;
+
+  color: var(--text-color);
+
+  font-weight: 500;
+  font-size: 19px;
+  text-align: left;
+
+  .grey & {
+    min-height: unset;
+    padding: 21px 15px 5px;
+
+    color: var(--dark-grey);
+
+    font-weight: 400;
+    font-size: 13px;
+  }
+}
+
+.text-component {
+  max-width: var(--max-width);
+  margin: 0 var(--paragraph-horizontal-margin);
+  padding: 0 15px;
+
+  font-size: 16px;
+  line-height: 1.6;
+  text-align: justify;
+  word-wrap: break-word;
+  word-break: break-all;
+
+  @media (min-width: 768px) {
+    font-size: 17px;
+  }
+
+  .grey & {
+    position: relative;
+
+    overflow: hidden;
+
+    padding: 10px 15px;
+    border-radius: 8px;
+
+    background-color: var(--bg-color-block);
+    color: var(--text-color);
+
+    font-size: 17px;
+    line-height: 1.6;
+    text-align: left;
+  }
+}
+
+.hintbox-component,
+.text-component {
+  .text {
+    word-wrap: break-word;
+  }
+
+  .list {
+    display: flex;
+  }
+
+  .head {
+    flex-shrink: 0;
+    padding: 0 0.5em;
+    font-weight: 700;
+  }
+
+  .grey & {
+    .head {
+      padding: 0 0.5em 0 0;
+    }
+  }
+}

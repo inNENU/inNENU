@@ -1,0 +1,14 @@
+@use "../../../styles/lib/svg";
+@use "icons";
+
+.hintbox-component.note {
+  --hint-box-border-color: #d4d5d8;
+  --hint-box-bg-color: #fdfdfe;
+  --hint-box-title-color: #474748;
+
+  .hint-title {
+    &::before {
+      @include svg.background-svg(icons.$note-icon);
+    }
+  }
+}

@@ -1,0 +1,18 @@
+<view class="login-hint {{size === 'mini'? 'mini' : ''}} custom-class">
+  <view class="tip">
+    <icon
+      class="warning-icon"
+      type="warn"
+      color="#ffc83d"
+      size="{{size =='mini' ? 24 : 80}}"
+    />
+    <view class="text">尚未设置统一身份认证信息</view>
+  </view>
+  <button
+    class="login-button"
+    size="{{size === 'mini'? 'mini': 'default'}}"
+    catch:tap="login"
+  >
+    登录账号👉
+  </button>
+</view>

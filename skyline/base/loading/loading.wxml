@@ -1,0 +1,4 @@
+<view class="loading">
+  <image class="icon" src="/icon/loading.svg" lazy-load />
+  <text>加载中...</text>
+</view>

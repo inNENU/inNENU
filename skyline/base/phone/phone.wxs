@@ -1,0 +1,17 @@
+function getAddress(config) {
+  return (config.province || "") + (config.city || "") + (config.street || "");
+}
+
+module.exports = {
+  getName: function (config) {
+    return config
+      ? config.header || (config.lName || "") + (config.fName || "")
+      : "";
+  },
+
+  hasAddress: function (config) {
+    return getAddress(config || {}) !== "";
+  },
+
+  getAddress: getAddress,
+};

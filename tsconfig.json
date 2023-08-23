@@ -35,5 +35,5 @@
     "outDir": "dist",
     "types": ["miniprogram-api-typings"]
   },
-  "include": ["app/**/*.ts", "typings/**/*.ts"]
+  "include": ["app/**/*.ts", "skyline/**/*.ts", "typings/**/*.ts"]
 }

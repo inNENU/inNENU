@@ -1,0 +1,39 @@
+/* 上下边框 */
+.bt,
+.bb,
+.btb {
+  position: relative;
+}
+
+.bt,
+.btb {
+  &::before {
+    top: 0;
+    border-top: 1px solid var(--border-color);
+    transform-origin: 0 0;
+  }
+}
+
+.bb,
+.btb {
+  &::after {
+    bottom: 0;
+    border-bottom: 1px solid var(--border-color);
+    transform-origin: 0 100%;
+  }
+}
+
+.bt::before,
+.bb::after,
+.btb::before,
+.btb::after {
+  content: " ";
+
+  position: absolute;
+  right: 0;
+  left: 0;
+
+  height: 1px;
+
+  transform: scaleY(0.4);
+}

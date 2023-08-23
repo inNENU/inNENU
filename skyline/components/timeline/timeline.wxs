@@ -1,0 +1,22 @@
+module.exports = {
+  getWrapperClass: function (alternate) {
+    return "timeline timeline-" + (alternate ? "alternate" : "left");
+  },
+
+  getItemClass: function (index, length, alternate) {
+    return (
+      "timeline-item " +
+      (alternate
+        ? "timeline-item-" + (index % 2 === 0 ? "right" : "left")
+        : "") +
+      (index === length - 1 ? " timeline-item-last" : "")
+    );
+  },
+
+  getHeadClass: function (item) {
+    return (
+      "timeline-item-head timeline-item-head-" +
+      (item.icon ? "custom" : item.color || "blue")
+    );
+  },
+};

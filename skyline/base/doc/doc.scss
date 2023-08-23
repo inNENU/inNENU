@@ -1,0 +1,49 @@
+.doc {
+  position: relative;
+
+  display: flex;
+  align-items: center;
+
+  overflow: hidden;
+  box-sizing: border-box;
+
+  max-width: var(--max-width);
+  margin: 2px var(--horizontal-margin);
+  padding: 8px 10px 8px 15px;
+  border-radius: 8px;
+
+  background-color: var(--bg-color-block);
+  color: var(--text-color);
+
+  line-height: 1.2;
+
+  .type-icon {
+    flex: none;
+    width: 32px;
+    height: 32px;
+    margin-right: 15px;
+  }
+
+  .name {
+    flex: 1 1 auto;
+    font-size: 17px;
+    text-align: left;
+  }
+
+  .download,
+  .view {
+    flex-shrink: 0;
+
+    overflow: hidden;
+
+    width: 26px;
+    height: 26px;
+    margin: 0 4px;
+    border-radius: 13px;
+  }
+
+  .icon {
+    width: 100%;
+    height: 100%;
+  }
+}

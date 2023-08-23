@@ -1,0 +1,28 @@
+/* nenu nav */
+.nenu-navigation-bar {
+  position: fixed;
+  z-index: 99;
+
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+
+  box-sizing: content-box;
+
+  width: 100%;
+  height: 44px;
+  border-bottom: 1rpx solid var(--bg-color-grey);
+
+  background-color: #5ab879;
+  color: #fff;
+}
+
+.nenu-nav-title {
+  position: absolute;
+
+  width: 100%;
+
+  font-weight: 500;
+  font-size: 18px;
+  text-align: center;
+}

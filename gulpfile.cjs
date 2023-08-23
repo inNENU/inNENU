@@ -1,10 +1,11 @@
 const { existsSync } = require("node:fs");
 const { parse, resolve } = require("node:path");
+
 const { sass } = require("@mr-hope/gulp-sass");
 const { dest, parallel, src, watch, lastRun } = require("gulp");
 const rename = require("gulp-rename");
-const typescript = require("gulp-typescript");
 const sourcemaps = require("gulp-sourcemaps");
+const typescript = require("gulp-typescript");
 
 const tsProject = typescript.createProject("tsconfig.json");
 
@@ -369,6 +370,183 @@ const buildQQ = parallel(
   moveQQFiles,
   getConfigJob("qq"),
 );
+
+const getSkylineScriptJob = (id) => {
+  const suffix = `.${id}`;
+  const suffixRegExp = new RegExp(`\\.${id}$`);
+  const tsSuffix = `.${id}.ts`;
+
+  const script = () =>
+    src(["skyline/**/*.ts", "typings/**/*.ts"], {
+      read: (value) => {
+        const name = parse(value.path).name.replace(/\.d$/, "");
+
+        if (name.includes(".")) return name.endsWith(suffix);
+
+        return !existsSync(
+          resolve("skyline", value.path).replace(/\.ts$/, tsSuffix),
+        );
+      },
+    })
+      .pipe(
+        rename((path) => {
+          if (path.basename.endsWith(suffix))
+            path.basename = path.basename.replace(suffixRegExp, "");
+        }),
+      )
+      .pipe(sourcemaps.init())
+      .pipe(tsProject())
+      .pipe(sourcemaps.write(".", { includeContent: true }))
+      .pipe(dest("dist"));
+
+  return script;
+};
+
+const getSkylineStyleJob = (id, ext = "wxss") => {
+  const suffix = `.${id}`;
+  const suffixRegExp = new RegExp(`\\.${id}$`);
+
+  const style = () =>
+    src("skyline/**/*.scss", {
+      read: (value) => {
+        const { name } = parse(value.path);
+
+        if (name.includes(".")) return name.endsWith(suffix);
+
+        return !existsSync(
+          resolve("skyline", value.path).replace(/\.scss$/, `.${id}.scss`),
+        );
+      },
+    })
+      .pipe(
+        rename((path) => {
+          if (path.basename.endsWith(suffix))
+            path.basename = path.basename.replace(suffixRegExp, "");
+        }),
+      )
+      .pipe(
+        sass({
+          style: "compressed",
+          importers: [
+            // preserve `@import` rules
+            {
+              canonicalize: (url, { fromImport }) =>
+                fromImport
+                  ? new URL(
+                      `miniapp:import?path=${url.replace(/^import:/, "")}`,
+                    )
+                  : null,
+              load: (canonicalUrl) => ({
+                contents: `@import "${canonicalUrl.searchParams.get(
+                  "path",
+                )}.${ext}"`,
+                syntax: "css",
+              }),
+            },
+          ],
+        }).on("error", sass.logError),
+      )
+      .pipe(rename({ extname: `.${ext}` }))
+      .pipe(dest("dist"));
+
+  return style;
+};
+
+const getSkylineAssetsJob = (id) => {
+  const assetsJob = () =>
+    src("skyline/**/*.{js,json,svg,png,webp}", {
+      read: (value) => {
+        const { name, ext } = parse(value.path);
+
+        if (name.includes("skyline.miniapp")) return true;
+
+        if (name.includes(".")) return name.endsWith(`.${id}`);
+
+        return !existsSync(
+          resolve("skyline", value.path).replace(
+            new RegExp(ext),
+            `.${id}${ext}`,
+          ),
+        );
+      },
+      since: lastRun(assetsJob),
+    })
+      .pipe(
+        rename((path) => {
+          if (path.basename.endsWith(`.${id}`))
+            path.basename = path.basename.replace(new RegExp(`\\.${id}$`), "");
+        }),
+      )
+      .pipe(dest("dist"));
+
+  return assetsJob;
+};
+
+const buildSkylineWechatScript = getSkylineScriptJob("wx");
+const watchSkylineWechatScript = () =>
+  watch(
+    "{skyline,typings}/**/*.ts",
+    { ignoreInitial: false },
+    buildSkylineWechatScript,
+  );
+
+const buildSkylineWechatWXSS = getSkylineStyleJob("wx");
+const watchSkylineWechatWXSS = () =>
+  watch("skyline/**/*.scss", { ignoreInitial: false }, buildSkylineWechatWXSS);
+
+const moveSkylineWechatAssets = getSkylineAssetsJob("wx");
+const watchSkylineWechatAssets = () =>
+  watch(
+    "skyline/**/*.{json,svg,png,webp}",
+    { ignoreInitial: false },
+    moveSkylineWechatAssets,
+  );
+
+const moveSkylineWechatFiles = () =>
+  src("skyline/**/*.{wxml,wxs}", {
+    read: (value) => {
+      const { name, ext } = parse(value.path);
+
+      if (name.includes(".")) return name.endsWith(".wx");
+
+      return !existsSync(
+        resolve("skyline", value.path).replace(new RegExp(ext), `.wx${ext}`),
+      );
+    },
+    since: lastRun(moveSkylineWechatFiles),
+  })
+    .pipe(
+      rename((path) => {
+        if (path.basename.endsWith(".wx"))
+          path.basename = path.basename.replace(/\.wx$/, "");
+      }),
+    )
+    .pipe(dest("dist"));
+
+const watchSkylineWechatFiles = () =>
+  watch(
+    "app/**/*.{wxml,wxs}",
+    { ignoreInitial: false },
+    moveSkylineWechatFiles,
+  );
+
+const watchSkylineWechat = parallel(
+  watchSkylineWechatScript,
+  watchSkylineWechatWXSS,
+  watchSkylineWechatAssets,
+  watchSkylineWechatFiles,
+  getConfigJob("wx"),
+);
+const buildSkylineWechat = parallel(
+  buildWechatWXSS,
+  buildWechatScript,
+  moveWechatAssets,
+  moveWechatFiles,
+  getConfigJob("wx"),
+);
+
+exports.watchSkylineWechat = watchSkylineWechat;
+exports.buildSkylineWechat = buildSkylineWechat;
 
 /* exports */
 

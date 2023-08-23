@@ -1,0 +1,49 @@
+<import src="/base/template.wxml" />
+<page-meta
+  background-text-style="{{darkmode ? 'dark': 'light'}}"
+  background-color="{{color.bgColor}}"
+  background-color-top="{{color.bgColorTop}}"
+  background-color-bottom="{{color.bgColorBottom}}"
+  root-background-color="{{color.bgColor}}"
+/>
+<license />
+<view class="{{theme}} main grey">
+  <weather wx:if="{{login}}" custom-class="weather" target="weather">
+    <today-course custom-class="course" />
+    <search
+      custom-class="colored-search"
+      words="{{words}}"
+      placeholder="搜索小程序"
+      catch:searching="searching"
+      catch:search="search"
+    />
+  </weather>
+  <block wx:else>
+    <view
+      class="search-navigation-bar"
+      style="padding-top:{{statusBarHeight}}px;"
+    >
+      <view
+        class="search-wrapper"
+        style="width: calc(100% - {{menuSpace + 10}}px)"
+      >
+        <search
+          custom-class="search"
+          words="{{words}}"
+          placeholder="搜索小程序"
+          catch:searching="searching"
+          catch:search="search"
+        />
+      </view>
+    </view>
+    <view
+      class="search-nav-placeholder"
+      style="height:{{statusBarHeight + 44}}px;"
+    >
+      到头啦~人家被你拉得好痛阿(*´д`*) 不许你再拉人家~╭(╯^╰)╮
+    </view>
+  </block>
+  <scroll-view scroll-y class="content">
+    <template is="components" data="{{content: page.content, theme}}" />
+  </scroll-view>
+</view>

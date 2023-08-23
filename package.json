@@ -22,6 +22,7 @@
     "build:qq": "gulp -f gulpfile.cjs buildQQ",
     "build:qy": "gulp -f gulpfile.cjs buildNenuyouth",
     "build:wx": "gulp -f gulpfile.cjs buildWechat",
+    "build:skyline-wx": "gulp -f gulpfile.cjs buildSkylineWechat",
     "changelog": "standard-version --skip.bump --skip.commit --skip.tag",
     "clean": "node scripts/del.js",
     "commit": "pnpm git-cz",
@@ -29,6 +30,7 @@
     "dev:qq": "gulp -f gulpfile.cjs watchQQ",
     "dev:qy": "gulp -f gulpfile.cjs watchNenuyouth",
     "dev:wx": "gulp -f gulpfile.cjs watchWechat",
+    "dev:skyline-wx": "gulp -f gulpfile.cjs watchSkylineWechat",
     "lint": "pnpm lint:prettier --write && pnpm lint:wxs --write && pnpm lint:wxml --write && pnpm lint:eslint --fix && pnpm lint:stylelint --fix",
     "lint:check": "pnpm lint:prettier && pnpm lint:wxs && pnpm lint:wxml && pnpm lint:eslint && pnpm lint:stylelint",
     "lint:eslint": "eslint --ext .ts,.wxs .",
@@ -44,7 +46,8 @@
     }
   },
   "dependencies": {
-    "@mptool/all": "0.3.6",
+    "@mptool/all": "0.4.0",
+    "@mptool/skyline": "0.4.0",
     "miniprogram-recycle-view": "0.1.5",
     "tslib": "2.6.2"
   },
@@ -52,8 +55,8 @@
     "@commitlint/cli": "17.7.1",
     "@commitlint/config-conventional": "17.7.0",
     "@mr-hope/gulp-sass": "3.1.1",
-    "@typescript-eslint/eslint-plugin": "6.4.0",
-    "@typescript-eslint/parser": "6.4.0",
+    "@typescript-eslint/eslint-plugin": "6.4.1",
+    "@typescript-eslint/parser": "6.4.1",
     "commitizen": "4.3.0",
     "cz-git": "1.7.1",
     "del": "7.0.0",

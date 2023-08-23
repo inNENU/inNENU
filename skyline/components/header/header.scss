@@ -1,0 +1,20 @@
+@import "../../styles/lib/left-button";
+
+.header {
+  position: fixed;
+  top: 0;
+  right: 0;
+  left: 0;
+  z-index: 999;
+
+  padding: 0 15px 20px;
+  border-radius: 0 0 12px 12px;
+
+  background-color: var(--theme-color);
+  color: var(--bg-color);
+
+  font-weight: 800;
+  font-size: 28px;
+  line-height: 32px;
+  letter-spacing: 2px;
+}

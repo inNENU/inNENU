@@ -1,0 +1,15 @@
+<view class="table-component">
+  <view class="table">
+    <view wx:if="{{config.caption}}" class="caption">{{config.caption}}</view>
+    <view class="tr">
+      <view wx:for="{{config.header}}" wx:key="*thclass" class="th">
+        <text user-select="{{selectable}}">{{item}}</text>
+      </view>
+    </view>
+    <view wx:for="{{config.body}}" class="tr" wx:for-item="row">
+      <view wx:for="{{row}}" class="td">
+        <text user-select="{{selectable}}">{{item}}</text>
+      </view>
+    </view>
+  </view>
+</view>

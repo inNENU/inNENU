@@ -1,0 +1,10 @@
+<!-- 音频组件 -->
+<audio
+  class="audio-component"
+  poster="{{config.poster}}"
+  src="{{config.src}}"
+  name="{{config.name}}"
+  author="{{config.author}}"
+  loop="{{config.loop}}"
+  controls="{{config.controls !== false}}"
+/>

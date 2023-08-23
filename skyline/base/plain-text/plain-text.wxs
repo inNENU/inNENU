@@ -1,0 +1,37 @@
+module.exports = {
+  isContainer: function (type) {
+    return (
+      type === "note" ||
+      type === "tip" ||
+      type === "info" ||
+      type === "warning" ||
+      type === "danger"
+    );
+  },
+
+  getTitle: function (config) {
+    var type = config.type;
+
+    return typeof config.heading === "string"
+      ? config.heading
+      : type === "note"
+      ? "注"
+      : type === "tip"
+      ? "提示"
+      : type === "info"
+      ? "相关信息"
+      : type === "warning"
+      ? "注意"
+      : "警告";
+  },
+
+  getAlign: function (align) {
+    return align ? "text-align:" + align : "";
+  },
+
+  getStyle: function (config, selectable) {
+    return config.tag === "p"
+      ? (selectable ? "" : "display: block;") + "text-indent: 1.5em"
+      : "";
+  },
+};

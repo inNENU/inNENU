@@ -1,0 +1,43 @@
+module.exports = {
+  isText: function (tag) {
+    return tag === "text" || tag === "p" || tag === "ul" || tag === "ol";
+  },
+
+  getNavConfig: function (page) {
+    return {
+      title: page.title,
+      desc: page.desc,
+      action: page.action,
+      from: page.from,
+      color: page.color,
+    };
+  },
+
+  getErrorNavConfig: function (page) {
+    return {
+      title: page.title || "页面出错",
+      desc: page.desc,
+      action: page.action,
+      color: page.color,
+    };
+  },
+
+  getShareConfig: function (page) {
+    return {
+      title: page.title,
+      shareable: page.shareable,
+      contact: page.contact,
+      qrcode: page.qrcode,
+      id: page.id,
+    };
+  },
+
+  getFooterConfig: function (page) {
+    return {
+      author: page.author,
+      time: page.time,
+      desc: page.desc,
+      cite: page.cite,
+    };
+  },
+};

@@ -1,0 +1,6 @@
+module.exports = {
+  /** 按钮操作 */
+  action: function (event, ownerInstance) {
+    ownerInstance.callMethod(event.currentTarget.dataset.action, event);
+  },
+};

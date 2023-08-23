@@ -1,0 +1,10 @@
+{
+  "rules": [
+    {
+      "action": "allow",
+      "page": "pages/info/info",
+      "priority": 100
+    },
+    { "action": "allow", "page": "*", "priority": 99 }
+  ]
+}
