@@ -31,7 +31,11 @@ module.exports = {
 
   getStyle: function (config, selectable) {
     return config.tag === "p"
-      ? (selectable ? "" : "display: block;") + "text-indent: 1.5em"
+      ? // FIXME:
+        // ? (selectable ? "" : "display: block;") + "text-indent: 1.5em"
+        selectable
+        ? ""
+        : "display: block;"
       : "";
   },
 };
