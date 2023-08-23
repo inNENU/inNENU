@@ -1,5 +1,5 @@
 /* eslint-disable max-lines */
-import { emitter, get, logger, writeJSON } from "@mptool/all";
+import { emitter, get, logger, writeJSON } from "@mptool/skyline";
 
 import { platformActions } from "./app-platform.js";
 import { defaultResources, downloadResource } from "./resource.js";

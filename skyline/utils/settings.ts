@@ -1,4 +1,4 @@
-import { logger } from "@mptool/all";
+import { logger } from "@mptool/skyline";
 
 import { updateNotice } from "./notice.js";
 import type { GlobalData, UserInfo } from "./typings.js";

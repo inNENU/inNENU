@@ -6,7 +6,7 @@ import {
   readJSON,
   rm,
   saveOnlineFile,
-} from "@mptool/all";
+} from "@mptool/skyline";
 
 import { server } from "../config/index.js";
 

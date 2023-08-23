@@ -1,4 +1,4 @@
-import { logger } from "@mptool/all";
+import { logger } from "@mptool/skyline";
 
 import { handleFailResponse } from "./account.js";
 import type {

@@ -1,4 +1,4 @@
-import { logger, remove } from "@mptool/all";
+import { logger, remove } from "@mptool/skyline";
 
 import { LoginFailType } from "./loginFailTypes.js";
 import type { AuthLoginFailedResponse, AuthLoginResponse } from "./typings.js";

@@ -1,4 +1,4 @@
-import { logger, ls, rm } from "@mptool/all";
+import { logger, ls, rm } from "@mptool/skyline";
 
 import { Data } from "./settings.js";
 import type { GlobalData } from "./typings.js";

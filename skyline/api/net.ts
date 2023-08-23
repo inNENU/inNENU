@@ -1,4 +1,4 @@
-import { logger } from "@mptool/all";
+import { logger } from "@mptool/skyline";
 
 import { showToast } from "./ui.js";
 import { assets, server, service } from "../config/index.js";

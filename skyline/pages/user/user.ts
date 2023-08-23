@@ -1,4 +1,4 @@
-import { $Page, get, put, set, take } from "@mptool/all";
+import { $Page, get, put, set, take } from "@mptool/skyline";
 
 import { description, footer } from "./info.js";
 import type { PageDataWithContent } from "../../../typings/index.js";

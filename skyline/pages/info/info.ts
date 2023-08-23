@@ -1,21 +1,13 @@
-import { $Page } from "@mptool/all";
+import { $Page } from "@mptool/skyline";
 
 import type { PageData, PageOption } from "../../../typings/index.js";
 import { appCoverPrefix } from "../../config/index.js";
 import { id2path } from "../../utils/id.js";
-import {
-  loadOnlinePage,
-  resolvePage,
-  setOnlinePage,
-} from "../../utils/page.js";
+import { loadOnlinePage, setOnlinePage } from "../../utils/page.js";
 
 $Page("info", {
   data: {
     page: <PageData & { id: string }>{},
-  },
-
-  onNavigate(option) {
-    resolvePage(option);
   },
 
   onLoad(option: PageOption & { path?: string }) {

@@ -1,6 +1,6 @@
 /* eslint-disable max-lines */
-import type { PageInstance, PageQuery } from "@mptool/all";
-import { logger, readJSON, writeJSON } from "@mptool/all";
+import type { PageInstance } from "@mptool/skyline";
+import { logger, readJSON, writeJSON } from "@mptool/skyline";
 
 import { id2path } from "./id.js";
 import { ensureJSON } from "./json.js";
@@ -237,7 +237,7 @@ const preloadPage = (page: PageData): void => {
  * ```
  */
 export const resolvePage = (
-  options: PageQuery,
+  options: Record<string, string>,
   page?: PageData,
   setGlobal = true,
 ): PageData | null => {

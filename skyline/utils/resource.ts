@@ -7,7 +7,7 @@ import {
   saveFile,
   unzip,
   writeJSON,
-} from "@mptool/all";
+} from "@mptool/skyline";
 
 import type { VersionInfo } from "../../typings/index.js";
 import { request, showToast } from "../api/index.js";

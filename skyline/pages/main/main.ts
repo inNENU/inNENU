@@ -1,4 +1,4 @@
-import { $Page, get, set } from "@mptool/all";
+import { $Page, get, set } from "@mptool/skyline";
 
 import type { PageDataWithContent } from "../../../typings/index.js";
 import { requestJSON } from "../../api/index.js";

@@ -1,5 +1,5 @@
-import type { TrivialPageInstance } from "@mptool/all";
-import { $App, $Config, wrapFunction } from "@mptool/all";
+import type { TrivialPageInstance } from "@mptool/skyline";
+import { $App, $Config, wrapFunction } from "@mptool/skyline";
 
 import { getDarkmode } from "./api/index.js";
 import { INITIALIZED_KEY } from "./config/keys.js";

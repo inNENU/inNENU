@@ -5,7 +5,8 @@
     "pages/function/function",
     "pages/guide/guide",
     "pages/intro/intro",
-    "pages/user/user"
+    "pages/user/user",
+    "pages/info/info"
   ],
   "plugins": {
     "wxacommentplugin": {
