@@ -1,8 +1,4 @@
 {
   "enablePullDownRefresh": true,
-  "usingComponents": {
-    "add-tip": "/components/addtip/addtip",
-    "card-balance": "/components/card-balance/card-balance",
-    "today-course": "/components/today-course/today-course"
-  }
+  "usingComponents": {}
 }

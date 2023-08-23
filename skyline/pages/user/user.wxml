@@ -1,4 +1,4 @@
-<import src="/base/template.wxml" />
+<!-- <import src="/base/template.wxml" />
 <page-meta
   background-text-style="{{darkmode ? 'dark' : 'light'}}"
   background-color="{{color.bgColor}}"
@@ -41,4 +41,4 @@
   <template is="components" data="{{content: page.content, theme}}" />
   <footer config="{{footer}}" />
 </view>
-<add-tip />
+<add-tip /> -->

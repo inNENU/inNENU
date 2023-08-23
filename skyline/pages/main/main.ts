@@ -65,11 +65,6 @@ $Page(PAGE_ID, {
   onReady() {
     // 注册事件监听器
     this.$on("theme", this.setTheme);
-
-    // 执行 tab 页预加载
-    ["function", "guide", "intro", "user"].forEach((item) => {
-      this.$preload(item);
-    });
   },
 
   async onPullDownRefresh() {

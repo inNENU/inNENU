@@ -24,11 +24,8 @@ button {
     background-color: var(--theme-color);
   }
 
-  &[type="primary"].primary {
-    background-color: var(--theme-color);
-  }
-
-  &[type="plain"] {
+  // FIXME: Apply it
+  &.plain {
     color: inherit;
   }
 }

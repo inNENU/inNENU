@@ -1,4 +1,4 @@
-<import src="/base/template.wxml" />
+<!-- <import src="/base/template.wxml" />
 <page-meta
   background-text-style="{{darkmode ? 'dark' : 'light'}}"
   background-color="{{color.bgColor}}"
@@ -12,4 +12,4 @@
   <scroll-view scroll-y class="functions">
     <template is="components" data="{{content: page.content, theme}}" />
   </scroll-view>
-</view>
+</view> -->

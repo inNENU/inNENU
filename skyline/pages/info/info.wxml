@@ -1,10 +1,10 @@
-<import src="/base/template.wxml" />
-<page-meta
+<!-- <import src="/base/template.wxml" /> -->
+<!-- <page-meta
   background-text-style="{{darkmode ? 'dark': 'light'}}"
   background-color="{{color.bgColor}}"
   background-color-top="{{color.bgColorTop}}"
   background-color-bottom="{{color.bgColorBottom}}"
   root-background-color="{{color.bgColor}}"
-/>
-<license />
-<template is="page" data="{{page, theme, darkmode}}" />
+/> -->
+<!-- <license /> -->
+<!-- <template is="page" data="{{page, theme, darkmode}}" /> -->

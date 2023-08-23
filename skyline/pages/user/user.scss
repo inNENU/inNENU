@@ -1,80 +1,80 @@
-.account-wrapper {
-  position: fixed;
-  top: 0;
-  right: 0;
-  left: 0;
-  z-index: 990;
+// .account-wrapper {
+//   position: fixed;
+//   top: 0;
+//   right: 0;
+//   left: 0;
+//   z-index: 990;
 
-  overflow: hidden;
+//   overflow: hidden;
 
-  border-bottom-right-radius: 16px;
-  border-bottom-left-radius: 16px;
+//   border-bottom-right-radius: 16px;
+//   border-bottom-left-radius: 16px;
 
-  background-color: var(--bg-color-block);
+//   background-color: var(--bg-color-block);
 
-  .account {
-    display: flex;
-    align-items: center;
-    padding: 6px 64px;
-    text-align: left;
-  }
+//   .account {
+//     display: flex;
+//     align-items: center;
+//     padding: 6px 64px;
+//     text-align: left;
+//   }
 
-  .avatar {
-    overflow: hidden;
+//   .avatar {
+//     overflow: hidden;
 
-    width: 48px;
-    height: 48px;
-    margin-right: 8px;
-    border-radius: 50%;
-  }
+//     width: 48px;
+//     height: 48px;
+//     margin-right: 8px;
+//     border-radius: 50%;
+//   }
 
-  .info {
-    flex: 1;
-  }
+//   .info {
+//     flex: 1;
+//   }
 
-  .name {
-    position: relative;
+//   .name {
+//     position: relative;
 
-    display: inline-block;
+//     display: inline-block;
 
-    padding-right: 20px;
+//     padding-right: 20px;
 
-    font-weight: bold;
-    font-size: 20px;
-    line-height: 1.5;
+//     font-weight: bold;
+//     font-size: 20px;
+//     line-height: 1.5;
 
-    &::after {
-      content: " ";
+//     &::after {
+//       content: " ";
 
-      position: absolute;
-      top: 50%;
-      right: 8px;
+//       position: absolute;
+//       top: 50%;
+//       right: 8px;
 
-      display: flex;
-      justify-content: center;
+//       display: flex;
+//       justify-content: center;
 
-      width: 7px;
-      height: 7px;
-      margin-top: -4px;
-      border-width: 2px 2px 0 0;
-      border-style: solid;
-      border-color: var(--arrow-color);
+//       width: 7px;
+//       height: 7px;
+//       margin-top: -4px;
+//       border-width: 2px 2px 0 0;
+//       border-style: solid;
+//       border-color: var(--arrow-color);
 
-      transform: matrix(0.71, 0.71, -0.71, 0.71, 0, 0);
-    }
-  }
+//       transform: matrix(0.71, 0.71, -0.71, 0.71, 0, 0);
+//     }
+//   }
 
-  .desc {
-    line-height: 1.5;
-  }
-}
+//   .desc {
+//     line-height: 1.5;
+//   }
+// }
 
-.account-placeholder {
-  margin-bottom: 16px;
-}
+// .account-placeholder {
+//   margin-bottom: 16px;
+// }
 
-.course {
-  margin: 8px 15px !important;
-  background-color: var(--bg-color-block) !important;
-  color: var(--text-color) !important;
-}
+// .course {
+//   margin: 8px 15px !important;
+//   background-color: var(--bg-color-block) !important;
+//   color: var(--text-color) !important;
+// }

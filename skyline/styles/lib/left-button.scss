@@ -5,7 +5,8 @@
 *****************/
 
 .left-button {
-  position: fixed;
+  // FIXME: Use root portal
+  position: absolute;
   top: 26px;
   left: 9px;
   z-index: 1100;

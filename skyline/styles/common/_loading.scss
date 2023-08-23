@@ -84,7 +84,12 @@
     background-color: rgb(191 190 195 / 15%);
     box-shadow: 0 0 5px rgb(191 190 195 / 15%);
 
-    animation: shadow 1s ease 0s none infinite alternate-reverse;
+    animation-name: shadow;
+    animation-duration: 1s;
+    animation-timing-function: ease;
+    animation-delay: 0s;
+    animation-iteration-count: infinite;
+    animation-direction: alternate-reverse;
   }
 }
 
@@ -112,7 +117,12 @@
 
     background-color: var(--theme-color);
 
-    animation: jump 1s linear 0s none infinite alternate-reverse;
+    animation-name: jump;
+    animation-duration: 1s;
+    animation-timing-function: linear;
+    animation-delay: 0s;
+    animation-iteration-count: infinite;
+    animation-direction: alternate-reverse;
 
     .in {
       position: absolute;

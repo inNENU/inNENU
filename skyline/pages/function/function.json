@@ -1,7 +1,5 @@
 {
   "enablePullDownRefresh": true,
   "initialRenderingCache": "static",
-  "usingComponents": {
-    "weather": "/components/weather/weather"
-  }
+  "usingComponents": {}
 }

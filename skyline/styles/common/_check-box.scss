@@ -1,14 +1,13 @@
+// FIXME: Check appearance
 .check-box {
   position: relative;
 
   display: inline-block;
 
-  height: 1em;
-  margin-right: 1.5em;
+  height: 14px;
+  margin-right: 20px;
 
-  background: #fff;
-
-  cursor: pointer;
+  background-color: #fff;
 
   &::after {
     content: " ";
@@ -18,15 +17,13 @@
 
     display: inline-block;
 
-    box-sizing: border-box;
-
-    width: 1em;
-    height: 1em;
+    width: 14px;
+    height: 14px;
     padding-inline-start: 0;
     border: 1px solid #ddd;
     border-radius: 2px;
 
-    background: #fff;
+    background-color: #fff;
 
     text-align: center;
 
@@ -38,21 +35,21 @@
       content: " ";
 
       position: absolute;
-      top: 0.1em;
-      left: 0.4em;
+      top: 1.5px;
+      left: 4px;
       z-index: 1;
 
-      width: 0.2em;
-      height: 0.5em;
-      border: solid var(--white);
-      border-width: 0 0.15em 0.15em 0;
+      width: 2.8px;
+      height: 7px;
+      border-color: var(--white);
+      border-width: 0 2px 2px 0;
 
       transform: rotate(45deg);
     }
 
     &::after {
       border-color: var(--theme-color);
-      background: var(--theme-color);
+      background-color: var(--theme-color);
     }
   }
 }
