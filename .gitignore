@@ -3,6 +3,7 @@
 
 # Output Files
 dist/**
+skyline-dist/**
 
 project.config.json
 project.private.config.json

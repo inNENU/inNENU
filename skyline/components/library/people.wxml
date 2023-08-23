@@ -1,3 +1,0 @@
-<view class="people-amount custom-class"
-  >在馆人数: 本部 {{people.benbu}}人 / 净月 {{people.jingyue}}人</view
->

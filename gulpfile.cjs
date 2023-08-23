@@ -397,7 +397,7 @@ const getSkylineScriptJob = (id) => {
       .pipe(sourcemaps.init())
       .pipe(tsProject())
       .pipe(sourcemaps.write(".", { includeContent: true }))
-      .pipe(dest("dist"));
+      .pipe(dest("skyline-dist"));
 
   return script;
 };
@@ -447,7 +447,7 @@ const getSkylineStyleJob = (id, ext = "wxss") => {
         }).on("error", sass.logError)
       )
       .pipe(rename({ extname: `.${ext}` }))
-      .pipe(dest("dist"));
+      .pipe(dest("skyline-dist"));
 
   return style;
 };
@@ -477,7 +477,7 @@ const getSkylineAssetsJob = (id) => {
             path.basename = path.basename.replace(new RegExp(`\\.${id}$`), "");
         })
       )
-      .pipe(dest("dist"));
+      .pipe(dest("skyline-dist"));
 
   return assetsJob;
 };
@@ -521,7 +521,7 @@ const moveSkylineWechatFiles = () =>
           path.basename = path.basename.replace(/\.wx$/, "");
       })
     )
-    .pipe(dest("dist"));
+    .pipe(dest("skyline-dist"));
 
 const watchSkylineWechatFiles = () =>
   watch(

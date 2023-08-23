@@ -1,6 +1,6 @@
 {
   "srcMiniprogramRoot": "app/",
-  "miniprogramRoot": "dist/",
+  "miniprogramRoot": "skyline-dist/",
   "compileType": "miniprogram",
   "libVersion": "trial",
   "appid": "wx33acb831ee1831a5",
