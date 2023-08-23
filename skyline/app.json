@@ -14,10 +14,6 @@
     }
   },
   "window": {
-    "navigationBarBackgroundColor": "@navBgColor",
-    "navigationBarTextStyle": "@navTextStyle",
-    "navigationBarTitleText": "in 东师",
-    "navigationStyle": "custom",
     "backgroundColor": "@bgColor",
     "backgroundTextStyle": "@bgTxtStyle",
     "backgroundColorTop": "@bgColorTop",
@@ -89,5 +85,11 @@
     "navigationBarFit": "float"
   },
   "componentFramework": "glass-easel",
-  "enablePassiveEvent": true
+  "enablePassiveEvent": true,
+  "renderer": "skyline",
+  "rendererOptions": {
+    "skyline": {
+      "defaultDisplayBlock": true
+    }
+  }
 }
