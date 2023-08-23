@@ -1,65 +1,12 @@
 {
-  "entryPagePath": "pages/main/main",
-  "pages": [
-    "pages/main/main",
-    "pages/function/function",
-    "pages/guide/guide",
-    "pages/intro/intro",
-    "pages/user/user",
-    "pages/info/info"
-  ],
-  "plugins": {
-    "wxacommentplugin": {
-      "version": "latest",
-      "provider": "wx82e6ae1175f264fa"
-    }
-  },
+  "entryPagePath": "pages/info/info",
+  "pages": ["pages/info/info"],
   "window": {
     "backgroundColor": "@bgColor",
     "backgroundTextStyle": "@bgTxtStyle",
     "backgroundColorTop": "@bgColorTop",
     "backgroundColorBottom": "@bgColorBottom",
     "pageOrientation": "portrait"
-  },
-  "tabBar": {
-    "custom": false,
-    "color": "@tabColor",
-    "selectedColor": "#2ecc71",
-    "borderStyle": "@tabBorderStyle",
-    "backgroundColor": "@tabBgColor",
-    "position": "bottom",
-    "list": [
-      {
-        "pagePath": "pages/main/main",
-        "text": "首页",
-        "iconPath": "@homeIcon",
-        "selectedIconPath": "icon/tab/home.png"
-      },
-      {
-        "pagePath": "pages/intro/intro",
-        "text": "东师介绍",
-        "iconPath": "@introIcon",
-        "selectedIconPath": "icon/tab/intro.png"
-      },
-      {
-        "pagePath": "pages/guide/guide",
-        "text": "东师指南",
-        "iconPath": "@guideIcon",
-        "selectedIconPath": "icon/tab/guide.png"
-      },
-      {
-        "pagePath": "pages/function/function",
-        "text": "功能大厅",
-        "iconPath": "@functionIcon",
-        "selectedIconPath": "icon/tab/function.png"
-      },
-      {
-        "pagePath": "pages/user/user",
-        "text": "我的东师",
-        "iconPath": "@userIcon",
-        "selectedIconPath": "icon/tab/user.png"
-      }
-    ]
   },
   "networkTimeout": {
     "request": 10000,

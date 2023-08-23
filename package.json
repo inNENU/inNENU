@@ -25,6 +25,7 @@
     "build:skyline-wx": "gulp -f gulpfile.cjs buildSkylineWechat",
     "changelog": "standard-version --skip.bump --skip.commit --skip.tag",
     "clean": "node scripts/del.js",
+    "clean:skyline": "node scripts/del-skyline.js",
     "commit": "pnpm git-cz",
     "dev:app": "gulp -f gulpfile.cjs watchApp",
     "dev:qq": "gulp -f gulpfile.cjs watchQQ",
