@@ -46,6 +46,9 @@
     "./server/.vscode/wx-account.schema.json": [
       "/server/data/function/account/wx.yml"
     ],
+    "./server/.vscode/tab-data.schema.json": [
+      "/server/data/function/data/tab.yml"
+    ],
     "./server/.vscode/map.schema.json": [
       "/server/data/function/map/benbu/**/*.yml",
       "/server/data/function/map/jingyue/**/*.yml"
