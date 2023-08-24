@@ -6,7 +6,7 @@
   height: 1em;
   margin-right: 1.5em;
 
-  background: #fff;
+  background-color: #fff;
 
   cursor: pointer;
 
@@ -22,11 +22,11 @@
 
     width: 1em;
     height: 1em;
-    padding-inline-start: 0;
+    padding-left: 0;
     border: 1px solid #ddd;
     border-radius: 2px;
 
-    background: #fff;
+    background-color: #fff;
 
     text-align: center;
 
@@ -39,7 +39,7 @@
 
       position: absolute;
       top: 0.1em;
-      left: 0.4em;
+      left: 0.35em;
       z-index: 1;
 
       width: 0.2em;
@@ -52,7 +52,7 @@
 
     &::after {
       border-color: var(--theme-color);
-      background: var(--theme-color);
+      background-color: var(--theme-color);
     }
   }
 }

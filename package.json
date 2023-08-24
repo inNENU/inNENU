@@ -44,7 +44,7 @@
     }
   },
   "dependencies": {
-    "@mptool/all": "0.3.6",
+    "@mptool/all": "0.4.0",
     "miniprogram-recycle-view": "0.1.5",
     "tslib": "2.6.2"
   },
@@ -52,8 +52,8 @@
     "@commitlint/cli": "17.7.1",
     "@commitlint/config-conventional": "17.7.0",
     "@mr-hope/gulp-sass": "3.1.1",
-    "@typescript-eslint/eslint-plugin": "6.4.0",
-    "@typescript-eslint/parser": "6.4.0",
+    "@typescript-eslint/eslint-plugin": "6.4.1",
+    "@typescript-eslint/parser": "6.4.1",
     "commitizen": "4.3.0",
     "cz-git": "1.7.1",
     "del": "7.0.0",
