@@ -4,7 +4,12 @@ export interface TabDataItem {
   icon: string;
   name: string;
   path: string;
-  items: GridComponentItemConfig[];
+  items: (GridComponentItemConfig & {
+    under?: string | null;
+    post?: string | null;
+    benbu?: string | null;
+    jingyue?: string | null;
+  })[];
 }
 
 export type TabData = Record<string, TabDataItem>;

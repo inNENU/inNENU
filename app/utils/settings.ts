@@ -32,7 +32,9 @@ export interface UpdateSettings {
 }
 
 export interface Data {
+  // eslint-disable-next-line @typescript-eslint/naming-convention
   "main-page": Record<string, string>;
+  // eslint-disable-next-line @typescript-eslint/naming-convention
   "intro-page": Record<
     string,
     {
@@ -40,6 +42,7 @@ export interface Data {
       more: string[];
     }
   >;
+  // eslint-disable-next-line @typescript-eslint/naming-convention
   "guide-page": Record<
     string,
     {
@@ -47,8 +50,11 @@ export interface Data {
       more: string[];
     }
   >;
+  // eslint-disable-next-line @typescript-eslint/naming-convention
   "function-page": Record<string, string>;
+  // eslint-disable-next-line @typescript-eslint/naming-convention
   "main-presets": Record<string, ComponentConfig[]>;
+  // eslint-disable-next-line @typescript-eslint/naming-convention
   "function-presets": Record<string, ComponentConfig[]>;
   user: ComponentConfig[];
   about: ComponentConfig[];
@@ -57,8 +63,28 @@ export interface Data {
   update: UpdateSettings;
 }
 
-export const getIdentity = (userInfo: UserInfo | null): string =>
-  userInfo?.grade.toString() ?? "unlogin";
+export interface Identify {
+  id: string;
+  type: "under" | "post" | null;
+  location: "benbu" | "jingyue" | null;
+}
+
+export const getIdentity = (userInfo: UserInfo | null): Identify => {
+  if (userInfo === null)
+    return {
+      id: "unlogin",
+      type: null,
+      location: null,
+    };
+
+  const { grade, type, location } = userInfo;
+
+  return {
+    id: grade.toString(),
+    type: type === "bks" ? "under" : type === "yjs" ? "post" : null,
+    location: location === "unknown" ? null : location,
+  };
+};
 
 export const fetchData = async (globalData: GlobalData): Promise<void> => {
   try {

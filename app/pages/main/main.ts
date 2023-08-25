@@ -114,11 +114,11 @@ $Page(PAGE_ID, {
 
     if (!globalData.data) return null;
 
-    const identify = getIdentity(globalData.userInfo);
+    const { id } = getIdentity(globalData.userInfo);
     const { "main-page": mainConfig, "main-presets": mainPresets } =
       globalData.data;
 
-    const configName = mainConfig[identify] || mainConfig.default;
+    const configName = mainConfig[id] || mainConfig.default;
 
     const mainPage = {
       title: "首页",

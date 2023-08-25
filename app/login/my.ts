@@ -138,29 +138,89 @@ export const getMyInfo = async (): Promise<MyInfoResult> => {
       infoResult.success &&
       infoResult.data.execResponse.return.Body.code === "200"
     ) {
-      const info = infoResult.data.execResponse.return.Body.items.item[0];
+      const personInfo = infoResult.data.execResponse.return.Body.items.item[0];
+
+      const info = {
+        id: Number(personInfo.uid),
+        name: personInfo.name,
+        idCard: personInfo.idcard,
+        org: personInfo.orgname,
+        school: personInfo.orgname,
+        orgId: Number(personInfo.orgdn),
+        major: personInfo.zymc,
+        majorId: personInfo.zydm,
+        inYear: Number(personInfo.rxnf),
+        grade: Number(personInfo.xznj),
+        type: personInfo.pycc,
+        typeId: personInfo.lb,
+        code: personInfo.ryfldm,
+        politicalStatus: personInfo.zzmm,
+        people: personInfo.mzmc,
+        peopleId: Number(personInfo.mzdm),
+        gender: personInfo.xbmc,
+        genderId: Number(personInfo.xbdm),
+        birth: personInfo.csrq,
+      };
+
+      // fix post birth
+      if (/[A-Z]/.test(personInfo.csrq)) {
+        const [day, month, year] = personInfo.csrq.split("-");
+
+        const monthMap: Record<string, string> = {
+          JAN: "01",
+          FEB: "02",
+          MAR: "03",
+          APR: "04",
+          MAY: "05",
+          JUN: "06",
+          JUL: "07",
+          AUG: "08",
+          SEP: "09",
+          OCT: "10",
+          NOV: "11",
+          DEC: "12",
+        };
+
+        info.birth = `${
+          year.startsWith("0") || year.startsWith("1") ? "20" : "19"
+        }-${monthMap[month]}-${day}`;
+      }
+
+      const location = [
+        // 本部外国语专业
+        "167111",
+        "167110",
+        "1066",
+        "050201",
+        "055102",
+      ].includes(info.majorId)
+        ? "benbu"
+        : [
+            // 净月外国语专业
+            "167120",
+            "167180",
+            "167130",
+            "167140",
+          ].includes(info.majorId)
+        ? "jingyue"
+        : ["070201"].includes(info.majorId) || info.major === "细胞生物学"
+        ? "unknown"
+        : [
+            253000, 170000, 166000, 234000, 173000, 236000, 232000, 174000,
+            175000, 177000,
+          ].includes(info.orgId)
+        ? "benbu"
+        : [161000, 169000, 252000, 168000, 261000, 178000, 235000].includes(
+            info.orgId,
+          )
+        ? "jingyue"
+        : "unknown";
 
       return {
         success: true,
         data: {
-          id: Number(info.uid),
-          name: info.name,
-          idCard: info.idcard,
-          org: info.orgname,
-          orgId: Number(info.orgdn),
-          major: info.zymc,
-          majorId: info.zydm,
-          inYear: Number(info.rxnf),
-          grade: Number(info.xznj),
-          type: info.pycc,
-          typeId: info.lb,
-          code: info.ryfldm,
-          politicalStatus: info.zzmm,
-          people: info.mzmc,
-          peopleId: Number(info.mzdm),
-          gender: info.xbmc,
-          genderId: Number(info.xbdm),
-          birth: info.csrq,
+          ...info,
+          location,
         },
       };
     }

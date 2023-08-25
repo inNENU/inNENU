@@ -2,6 +2,7 @@ import { $Page, get, set } from "@mptool/all";
 
 import type {
   GridComponentConfig,
+  GridComponentItemConfig,
   ListComponentItemConfig,
 } from "../../../typings/index.js";
 import type { AppOption } from "../../app.js";
@@ -20,8 +21,8 @@ const PAGE_ID = "intro";
 const PAGE_TITLE = "东师介绍";
 
 interface IntroData {
-  items: Omit<GridComponentConfig, "tag">[];
-  more: Omit<GridComponentConfig, "tag">[];
+  items: (Omit<GridComponentConfig, "tag"> & Record<string, unknown>)[];
+  more: (Omit<GridComponentConfig, "tag"> & Record<string, unknown>)[];
 }
 
 const defaultData = get<IntroData | undefined>(PAGE_ID);
@@ -94,11 +95,11 @@ $Page(PAGE_ID, {
     if (globalData.data) {
       const data = await getJSON<TabData>("function/data/tab");
 
-      const identify = getIdentity(globalData.userInfo);
+      const { id, type, location } = getIdentity(globalData.userInfo);
 
       const { "intro-page": introPageConfig } = globalData.data;
 
-      const introConfig = introPageConfig[identify] || introPageConfig.default;
+      const introConfig = introPageConfig[id] || introPageConfig.default;
 
       const config = Object.entries(data);
 
@@ -108,11 +109,26 @@ $Page(PAGE_ID, {
         return {
           header: record.name,
           path: record.path,
-          items: record.items.map((item) => {
-            if (item.path) item.url = `info?from=${PAGE_TITLE}&id=${item.path}`;
+          items: record.items
+            .map((item) => {
+              if (type === "under" && "under" in item) {
+                if (item.under === null) return null;
+                item.url = `info?from=${PAGE_TITLE}&id=${item.under}`;
+              } else if (type === "post" && "post" in item) {
+                if (item.post === null) return null;
+                item.url = `info?from=${PAGE_TITLE}&id=${item.post}`;
+              } else if (location === "benbu" && "benbu" in item) {
+                if (item.benbu === null) return null;
+                item.url = `info?from=${PAGE_TITLE}&id=${item.benbu}`;
+              } else if (location === "jingyue" && "jingyue" in item) {
+                if (item.jingyue === null) return null;
+                item.url = `info?from=${PAGE_TITLE}&id=${item.jingyue}`;
+              } else if (item.path)
+                item.url = `info?from=${PAGE_TITLE}&id=${item.path}`;
 
-            return item;
-          }),
+              return item;
+            })
+            .filter((item): item is GridComponentItemConfig => item !== null),
         };
       });
 
@@ -122,12 +138,20 @@ $Page(PAGE_ID, {
 
           return {
             header: record.name,
-            items: record.items.map((item) => {
-              if (item.path)
-                item.url = `info?from=${PAGE_TITLE}&path=${item.path}`;
+            items: record.items
+              .map((item) => {
+                if (type === "under" && "under" in item) {
+                  if (item.under === null) return null;
+                  item.url = `info?from=${PAGE_TITLE}&id=${item.under}`;
+                } else if (type === "post" && "post" in item) {
+                  if (item.post === null) return null;
+                  item.url = `info?from=${PAGE_TITLE}&id=${item.post}`;
+                } else if (item.path)
+                  item.url = `info?from=${PAGE_TITLE}&id=${item.path}`;
 
-              return item;
-            }),
+                return item;
+              })
+              .filter((item): item is GridComponentItemConfig => item !== null),
           };
         }),
         more,

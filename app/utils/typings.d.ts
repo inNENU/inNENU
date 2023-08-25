@@ -52,6 +52,8 @@ export interface UserInfo {
   genderId: number;
   /** 用户出生日期 */
   birth: string;
+  /** 用户所在校区 */
+  location: "benbu" | "jingyue" | "unknown";
 }
 
 export interface MusicState {

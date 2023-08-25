@@ -106,13 +106,13 @@ $Page(PAGE_ID, {
 
     if (!globalData.data) return null;
 
-    const identify = getIdentity(globalData.userInfo);
+    const { id } = getIdentity(globalData.userInfo);
     const {
       "function-page": functionConfig,
       "function-presets": functionPresets,
     } = globalData.data;
 
-    const configName = functionConfig[identify] || functionConfig.default;
+    const configName = functionConfig[id] || functionConfig.default;
 
     const functionPage = {
       title: PAGE_TITLE,
