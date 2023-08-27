@@ -44,6 +44,6 @@
     </view>
   </block>
   <scroll-view scroll-y class="content">
-    <template is="components" data="{{content: page.content, theme}}" />
+    <template is="components" data="{{content: page.content}}" />
   </scroll-view>
 </view>
