@@ -1,15 +1,15 @@
-<view class="tab-wrapper">
+<view class="top-tab-wrapper">
   <scroll-view
-    class="tab-bar-wrapper"
+    class="top-tab-head"
     scroll-x
     scroll-into-view="tab-bar{{activeTab}}"
     scroll-with-animation
   >
-    <view class="tab-bar">
+    <view class="top-tab-header">
       <view
         wx:for="{{navList}}"
         wx:key="index"
-        class="item {{index === current ? 'active' : ''}}"
+        class="top-tab-header-item {{index === current ? 'active' : ''}}"
         id="tab-bar{{index}}"
         data-index="{{index}}"
         catch:tap="changeTab"

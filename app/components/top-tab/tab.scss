@@ -1,9 +1,9 @@
-.tab-wrapper {
+.top-tab-wrapper {
   position: relative;
   padding-top: 36.8px;
 }
 
-.tab-bar-wrapper {
+.top-tab-head {
   position: absolute;
   top: 0;
   right: 0;
@@ -13,7 +13,7 @@
   width: 100%;
 }
 
-.tab-bar {
+.top-tab-header {
   display: flex;
   flex-wrap: nowrap;
   align-items: center;
@@ -24,25 +24,25 @@
   white-space: nowrap;
 
   transition: all 0.3s;
+}
 
-  .item {
-    flex: 1 0;
-    padding: 0 10px;
-    color: var(--grey3);
+.top-tab-header-item {
+  flex: 1 0;
+  padding: 0 10px;
+  color: var(--grey3);
 
-    .text {
-      padding: 2px 0;
-      border-bottom: 2px solid var(--bg-color);
-    }
+  .top-tab-header-text {
+    padding: 2px 0;
+    border-bottom: 2px solid var(--bg-color);
+  }
 
-    &.active {
-      color: var(--text-color);
-      font-weight: bold;
-      font-size: 20px;
+  &.active {
+    color: var(--text-color);
+    font-weight: bold;
+    font-size: 20px;
 
-      .text {
-        border-color: var(--theme-color);
-      }
+    .top-tab-header-text {
+      border-color: var(--theme-color);
     }
   }
 }
