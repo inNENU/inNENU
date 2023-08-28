@@ -35,7 +35,7 @@ $Component({
       if (type === "privacy") {
         if (typeof wx.onNeedPrivacyAuthorization === "function") {
           wx.onNeedPrivacyAuthorization((resolve) => {
-            resolvePrivacy = <ResolvePrivacy>resolve;
+            resolvePrivacy = resolve as unknown as ResolvePrivacy;
             this.setData({ show: true });
           });
         } else {

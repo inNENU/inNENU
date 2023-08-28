@@ -1,4 +1,3 @@
-<import src="/base/template.wxml" />
 <page-meta
   background-text-style="{{darkmode ? 'dark': 'light'}}"
   background-color="{{color.bgColor}}"
@@ -6,4 +5,8 @@
   background-color-bottom="{{color.bgColorBottom}}"
   root-background-color="{{color.bgColor}}"
 />
-<template is="page" data="{{page, theme, darkmode}}" />
+<navbar nav="{{ { title, from } }}" />
+<view class="license">
+  <rich-text class="license-content" nodes="{{ nodes }}" />
+</view>
+<footer />
