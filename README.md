@@ -2,7 +2,7 @@
 
 [![作者: Mr.Hope](https://img.shields.io/badge/作者-Mr.Hope-blue.svg?style=for-the-badge)](https://mister-hope.com)
 
-> 请注意，此项目虽然公开了源代码，但是包含了对应的 [协议](https://github.com/Hope-Studio/innenu-miniapp/tree/wechat/v4/LICENSE) 进行限制。请勿以为本项目代码可随意使用。
+> 请注意，此项目虽然公开了源代码，但是包含了对应的 [协议](https://github.com/inNENU/inNENU/tree/main/LICENSE) 进行限制。请勿以为本项目代码可随意使用。
 
 ## 目前 QQ 与微信小程序的差异
 
