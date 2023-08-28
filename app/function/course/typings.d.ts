@@ -5,7 +5,7 @@ import type {
   VPNLoginFailedResponse,
 } from "../../login/index.js";
 
-export interface UserCourseTableOptions {
+export interface UnderCourseTableOptions {
   /** 查询时间 */
   time: string;
 }
@@ -21,22 +21,41 @@ export type CellItem = ClassItem[];
 export type RowItem = CellItem[];
 export type TableItem = RowItem[];
 
-export interface UserCourseTableSuccessResponse {
+export interface UnderCourseTableSuccessResponse {
   success: true;
   data: TableItem;
   startTime: string;
 }
 
-export type UserCourseTableFailedResponse =
+export type UnderCourseTableFailedResponse =
   | AuthLoginFailedResponse
   | VPNLoginFailedResponse
   | (CommonFailedResponse & { type: LoginFailType.Expired });
 
-export type UserCourseTableResponse =
-  | UserCourseTableSuccessResponse
-  | UserCourseTableFailedResponse;
+export type UnderCourseTableResponse =
+  | UnderCourseTableSuccessResponse
+  | UnderCourseTableFailedResponse;
 
-export type CourseType =
+export interface PostCourseTableOptions {
+  /** 查询时间 */
+  time: string;
+}
+
+export interface PostCourseTableSuccessResponse {
+  success: true;
+  data: TableItem;
+  startTime: string;
+}
+
+export type PostCourseTableFailedResponse =
+  | AuthLoginFailedResponse
+  | (CommonFailedResponse & { type: LoginFailType.Expired });
+
+export type PostCourseTableResponse =
+  | PostCourseTableSuccessResponse
+  | PostCourseTableFailedResponse;
+
+export type UnderCourseType =
   | "通识教育必修课"
   | "通识教育选修课"
   | "专业教育必修课"
@@ -48,13 +67,13 @@ export type CourseType =
   | "教师教育必修课"
   | "教师教育选修课";
 
-export interface UserGradeListOptions {
+export interface UnderGradeListOptions {
   /** 查询时间 */
   time?: string;
   /** 课程名称 */
   name?: string;
   /** 课程性质 */
-  courseType?: CourseType | "";
+  courseType?: UnderCourseType | "";
   gradeType?: "all" | "best";
 }
 
@@ -68,7 +87,7 @@ export interface GradeDetail {
   exam: ScoreDetail | null;
 }
 
-export interface GradeResult {
+export interface UnderGradeResult {
   /** 修读时间 */
   time: string;
   /** 课程 id */
@@ -105,17 +124,58 @@ export interface GradeResult {
   status: string;
 }
 
-export interface UserGradeListSuccessResponse {
+export interface UnderGradeListSuccessResponse {
   success: true;
-  data: GradeResult[];
+  data: UnderGradeResult[];
 }
 
-export type UserGradeListFailedResponse =
+export type UnderGradeListFailedResponse =
   | AuthLoginFailedResponse
   | VPNLoginFailedResponse
   | (CommonFailedResponse & { type: LoginFailType.Expired })
   | (CommonFailedResponse & { type: "error" });
 
-export type UserGradeListResponse =
-  | UserGradeListSuccessResponse
-  | UserGradeListFailedResponse;
+export type UnderGradeListResponse =
+  | UnderGradeListSuccessResponse
+  | UnderGradeListFailedResponse;
+
+export interface PostGradeResult {
+  /** 修读时间 */
+  time: string;
+  /** 课程名称 */
+  name: string;
+  /** 分数 */
+  grade: number;
+  /** 分数文本 */
+  gradeText: string | null;
+  /** 绩点成绩 */
+  gradePoint: number;
+  /** 成绩标志 */
+  mark: string;
+  /** 课程性质 */
+  courseCategory: string;
+  /** 课程类型 */
+  courseType: string;
+  /** 学时 */
+  hours: number | null;
+  /** 学分 */
+  point: number;
+  /** 考试性质 */
+  examType: string;
+  /** 补重学期 */
+  reLearn: string;
+}
+
+export interface PostGradeListSuccessResponse {
+  success: true;
+  data: PostGradeResult[];
+}
+
+export type PostGradeListFailedResponse =
+  | AuthLoginFailedResponse
+  | (CommonFailedResponse & { type: LoginFailType.Expired })
+  | (CommonFailedResponse & { type: "error" });
+
+export type PostGradeListResponse =
+  | PostGradeListSuccessResponse
+  | PostGradeListFailedResponse;

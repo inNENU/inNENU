@@ -1,12 +1,12 @@
 import { $Page, get, set } from "@mptool/all";
 
-import { getDisplayTime } from "./grade-list.js";
 import { getPostCourseTable } from "./post-course-table.js";
 import type { ClassItem, TableItem } from "./typings.js";
 import {
   getOnlineUnderCourseTable,
   getUnderCourseTable,
 } from "./under-course-table.js";
+import { getDisplayTime } from "./under-grade-list.js";
 import { showModal } from "../../api/index.js";
 import type { AppOption } from "../../app.js";
 import type {
@@ -168,7 +168,7 @@ $Page(PAGE_ID, {
 
   getCourseData(time: string) {
     return this[
-      globalData.userInfo!.type === "bks"
+      globalData.userInfo!.type === "本科生"
         ? "getUnderCourseData"
         : "getPostCourseData"
     ](time);

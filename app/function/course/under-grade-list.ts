@@ -1,14 +1,14 @@
 import { logger, query } from "@mptool/all";
 
 import type {
-  CourseType,
   GradeDetail,
-  GradeResult,
   ScoreDetail,
-  UserGradeListFailedResponse,
-  UserGradeListOptions,
-  UserGradeListResponse,
-  UserGradeListSuccessResponse,
+  UnderCourseType,
+  UnderGradeListFailedResponse,
+  UnderGradeListOptions,
+  UnderGradeListResponse,
+  UnderGradeListSuccessResponse,
+  UnderGradeResult,
 } from "./typings.js";
 import { request } from "../../api/index.js";
 import { service } from "../../config/index.js";
@@ -50,7 +50,7 @@ const otherFieldsRegExp =
 const xsIdRegExp =
   /<input\s+type="hidden"\s+name\s*=\s*"xsId"\s+id\s*=\s*"xsId"\s+value="([^"]*?)" \/>/;
 
-const COURSE_TYPES: Record<CourseType, string> = {
+const COURSE_TYPES: Record<UnderCourseType, string> = {
   通识教育必修课: "01",
   通识教育选修课: "02",
   专业教育必修课: "03",
@@ -87,7 +87,7 @@ const getScoreDetail = (content: string): ScoreDetail | null => {
 export const getGrades = (
   content: string,
   isJS = false,
-): Promise<GradeResult[]> =>
+): Promise<UnderGradeResult[]> =>
   Promise.all(
     Array.from(
       content.matchAll(isJS ? jsGradeItemRegExp : gradeItemRegExp),
@@ -183,7 +183,7 @@ export const getGrades = (
 
 export const getGradeLists = async (
   content: string,
-): Promise<GradeResult[]> => {
+): Promise<UnderGradeResult[]> => {
   // We force writing these 2 field to ensure we care getting the default table structure
   const tableFields = tableFieldsRegExp.exec(content)![1];
   const otherFields = String(otherFieldsRegExp.exec(content)?.[1]);
@@ -247,12 +247,12 @@ export const getGradeLists = async (
   return grades;
 };
 
-export const getGradeList = async ({
+export const getUnderGradeList = async ({
   time = "",
   name = "",
   courseType = "",
   gradeType = "all",
-}: UserGradeListOptions): Promise<UserGradeListResponse> => {
+}: UnderGradeListOptions): Promise<UnderGradeListResponse> => {
   try {
     const content = await request<string>(QUERY_URL, {
       method: "POST",
@@ -271,7 +271,7 @@ export const getGradeList = async ({
     if (isWebVPNPage(content)) {
       cookieStore.clear();
 
-      return <UserGradeListFailedResponse>{
+      return <UnderGradeListFailedResponse>{
         success: false,
         type: "expired",
         msg: "登录已过期，请重新登录",
@@ -279,7 +279,7 @@ export const getGradeList = async ({
     }
 
     if (content.includes("评教未完成，不能查询成绩！"))
-      return <UserGradeListFailedResponse>{
+      return <UnderGradeListFailedResponse>{
         success: false,
         type: "error",
         msg: time
@@ -289,7 +289,7 @@ export const getGradeList = async ({
 
     const gradeList = await getGradeLists(content);
 
-    return <UserGradeListSuccessResponse>{
+    return <UnderGradeListSuccessResponse>{
       success: true,
       data: gradeList,
     };
@@ -298,17 +298,17 @@ export const getGradeList = async ({
 
     console.error(err);
 
-    return <UserGradeListFailedResponse>{
+    return <UnderGradeListFailedResponse>{
       success: false,
       msg: message,
     };
   }
 };
 
-export const getOnlineGradeList = (
-  options: UserGradeListOptions,
-): Promise<UserGradeListResponse> =>
-  request<UserGradeListResponse>(`${service}under-system/grade-list`, {
+export const getOnlineUnderGradeList = (
+  options: UnderGradeListOptions,
+): Promise<UnderGradeListResponse> =>
+  request<UnderGradeListResponse>(`${service}under-system/grade-list`, {
     method: "POST",
     data: options,
     scope: UNDER_SYSTEM_SERVER,

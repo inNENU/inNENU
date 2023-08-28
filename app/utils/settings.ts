@@ -77,11 +77,11 @@ export const getIdentity = (userInfo: UserInfo | null): Identify => {
       location: null,
     };
 
-  const { grade, type, location } = userInfo;
+  const { grade, typeId, location } = userInfo;
 
   return {
     id: grade.toString(),
-    type: type === "bks" ? "under" : type === "yjs" ? "post" : null,
+    type: typeId === "bks" ? "under" : typeId === "yjs" ? "post" : null,
     location: location === "unknown" ? null : location,
   };
 };

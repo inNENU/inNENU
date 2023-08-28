@@ -2,9 +2,9 @@ import { logger, query } from "@mptool/all";
 
 import type {
   TableItem,
-  UserCourseTableOptions,
-  UserCourseTableResponse,
-  UserCourseTableSuccessResponse,
+  UnderCourseTableOptions,
+  UnderCourseTableResponse,
+  UnderCourseTableSuccessResponse,
 } from "./typings.js";
 import { request } from "../../api/index.js";
 import { service } from "../../config/index.js";
@@ -41,7 +41,7 @@ const getCourses = (content: string): TableItem =>
 
 export const getUnderCourseTable = async ({
   time,
-}: UserCourseTableOptions): Promise<UserCourseTableResponse> => {
+}: UnderCourseTableOptions): Promise<UnderCourseTableResponse> => {
   try {
     const semesterStartTime = await getJSON<Record<string, string>>(
       "function/data/semester-start-time",
@@ -69,7 +69,7 @@ export const getUnderCourseTable = async ({
 
     const tableData = getCourses(content);
 
-    return <UserCourseTableSuccessResponse>{
+    return <UnderCourseTableSuccessResponse>{
       success: true,
       data: tableData,
       startTime: semesterStartTime[time],
@@ -87,9 +87,9 @@ export const getUnderCourseTable = async ({
 };
 
 export const getOnlineUnderCourseTable = (
-  options: UserCourseTableOptions,
-): Promise<UserCourseTableResponse> =>
-  request<UserCourseTableResponse>(`${service}under-system/course-table`, {
+  options: UnderCourseTableOptions,
+): Promise<UnderCourseTableResponse> =>
+  request<UnderCourseTableResponse>(`${service}under-system/course-table`, {
     method: "POST",
     data: options,
     scope: UNDER_SYSTEM_SERVER,
