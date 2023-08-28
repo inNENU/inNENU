@@ -23,7 +23,44 @@ const { globalData } = getApp<AppOption>();
 
 // Note: This can be inferred from app list
 const APPLY_MAIL_APP_ID = "GRYXSQ";
-const DEFAULT_PASSWORD = "inNENU4ever";
+
+const PASSWORD_CHARS = [
+  "ABCDEFGHIJKLMNOPQRSTUVWXYZ",
+  "abcdefghijklmnopqrstuvwxyz",
+  "1234567890",
+];
+
+const initRandomPassWord = (length: number): string => {
+  const password: string[] = [];
+  let n = 0;
+
+  for (let i = 0; i < length; i++)
+    if (password.length < length - 3) {
+      // Get random passwordArray index
+      const arrayRandom = Math.floor(Math.random() * 3);
+      // Get password array value
+      const passwordItem = PASSWORD_CHARS[arrayRandom];
+      // Get password array value random index
+      // Get random real value
+      const char =
+        passwordItem[Math.floor(Math.random() * passwordItem.length)];
+
+      password.push(char);
+    } else {
+      const passwordItem = PASSWORD_CHARS[n];
+
+      const char =
+        passwordItem[Math.floor(Math.random() * passwordItem.length)];
+      // Get array splice index
+      const spliceIndex = Math.floor(Math.random() * password.length);
+
+      // insert every type randomly
+      password.splice(spliceIndex, 0, char);
+      n++;
+    }
+
+  return password.join("");
+};
 
 export const getEmail = async (): Promise<GetEmailResponse> => {
   const info = globalData.userInfo!;
@@ -123,6 +160,8 @@ export const activateEmail = async ({
       msg: "邮箱账户已存在",
     };
 
+  const password = initRandomPassWord(10);
+
   const setMailResult = await request<{ success: boolean }>(
     `${MY_SERVER}/dynamicDrawForm/submitAndSend`,
     {
@@ -154,7 +193,7 @@ export const activateEmail = async ({
         YXMC: name ?? "",
         SFSYSZ: suffix ? "2" : "1",
         YXHZ: suffix?.toString() ?? "",
-        MM: DEFAULT_PASSWORD,
+        MM: password,
       }),
     },
   );
@@ -163,7 +202,7 @@ export const activateEmail = async ({
     return {
       success: true,
       email: `${name}${suffix ?? ""}@nenu.edu.cn`,
-      password: DEFAULT_PASSWORD,
+      password: password,
     };
 
   return {
