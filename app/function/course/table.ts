@@ -1,8 +1,12 @@
 import { $Page, get, set } from "@mptool/all";
 
-import { getCourseTable, getOnlineCourseTable } from "./course-table.js";
 import { getDisplayTime } from "./grade-list.js";
+import { getPostCourseTable } from "./post-course-table.js";
 import type { ClassItem, TableItem } from "./typings.js";
+import {
+  getOnlineUnderCourseTable,
+  getUnderCourseTable,
+} from "./under-course-table.js";
 import { showModal } from "../../api/index.js";
 import type { AppOption } from "../../app.js";
 import type {
@@ -12,7 +16,11 @@ import type {
 } from "../../components/today-course/typings.js";
 import { getCurrentTime } from "../../components/today-course/utils.js";
 import { COURSE_DATA_KEY, appCoverPrefix } from "../../config/index.js";
-import { LoginFailType, ensureUnderSystemLogin } from "../../login/index.js";
+import {
+  LoginFailType,
+  ensurePostSystemLogin,
+  ensureUnderSystemLogin,
+} from "../../login/index.js";
 import { DAY, MONTH } from "../../utils/constant.js";
 import { getColor, popNotice } from "../../utils/page.js";
 
@@ -114,13 +122,6 @@ $Page(PAGE_ID, {
     if (coursesData) this.state.coursesData = coursesData;
 
     if (account) {
-      const { id } = account;
-
-      if (id.toString()[4] !== "0")
-        return showModal("提示", "目前此功能仅支持本科生", () => {
-          this.$back();
-        });
-
       const grade = Math.floor(account.id / 1000000);
       const times = getTimes(grade);
       const timeDisplays = times.map(getDisplayTime);
@@ -166,6 +167,14 @@ $Page(PAGE_ID, {
   }),
 
   getCourseData(time: string) {
+    return this[
+      globalData.userInfo!.type === "bks"
+        ? "getUnderCourseData"
+        : "getPostCourseData"
+    ](time);
+  },
+
+  getUnderCourseData(time: string) {
     wx.showLoading({ title: "获取中" });
 
     return ensureUnderSystemLogin(globalData.account!, this.state.loginMethod)
@@ -173,8 +182,47 @@ $Page(PAGE_ID, {
         if (err) throw err.msg;
 
         return (
-          useOnlineService(PAGE_ID) ? getOnlineCourseTable : getCourseTable
+          useOnlineService(PAGE_ID)
+            ? getOnlineUnderCourseTable
+            : getUnderCourseTable
         )({ time }).then((res) => {
+          wx.hideLoading();
+          this.state.inited = true;
+          if (res.success) {
+            const { data, startTime } = res;
+            const courseTable = handleCourseTable(data, startTime);
+            const { courseData, weeks } = courseTable;
+
+            this.setData({
+              courseData,
+              weeks,
+              weekIndex: getWeekIndex(startTime, weeks),
+            });
+            this.state.coursesData[time] = courseTable;
+            this.state.loginMethod = "check";
+            set(COURSE_DATA_KEY, this.state.coursesData, 6 * MONTH);
+          } else if (res.type === LoginFailType.Expired) {
+            this.state.loginMethod = "login";
+            showModal("登录过期", res.msg);
+          } else {
+            showModal("获取失败", res.msg);
+          }
+        });
+      })
+      .catch((msg: string) => {
+        wx.hideLoading();
+        showModal("获取失败", msg);
+      });
+  },
+
+  getPostCourseData(time: string) {
+    wx.showLoading({ title: "获取中" });
+
+    return ensurePostSystemLogin(globalData.account!, this.state.loginMethod)
+      .then((err) => {
+        if (err) throw err.msg;
+
+        return getPostCourseTable({ time }).then((res) => {
           wx.hideLoading();
           this.state.inited = true;
           if (res.success) {

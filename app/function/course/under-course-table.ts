@@ -39,7 +39,7 @@ const getCourses = (content: string): TableItem =>
     ),
   );
 
-export const getCourseTable = async ({
+export const getUnderCourseTable = async ({
   time,
 }: UserCourseTableOptions): Promise<UserCourseTableResponse> => {
   try {
@@ -86,7 +86,7 @@ export const getCourseTable = async ({
   }
 };
 
-export const getOnlineCourseTable = (
+export const getOnlineUnderCourseTable = (
   options: UserCourseTableOptions,
 ): Promise<UserCourseTableResponse> =>
   request<UserCourseTableResponse>(`${service}under-system/course-table`, {

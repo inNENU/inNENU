@@ -48,6 +48,14 @@ export type UnderSystemLoginResponse =
   | AuthLoginFailedResponse
   | VPNLoginFailedResponse;
 
+export interface PostSystemLoginSuccessResponse {
+  success: true;
+}
+
+export type PostSystemLoginResponse =
+  | PostSystemLoginSuccessResponse
+  | AuthLoginFailedResponse;
+
 export interface MyLoginSuccessResponse {
   success: true;
 }
