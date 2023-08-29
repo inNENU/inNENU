@@ -1,0 +1,48 @@
+<view class="notice-list custom-class">
+  <image
+    wx:if="{{status === 'loading'}}"
+    class="loading"
+    src="/icon/loading.svg"
+  />
+  <error-hint
+    wx:elif="{{ status === 'error' }}"
+    size="mini"
+    catch:retry="retry"
+  />
+  <login-hint wx:elif="{{ status === 'login' }}" size="mini" />
+  <block wx:else>
+    <view class="header" data-url="notice-list" catch:tap="$bindGo">
+      近期学校通知
+      <button
+        class="refresh-button"
+        type="default"
+        size="mini"
+        catch:tap="refresh"
+      >
+        <text class="refresh-button-icon" />
+      </button>
+    </view>
+    <view
+      wx:for="{{notices}}"
+      wx:key="title"
+      class="notice bt"
+      hover-class="button-hover"
+      hover-start-time="0"
+      hover-stay-time="0"
+      data-index="{{index}}"
+      catch:tap="viewNotice"
+    >
+      <view class="title">{{item.title}}</view>
+      <view class="info">
+        <text class="time">
+          <text class="icon-font icon-time" />
+          <text>{{item.time}}</text>
+        </text>
+        <text class="teacher">
+          <text class="icon-font icon-teacher" />
+          <text>{{item.from}}</text>
+        </text>
+      </view>
+    </view>
+  </block>
+</view>

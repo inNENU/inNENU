@@ -2,6 +2,7 @@
   "enablePullDownRefresh": true,
   "usingComponents": {
     "search": "/components/search/search",
+    "notice-list": "/components/notice-list/notice-list",
     "today-course": "/components/today-course/today-course",
     "weather": "/components/weather/weather"
   }

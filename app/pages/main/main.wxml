@@ -44,6 +44,7 @@
     </view>
   </block>
   <scroll-view scroll-y class="content">
+    <notice-list wx:if="{{login}}" custom-class="notice-list" />
     <template is="components" data="{{content: page.content}}" />
   </scroll-view>
 </view>

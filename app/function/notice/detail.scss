@@ -1,4 +1,4 @@
-@import "../utils/icon";
+@import "../../styles/lib/icon";
 
 .notice-detail {
   display: flex;
@@ -17,6 +17,10 @@
 .info {
   margin: 4px 15px;
   font-size: 14px;
+
+  .icon-font {
+    margin: 0 2px;
+  }
 }
 
 .content {

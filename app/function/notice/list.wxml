@@ -24,12 +24,14 @@
       >
         <view class="title">{{item.title}}</view>
         <view class="info">
-          <view class="time-icon">
+          <text class="time">
+            <text class="icon-font icon-time" />
             <text>{{item.time}}</text>
-          </view>
-          <view class="teacher-icon">
+          </text>
+          <text class="teacher">
+            <text class="icon-font icon-teacher" />
             <text>{{item.from}}</text>
-          </view>
+          </text>
         </view>
       </view>
     </block>

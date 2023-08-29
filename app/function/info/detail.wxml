@@ -12,18 +12,22 @@
   <block wx:elif="{{content}}">
     <view class="title">{{title}}</view>
     <view class="info">
-      <view class="time-icon">
+      <text class="time">
+        <text class="icon-font icon-time" />
         <text>{{time}}</text>
-      </view>
-      <view class="eye-icon">
+      </text>
+      <text class="eye">
+        <text class="icon-font icon-eye" />
         <text>{{pageView}}</text>
-      </view>
-      <view wx:if="{{from}}" class="teacher-icon">
+      </text>
+      <text wx:if="{{from}}" class="teacher">
+        <text class="icon-font icon-teacher" />
         <text>{{from}}</text>
-      </view>
-      <view wx:if="{{author || editor}}" class="author-icon">
+      </text>
+      <text wx:if="{{author || editor}}" class="author">
+        <text class="icon-font icon-author" />
         <text>{{author || editor}}</text>
-      </view>
+      </text>
     </view>
     <view class="content">
       <rich-text nodes="{{content}}" space="nbsp" />
