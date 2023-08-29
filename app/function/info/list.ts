@@ -65,43 +65,45 @@ $Page(PAGE_ID, {
     };
   },
 
-  getInfoList(page = 1) {
+  async getInfoList(page = 1) {
     wx.showLoading({ title: "获取中" });
 
-    return (useOnlineService(PAGE_ID) ? getOnlineInfoList : getInfoList)({
+    const result = await (useOnlineService(PAGE_ID)
+      ? getOnlineInfoList
+      : getInfoList)({
       page,
       type: this.state.type,
       totalPage: this.data.totalPage,
-    }).then((res) => {
-      wx.hideLoading();
-
-      if (res.success) {
-        this.setData({
-          scrollTop: 0,
-          items: res.data,
-          page,
-          currentPage: res.page,
-          totalPage: res.totalPage,
-          status: "success",
-        });
-      } else this.setData({ status: "error" });
     });
+
+    wx.hideLoading();
+
+    if (result.success)
+      this.setData({
+        scrollTop: 0,
+        items: result.data,
+        page,
+        currentPage: result.page,
+        totalPage: result.totalPage,
+        status: "success",
+      });
+    else this.setData({ status: "error" });
   },
 
   retry() {
-    this.getInfoList(1);
+    return this.getInfoList(1);
   },
 
   prevPage() {
-    this.getInfoList(this.data.currentPage - 1);
+    return this.getInfoList(this.data.currentPage - 1);
   },
 
   nextPage() {
-    this.getInfoList(this.data.currentPage + 1);
+    return this.getInfoList(this.data.currentPage + 1);
   },
 
   changePage({ detail }: WechatMiniprogram.PickerChange) {
-    this.getInfoList(Number(detail.value) + 1);
+    return this.getInfoList(Number(detail.value) + 1);
   },
 
   viewItem({
@@ -115,7 +117,7 @@ $Page(PAGE_ID, {
     const { title, url } = this.data.items[index];
     const { type } = this.state;
 
-    this.$go(
+    return this.$go(
       `info-detail?from=${this.data.title}&title=${title}&type=${type}&url=${url}`,
     );
   },

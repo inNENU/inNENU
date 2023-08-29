@@ -68,51 +68,58 @@ $Page(PAGE_ID, {
     };
   },
 
-  getNoticeList(page = 1, check = false) {
+  async getNoticeList(page = 1, check = false) {
     if (globalData.account) {
       wx.showLoading({ title: "获取中" });
 
-      ensureActionLogin(globalData.account, check).then((err) => {
-        if (err) {
-          wx.hideLoading();
-          showToast(err.msg);
-          this.setData({ status: "error" });
-        } else
-          (useOnlineService(PAGE_ID) ? getOnlineNoticeList : getNoticeList)({
-            page,
-            type: this.state.type,
-          }).then((res) => {
-            wx.hideLoading();
-            this.state.inited = true;
-            if (res.success) {
-              this.setData({
-                scrollTop: 0,
-                notices: res.data,
-                page,
-                currentPage: res.pageIndex,
-                totalPage: res.totalPage,
-                status: "success",
-              });
-            } else this.setData({ status: "error" });
-          });
+      const err = await ensureActionLogin(globalData.account, check);
+
+      if (err) {
+        wx.hideLoading();
+        showToast(err.msg);
+
+        return this.setData({ status: "error" });
+      }
+
+      const result = await (useOnlineService(PAGE_ID)
+        ? getOnlineNoticeList
+        : getNoticeList)({
+        page,
+        type: this.state.type,
       });
-    } else this.setData({ status: "login" });
+
+      wx.hideLoading();
+      this.state.inited = true;
+
+      if (result.success)
+        this.setData({
+          scrollTop: 0,
+          notices: result.data,
+          page,
+          currentPage: result.pageIndex,
+          totalPage: result.totalPage,
+          status: "success",
+        });
+      else this.setData({ status: "error" });
+    } else {
+      this.setData({ status: "login" });
+    }
   },
 
   retry() {
-    this.getNoticeList(1, true);
+    return this.getNoticeList(1, true);
   },
 
   prevPage() {
-    this.getNoticeList(this.data.currentPage - 1);
+    return this.getNoticeList(this.data.currentPage - 1);
   },
 
   nextPage() {
-    this.getNoticeList(this.data.currentPage + 1);
+    return this.getNoticeList(this.data.currentPage + 1);
   },
 
   changePage({ detail }: WechatMiniprogram.PickerChange) {
-    this.getNoticeList(Number(detail.value) + 1);
+    return this.getNoticeList(Number(detail.value) + 1);
   },
 
   viewNotice({
@@ -126,7 +133,7 @@ $Page(PAGE_ID, {
     const { title, id } = this.data.notices[index];
     const { type } = this.state;
 
-    this.$go(
+    return this.$go(
       `notice-detail?from=${this.data.title}&title=${title}&id=${id}&type=${type}`,
     );
   },

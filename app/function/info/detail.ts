@@ -80,25 +80,27 @@ $Page(PAGE_ID, {
     };
   },
 
-  getInfo() {
-    (useOnlineService(PAGE_ID) ? getOnlineInfo : getInfo)(this.state.url).then(
-      (res) => {
-        wx.hideLoading();
-        if (res.success) {
-          const { title, time, pageView, author, editor, from, content } = res;
-
-          this.setData({
-            status: "success",
-            title,
-            time,
-            pageView,
-            author,
-            editor,
-            from,
-            content,
-          });
-        } else this.setData({ status: "error" });
-      },
+  async getInfo() {
+    const result = await (useOnlineService(PAGE_ID) ? getOnlineInfo : getInfo)(
+      this.state.url,
     );
+
+    wx.hideLoading();
+    if (result.success) {
+      const { title, time, pageView, author, editor, from, content } = result;
+
+      this.setData({
+        status: "success",
+        title,
+        time,
+        pageView,
+        author,
+        editor,
+        from,
+        content,
+      });
+    } else {
+      this.setData({ status: "error" });
+    }
   },
 });

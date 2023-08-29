@@ -74,34 +74,44 @@ $Page(PAGE_ID, {
     };
   },
 
-  getNotice(check: boolean) {
+  async getNotice(check: boolean) {
     if (globalData.account) {
       wx.showLoading({ title: "获取中" });
-      ensureActionLogin(globalData.account, check).then((err) => {
-        if (err) {
-          wx.hideLoading();
-          showToast(err.msg);
-          this.setData({ status: "error" });
-        } else
-          (useOnlineService(PAGE_ID) ? getOnlineNotice : getNotice)({
-            noticeID: this.state.id,
-          }).then((res) => {
-            wx.hideLoading();
-            if (res.success) {
-              const { title, time, pageView, author, from, content } = res;
 
-              this.setData({
-                status: "success",
-                title,
-                time,
-                pageView,
-                author,
-                from,
-                content,
-              });
-            } else this.setData({ status: "error" });
-          });
+      const err = await ensureActionLogin(globalData.account, check);
+
+      if (err) {
+        wx.hideLoading();
+        showToast(err.msg);
+
+        return this.setData({ status: "error" });
+      }
+
+      const result = await (useOnlineService(PAGE_ID)
+        ? getOnlineNotice
+        : getNotice)({
+        noticeID: this.state.id,
       });
-    } else this.setData({ status: "login" });
+
+      wx.hideLoading();
+
+      if (result.success) {
+        const { title, time, pageView, author, from, content } = result;
+
+        this.setData({
+          status: "success",
+          title,
+          time,
+          pageView,
+          author,
+          from,
+          content,
+        });
+      } else {
+        this.setData({ status: "error" });
+      }
+    } else {
+      this.setData({ status: "login" });
+    }
   },
 });
