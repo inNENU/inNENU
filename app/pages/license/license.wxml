@@ -7,6 +7,6 @@
 />
 <navbar nav="{{ { title, from } }}" />
 <view class="license">
-  <rich-text class="license-content" nodes="{{ nodes }}" />
+  <rich-text class="rich-media" nodes="{{ nodes }}" />
 </view>
 <footer />
