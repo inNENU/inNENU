@@ -13,13 +13,14 @@ import { confirmReplace, courseSorter } from "./utils.js";
 import { showModal, showToast } from "../../api/index.js";
 import type { AppOption } from "../../app.js";
 import { appCoverPrefix } from "../../config/index.js";
+import { LoginFailType } from "../../login/index.js";
 import { getColor, popNotice } from "../../utils/page.js";
 import { promiseQueue } from "../utils/promiseQueue.js";
 
 const { globalData } = getApp<AppOption>();
 
 interface ForceSelectMessage {
-  type: "conflict" | "relogin" | "forbid" | "success";
+  type: "success" | LoginFailType.Expired | "conflict" | "forbidden";
   msg: string;
 }
 
@@ -254,7 +255,7 @@ $Page(PAGE_ID, {
           });
         } else {
           showModal("获取课程人数失败", data.msg);
-          if (data.type === "relogin") this.$redirect(PAGE_ID);
+          if (data.type === LoginFailType.Expired) this.$redirect(PAGE_ID);
         }
       });
     } else {
@@ -414,7 +415,7 @@ $Page(PAGE_ID, {
       });
     } else {
       showModal("获取人数失败", result.msg);
-      if (result.type === "relogin") this.$redirect(PAGE_ID);
+      if (result.type === LoginFailType.Expired) this.$redirect(PAGE_ID);
     }
   },
 
@@ -518,7 +519,7 @@ $Page(PAGE_ID, {
               showModal("选课失败", res.msg);
 
               // 重新进入本页面
-              if (res.type === "relogin") this.$redirect(PAGE_ID);
+              if (res.type === LoginFailType.Expired) this.$redirect(PAGE_ID);
 
               return false;
             }),
@@ -561,7 +562,7 @@ $Page(PAGE_ID, {
               showModal("退课失败", res.msg);
 
               // 重新进入本页面
-              if (res.type === "relogin") this.$redirect(PAGE_ID);
+              if (res.type === LoginFailType.Expired) this.$redirect(PAGE_ID);
 
               return false;
             }),
@@ -606,7 +607,7 @@ $Page(PAGE_ID, {
 
               showModal(type === "success" ? "选课成功" : "选课失败", msg);
               if (type === "success") this.loadInfo();
-              else if (type === "relogin") this.$redirect(PAGE_ID);
+              else if (type === LoginFailType.Expired) this.$redirect(PAGE_ID);
             } else requestForceSelect();
           };
 
@@ -828,7 +829,7 @@ $Page(PAGE_ID, {
     if (data.success) this.setData({ courses: data.courses });
     else {
       showModal("查询失败", data.msg);
-      if (data.type === "relogin") this.$redirect(PAGE_ID);
+      if (data.type === LoginFailType.Expired) this.$redirect(PAGE_ID);
     }
   },
 

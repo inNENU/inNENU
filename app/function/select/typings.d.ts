@@ -1,4 +1,5 @@
 import type { CommonFailedResponse } from "../../../typings/index.js";
+import { LoginFailType } from "../../login/loginFailTypes.js";
 import type { AccountInfo } from "../../utils/typings";
 
 export interface SelectLoginSuccessResponse {
@@ -120,7 +121,7 @@ export interface ProcessSuccessResponse {
 }
 
 export interface ProcessFailedResponse extends CommonFailedResponse {
-  type?: "conflict" | "relogin" | "forbid";
+  type?: LoginFailType.Expired | "conflict" | "forbidden";
 }
 
 export type ProcessResponse = ProcessSuccessResponse | ProcessFailedResponse;
@@ -163,7 +164,7 @@ export interface SelectSearchSuccessResponse {
 }
 
 export interface SelectSearchFailedResponse extends CommonFailedResponse {
-  type?: "relogin";
+  type?: LoginFailType.Expired;
 }
 
 export type SelectSearchResponse =
@@ -190,7 +191,7 @@ export interface StudentAmountSuccessResponse {
 }
 
 export interface StudentAmountFailedResponse extends CommonFailedResponse {
-  type?: "relogin";
+  type?: LoginFailType.Expired;
 }
 
 export type StudentAmountResponse =

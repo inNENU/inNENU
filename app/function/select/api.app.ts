@@ -11,6 +11,7 @@ import type {
 } from "./typings.js";
 import { request } from "../../api/index.js";
 import { service } from "../../config/index.js";
+import { LoginFailType } from "../../login/loginFailTypes.js";
 import { AccountInfo } from "../../utils/typings.js";
 
 export const login = (options: AccountInfo): Promise<SelectLoginResponse> =>
@@ -59,14 +60,14 @@ export const process = (
           return resolve({
             success: false,
             msg,
-            type: "relogin",
+            type: LoginFailType.Expired,
           });
 
         if (msg === "您的账号在其它地方登录")
           return resolve({
             success: false,
             msg,
-            type: "relogin",
+            type: LoginFailType.Expired,
           });
 
         if (type === "delete") {
