@@ -112,8 +112,12 @@ $Page(PAGE_ID, {
     const { account } = globalData;
 
     if (account) {
+      wx.showLoading({ title: "登录中", mask: true });
+
       login(account)
         .then(async (data) => {
+          wx.hideLoading();
+
           if (!data.success)
             return showModal("登录失败", data.msg, (): void => {
               this.$go("account?from=选课系统&update=true");
