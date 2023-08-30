@@ -11,7 +11,14 @@
   />
   <login-hint wx:elif="{{ status === 'login' }}" size="mini" />
   <block wx:else>
-    <view class="header" data-url="notice-list" catch:tap="$bindGo">
+    <view
+      class="header"
+      hover-class="button-hover"
+      hover-start-time="0"
+      hover-stay-time="0"
+      data-url="notice-list"
+      catch:tap="$bindGo"
+    >
       近期学校通知
       <button
         class="refresh-button"

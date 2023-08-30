@@ -6,7 +6,6 @@
 
   max-width: var(--max-width);
   margin: 8px var(--horizontal-margin);
-  padding: 8px;
   border-radius: 8px;
 
   background-color: var(--bg-color-block);
@@ -19,8 +18,7 @@
 
 .header {
   font-size: 17px;
-  padding: 2px 20px 2px 2px;
-  margin: 2px;
+  padding: 10px 32px 4px 12px;
   text-align: left;
   line-height: 1.5;
   border-bottom: 1px solid var(--border-color);
@@ -51,15 +49,15 @@
 }
 
 .notice {
-  padding: 6px 4px;
+  padding: 6px 8px;
 
   position: relative;
   font-size: 15px;
 
-  &::before {
-    top: 0;
-    border-top: 1px solid var(--border-color);
-    transform-origin: 0 0;
+  &::after {
+    bottom: 0;
+    border-bottom: 1px solid var(--border-color);
+    transform-origin: 0 100%;
     content: " ";
 
     position: absolute;
@@ -71,7 +69,7 @@
     transform: scaleY(0.4);
   }
 
-  &:first-child::before {
+  &:last-child::after {
     display: none;
   }
 }
