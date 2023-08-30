@@ -2,9 +2,8 @@ import type {
   ProcessOptions,
   ProcessResponse,
   SearchOptions,
-  SelectBaseOptions,
+  SelectInfoOptions,
   SelectInfoResponse,
-  SelectLoginOptions,
   SelectLoginResponse,
   SelectSearchResponse,
   StudentAmountOptions,
@@ -12,21 +11,21 @@ import type {
 } from "./typings.js";
 import { request } from "../../api/index.js";
 import { service } from "../../config/index.js";
+import { AccountInfo } from "../../utils/typings.js";
 
-export const login = (
-  options: SelectLoginOptions,
-): Promise<SelectLoginResponse> =>
+export const login = (options: AccountInfo): Promise<SelectLoginResponse> =>
   request<SelectLoginResponse>(`${service}select/login`, {
     method: "POST",
     data: options,
   });
 
 export const getInfo = (
-  options: SelectBaseOptions,
+  options: SelectInfoOptions,
 ): Promise<SelectInfoResponse> =>
   request<SelectInfoResponse>(`${service}select/info`, {
     method: "POST",
     data: options,
+    scope: options.server,
   });
 
 export const process = (
@@ -36,12 +35,14 @@ export const process = (
   request<ProcessResponse>(`${service}select/process`, {
     method: type === "delete" ? "DELETE" : "PUT",
     data: options,
+    scope: options.server,
   });
 
 export const search = (options: SearchOptions): Promise<SelectSearchResponse> =>
   request<SelectSearchResponse>(`${service}select/search`, {
     method: "POST",
     data: options,
+    scope: options.server,
   });
 
 export const getAmount = (
@@ -50,4 +51,5 @@ export const getAmount = (
   request<StudentAmountResponse>(`${service}select/student-amount`, {
     method: "POST",
     data: options,
+    scope: options.server,
   });

@@ -81,8 +81,8 @@ $Page(PAGE_ID, {
   },
 
   state: {
-    cookies: <string[]>[],
     server: "",
+    type: <"under" | "post">"under",
     jx0502id: "",
     jx0502zbid: "",
 
@@ -119,8 +119,9 @@ $Page(PAGE_ID, {
               this.$go("account?from=选课系统&update=true");
             });
 
-          this.state.cookies = data.cookies;
           this.state.server = data.server;
+          this.state.type =
+            globalData.userInfo!.typeId === "bks" ? "under" : "post";
 
           this.setData({ login: true }, () => {
             this.createSelectorQuery()
@@ -740,8 +741,8 @@ $Page(PAGE_ID, {
 
   async loadInfo() {
     const data = await getInfo({
-      cookies: this.state.cookies,
       server: this.state.server,
+      type: this.state.type,
     });
 
     if (data.success) {
@@ -803,12 +804,11 @@ $Page(PAGE_ID, {
     return data.success;
   },
 
-  getAmount(id: string) {
+  getAmount(courseId: string) {
     return getAmount({
-      cookies: this.state.cookies,
       server: this.state.server,
       jx0502id: this.state.jx0502id,
-      id,
+      courseId,
     });
   },
 
@@ -816,7 +816,6 @@ $Page(PAGE_ID, {
     options: Omit<SearchOptions, "cookies" | "server" | "jx0502id">,
   ) {
     const data = await search({
-      cookies: this.state.cookies,
       server: this.state.server,
       jx0502id: this.state.jx0502id,
       ...options,
@@ -829,10 +828,9 @@ $Page(PAGE_ID, {
     }
   },
 
-  process(type: "add" | "delete", cid: string) {
+  process(type: "add" | "delete", courseId: string) {
     return process(type, {
-      cookies: this.state.cookies,
-      id: cid,
+      courseId,
       server: this.state.server,
       jx0502id: this.state.jx0502id,
       jx0502zbid: this.state.jx0502zbid,

@@ -1,39 +1,12 @@
-export interface SelectBaseOptions {
-  /**
-   * Cookie
-   */
-  cookies: string[];
-  /**
-   * 服务器地址
-   */
+import type { CommonFailedResponse } from "../../../typings/index.js";
+import type { AccountInfo } from "../../utils/typings";
+
+export interface SelectLoginSuccessResponse {
+  success: true;
   server: string;
 }
 
-export interface SelectBaseSuccessResponse {
-  success: true;
-}
-
-export interface SelectBaseFailedResponse {
-  success: false;
-  /** 错误信息 */
-  msg: string;
-}
-
-export interface SelectLoginOptions {
-  /** 学号 */
-  id: number;
-  /** 密码 */
-  password: string;
-}
-
-export type SelectLoginSuccessResponse = SelectBaseOptions &
-  SelectBaseSuccessResponse;
-
-export type SelectLoginFailedResponse = SelectBaseFailedResponse;
-
-type SelectLoginResponse =
-  | SelectLoginSuccessResponse
-  | SelectLoginFailedResponse;
+type SelectLoginResponse = SelectLoginSuccessResponse | CommonFailedResponse;
 
 export interface CourseData {
   /** 课程名称 */
@@ -96,7 +69,13 @@ export interface StudentInfo {
   majorName: string;
 }
 
-export interface SelectInfoSuccessResponse extends SelectBaseSuccessResponse {
+export interface SelectInfoOptions extends Partial<AccountInfo> {
+  server: string;
+  type: "under" | "post";
+}
+
+export interface SelectInfoSuccessResponse {
+  success: true;
   jx0502id: string;
   jx0502zbid: string;
 
@@ -123,30 +102,32 @@ export interface SelectInfoSuccessResponse extends SelectBaseSuccessResponse {
   info: StudentInfo;
 }
 
-export type SelectInfoFailedResponse = SelectBaseFailedResponse;
-
 export type SelectInfoResponse =
   | SelectInfoSuccessResponse
-  | SelectInfoFailedResponse;
+  | CommonFailedResponse;
 
-export interface ProcessOptions extends SelectBaseOptions {
+export interface ProcessOptions extends Partial<AccountInfo> {
+  server: string;
   /** 课程号 */
-  id: string;
+  courseId: string;
   jx0502id: string;
   jx0502zbid: string;
 }
 
-export interface ProcessSuccessResponse extends SelectBaseSuccessResponse {
+export interface ProcessSuccessResponse {
+  success: true;
   msg: string;
 }
 
-export interface ProcessFailedResponse extends SelectBaseFailedResponse {
+export interface ProcessFailedResponse extends CommonFailedResponse {
   type?: "conflict" | "relogin" | "forbid";
 }
 
 export type ProcessResponse = ProcessSuccessResponse | ProcessFailedResponse;
 
-export interface SearchOptions extends SelectBaseOptions {
+export interface SearchOptions extends Partial<AccountInfo> {
+  server: string;
+
   /** 年级 */
   grade?: string;
   /** 专业 */
@@ -175,12 +156,13 @@ export interface CourseBasicInfo {
   type: string;
 }
 
-export interface SelectSearchSuccessResponse extends SelectBaseSuccessResponse {
+export interface SelectSearchSuccessResponse {
+  success: true;
   /** 课程信息 */
   courses: CourseBasicInfo[];
 }
 
-export interface SelectSearchFailedResponse extends SelectBaseFailedResponse {
+export interface SelectSearchFailedResponse extends CommonFailedResponse {
   type?: "relogin";
 }
 
@@ -188,9 +170,10 @@ export type SelectSearchResponse =
   | SelectSearchSuccessResponse
   | SelectSearchFailedResponse;
 
-export interface StudentAmountOptions extends SelectBaseOptions {
+export interface StudentAmountOptions extends Partial<AccountInfo> {
+  server: string;
   /** 课程号 */
-  id: string;
+  courseId: string;
   jx0502id: string;
 }
 
@@ -201,12 +184,12 @@ export interface StudentAmountData {
   amount: number;
 }
 
-export interface StudentAmountSuccessResponse
-  extends SelectBaseSuccessResponse {
+export interface StudentAmountSuccessResponse {
+  success: true;
   data: StudentAmountData[];
 }
 
-export interface StudentAmountFailedResponse extends SelectBaseFailedResponse {
+export interface StudentAmountFailedResponse extends CommonFailedResponse {
   type?: "relogin";
 }
 
