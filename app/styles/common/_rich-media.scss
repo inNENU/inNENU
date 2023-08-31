@@ -34,4 +34,26 @@
   .ul {
     padding-left: 1em;
   }
+
+  .table {
+    max-width: 100%;
+    display: block;
+    margin: 8px;
+    overflow-x: auto;
+    border-collapse: collapse;
+  }
+
+  .th,
+  .td {
+    text-align: center;
+    margin: 0;
+    padding: 4px 6px;
+    border: 1px solid var(--text-color);
+    width: fit-content;
+    white-space: nowrap;
+  }
+
+  .th {
+    font-weight: 500;
+  }
 }
