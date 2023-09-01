@@ -49,14 +49,23 @@ export const downloadResource = async (
           url: `${assets}d/${resource}.zip`,
           success: ({ statusCode, tempFilePath }) => {
             if (statusCode === 200) {
-              // if (showProgress)
-              //   wx.showLoading({ title: "保存中...", mask: true });
+              // 判断取消提示
+              if (showProgress) {
+                progressNumber += 1;
+                if (progressNumber === total)
+                  wx.showLoading({
+                    title: "解压中",
+                    mask: true,
+                  });
+                else
+                  wx.showLoading({
+                    title: `更新中(${progressNumber}/${total})`,
+                    mask: true,
+                  });
+              }
 
               // 保存压缩文件到压缩目录
               saveFile(tempFilePath, `${resource}.zip`);
-
-              // if (showProgress)
-              //   wx.showLoading({ title: "解压中...", mask: true });
 
               // 解压文件到根目录
               unzip(`${resource}.zip`, "").then(() => {
@@ -65,17 +74,6 @@ export const downloadResource = async (
 
                 // 将下载成功信息写入存储
                 wx.setStorageSync(`${resource}Download`, true);
-
-                // 判断取消提示
-                if (showProgress) {
-                  progressNumber += 1;
-                  if (progressNumber === total) wx.hideLoading();
-                  else
-                    wx.showLoading({
-                      title: `更新中(${progressNumber}/${total})`,
-                      mask: true,
-                    });
-                }
 
                 resolve();
               });
@@ -93,6 +91,8 @@ export const downloadResource = async (
       });
     }),
   );
+
+  if (showProgress) wx.hideLoading();
 };
 
 let hasResPopup = false;
