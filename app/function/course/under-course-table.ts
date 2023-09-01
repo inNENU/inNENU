@@ -63,9 +63,15 @@ export const getUnderCourseTable = async ({
       return {
         success: false,
         type: LoginFailType.Expired,
-        msg: "登录已过期，请重新登录",
+        msg: "登录已过期，请重试",
       };
     }
+
+    if (content.includes("评教未完成，不能查看课表！"))
+      return {
+        success: false,
+        msg: "上学期评教未完成，不能查看本学期课表",
+      };
 
     const tableData = getCourses(content);
 

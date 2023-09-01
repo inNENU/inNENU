@@ -30,7 +30,7 @@ export interface UnderCourseTableSuccessResponse {
 export type UnderCourseTableFailedResponse =
   | AuthLoginFailedResponse
   | VPNLoginFailedResponse
-  | (CommonFailedResponse & { type: LoginFailType.Expired });
+  | (CommonFailedResponse & { type?: LoginFailType.Expired });
 
 export type UnderCourseTableResponse =
   | UnderCourseTableSuccessResponse
