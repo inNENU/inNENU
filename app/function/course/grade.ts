@@ -123,7 +123,7 @@ $Page("course-grade", {
     if (globalData.account) {
       if (!this.state.inited || this.data.needLogin) {
         const grade = globalData.userInfo!.grade;
-        const type = globalData.userInfo!.type === "本科生" ? "under" : "post";
+        const type = globalData.userInfo!.typeId === "bks" ? "under" : "post";
         const times = ["", ...getTimes(grade)];
         const timeDisplays = times.map(getDisplayTime);
         const grades = get<UnderGradeResult[] | PostGradeResult[]>(

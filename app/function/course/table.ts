@@ -168,7 +168,7 @@ $Page(PAGE_ID, {
 
   getCourseData(time: string) {
     return this[
-      globalData.userInfo!.type === "本科生"
+      globalData.userInfo!.typeId === "bks"
         ? "getUnderCourseData"
         : "getPostCourseData"
     ](time);
