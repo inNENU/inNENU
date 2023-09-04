@@ -1,0 +1,51 @@
+<wxs src="./change-major.wxs" module="changeMajor" />
+<page-meta
+  background-text-style="{{darkmode ? 'dark' : 'light'}}"
+  background-color="{{color.bgColor}}"
+  background-color-top="{{color.bgColorTop}}"
+  background-color-bottom="{{color.bgColorBottom}}"
+  root-background-color="{{color.bgColor}}"
+/>
+<view class="{{theme}} exam-place-wrapper">
+  <navbar nav="{{ { title } }}" />
+  <login-hint wx:if="{{needLogin}}" source="考场查询" />
+  <block wx:else>
+    <view class="exam-actions">
+      <button
+        class="refresh-button"
+        type="default"
+        size="mini"
+        catch:tap="getExamPlace"
+      >
+        <text class="refresh-button-icon" />
+      </button>
+    </view>
+    <block wx:if="{{data.length}}">
+      <view wx:for="{{data}}" wx:for-item="category" class="category">
+        <view class="category-header">{{category.name}}</view>
+        <block wx:if="{{category.exams.length}}">
+          <view wx:for="{{category.exams}}" class="exam-item">
+            <view wx:if="{{item.course}}" class="name"
+              >课程名称: {{item.course}}</view
+            >
+            <view wx:if="{{item.time}}" class="time"
+              >考试时间: {{item.time}}</view
+            >
+            <view wx:if="{{item.campus}}" class="campus"
+              >考试校区: {{item.campus}}</view
+            >
+            <view wx:if="{{item.building}}" class="building"
+              >考试地点: {{item.building}}</view
+            >
+            <view wx:if="{{item.classroom}}" class="classroom"
+              >考场: {{item.classroom}}</view
+            >
+          </view>
+        </block>
+        <view wx:else class="empty">暂无考场信息</view>
+      </view>
+      <footer config="{{ { desc } }}" />
+    </block>
+    <view wx:else class="empty">暂无考试信息</view>
+  </block>
+</view>

@@ -11,16 +11,18 @@
   margin: 2px 4px;
   padding: 4px 6px;
   border-radius: 8px;
+
   background-color: var(--bg-color-block);
-  line-height: 1.5;
+
   font-size: 14px;
+  line-height: 1.5;
 }
 
 .full-button {
   padding: 4px 6px !important;
-  line-height: 1.5 !important;
   font-weight: normal;
   font-size: 14px !important;
+  line-height: 1.5 !important;
 }
 
 .plan-header {
@@ -38,23 +40,23 @@
 }
 
 .major {
-  font-size: 18px;
-  font-weight: bold;
   padding: 2px 15px;
+  font-weight: bold;
+  font-size: 18px;
 }
 
 .exam,
 .requirement,
 .plan,
 .contact {
+  padding: 2px 15px;
   font-weight: 600;
   line-height: 1.5;
-  padding: 2px 15px;
 }
 
 .exam-info,
 .requirement-info,
 .plan-info {
-  font-size: 15px;
   padding: 0 15px;
+  font-size: 15px;
 }

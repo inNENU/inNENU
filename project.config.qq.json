@@ -164,6 +164,13 @@
           "scene": null
         },
         {
+          "id": 195,
+          "name": "考场",
+          "pathName": "function/course/exam-place",
+          "query": "",
+          "scene": null
+        },
+        {
           "id": 13,
           "name": "成绩",
           "pathName": "function/course/grade",

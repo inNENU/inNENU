@@ -23,6 +23,7 @@
         "activate/activate",
         "calendar/calendar",
         "course/change-major",
+        "course/exam-place",
         "course/grade",
         "course/table",
         "email/email",

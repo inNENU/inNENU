@@ -43,6 +43,7 @@ $Config({
     ["change-major-plan", "/function/course/change-major"],
     ["course-grade", "/function/course/grade"],
     ["course-table", "/function/course/table"],
+    ["exam-place", "/function/enroll/exam-place"],
     ["enroll-grade", "/function/enroll/grade"],
     ["enroll-plan", "/function/enroll/plan"],
     ["info-detail", "/function/info/detail"],

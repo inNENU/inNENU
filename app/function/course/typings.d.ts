@@ -47,6 +47,38 @@ export type UnderChangeMajorPlanResponse =
   | UnderChangeMajorPlanSuccessResponse
   | UnderChangeMajorPlanFailedResponse;
 
+export interface ExamPlace {
+  /** 课程 */
+  course: string;
+  /** 时间 */
+  time: string;
+  /** 校区 */
+  campus: string;
+  /** 教学楼 */
+  building: string;
+  /** 考场 */
+  classroom: string;
+}
+
+export interface UnderExamPlaceSuccessResponse {
+  success: true;
+
+  /** 计划 */
+  data: {
+    name: string;
+    exams: ExamPlace[];
+  }[];
+}
+
+export type UnderExamPlaceFailedResponse =
+  | AuthLoginFailedResponse
+  | VPNLoginFailedResponse
+  | (CommonFailedResponse & { type?: LoginFailType.Expired });
+
+export type UnderExamPlaceResponse =
+  | UnderExamPlaceSuccessResponse
+  | UnderExamPlaceFailedResponse;
+
 export interface UnderCourseTableOptions {
   /** 查询时间 */
   time: string;

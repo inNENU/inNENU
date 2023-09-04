@@ -182,6 +182,13 @@
           "scene": null
         },
         {
+          "name": "考场",
+          "pathName": "function/course/exam-place",
+          "query": "",
+          "launchMode": "default",
+          "scene": null
+        },
+        {
           "name": "成绩",
           "pathName": "function/course/grade",
           "query": "",

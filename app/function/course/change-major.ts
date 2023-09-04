@@ -4,7 +4,7 @@ import {
   getOnlineUnderChangeMajorPlan,
   getUnderChangeMajorPlans,
 } from "./change-major-plan.js";
-import { ChangeMajorPlan } from "./typings.js";
+import type { ChangeMajorPlan } from "./typings.js";
 import { showModal } from "../../api/index.js";
 import type { AppOption } from "../../app.js";
 import { appCoverPrefix } from "../../config/info.js";

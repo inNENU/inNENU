@@ -17,36 +17,35 @@
 }
 
 .header {
-  font-size: 17px;
   padding: 10px 12px 4px;
-  text-align: left;
+  font-size: 17px;
   line-height: 1.5;
+  text-align: left;
 }
 
 .refresh-button {
-  float: right;
   vertical-align: bottom;
+  float: right;
 }
 
 .notice {
-  padding: 4px 10px;
-
   position: relative;
+  padding: 4px 10px;
   font-size: 14px;
 
   &::before {
-    top: 0;
-    border-top: 1px solid var(--border-color);
-    transform-origin: 0 0%;
     content: " ";
 
     position: absolute;
+    top: 0;
     right: 0;
     left: 0;
 
     height: 1px;
+    border-top: 1px solid var(--border-color);
 
     transform: scaleY(0.4);
+    transform-origin: 0 0%;
 
     .header + & {
       display: none;
@@ -59,10 +58,10 @@
 }
 
 .more {
-  font-size: 13px;
-  text-align: right;
   padding: 4px 24px 8px;
   color: var(--dark-grey);
+  font-size: 13px;
+  text-align: right;
 }
 
 .title {
@@ -71,7 +70,7 @@
 }
 
 .info {
-  font-size: 13px;
   margin-top: 3px;
+  font-size: 13px;
   text-align: left;
 }

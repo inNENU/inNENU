@@ -1,0 +1,31 @@
+.exam-actions {
+  display: flex;
+  flex-direction: row-reverse;
+  align-items: center;
+  justify-content: space-between;
+
+  margin: 8px 15px;
+}
+
+.category {
+  padding: 4px 15px;
+  text-align: left;
+}
+
+.category-header {
+  margin: 0 auto;
+  padding: 12px 0 4px;
+  font-weight: 500;
+  font-size: 20px;
+}
+
+.exam-item {
+  padding: 4px 0;
+  text-align: left;
+}
+
+.empty {
+  color: var(--dark-grey);
+  font-size: 14px;
+  line-height: 2;
+}
