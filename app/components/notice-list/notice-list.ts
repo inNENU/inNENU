@@ -32,7 +32,7 @@ $Component({
       const notices = get<NoticeItem[]>(NOTICE_LIST_KEY);
 
       if (notices) this.setData({ status: "success", notices });
-      else this.getNoticeList(true);
+      else this.getNoticeList("validate");
     },
   },
 
@@ -41,42 +41,43 @@ $Component({
       if (globalData.account) {
         if (this.data.status === "login") {
           this.setData({ status: "loading" });
-          this.getNoticeList(true);
+          this.getNoticeList("validate");
         }
       } else this.setData({ status: "login" });
     },
   },
 
   methods: {
-    async getNoticeList(check = false) {
+    async getNoticeList(status: "check" | "login" | "validate" = "check") {
       if (globalData.account) {
-        const err = await ensureActionLogin(globalData.account, check);
+        const err = await ensureActionLogin(globalData.account, status);
 
         if (err) {
           showToast(err.msg);
-          this.setData({ status: "error" });
-        } else {
-          try {
-            const result = await (useOnlineService("notice-list")
-              ? getOnlineNoticeList
-              : getNoticeList)({});
 
-            if (result.success) {
-              const notices = result.data
-                .filter(({ from }) => !FILTERED_SOURCES.includes(from))
-                .slice(0, 5);
+          return this.setData({ status: "error" });
+        }
 
-              this.setData({
-                status: "success",
-                notices,
-              });
-              set(NOTICE_LIST_KEY, notices, HOUR);
-            } else {
-              this.setData({ status: "error" });
-            }
-          } catch (err) {
+        try {
+          const result = await (useOnlineService("notice-list")
+            ? getOnlineNoticeList
+            : getNoticeList)({});
+
+          if (result.success) {
+            const notices = result.data
+              .filter(({ from }) => !FILTERED_SOURCES.includes(from))
+              .slice(0, 5);
+
+            this.setData({
+              status: "success",
+              notices,
+            });
+            set(NOTICE_LIST_KEY, notices, HOUR);
+          } else {
             this.setData({ status: "error" });
           }
+        } catch (err) {
+          this.setData({ status: "error" });
         }
       } else this.setData({ status: "login" });
     },
@@ -101,7 +102,7 @@ $Component({
 
     retry() {
       this.setData({ status: "loading" });
-      this.getNoticeList(true);
+      this.getNoticeList("login");
     },
   },
 

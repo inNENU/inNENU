@@ -43,16 +43,18 @@ export const checkMyCookie = (): Promise<CookieVerifyResponse> =>
 
 export const ensureMyLogin = async (
   account: AccountInfo,
-  check = false,
+  status: "check" | "validate" | "login" = "check",
 ): Promise<AuthLoginFailedResponse | VPNLoginFailedResponse | null> => {
-  const cookies = cookieStore.getCookies(MY_SERVER);
+  if (status !== "login") {
+    const cookies = cookieStore.getCookies(MY_SERVER);
 
-  if (cookies.length) {
-    if (!check) return null;
+    if (cookies.length) {
+      if (status === "check") return null;
 
-    const { valid } = await checkMyCookie();
+      const { valid } = await checkMyCookie();
 
-    if (valid) return null;
+      if (valid) return null;
+    }
   }
 
   const result = await myLogin(account);

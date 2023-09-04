@@ -87,38 +87,43 @@ $Page(PAGE_ID, {
     imageUrl: `${appCoverPrefix}.jpg`,
   }),
 
-  getPlans() {
+  async getPlans() {
     wx.showLoading({ title: "获取中" });
 
-    return ensureUnderSystemLogin(globalData.account!, "validate")
-      .then((err) => {
-        if (err) throw err.msg;
+    try {
+      const err = await ensureUnderSystemLogin(globalData.account!, "validate");
 
-        return (
-          useOnlineService(PAGE_ID)
-            ? getOnlineUnderChangeMajorPlan
-            : getUnderChangeMajorPlans
-        )().then((res) => {
-          wx.hideLoading();
-          this.state.inited = true;
+      if (err) throw err.msg;
 
-          if (res.success) {
-            set(CHANGE_MAJOR_DATA_KEY, res, 3 * HOUR);
+      const result = await (useOnlineService(PAGE_ID)
+        ? getOnlineUnderChangeMajorPlan
+        : getUnderChangeMajorPlans)();
 
-            this.setPlans(res);
-            this.state.loginMethod = "check";
-          } else if (res.type === LoginFailType.Expired) {
-            this.state.loginMethod = "login";
-            showModal("登录过期", res.msg);
-          } else {
-            showModal("获取失败", res.msg);
-          }
+      wx.hideLoading();
+      this.state.inited = true;
+
+      if (result.success) {
+        set(CHANGE_MAJOR_DATA_KEY, result, 3 * HOUR);
+
+        this.setPlans(result);
+        this.state.loginMethod = "check";
+      } else if (result.type === LoginFailType.Expired) {
+        this.state.loginMethod = "login";
+        wx.showModal({
+          title: "登录过期",
+          content: result.msg,
+          confirmText: "重试",
+          success: () => {
+            this.getPlans();
+          },
         });
-      })
-      .catch((msg: string) => {
-        wx.hideLoading();
-        showModal("获取失败", msg);
-      });
+      } else {
+        showModal("获取失败", result.msg);
+      }
+    } catch (msg) {
+      wx.hideLoading();
+      showModal("获取失败", <string>msg);
+    }
   },
 
   setPlans(data: PlanData) {

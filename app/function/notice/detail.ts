@@ -19,6 +19,7 @@ $Page(PAGE_ID, {
   },
 
   state: {
+    loginMethod: <"check" | "login" | "validate">"validate",
     id: "",
     title: "",
     type: "",
@@ -29,7 +30,7 @@ $Page(PAGE_ID, {
     this.state.type = type;
     this.state.id = id;
 
-    if (id) this.getNotice(this.$state.firstOpen);
+    if (id) this.getNotice();
     else
       showModal("无法获取", "请提供 ID", () => {
         this.$back();
@@ -74,15 +75,19 @@ $Page(PAGE_ID, {
     };
   },
 
-  async getNotice(check: boolean) {
+  async getNotice() {
     if (globalData.account) {
       wx.showLoading({ title: "获取中" });
 
-      const err = await ensureActionLogin(globalData.account, check);
+      const err = await ensureActionLogin(
+        globalData.account,
+        this.state.loginMethod,
+      );
 
       if (err) {
         wx.hideLoading();
         showToast(err.msg);
+        this.state.loginMethod = "login";
 
         return this.setData({ status: "error" });
       }
@@ -107,8 +112,10 @@ $Page(PAGE_ID, {
           from,
           content,
         });
+        this.state.loginMethod = "check";
       } else {
         this.setData({ status: "error" });
+        this.state.loginMethod = "login";
       }
     } else {
       this.setData({ status: "login" });

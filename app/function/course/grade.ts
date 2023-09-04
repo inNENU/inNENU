@@ -166,70 +166,83 @@ $Page("course-grade", {
     imageUrl: `${appCoverPrefix}.jpg`,
   }),
 
-  getUnderGradeList(options: UnderGradeListOptions = {}) {
+  async getUnderGradeList(options: UnderGradeListOptions = {}) {
     wx.showLoading({ title: "获取中" });
 
-    return ensureUnderSystemLogin(globalData.account!, "validate")
-      .then((err) => {
-        if (err) throw err.msg;
+    try {
+      const err = await ensureUnderSystemLogin(globalData.account!, "validate");
 
-        return (
-          useOnlineService(PAGE_ID)
-            ? getOnlineUnderGradeList
-            : getUnderGradeList
-        )(options).then((res) => {
-          wx.hideLoading();
-          this.state.inited = true;
-          if (res.success) {
-            set(
-              `${GRADE_DATA_KEY}${options.time ? `-${options.time}` : ""}`,
-              res.data,
-              3 * HOUR,
-            );
-            this.setGradeData(res.data);
-            if (!options.time) this.setUnderStatistics(res.data);
-            this.state.loginMethod = "check";
-          } else if (res.type === LoginFailType.Expired) {
-            this.state.loginMethod = "login";
-            showModal("登录过期", res.msg);
-          } else {
-            showModal("获取失败", res.msg);
-          }
+      if (err) throw err.msg;
+
+      const result = await (useOnlineService(PAGE_ID)
+        ? getOnlineUnderGradeList
+        : getUnderGradeList)(options);
+
+      wx.hideLoading();
+      this.state.inited = true;
+
+      if (result.success) {
+        set(
+          `${GRADE_DATA_KEY}${options.time ? `-${options.time}` : ""}`,
+          result.data,
+          3 * HOUR,
+        );
+        this.setGradeData(result.data);
+        if (!options.time) this.setUnderStatistics(result.data);
+        this.state.loginMethod = "check";
+      } else if (result.type === LoginFailType.Expired) {
+        this.state.loginMethod = "login";
+        wx.showModal({
+          title: "登录过期",
+          content: result.msg,
+          confirmText: "重试",
+          success: () => {
+            this.getUnderGradeList(options);
+          },
         });
-      })
-      .catch((msg: string) => {
-        wx.hideLoading();
-        showModal("获取失败", msg);
-      });
+      } else {
+        showModal("获取失败", result.msg);
+      }
+    } catch (msg) {
+      wx.hideLoading();
+      showModal("获取失败", <string>msg);
+    }
   },
 
-  getPostGradeList() {
+  async getPostGradeList() {
     wx.showLoading({ title: "获取中" });
 
-    return ensurePostSystemLogin(globalData.account!, "validate")
-      .then((err) => {
-        if (err) throw err.msg;
+    try {
+      const err = await ensurePostSystemLogin(globalData.account!, "validate");
 
-        return getOnlinePostGradeList().then((res) => {
-          wx.hideLoading();
-          this.state.inited = true;
-          if (res.success) {
-            set(`${GRADE_DATA_KEY}`, res.data, 3 * HOUR);
-            this.setGradeData(res.data);
-            this.setPostStatistics(res.data);
-            this.state.loginMethod = "check";
-          } else if (res.type === LoginFailType.Expired) {
-            this.state.loginMethod = "login";
-            showModal("登录过期", res.msg);
-          } else {
-            showModal("获取失败", res.msg);
-          }
-        });
-      })
-      .catch((msg: string) => {
+      if (err) throw err.msg;
+
+      return getOnlinePostGradeList().then((res) => {
         wx.hideLoading();
-        showModal("获取失败", msg);
+        this.state.inited = true;
+        if (res.success) {
+          set(`${GRADE_DATA_KEY}`, res.data, 3 * HOUR);
+          this.setGradeData(res.data);
+          this.setPostStatistics(res.data);
+          this.state.loginMethod = "check";
+        } else if (res.type === LoginFailType.Expired) {
+          this.state.loginMethod = "login";
+          wx.showModal({
+            title: "登录过期",
+            content: res.msg,
+            confirmText: "重试",
+            success: () => {
+              this.getPostGradeList();
+            },
+          });
+        } else {
+          showModal("获取失败", res.msg);
+        }
       });
+    } catch (msg) {
+      wx.hideLoading();
+      showModal("获取失败", <string>msg);
+    }
   },
 
   setGradeData(grades: UnderGradeResult[] | PostGradeResult[]) {

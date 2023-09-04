@@ -44,14 +44,16 @@ export const ensurePostSystemLogin = async (
   account: AccountInfo,
   status: "check" | "validate" | "login" = "check",
 ): Promise<AuthLoginFailedResponse | VPNLoginFailedResponse | null> => {
-  const cookies = cookieStore.getCookies(POST_SYSTEM_SERVER);
+  if (status !== "login") {
+    const cookies = cookieStore.getCookies(POST_SYSTEM_SERVER);
 
-  if (cookies.length) {
-    if (!status) return null;
+    if (cookies.length) {
+      if (status === "check") return null;
 
-    const { valid } = await checkPostSystemCookie();
+      const { valid } = await checkPostSystemCookie();
 
-    if (valid) return null;
+      if (valid) return null;
+    }
   }
 
   const result = await postSystemLogin(account);

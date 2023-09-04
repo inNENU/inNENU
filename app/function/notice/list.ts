@@ -28,6 +28,7 @@ $Page(PAGE_ID, {
   },
 
   state: {
+    loginMethod: <"check" | "login" | "validate">"validate",
     type: <"notice" | "news">"notice",
     inited: false,
   },
@@ -44,7 +45,7 @@ $Page(PAGE_ID, {
   onShow() {
     if (globalData.account) {
       if (this.data.status === "login" || !this.state.inited)
-        this.getNoticeList(1, true);
+        this.getNoticeList(1);
     } else {
       this.setData({ status: "login" });
     }
@@ -71,15 +72,19 @@ $Page(PAGE_ID, {
     };
   },
 
-  async getNoticeList(page = 1, check = false) {
+  async getNoticeList(page = 1) {
     if (globalData.account) {
       wx.showLoading({ title: "获取中" });
 
-      const err = await ensureActionLogin(globalData.account, check);
+      const err = await ensureActionLogin(
+        globalData.account,
+        this.state.loginMethod,
+      );
 
       if (err) {
         wx.hideLoading();
         showToast(err.msg);
+        this.state.loginMethod = "login";
 
         return this.setData({ status: "error" });
       }
@@ -94,7 +99,7 @@ $Page(PAGE_ID, {
       wx.hideLoading();
       this.state.inited = true;
 
-      if (result.success)
+      if (result.success) {
         this.setData({
           scrollTop: 0,
           notices: result.data,
@@ -103,14 +108,18 @@ $Page(PAGE_ID, {
           totalPage: result.totalPage,
           status: "success",
         });
-      else this.setData({ status: "error" });
+        this.state.loginMethod = "check";
+      } else {
+        this.setData({ status: "error" });
+        this.state.loginMethod = "login";
+      }
     } else {
       this.setData({ status: "login" });
     }
   },
 
   retry() {
-    return this.getNoticeList(1, true);
+    return this.getNoticeList(1);
   },
 
   prevPage() {

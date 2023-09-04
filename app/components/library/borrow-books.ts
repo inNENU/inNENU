@@ -21,7 +21,7 @@ $Component({
       const books = get<BorrowBookData[]>(BORROW_BOOKS_KEY);
 
       if (books) this.setData({ status: "success", books });
-      else this.getBooks(true);
+      else this.getBooks("validate");
     },
   },
 
@@ -30,7 +30,7 @@ $Component({
       if (globalData.account) {
         if (this.data.status === "login") {
           this.setData({ status: "loading" });
-          this.getBooks(true);
+          this.getBooks("validate");
         }
       } else this.setData({ status: "login" });
     },
@@ -41,31 +41,39 @@ $Component({
       this.$go("account?update=true");
     },
 
-    getBooks(check = false) {
-      if (globalData.account)
-        ensureActionLogin(globalData.account, check).then((err) => {
-          if (err) {
-            showToast(err.msg);
-            this.setData({ status: "error" });
-          } else
-            (useOnlineService("borrow-books")
-              ? getOnlineBorrowBooks
-              : getBorrowBooks)().then((res) => {
-              if (res.success) {
-                set(BORROW_BOOKS_KEY, res.data, 3 * HOUR);
-                this.setData({
-                  books: res.data,
-                  status: "success",
-                });
-              } else this.setData({ status: "error" });
-            });
-        });
-      else this.setData({ status: "login" });
+    async getBooks(status: "check" | "login" | "validate" = "check") {
+      if (globalData.account) {
+        const err = await ensureActionLogin(globalData.account, status);
+
+        if (err) {
+          showToast(err.msg);
+
+          return this.setData({ status: "error" });
+        }
+
+        const result = await (useOnlineService("borrow-books")
+          ? getOnlineBorrowBooks
+          : getBorrowBooks)();
+
+        if (result.success) {
+          set(BORROW_BOOKS_KEY, result.data, 3 * HOUR);
+          this.setData({ books: result.data, status: "success" });
+        } else {
+          this.setData({ status: "error" });
+        }
+      } else {
+        this.setData({ status: "login" });
+      }
     },
 
     refresh() {
       this.setData({ status: "loading" });
       this.getBooks();
+    },
+
+    retry() {
+      this.setData({ status: "loading" });
+      this.getBooks("login");
     },
 
     viewBookDetail({

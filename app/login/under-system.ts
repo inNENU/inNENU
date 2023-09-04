@@ -44,14 +44,16 @@ export const ensureUnderSystemLogin = async (
   account: AccountInfo,
   status: "check" | "validate" | "login" = "check",
 ): Promise<AuthLoginFailedResponse | VPNLoginFailedResponse | null> => {
-  const cookies = cookieStore.getCookies(UNDER_SYSTEM_SERVER);
+  if (status !== "login") {
+    const cookies = cookieStore.getCookies(UNDER_SYSTEM_SERVER);
 
-  if (cookies.length) {
-    if (!status) return null;
+    if (cookies.length) {
+      if (status === "check") return null;
 
-    const { valid } = await checkUnderSystemCookie();
+      const { valid } = await checkUnderSystemCookie();
 
-    if (valid) return null;
+      if (valid) return null;
+    }
   }
 
   const result = await underSystemLogin(account);

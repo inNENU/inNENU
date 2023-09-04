@@ -53,6 +53,8 @@ $Page(PAGE_ID, {
   },
 
   state: {
+    actionLoginMethod: <"check" | "login" | "validate">"validate",
+    myLoginMethod: <"check" | "login" | "validate">"validate",
     taskId: "",
     instanceId: "",
   },
@@ -119,36 +121,50 @@ $Page(PAGE_ID, {
     else this.setData({ accountIndex, isCustom });
   },
 
-  checkEmail() {
+  async checkEmail() {
     wx.showLoading({ title: "加载中" });
 
-    return ensureMyLogin(globalData.account!, true).then((err) => {
-      if (err) {
-        wx.hideLoading();
-        showToast(err.msg);
-        this.setData({ status: "error" });
-      } else {
-        (useOnlineService("check-email") ? onlineMyEmail : getEmail)().then(
-          (res) => {
-            wx.hideLoading();
+    const err = await ensureMyLogin(
+      globalData.account!,
+      this.state.myLoginMethod,
+    );
 
-            if (res.success) {
-              if (res.hasEmail) {
-                this.getEmails();
-              } else {
-                const { accounts, taskId, instanceId } = res;
+    if (err) {
+      wx.hideLoading();
+      showToast(err.msg);
+      this.state.myLoginMethod = "login";
 
-                this.state = { taskId, instanceId };
-                this.setData({
-                  type: "apply",
-                  accounts: ["请选择", ...accounts, "自定义"],
-                });
-              }
-            } else this.setData({ status: "error" });
-          },
-        );
-      }
-    });
+      return this.setData({ status: "error" });
+    }
+
+    const result = await (useOnlineService("check-email")
+      ? onlineMyEmail
+      : getEmail)();
+
+    wx.hideLoading();
+
+    if (result.success) {
+      if (result.hasEmail) return this.getEmails();
+
+      const { accounts, taskId, instanceId } = result;
+
+      this.state = {
+        ...this.state,
+        myLoginMethod: "check",
+        taskId,
+        instanceId,
+      };
+      this.state.myLoginMethod = "check";
+
+      return this.setData({
+        type: "apply",
+        accounts: ["请选择", ...accounts, "自定义"],
+      });
+    }
+
+    this.state.myLoginMethod = "login";
+
+    return this.setData({ status: "error" });
   },
 
   apply() {
@@ -252,39 +268,48 @@ $Page(PAGE_ID, {
     );
   },
 
-  getEmails() {
+  async getEmails() {
     wx.showLoading({ title: "获取邮件" });
 
-    return ensureActionLogin(globalData.account!, true).then((err) => {
-      if (err) {
-        wx.hideLoading();
-        showModal(
-          "获取邮件失败",
-          "请确认已手动登录邮箱，完成开启手机密保与修改初始密码工作。",
-        );
-        this.setData({ status: "error" });
-      } else {
-        (useOnlineService("recent-email")
-          ? onlineRecentEmails
-          : recentEmails)().then((res) => {
-          wx.hideLoading();
+    const err = await ensureActionLogin(
+      globalData.account!,
+      this.state.actionLoginMethod,
+    );
 
-          if (res.success) {
-            this.setData({
-              unread: res.unread,
-              recent: res.recent.map(({ receivedDate, ...item }) => ({
-                date: new Date(receivedDate).toLocaleDateString(),
-                ...item,
-              })),
-            });
-            this.setData({ type: "email" });
-          } else this.setData({ status: "error" });
-        });
-      }
-    });
+    if (err) {
+      wx.hideLoading();
+      showModal(
+        "获取邮件失败",
+        "请确认已手动登录邮箱，完成开启手机密保与修改初始密码工作。",
+      );
+      this.state.actionLoginMethod = "login";
+
+      return this.setData({ status: "error" });
+    }
+
+    const result = await (useOnlineService("recent-email")
+      ? onlineRecentEmails
+      : recentEmails)();
+
+    wx.hideLoading();
+
+    if (result.success) {
+      this.setData({
+        unread: result.unread,
+        recent: result.recent.map(({ receivedDate, ...item }) => ({
+          date: new Date(receivedDate).toLocaleDateString(),
+          ...item,
+        })),
+      });
+      this.setData({ type: "email" });
+      this.state.actionLoginMethod = "check";
+    } else {
+      this.setData({ status: "error" });
+      this.state.actionLoginMethod = "login";
+    }
   },
 
-  openEmail({
+  async openEmail({
     currentTarget,
   }: WechatMiniprogram.TouchEvent<
     Record<never, never>,
@@ -293,32 +318,42 @@ $Page(PAGE_ID, {
   >) {
     wx.showLoading({ title: "加载中" });
 
-    return ensureActionLogin(globalData.account!, true).then((err) => {
-      if (err) {
-        wx.hideLoading();
-        showToast(err.msg);
-        this.setData({ status: "error" });
-      } else {
-        (useOnlineService("email-page") ? onlineEmailPage : emailPage)(
-          currentTarget.dataset.mid,
-        ).then((res) => {
-          wx.hideLoading();
+    const err = await ensureActionLogin(
+      globalData.account!,
+      this.state.actionLoginMethod,
+    );
 
-          if (res.success) {
-            if (globalData.env === "app") {
-              this.$go(`web?url=${encodeURIComponent(res.url)}`);
-            } else {
-              setClipboard(res.url).then(() => {
-                showModal(
-                  "复制成功",
-                  "相关链接已复制到剪切板。受小程序限制，请使用浏览器打开。",
-                );
-              });
-            }
-          } else showToast("加载页面失败");
-        });
-      }
-    });
+    if (err) {
+      wx.hideLoading();
+      showToast(err.msg);
+      this.state.actionLoginMethod = "login";
+
+      return this.setData({ status: "error" });
+    }
+
+    const result = await (useOnlineService("email-page")
+      ? onlineEmailPage
+      : emailPage)(currentTarget.dataset.mid);
+
+    wx.hideLoading();
+
+    if (result.success) {
+      const { url } = result;
+
+      if (globalData.env === "app")
+        return this.$go(`web?url=${encodeURIComponent(url)}`);
+
+      await setClipboard(url);
+
+      showModal(
+        "复制成功",
+        "相关链接已复制到剪切板。受小程序限制，请使用浏览器打开。",
+      );
+      this.state.actionLoginMethod = "check";
+    } else {
+      showToast("加载页面失败");
+      this.state.actionLoginMethod = "login";
+    }
   },
 
   retry() {

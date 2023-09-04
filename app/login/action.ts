@@ -40,23 +40,21 @@ export const checkActionCookie = (): Promise<CookieVerifyResponse> =>
 
 export const ensureActionLogin = async (
   account: AccountInfo,
-  check = false,
+  status: "check" | "validate" | "login" = "check",
 ): Promise<AuthLoginFailedResponse | VPNLoginFailedResponse | null> => {
-  const cookies = cookieStore.getCookies(ACTION_SERVER);
+  if (status !== "login") {
+    const cookies = cookieStore.getCookies(ACTION_SERVER);
 
-  if (cookies.length) {
-    if (!check) return null;
+    if (cookies.length) {
+      if (status === "check") return null;
 
-    const { valid } = await checkActionCookie();
+      const { valid } = await checkActionCookie();
 
-    if (valid) return null;
+      if (valid) return null;
+    }
   }
 
   const result = await actionLogin(account);
 
   return result.success ? null : result;
 };
-
-// 小程序会自动解析 302，所以我们需要检查 WebVPN 是否已失效
-export const isWebVPNPage = (content: string): boolean =>
-  content.includes("fuckvpn") || content.includes("东北师范大学 WebVPN");

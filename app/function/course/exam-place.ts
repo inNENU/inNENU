@@ -79,37 +79,42 @@ $Page(PAGE_ID, {
     imageUrl: `${appCoverPrefix}.jpg`,
   }),
 
-  getExamPlace() {
+  async getExamPlace() {
     wx.showLoading({ title: "获取中" });
 
-    return ensureUnderSystemLogin(globalData.account!, "validate")
-      .then((err) => {
-        if (err) throw err.msg;
+    try {
+      const err = await ensureUnderSystemLogin(globalData.account!, "validate");
 
-        return (
-          useOnlineService(PAGE_ID)
-            ? getOnlineUnderExamPlace
-            : getUnderExamPlace
-        )().then((res) => {
-          wx.hideLoading();
-          this.state.inited = true;
+      if (err) throw err.msg;
 
-          if (res.success) {
-            set(EXAM_PLACE_DATA_KEY, res.data, 3 * HOUR);
+      const result = await (useOnlineService(PAGE_ID)
+        ? getOnlineUnderExamPlace
+        : getUnderExamPlace)();
 
-            this.setData({ data: res.data });
-            this.state.loginMethod = "check";
-          } else if (res.type === LoginFailType.Expired) {
-            this.state.loginMethod = "login";
-            showModal("登录过期", res.msg);
-          } else {
-            showModal("获取失败", res.msg);
-          }
+      wx.hideLoading();
+      this.state.inited = true;
+
+      if (result.success) {
+        set(EXAM_PLACE_DATA_KEY, result.data, 3 * HOUR);
+
+        this.setData({ data: result.data });
+        this.state.loginMethod = "check";
+      } else if (result.type === LoginFailType.Expired) {
+        this.state.loginMethod = "login";
+        wx.showModal({
+          title: "登录过期",
+          content: result.msg,
+          confirmText: "重试",
+          success: () => {
+            this.getExamPlace();
+          },
         });
-      })
-      .catch((msg: string) => {
-        wx.hideLoading();
-        showModal("获取失败", msg);
-      });
+      } else {
+        showModal("获取失败", result.msg);
+      }
+    } catch (msg) {
+      wx.hideLoading();
+      showModal("获取失败", <string>msg);
+    }
   },
 });

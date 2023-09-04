@@ -174,82 +174,101 @@ $Page(PAGE_ID, {
     ](time);
   },
 
-  getUnderCourseData(time: string) {
+  async getUnderCourseData(time: string) {
     wx.showLoading({ title: "获取中" });
+    try {
+      const err = await ensureUnderSystemLogin(
+        globalData.account!,
+        this.state.loginMethod,
+      );
 
-    return ensureUnderSystemLogin(globalData.account!, this.state.loginMethod)
-      .then((err) => {
-        if (err) throw err.msg;
+      if (err) throw err.msg;
 
-        return (
-          useOnlineService(PAGE_ID)
-            ? getOnlineUnderCourseTable
-            : getUnderCourseTable
-        )({ time }).then((res) => {
-          wx.hideLoading();
-          this.state.inited = true;
-          if (res.success) {
-            const { data, startTime } = res;
-            const courseTable = handleCourseTable(data, startTime);
-            const { courseData, weeks } = courseTable;
+      const result = await (useOnlineService(PAGE_ID)
+        ? getOnlineUnderCourseTable
+        : getUnderCourseTable)({ time });
 
-            this.setData({
-              courseData,
-              weeks,
-              weekIndex: getWeekIndex(startTime, weeks),
-            });
-            this.state.coursesData[time] = courseTable;
-            this.state.loginMethod = "check";
-            set(COURSE_DATA_KEY, this.state.coursesData, 6 * MONTH);
-          } else if (res.type === LoginFailType.Expired) {
-            this.state.loginMethod = "login";
-            showModal("登录过期", res.msg);
-          } else {
-            showModal("获取失败", res.msg);
-          }
+      wx.hideLoading();
+      this.state.inited = true;
+
+      if (result.success) {
+        const { data, startTime } = result;
+        const courseTable = handleCourseTable(data, startTime);
+        const { courseData, weeks } = courseTable;
+
+        this.setData({
+          courseData,
+          weeks,
+          weekIndex: getWeekIndex(startTime, weeks),
         });
-      })
-      .catch((msg: string) => {
-        wx.hideLoading();
-        showModal("获取失败", msg);
-      });
+        this.state.coursesData[time] = courseTable;
+        this.state.loginMethod = "check";
+        set(COURSE_DATA_KEY, this.state.coursesData, 6 * MONTH);
+      } else if (result.type === LoginFailType.Expired) {
+        this.state.loginMethod = "login";
+        wx.showModal({
+          title: "登录过期",
+          content: result.msg,
+          confirmText: "重试",
+          success: () => {
+            this.getUnderCourseData(time);
+          },
+        });
+      } else {
+        showModal("获取失败", result.msg);
+      }
+    } catch (msg) {
+      wx.hideLoading();
+      showModal("获取失败", <string>msg);
+    }
   },
 
-  getPostCourseData(time: string) {
+  async getPostCourseData(time: string) {
     wx.showLoading({ title: "获取中" });
 
-    return ensurePostSystemLogin(globalData.account!, this.state.loginMethod)
-      .then((err) => {
-        if (err) throw err.msg;
+    try {
+      const err = await ensurePostSystemLogin(
+        globalData.account!,
+        this.state.loginMethod,
+      );
 
-        return getPostCourseTable({ time }).then((res) => {
-          wx.hideLoading();
-          this.state.inited = true;
-          if (res.success) {
-            const { data, startTime } = res;
-            const courseTable = handleCourseTable(data, startTime);
-            const { courseData, weeks } = courseTable;
+      if (err) throw err.msg;
 
-            this.setData({
-              courseData,
-              weeks,
-              weekIndex: getWeekIndex(startTime, weeks),
-            });
-            this.state.coursesData[time] = courseTable;
-            this.state.loginMethod = "check";
-            set(COURSE_DATA_KEY, this.state.coursesData, 6 * MONTH);
-          } else if (res.type === LoginFailType.Expired) {
-            this.state.loginMethod = "login";
-            showModal("登录过期", res.msg);
-          } else {
-            showModal("获取失败", res.msg);
-          }
+      const result = await getPostCourseTable({ time });
+
+      wx.hideLoading();
+      this.state.inited = true;
+
+      if (result.success) {
+        const { data, startTime } = result;
+        const courseTable = handleCourseTable(data, startTime);
+        const { courseData, weeks } = courseTable;
+
+        this.setData({
+          courseData,
+          weeks,
+          weekIndex: getWeekIndex(startTime, weeks),
         });
-      })
-      .catch((msg: string) => {
-        wx.hideLoading();
-        showModal("获取失败", msg);
-      });
+        this.state.coursesData[time] = courseTable;
+        this.state.loginMethod = "check";
+        set(COURSE_DATA_KEY, this.state.coursesData, 6 * MONTH);
+      } else if (result.type === LoginFailType.Expired) {
+        this.state.loginMethod = "login";
+        wx.showModal({
+          title: "登录过期",
+          content: result.msg,
+          confirmText: "重试",
+          success: () => {
+            this.getPostCourseData(time);
+          },
+        });
+      } else {
+        showModal("获取失败", result.msg);
+      }
+    } catch (msg) {
+      wx.hideLoading();
+      showModal("获取失败", <string>msg);
+    }
   },
 
   changeTime({ detail }: WechatMiniprogram.PickerChange) {

@@ -19,7 +19,7 @@ $Component({
       const balance = get<number>(CARD_BALANCE_KEY);
 
       if (balance) this.setData({ status: "success", balance });
-      else this.getCardBalance(true);
+      else this.getCardBalance("validate");
     },
   },
 
@@ -28,16 +28,16 @@ $Component({
       if (globalData.account) {
         if (this.data.status === "login") {
           this.setData({ status: "loading" });
-          this.getCardBalance(true);
+          this.getCardBalance("validate");
         }
       } else this.setData({ status: "login" });
     },
   },
 
   methods: {
-    async getCardBalance(check = false) {
+    async getCardBalance(status: "check" | "login" | "validate" = "check") {
       if (globalData.account) {
-        const err = await ensureActionLogin(globalData.account, check);
+        const err = await ensureActionLogin(globalData.account, status);
 
         if (err) {
           showToast(err.msg);
@@ -66,7 +66,7 @@ $Component({
 
     refresh() {
       this.setData({ status: "loading" });
-      this.getCardBalance();
+      this.getCardBalance("login");
     },
   },
 
