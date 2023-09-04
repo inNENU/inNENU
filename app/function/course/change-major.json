@@ -1,0 +1,6 @@
+{
+  "navigationBarTitleText": "转专业计划",
+  "usingComponents": {
+    "login-hint": "/components/login-hint/login-hint"
+  }
+}

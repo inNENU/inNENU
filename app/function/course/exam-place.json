@@ -1,0 +1,6 @@
+{
+  "navigationBarTitleText": "考场查询",
+  "usingComponents": {
+    "login-hint": "/components/login-hint/login-hint"
+  }
+}

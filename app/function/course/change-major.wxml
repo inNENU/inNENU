@@ -60,7 +60,7 @@
           <view class="subject">科类: {{item.subject}}</view>
           <text space="nbsp">{{item.requirement}}</text>
         </view>
-        <view class="plan">招生计划</view>
+        <view class="plan">人数信息</view>
         <view class="plan-info">
           报名人数/计划人数:
           <text style="{{item.current>item.plan ? 'color: #f00;' : ''}}"
