@@ -51,7 +51,7 @@ $Page(PAGE_ID, {
     if (globalData.account) {
       if (!this.state.inited || this.data.needLogin) {
         if (globalData.userInfo!.typeId !== "bks")
-          return showModal("暂不支持", "转专业计划查询仅支持本科生", () => {
+          return showModal("暂不支持", "考场查询仅支持本科生", () => {
             this.$back();
           });
 
