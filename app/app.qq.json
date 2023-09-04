@@ -22,6 +22,7 @@
       "pages": [
         "activate/activate",
         "calendar/calendar",
+        "course/change-major",
         "course/grade",
         "course/table",
         "email/email",

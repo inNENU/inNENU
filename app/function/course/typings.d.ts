@@ -5,6 +5,48 @@ import type {
   VPNLoginFailedResponse,
 } from "../../login/index.js";
 
+export interface ChangeMajorPlan {
+  /** 学院 */
+  school: string;
+  /** 专业 */
+  major: string;
+  /** 科类 */
+  subject: string;
+  /** 考试类型 */
+  examType: string;
+  /** 考试时间 */
+  time: string;
+  /** 考试地点 */
+  location: string;
+  /** 计划数 */
+  plan: number;
+  /** 当前报名人数 */
+  current: number;
+  /** 准入要求 */
+  requirement: string;
+  /** 联系人 */
+  contact: string;
+  /** 电话 */
+  phone: string;
+}
+
+export interface UnderChangeMajorPlanSuccessResponse {
+  success: true;
+  /** 计划标题 */
+  header: string;
+  /** 计划 */
+  plans: ChangeMajorPlan[];
+}
+
+export type UnderChangeMajorPlanFailedResponse =
+  | AuthLoginFailedResponse
+  | VPNLoginFailedResponse
+  | (CommonFailedResponse & { type?: LoginFailType.Expired });
+
+export type UnderChangeMajorPlanResponse =
+  | UnderChangeMajorPlanSuccessResponse
+  | UnderChangeMajorPlanFailedResponse;
+
 export interface UnderCourseTableOptions {
   /** 查询时间 */
   time: string;

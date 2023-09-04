@@ -1,0 +1,23 @@
+module.exports = {
+  headers: [
+    "课程名称",
+    "成绩",
+    "难度系数",
+    "学分",
+    "绩点",
+    "课程类别",
+    "选修课类型",
+    "修读时间",
+    "学时",
+    "考试类型",
+  ],
+
+  getPhoneConfig: function (config) {
+    return {
+      fName: config.contact,
+      num: config.phone,
+      remark: config.school + config.major + "转专业咨询",
+      org: "东北师范大学",
+    };
+  },
+};

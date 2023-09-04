@@ -12,7 +12,11 @@ import type {
 } from "./typings.js";
 import { request } from "../../api/index.js";
 import { service } from "../../config/index.js";
-import { UNDER_SYSTEM_SERVER, isWebVPNPage } from "../../login/index.js";
+import {
+  LoginFailType,
+  UNDER_SYSTEM_SERVER,
+  isWebVPNPage,
+} from "../../login/index.js";
 import { getIETimeStamp } from "../../utils/browser.js";
 import { cookieStore } from "../../utils/cookie.js";
 
@@ -273,7 +277,7 @@ export const getUnderGradeList = async ({
 
       return <UnderGradeListFailedResponse>{
         success: false,
-        type: "expired",
+        type: LoginFailType.Expired,
         msg: "登录已过期，请重新登录",
       };
     }

@@ -1,0 +1,76 @@
+<wxs src="./change-major.wxs" module="changeMajor" />
+<page-meta
+  background-text-style="{{darkmode ? 'dark' : 'light'}}"
+  background-color="{{color.bgColor}}"
+  background-color-top="{{color.bgColorTop}}"
+  background-color-bottom="{{color.bgColorBottom}}"
+  root-background-color="{{color.bgColor}}"
+/>
+<view class="{{theme}} change-major-plan-wrapper">
+  <navbar nav="{{ { title } }}" />
+  <login-hint wx:if="{{needLogin}}" source="转专业计划" />
+  <block wx:else>
+    <view class="plan-actions">
+      <button
+        class="refresh-button"
+        type="default"
+        size="mini"
+        catch:tap="getPlans"
+      >
+        <text class="refresh-button-icon" />
+      </button>
+      <button
+        class="full-button"
+        type="{{notFull? 'primary': 'plain'}}"
+        size="mini"
+        catch:tap="toggleFull"
+      >
+        未报满
+      </button>
+      <picker
+        class="picker"
+        range="{{schools}}"
+        value="{{schoolIndex}}"
+        bindchange="changeSchool"
+      >
+        {{(schools[schoolIndex])}}
+      </picker>
+      <picker
+        class="picker"
+        range="{{subjects}}"
+        value="{{subjectIndex}}"
+        bindchange="changeSubject"
+      >
+        {{(subjects[subjectIndex])}}
+      </picker>
+    </view>
+    <view class="plan-header">{{header}}</view>
+    <block wx:if="{{plans.length}}">
+      <view wx:for="{{plans}}" class="plan-item">
+        <view class="major">{{item.school}} - {{item.major}}</view>
+        <view class="exam">考核</view>
+        <view class="exam-info">
+          <view class="examType">类型: {{item.examType}}</view>
+          <view class="time">时间: {{item.time}}</view>
+          <view class="location">地点: {{item.location}}</view>
+        </view>
+
+        <view class="requirement">要求</view>
+        <view class="requirement-info">
+          <view class="subject">科类: {{item.subject}}</view>
+          <text space="nbsp">{{item.requirement}}</text>
+        </view>
+        <view class="plan">招生计划</view>
+        <view class="plan-info">
+          报名人数/计划人数:
+          <text style="{{item.current>item.plan ? 'color: #f00;' : ''}}"
+            >{{item.current}}</text
+          >/{{item.plan}}
+        </view>
+        <view class="contact">咨询方式</view>
+        <phone config="{{changeMajor.getPhoneConfig(item)}}" />
+      </view>
+      <footer config="{{ { desc } }}" />
+    </block>
+  </block>
+</view>

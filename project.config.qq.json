@@ -157,6 +157,13 @@
           "scene": null
         },
         {
+          "id": 198,
+          "name": "转专业计划",
+          "pathName": "function/course/change-major",
+          "query": "",
+          "scene": null
+        },
+        {
           "id": 13,
           "name": "成绩",
           "pathName": "function/course/grade",

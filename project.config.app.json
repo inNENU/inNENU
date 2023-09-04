@@ -175,6 +175,13 @@
           "scene": null
         },
         {
+          "name": "转专业计划",
+          "pathName": "function/course/change-major",
+          "query": "",
+          "launchMode": "default",
+          "scene": null
+        },
+        {
           "name": "成绩",
           "pathName": "function/course/grade",
           "query": "",

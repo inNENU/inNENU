@@ -1,0 +1,60 @@
+.plan-actions {
+  display: flex;
+  flex-direction: row-reverse;
+  align-items: center;
+  justify-content: space-between;
+
+  margin: 8px 15px;
+}
+
+.picker {
+  margin: 2px 4px;
+  padding: 4px 6px;
+  border-radius: 8px;
+  background-color: var(--bg-color-block);
+  line-height: 1.5;
+  font-size: 14px;
+}
+
+.full-button {
+  padding: 4px 6px !important;
+  line-height: 1.5 !important;
+  font-weight: normal;
+  font-size: 14px !important;
+}
+
+.plan-header {
+  margin: 0 auto;
+  padding: 12px 15px 4px;
+
+  font-weight: 500;
+  font-size: 24px;
+  text-align: left;
+}
+
+.plan-item {
+  margin: 8px 0;
+  text-align: left;
+}
+
+.major {
+  font-size: 18px;
+  font-weight: bold;
+  padding: 2px 15px;
+}
+
+.exam,
+.requirement,
+.plan,
+.contact {
+  font-weight: 600;
+  line-height: 1.5;
+  padding: 2px 15px;
+}
+
+.exam-info,
+.requirement-info,
+.plan-info {
+  font-size: 15px;
+  padding: 0 15px;
+}

@@ -40,6 +40,7 @@ $Config({
       "/function/$name/$name",
     ],
     ["admission", "/function/enroll/admission"],
+    ["change-major-plan", "/function/course/change-major"],
     ["course-grade", "/function/course/grade"],
     ["course-table", "/function/course/table"],
     ["enroll-grade", "/function/enroll/grade"],
