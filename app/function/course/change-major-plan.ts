@@ -5,6 +5,17 @@ import type {
   UnderChangeMajorPlanResponse,
   UnderChangeMajorPlanSuccessResponse,
 } from "./typings.js";
+import {
+  fieldRegExp,
+  keyCodeRegExp,
+  otherFieldsRegExp,
+  printHQLInputRegExp,
+  printHQLJSRegExp,
+  printPageSizeRegExp,
+  sqlStringRegExp,
+  tableFieldsRegExp,
+  totalPagesRegExp,
+} from "./utils.js";
 import { request } from "../../api/index.js";
 import { service } from "../../config/info.js";
 import {
@@ -16,24 +27,6 @@ import { getIETimeStamp } from "../../utils/browser.js";
 import { cookieStore } from "../../utils/cookie.js";
 
 const headerRegExp = /<title>(.*)<\/title>/;
-const keyCodeRegExp =
-  /<input\s+type="hidden"\s+name\s*=\s*"keyCode"\s+id\s*=\s*"keyCode"\s+value="([^"]*?)">/;
-const printHQLInputRegExp =
-  /<input\s+type="hidden"\s+name\s*=\s*"printHQL"\s+id\s*=\s*"printHQL"\s+value="([^"]*?)">/;
-const printHQLJSRegExp =
-  /window\.parent\.document\.getElementById\('printHQL'\)\.value = '([^']*?)';/;
-const printPageSizeRegExp =
-  /<input\s+type="hidden"\s+name\s*=\s*"printPageSize"\s+id\s*=\s*"printPageSize"\s+value="([^"]*?)">/;
-const sqlStringRegExp =
-  /<input\s+type="hidden"\s+name\s*=\s*"sqlString"\s+id\s*=\s*"sqlString"\s+value="([^"]*?)">/;
-const fieldRegExp =
-  /<input\s+type="hidden"\s+name\s*=\s*"field"\s+id\s*=\s*"field"\s+value="([^"]*?)">/;
-const totalPagesRegExp =
-  /<input\s+type="hidden"\s+name\s*=\s*"totalPages"\s+id\s*=\s*"totalPages"\s+value="([^"]*?)">/;
-const tableFieldsRegExp =
-  /<input type="hidden"\s+name\s*=\s*"tableFields"\s+id\s*=\s*"tableFields"\s+value="([^"]+?)">/;
-const otherFieldsRegExp =
-  /<input\s+type="hidden"\s+name\s*=\s*"otherFields"\s+id\s*=\s*"otherFields"\s+value="([^"]*?)">/;
 const planRegExp =
   /<tr[^>]*><td[^>]*>.*?<\/td>\s*<td[^>]*>(.*?)<\/td>\s*<td[^>]*>(.*?)<\/td>\s*<td[^>]*>(.*?)<\/td>\s*<td[^>]*>(.*?)<\/td>\s*<td[^>]*>(.*?)<\/td>\s*<td[^>]*>(.*?)<\/td>\s*<td[^>]*>(.*?)<\/td>\s*<td[^>]*>(.*?)<\/td>\s*<td[^>]*>(.*?)<\/td>\s*<td[^>]*>(.*?)<\/td>\s*<td[^>]*>(.*?)<\/td>\s*<td[^>]*>(.*?)<\/td>\s*<\/tr>/g;
 

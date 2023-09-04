@@ -10,6 +10,17 @@ import type {
   UnderGradeListSuccessResponse,
   UnderGradeResult,
 } from "./typings.js";
+import {
+  fieldRegExp,
+  keyCodeRegExp,
+  otherFieldsRegExp,
+  printHQLInputRegExp,
+  printHQLJSRegExp,
+  printPageSizeRegExp,
+  sqlStringRegExp,
+  tableFieldsRegExp,
+  totalPagesRegExp,
+} from "./utils.js";
 import { request } from "../../api/index.js";
 import { service } from "../../config/index.js";
 import {
@@ -28,29 +39,12 @@ const gradeRegExp = /<a.*?JsMod\('([^']*?)'.*?>([^<]*?)<\/a>/;
 const gradeDetailRegExp =
   /<tr.*class="smartTr"[^>]+><td[^>]*>([^<]*)<\/td><td[^>]*>([^<]*)<\/td><td[^>]*>([^<]*)<\/td><td[^>]*>([^<]*)<\/td><td[^>]*>([^<]*)<\/td><td[^>]*>([^<]*)<\/td><td[^>]*>([^<]*)<\/td><td[^>]*>([^<]*)<\/td><\/tr>/;
 
-const tableFieldsRegExp =
-  /<input type="hidden"\s+name\s*=\s*"tableFields"\s+id\s*=\s*"tableFields"\s+value="([^"]+?)">/;
 const sqlRegExp =
   /<input\s+type="hidden"\s+name\s*=\s*"isSql"\s+id\s*=\s*"isSql"\s+value="([^"]*?)">/;
-const printPageSizeRegExp =
-  /<input\s+type="hidden"\s+name\s*=\s*"printPageSize"\s+id\s*=\s*"printPageSize"\s+value="([^"]*?)">/;
+
 const keyRegExp =
   /<input\s+type="hidden"\s+name\s*=\s*"key"\s+id\s*=\s*"key"\s+value="([^"]*?)">/;
-const keyCodeRegExp =
-  /<input\s+type="hidden"\s+name\s*=\s*"keyCode"\s+id\s*=\s*"keyCode"\s+value="([^"]*?)">/;
-const printHQLInputRegExp =
-  /<input\s+type="hidden"\s+name\s*=\s*"printHQL"\s+id\s*=\s*"printHQL"\s+value="([^"]*?)">/;
-const printHQLJSRegExp =
-  /window\.parent\.document\.getElementById\('printHQL'\)\.value = '([^']*?)';/;
-const sqlStringRegExp =
-  /<input\s+type="hidden"\s+name\s*=\s*"sqlString"\s+id\s*=\s*"sqlString"\s+value="([^"]*?)">/;
 
-const fieldRegExp =
-  /<input\s+type="hidden"\s+name\s*=\s*"field"\s+id\s*=\s*"field"\s+value="([^"]*?)">/;
-const totalPagesRegExp =
-  /<input\s+type="hidden"\s+name\s*=\s*"totalPages"\s+id\s*=\s*"totalPages"\s+value="([^"]*?)">/;
-const otherFieldsRegExp =
-  /<input\s+type="hidden"\s+name\s*=\s*"otherFields"\s+id\s*=\s*"otherFields"\s+value="([^"]*?)">/;
 const xsIdRegExp =
   /<input\s+type="hidden"\s+name\s*=\s*"xsId"\s+id\s*=\s*"xsId"\s+value="([^"]*?)" \/>/;
 
