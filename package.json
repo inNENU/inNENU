@@ -69,7 +69,7 @@
     "miniprogram-api-typings": "3.12.0",
     "nano-staged": "0.8.0",
     "postcss": "8.4.28",
-    "prettier": "3.0.2",
+    "prettier": "3.0.3",
     "sort-package-json": "2.5.1",
     "standard-version": "9.5.0",
     "stylelint": "15.10.3",
