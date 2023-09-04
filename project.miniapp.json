@@ -1,7 +1,7 @@
 {
   "miniVersion": "v2",
   "name": "in东师",
-  "version": "6.2.0",
+  "version": "6.3.0",
   "mini-android": {
     "sdkVersion": "1.0.14",
     "toolkitVersion": "0.7.3",
@@ -84,5 +84,5 @@
       "AudioInBackgroundMode": true
     }
   },
-  "versionCode": 14
+  "versionCode": 15
 }

@@ -62,7 +62,6 @@ $Page("privacy", {
             {
               text: "添加电话到通讯录",
               desc: "未授权×",
-              hidden: new Date().getTime() < 1645459200000,
             },
             // { text: "用户信息", desc: "未授权×" },
             // { text: "通讯地址", desc: "未授权×" },
@@ -83,7 +82,6 @@ $Page("privacy", {
               text: "添加到通讯录",
               type: "button",
               handler: "contact",
-              hidden: new Date().getTime() < 1645459200000,
             },
             // { text: "用户信息", type: "button", openType: "getUserInfo" },
             // { text: "通讯地址", type: "button", handler: "address" },
