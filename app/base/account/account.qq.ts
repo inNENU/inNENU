@@ -43,9 +43,9 @@ $Component({
           .then(() => showToast("二维码已存至相册"))
           .catch(() => showToast("二维码保存失败"));
       else if (wxid)
-        wx.previewImage({
-          urls: [`https://open.weixin.qq.com/qr/code?username=${wxid}`],
-        });
+        savePhoto(`https://open.weixin.qq.com/qr/code?username=${wxid}`)
+          .then(() => showToast("二维码已存至相册"))
+          .catch(() => showToast("二维码保存失败"));
     },
 
     openSite(): void {

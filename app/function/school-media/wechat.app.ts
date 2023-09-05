@@ -5,7 +5,7 @@ import type {
   WechatArticleItem,
   WechatConfig,
 } from "../../../typings/index.js";
-import { request, showToast } from "../../api/index.js";
+import { request, savePhoto, showToast } from "../../api/index.js";
 import type { AppOption } from "../../app.js";
 import { server } from "../../config/index.js";
 import { ensureJSON } from "../../utils/json.js";
@@ -160,11 +160,14 @@ $Page(PAGE_ID, {
   },
 
   follow() {
-    const { follow, qrcode } = this.data;
+    const { follow, qrcode, id } = this.data;
 
     if (follow)
       this.$go(`web?url=${encodeURIComponent(follow)}&title=欢迎关注`);
-    else wx.previewImage({ urls: [qrcode] });
+    else
+      savePhoto(qrcode ?? `https://open.weixin.qq.com/qr/code?username=${id}`)
+        .then(() => showToast("二维码已存至相册"))
+        .catch(() => showToast("二维码保存失败"));
   },
 
   scrollTop() {
