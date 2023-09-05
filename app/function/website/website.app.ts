@@ -31,7 +31,7 @@ $Page("website", {
 
   onResize({ size }) {
     this.setData({
-      height: size.windowHeight - globalData.info.statusBarHeight - 229,
+      height: size.windowHeight - globalData.info.statusBarHeight - 160,
     });
   },
 

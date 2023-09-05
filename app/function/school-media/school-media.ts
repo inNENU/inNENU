@@ -41,7 +41,7 @@ $Page(PAGE_ID, {
         config,
         type,
         height:
-          globalData.info.windowHeight - globalData.info.statusBarHeight - 229,
+          globalData.info.screenHeight - globalData.info.statusBarHeight - 202,
       });
     });
 
@@ -60,9 +60,10 @@ $Page(PAGE_ID, {
     imageUrl: `${appCoverPrefix}.jpg`,
   }),
 
-  onResize({ size }) {
+  onResize() {
     this.setData({
-      height: size.windowHeight - globalData.info.statusBarHeight - 229,
+      height:
+        globalData.info.screenHeight - globalData.info.statusBarHeight - 202,
     });
   },
 

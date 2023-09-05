@@ -46,7 +46,7 @@ $Page(PAGE_ID, {
 
   onResize({ size }) {
     this.setData({
-      height: size.windowHeight - globalData.info.statusBarHeight - 229,
+      height: size.windowHeight - globalData.info.statusBarHeight - 160,
     });
   },
 
