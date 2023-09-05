@@ -20,7 +20,7 @@
         <text class="refresh-button-icon" />
       </button>
     </view>
-    <block wx:if="{{data.length}}">
+    <view wx:if="{{data.length}}" class="exam-list">
       <view wx:for="{{data}}" wx:for-item="category" class="category">
         <view class="category-header">{{category.name}}</view>
         <block wx:if="{{category.exams.length}}">
@@ -44,8 +44,8 @@
         </block>
         <view wx:else class="empty">暂无考场信息</view>
       </view>
-      <footer config="{{ { desc } }}" />
-    </block>
-    <view wx:else class="empty">暂无考试信息</view>
+    </view>
+    <view wx:else class="empty-list">暂无考试信息</view>
+    <footer config="{{ { desc } }}" />
   </block>
 </view>

@@ -1,3 +1,20 @@
+.exam-place-wrapper {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+}
+
+.exam-list {
+  flex: 1;
+  overflow-y: auto;
+  padding: 6px 0;
+}
+
+.empty-list {
+  flex: 1;
+  font-size: 18px;
+}
+
 .exam-actions {
   display: flex;
   flex-direction: row-reverse;

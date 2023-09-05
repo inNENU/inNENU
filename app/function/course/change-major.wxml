@@ -45,7 +45,7 @@
       </picker>
     </view>
     <view class="plan-header">{{header}}</view>
-    <block wx:if="{{plans.length}}">
+    <view wx:if="{{plans.length}}" class="plan-list">
       <view wx:for="{{plans}}" class="plan-item">
         <view class="major">{{item.school}} - {{item.major}}</view>
         <view class="exam">考核</view>
@@ -70,7 +70,8 @@
         <view class="contact">咨询方式</view>
         <phone config="{{changeMajor.getPhoneConfig(item)}}" />
       </view>
-      <footer config="{{ { desc } }}" />
-    </block>
+    </view>
+    <view wx:else class="empty">暂无符合条件的计划</view>
+    <footer config="{{ { desc } }}" />
   </block>
 </view>
