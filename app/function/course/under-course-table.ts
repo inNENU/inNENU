@@ -4,11 +4,9 @@ import type {
   TableItem,
   UnderCourseTableOptions,
   UnderCourseTableResponse,
-  UnderCourseTableSuccessResponse,
 } from "./typings.js";
 import { request } from "../../api/index.js";
 import { service } from "../../config/index.js";
-import type { AuthLoginFailedResponse } from "../../login/index.js";
 import {
   LoginFailType,
   UNDER_SYSTEM_SERVER,
@@ -75,7 +73,7 @@ export const getUnderCourseTable = async ({
 
     const tableData = getCourses(content);
 
-    return <UnderCourseTableSuccessResponse>{
+    return {
       success: true,
       data: tableData,
       startTime: semesterStartTime[time],
@@ -85,7 +83,7 @@ export const getUnderCourseTable = async ({
 
     console.error(err);
 
-    return <AuthLoginFailedResponse>{
+    return {
       success: false,
       msg: message,
     };

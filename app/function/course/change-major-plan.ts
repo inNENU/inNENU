@@ -3,7 +3,6 @@ import { logger, query } from "@mptool/all";
 import type {
   ChangeMajorPlan,
   UnderChangeMajorPlanResponse,
-  UnderChangeMajorPlanSuccessResponse,
 } from "./typings.js";
 import {
   fieldRegExp,
@@ -153,7 +152,7 @@ export const getUnderChangeMajorPlans =
 
       const plans = await getPlanList(content);
 
-      return <UnderChangeMajorPlanSuccessResponse>{
+      return {
         success: true,
         header,
         plans,

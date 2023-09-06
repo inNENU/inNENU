@@ -4,10 +4,8 @@ import type {
   GradeDetail,
   ScoreDetail,
   UnderCourseType,
-  UnderGradeListFailedResponse,
   UnderGradeListOptions,
   UnderGradeListResponse,
-  UnderGradeListSuccessResponse,
   UnderGradeResult,
 } from "./typings.js";
 import {
@@ -269,7 +267,7 @@ export const getUnderGradeList = async ({
     if (isWebVPNPage(content)) {
       cookieStore.clear();
 
-      return <UnderGradeListFailedResponse>{
+      return {
         success: false,
         type: LoginFailType.Expired,
         msg: "登录已过期，请重新登录",
@@ -277,7 +275,7 @@ export const getUnderGradeList = async ({
     }
 
     if (content.includes("评教未完成，不能查询成绩！"))
-      return <UnderGradeListFailedResponse>{
+      return {
         success: false,
         type: "error",
         msg: time
@@ -287,7 +285,7 @@ export const getUnderGradeList = async ({
 
     const gradeList = await getGradeLists(content);
 
-    return <UnderGradeListSuccessResponse>{
+    return {
       success: true,
       data: gradeList,
     };
@@ -296,7 +294,7 @@ export const getUnderGradeList = async ({
 
     console.error(err);
 
-    return <UnderGradeListFailedResponse>{
+    return {
       success: false,
       msg: message,
     };
