@@ -182,7 +182,10 @@ $Page("course-grade", {
     wx.showLoading({ title: "获取中" });
 
     try {
-      const err = await ensureUnderSystemLogin(globalData.account!, "validate");
+      const err = await ensureUnderSystemLogin(
+        globalData.account!,
+        this.state.loginMethod,
+      );
 
       if (err) throw err.msg;
 
@@ -225,7 +228,10 @@ $Page("course-grade", {
     wx.showLoading({ title: "获取中" });
 
     try {
-      const err = await ensurePostSystemLogin(globalData.account!, "validate");
+      const err = await ensurePostSystemLogin(
+        globalData.account!,
+        this.state.loginMethod,
+      );
 
       if (err) throw err.msg;
 
