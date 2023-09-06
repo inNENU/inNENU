@@ -26,13 +26,11 @@ $Page("action", {
 
   onShareTimeline: () => ({ title: "功能页", query: "action=all" }),
 
-  onAddToFavorites(): WechatMiniprogram.Page.IAddToFavoritesContent {
-    return {
-      title: "功能页",
-      imageUrl: `${appCoverPrefix}.jpg`,
-      query: "action=all",
-    };
-  },
+  onAddToFavorites: () => ({
+    title: "功能页",
+    imageUrl: `${appCoverPrefix}.jpg`,
+    query: "action=all",
+  }),
 
   /** 初始化小程序 */
   resetApp() {
@@ -49,10 +47,5 @@ $Page("action", {
     showModal("小程序初始化完成", "请单击 “退出小程序按钮” 退出小程序");
 
     this.setData({ exit: true, reset: false });
-  },
-
-  /** 返回主页 */
-  home() {
-    this.$reLaunch("main");
   },
 });

@@ -23,5 +23,5 @@
       <button class="primary" type="primary">退出小程序</button>
     </navigator>
   </block>
-  <button type="default" catch:tap="home">返回主页</button>
+  <button type="default" catch:tap="$bindBack">返回</button>
 </view>
