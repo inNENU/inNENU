@@ -45,6 +45,7 @@ $Page(PAGE_ID, {
       color: getColor(),
       theme: globalData.theme,
       pageTitle: type2Title[<MainInfoType>type],
+      title,
     });
   },
 

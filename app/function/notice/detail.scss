@@ -7,24 +7,24 @@
   text-align: left;
 }
 
+.content {
+  flex: 1;
+  width: calc(100% - 30px);
+  margin: 8px 15px;
+}
+
 .title {
-  margin: 6px 15px;
+  margin: 6px 0;
   font-weight: bold;
   font-size: 20px;
   line-height: 1.25;
 }
 
 .info {
-  margin: 4px 15px;
+  margin: 4px 0;
   font-size: 14px;
 
   .icon-font {
     margin: 0 2px;
   }
-}
-
-.content {
-  flex: 1;
-  width: calc(100% - 30px);
-  margin: 8px 15px;
 }

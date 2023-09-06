@@ -40,6 +40,7 @@ $Page(PAGE_ID, {
       color: getColor(),
       theme: globalData.theme,
       pageTitle: `${type === "news" ? "新闻" : "通知"}详情`,
+      title,
     });
   },
 

@@ -9,9 +9,9 @@
   <navbar nav="{{ { title: pageTitle } }}" />
   <error-hint wx:if="{{ status === 'error' }}" catch:retry="getNotice" />
   <login-hint wx:elif="{{ status === 'login' }}" source="{{pageTitle}}" />
-  <block wx:elif="{{content}}">
+  <view class="content">
     <view class="title">{{title}}</view>
-    <view class="info">
+    <view wx:if="{{content}}" class="info">
       <text class="time">
         <text class="icon-font icon-time" />
         <text>{{time}}</text>
@@ -29,10 +29,12 @@
         <text>{{author}}</text>
       </text>
     </view>
-
-    <view class="content">
-      <rich-text class="rich-media" nodes="{{content}}" space="nbsp" />
-    </view>
-  </block>
+    <rich-text
+      wx:if="{{content}}"
+      class="rich-media"
+      nodes="{{content}}"
+      space="nbsp"
+    />
+  </view>
   <footer />
 </view>
