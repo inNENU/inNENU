@@ -56,9 +56,21 @@ $Page(PAGE_ID, {
   },
 
   onShow() {
-    if (globalData.account) {
+    const { account, userInfo } = globalData;
+
+    if (account) {
+      if (!userInfo) {
+        return showModal(
+          "个人信息缺失",
+          "小程序本地暂无个人信息，请重新登录",
+          () => {
+            this.$go("account?update=true");
+          },
+        );
+      }
+
       if (!this.state.inited || this.data.needLogin) {
-        if (globalData.userInfo!.typeId !== "bks")
+        if (userInfo.typeId !== "bks")
           return showModal("暂不支持", "转专业计划查询仅支持本科生", () => {
             this.$back();
           });

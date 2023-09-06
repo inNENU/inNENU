@@ -237,7 +237,11 @@ $Page(PAGE_ID, {
 
           if (this.state.shouldNavigateBack) this.$back();
         } else {
-          showModal("登录成功", "您已成功登录，但未能获取个人信息。");
+          showModal(
+            "登录失败",
+            "账号密码校验成功，但未能获取个人信息，部分功能无法使用。",
+          );
+          this.setData({ isSaved: true });
           if (this.state.shouldNavigateBack) this.$back();
         }
       } else {

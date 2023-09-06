@@ -169,6 +169,17 @@ $Page(PAGE_ID, {
 
   apply() {
     const { accounts, accountIndex, isCustom, name, suffix, phone } = this.data;
+    const { userInfo } = globalData;
+    const shouldApplyOnline = useOnlineService("apply-email");
+
+    if (!shouldApplyOnline && !userInfo)
+      return showModal(
+        "个人信息缺失",
+        `小程序本地暂无个人信息，请重新登录`,
+        () => {
+          this.$go(`account?update=true`);
+        },
+      );
 
     if (isCustom) {
       if (!name) return showModal("无法申请", "请输入自定义邮箱名称");
@@ -228,8 +239,10 @@ $Page(PAGE_ID, {
       () => {
         wx.showLoading({ title: "申请中" });
 
-        void (useOnlineService("apply-email") ? onlineMyEmail : activateEmail)(
-          options,
+        void (
+          shouldApplyOnline
+            ? onlineMyEmail(options)
+            : activateEmail(options, userInfo!)
         ).then((res) => {
           wx.hideLoading();
 

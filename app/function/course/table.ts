@@ -116,12 +116,23 @@ $Page(PAGE_ID, {
   },
 
   onShow() {
-    const { account } = globalData;
-    const coursesData = get<Record<string, CourseTableData>>(COURSE_DATA_KEY);
-
-    if (coursesData) this.state.coursesData = coursesData;
+    const { account, userInfo } = globalData;
 
     if (account) {
+      if (!userInfo) {
+        return showModal(
+          "个人信息缺失",
+          "小程序本地暂无个人信息，请重新登录",
+          () => {
+            this.$go("account?update=true");
+          },
+        );
+      }
+
+      const coursesData = get<Record<string, CourseTableData>>(COURSE_DATA_KEY);
+
+      if (coursesData) this.state.coursesData = coursesData;
+
       const grade = Math.floor(account.id / 1000000);
       const times = getTimes(grade);
       const timeDisplays = times.map(getDisplayTime);

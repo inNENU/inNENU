@@ -18,6 +18,7 @@ import type { AppOption } from "../../app.js";
 import { service } from "../../config/info.js";
 import { ACTION_MAIN_PAGE, ACTION_SERVER } from "../../login/action.js";
 import { MY_SERVER, getProcess } from "../../login/my.js";
+import { UserInfo } from "../../utils/typings.js";
 
 const { globalData } = getApp<AppOption>();
 
@@ -63,8 +64,6 @@ const initRandomPassWord = (length: number): string => {
 };
 
 export const getEmail = async (): Promise<GetEmailResponse> => {
-  const info = globalData.userInfo!;
-
   const checkResult = await request<RawCheckMailData>(
     `${MY_SERVER}/Gryxsq/checkMailBox`,
     {
@@ -73,7 +72,7 @@ export const getEmail = async (): Promise<GetEmailResponse> => {
         Accept: "application/json, text/javascript, */*; q=0.01",
         "Content-Type": "application/x-www-form-urlencoded; charset=UTF-8",
       },
-      data: `userId=${info.id}`,
+      data: `userId=${globalData.account!.id}`,
       scope: MY_SERVER,
     },
   );
@@ -127,14 +126,10 @@ export const getEmail = async (): Promise<GetEmailResponse> => {
   };
 };
 
-export const activateEmail = async ({
-  name,
-  phone,
-  suffix,
-  taskId,
-  instanceId,
-}: ActivateEmailOptions): Promise<ActivateEmailResponse> => {
-  const info = globalData.userInfo!;
+export const activateEmail = async (
+  { name, phone, suffix, taskId, instanceId }: ActivateEmailOptions,
+  userInfo: UserInfo,
+): Promise<ActivateEmailResponse> => {
   const checkResult = await request<{ suc: boolean }>(
     "https://my.webvpn.nenu.edu.cn/Gryxsq/checkMailBoxAccount",
     {
@@ -181,14 +176,14 @@ export const activateEmail = async ({
         creator__: "",
         // eslint-disable-next-line @typescript-eslint/naming-convention
         pid__: "",
-        RYLB: info.code,
+        RYLB: userInfo.code,
         SFSYZDYMC: "1",
         YXZDYMC: "",
         KEYWORDS_: "邮箱",
-        SQRXM: info.name,
-        SQRXH: info.id.toString(),
-        SQRDW: info.org,
-        SFZH: info.idCard,
+        SQRXM: userInfo.name,
+        SQRXH: userInfo.id.toString(),
+        SQRDW: userInfo.org,
+        SFZH: userInfo.idCard,
         DHHM: phone.toString(),
         YXMC: name ?? "",
         SFSYSZ: suffix ? "2" : "1",

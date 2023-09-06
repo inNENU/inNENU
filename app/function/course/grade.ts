@@ -120,10 +120,22 @@ $Page("course-grade", {
   },
 
   onShow() {
-    if (globalData.account) {
+    const { account, userInfo } = globalData;
+
+    if (account) {
+      if (!userInfo) {
+        return showModal(
+          "个人信息缺失",
+          "小程序本地暂无个人信息，请重新登录",
+          () => {
+            this.$go("account?update=true");
+          },
+        );
+      }
+
       if (!this.state.inited || this.data.needLogin) {
-        const grade = globalData.userInfo!.grade;
-        const type = globalData.userInfo!.typeId === "bks" ? "under" : "post";
+        const grade = userInfo.grade;
+        const type = userInfo.typeId === "bks" ? "under" : "post";
         const times = ["", ...getTimes(grade)];
         const timeDisplays = times.map(getDisplayTime);
         const grades = get<UnderGradeResult[] | PostGradeResult[]>(

@@ -10,7 +10,7 @@ import type {
 } from "./typings.js";
 import type { FullCourseInfo, SortKey } from "./utils.js";
 import { confirmReplace, courseSorter } from "./utils.js";
-import { showModal, showToast } from "../../api/index.js";
+import { getCurrentRoute, showModal, showToast } from "../../api/index.js";
 import type { AppOption } from "../../app.js";
 import { appCoverPrefix } from "../../config/index.js";
 import { LoginFailType } from "../../login/index.js";
@@ -158,7 +158,7 @@ $Page(PAGE_ID, {
             "初始化失败",
             "请检查: 是否在选课时间、网络连接是否有效",
             (): void => {
-              this.$back();
+              if (getCurrentRoute() === "function/select/select") this.$back();
             },
           );
         });
@@ -170,7 +170,7 @@ $Page(PAGE_ID, {
           this.$go("account?from=选课系统&update=true");
         },
         () => {
-          this.$back();
+          if (getCurrentRoute() === "function/select/select") this.$back();
         },
       );
     }
