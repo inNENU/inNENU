@@ -19,6 +19,7 @@ const studyRegExp =
   /<td {2}>(\S+)<\/td>\s*<td {2}>(\S+)<\/td>\s*<td\scolspan="4">(\S+)<\/td>\s*<td {2}>(\S+)<\/td>\s*<td\scolspan="2">(\S+)<\/td>\s*<td {2}>(\S+)<\/td>/g;
 const familyRegExp =
   /<td {2}>(\S+)<\/td>\s*<td {2}>(\S+)<\/td>\s*<td\scolspan="2">(\S+)<\/td>\s*<td\scolspan="2">(\S+)<\/td>\s*<td\scolspan="3">(\S+)<\/td>\s*<td {2}>(\S+)<\/td/g;
+const pathRegExp = /var newwin = window.showModalDialog\("(.+?)"\);/;
 
 const UNDER_STUDENT_ARCHIVE_QUERY_URL = `${UNDER_SYSTEM_SERVER}/xszhxxAction.do?method=addStudentPic_xszc`;
 
@@ -82,12 +83,15 @@ const getStudentArchive = async (
       .catch(() => ""),
   ]);
 
+  const path = pathRegExp.exec(content)?.[1] || "";
+
   return {
     basic,
     archiveImage,
     examImage,
     study,
     family,
+    path,
     registered: content.includes("您已经提交注册信息"),
   };
 };
@@ -126,9 +130,9 @@ export const getUnderStudentArchive =
 const alertRegExp = /window.alert\('(.+?)'\)/;
 
 export const registerStudentArchive = async (
-  idCard: string,
+  path: string,
 ): Promise<UnderRegisterStudentArchiveResponse> => {
-  const url = `${UNDER_SYSTEM_SERVER}/xszhxxAction.do?method=addStudentPic_ZC&xs0101id=${idCard}`;
+  const url = `${UNDER_SYSTEM_SERVER}${path}`;
 
   const content = await request<string>(url);
 
@@ -153,7 +157,7 @@ export const registerStudentArchive = async (
 };
 
 export const useOnlineStudentArchive = <T extends string | undefined>(
-  idCard: T,
+  path: T,
 ): Promise<
   T extends string
     ? UnderRegisterStudentArchiveResponse
@@ -165,7 +169,7 @@ export const useOnlineStudentArchive = <T extends string | undefined>(
       : UnderGetStudentArchiveResponse
   >(`${service}under-system/student-archive`, {
     method: "POST",
-    data: idCard ? { type: "register", idCard } : {},
+    data: path ? { type: "register", path } : {},
     scope: UNDER_SYSTEM_SERVER,
   }).then((data) => {
     if (!data.success) logger.error("获取失败", data.msg);

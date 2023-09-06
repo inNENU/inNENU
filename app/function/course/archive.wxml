@@ -70,5 +70,5 @@
       </view>
     </block>
   </view>
-  <footer />
+  <footer config="{{ { desc } }}" />
 </view>

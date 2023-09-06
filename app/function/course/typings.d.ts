@@ -286,9 +286,14 @@ export interface UnderStudentArchiveInfo {
   examImage: string;
   /** 基础信息 */
   basic: UnderBasicInfo[];
+  /** 学习经历信息 */
   study: UnderStudyInfo[];
+  /** 家庭信息 */
   family: UnderFamilyInfo[];
+  /** 是否已注册 */
   registered: boolean;
+  /** 注册路径 */
+  path: string;
 }
 
 export interface GetUnderStudentArchiveOptions {

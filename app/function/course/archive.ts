@@ -23,6 +23,7 @@ $Page(PAGE_ID, {
 
     stage: <"loading" | "info">"loading",
 
+    path: "",
     desc: "数据来自教务处教学服务系统",
 
     needLogin: false,
@@ -132,15 +133,17 @@ $Page(PAGE_ID, {
 
       const result = await (useOnlineService(PAGE_ID)
         ? useOnlineStudentArchive
-        : registerStudentArchive)(globalData.userInfo!.idCard);
+        : registerStudentArchive)(this.data.path);
 
       wx.hideLoading();
       this.state.inited = true;
 
       if (result.success) {
-        showModal("注册成功", "本年度学籍注册成功", () => {
-          this.getStudyArchive();
-        });
+        showModal("注册成功", "本年度学籍注册成功", () =>
+          this.setData({ stage: "loading" }, () => {
+            this.getStudyArchive();
+          }),
+        );
         this.state.loginMethod = "check";
       } else if (result.type === LoginFailType.Expired) {
         this.state.loginMethod = "login";
