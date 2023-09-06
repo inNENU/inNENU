@@ -189,6 +189,13 @@
           "scene": null
         },
         {
+          "name": "学籍",
+          "pathName": "function/course/archive",
+          "query": "",
+          "launchMode": "default",
+          "scene": null
+        },
+        {
           "name": "成绩",
           "pathName": "function/course/grade",
           "query": "",

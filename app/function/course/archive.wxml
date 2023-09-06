@@ -1,0 +1,74 @@
+<page-meta
+  background-text-style="{{darkmode ? 'dark' : 'light'}}"
+  background-color="{{color.bgColor}}"
+  background-color-top="{{color.bgColorTop}}"
+  background-color-bottom="{{color.bgColorBottom}}"
+  root-background-color="{{color.bgColor}}"
+/>
+<view class="{{theme}} student-archive-wrapper">
+  <navbar nav="{{ { title } }}" />
+  <login-hint wx:if="{{needLogin}}" source="学籍信息" />
+  <view wx:else class="content">
+    <block wx:if="{{stage === 'info'}}">
+      <view wx:if="{{registered}}" class="hint">
+        <icon type="success" size="20" color="#07c160" />
+        <text>已注册本年度学籍</text>
+      </view>
+      <button
+        wx:else
+        type="primary"
+        class="primary register-button"
+        catch:tap="registerStudyArchive"
+      >
+        注册本年度学籍
+      </button>
+      <view class="header">基础信息</view>
+      <view class="input-list-wrapper">
+        <view wx:for="{{basic}}" class="input-list-item">
+          <view class="text">{{item.text}}</view>
+          <view class="value">{{item.value}}</view>
+        </view>
+      </view>
+      <view class="header">照片</view>
+      <view class="photos">
+        <view class="photo">
+          <image wx:if="{{examImage}}" src="{{examImage}}" mode="widthFix" />
+          <view wx:else class="empty">暂无</view>
+          <view class="desc">高考照片</view>
+        </view>
+        <view class="photo">
+          <image
+            wx:if="{{archiveImage}}"
+            src="{{archiveImage}}"
+            mode="widthFix"
+          />
+          <view wx:else class="empty">暂无</view>
+          <view class="desc">学籍照片</view>
+        </view>
+      </view>
+      <view class="header">本人学历及社会经历</view>
+      <view class="table">
+        <view wx:for="{{study}}" class="tr">
+          <view class="td">{{item.startTime}}</view>
+          <view class="td">{{item.endTime}}</view>
+          <view class="td">{{item.school}}</view>
+          <view class="td">{{item.title}}</view>
+          <view class="td">{{item.witness}}</view>
+          <view class="td">{{item.remark}}</view>
+        </view>
+      </view>
+      <view class="header">家庭成员及主要社会关系</view>
+      <view class="table">
+        <view wx:for="{{family}}" class="tr">
+          <view class="td">{{item.name}}</view>
+          <view class="td">{{item.relation}}</view>
+          <view class="td">{{item.office}}</view>
+          <view class="td">{{item.title}}</view>
+          <view class="td">{{item.phone}}</view>
+          <view class="td">{{item.remark}}</view>
+        </view>
+      </view>
+    </block>
+  </view>
+  <footer />
+</view>

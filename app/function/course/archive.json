@@ -1,0 +1,6 @@
+{
+  "navigationBarTitleText": "学籍信息",
+  "usingComponents": {
+    "login-hint": "/components/login-hint/login-hint"
+  }
+}

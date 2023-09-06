@@ -17,6 +17,7 @@
     "pages/settings/settings",
     "function/activate/activate",
     "function/calendar/calendar",
+    "function/course/archive",
     "function/course/change-major",
     "function/course/exam-place",
     "function/course/grade",

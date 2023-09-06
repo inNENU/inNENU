@@ -1,9 +1,5 @@
 import type { CommonFailedResponse } from "../../../typings/response.js";
-import type {
-  AuthLoginFailedResponse,
-  LoginFailType,
-  VPNLoginFailedResponse,
-} from "../../login/index.js";
+import type { LoginFailType } from "../../login/index.js";
 
 export interface ChangeMajorPlan {
   /** 学院 */
@@ -38,10 +34,9 @@ export interface UnderChangeMajorPlanSuccessResponse {
   plans: ChangeMajorPlan[];
 }
 
-export type UnderChangeMajorPlanFailedResponse =
-  | AuthLoginFailedResponse
-  | VPNLoginFailedResponse
-  | (CommonFailedResponse & { type?: LoginFailType.Expired });
+export type UnderChangeMajorPlanFailedResponse = CommonFailedResponse & {
+  type?: LoginFailType.Expired;
+};
 
 export type UnderChangeMajorPlanResponse =
   | UnderChangeMajorPlanSuccessResponse
@@ -70,10 +65,9 @@ export interface UnderExamPlaceSuccessResponse {
   }[];
 }
 
-export type UnderExamPlaceFailedResponse =
-  | AuthLoginFailedResponse
-  | VPNLoginFailedResponse
-  | (CommonFailedResponse & { type?: LoginFailType.Expired });
+export type UnderExamPlaceFailedResponse = CommonFailedResponse & {
+  type?: LoginFailType.Expired;
+};
 
 export type UnderExamPlaceResponse =
   | UnderExamPlaceSuccessResponse
@@ -101,10 +95,9 @@ export interface UnderCourseTableSuccessResponse {
   startTime: string;
 }
 
-export type UnderCourseTableFailedResponse =
-  | AuthLoginFailedResponse
-  | VPNLoginFailedResponse
-  | (CommonFailedResponse & { type?: LoginFailType.Expired });
+export type UnderCourseTableFailedResponse = CommonFailedResponse & {
+  type?: LoginFailType.Expired;
+};
 
 export type UnderCourseTableResponse =
   | UnderCourseTableSuccessResponse
@@ -121,9 +114,9 @@ export interface PostCourseTableSuccessResponse {
   startTime: string;
 }
 
-export type PostCourseTableFailedResponse =
-  | AuthLoginFailedResponse
-  | (CommonFailedResponse & { type: LoginFailType.Expired });
+export type PostCourseTableFailedResponse = CommonFailedResponse & {
+  type: LoginFailType.Expired;
+};
 
 export type PostCourseTableResponse =
   | PostCourseTableSuccessResponse
@@ -203,11 +196,9 @@ export interface UnderGradeListSuccessResponse {
   data: UnderGradeResult[];
 }
 
-export type UnderGradeListFailedResponse =
-  | AuthLoginFailedResponse
-  | VPNLoginFailedResponse
-  | (CommonFailedResponse & { type: LoginFailType.Expired })
-  | (CommonFailedResponse & { type: "error" });
+export type UnderGradeListFailedResponse = CommonFailedResponse & {
+  type?: LoginFailType.Expired | "error";
+};
 
 export type UnderGradeListResponse =
   | UnderGradeListSuccessResponse
@@ -246,10 +237,82 @@ export interface PostGradeListSuccessResponse {
 }
 
 export type PostGradeListFailedResponse =
-  | AuthLoginFailedResponse
   | (CommonFailedResponse & { type: LoginFailType.Expired })
   | (CommonFailedResponse & { type: "error" });
 
 export type PostGradeListResponse =
   | PostGradeListSuccessResponse
   | PostGradeListFailedResponse;
+
+export interface UnderBasicInfo {
+  text: string;
+  value: string;
+}
+
+export interface UnderStudyInfo {
+  /** 开始时间 */
+  startTime: string;
+  /** 结束时间 */
+  endTime: string;
+  /** 地点 */
+  school: string;
+  /** 职务 */
+  title: string;
+  /** 证明人 */
+  witness: string;
+  /** 备注 */
+  remark: string;
+}
+
+export interface UnderFamilyInfo {
+  /** 姓名 */
+  name: string;
+  /** 与本人关系 */
+  relation: string;
+  /** 工作单位 */
+  office: string;
+  /** 职务 */
+  title: string;
+  /** 联系电话 */
+  phone: string;
+  /** 备注 */
+  remark: string;
+}
+
+export interface UnderStudentArchiveInfo {
+  /** 学籍照片 */
+  archiveImage: string;
+  /** 高考照片 */
+  examImage: string;
+  /** 基础信息 */
+  basic: UnderBasicInfo[];
+  study: UnderStudyInfo[];
+  family: UnderFamilyInfo[];
+  registered: boolean;
+}
+
+export interface GetUnderStudentArchiveOptions {
+  type?: "get";
+}
+
+export interface UnderGetStudentArchiveSuccessResponse {
+  success: true;
+  info: UnderStudentArchiveInfo;
+}
+
+export type UnderGetStudentArchiveResponse =
+  | UnderGetStudentArchiveSuccessResponse
+  | (CommonFailedResponse & { type?: LoginFailType.Expired });
+
+export interface RegisterUnderStudentArchiveOptions {
+  type?: "register";
+  idCard: string;
+}
+
+export interface UnderRegisterStudentArchiveSuccessResponse {
+  success: true;
+}
+
+export type UnderRegisterStudentArchiveResponse =
+  | UnderRegisterStudentArchiveSuccessResponse
+  | (CommonFailedResponse & { type?: LoginFailType.Expired });

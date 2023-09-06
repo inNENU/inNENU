@@ -92,7 +92,6 @@ export const request = <
 
           resolve(data);
         } else {
-          showToast("小程序服务器出错，请稍后重试");
           // 调试
           logger.warn(`Request ${url} failed with statusCode: ${statusCode}`);
 
@@ -141,7 +140,6 @@ export const requestJSON = <
 
           resolve(data);
         } else {
-          showToast("服务器出现问题，请稍后重试");
           // 调试
           logger.warn(
             `Request ${path}.json failed with statusCode: ${statusCode}`,

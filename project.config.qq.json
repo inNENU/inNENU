@@ -171,6 +171,13 @@
           "scene": null
         },
         {
+          "id": 190,
+          "name": "学籍",
+          "pathName": "function/course/archive",
+          "query": "",
+          "scene": null
+        },
+        {
           "id": 13,
           "name": "成绩",
           "pathName": "function/course/grade",
