@@ -4,8 +4,11 @@
   align-items: center;
   justify-content: center;
 
-  button {
-    width: 160px !important;
-    margin: 20px auto;
+  input {
+    text-align: left;
+  }
+
+  .action {
+    margin: 16px auto;
   }
 }

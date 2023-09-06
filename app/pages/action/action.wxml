@@ -1,7 +1,35 @@
 <view class="{{theme}} action-page">
+  <block
+    wx:if="{{navigate || all}}"
+    class="primary"
+    type="primary"
+    open-type="contact"
+  >
+    <view class="input-list-wrapper">
+      <view class="input-list-item">
+        <view class="text">跳转路径</view>
+        <input
+          class="input"
+          type="text"
+          adjust-position="{{false}}"
+          value="{{path}}"
+          bindinput="pathInput"
+        />
+        <button
+          class="primary"
+          type="primary"
+          size="mini"
+          data-url="{{path}}"
+          catch:tap="$bindGo"
+        >
+          跳转
+        </button>
+      </view>
+    </view>
+  </block>
   <button
     wx:if="{{contact}}"
-    class="primary"
+    class="action primary"
     type="primary"
     open-type="contact"
   >
@@ -9,19 +37,19 @@
   </button>
   <button
     wx:elif="{{all || feedback}}"
-    class="primary"
+    class="action primary"
     type="primary"
     open-type="feedback"
   >
     意见反馈
   </button>
   <block wx:elif="{{all || reset}}">
-    <button class="primary" type="primary" catch:tap="resetApp">
+    <button class="action primary" type="primary" catch:tap="resetApp">
       初始化小程序
     </button>
     <navigator open-type="exit" target="miniProgram">
-      <button class="primary" type="primary">退出小程序</button>
+      <button class="action primary" type="primary">退出小程序</button>
     </navigator>
   </block>
-  <button type="default" catch:tap="$bindBack">返回</button>
+  <button class="action" type="default" catch:tap="$bindBack">返回</button>
 </view>

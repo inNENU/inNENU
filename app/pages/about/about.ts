@@ -50,6 +50,10 @@ $Page(PAGE_ID, {
               key: "debugMode",
               handler: "toggleDebug",
             },
+            {
+              text: "打开功能页",
+              url: "action?action=all",
+            },
             { text: "复制用户APPID", type: "button", handler: "copyAppID" },
             { text: "退出开发者模式", type: "button", handler: "debugMode" },
           ],

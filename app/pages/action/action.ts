@@ -48,4 +48,8 @@ $Page("action", {
 
     this.setData({ exit: true, reset: false });
   },
+
+  pathInput({ detail }: WechatMiniprogram.Input) {
+    this.setData({ path: detail.value });
+  },
 });
