@@ -290,8 +290,10 @@ export interface UnderStudentArchiveInfo {
   study: UnderStudyInfo[];
   /** 家庭信息 */
   family: UnderFamilyInfo[];
+  /** 是否能注册 */
+  canRegister: boolean;
   /** 是否已注册 */
-  registered: boolean;
+  isRegistered: boolean;
   /** 注册路径 */
   path: string;
 }

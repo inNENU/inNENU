@@ -15,7 +15,7 @@
         <text>已注册本年度学籍</text>
       </view>
       <button
-        wx:else
+        wx:elif="{{canRegister}}"
         type="primary"
         class="primary register-button"
         catch:tap="registerStudyArchive"

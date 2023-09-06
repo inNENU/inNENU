@@ -19,7 +19,13 @@ const studyRegExp =
   /<td {2}>(\S+)<\/td>\s*<td {2}>(\S+)<\/td>\s*<td\scolspan="4">(\S+)<\/td>\s*<td {2}>(\S+)<\/td>\s*<td\scolspan="2">(\S+)<\/td>\s*<td {2}>(\S+)<\/td>/g;
 const familyRegExp =
   /<td {2}>(\S+)<\/td>\s*<td {2}>(\S+)<\/td>\s*<td\scolspan="2">(\S+)<\/td>\s*<td\scolspan="2">(\S+)<\/td>\s*<td\scolspan="3">(\S+)<\/td>\s*<td {2}>(\S+)<\/td/g;
+const archiveImageRegExp =
+  /"(\/rxuploadfile\/studentphoto\/pic\/(?:.+?)\.JPG)"/;
+const examImageRegExp = /"(\/gkuploadfile\/studentphoto\/pic\/(?:.+?)\.JPG)"/;
 const pathRegExp = /var newwin = window.showModalDialog\("(.+?)"\);/;
+const registerButtonRegExp =
+  /<input\s+type="button"\s+id="zc"\s+class="button"\s+value="确定注册"\s+onclick="bc()"\/>/;
+const isRegisteredRegExp = /您已经提交注册信息/;
 
 const UNDER_STUDENT_ARCHIVE_QUERY_URL = `${UNDER_SYSTEM_SERVER}/xszhxxAction.do?method=addStudentPic_xszc`;
 
@@ -62,25 +68,29 @@ const getStudentArchive = async (
         name || relation || office || title || phone || remark,
     );
 
-  const id = basic.find(({ text }) => text === "学籍号")!.value;
-  const idCard = basic.find(({ text }) => text === "身份证号")!.value;
+  const archiveImageLink = archiveImageRegExp.exec(content)?.[1] || "";
+  const examImageLink = examImageRegExp.exec(content)?.[1] || "";
 
-  const [examImage, archiveImage] = await Promise.all([
-    request<ArrayBuffer>(
-      `${UNDER_SYSTEM_SERVER}/gkuploadfile/studentphoto/pic/${idCard}.JPG`,
-      { responseType: "arraybuffer" },
-    )
-      .then((examImage) => `data:image/jpeg;base64,${encodeBase64(examImage)}`)
-      .catch(() => ""),
-    request<ArrayBuffer>(
-      `${UNDER_SYSTEM_SERVER}/rxuploadfile/studentphoto/pic/${id}.JPG`,
-      { responseType: "arraybuffer" },
-    )
-      .then(
-        (archiveImage) =>
-          `data:image/jpeg;base64,${encodeBase64(archiveImage)}`,
-      )
-      .catch(() => ""),
+  const [archiveImage, examImage] = await Promise.all([
+    archiveImageLink
+      ? request<ArrayBuffer>(`${UNDER_SYSTEM_SERVER}${archiveImageLink}`, {
+          responseType: "arraybuffer",
+        })
+          .then(
+            (archiveImage) =>
+              `data:image/jpeg;base64,${encodeBase64(archiveImage)}`,
+          )
+          .catch(() => "")
+      : "",
+    examImageLink
+      ? request<ArrayBuffer>(`${UNDER_SYSTEM_SERVER}${examImageLink}`, {
+          responseType: "arraybuffer",
+        })
+          .then(
+            (examImage) => `data:image/jpeg;base64,${encodeBase64(examImage)}`,
+          )
+          .catch(() => "")
+      : "",
   ]);
 
   const path = pathRegExp.exec(content)?.[1] || "";
@@ -92,7 +102,8 @@ const getStudentArchive = async (
     study,
     family,
     path,
-    registered: content.includes("您已经提交注册信息"),
+    canRegister: registerButtonRegExp.test(content),
+    isRegistered: isRegisteredRegExp.test(content),
   };
 };
 
