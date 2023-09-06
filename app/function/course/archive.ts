@@ -120,7 +120,7 @@ $Page(PAGE_ID, {
     }
   },
 
-  async registerStudyArchive() {
+  async registerStudentArchive() {
     wx.showLoading({ title: "注册中" });
 
     try {
@@ -162,5 +162,9 @@ $Page(PAGE_ID, {
       wx.hideLoading();
       showModal("注册失败", <string>msg);
     }
+  },
+
+  createStudentArchive() {
+    showModal("正在制作", "此功能正在制作中，敬请期待");
   },
 });

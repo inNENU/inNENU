@@ -8,7 +8,7 @@ import type {
 import { showModal } from "../../api/index.js";
 import { appCoverPrefix } from "../../config/index.js";
 import { popNotice } from "../../utils/page.js";
-import { validateId } from "../utils/validate.js";
+import { validateIdCard } from "../utils/validate.js";
 
 interface InputConfig {
   id: string;
@@ -199,7 +199,7 @@ $Page(PAGE_ID, {
 
     if (info.includes("name") && !input.name) return this.tip("未填写姓名");
 
-    if (info.includes("id") && !validateId(input.id))
+    if (info.includes("id") && !validateIdCard(input.id))
       return this.tip("证件号不合法");
 
     if (info.includes("testId") && !input.testId)

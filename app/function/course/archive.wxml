@@ -18,9 +18,17 @@
         wx:elif="{{canRegister}}"
         type="primary"
         class="primary register-button"
-        catch:tap="registerStudyArchive"
+        catch:tap="registerStudentArchive"
       >
         注册本年度学籍
+      </button>
+      <button
+        wx:else
+        type="primary"
+        class="primary register-button"
+        catch:tap="createStudentArchive"
+      >
+        新生建立学籍
       </button>
       <view class="header">基础信息</view>
       <view class="input-list-wrapper">
