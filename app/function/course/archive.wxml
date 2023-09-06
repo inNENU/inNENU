@@ -10,7 +10,7 @@
   <login-hint wx:if="{{needLogin}}" source="学籍信息" />
   <view wx:else class="content">
     <block wx:if="{{stage === 'info'}}">
-      <view wx:if="{{registered}}" class="hint">
+      <view wx:if="{{isRegistered}}" class="hint">
         <icon type="success" size="20" color="#07c160" />
         <text>已注册本年度学籍</text>
       </view>
