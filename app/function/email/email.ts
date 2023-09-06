@@ -228,7 +228,7 @@ $Page(PAGE_ID, {
       () => {
         wx.showLoading({ title: "申请中" });
 
-        void (useOnlineService("email") ? onlineMyEmail : activateEmail)(
+        void (useOnlineService("apply-email") ? onlineMyEmail : activateEmail)(
           options,
         ).then((res) => {
           wx.hideLoading();

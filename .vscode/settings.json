@@ -39,6 +39,7 @@
   "minapp-vscode.wxmlFormatter": "prettier",
   "typescript.tsdk": "./node_modules/typescript/lib",
   "yaml.schemas": {
+    "./server/.vscode/settings.schema.json": ["/server/config/**/settings.yml"],
     "./server/.vscode/account.schema.json": ["/server/data/account/*.yml"],
     "./server/.vscode/qq-account.schema.json": [
       "/server/data/function/account/qq.yml"
