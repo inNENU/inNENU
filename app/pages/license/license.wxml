@@ -5,8 +5,10 @@
   background-color-bottom="{{color.bgColorBottom}}"
   root-background-color="{{color.bgColor}}"
 />
-<navbar nav="{{ { title, from } }}" />
-<view class="license">
-  <rich-text class="rich-media" nodes="{{nodes}}" space="nbsp" />
+<view class="{{theme}}">
+  <navbar nav="{{ { title, from } }}" />
+  <view class="license">
+    <rich-text class="rich-media" nodes="{{nodes}}" space="nbsp" />
+  </view>
+  <footer />
 </view>
-<footer />
