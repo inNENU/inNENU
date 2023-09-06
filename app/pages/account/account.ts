@@ -12,8 +12,10 @@ import {
   BORROW_BOOKS_KEY,
   CARD_BALANCE_KEY,
   COURSE_DATA_KEY,
+  EXAM_PLACE_DATA_KEY,
   GRADE_DATA_KEY,
   LICENSE_KEY,
+  NOTICE_LIST_KEY,
   USER_INFO_KEY,
   appCoverPrefix,
   assets,
@@ -260,8 +262,19 @@ $Page(PAGE_ID, {
         // account data
         remove(ACCOUNT_INFO_KEY);
         remove(USER_INFO_KEY);
+
+        // data
+        remove(BORROW_BOOKS_KEY);
+        remove(CARD_BALANCE_KEY);
+        remove(COURSE_DATA_KEY);
+        remove(GRADE_DATA_KEY);
+        remove(EXAM_PLACE_DATA_KEY);
+        remove(NOTICE_LIST_KEY);
+        remove(LICENSE_KEY);
+
         globalData.account = null;
         globalData.userInfo = null;
+
         this.setData({
           id: "",
           password: "",
@@ -272,12 +285,6 @@ $Page(PAGE_ID, {
 
         // cookies
         cookieStore.clear();
-        // data
-        remove(BORROW_BOOKS_KEY);
-        remove(CARD_BALANCE_KEY);
-        remove(COURSE_DATA_KEY);
-        remove(GRADE_DATA_KEY);
-        remove(LICENSE_KEY);
 
         showModal("删除成功", "已删除本地账号信息");
       },
