@@ -18,7 +18,7 @@
         wx:elif="{{canRegister}}"
         type="primary"
         class="primary register-button"
-        catch:tap="registerStudentArchive"
+        catch:tap="confirmRegister"
       >
         注册本年度学籍
       </button>

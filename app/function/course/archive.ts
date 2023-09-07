@@ -5,7 +5,7 @@ import {
   registerStudentArchive,
   useOnlineStudentArchive,
 } from "./under-study-archive.js";
-import { showModal } from "../../api/index.js";
+import { confirmAction, showModal } from "../../api/index.js";
 import type { AppOption } from "../../app.js";
 import { STUDENT_ARCHIVE_KEY } from "../../config/keys.js";
 import { LoginFailType } from "../../login/loginFailTypes.js";
@@ -161,6 +161,16 @@ $Page(PAGE_ID, {
       wx.hideLoading();
       showModal("注册失败", <string>msg);
     }
+  },
+
+  confirmRegister() {
+    confirmAction(
+      "注册学籍",
+      () => {
+        this.registerStudentArchive();
+      },
+      "您应已核对信息全部准确，注册后将无法修改！",
+    );
   },
 
   createStudentArchive() {

@@ -66,7 +66,13 @@ export const showToast = (
 export const confirmAction = (
   actionText: string,
   confirmFunc: () => void,
+  warning = "",
   cancelFunc: () => void = (): void => void 0,
 ): void => {
-  showModal("确认操作", `您确定要${actionText}么?`, confirmFunc, cancelFunc);
+  showModal(
+    "确认操作",
+    `您确定要${actionText}么?${warning}`,
+    confirmFunc,
+    cancelFunc,
+  );
 };
