@@ -132,8 +132,6 @@ $Page("pe-calculator", {
     const gradeKeys = this.data.grade.keys;
 
     this.setData({
-      firstPage: getCurrentPages().length === 1,
-
       // 写入性别
       // eslint-disable-next-line @typescript-eslint/naming-convention
       "gender.key":

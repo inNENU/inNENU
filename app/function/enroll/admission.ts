@@ -66,7 +66,6 @@ $Page(PAGE_ID, {
     );
 
     this.setData({
-      firstPage: getCurrentPages().length === 1,
       type,
       level,
     });

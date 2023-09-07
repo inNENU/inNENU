@@ -39,7 +39,6 @@ $Page(PAGE_ID, {
         this.setData({
           color: getColor(),
           theme: globalData.theme,
-          firstPage: getCurrentPages().length === 1,
           calendar,
         });
       })
