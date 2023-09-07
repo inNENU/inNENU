@@ -24,7 +24,7 @@ const archiveImageRegExp =
 const examImageRegExp = /"(\/gkuploadfile\/studentphoto\/pic\/(?:.+?)\.JPG)"/;
 const pathRegExp = /var newwin = window.showModalDialog\("(.+?)"\);/;
 const registerButtonRegExp =
-  /<input\s+type="button"\s+id="zc"\s+class="button"\s+value="确定注册"\s+onclick="bc()"\/>/;
+  /<input\s+type="button"\s+id="zc"\s+class="button"\s+value="确定注册"\s+onclick="bc\(\)"\/>/;
 const isRegisteredRegExp = /您已经提交注册信息/;
 
 const UNDER_STUDENT_ARCHIVE_QUERY_URL = `${UNDER_SYSTEM_SERVER}/xszhxxAction.do?method=addStudentPic_xszc`;
