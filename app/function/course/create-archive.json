@@ -1,0 +1,6 @@
+{
+  "navigationBarTitleText": "建立学籍",
+  "usingComponents": {
+    "login-hint": "/components/login-hint/login-hint"
+  }
+}

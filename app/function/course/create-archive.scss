@@ -1,0 +1,70 @@
+.create-archive-wrapper {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+}
+
+.content {
+  flex: 1;
+  overflow-y: auto;
+  padding: 6px 0;
+  text-align: left;
+}
+
+.title {
+  margin: 0 auto;
+  padding: 8px 20px 0;
+  font-weight: bold;
+  font-size: 18px;
+}
+
+.header {
+  margin: 0 auto;
+  padding: 8px 20px 0;
+
+  font-weight: 500;
+  font-size: 16px;
+  line-height: 1.5;
+}
+
+.delete-button {
+  float: right;
+
+  margin: -4px 0 0 !important;
+  padding: 4px 8px !important;
+
+  font-size: 14px !important;
+  line-height: 1.5 !important;
+}
+
+.desc {
+  margin: -2px 15px 4px;
+  color: var(--dark-grey);
+  font-size: 13px;
+}
+
+.input-list-wrapper {
+  padding: 4px 0;
+}
+
+.input-list-item {
+  padding: 4px 8px;
+}
+
+.add-button {
+  margin: 4px auto 8px;
+}
+
+.success-wrapper {
+  text-align: center;
+}
+
+.success-title {
+  margin: 8px 15px 12px;
+  font-size: 18px;
+}
+
+.success-description {
+  margin: 8px 15px;
+  font-size: 14px;
+}

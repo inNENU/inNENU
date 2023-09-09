@@ -1,5 +1,8 @@
 import type { CommonFailedResponse } from "../../../typings/response.js";
-import type { LoginFailType } from "../../login/index.js";
+import type {
+  AuthLoginFailedResponse,
+  LoginFailType,
+} from "../../login/index.js";
 
 export interface ChangeMajorPlan {
   /** 学院 */
@@ -322,4 +325,147 @@ export interface UnderRegisterStudentArchiveSuccessResponse {
 
 export type UnderRegisterStudentArchiveResponse =
   | UnderRegisterStudentArchiveSuccessResponse
+  | (CommonFailedResponse & { type?: LoginFailType.Expired });
+
+export interface UnderArchiveFieldInfo {
+  name: string;
+  value: string;
+}
+
+export interface ReadonlyUnderArchiveInfo {
+  text: string;
+  value: string;
+  remark: string;
+}
+
+export interface InputUnderArchiveInfo {
+  name: string;
+  text: string;
+  value: string;
+  remark: string;
+  required: boolean;
+}
+
+export interface SingleSelectUnderArchiveInfo {
+  name: string;
+  text: string;
+  defaultValue: string;
+  checkboxName: string;
+  checkboxValue: string;
+  options: { text: string; value: string }[];
+  remark: string;
+}
+
+export interface MultiSelectUnderArchiveInfo {
+  name: string;
+  text: string;
+  defaultValue: string;
+  checkboxName: string;
+  checkboxValue: string;
+  remark: string;
+  category: { text: string; value: string }[];
+  values: { text: string; value: string }[][];
+}
+
+export interface UnderCreateStudentArchiveGetInfoSuccessResponse {
+  success: true;
+  readonly: ReadonlyUnderArchiveInfo[];
+  editable: (SingleSelectUnderArchiveInfo | MultiSelectUnderArchiveInfo)[];
+  fields: UnderArchiveFieldInfo[];
+  path: string;
+}
+
+export type UnderCreateStudentArchiveGetInfoResponse =
+  | UnderCreateStudentArchiveGetInfoSuccessResponse
+  | (CommonFailedResponse & { type?: LoginFailType.Expired | "created" });
+
+export interface UnderCreateStudentArchiveSubmitInfoOptions {
+  fields: UnderArchiveFieldInfo[];
+  path: string;
+}
+
+export interface UnderCreateStudentArchiveSubmitInfoSuccessResponse {
+  success: true;
+  inputs: InputUnderArchiveInfo[];
+  fields: UnderArchiveFieldInfo[];
+  path: string;
+}
+
+export type UnderCreateStudentArchiveSubmitInfoResponse =
+  | UnderCreateStudentArchiveSubmitInfoSuccessResponse
+  | (CommonFailedResponse & { type?: LoginFailType.Expired });
+
+export interface UnderCreateStudentArchiveSubmitAddressOptions {
+  fields: UnderArchiveFieldInfo[];
+  path: string;
+}
+
+export interface UnderCreateStudentArchiveSubmitAddressSuccessResponse {
+  success: true;
+  study: UnderStudyOptions[];
+  fields: UnderArchiveFieldInfo[];
+  path: string;
+}
+
+export type UnderCreateStudentArchiveSubmitAddressResponse =
+  | UnderCreateStudentArchiveSubmitAddressSuccessResponse
+  | (CommonFailedResponse & { type?: LoginFailType.Expired });
+
+export interface UnderStudyOptions {
+  /** 开始时间 */
+  startTime: string;
+  /** 结束时间 */
+  endTime: string;
+  /** 地点 */
+  school: string;
+  /** 职务 */
+  title: string;
+  /** 证明人 */
+  witness: string;
+}
+
+export interface UnderCreateStudentArchiveSubmitStudyOptions {
+  fields: UnderArchiveFieldInfo[];
+  path: string;
+  study: UnderStudyOptions[];
+}
+
+export interface UnderCreateStudentArchiveSubmitStudySuccessResponse {
+  success: true;
+  family: UnderFamilyOptions[];
+  fields: UnderArchiveFieldInfo[];
+  path: string;
+}
+
+export type UnderCreateStudentArchiveSubmitStudyResponse =
+  | UnderCreateStudentArchiveSubmitStudySuccessResponse
+  | AuthLoginFailedResponse
+  | (CommonFailedResponse & { type?: LoginFailType.Expired });
+
+export interface UnderFamilyOptions {
+  /** 姓名 */
+  name: string;
+  /** 与本人关系 */
+  relation: string;
+  /** 工作单位 */
+  office: string;
+  /** 职务 */
+  title: string;
+  /** 联系电话 */
+  phone: string;
+}
+
+export interface UnderCreateStudentArchiveSubmitFamilyOptions {
+  fields: UnderArchiveFieldInfo[];
+  path: string;
+  family: UnderFamilyOptions[];
+}
+
+export interface UnderCreateStudentArchiveSubmitFamilySuccessResponse {
+  success: true;
+}
+
+export type UnderCreateStudentArchiveSubmitFamilyResponse =
+  | UnderCreateStudentArchiveSubmitFamilySuccessResponse
+  | AuthLoginFailedResponse
   | (CommonFailedResponse & { type?: LoginFailType.Expired });

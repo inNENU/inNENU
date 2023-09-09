@@ -178,6 +178,13 @@
           "scene": null
         },
         {
+          "id": 189,
+          "name": "建立学籍",
+          "pathName": "function/course/create-archive",
+          "query": "",
+          "scene": null
+        },
+        {
           "id": 13,
           "name": "成绩",
           "pathName": "function/course/grade",

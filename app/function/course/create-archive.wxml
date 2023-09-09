@@ -1,0 +1,197 @@
+<wxs src="./create-archive.wxs" module="config" />
+<page-meta
+  background-text-style="{{darkmode ? 'dark' : 'light'}}"
+  background-color="{{color.bgColor}}"
+  background-color-top="{{color.bgColorTop}}"
+  background-color-bottom="{{color.bgColorBottom}}"
+  root-background-color="{{color.bgColor}}"
+/>
+<view class="{{theme}} create-archive-wrapper">
+  <navbar nav="{{ { title } }}" />
+  <login-hint wx:if="{{needLogin}}" source="建立学籍" />
+  <view wx:else class="content">
+    <block wx:if="{{stage === 'info'}}">
+      <view class="header">基础信息</view>
+      <view class="input-list-wrapper">
+        <view wx:for="{{readonly}}" class="input-list-item">
+          <view class="text">{{item.text}}</view>
+          <view class="value">{{item.value}}</view>
+        </view>
+      </view>
+      <view class="desc"
+        >如以上信息有误，请向辅导员汇报，需省级部门审核后方能修改。</view
+      >
+      <view class="header">可修改信息</view>
+      <view class="input-list-wrapper">
+        <view wx:for="{{editable}}" class="input-list-item">
+          <view class="text">{{item.text}}</view>
+          <picker
+            wx:if="{{item.category}}"
+            mode="multiSelector"
+            range="{{[item.category, item.values[item.categoryIndex]]}}"
+            range-key="text"
+            value="{{[item.categoryIndex, item.selectedIndex]}}"
+            data-index="{{index}}"
+            bindcolumnchange="onMultiPickerColumnChange"
+            bindchange="onMultiPickerChange"
+          >
+            {{item.values[item.categoryIndex][item.selectedIndex].text}}
+          </picker>
+          <picker
+            range="{{item.options}}"
+            range-key="text"
+            value="{{item.selectedIndex}}"
+            data-index="{{index}}"
+            bindchange="onPickerChange"
+          >
+            {{item.options[item.selectedIndex].text}}
+          </picker>
+        </view>
+      </view>
+      <button
+        class="primary submit-button"
+        type="primary"
+        catch:tap="submitCreateArchiveInfo"
+      >
+        提交信息
+      </button>
+    </block>
+    <block wx:elif="{{stage === 'address'}}">
+      <view class="header">家庭信息</view>
+      <view class="input-list-wrapper">
+        <view wx:for="{{inputs}}" class="input-list-item">
+          <view class="text">
+            {{item.text}}
+            <text wx:if="{{item.required}}" style="color: red">*</text>
+          </view>
+          <input
+            type="text"
+            class="input"
+            value="{{item.value}}"
+            data-index="{{index}}"
+            bindinput="onAddressInput"
+          />
+        </view>
+      </view>
+      <view class="desc">星号为必填项</view>
+      <button
+        class="primary submit-button"
+        type="primary"
+        catch:tap="submitCreateArchiveAddress"
+      >
+        提交信息
+      </button>
+    </block>
+    <block wx:elif="{{stage === 'study'}}">
+      <view class="title">本人学历及社会经历</view>
+      <block
+        wx:for="{{study}}"
+        wx:for-item="studyItem"
+        wx:for-index="studyIndex"
+      >
+        <view class="header"
+          >经历 {{studyIndex + 1}}
+          <button
+            class="delete-button"
+            type="warn"
+            size="mini"
+            data-index="{{studyIndex}}"
+            catch:tap="removeStudy"
+          >
+            删除
+          </button></view
+        >
+        <view class="input-list-wrapper">
+          <view wx:for="{{config.study}}" wx:key="text" class="input-list-item">
+            <view class="text">{{item.text}}</view>
+            <input
+              type="{{item.type}}"
+              id="{{item.key}}"
+              class="input"
+              value="{{studyItem[item.key]}}"
+              placeholder="{{item.placeholder}}"
+              data-index="{{studyIndex}}"
+              bindinput="onStudyInput"
+            />
+          </view>
+        </view>
+      </block>
+      <button class="add-button primary" type="primary" catch:tap="addStudy">
+        添加经历
+      </button>
+      <view class="desc">
+        <text>{{config.studyDesc}} </text>
+      </view>
+      <button
+        class="primary submit-button"
+        type="primary"
+        catch:tap="submitCreateArchiveStudy"
+      >
+        提交经历
+      </button>
+    </block>
+    <block wx:elif="{{stage === 'family'}}">
+      <view class="title">家庭成员及主要社会关系</view>
+      <block
+        wx:for="{{family}}"
+        wx:for-item="familyItem"
+        wx:for-index="familyIndex"
+      >
+        <view class="header"
+          >经历 {{familyIndex + 1}}
+          <button
+            class="delete-button"
+            type="warn"
+            size="mini"
+            data-index="{{familyIndex}}"
+            catch:tap="removeFamily"
+          >
+            删除
+          </button></view
+        >
+        <view class="input-list-wrapper">
+          <view
+            wx:for="{{config.family}}"
+            wx:key="text"
+            class="input-list-item"
+          >
+            <view class="text">{{item.text}}</view>
+            <input
+              type="{{item.type}}"
+              id="{{item.key}}"
+              class="input"
+              value="{{familyItem[item.key]}}"
+              placeholder="{{item.placeholder}}"
+              data-index="{{familyIndex}}"
+              bindinput="onFamilyInput"
+            />
+          </view>
+        </view>
+      </block>
+      <button class="add-button primary" type="primary" catch:tap="addFamily">
+        添加成员
+      </button>
+      <view class="desc">
+        <text>{{config.familyDesc}}</text>
+      </view>
+      <button
+        class="primary submit-button"
+        type="primary"
+        catch:tap="submitCreateArchiveFamily"
+      >
+        提交家庭成员
+      </button>
+    </block>
+    <block wx:elif="{{stage === 'success'}}">
+      <view class="success-wrapper">
+        <icon type="success" size="120" />
+        <view class="success-title">激活成功</view>
+        <view class="success-description">您已成功建立学籍! </view>
+        <view class="success-description">
+          部分信息如火车到站须经辅导员审核后生效。</view
+        >
+      </view>
+    </block>
+  </view>
+  <footer />
+</view>

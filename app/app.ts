@@ -42,6 +42,7 @@ $Config({
     ["admission", "/function/enroll/admission"],
     ["study-archive", "/function/course/archive"],
     ["change-major-plan", "/function/course/change-major"],
+    ["create-archive", "/function/course/create-archive"],
     ["course-grade", "/function/course/grade"],
     ["course-table", "/function/course/table"],
     ["exam-place", "/function/course/exam-place"],

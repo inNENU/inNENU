@@ -1,0 +1,70 @@
+module.exports = {
+  family: [
+    {
+      text: "姓名",
+      type: "text",
+      key: "name",
+      placeholder: "需与身份证一致",
+    },
+    {
+      text: "与本人关系",
+      type: "text",
+      key: "relation",
+      placeholder: "父亲、母亲、妹妹等",
+    },
+    {
+      text: "工作单位",
+      type: "text",
+      key: "office",
+      placeholder: "完整填写，无歧义",
+    },
+    {
+      text: "任何职务",
+      type: "text",
+      key: "title",
+      placeholder: "非身份，没有请填无",
+    },
+    {
+      text: "联系电话",
+      type: "text",
+      key: "phone",
+      placeholder: "非必填",
+    },
+  ],
+  familyDesc:
+    "填写说明:\n· 请填写全部家庭成员，如有必要，请补充有重大社会关系的他人\n· 请填写完整、准确的工作单位，仍在读书的填写其所在学校。\n· 职务应填写班长、物理课代表、销售、前台等，如没有职务请填无\n· 联系电话应填写家庭成员的手机号码，如没有可留空",
+  study: [
+    {
+      text: "起始时间",
+      type: "digit",
+      key: "startTime",
+      placeholder: "8 位数字",
+    },
+    {
+      text: "截止时间",
+      type: "digit",
+      key: "endTime",
+      placeholder: "8 位数字",
+    },
+    {
+      text: "单位或地点",
+      type: "text",
+      key: "school",
+      placeholder: "完整填写，无歧义",
+    },
+    {
+      text: "任何职务",
+      type: "text",
+      key: "title",
+      placeholder: "非身份，没有请填无",
+    },
+    {
+      text: "证明人",
+      type: "text",
+      key: "witness",
+      placeholder: "班主任或直系上级领导",
+    },
+  ],
+  studyDesc:
+    "填写说明:\n· 学习和工作经历应完整，从小学开始\n· 每个经历的所有项目均为必填项 · 起始时间和截止时间需填写 8 位年月日数字，如: 20010101\n· 学习和工作地点应完整填写无歧义，如 XX 市第一中学。\n· 职务应填写班长、物理课代表、销售、前台等，如没有职务请填无\n· 学习经历中证明人应为班主任姓名，工作经历证明人应为直属上级领导",
+};

@@ -174,6 +174,6 @@ $Page(PAGE_ID, {
   },
 
   createStudentArchive() {
-    showModal("正在制作", "此功能正在制作中，敬请期待");
+    this.$go("create-archive");
   },
 });

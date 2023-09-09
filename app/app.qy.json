@@ -24,6 +24,7 @@
         "calendar/calendar",
         "course/archive",
         "course/change-major",
+        "course/create-archive",
         "course/exam-place",
         "course/grade",
         "course/table",

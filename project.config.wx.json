@@ -196,6 +196,13 @@
           "scene": null
         },
         {
+          "name": "建立学籍",
+          "pathName": "function/course/create-archive",
+          "query": "",
+          "launchMode": "default",
+          "scene": null
+        },
+        {
           "name": "成绩",
           "pathName": "function/course/grade",
           "query": "",
