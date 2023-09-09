@@ -8,6 +8,15 @@ import type {
   UnderGradeListResponse,
   UnderGradeResult,
 } from "./typings.js";
+import { request } from "../../api/index.js";
+import { service } from "../../config/index.js";
+import {
+  LoginFailType,
+  UNDER_SYSTEM_SERVER,
+  isWebVPNPage,
+} from "../../login/index.js";
+import { getIETimeStamp } from "../../utils/browser.js";
+import { cookieStore } from "../../utils/cookie.js";
 import {
   fieldRegExp,
   keyCodeRegExp,
@@ -18,16 +27,7 @@ import {
   sqlStringRegExp,
   tableFieldsRegExp,
   totalPagesRegExp,
-} from "./utils.js";
-import { request } from "../../api/index.js";
-import { service } from "../../config/index.js";
-import {
-  LoginFailType,
-  UNDER_SYSTEM_SERVER,
-  isWebVPNPage,
-} from "../../login/index.js";
-import { getIETimeStamp } from "../../utils/browser.js";
-import { cookieStore } from "../../utils/cookie.js";
+} from "../course/utils.js";
 
 const gradeItemRegExp = /<tr.+?class="smartTr"[^>]*?>([\s\S]*?)<\/tr>/g;
 const jsGradeItemRegExp = /<tr.+?class=\\"smartTr\\"[^>]*?>(.*?)<\/tr>/g;

@@ -23,7 +23,7 @@ import { getColor, popNotice } from "../../utils/page.js";
 
 const { globalData, useOnlineService } = getApp<AppOption>();
 
-const PAGE_ID = "course-grade";
+const PAGE_ID = "grade";
 const PAGE_TITLE = "成绩查询";
 const underKeys = [
   "name",
@@ -167,7 +167,7 @@ $Page("course-grade", {
 
   onShareAppMessage: () => ({
     title: PAGE_TITLE,
-    path: "/function/course/grade",
+    path: "/function/grade/grade",
   }),
 
   onShareTimeline: () => ({ title: PAGE_TITLE }),

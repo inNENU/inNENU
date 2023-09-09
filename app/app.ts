@@ -24,6 +24,7 @@ $Config({
         "admission",
         "calendar",
         "email",
+        "grade",
         "library",
         "location",
         "map",
@@ -39,11 +40,10 @@ $Config({
       ],
       "/function/$name/$name",
     ],
-    ["admission", "/function/enroll/admission"],
-    ["study-archive", "/function/archive/view"],
-    ["change-major-plan", "/function/course/change-major"],
     ["create-archive", "/function/archive/create"],
-    ["course-grade", "/function/course/grade"],
+    ["view-archive", "/function/archive/view"],
+    ["admission", "/function/enroll/admission"],
+    ["change-major-plan", "/function/course/change-major"],
     ["course-table", "/function/course/table"],
     ["exam-place", "/function/course/exam-place"],
     ["enroll-grade", "/function/enroll/grade"],
@@ -53,6 +53,10 @@ $Config({
     ["notice-detail", "/function/notice/detail"],
     ["notice-list", "/function/notice/list"],
     ["wechat-detail", "/function/school-media/wechat"],
+    // TODO: Remove
+    ["study-archive", "/function/archive/view"],
+    // TODO: Remove
+    ["course-grade", "/function/grade/grade"],
   ],
 
   injectPage: (_name, options) => {

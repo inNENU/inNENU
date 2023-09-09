@@ -6,7 +6,6 @@ import {
   getOnlineUnderCourseTable,
   getUnderCourseTable,
 } from "./under-course-table.js";
-import { getDisplayTime } from "./under-grade-list.js";
 import { showModal } from "../../api/index.js";
 import type { AppOption } from "../../app.js";
 import type {
@@ -23,6 +22,7 @@ import {
 } from "../../login/index.js";
 import { DAY, MONTH } from "../../utils/constant.js";
 import { getColor, popNotice } from "../../utils/page.js";
+import { getDisplayTime } from "../grade/under-grade-list.js";
 
 const { globalData, useOnlineService } = getApp<AppOption>();
 

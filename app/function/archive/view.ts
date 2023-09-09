@@ -17,7 +17,7 @@ import { HOUR } from "../../utils/constant.js";
 import { getColor, popNotice } from "../../utils/page.js";
 
 const { globalData, useOnlineService } = getApp<AppOption>();
-const PAGE_ID = "study-archive";
+const PAGE_ID = "view-archive";
 const PAGE_TITLE = "学籍信息";
 
 $Page(PAGE_ID, {
