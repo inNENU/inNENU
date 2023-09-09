@@ -834,6 +834,8 @@ $Page(PAGE_ID, {
   },
 
   process(type: "add" | "delete", courseId: string) {
+    console.log(courseId);
+
     return process(type, {
       courseId,
       server: this.state.server,

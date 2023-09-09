@@ -70,7 +70,7 @@ export interface StudentInfo {
   majorName: string;
 }
 
-export interface SelectInfoOptions extends Partial<AccountInfo> {
+export interface SelectInfoOptions {
   server: string;
   type: "under" | "post";
 }
@@ -107,7 +107,7 @@ export type SelectInfoResponse =
   | SelectInfoSuccessResponse
   | CommonFailedResponse;
 
-export interface ProcessOptions extends Partial<AccountInfo> {
+export interface ProcessOptions {
   server: string;
   /** 课程号 */
   courseId: string;
@@ -126,7 +126,7 @@ export interface ProcessFailedResponse extends CommonFailedResponse {
 
 export type ProcessResponse = ProcessSuccessResponse | ProcessFailedResponse;
 
-export interface SearchOptions extends Partial<AccountInfo> {
+export interface SearchOptions {
   server: string;
 
   /** 年级 */
@@ -176,6 +176,11 @@ export interface StudentAmountOptions extends Partial<AccountInfo> {
   /** 课程号 */
   courseId: string;
   jx0502id: string;
+}
+
+export interface StudentAmountRaw {
+  jx0404id: string;
+  rs: number;
 }
 
 export interface StudentAmountData {

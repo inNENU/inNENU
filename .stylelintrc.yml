@@ -11,6 +11,7 @@ rules:
   selector-type-no-unknown:
     - true
     - ignoreTypes:
+        - icon
         - page
         - picker
   shorthand-property-no-redundant-values: null

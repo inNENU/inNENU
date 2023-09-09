@@ -20,8 +20,8 @@ plugins:
   - import
 
 ignorePatterns:
+  - app/function/utils/encoder.js
   - app/function/utils/parser.js
-  - app/function/utils/parser.d.ts
   - dist/
   - server/
 
