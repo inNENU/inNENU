@@ -1,10 +1,6 @@
 import { encodeBase64, logger } from "@mptool/all";
 
-import type {
-  UnderGetStudentArchiveResponse,
-  UnderRegisterStudentArchiveResponse,
-  UnderStudentArchiveInfo,
-} from "./typings.js";
+import { CommonFailedResponse } from "../../../typings/index.js";
 import { request } from "../../api/net.js";
 import { service } from "../../config/info.js";
 import { LoginFailType } from "../../login/loginFailTypes.js";
@@ -12,6 +8,73 @@ import { UNDER_SYSTEM_SERVER } from "../../login/under-system.js";
 import { isWebVPNPage } from "../../login/utils.js";
 import { getIETimeStamp } from "../../utils/browser.js";
 import { cookieStore } from "../../utils/cookie.js";
+
+export interface UnderBasicInfo {
+  text: string;
+  value: string;
+}
+
+export interface UnderStudyInfo {
+  /** 开始时间 */
+  startTime: string;
+  /** 结束时间 */
+  endTime: string;
+  /** 地点 */
+  school: string;
+  /** 职务 */
+  title: string;
+  /** 证明人 */
+  witness: string;
+  /** 备注 */
+  remark: string;
+}
+
+export interface UnderFamilyInfo {
+  /** 姓名 */
+  name: string;
+  /** 与本人关系 */
+  relation: string;
+  /** 工作单位 */
+  office: string;
+  /** 职务 */
+  title: string;
+  /** 联系电话 */
+  phone: string;
+  /** 备注 */
+  remark: string;
+}
+
+export interface UnderStudentArchiveInfo {
+  /** 学籍照片 */
+  archiveImage: string;
+  /** 高考照片 */
+  examImage: string;
+  /** 基础信息 */
+  basic: UnderBasicInfo[];
+  /** 学习经历信息 */
+  study: UnderStudyInfo[];
+  /** 家庭信息 */
+  family: UnderFamilyInfo[];
+  /** 是否能注册 */
+  canRegister: boolean;
+  /** 是否已注册 */
+  isRegistered: boolean;
+  /** 注册路径 */
+  path: string;
+}
+
+export interface GetUnderStudentArchiveOptions {
+  type?: "get";
+}
+
+export interface UnderGetStudentArchiveSuccessResponse {
+  success: true;
+  info: UnderStudentArchiveInfo;
+}
+
+export type UnderGetStudentArchiveResponse =
+  | UnderGetStudentArchiveSuccessResponse
+  | (CommonFailedResponse & { type?: LoginFailType.Expired });
 
 const infoRegExp =
   /<td>(\S+)<\/td>\s+<td colspan="\d">(?:&nbsp;)*(.*?)(?:&nbsp;)*<\/td>/g;
@@ -138,52 +201,16 @@ export const getUnderStudentArchive =
     };
   };
 
-const alertRegExp = /window.alert\('(.+?)'\)/;
+export const useOnlineGetStudentArchive =
+  (): Promise<UnderGetStudentArchiveResponse> =>
+    request<UnderGetStudentArchiveResponse>(
+      `${service}under-system/student-archive`,
+      {
+        method: "POST",
+        scope: UNDER_SYSTEM_SERVER,
+      },
+    ).then((data) => {
+      if (!data.success) logger.error("获取失败", data.msg);
 
-export const registerStudentArchive = async (
-  path: string,
-): Promise<UnderRegisterStudentArchiveResponse> => {
-  const url = `${UNDER_SYSTEM_SERVER}${path}`;
-
-  const content = await request<string>(url);
-
-  if (isWebVPNPage(content)) {
-    cookieStore.clear();
-
-    return {
-      success: false,
-      type: LoginFailType.Expired,
-      msg: "登录已过期，请重新登录",
-    };
-  }
-
-  const alert = alertRegExp.exec(content)?.[1] || "注册失败";
-
-  if (alert === "注册成功。") return { success: true };
-
-  return {
-    success: false,
-    msg: alert,
-  };
-};
-
-export const useOnlineStudentArchive = <T extends string | undefined>(
-  path: T,
-): Promise<
-  T extends string
-    ? UnderRegisterStudentArchiveResponse
-    : UnderGetStudentArchiveResponse
-> =>
-  request<
-    T extends string
-      ? UnderRegisterStudentArchiveResponse
-      : UnderGetStudentArchiveResponse
-  >(`${service}under-system/student-archive`, {
-    method: "POST",
-    data: path ? { type: "register", path } : {},
-    scope: UNDER_SYSTEM_SERVER,
-  }).then((data) => {
-    if (!data.success) logger.error("获取失败", data.msg);
-
-    return data;
-  });
+      return data;
+    });

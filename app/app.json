@@ -21,10 +21,10 @@
       "root": "function",
       "pages": [
         "activate/activate",
+        "archive/create",
+        "archive/view",
         "calendar/calendar",
-        "course/archive",
         "course/change-major",
-        "course/create-archive",
         "course/exam-place",
         "course/grade",
         "course/table",

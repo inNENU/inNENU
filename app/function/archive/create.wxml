@@ -1,4 +1,4 @@
-<wxs src="./create-archive.wxs" module="config" />
+<wxs src="./create.wxs" module="config" />
 <page-meta
   background-text-style="{{darkmode ? 'dark' : 'light'}}"
   background-color="{{color.bgColor}}"

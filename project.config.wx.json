@@ -190,14 +190,14 @@
         },
         {
           "name": "学籍",
-          "pathName": "function/course/archive",
+          "pathName": "function/archive/view",
           "query": "",
           "launchMode": "default",
           "scene": null
         },
         {
           "name": "建立学籍",
-          "pathName": "function/course/create-archive",
+          "pathName": "function/archive/create",
           "query": "",
           "launchMode": "default",
           "scene": null

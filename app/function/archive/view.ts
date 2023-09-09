@@ -1,10 +1,13 @@
 import { $Page, set } from "@mptool/all";
 
 import {
-  getUnderStudentArchive,
   registerStudentArchive,
-  useOnlineStudentArchive,
-} from "./under-study-archive.js";
+  useOnlineRegisterStudentArchive,
+} from "./under-register.js";
+import {
+  getUnderStudentArchive,
+  useOnlineGetStudentArchive,
+} from "./under-view.js";
 import { confirmAction, showModal } from "../../api/index.js";
 import type { AppOption } from "../../app.js";
 import { STUDENT_ARCHIVE_KEY } from "../../config/keys.js";
@@ -72,7 +75,7 @@ $Page(PAGE_ID, {
 
   onShareAppMessage: () => ({
     title: PAGE_TITLE,
-    path: "/function/course/archive",
+    path: "/function/archive/view",
   }),
 
   onShareTimeline: () => ({ title: PAGE_TITLE }),
@@ -89,8 +92,8 @@ $Page(PAGE_ID, {
       if (err) throw err.msg;
 
       const result = await (useOnlineService(PAGE_ID)
-        ? useOnlineStudentArchive
-        : getUnderStudentArchive)(undefined);
+        ? useOnlineGetStudentArchive
+        : getUnderStudentArchive)();
 
       wx.hideLoading();
       this.state.inited = true;
@@ -131,7 +134,7 @@ $Page(PAGE_ID, {
       if (err) throw err.msg;
 
       const result = await (useOnlineService(PAGE_ID)
-        ? useOnlineStudentArchive
+        ? useOnlineRegisterStudentArchive
         : registerStudentArchive)(this.data.path);
 
       wx.hideLoading();

@@ -7,7 +7,7 @@ import type {
   UnderArchiveFieldInfo,
   UnderFamilyOptions,
   UnderStudyOptions,
-} from "./typings.js";
+} from "./under-create/index.js";
 import {
   getOnlineUnderStudentArchiveInfo,
   getUnderStudentArchiveInfo,
@@ -19,7 +19,7 @@ import {
   submitUnderStudentArchiveFamily,
   submitUnderStudentArchiveInfo,
   submitUnderStudentArchiveStudy,
-} from "./under-create-archive.js";
+} from "./under-create/index.js";
 import { showModal } from "../../api/index.js";
 import type { AppOption } from "../../app.js";
 import { LoginFailType } from "../../login/loginFailTypes.js";
