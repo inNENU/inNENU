@@ -82,10 +82,10 @@ $Page(PAGE_ID, {
     ensureJSON("function/map/marker/jingyue");
   },
 
-  onLoad() {
+  onLoad(options: { area?: "benbu" | "jingyue" }) {
     wx.showLoading({ title: "加载中...", mask: true });
 
-    const area = this.getArea();
+    const area = options.area || this.getArea();
     // 创建地图对象
     const mapContext = wx.createMapContext("map");
 
@@ -122,14 +122,27 @@ $Page(PAGE_ID, {
     });
   },
 
-  onShareAppMessage: () => ({ title: PAGE_TITLE, path: "/function/map/map" }),
+  onShareAppMessage(): WechatMiniprogram.Page.ICustomShareContent {
+    const { area } = this.data;
 
-  onShareTimeline: () => ({ title: PAGE_TITLE }),
+    return { title: PAGE_TITLE, path: `/function/map/map?area=${area}` };
+  },
 
-  onAddToFavorites: () => ({
-    title: PAGE_TITLE,
-    imageUrl: `${appCoverPrefix}.jpg`,
-  }),
+  onShareTimeline(): WechatMiniprogram.Page.ICustomTimelineContent {
+    const { area } = this.data;
+
+    return { title: PAGE_TITLE, query: `area=${area}` };
+  },
+
+  onAddToFavorites(): WechatMiniprogram.Page.IAddToFavoritesContent {
+    const { area } = this.data;
+
+    return {
+      title: PAGE_TITLE,
+      imageUrl: `${appCoverPrefix}.jpg`,
+      query: `area=${area}`,
+    };
+  },
 
   onResize({ size }) {
     this.setData({
