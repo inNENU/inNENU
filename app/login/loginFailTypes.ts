@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/naming-convention */
 export const enum LoginFailType {
   /** 账户锁定 */
   AccountLocked = "locked",

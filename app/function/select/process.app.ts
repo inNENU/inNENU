@@ -20,7 +20,6 @@ export const process = (
       {
         method: "POST",
         header: {
-          // eslint-disable-next-line @typescript-eslint/naming-convention
           "Content-Type": "application/x-www-form-urlencoded",
         },
         data: params,

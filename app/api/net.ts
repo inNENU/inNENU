@@ -96,7 +96,6 @@ export const request = <
           logger.warn(`Request ${url} failed with statusCode: ${statusCode}`);
 
           wx.reportEvent?.("service_error", {
-            // eslint-disable-next-line @typescript-eslint/naming-convention
             url,
             payload: JSON.stringify(options),
           });

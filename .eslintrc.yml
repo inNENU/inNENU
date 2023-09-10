@@ -21,7 +21,9 @@ plugins:
 
 ignorePatterns:
   - app/function/utils/encoder.js
+  - app/function/utils/encoder.d.ts
   - app/function/utils/parser.js
+  - app/function/utils/parser.d.ts
   - dist/
   - server/
 
@@ -179,6 +181,12 @@ overrides:
 
       "@typescript-eslint/naming-convention":
         - warn
+        - filter:
+            match: true
+            regex: Content-Type
+          format: null
+          selector:
+            - property
         - selector: default
           format:
             - camelCase
@@ -212,6 +220,10 @@ overrides:
           trailingUnderscore: allow
 
         - selector: typeLike
+          format:
+            - PascalCase
+
+        - selector: enumMember
           format:
             - PascalCase
 

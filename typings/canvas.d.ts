@@ -113,6 +113,7 @@ interface DOMPointReadOnly {
   /** [MDN Reference](https://developer.mozilla.org/docs/Web/API/DOMPointReadOnly/matrixTransform) */
   matrixTransform(matrix?: DOMMatrixInit): DOMPoint;
   /** [MDN Reference](https://developer.mozilla.org/docs/Web/API/DOMPointReadOnly/toJSON) */
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   toJSON(): any;
 }
 
@@ -227,6 +228,7 @@ interface DOMMatrixReadOnly {
   toFloat32Array(): Float32Array;
   /** [MDN Reference](https://developer.mozilla.org/docs/Web/API/DOMMatrixReadOnly/toFloat64Array) */
   toFloat64Array(): Float64Array;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   toJSON(): any;
   /** [MDN Reference](https://developer.mozilla.org/docs/Web/API/DOMMatrixReadOnly/transformPoint) */
   transformPoint(point?: DOMPointInit): DOMPoint;
