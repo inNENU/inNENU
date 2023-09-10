@@ -23,6 +23,7 @@
     "function/course/exam-place",
     "function/grade/grade",
     "function/course/table",
+    "function/email/apply",
     "function/email/email",
     "function/enroll/admission",
     "function/enroll/grade",

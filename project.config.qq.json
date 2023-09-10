@@ -199,10 +199,15 @@
           "scene": null
         },
         {
+          "name": "校园邮箱申请",
+          "pathName": "function/email/apply",
+          "query": "",
+          "scene": null
+        },
+        {
           "name": "校园邮箱",
           "pathName": "function/email/email",
           "query": "",
-          "launchMode": "default",
           "scene": null
         },
         {

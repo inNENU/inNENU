@@ -28,6 +28,7 @@
         "course/exam-place",
         "grade/grade",
         "course/table",
+        "email/apply",
         "email/email",
         "enroll/admission",
         "enroll/grade",
