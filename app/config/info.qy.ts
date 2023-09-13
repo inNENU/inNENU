@@ -1,7 +1,7 @@
 /** 小程序名称 */
 export const appName = "myNENU";
 /** 小程序版本 */
-export const version = "6.4.2";
+export const version = "6.5.0";
 /** 小程序服务器地址 */
 export const assets = "https://assets.innenu.com/";
 export const server = "https://mp.innenu.com/";
