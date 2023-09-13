@@ -40,9 +40,9 @@ declare namespace WechatMiniprogram {
   }
 
   /** 接口调用结束的回调函数(调用成功、失败都会执行) */
-  type GetGroupInfoCompleteCallback = (res: GetGroupInfoCallback) => void;
+  type GetGroupInfoCompleteCallback = (res: GeneralCallbackResult) => void;
   /** 接口调用失败的回调函数 */
-  type GetGroupInfoFailCallback = (res: GetGroupInfoCallback) => void;
+  type GetGroupInfoFailCallback = (res: GeneralCallbackResult) => void;
   /** 接口调用成功的回调函数 */
   type GetGroupInfoSuccessCallback = (res: GetGroupInfoCallback) => void;
 
@@ -64,11 +64,9 @@ declare namespace WechatMiniprogram {
   }
 
   /** 接口调用结束的回调函数(调用成功、失败都会执行) */
-  type GetGroupAppStatusCompleteCallback = (
-    res: GetGroupAppStatusCallback,
-  ) => void;
+  type GetGroupAppStatusCompleteCallback = (res: GeneralCallbackResult) => void;
   /** 接口调用失败的回调函数 */
-  type GetGroupAppStatusFailCallback = (res: GetGroupAppStatusCallback) => void;
+  type GetGroupAppStatusFailCallback = (res: GeneralCallbackResult) => void;
   /** 接口调用成功的回调函数 */
   type GetGroupAppStatusSuccessCallback = (
     res: GetGroupAppStatusCallback,
@@ -85,6 +83,52 @@ declare namespace WechatMiniprogram {
     success?: GetGroupAppStatusSuccessCallback;
   }
 
+  interface IsAddedToMyAppsCallback {
+    /** 是否已经添加为我的小程序 */
+    isAdded: boolean;
+  }
+
+  /** 接口调用结束的回调函数(调用成功、失败都会执行) */
+  type IsAddedToMyAppsCompleteCallback = (res: GeneralCallbackResult) => void;
+  /** 接口调用失败的回调函数 */
+  type IsAddedToMyAppsFailCallback = (res: GeneralCallbackResult) => void;
+  /** 接口调用成功的回调函数 */
+  type IsAddedToMyAppsSuccessCallback = (res: IsAddedToMyAppsCallback) => void;
+
+  interface IsAddedToMyAppsOption {
+    /** 接口调用结束的回调函数(调用成功、失败都会执行) */
+    complete?: IsAddedToMyAppsCompleteCallback;
+    /** 接口调用失败的回调函数 */
+    fail?: IsAddedToMyAppsFailCallback;
+    /** 接口调用成功的回调函数 */
+    success?: IsAddedToMyAppsSuccessCallback;
+  }
+
+  interface ApplyAddToMyAppsCallback {
+    /** 用户同意 */
+    confirm: boolean;
+    /** 用户拒绝 */
+    cancel: boolean;
+  }
+
+  /** 接口调用结束的回调函数(调用成功、失败都会执行) */
+  type ApplyAddToMyAppsCompleteCallback = (res: GeneralCallbackResult) => void;
+  /** 接口调用失败的回调函数 */
+  type ApplyAddToMyAppsFailCallback = (res: GeneralCallbackResult) => void;
+  /** 接口调用成功的回调函数 */
+  type ApplyAddToMyAppsSuccessCallback = (
+    res: ApplyAddToMyAppsCallback,
+  ) => void;
+
+  interface ApplyAddToMyAppsOption {
+    /** 接口调用结束的回调函数(调用成功、失败都会执行) */
+    complete?: ApplyAddToMyAppsCompleteCallback;
+    /** 接口调用失败的回调函数 */
+    fail?: ApplyAddToMyAppsFailCallback;
+    /** 接口调用成功的回调函数 */
+    success?: ApplyAddToMyAppsSuccessCallback;
+  }
+
   interface Wx {
     /** 在手机桌面上添加该小程序的快捷启动图标。 */
     saveAppToDesktop(option?: SaveAppToDesktopOption): void;
@@ -94,5 +138,9 @@ declare namespace WechatMiniprogram {
 
     /** 获取当前小程序是否添加了群应用 */
     getGroupAppStatus(option?: GetGroupAppStatusOption): void;
+    /** 查询用户是否已经将本小程序添加到下拉页面中“我的小程序”当中 */
+    isAddedToMyApps(option?: IsAddedToMyAppsOption): void;
+    /** 查询用户是否已经将本小程序添加到下拉页面中“我的小程序”当中 */
+    applyAddToMyApps(option?: ApplyAddToMyAppsOption): void;
   }
 }

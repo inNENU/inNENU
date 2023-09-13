@@ -1,12 +1,13 @@
 <view
   wx:if="{{display}}"
-  class="addtip-wrapper"
+  class="add-my-app-wrapper"
   style="top:{{44 + statusBarHeight}}px;"
+  catch:tap="addToMyApps"
 >
   <view class="arrow" />
-  <view class="addtip">
+  <view class="add-my-app">
     {{text}}
-    <view class="close-wrapper" catch:tap="close">
+    <view wx:if="{{!notAdded}}" class="close-wrapper" catch:tap="close">
       <view class="icon-button icon-close" />
     </view>
   </view>

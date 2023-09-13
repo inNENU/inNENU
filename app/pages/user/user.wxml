@@ -41,4 +41,4 @@
   <template is="components" data="{{content: page.content}}" />
   <footer config="{{footer}}" />
 </view>
-<add-tip />
+<add-my-app />
