@@ -6,7 +6,7 @@
   background-color-bottom="{{color.bgColorBottom}}"
   root-background-color="{{color.bgColor}}"
 />
-<view class="{{theme}} grey">
+<view class="{{theme}} grey search-wrapper">
   <view
     class="left-button"
     style="top:{{statusBarHeight + 6}}px;"
@@ -30,47 +30,86 @@
     catch:search="search"
   />
 
-  <title config="{{ { text: '搜索结果' } }}" />
-
-  <block wx:if="{{result.length}}">
+  <view class="search-type">
     <view
-      class="search-item"
-      hover-class="button-hover"
-      wx:for="{{result}}"
-      wx:key="title"
-      data-url="{{'info?id=' + item.id + '&from=搜索'}}"
-      catch:tap="$bindGo"
+      class="search-type-item {{type === 'all'? 'active': ''}}"
+      data-type="all"
+      catch:tap="changeSearchType"
+      >全部</view
     >
-      <view class="title">{{item.title}}</view>
-      <view class="list">
-        <block wx:for="{{item.index}}" wx:for-item="config">
-          <view class="title" wx:if="{{config[0] === 'title'}}"
-            >{{config[1]}}</view
-          >
-          <view class="heading" wx:elif="{{config[0] === 'heading'}}"
-            >{{config[1]}}</view
-          >
-          <view class="text" wx:elif="{{config[0] === 'text'}}"
-            >{{config[1].pre}}<text class="keyword">{{config[1].word}}</text
-            >{{config[1].after}}</view
-          >
-          <view class="doc" wx:elif="{{config[0] === 'img'}}">
-            <image class="icon" src="/base/doc/icon/{{config[1].icon}}.svg" />
-            <view class="text">{{config[1].desc}}</view>
-          </view>
-          <view class="doc" wx:elif="{{config[0] === 'doc'}}">
-            <image class="icon" src="/base/doc/icon/{{config[1].icon}}.svg" />
-            <view class="text">{{config[1].name}}</view>
-          </view>
-          <view class="card" wx:elif="{{config[0] === 'card'}}">
-            <view class="title">{{config[1].title}}</view>
-            <view class="desc">{{config[1].desc}}</view>
-          </view>
-        </block>
+    <view
+      class="search-type-item {{type === 'guide'? 'active': ''}}"
+      data-type="guide"
+      catch:tap="changeSearchType"
+      >指南</view
+    >
+    <view
+      class="search-type-item {{type === 'intro'? 'active': ''}}"
+      data-type="intro"
+      catch:tap="changeSearchType"
+      >介绍</view
+    >
+    <view
+      class="search-type-item {{type === 'function'? 'active': ''}}"
+      data-type="function"
+      catch:tap="changeSearchType"
+      >功能</view
+    >
+  </view>
+  <block wx:if="{{result.length}}">
+    <title config="{{ { text: '搜索结果' } }}" />
+    <block wx:for="{{result}}" wx:key="title">
+      <view
+        wx:if="{{item.indexes}}"
+        class="search-item content"
+        hover-class="button-hover"
+        data-url="{{'info?id=' + item.path + '&from=搜索'}}"
+        catch:tap="$bindGo"
+      >
+        <view class="title">{{item.title}}</view>
+        <view class="list">
+          <block wx:for="{{item.indexes}}" wx:for-item="config">
+            <view class="title" wx:if="{{config[0] === 'title'}}"
+              >{{config[1]}}</view
+            >
+            <view class="heading" wx:elif="{{config[0] === 'heading'}}"
+              >{{config[1]}}</view
+            >
+            <view class="text" wx:elif="{{config[0] === 'text'}}"
+              >{{config[1].pre}}<text class="keyword">{{config[1].word}}</text
+              >{{config[1].after}}</view
+            >
+            <view class="doc" wx:elif="{{config[0] === 'img'}}">
+              <image class="icon" src="/base/doc/icon/{{config[1].icon}}.svg" />
+              <view class="text">{{config[1].desc}}</view>
+            </view>
+            <view class="doc" wx:elif="{{config[0] === 'doc'}}">
+              <image class="icon" src="/base/doc/icon/{{config[1].icon}}.svg" />
+              <view class="text">{{config[1].name}}</view>
+            </view>
+            <view class="card" wx:elif="{{config[0] === 'card'}}">
+              <view class="title">{{config[1].title}}</view>
+              <view class="desc">{{config[1].desc}}</view>
+            </view>
+          </block>
+        </view>
       </view>
-    </view>
+      <view
+        wx:else
+        class="search-item page"
+        data-url="{{item.url}}"
+        catch:tap="$bindGo"
+      >
+        <image
+          wx:if="{{icons[item.icon]}}"
+          class="icon"
+          src="{{icons[item.icon]}}"
+        />
+        <view class="title">{{item.title}}</view>
+      </view>
+    </block>
   </block>
-  <view wx:elif="{{searchWord}}" class="info">没有找到任何结果</view>
+  <view wx:else class="empty-hint">没有找到任何结果</view>
 
   <footer />
 

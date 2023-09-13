@@ -1,24 +1,27 @@
-import type { SearchIndex } from "../../typings/index.js";
 import { request } from "../api/index.js";
-import { server } from "../config/index.js";
+import { service } from "../config/index.js";
+
+export type SearchType = "all" | "guide" | "intro" | "function";
 
 /** 搜索结果 */
 export interface SearchResult {
   /** 页面标题 */
   title: string;
   /** 页面标识 */
-  id: string;
+  id?: string;
+  path?: string;
+  icon?: string;
   /** 搜索内容 */
-  index?: SearchIndex[];
+  index?: unknown[];
 }
 
 export interface SearchData {
+  /** 搜索范围 */
+  scope?: SearchType;
+  /** 搜索类型 */
+  type?: "word" | "result";
   /** 搜索词 */
   word: string;
-  /** 搜索范围 */
-  scope: "all" | "guide" | "intro";
-  /** 搜索类型 */
-  type: "word" | "result";
 }
 
 /**
@@ -35,7 +38,7 @@ export const search = <T extends string[] | SearchResult[]>(
   // eslint-disable-next-line @typescript-eslint/naming-convention
   wx.reportEvent?.("search", { search_word: data.word });
 
-  return request<T>(`${server}service/search.php`, {
+  return request<T>(`${service}mp/search`, {
     method: "POST",
     data,
   });

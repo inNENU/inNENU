@@ -1,15 +1,19 @@
-import { $Page } from "@mptool/all";
+import { $Page, readFile } from "@mptool/all";
 
 import type { AppOption } from "../../app.js";
 import { appCoverPrefix } from "../../config/index.js";
 import { getColor, popNotice } from "../../utils/page.js";
-import { SearchResult, search } from "../../utils/search.js";
+import type { SearchResult, SearchType } from "../../utils/search.js";
+import { search } from "../../utils/search.js";
 
 const { globalData } = getApp<AppOption>();
 
 $Page("search", {
   data: {
     theme: globalData.theme,
+
+    /** 搜索类别 */
+    type: <SearchType>"all",
 
     /** 状态栏高度 */
     statusBarHeight: globalData.info.statusBarHeight,
@@ -19,14 +23,9 @@ $Page("search", {
 
     /** 搜索结果 */
     result: <SearchResult[]>[],
-
-    /** 搜索词 */
-    searchWord: "",
   },
 
   state: {
-    /** 分类 */
-    name: <"all" | "guide" | "intro">"all",
     /** 是否正在输入 */
     typing: false,
     /** 搜索框中的内容 */
@@ -34,11 +33,10 @@ $Page("search", {
   },
 
   onLoad(options) {
-    if (options.name)
-      this.state.name = options.name as "all" | "guide" | "intro";
     if (options.word) this.search({ detail: { value: options.word } });
 
     this.setData({
+      type: <SearchType>options.type || "all",
       firstPage: getCurrentPages().length === 1,
       color: getColor(true),
       searchWord: options.word || "",
@@ -58,7 +56,7 @@ $Page("search", {
   onShareAppMessage(): WechatMiniprogram.Page.ICustomShareContent {
     return {
       title: "搜索",
-      path: `/pages/search/search?name=${this.state.name}&word=${this.state.value}`,
+      path: `/pages/search/search?type=${this.data.type}&word=${this.state.value}`,
       imageUrl: `${appCoverPrefix}Share.png`,
     };
   },
@@ -66,7 +64,7 @@ $Page("search", {
   onShareTimeline(): WechatMiniprogram.Page.ICustomTimelineContent {
     return {
       title: "搜索",
-      query: `name=${this.state.name}&word=${this.state.value}`,
+      query: `type=${this.data.type}&word=${this.state.value}`,
     };
   },
 
@@ -74,8 +72,28 @@ $Page("search", {
     return {
       title: "搜索",
       imageUrl: `${appCoverPrefix}.jpg`,
-      query: `name=${this.state.name}&word=${this.state.value}`,
+      query: `type=${this.data.type}&word=${this.state.value}`,
     };
+  },
+
+  changeSearchType({
+    currentTarget,
+  }: WechatMiniprogram.TouchEvent<
+    Record<never, never>,
+    Record<never, never>,
+    { type: SearchType }
+  >) {
+    const { value } = this.state;
+
+    this.setData({ type: currentTarget.dataset.type });
+    if (value)
+      this.search({
+        detail: { value },
+      });
+  },
+
+  scrollTop() {
+    wx.pageScrollTo({ scrollTop: 0 });
   },
 
   /**
@@ -88,7 +106,7 @@ $Page("search", {
 
     const words = await search<string[]>({
       word: value,
-      scope: this.state.name,
+      scope: this.data.type,
       type: "word",
     });
 
@@ -107,16 +125,19 @@ $Page("search", {
 
     const result = await search<SearchResult[]>({
       word: value,
-      scope: this.state.name,
+      scope: this.data.type,
       type: "result",
     });
 
-    this.setData({ result });
+    this.setData({
+      result,
+      icons: Object.fromEntries(
+        result
+          .filter((item) => item.icon && !item.icon.includes("/"))
+          .map((item) => [item.icon!, readFile(`icon/${item.icon!}`) || ""]),
+      ),
+    });
     this.state.value = value;
     wx.hideLoading();
-  },
-
-  scrollTop() {
-    wx.pageScrollTo({ scrollTop: 0 });
   },
 });
