@@ -76,7 +76,8 @@
               >{{config[1]}}</view
             >
             <view class="text" wx:elif="{{config[0] === 'text'}}"
-              >{{config[1].pre}}<text class="keyword">{{config[1].word}}</text
+              >{{config[1].before}}<text class="keyword"
+                >{{config[1].word}}</text
               >{{config[1].after}}</view
             >
             <view class="doc" wx:elif="{{config[0] === 'img'}}">
