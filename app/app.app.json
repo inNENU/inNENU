@@ -21,6 +21,7 @@
     "function/calendar/calendar",
     "function/course/change-major",
     "function/course/exam-place",
+    "function/course/special-exam",
     "function/grade/grade",
     "function/course/table",
     "function/email/apply",

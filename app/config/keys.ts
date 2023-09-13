@@ -11,6 +11,7 @@ export const CHANGE_MAJOR_DATA_KEY = "change-major-data-info";
 export const EXAM_PLACE_DATA_KEY = "exam-place-data-info";
 export const GRADE_DATA_KEY = "grade-data-info";
 export const NOTICE_LIST_KEY = "notice-list-info";
+export const SPECIAL_EXAM_DATA_KEY = "special-exam-data-info";
 export const STUDENT_ARCHIVE_KEY = "student-archive-info";
 
 export const WEATHER_KEY = "weather-info";

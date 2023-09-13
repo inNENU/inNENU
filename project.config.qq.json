@@ -171,6 +171,13 @@
           "scene": null
         },
         {
+          "id": 192,
+          "name": "专项考试",
+          "pathName": "function/course/special-exam",
+          "query": "",
+          "scene": null
+        },
+        {
           "id": 190,
           "name": "学籍",
           "pathName": "function/archive/view",

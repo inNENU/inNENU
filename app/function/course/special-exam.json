@@ -1,0 +1,6 @@
+{
+  "navigationBarTitleText": "专项考试成绩",
+  "usingComponents": {
+    "login-hint": "/components/login-hint/login-hint"
+  }
+}

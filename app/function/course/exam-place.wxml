@@ -1,4 +1,3 @@
-<wxs src="./change-major.wxs" module="changeMajor" />
 <page-meta
   background-text-style="{{darkmode ? 'dark' : 'light'}}"
   background-color="{{color.bgColor}}"

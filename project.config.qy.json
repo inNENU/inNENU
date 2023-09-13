@@ -189,6 +189,13 @@
           "scene": null
         },
         {
+          "name": "专项考试",
+          "pathName": "function/course/special-exam",
+          "query": "",
+          "launchMode": "default",
+          "scene": null
+        },
+        {
           "name": "学籍",
           "pathName": "function/archive/view",
           "query": "",
