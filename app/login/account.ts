@@ -7,7 +7,21 @@ import { getCurrentRoute } from "../api/framework.js";
 import { request } from "../api/net.js";
 import { showToast } from "../api/ui.js";
 import { AppOption } from "../app.js";
-import { ACCOUNT_INFO_KEY, USER_INFO_KEY, service } from "../config/index.js";
+import {
+  ACCOUNT_INFO_KEY,
+  BORROW_BOOKS_KEY,
+  CHANGE_MAJOR_DATA_KEY,
+  COURSE_DATA_KEY,
+  EXAM_PLACE_DATA_KEY,
+  GRADE_DATA_KEY,
+  LICENSE_KEY,
+  NOTICE_LIST_KEY,
+  SPECIAL_EXAM_DATA_KEY,
+  STUDENT_ARCHIVE_KEY,
+  USER_INFO_KEY,
+  service,
+} from "../config/index.js";
+import { cookieStore } from "../utils/cookie.js";
 import type { AccountInfo } from "../utils/typings.js";
 
 const { globalData } = getApp<AppOption>();
@@ -49,4 +63,27 @@ export const handleFailResponse = (
     if (getCurrentRoute() !== "/pages/account/account")
       wx.navigateTo({ url: "/pages/account/account?update=true" });
   }
+};
+
+export const logout = (): void => {
+  // cookies
+  cookieStore.clear();
+
+  // account data
+  remove(ACCOUNT_INFO_KEY);
+  remove(USER_INFO_KEY);
+
+  // data
+  remove(BORROW_BOOKS_KEY);
+  remove(COURSE_DATA_KEY);
+  remove(CHANGE_MAJOR_DATA_KEY);
+  remove(EXAM_PLACE_DATA_KEY);
+  remove(GRADE_DATA_KEY);
+  remove(NOTICE_LIST_KEY);
+  remove(SPECIAL_EXAM_DATA_KEY);
+  remove(STUDENT_ARCHIVE_KEY);
+  remove(LICENSE_KEY);
+
+  globalData.account = null;
+  globalData.userInfo = null;
 };

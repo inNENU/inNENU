@@ -1,4 +1,4 @@
-import { $Page, remove, set } from "@mptool/all";
+import { $Page, set } from "@mptool/all";
 
 import { authInit, getAuthInit } from "./api.js";
 import type {
@@ -9,21 +9,13 @@ import { showModal, showToast } from "../../api/index.js";
 import type { AppOption } from "../../app.js";
 import {
   ACCOUNT_INFO_KEY,
-  BORROW_BOOKS_KEY,
-  CARD_BALANCE_KEY,
-  COURSE_DATA_KEY,
-  EXAM_PLACE_DATA_KEY,
-  GRADE_DATA_KEY,
-  LICENSE_KEY,
-  NOTICE_LIST_KEY,
   USER_INFO_KEY,
   appCoverPrefix,
   assets,
 } from "../../config/index.js";
-import { LoginFailType } from "../../login/index.js";
+import { LoginFailType, logout } from "../../login/index.js";
 import { getLicenseStatus } from "../../utils/agreement.js";
 import { MONTH } from "../../utils/constant.js";
-import { cookieStore } from "../../utils/cookie.js";
 import { popNotice } from "../../utils/page.js";
 import type { UserInfo } from "../../utils/typings.js";
 
@@ -263,33 +255,7 @@ $Page(PAGE_ID, {
       "删除账号",
       "确认删除账号? 这会清除本地的全部个人信息与数据且无法恢复。",
       () => {
-        // account data
-        remove(ACCOUNT_INFO_KEY);
-        remove(USER_INFO_KEY);
-
-        // data
-        remove(BORROW_BOOKS_KEY);
-        remove(CARD_BALANCE_KEY);
-        remove(COURSE_DATA_KEY);
-        remove(GRADE_DATA_KEY);
-        remove(EXAM_PLACE_DATA_KEY);
-        remove(NOTICE_LIST_KEY);
-        remove(LICENSE_KEY);
-
-        globalData.account = null;
-        globalData.userInfo = null;
-
-        this.setData({
-          id: "",
-          password: "",
-          // eslint-disable-next-line @typescript-eslint/naming-convention
-          "list.items": EMPTY_CONTENT,
-          isSaved: false,
-        });
-
-        // cookies
-        cookieStore.clear();
-
+        logout();
         showModal("删除成功", "已删除本地账号信息");
       },
       () => {
