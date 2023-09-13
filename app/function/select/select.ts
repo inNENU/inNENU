@@ -259,6 +259,7 @@ $Page(PAGE_ID, {
         }
       });
     } else {
+      wx.hideLoading();
       showModal("未找到课程信息", "暂无所选课程数据，请汇报给开发者!");
     }
   },
