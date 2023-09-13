@@ -8,6 +8,23 @@
     text-align: left;
   }
 
+  .blacklist {
+    margin: 8px 15px;
+    font-size: 18px;
+    color: #f33;
+  }
+
+  .link {
+    color: var(--action-color);
+  }
+
+  .hint {
+    text-align: left;
+    font-size: 14px;
+    color: var(--dark-grey);
+    margin: 8px 15px;
+  }
+
   .action {
     margin: 16px auto;
   }

@@ -42,7 +42,7 @@ $Component({
       savePhoto(
         typeof config.qrcode === "string"
           ? config.qrcode
-          : `${service}qrcode?appID=${appID}&page=${encodeURI(
+          : `${service}mp/qrcode?appID=${appID}&page=${encodeURI(
               `pages/info/info?path=${path2id(this.data.config.id)}`,
             )}`,
       )

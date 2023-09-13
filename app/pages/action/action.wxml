@@ -1,29 +1,40 @@
+<wxs src="./action.wxs" module="action" />
 <view class="{{theme}} action-page">
-  <block wx:if="{{navigate || all}}">
-    <view class="input-list-wrapper">
-      <view class="input-list-item">
-        <view class="text">跳转路径</view>
-        <input
-          class="input"
-          type="text"
-          adjust-position="{{false}}"
-          value="{{path}}"
-          bindinput="pathInput"
-        />
-        <button
-          class="primary"
-          type="primary"
-          size="mini"
-          data-url="{{path}}"
-          catch:tap="$bindGo"
-        >
-          跳转
-        </button>
-      </view>
+  <view wx:if="{{navigate || all}}" class="input-list-wrapper">
+    <view class="input-list-item">
+      <view class="text">跳转路径</view>
+      <input
+        class="input"
+        type="text"
+        adjust-position="{{false}}"
+        value="{{path}}"
+        bindinput="pathInput"
+      />
+      <button
+        class="primary"
+        type="primary"
+        size="mini"
+        data-url="{{path}}"
+        catch:tap="$bindGo"
+      >
+        跳转
+      </button>
     </view>
+  </view>
+  <block wx:if="{{blacklist}}">
+    <icon type="warn" size="128" />
+    <view class="blacklist"
+      >根据<text
+        class="link"
+        data-url="license?type=license"
+        catch:tap="$bindGo"
+        >《用户协议》</text
+      >中的 1.1、1.4 条款，您已被禁止访问此小程序。</view
+    >
+    <view class="hint"><text>{{action.blacklistHint}}</text></view>
   </block>
   <button
-    wx:if="{{contact}}"
+    wx:if="{{blacklist || contact}}"
     class="action primary"
     type="primary"
     open-type="contact"
@@ -47,5 +58,12 @@
       <button class="action primary" type="primary">退出小程序</button>
     </navigator>
   </block>
-  <button class="action" type="default" catch:tap="$bindBack">返回</button>
+  <button
+    wx:if="{{!blacklist}}"
+    class="action"
+    type="default"
+    catch:tap="$bindBack"
+  >
+    返回
+  </button>
 </view>

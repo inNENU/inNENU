@@ -12,6 +12,7 @@ import {
 import type { AppOption } from "../../app.js";
 import { appName, server, service } from "../../config/index.js";
 import { path2id } from "../../utils/id.js";
+import { reportInfo } from "../../utils/report.js";
 
 const {
   globalData: { appID },
@@ -58,7 +59,7 @@ $Component({
       savePhoto(
         typeof config.qrcode === "string"
           ? config.qrcode
-          : `${service}qrcode?appID=${appID}&page=pages/info/info&scene=${path2id(
+          : `${service}mp/qrcode?appID=${appID}&page=pages/info/info&scene=${path2id(
               config.id,
             )}`,
       )
@@ -101,6 +102,8 @@ $Component({
         logger.debug(`Share content is copied: ${content}`);
       });
     },
+
+    reportInfo,
   },
 
   observers: {
@@ -144,6 +147,7 @@ $Component({
           icon: "./icon/contact",
           text: "联系 Mr.Hope",
           openType: "contact",
+          action: "reportInfo",
         });
 
       this.setData({ actions });

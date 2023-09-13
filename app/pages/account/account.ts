@@ -205,6 +205,7 @@ $Page(PAGE_ID, {
         id: Number(id),
         password,
         captcha,
+        openid: globalData.openid,
       });
 
       wx.hideLoading();

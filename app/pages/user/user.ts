@@ -7,6 +7,7 @@ import type { AppOption } from "../../app.js";
 import { appCoverPrefix, appName } from "../../config/index.js";
 import { DAY } from "../../utils/constant.js";
 import { getColor, popNotice, resolvePage, setPage } from "../../utils/page.js";
+import { reportInfo } from "../../utils/report.js";
 import { checkResource } from "../../utils/resource.js";
 
 const plugin = <{ openComment: (option: unknown) => void }>(
@@ -153,4 +154,6 @@ $Page(PAGE_ID, {
       );
     }
   },
+
+  reportInfo,
 });

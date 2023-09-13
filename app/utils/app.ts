@@ -7,7 +7,7 @@ import type { ServiceSettings } from "./settings.js";
 import type { AccountInfo, AppID, GlobalData, UserInfo } from "./typings.js";
 import { updateApp } from "./update.js";
 import type { VersionInfo } from "../../typings/index.js";
-import { request, showToast } from "../api/index.js";
+import { getCurrentRoute, request, showToast } from "../api/index.js";
 import {
   ACCOUNT_INFO_KEY,
   INITIALIZED_KEY,
@@ -199,8 +199,11 @@ const registerActions = (globalData: GlobalData): void => {
 export const startup = (globalData: GlobalData): void => {
   registerActions(globalData);
   updateApp(globalData);
-  login(globalData.appID, globalData.env, (openid) => {
+  login(globalData.appID, globalData.env, ({ openid, inBlacklist }) => {
     globalData.openid = openid;
+
+    if (inBlacklist && getCurrentRoute() !== "pages/action/action")
+      wx.reLaunch({ url: "/pages/action/action?action=blacklist" });
   });
   platformActions(globalData);
 };

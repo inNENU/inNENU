@@ -4,6 +4,8 @@ import type { AppID, Env } from "../utils/typings.js";
 
 interface LoginCallback {
   openid: string;
+  isAdmin: boolean;
+  inBlacklist: boolean;
 }
 
 /**
@@ -14,25 +16,21 @@ interface LoginCallback {
 export const login = (
   appID: AppID,
   env: Env,
-  callback: (openid: string) => void,
+  callback: (result: LoginCallback) => void,
 ): void => {
   const openid = wx.getStorageSync<string | undefined>("openid");
 
-  if (openid) {
-    console.info(`User OPENID: ${openid}`);
-    callback(openid);
-  } else if (env === "qq" || env === "wx") {
+  if (env === "qq" || env === "wx") {
     wx.login({
       success: async ({ code }) => {
         if (code) {
           const data = await request<LoginCallback>(`${service}mp/login`, {
             method: "POST",
-            data: { appID, code, env },
+            data: { appID, code, env, openid },
           });
 
-          wx.setStorageSync("openid", data.openid);
           console.info(`User OPENID: ${data.openid}`);
-          callback(data.openid);
+          callback(data);
         }
       },
       fail: ({ errMsg }) => {

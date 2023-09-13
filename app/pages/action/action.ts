@@ -1,8 +1,9 @@
 import { $Page, ls, rm } from "@mptool/all";
 
-import { request, showModal } from "../../api/index.js";
+import { showModal } from "../../api/index.js";
 import type { AppOption } from "../../app.js";
-import { appCoverPrefix, service } from "../../config/index.js";
+import { appCoverPrefix } from "../../config/index.js";
+import { reportInfo } from "../../utils/report.js";
 
 const { globalData } = getApp<AppOption>();
 
@@ -53,15 +54,5 @@ $Page("action", {
     this.setData({ path: detail.value });
   },
 
-  reportInfo() {
-    request(`${service}mp/report`, {
-      method: "POST",
-      data: {
-        type: "contact",
-        info: globalData.userInfo,
-        account: globalData.account,
-        openid: globalData.openid,
-      },
-    });
-  },
+  reportInfo,
 });

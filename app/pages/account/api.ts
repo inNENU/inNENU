@@ -32,6 +32,7 @@ export interface AuthInitOptions extends AccountInfo {
   params: Record<string, string>;
   salt: string;
   captcha: string;
+  openid: string;
 }
 
 export interface AuthInitSuccessResponse {
