@@ -1,15 +1,15 @@
 import { $Page, ls, rm } from "@mptool/all";
 
-import { showModal } from "../../api/index.js";
+import { request, showModal } from "../../api/index.js";
 import type { AppOption } from "../../app.js";
-import { appCoverPrefix } from "../../config/index.js";
+import { appCoverPrefix, service } from "../../config/index.js";
 
-const {
-  globalData: { theme },
-} = getApp<AppOption>();
+const { globalData } = getApp<AppOption>();
 
 $Page("action", {
   onLoad(options) {
+    const { theme } = globalData;
+
     if (options.scene) {
       const arg = decodeURIComponent(options.scene);
 
@@ -51,5 +51,17 @@ $Page("action", {
 
   pathInput({ detail }: WechatMiniprogram.Input) {
     this.setData({ path: detail.value });
+  },
+
+  reportInfo() {
+    request(`${service}mp/report`, {
+      method: "POST",
+      data: {
+        type: "contact",
+        info: globalData.userInfo,
+        account: globalData.account,
+        openid: globalData.openid,
+      },
+    });
   },
 });

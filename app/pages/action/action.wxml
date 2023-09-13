@@ -1,10 +1,5 @@
 <view class="{{theme}} action-page">
-  <block
-    wx:if="{{navigate || all}}"
-    class="primary"
-    type="primary"
-    open-type="contact"
-  >
+  <block wx:if="{{navigate || all}}">
     <view class="input-list-wrapper">
       <view class="input-list-item">
         <view class="text">跳转路径</view>
@@ -32,6 +27,7 @@
     class="action primary"
     type="primary"
     open-type="contact"
+    catch:tap="reportInfo"
   >
     联系 Mr.Hope
   </button>
