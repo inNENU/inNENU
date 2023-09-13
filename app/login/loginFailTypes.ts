@@ -15,4 +15,8 @@ export const enum LoginFailType {
   EnabledSSO = "sso",
   /** 未知错误 */
   Unknown = "unknown",
+  /** 黑名单 */
+  BlackList = "blacklist",
+  /** 系统关闭 */
+  Closed = "closed",
 }

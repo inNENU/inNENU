@@ -45,26 +45,6 @@ export const authLogin = async ({
   return data;
 };
 
-export const handleFailResponse = (
-  response: AuthLoginFailedResponse | CommonFailedResponse,
-): void => {
-  if (
-    "type" in response &&
-    [LoginFailType.NeedCaptcha, LoginFailType.WrongPassword].includes(
-      response.type,
-    )
-  ) {
-    globalData.account = null;
-    globalData.userInfo = null;
-    remove(ACCOUNT_INFO_KEY);
-    remove(USER_INFO_KEY);
-    showToast("需要重新登录");
-
-    if (getCurrentRoute() !== "/pages/account/account")
-      wx.navigateTo({ url: "/pages/account/account?update=true" });
-  }
-};
-
 export const logout = (): void => {
   // cookies
   cookieStore.clear();
@@ -86,4 +66,23 @@ export const logout = (): void => {
 
   globalData.account = null;
   globalData.userInfo = null;
+};
+
+export const handleFailResponse = (
+  response: AuthLoginFailedResponse | CommonFailedResponse,
+): void => {
+  if (
+    "type" in response &&
+    [
+      LoginFailType.NeedCaptcha,
+      LoginFailType.WrongPassword,
+      LoginFailType.BlackList,
+    ].includes(response.type)
+  ) {
+    logout();
+    showToast("需要重新登录");
+
+    if (getCurrentRoute() !== "/pages/account/account")
+      wx.navigateTo({ url: "/pages/account/account?update=true" });
+  }
 };
