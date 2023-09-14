@@ -27,10 +27,9 @@
           class="list-item-icon"
           src="{{listItem.icon}}"
         />
-        <view class="list-item-detail">
+        <view class="list-item-detail list-item-access">
           <view class="list-item-text">{{listItem.text}}</view>
           <view class="list-item-desc">{{listItem.desc}}</view>
-          <view class="list-item-access" />
         </view>
       </view>
       <!-- 普通文字段落 -->

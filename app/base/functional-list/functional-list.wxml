@@ -83,10 +83,9 @@
           class="list-item-"
           src="{{listItem.icon}}"
         />
-        <view class="list-item-detail">
+        <view class="list-item-detail list-item-access">
           <view class="list-item-text">{{listItem.text}}</view>
           <view class="list-item-">{{listItem.desc}}</view>
-          <view class="list-item-access" />
         </view>
       </navigator>
       <!-- 导航链接 -->
@@ -109,10 +108,9 @@
           class="list-item-icon"
           src="{{listItem.icon}}"
         />
-        <view class="list-item-detail">
+        <view class="list-item-detail list-item-access">
           <view class="list-item-text">{{listItem.text}}</view>
           <view class="list-item-desc">{{listItem.desc}}</view>
-          <view class="list-item-access" />
         </view>
       </view>
       <!-- 非嵌入选择器 -->

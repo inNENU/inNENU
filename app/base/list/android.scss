@@ -18,10 +18,22 @@
   }
 
   .list-item-detail {
-    padding: 12px 0;
+    padding-top: 12px;
+    padding-bottom: 12px;
+    display: block;
+    text-align: left;
   }
 
   .list-item-text {
     font-weight: 500;
+    font-size: 16px;
+  }
+
+  .list-item-desc {
+    display: block;
+    font-size: 13px;
+    color: var(--action-color);
+    margin-top: 2px;
+    text-align: left;
   }
 }
