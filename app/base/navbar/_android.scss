@@ -106,24 +106,3 @@
     color: #cacaca;
   }
 }
-
-.android-head {
-  padding: 25px 40px;
-}
-
-.android-nav-title {
-  font-weight: 400;
-  font-size: 20px;
-  text-align: left;
-}
-
-.android-desc {
-  margin-top: 5px;
-  color: #888;
-  font-size: 14px;
-  text-align: left;
-
-  @media (prefers-color-scheme: dark) {
-    color: #777;
-  }
-}

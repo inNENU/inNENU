@@ -5,20 +5,20 @@
   color: var(--text-color);
 
   font-weight: 500;
-  text-align: left;
   font-size: 14px;
+  text-align: left;
 
   .desc {
     color: var(--dark-grey);
-
     font-size: 13px;
   }
 }
 
 .features-wrapper {
+  position: relative;
+
   display: flex;
   flex-wrap: wrap;
-  position: relative;
 
   overflow: hidden;
 

@@ -26,9 +26,9 @@
   >
     到头啦~人家被你拉得好痛阿(*´д`*) 不许你再拉人家~╭(╯^╰)╮
   </view>
-  <view wx:if="{{nav.desc}}" class="android-head">
-    <view class="android-nav-title">{{nav.title}}</view>
-    <view wx:if="{{nav.desc}}" class="android-desc">
+  <view wx:if="{{nav.desc}}" class="weui-head">
+    <view class="weui-head-title">{{nav.title}}</view>
+    <view wx:if="{{nav.desc}}" class="weui-head-desc">
       <text decode>{{nav.desc}}</text>
     </view>
   </view>

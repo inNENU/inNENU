@@ -169,16 +169,15 @@
             space="nbsp"
             >{{listItem.text}}</text
           >
-          <view class="list-item-desc">
-            {{listItem.desc}}
-            <switch
-              wx:if="{{listItem.type === 'switch'}}"
-              checked="{{listItem.status}}"
-              color="{{color}}"
-              data-id="{{index}}"
-              catch:change="onToggleSwitch"
-            />
-          </view>
+          <view class="list-item-desc"> {{listItem.desc}} </view>
+          <switch
+            wx:if="{{listItem.type === 'switch'}}"
+            class="list-item-switch"
+            checked="{{listItem.status}}"
+            color="{{color}}"
+            data-id="{{index}}"
+            catch:change="onToggleSwitch"
+          />
         </view>
       </view>
       <!-- 滑块与嵌入式选择器显示 -->

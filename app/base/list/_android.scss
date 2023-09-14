@@ -18,9 +18,9 @@
   }
 
   .list-item-detail {
+    display: block;
     padding-top: 12px;
     padding-bottom: 12px;
-    display: block;
     text-align: left;
   }
 
@@ -31,9 +31,13 @@
 
   .list-item-desc {
     display: block;
-    font-size: 13px;
-    color: var(--action-color);
+
+    max-width: unset;
     margin-top: 2px;
+
+    color: var(--action-color);
+
+    font-size: 13px;
     text-align: left;
   }
 }

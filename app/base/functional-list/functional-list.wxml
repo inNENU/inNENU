@@ -117,7 +117,7 @@
       <picker
         wx:elif="{{listItem.type === 'picker'}}"
         id="{{index}}"
-        class="list-item picker{{listItem.icon? ' has-icon' : ''}}"
+        class="list-item list-picker{{listItem.icon? ' has-icon' : ''}}"
         hover-class="button-hover"
         hover-stay-time="100"
         value="{{listItem.currentValue}}"
@@ -125,7 +125,7 @@
         header-text="{{listItem.header || listItem.text}}"
         catch:change="onPickerChange"
       >
-        <view class="wrapper">
+        <view class="list-picker-wrapper">
           <image
             wx:if="{{icons[index]}}"
             class="list-item-icon"
@@ -169,16 +169,15 @@
             space="nbsp"
             >{{listItem.text}}</text
           >
-          <view class="list-item-desc">
-            {{listItem.desc}}
-            <switch
-              wx:if="{{listItem.type === 'switch'}}"
-              checked="{{listItem.status}}"
-              color="{{color}}"
-              data-id="{{index}}"
-              catch:change="onToggleSwitch"
-            />
-          </view>
+          <view class="list-item-desc"> {{listItem.desc}} </view>
+          <switch
+            wx:if="{{listItem.type === 'switch'}}"
+            class="list-item-switch"
+            checked="{{listItem.status}}"
+            color="{{color}}"
+            data-id="{{index}}"
+            catch:change="onToggleSwitch"
+          />
         </view>
       </view>
       <!-- 滑块与嵌入式选择器显示 -->
@@ -186,7 +185,7 @@
         <!-- 滑块显示 -->
         <slider
           wx:if="{{listItem.type === 'slider' }}"
-          class="slider"
+          class="list-slider"
           min="{{listItem.min ? listItem.min : '0'}}"
           max="{{listItem.max ? listItem.max : '100'}}"
           value="{{listItem.value}}"
@@ -198,22 +197,28 @@
         <!-- 嵌入式选择器显示 -->
         <picker-view
           wx:if="{{listItem.type === 'picker'}}"
-          class="picker-view"
-          indicator-class="pickSelected"
+          class="list-picker-view"
+          indicator-class="list-pick-selected"
           value="{{listItem.currentValue}}"
-          mask-class="pickerMask"
+          mask-class="list-picker-mask"
           data-id="{{index}}"
           catch:change="onPickerChange"
         >
-          <picker-view-column wx:if="{{listItem.single}}" class="column">
-            <view wx:for="{{listItem.select}}" wx:key="*this" class="item"
+          <picker-view-column
+            wx:if="{{listItem.single}}"
+            class="list-picker-column"
+          >
+            <view
+              wx:for="{{listItem.select}}"
+              wx:key="*this"
+              class="list-picker-item"
               >{{item}}</view
             >
           </picker-view-column>
           <block wx:else>
             <block wx:for="{{listItem.select}}" wx:key>
-              <picker-view-column class="column">
-                <view wx:for="{{item}}" wx:key="*this" class="item"
+              <picker-view-column class="list-picker-column">
+                <view wx:for="{{item}}" wx:key="*this" class="list-picker-item"
                   >{{item}}</view
                 >
               </picker-view-column>
