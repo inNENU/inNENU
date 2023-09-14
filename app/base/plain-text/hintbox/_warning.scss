@@ -1,12 +1,12 @@
 @use "../../../styles/lib/svg";
 @use "icons";
 
-.hintbox-component.warning {
+.hint-box-component.warning {
   --hint-box-border-color: #e6a700;
   --hint-box-bg-color: #fff8e6;
   --hint-box-title-color: #4d3800;
 
-  .hint-title {
+  .hint-box-title {
     &::before {
       @include svg.background-svg(icons.$warning-icon);
     }

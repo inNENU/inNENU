@@ -55,25 +55,20 @@
   }
 }
 
-.hintbox-component,
-.text-component {
-  .text {
-    word-wrap: break-word;
-  }
-
-  .list {
-    display: flex;
-  }
-
-  .head {
-    flex-shrink: 0;
-    padding: 0 0.5em;
-    font-weight: 700;
-  }
+.text-marker {
+  flex-shrink: 0;
+  padding: 0 0.5em;
+  font-weight: 700;
 
   .grey & {
-    .head {
-      padding: 0 0.5em 0 0;
-    }
+    padding: 0 0.5em 0 0;
   }
+}
+
+.text-list-item {
+  display: flex;
+}
+
+.text-content {
+  word-wrap: break-word;
 }

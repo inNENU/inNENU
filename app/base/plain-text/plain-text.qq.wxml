@@ -2,18 +2,18 @@
 
 <template name="text">
   <block wx:if="{{config.tag === 'ol'}}">
-    <view wx:for="{{config.text}}" wx:key="*this" class="list">
-      <view class="head">{{index + 1}}.</view>
-      <text class="text" decode space="nbsp" selectable="{{selectable}}"
+    <view wx:for="{{config.text}}" wx:key="*this" class="text-list-item">
+      <view class="text-marker">{{index + 1}}.</view>
+      <text class="text-content" decode space="nbsp" selectable="{{selectable}}"
         ><text style="{{config.style || ''}}">{{item}}</text></text
       >
     </view>
   </block>
 
   <block wx:elif="{{config.tag === 'ul'}}">
-    <view wx:for="{{config.text}}" wx:key="*this" class="list">
-      <view class="head">•</view>
-      <text class="text" decode space="nbsp" selectable="{{selectable}}"
+    <view wx:for="{{config.text}}" wx:key="*this" class="text-list-item">
+      <view class="text-marker">•</view>
+      <text class="text-content" decode space="nbsp" selectable="{{selectable}}"
         ><text style="{{config.style || ''}}">{{item}}</text></text
       >
     </view>
@@ -23,10 +23,11 @@
     <view
       wx:for="{{config.text}}"
       wx:key="*this"
+      class="paragraph-item"
       style="{{config.style || ''}}"
     >
       <text
-        class="text"
+        class="text-content"
         decode
         space="nbsp"
         style="{{plainText.getStyle(config, selectable)}}"
@@ -39,14 +40,14 @@
 
 <view
   wx:if="{{plainText.isContainer(config.type)}}"
-  class="hintbox-component {{config.type}}"
-  hover-class="{{config.url ? 'hintbox-hover' : ''}}"
+  class="hint-box-component {{config.type}}"
+  hover-class="{{config.url ? 'hint-box-hover' : ''}}"
   data-url="{{config.url}}"
   catch:tap="$bindGo"
 >
   <text
     wx:if="{{config.heading !== false}}"
-    class="hint-title {{config.url ? 'access' : ''}}"
+    class="hint-box-title {{config.url ? 'access' : ''}}"
     selectable="{{selectable}}"
     >{{plainText.getTitle(config)}}</text
   >

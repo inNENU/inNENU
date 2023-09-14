@@ -1,4 +1,4 @@
-.hintbox-component {
+.hint-box-component {
   position: relative;
 
   max-width: calc(var(--max-width) - 48px);
@@ -29,7 +29,7 @@
     margin: 16px;
   }
 
-  .hint-title {
+  .hint-box-title {
     position: relative;
 
     display: block;
@@ -91,7 +91,7 @@
   }
 }
 
-.hintbox-hover {
+.hint-box-hover {
   filter: brightness(0.95);
 
   @media (prefers-color-scheme: dark) {

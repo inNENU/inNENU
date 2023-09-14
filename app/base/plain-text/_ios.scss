@@ -1,3 +1,22 @@
 .ios-title + .text-component-header {
   padding-top: 2px;
 }
+
+.ios {
+  .text-component-header {
+    font-size: 20px;
+    font-weight: bold;
+  }
+
+  .text-component {
+    line-height: 1.3;
+  }
+
+  .paragraph-item {
+    margin-bottom: 16px;
+  }
+
+  .text-list-item {
+    margin-bottom: 8px;
+  }
+}
