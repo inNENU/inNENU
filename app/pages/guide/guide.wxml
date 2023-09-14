@@ -31,7 +31,7 @@
   >
     到头啦~人家被你拉得好痛阿(*´д`*) 不许你再拉人家~╭(╯^╰)╮
   </view>
-  <grid
+  <feature-panel
     wx:for="{{items}}"
     wx:for-item="config"
     wx:key="header"
@@ -46,7 +46,7 @@
       <list config="{{ { header: false, items: moreItems } }}" />
     </view>
     <view class="more-content">
-      <grid
+      <feature-panel
         wx:for="{{more}}"
         wx:for-item="config"
         wx:key="header"

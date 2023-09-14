@@ -17,14 +17,12 @@
       box-sizing: border-box;
 
       width: 25%;
-      margin: 0 !important;
-      padding: 8px !important;
-      border: none !important;
-      border-radius: 0 !important;
+      margin: 0;
+      padding: 8px;
 
       background-color: var(--bg-color-block);
 
-      line-height: 1.6 !important;
+      line-height: 1.25;
 
       @media (min-width: 480px) {
         width: 16.666%;

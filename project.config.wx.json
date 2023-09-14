@@ -70,6 +70,13 @@
     "miniprogram": {
       "list": [
         {
+          "name": "东师指南",
+          "pathName": "pages/guide/guide",
+          "query": "",
+          "launchMode": "default",
+          "scene": null
+        },
+        {
           "name": "功能大厅",
           "pathName": "pages/function/function",
           "query": "",

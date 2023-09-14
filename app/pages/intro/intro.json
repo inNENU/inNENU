@@ -3,6 +3,7 @@
   "enablePullDownRefresh": true,
   "initialRenderingCache": "static",
   "usingComponents": {
+    "feature-panel": "/components/feature-panel/feature-panel",
     "search": "/components/search/search"
   }
 }

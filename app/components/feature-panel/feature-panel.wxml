@@ -1,0 +1,24 @@
+<view
+  wx:if="{{config.header}}"
+  class="feature-header"
+  data-url="{{config.url}}"
+  catch:tap="$bindGo"
+>
+  <view class="header">{{config.header}}</view>
+  <view wx:if="{{config.desc}}" class="desc">{{config.desc}}</view>
+</view>
+<view class="features-wrapper">
+  <view
+    wx:for="{{config.items}}"
+    wx:key="text"
+    class="feature"
+    hover-class="button-hover"
+    hover-stay-time="100"
+    data-url="{{item.url}}"
+    catch:tap="$bindGo"
+  >
+    <image wx:if="{{icons[index]}}" class="icon" src="{{icons[index]}}" />
+    <image wx:elif="{{item.icon}}" class="icon" src="{{item.icon}}" />
+    <view class="text">{{item.text}}</view>
+  </view>
+</view>

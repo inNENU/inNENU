@@ -7,19 +7,19 @@
     }
 
     .grid {
-      width: calc(25% - 10px);
-      margin: 5px;
-      padding: 10px 0;
+      width: calc(25% - 8px);
+      margin: 4px;
+      padding: 8px 0;
       border-radius: 6px;
 
       background-color: var(--bg-color-block);
 
       @media (min-width: 480px) {
-        width: calc(16.666% - 10px);
+        width: calc(16.666% - 8px);
       }
 
       @media (min-width: 1024px) {
-        width: calc(12.5% - 10px);
+        width: calc(12.5% - 8px);
       }
     }
 
@@ -30,7 +30,7 @@
 
     .text {
       color: var(--grey4);
-      font-size: 14px;
+      font-size: 13px;
     }
   }
 }
