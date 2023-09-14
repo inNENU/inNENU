@@ -1,0 +1,27 @@
+.android {
+  .list-component-content {
+    border-radius: 16px;
+  }
+
+  .list-item {
+    &:first-child {
+      padding-top: 6px;
+    }
+
+    &:last-child {
+      padding-bottom: 6px;
+    }
+
+    &::after {
+      display: none;
+    }
+  }
+
+  .list-item-detail {
+    padding: 12px 0;
+  }
+
+  .list-item-text {
+    font-weight: 500;
+  }
+}

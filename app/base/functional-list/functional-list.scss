@@ -28,13 +28,13 @@
     transform-origin: 0 100%;
   }
 
-  &.icon {
+  &.has-icon {
     width: 100%;
     height: 0;
     margin: 0;
   }
 
-  &.icon::after {
+  &.has-icon::after {
     left: 55px;
   }
 

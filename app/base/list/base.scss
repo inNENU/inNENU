@@ -1,0 +1,166 @@
+/* list */
+
+.list-component-header {
+  display: block;
+
+  box-sizing: border-box;
+
+  max-width: var(--max-width);
+  min-height: 13px;
+  margin: 0 var(--horizontal-margin);
+  padding: 12px 8px 4px;
+
+  color: var(--text-color);
+
+  font-weight: 500;
+  font-size: 19px;
+  text-align: left;
+
+  .grey & {
+    padding: 21px 15px 5px;
+    color: var(--dark-grey);
+    font-weight: 400;
+    font-size: 13px;
+  }
+}
+
+.list-component-content {
+  position: relative;
+
+  overflow: hidden;
+
+  max-width: var(--max-width);
+  margin: 0 var(--horizontal-margin);
+  border-radius: 8px;
+
+  background-color: var(--bg-color-block);
+}
+
+.list-item {
+  position: relative;
+
+  display: flex;
+  align-items: center;
+
+  width: auto !important;
+
+  // for button
+  margin: 0 !important;
+  padding: 0 15px;
+  border: none !important;
+  border-radius: 0;
+
+  background-color: var(--bg-color-block);
+  color: var(--text-color) !important;
+
+  font-weight: normal;
+  font-size: 17px;
+  line-height: 1.45;
+
+  &:empty {
+    padding: 0;
+  }
+
+  &::after {
+    content: " ";
+
+    position: absolute;
+    right: 0;
+    bottom: 0;
+    left: 15px;
+
+    height: 1px;
+    border-bottom: 1px solid var(--border-color);
+
+    transform: scaleY(0.4);
+    transform-origin: 0 100%;
+  }
+
+  &.has-icon::after {
+    left: 55px;
+  }
+
+  &:last-child {
+    &::after {
+      display: none;
+    }
+  }
+}
+
+.list-item-icon {
+  width: 30px;
+  height: 30px;
+  margin: 10px 10px 10px 0;
+}
+
+.list-item-detail {
+  position: relative;
+
+  display: flex;
+  flex: 1;
+  align-items: center;
+
+  padding: 10px 0;
+}
+
+.list-item-text {
+  flex-grow: 1;
+
+  max-width: 100%;
+
+  color: var(--text-color);
+
+  line-height: 1.5;
+  text-align: left;
+  word-break: break-word;
+}
+
+.list-item-desc {
+  flex-shrink: 1;
+
+  overflow: hidden;
+
+  max-width: 40%;
+
+  color: #808080;
+
+  text-align: right;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.list-item-access {
+  position: relative;
+  padding-right: 15px;
+
+  &::after {
+    content: " ";
+
+    position: absolute;
+    top: 50%;
+    right: 2px;
+
+    display: inline-block;
+
+    width: 7px;
+    height: 7px;
+    margin-top: -4px;
+    border-width: 2px 2px 0 0;
+    border-style: solid;
+    border-color: var(--arrow-color);
+
+    transform: matrix(0.71, 0.71, -0.71, 0.71, 0, 0);
+  }
+}
+
+.list-component-footer {
+  max-width: var(--max-width);
+  min-height: 16px;
+  margin: 0 15px;
+  padding: 5px 15px 0;
+
+  color: var(--dark-grey);
+
+  font-size: 13px;
+  text-align: left;
+}

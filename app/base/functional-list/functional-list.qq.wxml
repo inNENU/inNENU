@@ -24,26 +24,30 @@
         catch:tap="onButtonTap"
         capture-bind:tap="{{list.tapHandler(listItem)}}"
       >
-        <image wx:if="{{icons[index]}}" class="icon" src="{{icons[index]}}" />
+        <image
+          wx:if="{{icons[index]}}"
+          class="list-item-icon"
+          src="{{icons[index]}}"
+        />
         <image
           wx:elif="{{listItem.icon}}"
-          class="icon"
+          class="list-item-icon"
           src="{{listItem.icon}}"
         />
-        <view class="detail">
+        <view class="list-item-detail">
           <!-- 按钮文字为蓝色 -->
           <view
-            class="text"
+            class="list-item-text"
             style="{{(listItem.type === 'button' && listItem.handler) ? 'color: #3478f7;' : ''}}"
           >
             {{listItem.text}}
           </view>
           <!-- 显示滑块值 -->
-          <view wx:if="{{listItem.type === 'slider'}}" class="desc"
+          <view wx:if="{{listItem.type === 'slider'}}" class="list-item-desc"
             >{{listItem.value}}</view
           >
           <!-- 显示行内选择器值 -->
-          <view wx:elif="{{listItem.type === 'picker'}}" class="desc">
+          <view wx:elif="{{listItem.type === 'picker'}}" class="list-item-desc">
             <block wx:if="{{listItem.single}}">{{listItem.value}}</block>
             <block wx:else>
               <block wx:for="{{listItem.value}}" wx:key="*this">{{item}}</block>
@@ -54,9 +58,8 @@
       <!-- 分割线 -->
       <view
         wx:if="{{list.isButton(listItem)}}"
-        class="{{listItem.icon ? 'icon ' : ''}}button-divide-line"
+        class="{{listItem.icon ? 'has-icon ' : ''}}button-divide-line"
       />
-
       <!-- navigator -->
       <navigator
         wx:elif="{{listItem.type === 'navigator'}}"
@@ -70,17 +73,20 @@
         app-id="{{listItem.appId}}"
         path="{{listItem.path}}"
       >
-        <image wx:if="{{icons[index]}}" class="icon" src="{{icons[index]}}" />
+        <image
+          wx:if="{{icons[index]}}"
+          class="list-item-icon"
+          src="{{icons[index]}}"
+        />
         <image
           wx:elif="{{listItem.icon}}"
-          class="icon"
+          class="list-item-"
           src="{{listItem.icon}}"
         />
-        <view class="detail">
-          <view class="text">{{listItem.text}}</view>
-          <view class="desc {{listItem.url ? 'access' : ''}}"
-            >{{listItem.desc}}</view
-          >
+        <view class="list-item-detail">
+          <view class="list-item-text">{{listItem.text}}</view>
+          <view class="list-item-">{{listItem.desc}}</view>
+          <view class="list-item-access" />
         </view>
       </navigator>
       <!-- 导航链接 -->
@@ -93,16 +99,20 @@
         data-url="{{listItem.url}}"
         catch:tap="$bindGo"
       >
-        <image wx:if="{{icons[index]}}" class="icon" src="{{icons[index]}}" />
+        <image
+          wx:if="{{icons[index]}}"
+          class="list-item-icon"
+          src="{{icons[index]}}"
+        />
         <image
           wx:elif="{{listItem.icon}}"
-          class="icon"
+          class="list-item-icon"
           src="{{listItem.icon}}"
         />
-        <view class="detail">
-          <view class="text">{{listItem.text}}</view>
-          <view class="desc">{{listItem.desc}}</view>
-          <view class="access" />
+        <view class="list-item-detail">
+          <view class="list-item-text">{{listItem.text}}</view>
+          <view class="list-item-desc">{{listItem.desc}}</view>
+          <view class="list-item-access" />
         </view>
       </view>
       <!-- 非嵌入选择器 -->
@@ -118,15 +128,19 @@
         catch:change="onPickerChange"
       >
         <view class="wrapper">
-          <image wx:if="{{icons[index]}}" class="icon" src="{{icons[index]}}" />
+          <image
+            wx:if="{{icons[index]}}"
+            class="list-item-icon"
+            src="{{icons[index]}}"
+          />
           <image
             wx:elif="{{listItem.icon}}"
-            class="icon"
+            class="list-item-icon"
             src="{{listItem.icon}}"
           />
-          <view class="detail">
-            <view class="text">{{listItem.text}}</view>
-            <view wx:if="{{listItem.select}}" class="desc">
+          <view class="list-item-detail">
+            <view class="list-item-text">{{listItem.text}}</view>
+            <view wx:if="{{listItem.select}}" class="list-item-desc">
               <block wx:for="{{listItem.value}}" wx:key="*this">{{item}}</block>
             </view>
           </view>
@@ -139,22 +153,30 @@
         id="{{index}}"
         class="list-item{{listItem.icon? ' has-icon' : ''}}"
       >
-        <image wx:if="{{icons[index]}}" class="icon" src="{{icons[index]}}" />
+        <image
+          wx:if="{{icons[index]}}"
+          class="list-item-icon"
+          src="{{icons[index]}}"
+        />
         <image
           wx:elif="{{listItem.icon}}"
-          class="icon"
+          class="list-item-icon"
           src="{{listItem.icon}}"
         />
-        <view class="detail">
-          <text class="text" decode selectable="{{selectable}}" space="nbsp"
+        <view class="list-item-detail">
+          <text
+            class="list-item-text"
+            decode
+            selectable="{{selectable}}"
+            space="nbsp"
             >{{listItem.text}}</text
           >
-          <view class="desc">
+          <view class="list-item-desc">
             {{listItem.desc}}
             <switch
               wx:if="{{listItem.type === 'switch'}}"
               checked="{{listItem.status}}"
-              color="{{color || '#41c88a'}}"
+              color="{{color}}"
               data-id="{{index}}"
               catch:change="onToggleSwitch"
             />
