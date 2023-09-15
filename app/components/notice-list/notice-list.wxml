@@ -33,16 +33,6 @@
       catch:tap="viewNotice"
     >
       <view class="title">{{item.title}}</view>
-      <view class="info">
-        <text class="time">
-          <text class="icon-font icon-time" />
-          <text>{{item.time}}</text>
-        </text>
-        <text class="teacher">
-          <text class="icon-font icon-teacher" />
-          <text>{{item.from}}</text>
-        </text>
-      </view>
     </view>
     <view
       class="more"

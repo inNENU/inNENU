@@ -7,34 +7,31 @@
 />
 <view class="{{theme}} notice-detail">
   <navbar nav="{{ { title: pageTitle } }}" />
+  <view class="title">{{title}}</view>
   <error-hint wx:if="{{ status === 'error' }}" catch:retry="getNotice" />
   <login-hint wx:elif="{{ status === 'login' }}" source="{{pageTitle}}" />
   <view class="content">
-    <view class="title">{{title}}</view>
-    <view wx:if="{{content}}" class="info">
-      <text class="time">
-        <text class="icon-font icon-time" />
-        <text>{{time}}</text>
-      </text>
-      <text class="eye">
-        <text class="icon-font icon-eye" />
-        <text>{{pageView}}</text>
-      </text>
-      <text class="teacher">
-        <text class="icon-font icon-teacher" />
-        <text>{{from}}</text>
-      </text>
-      <text class="author">
-        <text class="icon-font icon-author" />
-        <text>{{author}}</text>
-      </text>
-    </view>
-    <rich-text
-      wx:if="{{content}}"
-      class="rich-media"
-      nodes="{{content}}"
-      space="nbsp"
-    />
+    <block wx:if="{{content}}">
+      <view class="info">
+        <text class="time">
+          <text class="icon-font icon-time" />
+          <text>{{time}}</text>
+        </text>
+        <text class="eye">
+          <text class="icon-font icon-eye" />
+          <text>{{pageView}}</text>
+        </text>
+        <text class="teacher">
+          <text class="icon-font icon-teacher" />
+          <text>{{from}}</text>
+        </text>
+        <text class="author">
+          <text class="icon-font icon-author" />
+          <text>{{author}}</text>
+        </text>
+      </view>
+      <rich-text class="rich-media" nodes="{{content}}" space="nbsp" />
+    </block>
   </view>
   <footer />
 </view>
