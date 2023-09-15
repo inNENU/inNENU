@@ -66,6 +66,10 @@ $Component({
           if (result.success) {
             const notices = result.data
               .filter(({ from }) => !FILTERED_SOURCES.includes(from))
+              .map(({ title, ...rest }) => ({
+                title: title.replace(/^关于/g, "").replace(/的通知$/g, ""),
+                ...rest,
+              }))
               .slice(0, 5);
 
             this.setData({
