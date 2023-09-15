@@ -3,11 +3,6 @@
 }
 
 .ios {
-  .text-component-header {
-    font-weight: bold;
-    font-size: 20px;
-  }
-
   .text-component {
     line-height: 1.3;
   }
@@ -17,6 +12,13 @@
   }
 
   .text-list-item {
-    margin-bottom: 8px;
+    margin-bottom: 4px;
+  }
+
+  &:not(.grey) {
+    .text-component-header {
+      font-weight: bold;
+      font-size: 20px;
+    }
   }
 }

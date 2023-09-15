@@ -1,5 +1,7 @@
-.weui .text-component-header {
-  font-weight: 700;
-  font-size: 17px;
-  line-height: 1.4;
+.weui:not(.grey) {
+  .text-component-header {
+    font-weight: 700;
+    font-size: 17px;
+    line-height: 1.4;
+  }
 }
