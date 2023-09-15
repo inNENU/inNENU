@@ -50,7 +50,7 @@
     "./server/.vscode/tab-data.schema.json": [
       "/server/data/function/data/tab.yml"
     ],
-    "./server/.vscode/map.schema.json": [
+    "./server/.vscode/location.schema.json": [
       "/server/data/function/map/benbu/**/*.yml",
       "/server/data/function/map/jingyue/**/*.yml"
     ],
