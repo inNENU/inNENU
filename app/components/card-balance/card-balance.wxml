@@ -1,18 +1,18 @@
 <view class="card-balance custom-class">
-  <image
-    wx:if="{{status === 'loading'}}"
-    class="loading"
-    src="/icon/loading.svg"
-  />
   <error-hint
-    wx:elif="{{ status === 'error' }}"
+    wx:if="{{ status === 'error' }}"
     size="mini"
     catch:retry="getCardBalance"
   />
   <login-hint wx:elif="{{ status === 'login' }}" size="mini" />
   <block wx:else>
     <view class="header">
-      校园卡余额: {{balance}}元
+      校园卡余额:
+      <image
+        wx:if="{{status === 'loading'}}"
+        class="loading"
+        src="/icon/loading.svg"
+      /><block wx:else>{{balance}}</block>元
       <button
         class="refresh-button"
         type="default"
