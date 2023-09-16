@@ -47,6 +47,7 @@
           class="course-table-header-item"
         >
           {{item}}
+          <view class="time">{{dates[index]}}</view>
         </view>
       </view>
       <view class="course-table-body">

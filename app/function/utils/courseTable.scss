@@ -10,6 +10,10 @@
   flex: 1;
   flex-basis: 0;
   border-left: 1px dashed var(--border-color);
+
+  .time {
+    font-size: 14px;
+  }
 }
 
 .course-table-row {

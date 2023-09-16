@@ -89,6 +89,17 @@ const getWeekIndex = (startTime: string, maxWeek: number): number => {
   return passedWeeks >= 0 && passedWeeks + 1 <= maxWeek ? passedWeeks + 1 : 0;
 };
 
+const getDates = (startTime: string, weekIndex: number) => {
+  const weekStartTime =
+    new Date(startTime).getTime() + (weekIndex - 1) * 7 * DAY;
+
+  return [0, 1, 2, 3, 4, 5, 6].map((day) => {
+    const date = new Date(weekStartTime + day * DAY);
+
+    return `${date.getMonth() + 1}/${date.getDate()}`;
+  });
+};
+
 $Page(PAGE_ID, {
   data: {
     courseData: <TableData>[],
@@ -140,6 +151,7 @@ $Page(PAGE_ID, {
 
       if (coursesData && coursesData[time]) {
         const { courseData, weeks, startTime } = coursesData[time];
+        const weekIndex = getWeekIndex(startTime, weeks);
 
         this.setData({
           courseData,
@@ -147,7 +159,8 @@ $Page(PAGE_ID, {
           times,
           timeDisplays,
           timeIndex,
-          weekIndex: getWeekIndex(startTime, weeks),
+          weekIndex,
+          dates: getDates(startTime, weekIndex),
         });
       } else {
         this.setData({
@@ -205,11 +218,13 @@ $Page(PAGE_ID, {
         const { data, startTime } = result;
         const courseTable = handleCourseTable(data, startTime);
         const { courseData, weeks } = courseTable;
+        const weekIndex = getWeekIndex(startTime, weeks);
 
         this.setData({
           courseData,
           weeks,
-          weekIndex: getWeekIndex(startTime, weeks),
+          weekIndex,
+          dates: getDates(startTime, weekIndex),
         });
         this.state.coursesData[time] = courseTable;
         this.state.loginMethod = "check";
@@ -253,11 +268,13 @@ $Page(PAGE_ID, {
         const { data, startTime } = result;
         const courseTable = handleCourseTable(data, startTime);
         const { courseData, weeks } = courseTable;
+        const weekIndex = getWeekIndex(startTime, weeks);
 
         this.setData({
           courseData,
           weeks,
-          weekIndex: getWeekIndex(startTime, weeks),
+          weekIndex,
+          dates: getDates(startTime, weekIndex),
         });
         this.state.coursesData[time] = courseTable;
         this.state.loginMethod = "check";
@@ -291,12 +308,14 @@ $Page(PAGE_ID, {
 
       if (coursesData[newTime]) {
         const { courseData, weeks, startTime } = coursesData[newTime];
+        const weekIndex = getWeekIndex(startTime, weeks);
 
         this.setData({
           courseData,
           timeIndex,
           weeks,
-          weekIndex: getWeekIndex(startTime, weeks),
+          weekIndex,
+          dates: getDates(startTime, weekIndex),
         });
       } else {
         this.setData({ timeIndex });
@@ -306,8 +325,13 @@ $Page(PAGE_ID, {
   },
 
   changeWeek({ detail }: WechatMiniprogram.PickerChange) {
+    const weekIndex = Number(detail.value);
+    const { times, timeIndex } = this.data;
+    const { coursesData } = this.state;
+
     this.setData({
-      weekIndex: Number(detail.value),
+      weekIndex,
+      dates: getDates(coursesData[times[timeIndex]].startTime, weekIndex),
     });
   },
 
