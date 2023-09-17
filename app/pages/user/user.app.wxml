@@ -32,9 +32,9 @@
     </view>
   </view>
   <view class="account-placeholder" style="height:{{statusBarHeight + 66}}px" />
-  <block wx:if="{{login}}">
-    <card-balance />
-  </block>
+  <view wx:if="{{login}}" class="widgets">
+    <card-balance-widget />
+  </view>
   <official-account />
   <template is="components" data="{{content: page.content}}" />
   <footer config="{{footer}}" />

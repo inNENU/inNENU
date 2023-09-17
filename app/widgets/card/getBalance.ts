@@ -1,9 +1,6 @@
 import { logger } from "@mptool/all";
 
-import type {
-  CardBalanceResponse,
-  CardBalanceSuccessResponse,
-} from "./typings.js";
+import type { CommonFailedResponse } from "../../../typings/index.js";
 import { request } from "../../api/index.js";
 import { service } from "../../config/index.js";
 import { ACTION_SERVER, AuthLoginFailedResponse } from "../../login/index.js";
@@ -20,6 +17,17 @@ type RawCardBalanceData =
   | {
       success: false;
     };
+
+export interface CardBalanceSuccessResponse {
+  success: true;
+  /** @deprecated */
+  status: "success";
+  data: number;
+}
+
+export type CardBalanceResponse =
+  | CardBalanceSuccessResponse
+  | CommonFailedResponse;
 
 export const getCardBalance = async (): Promise<CardBalanceResponse> => {
   try {

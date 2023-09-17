@@ -1,0 +1,26 @@
+@import "../../styles/lib/refresh-button";
+@import "../../styles/lib/widget";
+
+.card-balance {
+  position: relative;
+}
+
+.refresh-button {
+  position: absolute;
+  bottom: 12px;
+  right: 12px;
+}
+
+.loading {
+  vertical-align: middle;
+  width: 27px;
+  height: 27px;
+  margin: 0 4px;
+}
+
+.money {
+  text-align: center;
+  font-size: 18px;
+  line-height: 1.5;
+  font-weight: bold;
+}

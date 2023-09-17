@@ -1,6 +1,10 @@
 @use "sass:color";
 @use "sass:list";
 
+.course-table {
+  text-align: center;
+}
+
 .course-table-header {
   display: flex;
   font-weight: bold;
@@ -39,10 +43,11 @@
   flex-basis: 0;
   border-top: 1px dashed var(--border-color);
   border-left: 1px dashed var(--border-color);
-}
 
-.course-table-item:first-child {
-  font-weight: bold;
+  &:first-child {
+    border-left: none;
+    font-weight: bold;
+  }
 }
 
 .course-table-course-item {

@@ -2,6 +2,6 @@
   "navigationBarTitleText": "我的东师",
   "enablePullDownRefresh": true,
   "usingComponents": {
-    "card-balance": "/components/card-balance/card-balance"
+    "card-balance-widget": "/widgets/card/balance"
   }
 }

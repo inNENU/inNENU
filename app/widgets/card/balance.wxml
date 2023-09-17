@@ -1,0 +1,27 @@
+<view class="card-balance widget wrapper-class">
+  <view class="widget-header">校园卡余额</view>
+  <error-hint
+    wx:if="{{ status === 'error' }}"
+    size="mini"
+    catch:retry="getCardBalance"
+  />
+  <login-hint wx:elif="{{ status === 'login' }}" size="mini" />
+  <view wx:else class="widget-content">
+    <view class="money">
+      <image
+        wx:if="{{status === 'loading'}}"
+        class="loading"
+        src="/icon/loading.svg"
+      />
+      <block wx:else>{{balance}}</block>元
+    </view>
+    <button
+      class="refresh-button"
+      type="default"
+      size="mini"
+      catch:tap="refresh"
+    >
+      <text class="refresh-button-icon" />
+    </button>
+  </view>
+</view>

@@ -9,7 +9,7 @@ Component({
     },
   },
 
-  externalClasses: ["custom-wrapper"],
+  externalClasses: ["wrapper-class"],
 
   options: {
     virtualHost: true,

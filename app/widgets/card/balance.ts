@@ -1,6 +1,6 @@
 import { $Component, get, set } from "@mptool/all";
 
-import { getCardBalance, getOnlineCardBalance } from "./api.js";
+import { getCardBalance, getOnlineCardBalance } from "./getBalance.js";
 import { showToast } from "../../api/index.js";
 import type { AppOption } from "../../app.js";
 import { CARD_BALANCE_KEY } from "../../config/index.js";
@@ -70,5 +70,9 @@ $Component({
     },
   },
 
-  externalClasses: ["custom-class"],
+  externalClasses: ["wrapper-class"],
+
+  options: {
+    virtualHost: true,
+  },
 });
