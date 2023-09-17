@@ -2,13 +2,14 @@
 
 .course-widget {
   display: flex;
-  box-sizing: border-box;
-  padding: 8px 12px;
-  border-radius: 15px;
-  min-height: 160px;
   flex-direction: column;
 
-  color: var(--text-color);
+  box-sizing: border-box;
+
+  min-height: 160px;
+  padding: 8px 12px;
+  border-radius: 15px;
+
   background-color: var(--bg-color-block);
   box-shadow: 1px 1px 2px 3px var(--card-shadow);
 
@@ -19,37 +20,38 @@
   }
 
   &.large {
-    grid-column-start: span 2;
     grid-row-start: span 2;
+    grid-column-start: span 2;
     min-height: 320px;
   }
 }
 
 .header {
   padding-bottom: 4px;
-  font-size: 18px;
   font-weight: 500;
+  font-size: 18px;
 }
 
 .content {
-  flex: 1;
-  overflow-y: auto;
   display: flex;
-  justify-content: space-evenly;
+  flex: 1;
   flex-direction: column;
   align-items: stretch;
+  justify-content: space-evenly;
+
+  overflow-y: auto;
 }
 
 .hint-text {
-  font-size: 12px;
   color: var(--dark-grey);
+  font-size: 12px;
   text-align: center;
 }
 
 .course-item {
+  border-bottom: 1px solid var(--border-color);
   font-size: 12px;
   line-height: 1.5;
-  border-bottom: 1px solid var(--border-color);
 
   &:last-child {
     border-bottom: none;
@@ -58,15 +60,15 @@
 
 .next-course-name {
   font-weight: bold;
+  font-style: italic;
   font-size: 18px;
   line-height: 1.75;
   text-align: center;
-  font-style: italic;
 }
 
 .next-course-location {
-  font-size: 14px;
   color: var(--dark-grey);
+  font-size: 14px;
   text-align: right;
 }
 

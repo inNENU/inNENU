@@ -89,7 +89,7 @@ const getWeekIndex = (startTime: string, maxWeek: number): number => {
   return passedWeeks >= 0 && passedWeeks + 1 <= maxWeek ? passedWeeks + 1 : 0;
 };
 
-const getDates = (startTime: string, weekIndex: number) => {
+const getDates = (startTime: string, weekIndex: number): string[] => {
   const weekStartTime =
     new Date(startTime).getTime() + (weekIndex - 1) * 7 * DAY;
 
