@@ -1,0 +1,13 @@
+<view class="library-people-widget custom-wrapper">
+  <view class="header">图书馆在馆人数</view>
+  <view class="content">
+    <view class="info">
+      <text class="label">本部</text>
+      <text class="value">{{benbu}} / {{benbuMax}}人</text>
+    </view>
+    <view class="info">
+      <text class="label">净月</text>
+      <text class="value">{{jingyue}} / {{jingyueMax}}人</text>
+    </view>
+  </view>
+</view>

@@ -1,3 +1,5 @@
+@import "../../styles/lib/widgets";
+
 .library {
   display: flex;
   flex-direction: column;
@@ -7,16 +9,13 @@
   flex: 1;
 }
 
-.people-amount {
+.library-people {
   overflow: hidden;
 
   max-width: 517px;
   margin: 12px 15px;
   padding: 8px 12px;
   border-radius: 8px;
-
-  background-color: var(--bg-color-block);
-  box-shadow: 1px 1px 2px 3px var(--card-shadow);
 
   @media (min-width: 630px) {
     margin: 12px auto;

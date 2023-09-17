@@ -3,6 +3,6 @@
   "usingComponents": {
     "header": "/components/header/header",
     "library-borrow-books": "/components/library/borrow-books",
-    "library-people": "/components/library/people"
+    "library-people-widget": "/widgets/library/people"
   }
 }

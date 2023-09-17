@@ -4,6 +4,7 @@
     "search": "/components/search/search",
     "notice-list": "/components/notice-list/notice-list",
     "weather": "/components/weather/weather",
-    "course-widget": "/widgets/course/course"
+    "course-widget": "/widgets/course/course",
+    "library-people-widget": "/widgets/library/people"
   }
 }

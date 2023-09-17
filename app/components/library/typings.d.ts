@@ -81,8 +81,3 @@ export type BorrowBooksResponse =
   | BorrowBooksSuccessResponse
   | AuthLoginFailedResponse
   | CommonFailedResponse;
-
-export interface LibraryPeopleResponse {
-  benbu: number;
-  jingyue: number;
-}

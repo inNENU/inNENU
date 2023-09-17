@@ -4,7 +4,6 @@ import type {
   BorrowBookData,
   BorrowBooksResponse,
   BorrowBooksSuccessResponse,
-  LibraryPeopleResponse,
   RawBorrowBookData,
   RawBorrowBooksData,
 } from "./typings.js";
@@ -82,6 +81,3 @@ export const getOnlineBorrowBooks = (): Promise<BorrowBooksResponse> =>
 
     return data;
   });
-
-export const getLibraryPeople = (): Promise<LibraryPeopleResponse> =>
-  request<LibraryPeopleResponse>(`${service}library/people`);
