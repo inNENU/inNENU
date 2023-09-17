@@ -4,7 +4,7 @@
 
   box-sizing: border-box;
 
-  min-height: 160px;
+  max-height: 160px;
   padding: 8px 12px;
   border-radius: 15px;
 
@@ -15,7 +15,6 @@
 
   &.medium {
     grid-column-start: span 2;
-    max-height: 160px;
   }
 
   &.large {
