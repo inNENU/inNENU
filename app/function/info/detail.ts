@@ -1,11 +1,15 @@
-import { $Page } from "@mptool/all";
+import { $Page, get, set } from "@mptool/all";
 
-import type { MainInfoType } from "./info-list.js";
 import { getInfo, getOnlineInfo } from "./info.js";
-import { showModal } from "../../api/index.js";
+import { showModal, showToast } from "../../api/index.js";
 import type { AppOption } from "../../app.js";
-import { appCoverPrefix } from "../../config/index.js";
+import {
+  STARRED_INFO_LIST_KEY,
+  appCoverPrefix,
+  service,
+} from "../../config/index.js";
 import { getColor, popNotice } from "../../utils/page.js";
+import type { InfoType, StarredInfo } from "../../widgets/info/info.js";
 
 const { globalData, useOnlineService } = getApp<AppOption>();
 
@@ -20,32 +24,41 @@ const PAGE_ID = "info-detail";
 $Page(PAGE_ID, {
   data: {
     pageTitle: "通知详情",
-
+    starred: false,
     status: <"error" | "login" | "success">"success",
   },
 
   state: {
     url: "",
     title: "",
-    type: "",
+    type: <InfoType>"notice",
+    info: <StarredInfo | null>null,
   },
 
   onLoad({ title = "", type = "notice", url = "" }) {
+    const starredInfos = get<StarredInfo[]>(STARRED_INFO_LIST_KEY) ?? [];
+
+    this.state.title = title;
+    this.state.type = <InfoType>type;
+    this.state.url = url;
+
     if (!url)
       showModal("无法获取", "请提供 ID", () => {
         this.$back();
       });
 
-    this.state.title = title;
-    this.state.type = type;
-    this.state.url = url;
-
     this.getInfo();
     this.setData({
       color: getColor(),
       theme: globalData.theme,
-      pageTitle: type2Title[<MainInfoType>type],
+      pageTitle: type2Title[<InfoType>type],
       title,
+      share: {
+        title,
+        shareable: true,
+        qrcode: `${service}mp/qrcode?appID=${globalData.appID}&page=function/notice/detail&scene=${url}|${type}`,
+      },
+      starred: starredInfos.some((item) => item.url === url),
     });
   },
 
@@ -82,8 +95,10 @@ $Page(PAGE_ID, {
   },
 
   async getInfo() {
+    const { type, url } = this.state;
+
     const result = await (useOnlineService(PAGE_ID) ? getOnlineInfo : getInfo)(
-      this.state.url,
+      url,
     );
 
     wx.hideLoading();
@@ -93,6 +108,8 @@ $Page(PAGE_ID, {
       this.setData({
         status: "success",
         title,
+        // eslint-disable-next-line @typescript-eslint/naming-convention
+        "share.title": title,
         time,
         pageView,
         author,
@@ -100,8 +117,43 @@ $Page(PAGE_ID, {
         from,
         content,
       });
+      this.state.info = {
+        title,
+        time,
+        pageView,
+        author,
+        editor,
+        from,
+        content,
+        type,
+        url,
+      };
     } else {
       this.setData({ status: "error" });
     }
+  },
+
+  toggleStar() {
+    const { starred } = this.data;
+    const { info, url } = this.state;
+
+    if (!info) showToast("通知未获取完成", 1500, "error");
+
+    if (starred) {
+      const starredInfos = get<StarredInfo[]>(STARRED_INFO_LIST_KEY)!;
+
+      set(
+        STARRED_INFO_LIST_KEY,
+        starredInfos.filter((item) => item.url !== url),
+      );
+    } else {
+      const starredInfos = get<StarredInfo[]>(STARRED_INFO_LIST_KEY) ?? [];
+
+      set(STARRED_INFO_LIST_KEY, [...starredInfos, info!]);
+    }
+
+    showToast(`已${starred ? "取消" : ""}收藏`, 1500, "success");
+
+    this.setData({ starred: !starred });
   },
 });

@@ -33,9 +33,9 @@
       <rich-text class="rich-media" nodes="{{content}}" space="nbsp" />
     </block>
   </view>
-  <footer />
   <view class="star-button" size="mini" catch:tap="toggleStar">
     <view class="icon {{starred? 'starred': ''}}" />
   </view>
   <share config="{{share}}" />
+  <footer />
 </view>

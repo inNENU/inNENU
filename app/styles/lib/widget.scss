@@ -41,9 +41,7 @@
 
 .widget-body {
   position: relative;
-
   flex: 1;
-
   overflow-y: auto;
 
   &.full {
@@ -53,12 +51,14 @@
 
 .widget-content {
   position: absolute;
-  width: 100%;
-  min-height: 100%;
+
   display: flex;
   flex-direction: column;
   align-items: stretch;
   justify-content: space-evenly;
+
+  width: 100%;
+  min-height: 100%;
 }
 
 .widget-hint-text {

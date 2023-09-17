@@ -19,7 +19,6 @@ const PAGE_ID = "notice-detail";
 $Page(PAGE_ID, {
   data: {
     pageTitle: "通知详情",
-
     starred: false,
     status: <"error" | "login" | "success">"success",
   },
@@ -38,10 +37,10 @@ $Page(PAGE_ID, {
     id = scene.split("|")[0],
     type = scene.split("|")[1] || "notice",
   }) {
+    const starredNotices = get<StarredNotice[]>(STARRED_NOTICE_LIST_KEY) ?? [];
+
     this.state.type = <NoticeType>type;
     this.state.id = id;
-
-    const starredNotices = get<StarredNotice[]>(STARRED_NOTICE_LIST_KEY) ?? [];
 
     if (id) this.getNotice();
     else
@@ -128,6 +127,7 @@ $Page(PAGE_ID, {
         this.setData({
           status: "success",
           title,
+          // eslint-disable-next-line @typescript-eslint/naming-convention
           "share.title": title,
           time,
           pageView,
