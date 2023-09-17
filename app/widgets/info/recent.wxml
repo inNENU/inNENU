@@ -1,6 +1,6 @@
 <view
-  class="recent-notice widget {{size}} wrapper-class"
-  data-url="notice-list"
+  class="recent-info widget {{size}} wrapper-class"
+  data-url="info-list"
   catch:tap="$bindGo"
 >
   <view class="widget-header">
