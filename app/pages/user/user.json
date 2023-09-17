@@ -3,7 +3,6 @@
   "enablePullDownRefresh": true,
   "usingComponents": {
     "add-my-app": "/components/add-my-app/add-my-app",
-    "card-balance": "/components/card-balance/card-balance",
-    "today-course": "/components/today-course/today-course"
+    "card-balance": "/components/card-balance/card-balance"
   }
 }

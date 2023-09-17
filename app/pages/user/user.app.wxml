@@ -33,7 +33,6 @@
   </view>
   <view class="account-placeholder" style="height:{{statusBarHeight + 66}}px" />
   <block wx:if="{{login}}">
-    <today-course custom-class="course" />
     <card-balance />
   </block>
   <official-account />

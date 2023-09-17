@@ -1,6 +1,6 @@
 <wxs src="./select.wxs" module="select" />
-<wxs src="../../components/today-course/courseTable.wxs" module="utils" />
-<wxs src="../utils/hash.wxs" module="hash" />
+<wxs src="../../widgets/course/course.wxs" module="course" />
+<wxs src="../../utils/hash.wxs" module="hash" />
 <page-meta
   background-text-style="{{darkmode ? 'dark' : 'light'}}"
   background-color="{{color.bgColor}}"
@@ -18,7 +18,7 @@
           <view class="course-table-header">
             <view class="course-row-header"></view>
             <view
-              wx:for="{{utils.weeks}}"
+              wx:for="{{course.weeks}}"
               wx:key="*this"
               class="course-table-header-item"
             >
@@ -32,7 +32,9 @@
               wx:for-item="row"
               wx:for-index="rowIndex"
             >
-              <view class="course-row-header"> {{utils.times[rowIndex]}} </view>
+              <view class="course-row-header">
+                {{course.times[rowIndex]}}
+              </view>
               <view
                 class="course-table-item"
                 wx:for="{{row}}"
@@ -128,7 +130,7 @@
           <picker
             class="picker"
             header-text="星期"
-            range="{{select.getRange(utils.weeks)}}"
+            range="{{select.getRange(course.weeks)}}"
             value="{{weekIndex}}"
             data-key="weekIndex"
             bindchange="pickerChange"
@@ -136,14 +138,14 @@
             <view class="display">
               <text class="label">星期:</text>
               <text class="value"
-                >{{select.getPickerDisplay(utils.weeks, weekIndex)}}</text
+                >{{select.getPickerDisplay(course.weeks, weekIndex)}}</text
               >
             </view>
           </picker>
           <picker
             class="picker"
             header-text="节次"
-            range="{{select.getRange(utils.times)}}"
+            range="{{select.getRange(course.times)}}"
             value="{{classIndex}}"
             data-key="classIndex"
             bindchange="pickerChange"
@@ -151,7 +153,7 @@
             <view class="display">
               <text class="label">节次:</text>
               <text class="value"
-                >{{select.getPickerDisplay(utils.times, classIndex)}}</text
+                >{{select.getPickerDisplay(course.times, classIndex)}}</text
               >
             </view>
           </picker>
@@ -333,7 +335,7 @@
       >
       <text class="week"><text class="icon" />{{week}}</text>
       <text class="time"
-        ><text class="icon" />{{select.getTime(time, utils.weeks)}}</text
+        ><text class="icon" />{{select.getTime(time, course.weeks)}}</text
       >
       <text class="place"><text class="icon" />{{place}}</text>
       <text class="point"><text class="icon" />{{point}}</text>
@@ -341,7 +343,7 @@
     <view class="details">
       <text class="week-type">周次: {{weekType}}</text>
       <text class="exam-time"
-        >考试时间: {{select.getExamTime(examTime, utils.weeks)}}</text
+        >考试时间: {{select.getExamTime(examTime, course.weeks)}}</text
       >
       <text class="office">开课单位: {{office}}</text>
     </view>

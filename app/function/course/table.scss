@@ -1,4 +1,4 @@
-@import "../utils/courseTable";
+@import "../../widgets/course/table";
 
 .course-table-wrapper {
   display: flex;
@@ -23,4 +23,8 @@
 .course-table {
   flex: 1;
   border-top: 1px dashed var(--border-color);
+
+  .name {
+    font-weight: 600;
+  }
 }

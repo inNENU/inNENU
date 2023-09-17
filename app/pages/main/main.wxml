@@ -32,8 +32,13 @@
     到头啦~人家被你拉得好痛阿(*´д`*) 不许你再拉人家~╭(╯^╰)╮
   </view>
   <scroll-view scroll-y class="content">
+    <view class="widgets">
+      <course-widget />
+      <course-widget type="下节课程" />
+      <course-widget type="完整今日课程" />
+      <course-widget type="课程表" />
+    </view>
     <block wx:if="{{login}}">
-      <today-course />
       <notice-list custom-class="notice-list" />
     </block>
     <template is="components" data="{{content: page.content}}" />

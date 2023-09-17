@@ -1,0 +1,99 @@
+<wxs src="./course.wxs" module="course" />
+<wxs src="../../utils/hash.wxs" module="hash" />
+<view class="course-widget {{size}} wrapper-class" catch:tap="courseTable">
+  <block wx:if="{{type === '今日课程' || type === '完整今日课程'}}">
+    <view class="header">{{isTomorrow? '明': '今'}}日课程</view>
+    <view class="content">
+      <view wx:if="{{missing}}" class="hint-text">暂无课程信息，点击获取</view>
+      <view wx:elif="{{empty}}" class="hint-text"
+        >{{isTomorrow? '明': '今'}}日暂无课程</view
+      >
+      <block wx:else>
+        <block
+          wx:for="{{todayCourses}}"
+          wx:for-item="cell"
+          wx:for-index="cellIndex"
+        >
+          <view
+            wx:if="{{cell.length}}"
+            class="course-item"
+            hover-class="button-hover"
+          >
+            <text
+              wx:for="{{cell}}"
+              class="course"
+              data-info="{{item}}"
+              catch:tap="showClassInfo"
+              >{{course.times[cellIndex]}}: {{item.name}}{{type ===
+              '完整今日课程'? '@' + item.location: ''}}</text
+            >
+          </view>
+        </block>
+      </block>
+    </view>
+  </block>
+  <block wx:if="{{type === '下节课程'}}">
+    <view class="header">下节课程</view>
+    <view class="content">
+      <view class="time">{{time}}</view>
+      <view wx:if="{{missing}}" class="hint-text">暂无课程信息，点击获取</view>
+      <block wx:for="{{nextCourses}}">
+        <view class="next-course-name">{{item.name}}</view>
+        <view class="next-course-location">{{item.location}}</view>
+      </block>
+    </view>
+  </block>
+  <block wx:if="{{type === '课程表' || type === '完整课程表'}}">
+    <view class="header">课程表</view>
+    <view class="content">
+      <view class="time">{{time}}</view>
+      <view wx:if="{{missing}}" class="hint-text">暂无课程信息，点击获取</view>
+      <block wx:for="{{nextCourses}}">
+        <view class="next-course-name">{{item.name}}</view>
+        <view class="next-course-location">{{item.location}}</view>
+      </block>
+      <view class="course-table">
+        <view class="course-table-header">
+          <view
+            wx:for="{{course.weeks}}"
+            wx:key="*this"
+            class="course-table-header-item"
+          >
+            {{item}}
+            <view class="time">{{dates[index]}}</view>
+          </view>
+        </view>
+        <view class="course-table-body">
+          <view
+            class="course-table-row"
+            wx:for="{{courseData}}"
+            wx:for-item="row"
+            wx:for-index="rowIndex"
+          >
+            <view
+              class="course-table-item"
+              wx:for="{{row}}"
+              wx:for-item="cell"
+              wx:for-index="columnIndex"
+            >
+              <block
+                wx:for="{{cell}}"
+                wx:for-item="classItem"
+                wx:for-index="classIndex"
+                wx:key="cid"
+              >
+                <view
+                  class="course-table-course-item course-item{{hash.getHashIndex(classItem.name)}}"
+                  data-info="{{classItem}}"
+                  catch:tap="showClassInfo"
+                >
+                  {{classItem.name}}
+                </view>
+              </block>
+            </view>
+          </view>
+        </view>
+      </view>
+    </view>
+  </block>
+</view>

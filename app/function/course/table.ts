@@ -8,12 +8,6 @@ import {
 } from "./under-course-table.js";
 import { showModal } from "../../api/index.js";
 import type { AppOption } from "../../app.js";
-import type {
-  CourseTableData,
-  TableData,
-  WeekRange,
-} from "../../components/today-course/typings.js";
-import { getCurrentTime } from "../../components/today-course/utils.js";
 import { COURSE_DATA_KEY, appCoverPrefix } from "../../config/index.js";
 import {
   LoginFailType,
@@ -22,6 +16,12 @@ import {
 } from "../../login/index.js";
 import { DAY, MONTH } from "../../utils/constant.js";
 import { getColor, popNotice } from "../../utils/page.js";
+import type {
+  CourseTableData,
+  TableData,
+  WeekRange,
+} from "../../widgets/course/typings.js";
+import { getCurrentTime } from "../../widgets/course/utils.js";
 import { getDisplayTime } from "../grade/under-grade-list.js";
 
 const { globalData, useOnlineService } = getApp<AppOption>();
@@ -347,16 +347,9 @@ $Page(PAGE_ID, {
   }: WechatMiniprogram.TouchEvent<
     Record<never, never>,
     Record<never, never>,
-    {
-      row: number;
-      column: number;
-      cell: number;
-      class: ClassItem;
-    }
+    { info: ClassItem }
   >) {
-    const { class: classInfo } = currentTarget.dataset;
-
-    const { name, teacher, location, time } = classInfo;
+    const { name, teacher, location, time } = currentTarget.dataset.info;
 
     showModal(name, `教师: ${teacher}\n地点: ${location}\n时间: ${time}`);
   },

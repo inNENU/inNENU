@@ -1,6 +1,6 @@
 <wxs src="./table.wxs" module="table" />
-<wxs src="../../components/today-course/courseTable.wxs" module="utils" />
-<wxs src="../utils/hash.wxs" module="hash" />
+<wxs src="../../widgets/course/course.wxs" module="course" />
+<wxs src="../../utils/hash.wxs" module="hash" />
 <page-meta
   background-text-style="{{darkmode ? 'dark' : 'light'}}"
   background-color="{{color.bgColor}}"
@@ -42,7 +42,7 @@
       <view class="course-table-header">
         <view class="course-row-header"></view>
         <view
-          wx:for="{{utils.weeks}}"
+          wx:for="{{course.weeks}}"
           wx:key="*this"
           class="course-table-header-item"
         >
@@ -57,7 +57,7 @@
           wx:for-item="row"
           wx:for-index="rowIndex"
         >
-          <view class="course-row-header"> {{utils.times[rowIndex]}} </view>
+          <view class="course-row-header"> {{course.times[rowIndex]}} </view>
           <view
             class="course-table-item"
             wx:for="{{row}}"
@@ -73,14 +73,11 @@
               <view
                 wx:if="{{table.isMatchingWeek(weekIndex, classItem.weeks)}}"
                 class="course-table-course-item course-item{{hash.getHashIndex(classItem.name)}}"
-                data-row="{{rowIndex}}"
-                data-column="{{columnIndex}}"
-                data-cell="{{classIndex}}"
-                data-class="{{classItem}}"
+                data-info="{{classItem}}"
                 catch:tap="showClassInfo"
               >
                 <view class="name">{{classItem.name}}</view>
-                <view>{{classItem .location}}</view></view
+                <view>{{classItem.location}}</view></view
               >
             </block>
           </view>
