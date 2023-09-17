@@ -257,6 +257,13 @@ $Page(PAGE_ID, {
       "确认删除账号? 这会清除本地的全部个人信息与数据且无法恢复。",
       () => {
         logout();
+        this.setData({
+          id: "",
+          password: "",
+          // eslint-disable-next-line @typescript-eslint/naming-convention
+          "list.items": EMPTY_CONTENT,
+          isSaved: false,
+        });
         showModal("删除成功", "已删除本地账号信息");
       },
       () => {

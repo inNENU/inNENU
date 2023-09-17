@@ -10,6 +10,7 @@ import { AppOption } from "../app.js";
 import {
   ACCOUNT_INFO_KEY,
   BORROW_BOOKS_KEY,
+  CARD_BALANCE_KEY,
   CHANGE_MAJOR_DATA_KEY,
   COURSE_DATA_KEY,
   EXAM_PLACE_DATA_KEY,
@@ -17,6 +18,9 @@ import {
   LICENSE_KEY,
   NEWS_LIST_KEY,
   NOTICE_LIST_KEY,
+  SITE_ACADEMIC_LIST_KEY,
+  SITE_NEWS_LIST_KEY,
+  SITE_NOTICE_LIST_KEY,
   SPECIAL_EXAM_DATA_KEY,
   STARRED_NOTICE_LIST_KEY,
   STUDENT_ARCHIVE_KEY,
@@ -57,12 +61,16 @@ export const logout = (): void => {
 
   // data
   remove(BORROW_BOOKS_KEY);
+  remove(CARD_BALANCE_KEY);
   remove(COURSE_DATA_KEY);
   remove(CHANGE_MAJOR_DATA_KEY);
   remove(EXAM_PLACE_DATA_KEY);
   remove(GRADE_DATA_KEY);
   remove(NEWS_LIST_KEY);
   remove(NOTICE_LIST_KEY);
+  remove(SITE_ACADEMIC_LIST_KEY);
+  remove(SITE_NOTICE_LIST_KEY);
+  remove(SITE_NEWS_LIST_KEY);
   remove(SPECIAL_EXAM_DATA_KEY);
   remove(STARRED_NOTICE_LIST_KEY);
   remove(STUDENT_ARCHIVE_KEY);
