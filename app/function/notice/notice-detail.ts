@@ -1,12 +1,19 @@
-import type {
-  NoticeOptions,
-  NoticeResponse,
-  NoticeSuccessResponse,
-} from "./typings.js";
+import type { CommonFailedResponse } from "../../../typings/response.js";
 import { request } from "../../api/index.js";
 import { service } from "../../config/index.js";
 import { ACTION_SERVER, AuthLoginFailedResponse } from "../../login/index.js";
+import { NoticeInfo } from "../../widgets/notice/notice.js";
 import { getRichTextNodes } from "../utils/parser.js";
+
+export interface NoticeOptions {
+  noticeID: string;
+}
+
+export interface NoticeSuccessResponse extends NoticeInfo {
+  success: true;
+}
+
+export type NoticeResponse = NoticeSuccessResponse | CommonFailedResponse;
 
 const titleRegExp = /var title = '(.*?)';/;
 const fromRegExp = /var ly = '(.*?)'/;

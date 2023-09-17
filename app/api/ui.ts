@@ -51,7 +51,7 @@ export const showModal = (
 export const showToast = (
   text: string,
   duration = 1500,
-  icon: "success" | "loading" | "none" = "none",
+  icon: "success" | "error" | "loading" | "none" = "none",
 ): void => {
   wx.showToast({ icon, title: text, duration });
 };

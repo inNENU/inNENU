@@ -36,7 +36,8 @@
     <view class="widgets">
       <library-borrow-widget />
       <library-borrow-widget type="图书待还" />
-      <recent-notice-widget />
+      <starred-notice-widget />
+      <starred-notice-widget type="收藏（小）" />
       <recent-notice-widget type="新闻" />
       <recent-notice-widget type="通知（小）" />
       <recent-notice-widget type="新闻（小）" />

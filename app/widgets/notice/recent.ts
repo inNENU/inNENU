@@ -1,7 +1,7 @@
 import { $Component, PropType, get, set } from "@mptool/all";
 
-import type { NoticeItem } from "./api.js";
-import { getNoticeList, getOnlineNoticeList } from "./api.js";
+import type { NoticeItem } from "./getList.js";
+import { getNoticeList, getOnlineNoticeList } from "./getList.js";
 import { showToast } from "../../api/ui.js";
 import type { AppOption } from "../../app.js";
 import { NEWS_LIST_KEY, NOTICE_LIST_KEY } from "../../config/keys.js";
@@ -32,7 +32,7 @@ $Component({
         | "新闻"
         | "新闻（大）"
       >,
-      default: "最近通知",
+      default: "通知",
     },
   },
 

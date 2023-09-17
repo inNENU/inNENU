@@ -18,6 +18,7 @@ import {
   NEWS_LIST_KEY,
   NOTICE_LIST_KEY,
   SPECIAL_EXAM_DATA_KEY,
+  STARRED_NOTICE_LIST_KEY,
   STUDENT_ARCHIVE_KEY,
   USER_INFO_KEY,
   service,
@@ -63,6 +64,7 @@ export const logout = (): void => {
   remove(NEWS_LIST_KEY);
   remove(NOTICE_LIST_KEY);
   remove(SPECIAL_EXAM_DATA_KEY);
+  remove(STARRED_NOTICE_LIST_KEY);
   remove(STUDENT_ARCHIVE_KEY);
   remove(LICENSE_KEY);
 

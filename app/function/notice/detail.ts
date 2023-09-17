@@ -1,11 +1,16 @@
-import { $Page } from "@mptool/all";
+import { $Page, get, set } from "@mptool/all";
 
 import { getNotice, getOnlineNotice } from "./notice-detail.js";
 import { showModal, showToast } from "../../api/index.js";
 import type { AppOption } from "../../app.js";
-import { appCoverPrefix } from "../../config/index.js";
+import {
+  STARRED_NOTICE_LIST_KEY,
+  appCoverPrefix,
+  service,
+} from "../../config/index.js";
 import { ensureActionLogin } from "../../login/index.js";
 import { getColor, popNotice } from "../../utils/page.js";
+import { NoticeType, StarredNotice } from "../../widgets/notice/notice.js";
 
 const { globalData, useOnlineService } = getApp<AppOption>();
 
@@ -15,6 +20,7 @@ $Page(PAGE_ID, {
   data: {
     pageTitle: "通知详情",
 
+    starred: false,
     status: <"error" | "login" | "success">"success",
   },
 
@@ -22,13 +28,20 @@ $Page(PAGE_ID, {
     loginMethod: <"check" | "login" | "validate">"validate",
     id: "",
     title: "",
-    type: "",
+    type: <NoticeType>"notice",
+    notice: <StarredNotice | null>null,
   },
 
-  onLoad({ id = "", title = "", type = "notice" }) {
-    this.state.title = title;
-    this.state.type = type;
+  onLoad({
+    scene = "",
+    title = "",
+    id = scene.split("|")[0],
+    type = scene.split("|")[1] || "notice",
+  }) {
+    this.state.type = <NoticeType>type;
     this.state.id = id;
+
+    const starredNotices = get<StarredNotice[]>(STARRED_NOTICE_LIST_KEY) ?? [];
 
     if (id) this.getNotice();
     else
@@ -41,6 +54,12 @@ $Page(PAGE_ID, {
       theme: globalData.theme,
       pageTitle: `${type === "news" ? "新闻" : "通知"}详情`,
       title,
+      share: {
+        title,
+        shareable: true,
+        qrcode: `${service}mp/qrcode?appID=${globalData.appID}&page=function/notice/detail&scene=${id}|${type}`,
+      },
+      starred: starredNotices.some((item) => item.id === id),
     });
   },
 
@@ -77,6 +96,8 @@ $Page(PAGE_ID, {
   },
 
   async getNotice() {
+    const { id, type } = this.state;
+
     if (globalData.account) {
       wx.showLoading({ title: "获取中" });
 
@@ -96,7 +117,7 @@ $Page(PAGE_ID, {
       const result = await (useOnlineService(PAGE_ID)
         ? getOnlineNotice
         : getNotice)({
-        noticeID: this.state.id,
+        noticeID: id,
       });
 
       wx.hideLoading();
@@ -107,12 +128,23 @@ $Page(PAGE_ID, {
         this.setData({
           status: "success",
           title,
+          "share.title": title,
           time,
           pageView,
           author,
           from,
           content,
         });
+        this.state.notice = {
+          title,
+          time,
+          pageView,
+          author,
+          from,
+          content,
+          id,
+          type,
+        };
         this.state.loginMethod = "check";
       } else {
         this.setData({ status: "error" });
@@ -121,5 +153,30 @@ $Page(PAGE_ID, {
     } else {
       this.setData({ status: "login" });
     }
+  },
+
+  toggleStar() {
+    const { starred } = this.data;
+    const { notice, id } = this.state;
+
+    if (!notice) showToast("通知未获取完成", 1500, "error");
+
+    if (starred) {
+      const starredNotices = get<StarredNotice[]>(STARRED_NOTICE_LIST_KEY)!;
+
+      set(
+        STARRED_NOTICE_LIST_KEY,
+        starredNotices.filter((item) => item.id !== id),
+      );
+    } else {
+      const starredNotices =
+        get<StarredNotice[]>(STARRED_NOTICE_LIST_KEY) ?? [];
+
+      set(STARRED_NOTICE_LIST_KEY, [...starredNotices, notice!]);
+    }
+
+    showToast(`已${starred ? "取消" : ""}收藏`, 1500, "success");
+
+    this.setData({ starred: !starred });
   },
 });

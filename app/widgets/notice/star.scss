@@ -1,15 +1,8 @@
 @import "../../styles/lib/refresh-button";
 @import "../../styles/lib/widget";
 
-.loading {
-  width: 48px;
-  height: 48px;
-  margin: 0 auto;
-}
-
-.refresh-button {
-  vertical-align: bottom;
-  float: right;
+.widget-content {
+  justify-content: start;
 }
 
 .notice {
@@ -39,13 +32,6 @@
 
 .button-hover {
   background-color: var(--hover) !important;
-}
-
-.more {
-  padding: 4px 24px 8px;
-  color: var(--dark-grey);
-  font-size: 13px;
-  text-align: right;
 }
 
 .title {

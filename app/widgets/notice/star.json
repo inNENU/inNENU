@@ -1,0 +1,6 @@
+{
+  "component": true,
+  "usingComponents": {
+    "login-hint": "/components/login-hint/login-hint"
+  }
+}

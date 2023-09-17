@@ -7,6 +7,7 @@
     "course-widget": "/widgets/course/course",
     "library-borrow-widget": "/widgets/library/borrow",
     "library-people-widget": "/widgets/library/people",
-    "recent-notice-widget": "/widgets/notice/recent"
+    "recent-notice-widget": "/widgets/notice/recent",
+    "starred-notice-widget": "/widgets/notice/star"
   }
 }

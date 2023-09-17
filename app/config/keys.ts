@@ -13,6 +13,7 @@ export const GRADE_DATA_KEY = "grade-data-info";
 export const NEWS_LIST_KEY = "news-list-info";
 export const NOTICE_LIST_KEY = "notice-list-info";
 export const SPECIAL_EXAM_DATA_KEY = "special-exam-data-info";
+export const STARRED_NOTICE_LIST_KEY = "starred-notice-list-info";
 export const STUDENT_ARCHIVE_KEY = "student-archive-info";
 
 export const WEATHER_KEY = "weather-info";
