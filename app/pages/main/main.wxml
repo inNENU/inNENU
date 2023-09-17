@@ -34,6 +34,8 @@
   <scroll-view scroll-y class="content">
     <template is="components" data="{{content: page.content}}" />
     <view class="widgets">
+      <library-borrow-widget />
+      <library-borrow-widget type="图书待还" />
       <recent-notice-widget />
       <recent-notice-widget type="新闻" />
       <recent-notice-widget type="通知（小）" />

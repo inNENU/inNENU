@@ -9,8 +9,10 @@
 <view class="{{theme}} library">
   <navbar nav="{{nav}}" />
   <view class="content">
-    <library-people-widget wrapper-class="library-people" />
-    <library-borrow-books />
+    <view class="widgets">
+      <library-people-widget />
+      <library-borrow-widget />
+    </view>
   </view>
   <footer />
 </view>

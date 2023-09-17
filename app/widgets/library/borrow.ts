@@ -1,16 +1,23 @@
-import { $Component, get, set } from "@mptool/all";
+import { $Component, PropType, get, set } from "@mptool/all";
 
-import { getBorrowBooks, getOnlineBorrowBooks } from "./api.js";
-import type { BorrowBookData } from "./typings.js";
+import type { BorrowBookData } from "./borrowBooks.js";
+import { getBorrowBooks, getOnlineBorrowBooks } from "./borrowBooks.js";
 import { showModal, showToast } from "../../api/index.js";
 import type { AppOption } from "../../app.js";
 import { BORROW_BOOKS_KEY } from "../../config/index.js";
 import { ensureActionLogin } from "../../login/index.js";
-import { HOUR } from "../../utils/constant.js";
+import { DAY, HOUR } from "../../utils/constant.js";
 
 const { globalData, useOnlineService } = getApp<AppOption>();
 
 $Component({
+  properties: {
+    type: {
+      type: String as PropType<"借阅书目" | "图书待还">,
+      default: "借阅书目",
+    },
+  },
+
   data: {
     books: <BorrowBookData[]>[],
     status: <"loading" | "error" | "login" | "success">"loading",
@@ -20,7 +27,7 @@ $Component({
     attached() {
       const books = get<BorrowBookData[]>(BORROW_BOOKS_KEY);
 
-      if (books) this.setData({ status: "success", books });
+      if (books) this.setBooks(books);
       else this.getBooks("validate");
     },
   },
@@ -56,14 +63,52 @@ $Component({
           : getBorrowBooks)();
 
         if (result.success) {
+          result.data = [
+            // @ts-ignore
+            {
+              name: "《计算机网络》",
+              author: "Mr.Hope",
+              loanDate: "2023-08-20",
+              dueDate: "2023-09-20",
+            },
+            // @ts-ignore
+            {
+              name: "《计算机网络2》",
+              author: "Mr.Hope",
+              loanDate: "2023-08-20",
+              dueDate: "2023-09-20",
+            },
+            // @ts-ignore
+            {
+              name: "《计算机网络3》",
+              author: "Mr.Hope",
+              loanDate: "2023-08-20",
+              dueDate: "2023-09-20",
+            },
+          ];
+
           set(BORROW_BOOKS_KEY, result.data, 3 * HOUR);
-          this.setData({ books: result.data, status: "success" });
+          this.setBooks(result.data);
         } else {
           this.setData({ status: "error" });
         }
       } else {
         this.setData({ status: "login" });
       }
+    },
+
+    setBooks(data: BorrowBookData[]) {
+      const recent = data
+        .map(({ dueDate }) => new Date(dueDate).getTime())
+        .sort((a, b) => a - b)
+        .pop();
+
+      this.setData({
+        status: "success",
+        books: data,
+        hasOutDated: recent ? recent < Date.now() : false,
+        recent: recent ? Math.ceil((recent - Date.now()) / DAY) : null,
+      });
     },
 
     refresh() {
@@ -74,6 +119,31 @@ $Component({
     retry() {
       this.setData({ status: "loading" });
       this.getBooks("login");
+    },
+
+    showBooks() {
+      const { books } = this.data;
+
+      if (books?.length)
+        showModal(
+          "借阅书目",
+          books
+            .map(
+              ({ name, dueDate, renew, renewTime }) => `\
+书名: ${name}
+到期时间: ${new Date(dueDate).toLocaleString()}
+是否已续借: ${renew ? "是" : "否"}
+${
+  renewTime
+    ? `\
+续借时间: ${new Date(renewTime).toLocaleString()}
+`
+    : ""
+}\
+`,
+            )
+            .join("\n---\n"),
+        );
     },
 
     viewBookDetail({

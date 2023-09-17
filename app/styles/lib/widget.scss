@@ -4,7 +4,7 @@
 
   box-sizing: border-box;
 
-  max-height: 160px;
+  height: 160px;
   padding: 8px 12px;
   border-radius: 15px;
 
@@ -20,7 +20,7 @@
   &.large {
     grid-row-start: span 2;
     grid-column-start: span 2;
-    max-height: 328px;
+    height: 328px;
   }
 
   &.full {
@@ -42,13 +42,9 @@
 .widget-body {
   position: relative;
 
-  display: flex;
   flex: 1;
-  flex-direction: column;
-  align-items: stretch;
-  justify-content: space-evenly;
 
-  overflow: hidden;
+  overflow-y: auto;
 
   &.full {
     margin: -8px -12px;
@@ -56,7 +52,13 @@
 }
 
 .widget-content {
-  overflow-y: auto;
+  position: absolute;
+  width: 100%;
+  min-height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  justify-content: space-evenly;
 }
 
 .widget-hint-text {

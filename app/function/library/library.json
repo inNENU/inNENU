@@ -2,7 +2,7 @@
   "navigationBarTitleText": "图书馆",
   "usingComponents": {
     "header": "/components/header/header",
-    "library-borrow-books": "/components/library/borrow-books",
+    "library-borrow-widget": "/widgets/library/borrow",
     "library-people-widget": "/widgets/library/people"
   }
 }

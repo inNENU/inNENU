@@ -99,9 +99,9 @@ $Component({
       maxWeeks: number,
     ) {
       const now = new Date();
-      const isTomorrow =
-        now.getHours() >= 20 ||
-        (now.getHours() === 19 && now.getMinutes() >= 30);
+      const hours = now.getHours();
+      const minutes = now.getMinutes();
+      const isTomorrow = hours >= 20 || (hours === 19 && minutes >= 30);
 
       const day = isTomorrow ? now.getDay() + 1 : now.getDay();
       let weekIndex = currentWeekIndex;
@@ -109,18 +109,15 @@ $Component({
       let dayIndex = currentDayIndex;
       let classIndex = isTomorrow
         ? 0
-        : now.getHours() >= 18 ||
-          (now.getHours() === 17 && now.getMinutes() >= 30)
+        : hours >= 18 || (hours === 17 && minutes >= 30)
         ? 5
-        : now.getHours() >= 16 ||
-          (now.getHours() === 15 && now.getMinutes() >= 30)
+        : hours >= 16 || (hours === 15 && minutes >= 30)
         ? 4
-        : now.getHours() >= 14 ||
-          (now.getHours() === 13 && now.getMinutes() >= 30)
+        : hours >= 14 || (hours === 13 && minutes >= 30)
         ? 3
-        : now.getHours() >= 10
+        : hours >= 10
         ? 2
-        : now.getHours() >= 8
+        : hours >= 8
         ? 1
         : 0;
       let nextCourses: ClassData[] = [];
