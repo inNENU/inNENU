@@ -1,25 +1,22 @@
 @import "../../styles/lib/refresh-button";
+@import "../../styles/lib/widget";
 
-.notice-list {
-  overflow: hidden;
+.recent-notice {
+  &.medium {
+    grid-column-start: span 2;
+  }
 
-  max-width: var(--max-width);
-  margin: 8px var(--horizontal-margin);
-  border-radius: 8px;
-
-  background-color: var(--bg-color-block);
+  &.large {
+    grid-column-start: span 2;
+    grid-row-start: span 2;
+    min-height: 320px;
+  }
 }
 
 .loading {
   width: 48px;
   height: 48px;
-}
-
-.header {
-  padding: 10px 12px 4px;
-  font-size: 17px;
-  line-height: 1.5;
-  text-align: left;
+  margin: 0 auto;
 }
 
 .refresh-button {
@@ -29,7 +26,7 @@
 
 .notice {
   position: relative;
-  padding: 4px 10px;
+  padding: 4px 0;
   font-size: 14px;
 
   &::before {
@@ -46,7 +43,7 @@
     transform: scaleY(0.4);
     transform-origin: 0 0%;
 
-    .header + & {
+    &:last-child {
       display: none;
     }
   }
@@ -66,4 +63,11 @@
 .title {
   line-height: 1.25;
   text-align: left;
+
+  &.small {
+    font-size: 12px;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
+  }
 }

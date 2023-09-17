@@ -1,10 +1,10 @@
-import { $Component, get, set } from "@mptool/all";
+import { $Component, PropType, get, set } from "@mptool/all";
 
+import type { NoticeItem } from "./api.js";
 import { getNoticeList, getOnlineNoticeList } from "./api.js";
-import type { NoticeItem } from "./typings.js";
 import { showToast } from "../../api/ui.js";
 import type { AppOption } from "../../app.js";
-import { NOTICE_LIST_KEY } from "../../config/keys.js";
+import { NEWS_LIST_KEY, NOTICE_LIST_KEY } from "../../config/keys.js";
 import { ensureActionLogin } from "../../login/action.js";
 import { HOUR } from "../../utils/constant.js";
 
@@ -22,17 +22,44 @@ const FILTERED_SOURCES = [
 ];
 
 $Component({
+  properties: {
+    type: {
+      type: String as PropType<
+        | "通知（小）"
+        | "通知"
+        | "通知（大）"
+        | "新闻（小）"
+        | "新闻"
+        | "新闻（大）"
+      >,
+      default: "最近通知",
+    },
+  },
+
   data: {
+    noticeType: "notice" as "notice" | "news",
     status: <"loading" | "error" | "login" | "success">"loading",
-    notices: <NoticeItem[]>[],
   },
 
   lifetimes: {
     attached() {
-      const notices = get<NoticeItem[]>(NOTICE_LIST_KEY);
+      const { type } = this.data;
+      const noticeType = type.includes("新闻") ? "news" : "notice";
+      const data = get<NoticeItem[]>(
+        noticeType === "news" ? NEWS_LIST_KEY : NOTICE_LIST_KEY,
+      );
 
-      if (notices) this.setData({ status: "success", notices });
+      if (data) this.setData({ status: "success", data });
       else this.getNoticeList("validate");
+
+      this.setData({
+        noticeType,
+        size: type.includes("大")
+          ? "large"
+          : type.includes("小")
+          ? "small"
+          : "medium",
+      });
     },
   },
 
@@ -49,6 +76,8 @@ $Component({
 
   methods: {
     async getNoticeList(status: "check" | "login" | "validate" = "check") {
+      const { noticeType } = this.data;
+
       if (globalData.account) {
         const err = await ensureActionLogin(globalData.account, status);
 
@@ -61,22 +90,25 @@ $Component({
         try {
           const result = await (useOnlineService("notice-list")
             ? getOnlineNoticeList
-            : getNoticeList)({});
+            : getNoticeList)({
+            type: noticeType,
+          });
 
           if (result.success) {
-            const notices = result.data
+            const data = result.data
               .filter(({ from }) => !FILTERED_SOURCES.includes(from))
-              .map(({ title, ...rest }) => ({
+              .map(({ title, id }) => ({
                 title: title.replace(/^关于/g, "").replace(/的通知$/g, ""),
-                ...rest,
+                id,
               }))
               .slice(0, 5);
 
-            this.setData({
-              status: "success",
-              notices,
-            });
-            set(NOTICE_LIST_KEY, notices, HOUR);
+            this.setData({ status: "success", data });
+            set(
+              noticeType === "news" ? NEWS_LIST_KEY : NOTICE_LIST_KEY,
+              data,
+              HOUR,
+            );
           } else {
             this.setData({ status: "error" });
           }
@@ -91,12 +123,14 @@ $Component({
     }: WechatMiniprogram.TouchEvent<
       Record<string, never>,
       Record<string, never>,
-      { index: number }
+      { notice: { title: string; id: string } }
     >) {
-      const { index } = currentTarget.dataset;
-      const { title, id } = this.data.notices[index];
+      const { noticeType } = this.data;
+      const { title, id } = currentTarget.dataset.notice;
 
-      return this.$go(`notice-detail?title=${title}&id=${id}&type=notice`);
+      return this.$go(
+        `notice-detail?title=${title}&id=${id}&type=${noticeType}`,
+      );
     },
 
     refresh() {
@@ -110,5 +144,9 @@ $Component({
     },
   },
 
-  externalClasses: ["custom-class"],
+  externalClasses: ["wrapper-class"],
+
+  options: {
+    virtualHost: true,
+  },
 });

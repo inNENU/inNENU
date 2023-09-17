@@ -2,14 +2,14 @@ import { $Page } from "@mptool/all";
 
 import { showToast } from "../../api/index.js";
 import type { AppOption } from "../../app.js";
-import {
-  getNoticeList,
-  getOnlineNoticeList,
-} from "../../components/notice-list/api.js";
-import type { NoticeItem } from "../../components/notice-list/typings.js";
 import { appCoverPrefix } from "../../config/index.js";
 import { ensureActionLogin } from "../../login/index.js";
 import { getColor, popNotice } from "../../utils/page.js";
+import type { NoticeItem } from "../../widgets/notice/api.js";
+import {
+  getNoticeList,
+  getOnlineNoticeList,
+} from "../../widgets/notice/api.js";
 
 const { globalData, useOnlineService } = getApp<AppOption>();
 

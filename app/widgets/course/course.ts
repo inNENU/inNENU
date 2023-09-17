@@ -9,7 +9,7 @@ $Component({
   properties: {
     type: {
       type: String as PropType<
-        "今日课程" | "下节课程" | "课程表" | "完整今日课程"
+        "今日课程" | "今日课程（中）" | "下节课程" | "课程表"
       >,
       default: "今日课程",
     },
@@ -21,7 +21,7 @@ $Component({
 
       this.setData({
         size:
-          "完整今日课程" === type
+          "今日课程（中）" === type
             ? "medium"
             : type === "课程表"
             ? "large"

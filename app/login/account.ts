@@ -15,6 +15,7 @@ import {
   EXAM_PLACE_DATA_KEY,
   GRADE_DATA_KEY,
   LICENSE_KEY,
+  NEWS_LIST_KEY,
   NOTICE_LIST_KEY,
   SPECIAL_EXAM_DATA_KEY,
   STUDENT_ARCHIVE_KEY,
@@ -59,6 +60,7 @@ export const logout = (): void => {
   remove(CHANGE_MAJOR_DATA_KEY);
   remove(EXAM_PLACE_DATA_KEY);
   remove(GRADE_DATA_KEY);
+  remove(NEWS_LIST_KEY);
   remove(NOTICE_LIST_KEY);
   remove(SPECIAL_EXAM_DATA_KEY);
   remove(STUDENT_ARCHIVE_KEY);
