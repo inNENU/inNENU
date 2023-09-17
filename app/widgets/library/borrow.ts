@@ -63,30 +63,6 @@ $Component({
           : getBorrowBooks)();
 
         if (result.success) {
-          result.data = [
-            // @ts-ignore
-            {
-              name: "《计算机网络》",
-              author: "Mr.Hope",
-              loanDate: "2023-08-20",
-              dueDate: "2023-09-20",
-            },
-            // @ts-ignore
-            {
-              name: "《计算机网络2》",
-              author: "Mr.Hope",
-              loanDate: "2023-08-20",
-              dueDate: "2023-09-20",
-            },
-            // @ts-ignore
-            {
-              name: "《计算机网络3》",
-              author: "Mr.Hope",
-              loanDate: "2023-08-20",
-              dueDate: "2023-09-20",
-            },
-          ];
-
           set(BORROW_BOOKS_KEY, result.data, 3 * HOUR);
           this.setBooks(result.data);
         } else {
