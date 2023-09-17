@@ -62,7 +62,9 @@
     <block wx:if="{{missing}}">
       <view class="widget-header">课程表</view>
       <view class="widget-body">
-        <view class="widget-hint-text">暂无课程信息，点击获取</view>
+        <view class="widget-content">
+          <view class="widget-hint-text">暂无课程信息，点击获取</view>
+        </view>
       </view>
     </block>
     <view wx:else class="widget-body full">

@@ -12,6 +12,7 @@
 
 .book {
   padding: 2px 0;
+  position: relative;
 
   &::after {
     content: " ";
