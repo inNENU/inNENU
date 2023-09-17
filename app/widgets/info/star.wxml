@@ -1,18 +1,18 @@
-<view class="starred-notice widget {{size}} wrapper-class">
-  <view class="widget-header">通知收藏</view>
+<view class="starred-info widget {{size}} wrapper-class">
+  <view class="widget-header">官网收藏</view>
   <view class="widget-body">
     <view class="widget-content">
       <login-hint wx:if="{{ status === 'login' }}" size="mini" />
-      <view wx:elif="{{data.length}}" class="notice-list">
+      <view wx:elif="{{data.length}}" class="info-list">
         <view
           wx:for="{{data}}"
           wx:key="title"
-          class="notice"
+          class="info"
           hover-class="button-hover"
           hover-start-time="0"
           hover-stay-time="0"
           data-index="{{index}}"
-          catch:tap="viewNotice"
+          catch:tap="viewInfo"
         >
           <view class="title {{size}}">{{item.title}}</view>
         </view>

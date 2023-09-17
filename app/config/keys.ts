@@ -16,6 +16,7 @@ export const SITE_ACADEMIC_LIST_KEY = "site-academic-list-info";
 export const SITE_NOTICE_LIST_KEY = "site-notice-list-info";
 export const SITE_NEWS_LIST_KEY = "site-news-list-info";
 export const SPECIAL_EXAM_DATA_KEY = "special-exam-data-info";
+export const STARRED_INFO_LIST_KEY = "starred-info-list-info";
 export const STARRED_NOTICE_LIST_KEY = "starred-notice-list-info";
 export const STUDENT_ARCHIVE_KEY = "student-archive-info";
 

@@ -1,8 +1,21 @@
-import type { MainInfoResponse, MainInfoSuccessResponse } from "./typings.js";
+import type { RichTextNode } from "../../../typings/node.js";
 import type { CommonFailedResponse } from "../../../typings/response.js";
 import { request } from "../../api/index.js";
 import { service } from "../../config/index.js";
 import { getRichTextNodes, getText } from "../utils/parser.js";
+
+export interface MainInfoSuccessResponse {
+  success: true;
+  title: string;
+  time: string;
+  from?: string;
+  author?: string;
+  editor?: string;
+  pageView: number;
+  content: RichTextNode[];
+}
+
+export type MainInfoResponse = MainInfoSuccessResponse | CommonFailedResponse;
 
 const MAIN_URL = "https://www.nenu.edu.cn";
 

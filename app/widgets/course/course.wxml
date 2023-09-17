@@ -4,7 +4,7 @@
   class="course-widget widget {{size}} wrapper-class"
   catch:tap="courseTable"
 >
-  <block wx:if="{{type === '今日课程' || type === '今日课程（中）'}}">
+  <block wx:if="{{type === '今日课程' || type === '今日课程 (小)'}}">
     <view class="widget-header">{{isTomorrow? '明': '今'}}日课程</view>
     <view class="widget-body">
       <view class="widget-content">
@@ -40,7 +40,7 @@
     </view>
   </block>
 
-  <block wx:elif="{{type === '下节课程'}}">
+  <block wx:elif="{{type === '下节课程 (小)'}}">
     <view class="widget-header">下节课程</view>
     <view class="widget-body">
       <view class="widget-content">
@@ -58,7 +58,7 @@
     </view>
   </block>
 
-  <block wx:elif="{{type === '课程表'}}">
+  <block wx:elif="{{type === '课程表 (大)'}}">
     <block wx:if="{{missing}}">
       <view class="widget-header">课程表</view>
       <view class="widget-body">

@@ -13,8 +13,8 @@ const { globalData, useOnlineService } = getApp<AppOption>();
 $Component({
   properties: {
     type: {
-      type: String as PropType<"借阅书目" | "图书待还">,
-      default: "借阅书目",
+      type: String as PropType<"借阅书目 (小)" | "图书待还 (小)">,
+      default: "借阅书目 (小)",
     },
   },
 
@@ -25,10 +25,15 @@ $Component({
 
   lifetimes: {
     attached() {
+      const { type } = this.data;
       const books = get<BorrowBookData[]>(BORROW_BOOKS_KEY);
 
       if (books) this.setBooks(books);
       else this.getBooks("validate");
+
+      this.setData({
+        header: type.includes("借阅书目") ? "借阅书目" : "图书待还",
+      });
     },
   },
 

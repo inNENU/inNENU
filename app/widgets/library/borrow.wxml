@@ -1,7 +1,7 @@
 <wxs src="../../utils/utils.wxs" module="utils" />
 <view class="borrow-books widget wrapper-class">
   <view class="widget-header">
-    {{type}}
+    {{header}}
     <button
       class="refresh-button"
       type="default"
@@ -14,7 +14,7 @@
   <view class="widget-body">
     <view
       class="widget-content"
-      catch:tap="{{type === '图书待还'? 'showBooks': ''}}"
+      catch:tap="{{header === '图书待还'? 'showBooks': ''}}"
     >
       <login-hint wx:if="{{ status === 'login' }}" size="mini" />
       <error-hint
@@ -30,7 +30,7 @@
       <view wx:elif="{{books.length === 0}}" class="widget-hint-text"
         >暂无借阅书籍</view
       >
-      <block wx:elif="{{ type === '图书待还' }}">
+      <block wx:elif="{{ header === '图书待还' }}">
         <view class="outdate"
           >最近到期: {{hasOutDated? '已有图书到期' : recent + '天'}}</view
         >

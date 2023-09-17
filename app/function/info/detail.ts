@@ -1,7 +1,7 @@
 import { $Page } from "@mptool/all";
 
+import type { MainInfoType } from "./info-list.js";
 import { getInfo, getOnlineInfo } from "./info.js";
-import type { MainInfoType } from "./typings.js";
 import { showModal } from "../../api/index.js";
 import type { AppOption } from "../../app.js";
 import { appCoverPrefix } from "../../config/index.js";

@@ -5,11 +5,11 @@ import type { AppOption } from "../../app.js";
 import { appCoverPrefix } from "../../config/index.js";
 import { ensureActionLogin } from "../../login/index.js";
 import { getColor, popNotice } from "../../utils/page.js";
-import type { NoticeItem } from "../../widgets/notice/getList.js";
+import type { NoticeItem } from "../../widgets/notice/list.js";
 import {
   getNoticeList,
   getOnlineNoticeList,
-} from "../../widgets/notice/getList.js";
+} from "../../widgets/notice/list.js";
 
 const { globalData, useOnlineService } = getApp<AppOption>();
 

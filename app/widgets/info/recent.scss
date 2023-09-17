@@ -1,11 +1,18 @@
 @import "../../styles/lib/refresh-button";
 @import "../../styles/lib/widget";
 
-.notice-list {
-  flex: 1;
+.loading {
+  width: 48px;
+  height: 48px;
+  margin: 0 auto;
 }
 
-.notice {
+.refresh-button {
+  vertical-align: bottom;
+  float: right;
+}
+
+.info {
   position: relative;
   padding: 4px 0;
   font-size: 14px;

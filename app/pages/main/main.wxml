@@ -34,19 +34,34 @@
   <scroll-view scroll-y class="content">
     <template is="components" data="{{content: page.content}}" />
     <view class="widgets">
+      <recent-info-widget />
+      <recent-info-widget type="官网通知 (小)" />
+      <recent-info-widget type="官网通知 (大)" />
+      <recent-info-widget type="官网新闻 (小)" />
+      <recent-info-widget type="官网新闻" />
+      <recent-info-widget type="官网新闻 (大)" />
+      <recent-info-widget type="学术会议 (小)" />
+      <recent-info-widget type="学术会议" />
+      <recent-info-widget type="学术会议 (大)" />
+      <starred-info-widget />
+      <starred-info-widget type="官网收藏 (小)" />
+      <starred-info-widget type="官网收藏 (大)" />
       <library-borrow-widget />
-      <library-borrow-widget type="图书待还" />
+      <library-borrow-widget type="图书待还 (小)" />
       <starred-notice-widget />
-      <starred-notice-widget type="收藏（小）" />
-      <recent-notice-widget type="新闻" />
-      <recent-notice-widget type="通知（小）" />
-      <recent-notice-widget type="新闻（小）" />
+      <starred-notice-widget type="通知收藏 (小)" />
+      <starred-notice-widget type="通知收藏 (大)" />
+      <recent-notice-widget type="官网通知 (小)" />
+      <recent-notice-widget type="官网通知 (大)" />
+      <recent-notice-widget type="官网新闻" />
+      <recent-notice-widget type="官网新闻 (小)" />
+      <recent-notice-widget type="官网新闻 (大)" />
       <card-balance-widget />
       <library-people-widget />
       <course-widget />
-      <course-widget type="下节课程" />
-      <course-widget type="今日课程（中）" />
-      <course-widget type="课程表" />
+      <course-widget type="今日课程 (小)" />
+      <course-widget type="下节课程 (小)" />
+      <course-widget type="课程表 (大)" />
     </view>
   </scroll-view>
 </view>

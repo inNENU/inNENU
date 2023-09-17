@@ -4,12 +4,13 @@ import type { ClassData, CourseTableData, TableData } from "./typings.js";
 import { getCurrentTime, getWeekIndex } from "./utils.js";
 import { showModal } from "../../api/index.js";
 import { COURSE_DATA_KEY } from "../../config/index.js";
+import { getSize } from "../utils.js";
 
 $Component({
   properties: {
     type: {
       type: String as PropType<
-        "今日课程" | "今日课程（中）" | "下节课程" | "课程表"
+        "今日课程 (小)" | "下节课程 (小)" | "今日课程" | "课程表 (大)"
       >,
       default: "今日课程",
     },
@@ -19,14 +20,7 @@ $Component({
     attached() {
       const { type } = this.data;
 
-      this.setData({
-        size:
-          "今日课程（中）" === type
-            ? "medium"
-            : type === "课程表"
-            ? "large"
-            : "small",
-      });
+      this.setData({ size: getSize(type) });
       this.init();
     },
   },
@@ -49,9 +43,10 @@ $Component({
 
         if (type.includes("今日课程"))
           this.setTodayCourses(courseData, weekIndex);
-        else if (type === "下节课程")
+        else if (type.includes("下节课程"))
           this.setNextCourse(courseData, weekIndex, weeks);
-        else if (type === "课程表") this.setCourses(courseData, weekIndex);
+        else if (type.includes("课程表"))
+          this.setCourses(courseData, weekIndex);
       } else {
         this.setData({ missing: true });
       }
@@ -74,7 +69,7 @@ $Component({
     setTodayCourses(courseData: TableData, weekIndex: number) {
       const now = new Date();
       const isTomorrow = now.getHours() >= 21;
-      const day = isTomorrow ? now.getDay() + 1 : now.getDay();
+      const day = isTomorrow ? (now.getDay() + 1) % 7 : now.getDay();
       const dayIndex = day === 0 ? 6 : day - 1;
 
       const todayCourses = courseData.map((row) =>
@@ -103,10 +98,10 @@ $Component({
       const minutes = now.getMinutes();
       const isTomorrow = hours >= 20 || (hours === 19 && minutes >= 30);
 
-      const day = isTomorrow ? now.getDay() + 1 : now.getDay();
+      const day = now.getDay();
       let weekIndex = currentWeekIndex;
       const currentDayIndex = day === 0 ? 6 : day - 1;
-      let dayIndex = currentDayIndex;
+      let dayIndex = isTomorrow ? (currentDayIndex + 1) % 7 : currentDayIndex;
       let classIndex = isTomorrow
         ? 0
         : hours >= 18 || (hours === 17 && minutes >= 30)
