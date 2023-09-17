@@ -1,18 +1,6 @@
 @import "table";
 @import "../../styles/lib/widget";
 
-.course-widget {
-  &.medium {
-    grid-column-start: span 2;
-  }
-
-  &.large {
-    grid-row-start: span 2;
-    grid-column-start: span 2;
-    min-height: 320px;
-  }
-}
-
 .course-item {
   border-bottom: 1px solid var(--border-color);
   font-size: 12px;
@@ -24,13 +12,14 @@
 }
 
 .next-course-name {
-  font-weight: bold;
-  transform: skew(-10deg);
+  margin: 0 auto;
 
+  font-weight: bold;
   font-size: 18px;
   line-height: 1.75;
   text-align: center;
-  margin: 0 auto;
+
+  transform: skew(-10deg);
 }
 
 .next-course-location {
@@ -39,10 +28,7 @@
   text-align: right;
 }
 
-.course-table {
-  margin-top: 4px;
-}
-
-.name.small {
+.course-table-header-item,
+.course-table-course-item {
   font-size: 12px;
 }

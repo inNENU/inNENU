@@ -1,17 +1,8 @@
 @import "../../styles/lib/refresh-button";
 @import "../../styles/lib/widget";
 
-.recent-notice {
-  &.medium {
-    grid-column-start: span 2;
-  }
-
-  &.large {
-    grid-column-start: span 2;
-    grid-row-start: span 2;
-    min-height: 320px;
-  }
-}
+// .recent-notice {
+// }
 
 .loading {
   width: 48px;
@@ -29,23 +20,23 @@
   padding: 4px 0;
   font-size: 14px;
 
-  &::before {
+  &::after {
     content: " ";
 
     position: absolute;
-    top: 0;
     right: 0;
+    bottom: 0;
     left: 0;
 
     height: 1px;
     border-top: 1px solid var(--border-color);
 
     transform: scaleY(0.4);
-    transform-origin: 0 0%;
+    transform-origin: 0 100%;
+  }
 
-    &:last-child {
-      display: none;
-    }
+  &:last-child::after {
+    display: none;
   }
 }
 
@@ -65,9 +56,9 @@
   text-align: left;
 
   &.small {
+    overflow: hidden;
     font-size: 12px;
     text-overflow: ellipsis;
     white-space: nowrap;
-    overflow: hidden;
   }
 }

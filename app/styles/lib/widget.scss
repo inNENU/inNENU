@@ -12,6 +12,21 @@
   box-shadow: 1px 1px 2px 3px var(--card-shadow);
 
   text-align: left;
+
+  &.medium {
+    grid-column-start: span 2;
+    max-height: 160px;
+  }
+
+  &.large {
+    grid-row-start: span 2;
+    grid-column-start: span 2;
+    max-height: 328px;
+  }
+
+  &.full {
+    padding: 0;
+  }
 }
 
 .widget-header {
@@ -19,15 +34,29 @@
   font-weight: 500;
   font-size: 18px;
   transform: skew(-8deg);
+
+  .refresh-button {
+    transform: skew(8deg);
+  }
 }
 
-.widget-content {
+.widget-body {
+  position: relative;
+
   display: flex;
   flex: 1;
   flex-direction: column;
   align-items: stretch;
   justify-content: space-evenly;
 
+  overflow: hidden;
+
+  &.full {
+    margin: -8px -12px;
+  }
+}
+
+.widget-content {
   overflow-y: auto;
 }
 

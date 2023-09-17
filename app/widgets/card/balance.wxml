@@ -6,22 +6,19 @@
     catch:retry="getCardBalance"
   />
   <login-hint wx:elif="{{ status === 'login' }}" size="mini" />
-  <view wx:else class="widget-content">
-    <view class="money">
-      <image
-        wx:if="{{status === 'loading'}}"
-        class="loading"
-        src="/icon/loading.svg"
-      />
-      <block wx:else>{{balance}}</block>元
+  <view wx:else class="widget-body">
+    <view class="widget-content">
+      <view class="money">
+        <image
+          wx:if="{{status === 'loading'}}"
+          class="loading"
+          src="/icon/loading.svg"
+        />
+        <block wx:else>{{balance}}</block>元
+      </view>
     </view>
-    <button
-      class="refresh-button"
-      type="default"
-      size="mini"
-      catch:tap="refresh"
-    >
-      <text class="refresh-button-icon" />
-    </button>
   </view>
+  <button class="refresh-button" type="default" size="mini" catch:tap="refresh">
+    <text class="refresh-button-icon" />
+  </button>
 </view>

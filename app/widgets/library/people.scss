@@ -1,32 +1,41 @@
 @import "../../styles/lib/widget";
 
 .info {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
   position: relative;
+
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
   padding-bottom: 8px;
 
   &::before {
     content: "";
+
     position: absolute;
-    left: 0;
-    bottom: 0;
     right: 0;
+    bottom: 0;
+    left: 0;
+
     height: 4px;
-    background-color: rgb(127, 127, 127, 0.15);
     border-radius: 12px;
+
+    background-color: rgb(127 127 127 / 15%);
   }
 
   &::after {
     content: "";
+
     position: absolute;
-    left: 0;
     bottom: 0;
-    height: 4px;
+    left: 0;
+
     width: var(--progress);
-    background-color: var(--action-color);
+    height: 4px;
     border-radius: 12px;
+
+    background-color: var(--action-color);
+
     transition: width 0.5s ease-in-out;
   }
 }
@@ -42,13 +51,13 @@
 // }
 
 .label {
-  font-size: 17px;
-  font-weight: bold;
   z-index: 2;
+  font-weight: bold;
+  font-size: 17px;
 }
 
 .value {
-  text-align: right;
-  font-size: 15px;
   z-index: 2;
+  font-size: 15px;
+  text-align: right;
 }
