@@ -4,7 +4,7 @@
   catch:tap="$bindGo"
 >
   <view class="widget-header">
-    近期学校{{ noticeType === 'news'? '新闻' : '通知'}}
+    近期{{ noticeType === 'news'? '新闻' : '通知'}}
     <button
       class="refresh-button"
       type="default"

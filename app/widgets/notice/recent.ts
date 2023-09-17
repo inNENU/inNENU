@@ -45,21 +45,25 @@ $Component({
     attached() {
       const { type } = this.data;
       const noticeType = type.includes("新闻") ? "news" : "notice";
-      const data = get<NoticeItem[]>(
-        noticeType === "news" ? NEWS_LIST_KEY : NOTICE_LIST_KEY,
+
+      this.setData(
+        {
+          noticeType,
+          size: type.includes("大")
+            ? "large"
+            : type.includes("小")
+            ? "small"
+            : "medium",
+        },
+        () => {
+          const data = get<NoticeItem[]>(
+            noticeType === "news" ? NEWS_LIST_KEY : NOTICE_LIST_KEY,
+          );
+
+          if (data) this.setData({ status: "success", data });
+          else this.getNoticeList("validate");
+        },
       );
-
-      if (data) this.setData({ status: "success", data });
-      else this.getNoticeList("validate");
-
-      this.setData({
-        noticeType,
-        size: type.includes("大")
-          ? "large"
-          : type.includes("小")
-          ? "small"
-          : "medium",
-      });
     },
   },
 
