@@ -10,7 +10,7 @@
       <image wx:if="{{!weather}}" src="/icon/loading.svg" class="loading" />
 
       <block wx:elif="{{type === '今日天气 (小)'}}">
-        <view class="weather-image">
+        <view class="weather-image shrink">
           <view class="{{tool.getClass(weather)}}" />
         </view>
         <view class="location">
@@ -28,6 +28,9 @@
         <view class="sub-info">
           <text class="air">{{weather.air.aqiName}}</text>
           <text class="wind">{{tool.getWind(weather)}}</text>
+          <text wx:for="{{weather.alarm}}" class="alarm"
+            >{{item.type}}{{item.level}}预警</text
+          >
         </view>
       </block>
 
@@ -35,21 +38,26 @@
         <view class="location">
           <text class="air">{{weather.air.aqiName}}</text>
           <text class="wind">{{tool.getWind(weather)}}</text>
+          <text wx:for="{{weather.alarm}}" class="alarm"
+            >{{item.type}}{{item.level}}预警</text
+          >
+
           <text class="icon-font icon-location" />
           东北师大
         </view>
 
         <view class="main-info">
-          <image
-            src="{{weatherIcon[weather.observe.weatherCode]}}"
-            class="current-icon"
-          />
           <view class="current">{{weather.observe.degree}}°</view>
           <view class="status">{{weather.observe.weather}}</view>
           <view class="range">
             {{weather.dayForecast[1].minDegree}}° -
             {{weather.dayForecast[1].maxDegree}}°
           </view>
+          <view class="placeholder" />
+          <image
+            src="{{weatherIcon[weather.observe.weatherCode]}}"
+            class="current-icon"
+          />
         </view>
         <scroll-view class="hours" enable-flex scroll-x>
           <block wx:for="{{weather.hourForecast}}" wx:key="update_time">
@@ -101,6 +109,9 @@
         <view class="location">
           <text class="air">{{weather.air.aqiName}}</text>
           <text class="wind">{{tool.getWind(weather)}}</text>
+          <text wx:for="{{weather.alarm}}" class="alarm"
+            >{{item.type}}{{item.level}}预警</text
+          >
           <text class="icon-font icon-location" />
           东北师大
         </view>
@@ -155,6 +166,9 @@
           东北师大
           <text class="air">{{weather.air.aqiName}}</text>
           <text class="wind">{{tool.getWind(weather)}}</text>
+          <text wx:for="{{weather.alarm}}" class="alarm"
+            >{{item.type}}{{item.level}}预警</text
+          >
         </view>
         <view class="main-info">
           <view class="current">{{weather.observe.degree}}°</view>

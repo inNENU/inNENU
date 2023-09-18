@@ -23,6 +23,7 @@
 .location {
   font-size: 14px;
   line-height: 2;
+  overflow-x: auto;
 }
 
 .current {
@@ -32,10 +33,12 @@
 }
 
 .air,
-.wind {
+.wind,
+.alarm {
   line-height: 1.25;
   background-color: rgba(127, 127, 127, 0.25);
   border-radius: 4px;
+  font-size: 12px;
   margin: 2px 4px;
   padding: 2px 4px;
 }
@@ -110,6 +113,7 @@
   .sub-info {
     justify-content: start;
     font-size: 14px;
+    flex-wrap: wrap;
   }
 }
 
@@ -121,6 +125,7 @@
     font-size: 14px;
   }
 
+  .alarm,
   .air,
   .wind {
     float: right;
@@ -130,6 +135,11 @@
     display: flex;
     justify-content: start;
     align-items: flex-end;
+  }
+
+  .placeholder {
+    flex: 1;
+    margin: 0 0 0 auto;
   }
 
   .current-icon {
@@ -166,7 +176,8 @@
 
 .recent.medium {
   .air,
-  .wind {
+  .wind,
+  .alarm {
     float: right;
   }
 
