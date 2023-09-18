@@ -97,7 +97,7 @@ $Component({
           return this.getEmails();
         }
 
-        return this.setData({ status: "error" });
+        return this.setData({ status: "error", errMsg: "登陆失败" });
       }
 
       const result = await (useOnlineService("recent-email")
@@ -127,7 +127,7 @@ $Component({
         loginMethod = "login";
 
         return this.getEmails();
-      } else this.setData({ status: "error", hint: result.msg });
+      } else this.setData({ status: "error", errMsg: result.msg });
     },
 
     async openEmail({

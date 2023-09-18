@@ -4,6 +4,10 @@ Component({
       type: String,
       default: "standard",
     },
+    hint: {
+      type: String,
+      default: "获取失败",
+    },
   },
 
   methods: {

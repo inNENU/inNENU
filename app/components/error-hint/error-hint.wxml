@@ -6,7 +6,7 @@
       color="#ff3333"
       size="{{size =='mini' ? 24 : 80}}"
     />
-    <view class="text">获取失败</view>
+    <view class="text">{{hint}}</view>
   </view>
   <button
     class="retry-button"

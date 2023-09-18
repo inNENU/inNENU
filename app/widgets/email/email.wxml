@@ -8,7 +8,11 @@
   </view>
   <view class="widget-body">
     <view class="widget-content">
-      <error-hint wx:if="{{status === 'error'}}" catch:retry="retry" />
+      <error-hint
+        wx:if="{{status === 'error'}}"
+        hint="{{errMsg}}"
+        catch:retry="retry"
+      />
       <login-hint wx:elif="{{status === 'login'}}" source="校园邮箱" />
       <image
         wx:if="{{status === 'loading'}}"
