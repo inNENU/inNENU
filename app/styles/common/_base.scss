@@ -28,6 +28,11 @@ button {
     background-color: var(--theme-color);
   }
 
+  &[type="warn"].warn {
+    background-color: var(--bg-color-block);
+    color: #fa5151;
+  }
+
   &[type="plain"] {
     color: inherit;
   }

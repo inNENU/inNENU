@@ -11,11 +11,16 @@
       <error-hint
         wx:if="{{status === 'error'}}"
         hint="{{errMsg}}"
+        size="mini"
         catch:retry="retry"
       />
-      <login-hint wx:elif="{{status === 'login'}}" source="校园邮箱" />
+      <login-hint
+        wx:elif="{{status === 'login'}}"
+        size="mini"
+        source="校园邮箱"
+      />
       <image
-        wx:if="{{status === 'loading'}}"
+        wx:elif="{{status === 'loading'}}"
         class="loading"
         src="/icon/loading.svg"
       />

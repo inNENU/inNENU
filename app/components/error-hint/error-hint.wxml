@@ -9,7 +9,8 @@
     <view class="text">{{hint}}</view>
   </view>
   <button
-    class="retry-button"
+    class="retry-button warn"
+    type="warn"
     size="{{size === 'mini'? 'mini': 'default'}}"
     catch:tap="retry"
   >
