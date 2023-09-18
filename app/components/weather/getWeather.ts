@@ -278,9 +278,14 @@ export interface WeatherData {
 
 export const getWeather = async (): Promise<WeatherData> => {
   const {
-    data: { air, alarm, ...data },
+    data: { alarm, ...data },
   } = await request<WeatherRawData>(
-    `https://wis.qq.com/weather/common?source=pc&weather_type=observe|rise|air|forecast_1h|forecast_24h|index|alarm|limit|tips&province=吉林&city=长春&county=南关`,
+    `https://wis.qq.com/weather/common?source=pc&weather_type=observe|rise|forecast_1h|forecast_24h|index|alarm|limit|tips&province=吉林&city=长春&county=南关`,
+  );
+  const {
+    data: { air },
+  } = await request<WeatherRawData>(
+    `https://wis.qq.com/weather/common?source=pc&weather_type=air&province=吉林&city=长春`,
   );
 
   const {
