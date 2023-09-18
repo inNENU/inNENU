@@ -3,6 +3,7 @@
   "enablePullDownRefresh": true,
   "usingComponents": {
     "add-my-app": "/components/add-my-app/add-my-app",
-    "card-balance-widget": "/widgets/card/balance"
+    "card-balance-widget": "/widgets/card/balance",
+    "course-widget": "/widgets/course/course"
   }
 }

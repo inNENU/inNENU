@@ -12,10 +12,6 @@
   right: 12px;
   bottom: 12px;
   background-color: rgba(255, 255, 255, 0.25) !important;
-
-  @media (prefers-color-scheme: dark) {
-    background-color: rgba(0, 0, 0, 0.25) !important;
-  }
 }
 
 .loading {
