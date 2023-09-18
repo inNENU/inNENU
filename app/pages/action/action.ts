@@ -7,7 +7,10 @@ import { reportInfo } from "../../utils/report.js";
 
 const { globalData } = getApp<AppOption>();
 
-$Page("action", {
+const PAGE_ID = "action";
+const PAGE_TITLE = "功能页";
+
+$Page(PAGE_ID, {
   onLoad(options) {
     const { theme } = globalData;
 
@@ -21,14 +24,14 @@ $Page("action", {
   },
 
   onShareAppMessage: () => ({
-    title: "功能页",
+    title: PAGE_TITLE,
     path: "/pages/action/action?action=all",
   }),
 
-  onShareTimeline: () => ({ title: "功能页", query: "action=all" }),
+  onShareTimeline: () => ({ title: PAGE_TITLE, query: "action=all" }),
 
   onAddToFavorites: () => ({
-    title: "功能页",
+    title: PAGE_TITLE,
     imageUrl: `${appCoverPrefix}.jpg`,
     query: "action=all",
   }),
