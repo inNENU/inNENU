@@ -32,6 +32,15 @@ $Page("weather", {
 
   onLoad() {
     const weather = get<WeatherData>(WEATHER_KEY);
+    const currentHour = new Date().getHours();
+
+    this.setData({
+      // 18 点至次日 5 点为夜间
+      night: currentHour > 18 || currentHour < 5,
+      firstPage: getCurrentPages().length === 1,
+      color: getColor(),
+      statusBarHeight: globalData.info.statusBarHeight,
+    });
 
     if (wx.getStorageSync(INITIALIZED_KEY)) {
       const weatherIcon = <Record<string, string>>(
@@ -47,10 +56,6 @@ $Page("weather", {
 
         weatherIcon,
         hintIcon,
-
-        color: getColor(),
-        firstPage: getCurrentPages().length === 1,
-        statusBarHeight: globalData.info.statusBarHeight,
       });
     } else {
       // update icon

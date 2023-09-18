@@ -10,9 +10,7 @@ import {
   server,
 } from "../../config/index.js";
 
-const {
-  globalData: { darkmode, info },
-} = getApp<AppOption>();
+const { globalData } = getApp<AppOption>();
 
 const PAGE_TITLE = "东师天气";
 
@@ -32,6 +30,15 @@ $Page("weather", {
 
   onLoad() {
     const weather = get<WeatherData>(WEATHER_KEY);
+    const currentHour = new Date().getHours();
+    const { darkmode, info } = globalData;
+
+    this.setData({
+      // 18 点至次日 5 点为夜间
+      night: currentHour > 18 || currentHour < 5,
+      firstPage: getCurrentPages().length === 1,
+      statusBarHeight: info.statusBarHeight,
+    });
 
     if (wx.getStorageSync(INITIALIZED_KEY)) {
       const weatherIcon = <Record<string, string>>(
@@ -42,14 +49,8 @@ $Page("weather", {
       );
 
       this.setData({
-        // 18 点至次日 5 点为夜间
-        night: new Date().getHours() > 18 || new Date().getHours() < 5,
-
         weatherIcon,
         hintIcon,
-
-        firstPage: getCurrentPages().length === 1,
-        statusBarHeight: info.statusBarHeight,
       });
     } else {
       // update icon

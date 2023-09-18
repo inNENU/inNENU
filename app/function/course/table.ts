@@ -21,7 +21,7 @@ import type {
   TableData,
   WeekRange,
 } from "../../widgets/course/typings.js";
-import { getCurrentTime } from "../../widgets/course/utils.js";
+import { getCurrentTime, getWeekIndex } from "../../widgets/course/utils.js";
 import { getDisplayTime } from "../grade/under-grade-list.js";
 
 const { globalData, useOnlineService } = getApp<AppOption>();
@@ -81,17 +81,8 @@ const handleCourseTable = (
   return { courseData, weeks, startTime };
 };
 
-const getWeekIndex = (startTime: string, maxWeek: number): number => {
-  const passedWeeks = Math.floor(
-    (new Date().getTime() - new Date(startTime).getTime()) / DAY / 7,
-  );
-
-  return passedWeeks >= 0 && passedWeeks + 1 <= maxWeek ? passedWeeks + 1 : 0;
-};
-
 const getDates = (startTime: string, weekIndex: number): string[] => {
-  const weekStartTime =
-    new Date(startTime).getTime() + (weekIndex - 1) * 7 * DAY;
+  const weekStartTime = Date.parse(startTime) + (weekIndex - 1) * 7 * DAY;
 
   return [0, 1, 2, 3, 4, 5, 6].map((day) => {
     const date = new Date(weekStartTime + day * DAY);
