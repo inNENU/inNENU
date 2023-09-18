@@ -8,7 +8,29 @@
 />
 <license />
 <view class="{{theme}} function-wrapper grey">
-  <weather custom-class="weather" />
+  <view
+    class="search-navigation-bar"
+    style="padding-top:{{statusBarHeight}}px;"
+  >
+    <view
+      class="search-wrapper"
+      style="width: calc(100% - {{menuSpace + 10}}px)"
+    >
+      <search
+        custom-class="search"
+        words="{{words}}"
+        placeholder="搜索功能大厅"
+        catch:searching="searching"
+        catch:search="search"
+      />
+    </view>
+  </view>
+  <view
+    class="search-nav-placeholder"
+    style="height:{{statusBarHeight + 44}}px;"
+  >
+    到头啦~人家被你拉得好痛阿(*´д`*) 不许你再拉人家~╭(╯^╰)╮
+  </view>
   <scroll-view scroll-y class="functions">
     <template is="components" data="{{content: page.content}}" />
   </scroll-view>

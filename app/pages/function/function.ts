@@ -7,6 +7,7 @@ import { appCoverPrefix } from "../../config/index.js";
 import { DAY } from "../../utils/constant.js";
 import { getColor, popNotice, resolvePage, setPage } from "../../utils/page.js";
 import { checkResource } from "../../utils/resource.js";
+import { search } from "../../utils/search.js";
 import { getIdentity } from "../../utils/settings.js";
 
 const { globalData } = getApp<AppOption>();
@@ -27,10 +28,13 @@ const defaultPage = <PageDataWithContent>resolvePage(
 
 $Page(PAGE_ID, {
   data: {
+    theme: globalData.theme,
+    statusBarHeight: globalData.info.statusBarHeight,
+
     /** 页面数据 */
     page: defaultPage,
 
-    theme: globalData.theme,
+    menuSpace: globalData.env === "app" ? 10 : 90,
   },
 
   async onPreload() {
@@ -135,5 +139,29 @@ $Page(PAGE_ID, {
         get(PAGE_ID) || this.data.page,
       );
     }
+  },
+
+  /**
+   * 在搜索框中输入时触发的函数
+   *
+   * @param value 输入的搜索词
+   */
+  async searching({ detail: { value } }: WechatMiniprogram.Input) {
+    const words = await search<string[]>({
+      scope: "function",
+      type: "word",
+      word: value,
+    });
+
+    this.setData({ words });
+  },
+
+  /**
+   * 跳转到搜索页面
+   *
+   * @param value 输入的搜索词
+   */
+  search({ detail }: WechatMiniprogram.Input) {
+    this.$go(`search?type=${PAGE_ID}&word=${detail.value}`);
   },
 });

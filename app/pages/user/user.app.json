@@ -3,6 +3,8 @@
   "enablePullDownRefresh": true,
   "usingComponents": {
     "card-balance-widget": "/widgets/card/balance",
-    "course-widget": "/widgets/course/course"
+    "course-widget": "/widgets/course/course",
+    "email-widget": "/widgets/email/email",
+    "starred-notice-widget": "/widgets/notice/star"
   }
 }

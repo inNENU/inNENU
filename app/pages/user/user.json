@@ -4,6 +4,8 @@
   "usingComponents": {
     "add-my-app": "/components/add-my-app/add-my-app",
     "card-balance-widget": "/widgets/card/balance",
-    "course-widget": "/widgets/course/course"
+    "course-widget": "/widgets/course/course",
+    "email-widget": "/widgets/email/email",
+    "starred-notice-widget": "/widgets/notice/star"
   }
 }

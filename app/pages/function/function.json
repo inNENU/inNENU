@@ -3,6 +3,6 @@
   "enablePullDownRefresh": true,
   "initialRenderingCache": "static",
   "usingComponents": {
-    "weather": "/components/weather/weather"
+    "search": "/components/search/search"
   }
 }

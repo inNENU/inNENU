@@ -200,6 +200,6 @@ $Page(PAGE_ID, {
    * @param value 输入的搜索词
    */
   search({ detail }: WechatMiniprogram.Input) {
-    this.$go(`search?name=${PAGE_ID}&word=${detail.value}`);
+    this.$go(`search?type=${PAGE_ID}&word=${detail.value}`);
   },
 });

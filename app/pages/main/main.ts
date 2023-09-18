@@ -166,6 +166,6 @@ $Page(PAGE_ID, {
    * @param value 输入的搜索词
    */
   search({ detail }: WechatMiniprogram.Input) {
-    this.$go(`search?name=all&word=${detail.value}`);
+    this.$go(`search?type=all&word=${detail.value}`);
   },
 });
