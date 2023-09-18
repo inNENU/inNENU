@@ -17,5 +17,5 @@ $Component({
     },
   },
 
-  externalClasses: ["custom-class"],
+  externalClasses: ["wrapper-class"],
 });

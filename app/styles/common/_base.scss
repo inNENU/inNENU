@@ -28,6 +28,11 @@ button {
     background-color: var(--theme-color);
   }
 
+  &.warn {
+    background-color: var(--bg-color-block);
+    color: #fa5151;
+  }
+
   &[type="warn"].warn {
     background-color: var(--bg-color-block);
     color: #fa5151;
