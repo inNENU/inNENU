@@ -11,6 +11,7 @@
     "recent-info-widget": "/widgets/info/recent",
     "starred-info-widget": "/widgets/info/star",
     "recent-notice-widget": "/widgets/notice/recent",
-    "starred-notice-widget": "/widgets/notice/star"
+    "starred-notice-widget": "/widgets/notice/star",
+    "weather-widget": "/widgets/weather/weather"
   }
 }

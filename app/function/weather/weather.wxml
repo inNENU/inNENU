@@ -52,7 +52,7 @@
     <view class="detail"
       >{{weather.observe.windDirection}}风 {{weather.observe.windPower}}级</view
     >
-    <view class="tip" catch:tap="refresh">{{weather.tips[tipIndex]}}</view>
+    <view class="tip" catch:tap="changeHint">{{weather.tips[tipIndex]}}</view>
   </view>
   <view class="forecast bb">
     <view class="item">
@@ -98,11 +98,15 @@
       <view class="date">{{item.date}}</view>
       <view class="weather">{{item.dayWeatherShort}}</view>
       <image class="icon" src="{{weatherIcon[item.dayWeatherCode]}}" />
+      <view class="wind"
+        >{{item.dayWindDirection}} {{item.dayWindPower}}级</view
+      >
       <view class="placeholder" />
       <image class="icon" src="{{weatherIcon[item.nightWeatherCode]}}" />
       <view class="weather">{{item.nightWeatherShort}}</view>
-      <view class="wind">{{item.nightWindDirection}}</view>
-      <view class="wind">{{item.nightWindPower}}级</view>
+      <view class="wind"
+        >{{item.nightWindDirection}} {{item.nightWindPower}}级</view
+      >
     </view>
     <!-- 温度曲线 -->
     <canvas type="2d" class="temperature-canvas" />
@@ -121,6 +125,5 @@
       <view class="title">{{item.name}}</view>
     </view>
   </view>
-
   <view class="footer">数据来源: 中国天气网</view>
 </view>

@@ -1,10 +1,13 @@
 import { $Component, set } from "@mptool/all";
 
-import type { WeatherData } from "./getWeather.js";
-import { getOnlineWeather, getWeather } from "./getWeather.js";
 import type { AppOption } from "../../app.js";
 import { WEATHER_KEY } from "../../config/index.js";
 import { MINUTE } from "../../utils/constant.js";
+import type { WeatherData } from "../../widgets/weather/getWeather.js";
+import {
+  getOnlineWeather,
+  getWeather,
+} from "../../widgets/weather/getWeather.js";
 
 const { globalData, useOnlineService } = getApp<AppOption>();
 
@@ -17,7 +20,7 @@ $Component({
     /** 提示的索引值 */
     tipIndex: 0,
     /** 天气信息 */
-    weather: <WeatherData>{},
+    weather: <WeatherData | null>null,
     statusBarHeight: globalData.info.statusBarHeight,
   },
 
@@ -39,17 +42,10 @@ $Component({
     },
 
     /** 变更提示信息 */
-    refresh(): void {
-      const { length } = this.data.weather.tips;
-      const { tipIndex } = this.data;
+    changeHint() {
+      const { weather, tipIndex } = this.data;
 
-      this.setData({ tipIndex: tipIndex === 0 ? length - 1 : tipIndex - 1 });
-    },
-
-    navigate(): void {
-      const { target } = this.data;
-
-      if (target) this.$go(target);
+      this.setData({ tipIndex: (tipIndex + 1) % weather!.tips.length });
     },
   },
 

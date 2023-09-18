@@ -8,7 +8,7 @@
 />
 <license />
 <view class="{{theme}} function-wrapper grey">
-  <weather custom-class="weather" target="weather" />
+  <weather custom-class="weather" />
   <scroll-view scroll-y class="functions">
     <template is="components" data="{{content: page.content}}" />
   </scroll-view>

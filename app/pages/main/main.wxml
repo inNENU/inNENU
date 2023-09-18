@@ -34,14 +34,19 @@
   <scroll-view scroll-y class="content">
     <template is="components" data="{{content: page.content}}" />
     <view class="widgets">
-      <email-widget />
+      <weather-widget />
+      <weather-widget type="今日天气 (小)" />
+      <weather-widget type="近日天气 (小)" />
+      <weather-widget type="近日天气" />
+      <weather-widget type="近日天气 (大)" />
+      <!-- <email-widget />
       <email-widget type="未读邮件 (小)" />
       <email-widget type="未读邮件" />
       <email-widget type="未读邮件 (大)" />
       <email-widget type="最近邮件 (小)" />
       <email-widget type="最近邮件" />
       <email-widget type="最近邮件 (大)" />
-      <!-- <recent-info-widget />
+      <recent-info-widget />
       <recent-info-widget type="官网通知 (小)" />
       <recent-info-widget type="官网通知 (大)" />
       <recent-info-widget type="官网新闻 (小)" />

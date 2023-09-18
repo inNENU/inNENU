@@ -2,11 +2,6 @@ import { $Page, get, readFile, set } from "@mptool/all";
 
 import { showModal } from "../../api/index.js";
 import type { AppOption } from "../../app.js";
-import type { WeatherData } from "../../components/weather/getWeather.js";
-import {
-  getOnlineWeather,
-  getWeather,
-} from "../../components/weather/getWeather.js";
 import {
   INITIALIZED_KEY,
   WEATHER_KEY,
@@ -14,6 +9,11 @@ import {
 } from "../../config/index.js";
 import { MINUTE } from "../../utils/constant.js";
 import { getColor } from "../../utils/page.js";
+import type { WeatherData } from "../../widgets/weather/getWeather.js";
+import {
+  getOnlineWeather,
+  getWeather,
+} from "../../widgets/weather/getWeather.js";
 
 const { globalData, useOnlineService } = getApp<AppOption>();
 
@@ -67,14 +67,10 @@ $Page("weather", {
       this.$on("inited", this.updateIcon);
     }
 
-    // 如果天气数据获取时间小于 5 分钟，则可以使用
     if (weather) {
       this.drawCanvas(weather);
-
       this.setData({ weather });
-    }
-    // 需要重新获取并处理
-    else {
+    } else {
       (useOnlineService("weather") ? getOnlineWeather : getWeather)().then(
         (weather) => {
           this.drawCanvas(weather);
@@ -272,11 +268,10 @@ $Page("weather", {
   },
 
   /** 更新提示 */
-  refresh() {
-    const { length } = this.data.weather.tips;
-    const numbers = this.data.tipIndex;
+  changeHint() {
+    const { weather, tipIndex } = this.data;
 
-    this.setData({ tipIndex: numbers === 0 ? length - 1 : numbers - 1 });
+    this.setData({ tipIndex: (tipIndex + 1) % weather.tips.length });
   },
 
   showAqi() {

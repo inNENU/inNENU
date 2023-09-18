@@ -1,9 +1,10 @@
-<wxs src="./weather.wxs" module="tool" />
+<wxs src="../../widgets/weather/weather.wxs" module="tool" />
 <!-- 天气 -->
 <view
   class="weather-wrapper animation-fade {{tool.getBgClass(weather)}} wrapper-class"
   style="padding-top:{{statusBarHeight}}px"
-  catch:tap="navigate"
+  data-url="weather"
+  catch:tap="$bindGo"
 >
   <view class="weather-image">
     <view class="{{tool.getClass(weather)}}" />
@@ -23,11 +24,10 @@
         {{weather.dayForecast[1].maxDegree}}°C
       </view>
     </view>
-    <view class="hint" catch:tap="refresh">
+    <view class="hint" catch:tap="changeHint">
       {{weather.tips[tipIndex]}}
       <text class="icon-font icon-refresh" />
     </view>
   </block>
   <image wx:else src="/icon/loading.svg" class="loading" />
-  <slot />
 </view>

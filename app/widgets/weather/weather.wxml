@@ -1,0 +1,204 @@
+<wxs src="./weather.wxs" module="tool" />
+<!-- 天气 -->
+<view
+  class="weather-widget widget {{size}} {{id}} {{tool.getBgClass(weather)}} wrapper-class"
+  data-url="weather"
+  catch:tap="$bindGo"
+>
+  <view class="widget-body">
+    <view class="widget-content">
+      <image wx:if="{{!weather}}" src="/icon/loading.svg" class="loading" />
+
+      <block wx:elif="{{type === '今日天气 (小)'}}">
+        <view class="weather-image">
+          <view class="{{tool.getClass(weather)}}" />
+        </view>
+        <view class="location">
+          <text class="icon-font icon-location" />
+          东北师大
+        </view>
+        <view class="main-info">
+          <view class="current">{{weather.observe.degree}}°</view>
+          <view class="status">{{weather.observe.weather}}</view>
+        </view>
+        <view class="range">
+          {{weather.dayForecast[1].minDegree}}° -
+          {{weather.dayForecast[1].maxDegree}}°
+        </view>
+        <view class="sub-info">
+          <text class="air">{{weather.air.aqiName}}</text>
+          <text class="wind">{{tool.getWind(weather)}}</text>
+        </view>
+      </block>
+
+      <block wx:elif="{{type === '今日天气'}}">
+        <view class="location">
+          <text class="air">{{weather.air.aqiName}}</text>
+          <text class="wind">{{tool.getWind(weather)}}</text>
+          <text class="icon-font icon-location" />
+          东北师大
+        </view>
+
+        <view class="main-info">
+          <image
+            src="{{weatherIcon[weather.observe.weatherCode]}}"
+            class="current-icon"
+          />
+          <view class="current">{{weather.observe.degree}}°</view>
+          <view class="status">{{weather.observe.weather}}</view>
+          <view class="range">
+            {{weather.dayForecast[1].minDegree}}° -
+            {{weather.dayForecast[1].maxDegree}}°
+          </view>
+        </view>
+        <scroll-view class="hours" enable-flex scroll-x>
+          <block wx:for="{{weather.hourForecast}}" wx:key="update_time">
+            <view wx:if="{{index <= 26}}" class="item">
+              <text class="time">{{item.time}}</text>
+              <image class="icon" src="{{weatherIcon[item.weatherCode]}}" />
+              <text class="degree">{{item.degree}}</text>
+            </view>
+          </block>
+        </scroll-view>
+      </block>
+
+      <block wx:elif="{{type === '近日天气 (小)'}}">
+        <view class="weather-image shrink">
+          <view class="{{tool.getClass(weather)}}" />
+        </view>
+        <view class="location">
+          <text class="icon-font icon-location" />
+          东北师大
+        </view>
+        <view class="main-info">
+          <view class="current">{{weather.observe.degree}}°</view>
+          <view class="status">{{weather.observe.weather}}</view>
+        </view>
+        <view class="days">
+          <block wx:for="{{weather.dayForecast}}" wx:key="weekday">
+            <view wx:if="{{index >= 2 && index <= 4}}" class="item">
+              <view class="day">{{item.weekday}}</view>
+              <view class="icons">
+                <image
+                  class="icon"
+                  src="{{weatherIcon[item.dayWeatherCode]}}"
+                />
+                <image
+                  class="icon"
+                  src="{{weatherIcon[item.nightWeatherCode]}}"
+                />
+              </view>
+              <view class="weather"
+                >{{tool.getWeather(item.dayWeatherShort,
+                item.nightWeatherShort)}}</view
+              >
+            </view>
+          </block>
+        </view>
+      </block>
+
+      <block wx:elif="{{type === '近日天气'}}">
+        <view class="location">
+          <text class="air">{{weather.air.aqiName}}</text>
+          <text class="wind">{{tool.getWind(weather)}}</text>
+          <text class="icon-font icon-location" />
+          东北师大
+        </view>
+        <view class="body">
+          <view class="info">
+            <image
+              src="{{weatherIcon[weather.observe.weatherCode]}}"
+              class="current-icon"
+            />
+            <view class="main-info">
+              <view class="current">{{weather.observe.degree}}°</view>
+              <view class="status">{{weather.observe.weather}}</view>
+            </view>
+            <view>
+              <view class="range">
+                {{weather.dayForecast[1].minDegree}}° -
+                {{weather.dayForecast[1].maxDegree}}°
+              </view>
+            </view>
+          </view>
+          <scroll-view scroll-x class="days-wrapper">
+            <view class="days">
+              <block wx:for="{{weather.dayForecast}}" wx:key="weekday">
+                <view class="item">
+                  <view class="day">{{item.weekday}}</view>
+                  <view class="icons">
+                    <image
+                      class="icon"
+                      src="{{weatherIcon[item.dayWeatherCode]}}"
+                    />
+                    <image
+                      class="icon"
+                      src="{{weatherIcon[item.nightWeatherCode]}}"
+                    />
+                  </view>
+                  <view class="weather"
+                    >{{tool.getWeather(item.dayWeatherShort,
+                    item.nightWeatherShort)}}</view
+                  >
+                </view>
+              </block>
+            </view>
+          </scroll-view>
+        </view>
+      </block>
+      <block wx:elif="{{type === '近日天气 (大)'}}">
+        <view class="weather-image">
+          <view class="{{tool.getClass(weather)}}" />
+        </view>
+        <view class="location">
+          <text class="icon-font icon-location" />
+          东北师大
+          <text class="air">{{weather.air.aqiName}}</text>
+          <text class="wind">{{tool.getWind(weather)}}</text>
+        </view>
+        <view class="main-info">
+          <view class="current">{{weather.observe.degree}}°</view>
+          <view class="status">{{weather.observe.weather}}</view>
+          <view class="range">
+            {{weather.dayForecast[1].minDegree}}° -
+            {{weather.dayForecast[1].maxDegree}}°
+          </view>
+        </view>
+        <scroll-view class="hours" enable-flex scroll-x>
+          <block wx:for="{{weather.hourForecast}}" wx:key="update_time">
+            <view wx:if="{{index <= 26}}" class="item">
+              <text class="time">{{item.time}}</text>
+              <image class="icon" src="{{weatherIcon[item.weatherCode]}}" />
+              <text class="degree">{{item.degree}}</text>
+            </view>
+          </block>
+        </scroll-view>
+        <view class="divline"></view>
+        <view class="day-list">
+          <block wx:for="{{weather.dayForecast}}" wx:key="weekday">
+            <view wx:if="{{index > 1 && index < 7}}" class="day-item">
+              <view class="day">{{item.weekday}}</view>
+              <view class="icons">
+                <image
+                  class="icon"
+                  src="{{weatherIcon[item.dayWeatherCode]}}"
+                />
+                <image
+                  class="icon"
+                  src="{{weatherIcon[item.nightWeatherCode]}}"
+                />
+              </view>
+              <view class="temperature"
+                >{{item.minDegree}}° - {{item.maxDegree}}°</view
+              >
+              <view class="weather"
+                >{{tool.getWeather(item.dayWeatherShort,
+                item.nightWeatherShort)}}</view
+              >
+            </view>
+          </block>
+        </view>
+      </block>
+    </view>
+  </view>
+</view>
