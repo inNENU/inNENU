@@ -1,0 +1,38 @@
+<view class="email widget {{size}} wrapper-class" catch:tap="openEmail">
+  <view class="widget-header">
+    {{header}}
+    <text wx:if="{{unread}}" class="unread-badge">{{unread}}</text>
+    <button class="refresh-button" type="default" size="mini" catch:tap="retry">
+      <text class="refresh-button-icon" />
+    </button>
+  </view>
+  <view class="widget-body">
+    <view class="widget-content">
+      <error-hint wx:if="{{status === 'error'}}" catch:retry="retry" />
+      <login-hint wx:elif="{{status === 'login'}}" source="校园邮箱" />
+      <image
+        wx:if="{{status === 'loading'}}"
+        class="loading"
+        src="/icon/loading.svg"
+      />
+      <view wx:else class="email-list">
+        <view
+          wx:for="{{recent}}"
+          class="email-item"
+          hover-class="button-hover"
+          data-mid="{{item.mid}}"
+          catch:tap="openEmail"
+        >
+          <view class="subject">{{item.subject}}</view>
+          <view wx:if="{{size === 'medium'}}" class="time"
+            >{{item.shortDate}}</view
+          >
+          <view wx:if="{{size === 'large'}}" class="info">
+            <view class="time">时间: {{item.date}}</view>
+            <view class="from">发件人: {{item.from}}</view>
+          </view>
+        </view>
+      </view>
+    </view>
+  </view>
+</view>

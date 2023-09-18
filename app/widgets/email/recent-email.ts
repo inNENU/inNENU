@@ -4,6 +4,7 @@ import type { CommonFailedResponse } from "../../../typings/index.js";
 import { request } from "../../api/index.js";
 import { service } from "../../config/info.js";
 import { ACTION_MAIN_PAGE, ACTION_SERVER } from "../../login/action.js";
+import { LoginFailType, isWebVPNPage } from "../../login/index.js";
 import type { AccountInfo } from "../../utils/typings.js";
 
 interface RawEmailItem {
@@ -69,15 +70,21 @@ export interface EmailItem {
   from: string;
   /** 邮件 ID */
   mid: string;
+  /** 是否已读 */
+  unread: boolean;
 }
 
-export interface ActionRecentMailResponse {
+export interface ActionRecentMailSuccessResponse {
   success: true;
   /** 未读数 */
   unread: number;
   /** 近期邮件 */
   recent: EmailItem[];
 }
+
+export type ActionRecentMailResponse =
+  | ActionRecentMailSuccessResponse
+  | (CommonFailedResponse & { type?: LoginFailType.Expired });
 
 export interface ActionEmailPageOptions extends Partial<AccountInfo> {
   /** 邮件 ID */
@@ -96,23 +103,31 @@ export interface ActionEmailPageSuccessResponse {
 
 export type ActionEmailPageResponse =
   | ActionEmailPageSuccessResponse
-  | CommonFailedResponse;
+  | (CommonFailedResponse & { type?: LoginFailType.Expired });
 
 const EMAIL_INFO_URL = `${ACTION_SERVER}/extract/getEmailInfo`;
 
-export const recentEmails = async (): Promise<
-  ActionRecentMailResponse | CommonFailedResponse
-> => {
-  const checkResult = await request<RawRecentMailResponse>(EMAIL_INFO_URL, {
-    method: "POST",
-    header: {
-      Accept: "application/json, text/javascript, */*; q=0.01",
-      "Content-Type": "application/x-www-form-urlencoded; charset=UTF-8",
-      Referer: ACTION_MAIN_PAGE,
+export const recentEmails = async (): Promise<ActionRecentMailResponse> => {
+  const checkResult = await request<RawRecentMailResponse | string>(
+    EMAIL_INFO_URL,
+    {
+      method: "POST",
+      header: {
+        Accept: "application/json, text/javascript, */*; q=0.01",
+        "Content-Type": "application/x-www-form-urlencoded; charset=UTF-8",
+        Referer: ACTION_MAIN_PAGE,
+      },
+      data: `domain=nenu.edu.cn&type=1&format=json`,
+      scope: EMAIL_INFO_URL,
     },
-    data: `domain=nenu.edu.cn&type=1&format=json`,
-    scope: EMAIL_INFO_URL,
-  });
+  );
+
+  if (typeof checkResult === "string" && isWebVPNPage(checkResult))
+    return {
+      success: false,
+      type: LoginFailType.Expired,
+      msg: "登录已过期，请重新登录",
+    };
 
   if (
     typeof checkResult === "object" &&
@@ -124,11 +139,12 @@ export const recentEmails = async (): Promise<
       success: true,
       unread: Number(checkResult.count),
       recent: checkResult.emailList.con.var.map(
-        ({ subject, receivedDate, from, id }) => ({
+        ({ subject, receivedDate, from, id, flags }) => ({
           subject,
           receivedDate,
           from,
           mid: id,
+          unread: !flags.read,
         }),
       ),
     };

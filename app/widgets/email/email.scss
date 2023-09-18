@@ -1,0 +1,47 @@
+@import "../../styles/lib/refresh-button";
+@import "../../styles/lib/widget";
+
+.unread-badge {
+  display: inline-block;
+  vertical-align: text-top;
+  font-size: 10px;
+  padding: 2px;
+  border-radius: 50%;
+  background-color: #f00;
+  color: #fff;
+  transform: skew(8deg);
+}
+
+.refresh-button {
+  vertical-align: bottom;
+  float: right;
+}
+
+.loading {
+  width: 48px;
+  height: 48px;
+  margin: 0 auto;
+}
+
+.email-item {
+  padding: 2px 0;
+  font-size: 14px;
+}
+
+.button-hover {
+  background-color: var(--bg-hover);
+}
+
+.subject {
+  .small & {
+    font-size: 12px;
+  }
+
+  .medium & {
+    font-weight: 500;
+  }
+
+  .large & {
+    font-weight: 600;
+  }
+}

@@ -5,6 +5,7 @@
     "weather": "/components/weather/weather",
     "card-balance-widget": "/widgets/card/balance",
     "course-widget": "/widgets/course/course",
+    "email-widget": "/widgets/email/email",
     "library-borrow-widget": "/widgets/library/borrow",
     "library-people-widget": "/widgets/library/people",
     "recent-info-widget": "/widgets/info/recent",

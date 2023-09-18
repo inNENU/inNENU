@@ -34,7 +34,14 @@
   <scroll-view scroll-y class="content">
     <template is="components" data="{{content: page.content}}" />
     <view class="widgets">
-      <recent-info-widget />
+      <email-widget />
+      <email-widget type="未读邮件 (小)" />
+      <email-widget type="未读邮件" />
+      <email-widget type="未读邮件 (大)" />
+      <email-widget type="最近邮件 (小)" />
+      <email-widget type="最近邮件" />
+      <email-widget type="最近邮件 (大)" />
+      <!-- <recent-info-widget />
       <recent-info-widget type="官网通知 (小)" />
       <recent-info-widget type="官网通知 (大)" />
       <recent-info-widget type="官网新闻 (小)" />
@@ -61,7 +68,7 @@
       <course-widget />
       <course-widget type="今日课程 (小)" />
       <course-widget type="下节课程 (小)" />
-      <course-widget type="课程表 (大)" />
+      <course-widget type="课程表 (大)" /> -->
     </view>
   </scroll-view>
 </view>

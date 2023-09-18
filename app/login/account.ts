@@ -13,6 +13,7 @@ import {
   CARD_BALANCE_KEY,
   CHANGE_MAJOR_DATA_KEY,
   COURSE_DATA_KEY,
+  EMAIL_DATA_KEY,
   EXAM_PLACE_DATA_KEY,
   GRADE_DATA_KEY,
   LICENSE_KEY,
@@ -65,6 +66,7 @@ export const logout = (): void => {
   remove(CARD_BALANCE_KEY);
   remove(COURSE_DATA_KEY);
   remove(CHANGE_MAJOR_DATA_KEY);
+  remove(EMAIL_DATA_KEY);
   remove(EXAM_PLACE_DATA_KEY);
   remove(GRADE_DATA_KEY);
   remove(NEWS_LIST_KEY);
