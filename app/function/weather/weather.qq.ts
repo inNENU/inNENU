@@ -2,17 +2,18 @@ import { $Page, get, readFile, set } from "@mptool/all";
 
 import { showModal } from "../../api/index.js";
 import type { AppOption } from "../../app.js";
-import type { WeatherData } from "../../components/weather/getWeather.js";
-import {
-  getOnlineWeather,
-  getWeather,
-} from "../../components/weather/getWeather.js";
 import {
   INITIALIZED_KEY,
   WEATHER_KEY,
   appCoverPrefix,
 } from "../../config/index.js";
 import { MINUTE } from "../../utils/constant.js";
+import type { WeatherData } from "../../widgets/weather/getWeather.js";
+import {
+  getOnlineWeather,
+  getWeather,
+} from "../../widgets/weather/getWeather.js";
+import { WeatherAlarm } from "../../widgets/weather/getWeather.js";
 
 const { globalData, useOnlineService } = getApp<AppOption>();
 
@@ -289,6 +290,18 @@ pm2.5: ${pm25}
 SO2: ${so2}\
 `,
     );
+  },
+
+  showAlarm({
+    currentTarget,
+  }: WechatMiniprogram.TouchEvent<
+    Record<never, never>,
+    Record<never, never>,
+    { alarm: WeatherAlarm }
+  >) {
+    const { level, text, type } = currentTarget.dataset.alarm;
+
+    showModal("预警详情", `${type}${level}预警:\n${text}`);
   },
 
   /** 贴士详情 */

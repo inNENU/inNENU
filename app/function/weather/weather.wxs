@@ -20,4 +20,14 @@ module.exports = {
 
     return "";
   },
+
+  getLevel: function (level) {
+    return level === "红色"
+      ? "red"
+      : level === "黄色"
+      ? "yellow"
+      : level === "蓝色"
+      ? "blue"
+      : "";
+  },
 };

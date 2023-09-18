@@ -9,7 +9,10 @@ import {
 } from "../../config/index.js";
 import { MINUTE } from "../../utils/constant.js";
 import { getColor } from "../../utils/page.js";
-import type { WeatherData } from "../../widgets/weather/getWeather.js";
+import type {
+  WeatherAlarm,
+  WeatherData,
+} from "../../widgets/weather/getWeather.js";
 import {
   getOnlineWeather,
   getWeather,
@@ -291,6 +294,18 @@ pm2.5: ${pm25}
 SO2: ${so2}\
 `,
     );
+  },
+
+  showAlarm({
+    currentTarget,
+  }: WechatMiniprogram.TouchEvent<
+    Record<never, never>,
+    Record<never, never>,
+    { alarm: WeatherAlarm }
+  >) {
+    const { level, text, type } = currentTarget.dataset.alarm;
+
+    showModal("预警详情", `${type}${level}预警:\n${text}`);
   },
 
   /** 贴士详情 */

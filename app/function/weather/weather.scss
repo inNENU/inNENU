@@ -26,6 +26,35 @@ $asset-url: "https://mp.innenu.com/";
 
   text-align: center;
 
+  .alarms {
+    position: absolute;
+    top: 156px;
+    right: 15px;
+    z-index: 10;
+  }
+
+  .alarm {
+    font-size: 14px;
+    max-width: 80px;
+    line-height: 1.25;
+    border-radius: 8px;
+    margin: 8px auto;
+    padding: 4px 8px;
+    background-color: rgba(127, 127, 127, 0.25);
+
+    &.yellow {
+      background-color: #ffbf62;
+    }
+
+    &.red {
+      background-color: #ff6033;
+    }
+
+    &.blue {
+      background-color: #3bbcff;
+    }
+  }
+
   .temperature {
     margin-top: 60px;
     padding-left: 22px;

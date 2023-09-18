@@ -46,6 +46,15 @@
     <view class="location-wrapper"
       ><text class="icon-font icon-location" /> 长春市 南关区</view
     >
+    <view class="alarms">
+      <view
+        wx:for="{{weather.alarm}}"
+        class="alarm {{tool.getLevel(item.level)}}"
+        data-alarm="{{item}}"
+        catch:tap="showAlarm"
+        >{{item.type}}{{item.level}}预警</view
+      >
+    </view>
     <view class="temperature">{{weather.observe.degree}}°</view>
     <view class="type">{{weather.observe.weather}}</view>
     <view class="detail">湿度 {{weather.observe.humidity}}%</view>

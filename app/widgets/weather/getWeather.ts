@@ -178,7 +178,7 @@ export interface WeatherAirInfo {
   so2: number;
 }
 
-interface WeatherAlarm {
+export interface WeatherAlarm {
   level: string;
   type: string;
   text: string;
