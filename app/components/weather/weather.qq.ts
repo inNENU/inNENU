@@ -1,11 +1,12 @@
 import { $Component, set } from "@mptool/all";
 
-import type { WeatherData } from "./typings.js";
+import type { WeatherData } from "./getWeather.js";
+import { getOnlineWeather, getWeather } from "./getWeather.js";
 import type { AppOption } from "../../app.js";
-import { WEATHER_KEY, server } from "../../config/index.js";
+import { WEATHER_KEY } from "../../config/index.js";
 import { MINUTE } from "../../utils/constant.js";
 
-const { globalData } = getApp<AppOption>();
+const { globalData, useOnlineService } = getApp<AppOption>();
 
 $Component({
   properties: {
@@ -28,20 +29,14 @@ $Component({
 
   methods: {
     /* 获取天气信息 */
-    getWeather(): void {
-      wx.request<WeatherData>({
-        url: `${server}service/weather.php`,
-        method: "POST",
-        enableHttp2: true,
-        success: ({ data }) => {
-          this.setData({ weather: data });
-
-          // 将天气详情和获取时间写入存储，避免重复获取
-          set(WEATHER_KEY, data, 5 * MINUTE);
-        },
+    getWeather(): Promise<void> {
+      return (
+        useOnlineService("weather") ? getOnlineWeather : getWeather
+      )().then((weather) => {
+        this.setData({ weather });
+        set(WEATHER_KEY, weather, 5 * MINUTE);
       });
     },
-
     /** 变更提示信息 */
     refresh(): void {
       const { length } = this.data.weather.tips;
@@ -57,9 +52,5 @@ $Component({
     },
   },
 
-  options: {
-    styleIsolation: "apply-shared",
-  },
-
-  externalClasses: ["custom-class"],
+  externalClasses: ["wrapper-class"],
 });

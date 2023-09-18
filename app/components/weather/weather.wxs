@@ -1,31 +1,27 @@
 /** 获得天气类名 */
 function getClass(weather) {
-  if (weather.observe) {
-    /** 天气种类缩写 */
-    var weatherType = weather.observe.weather_short;
+  /** 天气种类缩写 */
+  var weatherType = weather.observe.weatherShort;
 
-    return weatherType.indexOf("晴") === -1
-      ? weatherType.indexOf("雷") !== -1 ||
-        weatherType.indexOf("电") !== -1 ||
-        weatherType.indexOf("暴") !== -1
-        ? "stormy"
-        : weatherType.indexOf("雪") !== -1 ||
-          weatherType.indexOf("霜") !== -1 ||
-          weatherType.indexOf("冰") !== -1
-        ? "snowy"
-        : weatherType.indexOf("雨") !== -1
-        ? "rainy"
-        : weatherType.indexOf("阴") !== -1 || weatherType.indexOf("云") !== -1
-        ? "cloudy"
-        : ""
-      : getDate().getHours() > 6 && getDate().getHours() < 18
-      ? getDate().getSeconds() % 2 === 0
-        ? "sunny"
-        : "rainbow"
-      : "starry";
-  }
-
-  return "";
+  return weatherType.indexOf("晴") === -1
+    ? weatherType.indexOf("雷") !== -1 ||
+      weatherType.indexOf("电") !== -1 ||
+      weatherType.indexOf("暴") !== -1
+      ? "stormy"
+      : weatherType.indexOf("雪") !== -1 ||
+        weatherType.indexOf("霜") !== -1 ||
+        weatherType.indexOf("冰") !== -1
+      ? "snowy"
+      : weatherType.indexOf("雨") !== -1
+      ? "rainy"
+      : weatherType.indexOf("阴") !== -1 || weatherType.indexOf("云") !== -1
+      ? "cloudy"
+      : ""
+    : getDate().getHours() > 6 && getDate().getHours() < 18
+    ? getDate().getSeconds() % 2 === 0
+      ? "sunny"
+      : "rainbow"
+    : "starry";
 }
 
 module.exports = {

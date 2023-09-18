@@ -36,7 +36,10 @@
       <view class="layer layer2" animation="{{animation2}}" />
       <view class="layer layer3" animation="{{animation3}}" />
     </view>
-    <view class="quality level{{weather.air.aqiLevel || 1}}">
+    <view
+      class="quality level{{weather.air.aqiLevel || 1}}"
+      catch:tap="showAqi"
+    >
       <view class="number">{{weather.air.aqi}}</view>
       <view class="level">{{weather.air.aqiName}}</view>
     </view>

@@ -1,16 +1,20 @@
-import { $Page, get, readFile } from "@mptool/all";
+import { $Page, get, readFile, set } from "@mptool/all";
 
 import { showModal } from "../../api/index.js";
 import type { AppOption } from "../../app.js";
-import type { WeatherData } from "../../components/weather/typings.js";
+import type { WeatherData } from "../../components/weather/getWeather.js";
+import {
+  getOnlineWeather,
+  getWeather,
+} from "../../components/weather/getWeather.js";
 import {
   INITIALIZED_KEY,
   WEATHER_KEY,
   appCoverPrefix,
-  server,
 } from "../../config/index.js";
+import { MINUTE } from "../../utils/constant.js";
 
-const { globalData } = getApp<AppOption>();
+const { globalData, useOnlineService } = getApp<AppOption>();
 
 const PAGE_TITLE = "东师天气";
 
@@ -66,14 +70,13 @@ $Page("weather", {
     }
     // 需要重新获取并处理
     else {
-      wx.request<WeatherData>({
-        url: `${server}service/weather.php`,
-        enableHttp2: true,
-        success: ({ data }) => {
-          this.drawCanvas(data);
-          this.setData({ weather: data });
+      (useOnlineService("weather") ? getOnlineWeather : getWeather)().then(
+        (weather) => {
+          this.drawCanvas(weather);
+          this.setData({ weather });
+          set(WEATHER_KEY, weather, 5 * MINUTE);
         },
-      });
+      );
     }
 
     // 设置页面背景色
@@ -267,6 +270,25 @@ $Page("weather", {
     const numbers = this.data.tipIndex;
 
     this.setData({ tipIndex: numbers === 0 ? length - 1 : numbers - 1 });
+  },
+
+  showAqi() {
+    const { aqi, aqiLevel, aqiName, co, so2, no2, pm10, pm25, o3 } =
+      this.data.weather.air;
+
+    showModal(
+      "空气质量",
+      `\
+空气质量: ${aqi} ${aqiName}
+等级: ${aqiLevel}级
+CO: ${co}
+O3: ${o3}
+NO2: ${no2}
+PM10: ${pm10}
+pm2.5: ${pm25}
+SO2: ${so2}\
+`,
+    );
   },
 
   /** 贴士详情 */
