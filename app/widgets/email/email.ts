@@ -60,8 +60,9 @@ $Component({
             unread: unreadEmails.length,
             recent: type.includes("未读") ? unreadEmails : emails,
           });
+        } else {
+          this.getEmails();
         }
-        this.getEmails();
       } else {
         this.setData({ status: "login" });
       }
@@ -73,8 +74,10 @@ $Component({
       const { account } = globalData;
 
       if (account) {
-        this.setData({ status: "loading" });
-        this.getEmails();
+        if (this.data.status === "login") {
+          this.setData({ status: "loading" });
+          this.getEmails();
+        }
       } else {
         this.setData({ status: "login" });
       }
