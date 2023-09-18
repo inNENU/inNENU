@@ -3,6 +3,7 @@ import { $Page, ls, rm } from "@mptool/all";
 import { showModal } from "../../api/index.js";
 import type { AppOption } from "../../app.js";
 import { appCoverPrefix } from "../../config/index.js";
+import { getColor } from "../../utils/page.js";
 import { reportInfo } from "../../utils/report.js";
 
 const { globalData } = getApp<AppOption>();
@@ -12,15 +13,17 @@ const PAGE_TITLE = "功能页";
 
 $Page(PAGE_ID, {
   onLoad(options) {
-    const { theme } = globalData;
+    const { darkmode, theme } = globalData;
+    const action = options.scene
+      ? decodeURIComponent(options.scene)
+      : options.action;
 
-    if (options.scene) {
-      const arg = decodeURIComponent(options.scene);
-
-      this.setData({ [arg]: true, theme });
-    } else if (options.action) {
-      this.setData({ [options.action]: true, theme });
-    }
+    this.setData({
+      darkmode,
+      theme,
+      color: getColor(),
+      ...(action ? { [action]: true } : {}),
+    });
   },
 
   onShareAppMessage: () => ({

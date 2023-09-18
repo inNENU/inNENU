@@ -1,4 +1,11 @@
 <wxs src="./action.wxs" module="action" />
+<page-meta
+  background-text-style="{{darkmode ? 'dark' : 'light'}}"
+  background-color="{{color.bgColor}}"
+  background-color-top="{{color.bgColorTop}}"
+  background-color-bottom="{{color.bgColorBottom}}"
+  root-background-color="{{color.bgColor}}"
+/>
 <view class="{{theme}} action-page">
   <view wx:if="{{navigate || all}}" class="input-list-wrapper">
     <view class="input-list-item">
