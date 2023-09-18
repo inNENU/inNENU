@@ -15,7 +15,13 @@ export const getCurrentTime = (): string => {
 
 export const getWeekIndex = (startTime: string, maxWeek: number): number => {
   const passedWeeks = Math.floor(
-    (new Date().getTime() - new Date(startTime).getTime()) / DAY / 7,
+    (Date.now() - Date.parse(startTime)) / DAY / 7,
+  );
+
+  console.error(
+    startTime,
+    new Date(Date.parse(startTime)).toLocaleString(),
+    passedWeeks,
   );
 
   return passedWeeks >= 0 && passedWeeks + 1 <= maxWeek ? passedWeeks + 1 : 0;

@@ -116,7 +116,7 @@ export const checkResource = (): void => {
     `resource-update-time`,
   );
   /** 当前时间 */
-  const currentTime = Math.round(new Date().getTime() / 1000);
+  const currentTime = Math.round(Date.now() / 1000);
 
   // 调试
   logger.debug(

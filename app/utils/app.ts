@@ -61,9 +61,7 @@ export const initializeApp = (): void => {
   downloadResource(defaultResources, false)
     .then(() => {
       // 下载资源文件并写入更新时间
-      const timeStamp = new Date().getTime();
-
-      wx.setStorageSync("resource-update-time", Math.round(timeStamp / 1000));
+      wx.setStorageSync("resource-update-time", Math.round(Date.now() / 1000));
 
       return request<VersionInfo>(`${server}service/version.php`);
     })
@@ -91,7 +89,7 @@ export const getGlobalData = (): GlobalData => {
       data: {},
       id: "",
     },
-    startupTime: new Date().getTime(),
+    startupTime: Date.now(),
     env,
     envName: env === "app" ? "App" : "小程序",
     theme: wx.getStorageSync<string>("theme") || "ios",

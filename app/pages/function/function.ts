@@ -39,9 +39,7 @@ $Page(PAGE_ID, {
     if (data) put(PAGE_ID, resolvePage({ id: PAGE_ID }, data));
 
     console.debug(
-      `Function page loading time: ${
-        new Date().getTime() - globalData.startupTime
-      }ms`,
+      `Function page loading time: ${Date.now() - globalData.startupTime}ms`,
     );
   },
 

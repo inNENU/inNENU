@@ -86,7 +86,7 @@ export const getNoticeList = async ({
         data: query.stringify({
           type,
           _search: "false",
-          nd: new Date().getTime().toString(),
+          nd: Date.now().toString(),
           limit: limit.toString(),
           page: page.toString(),
         }),
