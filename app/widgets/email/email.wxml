@@ -15,7 +15,7 @@
         class="loading"
         src="/icon/loading.svg"
       />
-      <view wx:else class="email-list">
+      <view wx:elif="{{recent.length}}" class="email-list">
         <view
           wx:for="{{recent}}"
           class="email-item"
@@ -33,6 +33,7 @@
           </view>
         </view>
       </view>
+      <view class="widget-hint-text">暂无邮件</view>
     </view>
   </view>
 </view>
