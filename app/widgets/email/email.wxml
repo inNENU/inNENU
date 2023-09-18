@@ -37,7 +37,7 @@
           </view>
         </view>
       </view>
-      <view class="widget-hint-text">暂无邮件</view>
+      <view wx:else class="widget-hint-text">暂无邮件</view>
     </view>
   </view>
 </view>
