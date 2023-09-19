@@ -18,11 +18,5 @@ export const getWeekIndex = (startTime: string, maxWeek: number): number => {
     (Date.now() - Date.parse(startTime)) / DAY / 7,
   );
 
-  console.error(
-    startTime,
-    new Date(Date.parse(startTime)).toLocaleString(),
-    passedWeeks,
-  );
-
   return passedWeeks >= 0 && passedWeeks + 1 <= maxWeek ? passedWeeks + 1 : 0;
 };

@@ -224,7 +224,7 @@ $Page("music", {
 
     manager.onError(({ errMsg }) => {
       showToast("获取音乐出错，请稍后重试");
-      console.error(`Manager: ${errMsg}`);
+      console.error(`Audio manager: ${errMsg}`);
     });
   },
 
