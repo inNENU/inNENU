@@ -10,16 +10,14 @@
   <navbar nav="{{ { title: '自定义小组件' } }}" />
   <view class="header">主页小组件</view>
   <view class="widget-list">
-    <view wx:for="{{widgets}}" class="widget-wrapper {{size}}">
+    <view wx:for="{{widgets}}" class="widget-wrapper {{item.size}}">
       <view
         class="remove-button bg-gradual-red"
         hover-class="button-hover"
         data-index="{{index}}"
         catch:tap="removeWidget"
       />
-      <view capture-catch:tap="capture">
-        <template is="widget" data="{{tag: item.tag, type: item.type}}" />
-      </view>
+      <template is="widget" data="{{tag: item.tag, type: item.type}}" />
     </view>
     <view class="widget-wrapper small add">
       <view class="add-button" hover-class="button-hover" catch:tap="showPopup">
@@ -63,8 +61,13 @@
       wx:for="{{current.types}}"
       wx:key="*this"
       class="widget-display"
+      skip-hidden-item-layout
     >
-      <view class="widgets">
+      <view
+        wx:if="{{swiperIndex === index || swiperIndex === index + 1 || swiperIndex === index - 1}}"
+        class="widgets"
+        capture-catch:tap="capture"
+      >
         <template is="widget" data="{{tag: current.tag, type: item}}" />
       </view>
       <view class="widget-name">{{item}}</view>
