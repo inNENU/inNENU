@@ -28,7 +28,7 @@
         <view class="sub-info">
           <text class="air">{{weather.air.aqiName}}</text>
           <text class="wind">{{tool.getWind(weather)}}</text>
-          <text wx:for="{{weather.alarm}}" class="alarm"
+          <text wx:for="{{weather.alarm}}" wx:key="text" class="alarm"
             >{{item.type}}{{item.level}}预警</text
           >
         </view>
@@ -38,7 +38,7 @@
         <view class="location">
           <text class="air">{{weather.air.aqiName}}</text>
           <text class="wind">{{tool.getWind(weather)}}</text>
-          <text wx:for="{{weather.alarm}}" class="alarm"
+          <text wx:for="{{weather.alarm}}" wx:key="text" class="alarm"
             >{{item.type}}{{item.level}}预警</text
           >
 
@@ -60,7 +60,7 @@
           />
         </view>
         <scroll-view class="hours" enable-flex scroll-x>
-          <block wx:for="{{weather.hourForecast}}" wx:key="update_time">
+          <block wx:for="{{weather.hourForecast}}" wx:key="updateTime">
             <view wx:if="{{index <= 26}}" class="item">
               <text class="time">{{item.time}}</text>
               <image class="icon" src="{{weatherIcon[item.weatherCode]}}" />
@@ -109,7 +109,7 @@
         <view class="location">
           <text class="air">{{weather.air.aqiName}}</text>
           <text class="wind">{{tool.getWind(weather)}}</text>
-          <text wx:for="{{weather.alarm}}" class="alarm"
+          <text wx:for="{{weather.alarm}}" wx:key="text" class="alarm"
             >{{item.type}}{{item.level}}预警</text
           >
           <text class="icon-font icon-location" />
@@ -166,7 +166,7 @@
           东北师大
           <text class="air">{{weather.air.aqiName}}</text>
           <text class="wind">{{tool.getWind(weather)}}</text>
-          <text wx:for="{{weather.alarm}}" class="alarm"
+          <text wx:for="{{weather.alarm}}" wx:key="text" class="alarm"
             >{{item.type}}{{item.level}}预警</text
           >
         </view>
@@ -179,7 +179,7 @@
           </view>
         </view>
         <scroll-view class="hours" enable-flex scroll-x>
-          <block wx:for="{{weather.hourForecast}}" wx:key="update_time">
+          <block wx:for="{{weather.hourForecast}}" wx:key="updateTime">
             <view wx:if="{{index <= 26}}" class="item">
               <text class="time">{{item.time}}</text>
               <image class="icon" src="{{weatherIcon[item.weatherCode]}}" />

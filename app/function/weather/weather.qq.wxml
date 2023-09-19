@@ -77,7 +77,7 @@
   <!-- 小时预报 -->
   <scroll-view class="hours btb" enable-flex scroll-x>
     <view class="flex">
-      <view wx:for="{{weather.hourForecast}}" wx:key="update_time" class="item">
+      <view wx:for="{{weather.hourForecast}}" wx:key="updateTime" class="item">
         <text class="time">{{item.time}}</text>
 
         <image class="icon" src="{{weatherIcon[item.weatherCode]}}" />
