@@ -86,9 +86,17 @@
   }
 }
 
+.category-list {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-evenly;
+}
+
 .category {
-  margin: 2px 8px;
+  margin: 2px;
   border-radius: 8px;
+  padding: 4px 8px !important;
+  line-height: 1 !important;
 
   background-color: var(--bg-color-block);
   color: var(--action-color);
@@ -103,7 +111,7 @@
 }
 
 .widgets-display {
-  height: 360px;
+  height: 384px;
 }
 
 .widget-display {
@@ -111,8 +119,6 @@
   flex-direction: column;
   align-items: center;
   justify-content: center;
-
-  height: 380px;
 }
 
 .widgets {
@@ -125,4 +131,13 @@
   margin: 8px 0;
   font-size: 14px;
   text-align: center;
+}
+
+.empty-hint {
+  height: 384px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 14px;
+  color: var(--dark-grey);
 }

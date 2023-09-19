@@ -1,3 +1,5 @@
+import { $Component } from "@mptool/all";
+
 import { getWindowInfo } from "../../api/index.js";
 
 export interface PopupConfig {
@@ -15,15 +17,20 @@ export interface PopupConfig {
   cancel?: string | false;
   /** 确认按钮文字 (默认: '确认')*/
   confirm?: string;
+  bodyClass?: string;
 }
 
-Component({
+$Component({
   properties: {
     config: Object,
     // 是否展示对话框
     show: {
       type: Boolean,
       default: false,
+    },
+    paddingInline: {
+      type: Number,
+      default: 24,
     },
   },
 

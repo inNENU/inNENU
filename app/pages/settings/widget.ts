@@ -50,7 +50,7 @@ const WIDGETS: WidgetInfo[] = [
   },
   {
     tag: "starred-info",
-    name: "官网信息收藏",
+    name: "官网收藏",
     types: ["官网收藏 (小)", "官网收藏", "官网收藏 (大)"],
   },
   {
@@ -92,8 +92,7 @@ $Page(PAGE_ID, {
     darkmode: globalData.darkmode,
 
     addPopup: {
-      title: "小组件",
-      subtitle: "选择需要填加的组件",
+      title: "新增组件",
       confirm: "添加组件",
       cancel: false,
     },
