@@ -7,9 +7,9 @@ const { globalData } = getApp<AppOption>();
 const { envName } = globalData;
 
 export const resetApp = (): void => {
-  confirmAction(`初始化${envName}`, () => {
+  confirmAction(`重置${envName}`, () => {
     // 显示提示
-    wx.showLoading({ title: "初始化中", mask: true });
+    wx.showLoading({ title: "重置中", mask: true });
 
     // 清除文件系统文件与数据存储
     ls("").forEach((filePath) => rm(filePath));
@@ -22,8 +22,8 @@ export const resetApp = (): void => {
     // 提示用户重启
     else
       showModal(
-        `${envName}初始化完成`,
-        `请单击 “退出${envName}按钮” 退出${envName}。`,
+        `${envName}重置完成`,
+        `请单击 “退出${envName}按钮” 退出${envName}并重新进入。`,
       );
   });
 };
