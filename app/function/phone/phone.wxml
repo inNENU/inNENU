@@ -58,11 +58,7 @@
               data-index="{{index}}"
               catch:tap="addContact"
             >
-              <image
-                class="icon"
-                mode="widthFix"
-                src="/base/phone/icon/add.svg"
-              />
+              <image class="icon" mode="widthFix" src="/icon/add.svg" />
             </view>
           </view>
         </view>

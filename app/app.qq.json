@@ -14,7 +14,8 @@
     "pages/about/about",
     "pages/license/license",
     "pages/privacy/privacy",
-    "pages/settings/settings"
+    "pages/settings/settings",
+    "pages/settings/widget"
   ],
   "subPackages": [
     {

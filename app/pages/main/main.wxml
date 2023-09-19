@@ -1,4 +1,5 @@
 <import src="/base/template.wxml" />
+<import src="/widgets/template.wxml" />
 <page-meta
   background-text-style="{{darkmode ? 'dark': 'light'}}"
   background-color="{{color.bgColor}}"
@@ -33,47 +34,22 @@
   </view>
   <scroll-view scroll-y class="content">
     <template is="components" data="{{content: page.content}}" />
-    <view class="widgets">
-      <weather-widget />
-      <weather-widget type="今日天气 (小)" />
-      <weather-widget type="近日天气 (小)" />
-      <weather-widget type="近日天气" />
-      <weather-widget type="近日天气 (大)" />
-      <!-- <email-widget />
-      <email-widget type="未读邮件 (小)" />
-      <email-widget type="未读邮件" />
-      <email-widget type="未读邮件 (大)" />
-      <email-widget type="最近邮件 (小)" />
-      <email-widget type="最近邮件" />
-      <email-widget type="最近邮件 (大)" />
-      <recent-info-widget />
-      <recent-info-widget type="官网通知 (小)" />
-      <recent-info-widget type="官网通知 (大)" />
-      <recent-info-widget type="官网新闻 (小)" />
-      <recent-info-widget type="官网新闻" />
-      <recent-info-widget type="官网新闻 (大)" />
-      <recent-info-widget type="学术会议 (小)" />
-      <recent-info-widget type="学术会议" />
-      <recent-info-widget type="学术会议 (大)" />
-      <starred-info-widget />
-      <starred-info-widget type="官网收藏 (小)" />
-      <starred-info-widget type="官网收藏 (大)" />
-      <library-borrow-widget />
-      <library-borrow-widget type="图书待还 (小)" />
-      <starred-notice-widget />
-      <starred-notice-widget type="通知收藏 (小)" />
-      <starred-notice-widget type="通知收藏 (大)" />
-      <recent-notice-widget type="官网通知 (小)" />
-      <recent-notice-widget type="官网通知 (大)" />
-      <recent-notice-widget type="官网新闻" />
-      <recent-notice-widget type="官网新闻 (小)" />
-      <recent-notice-widget type="官网新闻 (大)" />
-      <card-balance-widget />
-      <library-people-widget />
-      <course-widget />
-      <course-widget type="今日课程 (小)" />
-      <course-widget type="下节课程 (小)" />
-      <course-widget type="课程表 (大)" /> -->
+    <view class="widget-button-wrapper">
+      <view
+        class="widget-button"
+        hover-class="button-hover"
+        data-url="widget-settings"
+        catch:tap="$bindGo"
+        >自定义小部件</view
+      >
     </view>
+    <view wx:if="{{widgets.length}}" class="widgets">
+      <template
+        wx:for="{{widgets}}"
+        is="widget"
+        data="{{tag: item.tag, type: item.type}}"
+      />
+    </view>
+    <view wx:else>暂无小部件</view>
   </scroll-view>
 </view>

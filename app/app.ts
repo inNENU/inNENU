@@ -55,10 +55,7 @@ $Config({
     ["notice-detail", "/function/notice/detail"],
     ["notice-list", "/function/notice/list"],
     ["wechat-detail", "/function/school-media/wechat"],
-    // TODO: Remove
-    ["study-archive", "/function/archive/view"],
-    // TODO: Remove
-    ["course-grade", "/function/grade/grade"],
+    ["widget-settings", "/pages/settings/widget"],
   ],
 
   injectPage: (_name, options) => {

@@ -1,6 +1,12 @@
 export type WidgetSize = "small" | "medium" | "large";
 export type WidgetStatus = "loading" | "error" | "login" | "success";
 
+export interface WidgetConfig {
+  tag: string;
+  type: string;
+  size: WidgetSize;
+}
+
 export const getSize = (size: string): WidgetSize =>
   size.includes("大") ? "large" : size.includes("小") ? "small" : "medium";
 

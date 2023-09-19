@@ -31,7 +31,7 @@
       hover-stay-time="100"
       catch:tap="addContact"
     >
-      <image class="icon" mode="widthFix" src="./icon/add.svg" />
+      <image class="icon" mode="widthFix" src="/icon/add.svg" />
     </view>
   </view>
 </view>

@@ -105,6 +105,13 @@
           "scene": null
         },
         {
+          "name": "小组件设置",
+          "pathName": "pages/settings/widget",
+          "query": "",
+          "launchMode": "default",
+          "scene": null
+        },
+        {
           "name": "搜索",
           "pathName": "pages/search/search",
           "query": "",

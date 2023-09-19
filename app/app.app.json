@@ -15,6 +15,7 @@
     "pages/license/license",
     "pages/privacy/privacy",
     "pages/settings/settings",
+    "pages/settings/widget",
     "function/archive/create",
     "function/archive/view",
     "function/activate/activate",

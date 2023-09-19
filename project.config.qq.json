@@ -87,6 +87,13 @@
           "scene": null
         },
         {
+          "id": 98,
+          "name": "小组件设置",
+          "pathName": "pages/settings/widget",
+          "query": "",
+          "scene": null
+        },
+        {
           "id": 4,
           "name": "搜索",
           "pathName": "pages/search/search",

@@ -1,0 +1,74 @@
+<import src="/widgets/template.wxml" />
+<page-meta
+  background-text-style="{{darkmode ? 'dark' : 'light'}}"
+  background-color="{{color.bgColor}}"
+  background-color-top="{{color.bgColorTop}}"
+  background-color-bottom="{{color.bgColorBottom}}"
+  root-background-color="{{color.bgColor}}"
+/>
+<view class="{{theme}} customize-page">
+  <navbar nav="{{ { title: '自定义小组件' } }}" />
+  <view class="header">主页小组件</view>
+  <view class="widget-list">
+    <view wx:for="{{widgets}}" class="widget-wrapper {{size}}">
+      <view
+        class="remove-button bg-gradual-red"
+        hover-class="button-hover"
+        data-index="{{index}}"
+        catch:tap="removeWidget"
+      />
+      <view capture-catch:tap="capture">
+        <template is="widget" data="{{tag: item.tag, type: item.type}}" />
+      </view>
+    </view>
+    <view class="widget-wrapper small add">
+      <view class="add-button" hover-class="button-hover" catch:tap="showPopup">
+        <image class="add-icon" src="/icon/add.svg" />
+        <text>新增组件</text>
+      </view>
+    </view>
+  </view>
+</view>
+
+<popup
+  config="{{addPopup}}"
+  show="{{display}}"
+  catch:confirm="addWidget"
+  catch:cancel="close"
+  catch:close="close"
+>
+  <view class="category-list">
+    <button
+      wx:for="{{WIDGETS}}"
+      wx:key="name"
+      class="category {{current.name === item.name? 'activate': ''}}"
+      hover-class="button-hover"
+      size="mini"
+      data-index="{{index}}"
+      catch:tap="selectWidget"
+    >
+      {{item.name}}
+    </button>
+  </view>
+  <swiper
+    wx:if="{{current}}"
+    indicator-dots="{{current.types.length > 1}}"
+    current="{{swiperIndex}}"
+    indicator-color="{{indicatorColor}}"
+    indicator-active-color="{{indicatorActiveColor}}"
+    class="widgets-display"
+    bindchange="swiperChange"
+  >
+    <swiper-item
+      wx:for="{{current.types}}"
+      wx:key="*this"
+      class="widget-display"
+    >
+      <view class="widgets">
+        <template is="widget" data="{{tag: current.tag, type: item}}" />
+      </view>
+      <view class="widget-name">{{item}}</view>
+    </swiper-item>
+  </swiper>
+  <view wx:else style="height: 360px" />
+</popup>

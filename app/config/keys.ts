@@ -22,3 +22,5 @@ export const STARRED_NOTICE_LIST_KEY = "starred-notice-list-info";
 export const STUDENT_ARCHIVE_KEY = "student-archive-info";
 
 export const WEATHER_KEY = "weather-info";
+
+export const WIDGET_KEY = "widget-info";

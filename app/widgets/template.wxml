@@ -1,0 +1,21 @@
+<template name="widget" data="{{ tag, type }}">
+  <card-balance-widget wx:if="{{tag === 'card'}}" type="{{type}}" />
+  <course-widget wx:elif="{{tag === 'course'}}" type="{{type}}" />
+  <email-widget wx:elif="{{tag === 'email'}}" type="{{type}}" />
+  <library-borrow-widget
+    wx:elif="{{tag === 'library-borrow'}}"
+    type="{{type}}"
+  />
+  <library-people-widget
+    wx:elif="{{tag === 'library-people'}}"
+    type="{{type}}"
+  />
+  <recent-info-widget wx:elif="{{tag === 'recent-info'}}" type="{{type}}" />
+  <starred-info-widget wx:elif="{{tag === 'starred-info'}}" type="{{type}}" />
+  <recent-notice-widget wx:elif="{{tag === 'recent-notice'}}" type="{{type}}" />
+  <starred-notice-widget
+    wx:elif="{{tag === 'starred-notice'}}"
+    type="{{type}}"
+  />
+  <weather-widget wx:elif="{{tag === 'weather'}}" type="{{type}}" />
+</template>
