@@ -1,4 +1,4 @@
-import { $Page, ls, rm } from "@mptool/all";
+import { $Page } from "@mptool/all";
 
 import { size } from "./size.js";
 import type {
@@ -6,9 +6,10 @@ import type {
   PageDataWithContent,
   PickerListComponentItemConfig,
 } from "../../../typings/index.js";
-import { confirmAction, showModal, showToast } from "../../api/index.js";
+import { confirmAction, showModal } from "../../api/index.js";
 import type { AppOption } from "../../app.js";
 import { getColor, popNotice, setPage } from "../../utils/page.js";
+import { resetApp } from "../../utils/reset.js";
 import { defaultResources, downloadResource } from "../../utils/resource.js";
 
 const { globalData } = getApp<AppOption>();
@@ -27,7 +28,7 @@ $Page("settings", {
       content: [
         {
           tag: "functional-list",
-          header: "主题设置",
+          header: "外观与布局",
           items: [
             {
               type: "picker",
@@ -36,6 +37,10 @@ $Page("settings", {
               key: "themeNum",
               handler: "updateTheme",
               single: true,
+            },
+            {
+              text: "自定义主页小组件",
+              url: "widget-settings",
             },
           ],
         },
@@ -69,25 +74,16 @@ $Page("settings", {
           tag: "functional-list",
           header: "重置",
           items: [
-            {
-              text: `清除${envName}数据`,
-              type: "button",
-              handler: "clearData",
-            },
-            {
-              text: `清除${envName}文件`,
-              type: "button",
-              handler: "clearFiles",
-            },
-            { text: `初始化${envName}`, type: "button", handler: "resetApp" },
+            { text: `重置${envName}`, type: "button", handler: "resetApp" },
             {
               text: `退出${envName}`,
               type: "navigator",
               openType: "exit",
               target: "miniProgram",
+              hidden: typeof wx.restartMiniProgram === "function",
             },
           ],
-          foot: `如果${envName}出现问题请尝试重置${envName}`,
+          footer: `如果${envName}出现问题请尝试重置${envName}`,
         },
       ],
     },
@@ -173,47 +169,8 @@ $Page("settings", {
     });
   },
 
-  /** 清除数据 */
-  clearData() {
-    confirmAction(`清除${envName}数据`, () => {
-      wx.clearStorageSync();
-      showToast("数据清除完成");
-    });
-  },
-
-  /** 清除文件 */
-  clearFiles() {
-    confirmAction(`清除${envName}文件`, () => {
-      wx.showLoading({ title: "删除中", mask: true });
-
-      ls("").forEach((filePath) => rm(filePath));
-
-      wx.hideLoading();
-    });
-  },
-
   /** 初始化 */
-  resetApp() {
-    confirmAction(`初始化${envName}`, () => {
-      // 显示提示
-      wx.showLoading({ title: "初始化中", mask: true });
-
-      // 清除文件系统文件与数据存储
-      ls("").forEach((filePath) => rm(filePath));
-      wx.clearStorageSync();
-
-      // 隐藏提示
-      wx.hideLoading();
-      if (wx.restartMiniProgram)
-        wx.restartMiniProgram({ path: "pages/main/main" });
-      // 提示用户重启
-      else
-        showModal(
-          `${envName}初始化完成`,
-          `请单击 “退出${envName}按钮” 退出${envName}。`,
-        );
-    });
-  },
+  resetApp,
 
   notify(status: boolean) {
     showModal(

@@ -59,7 +59,7 @@
   </button>
   <block wx:elif="{{all || reset}}">
     <button class="action primary" type="primary" catch:tap="resetApp">
-      初始化小程序
+      重置小程序
     </button>
     <navigator open-type="exit" target="miniProgram">
       <button class="action primary" type="primary">退出小程序</button>

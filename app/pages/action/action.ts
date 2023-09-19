@@ -1,10 +1,10 @@
-import { $Page, ls, rm } from "@mptool/all";
+import { $Page } from "@mptool/all";
 
-import { showModal } from "../../api/index.js";
 import type { AppOption } from "../../app.js";
 import { appCoverPrefix } from "../../config/index.js";
 import { getColor } from "../../utils/page.js";
 import { reportInfo } from "../../utils/report.js";
+import { resetApp } from "../../utils/reset.js";
 
 const { globalData } = getApp<AppOption>();
 
@@ -40,21 +40,7 @@ $Page(PAGE_ID, {
   }),
 
   /** 初始化小程序 */
-  resetApp() {
-    // 显示提示
-    wx.showLoading({ title: "初始化中", mask: true });
-
-    // 清除文件系统文件与数据存储
-    ls("").forEach((filePath) => rm(filePath));
-    wx.clearStorageSync();
-
-    // 隐藏提示
-    wx.hideLoading();
-    // 提示用户重启
-    showModal("小程序初始化完成", "请单击 “退出小程序按钮” 退出小程序");
-
-    this.setData({ exit: true, reset: false });
-  },
+  resetApp,
 
   pathInput({ detail }: WechatMiniprogram.Input) {
     this.setData({ path: detail.value });
