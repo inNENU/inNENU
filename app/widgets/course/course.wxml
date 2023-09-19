@@ -49,7 +49,7 @@
         >
         <block wx:else>
           <view class="time">{{time}}</view>
-          <block wx:for="{{nextCourses}}">
+          <block wx:for="{{nextCourses}}" wx:key="name">
             <view class="next-course-name">{{item.name}}</view>
             <view class="next-course-location">{{item.location}}</view>
           </block>
