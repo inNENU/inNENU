@@ -204,11 +204,14 @@ $Page("settings", {
 
       // 隐藏提示
       wx.hideLoading();
+      if (wx.restartMiniProgram)
+        wx.restartMiniProgram({ path: "pages/main/main" });
       // 提示用户重启
-      showModal(
-        `${envName}初始化完成`,
-        `请单击 “退出${envName}按钮” 退出${envName}。`,
-      );
+      else
+        showModal(
+          `${envName}初始化完成`,
+          `请单击 “退出${envName}按钮” 退出${envName}。`,
+        );
     });
   },
 
