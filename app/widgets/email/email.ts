@@ -135,8 +135,12 @@ $Component({
     }: WechatMiniprogram.TouchEvent<
       Record<never, never>,
       Record<never, never>,
-      { mid: string }
+      { mid?: string }
     >) {
+      const { status } = this.data;
+
+      if (status === "error") return this.$go("email");
+
       const { mid } = currentTarget.dataset;
 
       const err = await ensureActionLogin(globalData.account!, loginMethod);

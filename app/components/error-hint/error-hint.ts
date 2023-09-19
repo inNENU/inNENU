@@ -8,6 +8,7 @@ Component({
       type: String,
       default: "获取失败",
     },
+    hideRetry: Boolean,
   },
 
   methods: {

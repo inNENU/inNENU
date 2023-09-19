@@ -6,9 +6,10 @@
       color="#ff3333"
       size="{{size =='mini' ? 24 : 80}}"
     />
-    <view class="text">{{hint}}</view>
+    <view class="text">{{ hint || '获取失败'}}</view>
   </view>
   <button
+    wx:if="{{!hideRetry}}"
     class="retry-button warn"
     type="warn"
     size="{{size === 'mini'? 'mini': 'default'}}"

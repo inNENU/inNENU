@@ -12,7 +12,7 @@
         wx:if="{{status === 'error'}}"
         hint="{{errMsg}}"
         size="mini"
-        catch:retry="retry"
+        hide-retry
       />
       <login-hint
         wx:elif="{{status === 'login'}}"

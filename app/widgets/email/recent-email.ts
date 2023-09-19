@@ -84,7 +84,9 @@ export interface ActionRecentMailSuccessResponse {
 
 export type ActionRecentMailResponse =
   | ActionRecentMailSuccessResponse
-  | (CommonFailedResponse & { type?: LoginFailType.Expired });
+  | (CommonFailedResponse & {
+      type?: LoginFailType.Expired | "not-initialized";
+    });
 
 export interface ActionEmailPageOptions extends Partial<AccountInfo> {
   /** 邮件 ID */
@@ -103,7 +105,9 @@ export interface ActionEmailPageSuccessResponse {
 
 export type ActionEmailPageResponse =
   | ActionEmailPageSuccessResponse
-  | (CommonFailedResponse & { type?: LoginFailType.Expired });
+  | (CommonFailedResponse & {
+      type?: LoginFailType.Expired;
+    });
 
 const EMAIL_INFO_URL = `${ACTION_SERVER}/extract/getEmailInfo`;
 
@@ -151,6 +155,7 @@ export const recentEmails = async (): Promise<ActionRecentMailResponse> => {
 
   return {
     success: false,
+    type: "not-initialized",
     msg: "用户无邮箱或未初始化邮箱",
   };
 };

@@ -103,6 +103,21 @@ $Page(PAGE_ID, {
         })),
       });
       this.state.loginMethod = "check";
+    } else if (result.type === "not-initialized") {
+      wx.showModal({
+        title: "无法读取",
+        content: `\
+        用户无邮箱或邮箱未初始化。
+        如无邮箱请点击申请。
+        如已申请请通过初始密码登录邮箱，修改初始密码并开启手机密保。您可点击申请邮箱查看初始密码。\
+`,
+        confirmText: "申请邮箱",
+        cancelText: "我已了解",
+        success: (res) => {
+          if (res.confirm) this.$go("email-apply");
+        },
+      });
+      this.setData({ status: "error" });
     } else {
       showModal("获取失败", result.msg);
       this.setData({ status: "error" });
