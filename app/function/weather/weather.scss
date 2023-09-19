@@ -34,13 +34,15 @@ $asset-url: "https://mp.innenu.com/";
   }
 
   .alarm {
-    font-size: 14px;
     max-width: 80px;
-    line-height: 1.25;
-    border-radius: 8px;
     margin: 8px auto;
     padding: 4px 8px;
-    background-color: rgba(127, 127, 127, 0.25);
+    border-radius: 8px;
+
+    background-color: rgb(127 127 127 / 25%);
+
+    font-size: 14px;
+    line-height: 1.25;
 
     &.yellow {
       background-color: #ffbf62;

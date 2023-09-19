@@ -4,11 +4,15 @@
 .unread-badge {
   display: inline-block;
   vertical-align: text-top;
-  font-size: 10px;
+
   padding: 2px;
   border-radius: 50%;
+
   background-color: #f00;
   color: #fff;
+
+  font-size: 10px;
+
   transform: skew(8deg);
 }
 

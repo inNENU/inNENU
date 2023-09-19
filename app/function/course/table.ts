@@ -181,11 +181,13 @@ $Page(PAGE_ID, {
   }),
 
   getCourseData(time: string) {
-    return this[
-      globalData.userInfo!.typeId === "bks"
-        ? "getUnderCourseData"
-        : "getPostCourseData"
-    ](time);
+    const { typeId } = globalData.userInfo!;
+
+    if (typeId === "bks") return this.getUnderCourseData(time);
+
+    if (typeId === "yjs") return this.getPostCourseData(time);
+
+    return showModal("暂不支持", "课表查询仅支持本科生和研究生。");
   },
 
   async getUnderCourseData(time: string) {

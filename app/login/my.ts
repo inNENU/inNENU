@@ -1,4 +1,4 @@
-import { logger } from "@mptool/all";
+import { logger, query } from "@mptool/all";
 
 import { handleFailResponse } from "./account.js";
 import type {
@@ -90,7 +90,7 @@ interface RawInfo {
                 zymc: string;
                 rxnf: string;
                 xznj: string;
-                lb: string;
+                lb: "bks" | "yjs" | "lxs" | "jzg";
                 zzmm: string;
                 // eslint-disable-next-line @typescript-eslint/naming-convention
                 wf_dhhm: string;
@@ -112,6 +112,99 @@ interface RawInfo {
     };
   };
 }
+
+interface RawCompleteActionData {
+  pageIndex: number;
+  pageSize: number;
+  totalCount: number;
+  totalPage: number;
+  data: {
+    appId: string;
+    applyPerson: string;
+    applyPersonName: string;
+    appName: string;
+    appRedirectUrl: string;
+    approveResult: string;
+    currentNode: string;
+    flowId: string;
+    flowName: string;
+    keyWord: string;
+    lastApproveTime: string;
+    pcRedirectUrl: string;
+    serviceId: string;
+    serviceName: string;
+    serviceType: string;
+    startTime: string;
+    status: string;
+  }[];
+}
+
+export interface CompleteActionResult {
+  appId: string;
+  flowId: string;
+  flowName: string;
+  serviceId: string;
+  serviceName: string;
+  apply: string;
+  approve: string;
+}
+
+export interface MyCompleteActionsSuccessResult {
+  success: true;
+  data: CompleteActionResult[];
+}
+
+export const queryCompleteActions = async (): Promise<
+  MyCompleteActionsSuccessResult | CommonFailedResponse
+> => {
+  const completeActionsResult = await request<RawCompleteActionData>(
+    `${MY_SERVER}/taskCenter/queryMyApplicationComplete`,
+    {
+      method: "POST",
+      header: {
+        Accept: "application/json, text/javascript, */*; q=0.01",
+        "Content-Type": "application/x-www-form-urlencoded; charset=UTF-8",
+      },
+      data: query.stringify({
+        _search: "false",
+        nd: Date.now().toString(),
+        limit: "100",
+        page: "1",
+        sidx: "",
+        sord: "asc",
+      }),
+    },
+  );
+
+  if (typeof completeActionsResult === "object" && completeActionsResult.data)
+    return {
+      success: true,
+      data: completeActionsResult.data.map(
+        ({
+          appId,
+          flowName,
+          flowId,
+          serviceId,
+          serviceName,
+          startTime,
+          lastApproveTime,
+        }) => ({
+          appId,
+          flowId,
+          flowName,
+          serviceId,
+          serviceName,
+          apply: startTime,
+          approve: lastApproveTime,
+        }),
+      ),
+    };
+
+  return {
+    success: false,
+    msg: "获取已办事项失败",
+  };
+};
 
 export interface MyInfoSuccessResult {
   success: true;

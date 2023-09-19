@@ -21,26 +21,28 @@
 }
 
 .location {
+  overflow-x: auto;
   font-size: 14px;
   line-height: 2;
-  overflow-x: auto;
 }
 
 .current {
-  font-size: 32px;
-  font-weight: bold;
   margin: 0 4px;
+  font-weight: bold;
+  font-size: 32px;
 }
 
 .air,
 .wind,
 .alarm {
-  line-height: 1.25;
-  background-color: rgba(127, 127, 127, 0.25);
-  border-radius: 4px;
-  font-size: 12px;
   margin: 2px 4px;
   padding: 2px 4px;
+  border-radius: 4px;
+
+  background-color: rgb(127 127 127 / 25%);
+
+  font-size: 12px;
+  line-height: 1.25;
 }
 
 .icon {
@@ -51,7 +53,6 @@
 .hours {
   display: flex;
   align-items: stretch;
-
   height: 66px;
   margin-top: 10px;
 
@@ -62,9 +63,9 @@
     align-items: center;
     justify-content: space-between;
 
-    line-height: 1;
     width: 48px;
 
+    line-height: 1;
     text-align: center;
   }
 
@@ -94,6 +95,7 @@
     flex-direction: column;
     align-items: center;
     justify-content: space-evenly;
+
     font-size: 12px;
   }
 }
@@ -111,17 +113,17 @@
   }
 
   .sub-info {
+    flex-wrap: wrap;
     justify-content: start;
     font-size: 14px;
-    flex-wrap: wrap;
   }
 }
 
 .today.medium {
   .top-info {
     display: flex;
-    justify-content: space-between;
     align-items: center;
+    justify-content: space-between;
     font-size: 14px;
   }
 
@@ -133,8 +135,8 @@
 
   .main-info {
     display: flex;
-    justify-content: start;
     align-items: flex-end;
+    justify-content: start;
   }
 
   .placeholder {
@@ -191,14 +193,15 @@
     display: flex;
     flex-direction: column;
     justify-content: space-evenly;
-    margin: 0 12px 12px 0;
+
     width: 80px;
+    margin: 0 12px 12px 0;
   }
 
   .main-info {
     display: flex;
-    justify-content: center;
     align-items: flex-end;
+    justify-content: center;
   }
 
   .current-icon {
@@ -218,16 +221,16 @@
   }
 
   .days-wrapper {
-    flex: 1;
     position: relative;
+    flex: 1;
     overflow: hidden;
     height: 116px;
   }
 
   .days {
-    height: 116px;
     position: absolute;
     width: auto;
+    height: 116px;
   }
 
   .item {

@@ -155,8 +155,12 @@ $Page(PAGE_ID, {
         })
         .catch(() => {
           showModal(
-            "初始化失败",
-            "请检查: 是否在选课时间、网络连接是否有效",
+            "登录失败",
+            `\
+请检查:
+1. 是否在选课时间
+2. 网络连接是否有效
+`,
             (): void => {
               if (getCurrentRoute() === "function/select/select") this.$back();
             },

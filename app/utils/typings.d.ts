@@ -37,7 +37,7 @@ export interface UserInfo {
   /** 用户层次 */
   type: string;
   /** 用户层次代码 */
-  typeId: string;
+  typeId: "bks" | "yjs" | "lxs" | "jzg";
   /** 用户类别码 */
   code: string;
   /** 用户政治面貌 */

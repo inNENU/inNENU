@@ -11,10 +11,10 @@
   position: absolute;
   right: 12px;
   bottom: 12px;
-  background-color: rgba(255, 255, 255, 0.25) !important;
+  background-color: rgb(255 255 255 / 25%) !important;
 
   @media (prefers-color-scheme: dark) {
-    background-color: rgba(0, 0, 0, 0.25) !important;
+    background-color: rgb(0 0 0 / 25%) !important;
   }
 }
 
