@@ -16,28 +16,54 @@ Component({
   },
 
   data: {
+    notAdded: false,
     display: false,
     statusBarHeight: globalData.info.statusBarHeight,
   },
 
   lifetimes: {
     ready() {
-      // 判断是否已经显示过
-      const cache = get<boolean>(KEY);
+      if (wx.checkIsAddedToMyMiniProgram) {
+        wx.checkIsAddedToMyMiniProgram({
+          success: ({ added }) => {
+            this.setData({
+              notAdded: !added,
+              display: !added,
+            });
+          },
+        });
+      } else if (wx.isAddedToMyApps) {
+        wx.isAddedToMyApps({
+          success: ({ isAdded }) => {
+            this.setData({
+              notAdded: !isAdded,
+              display: !isAdded,
+            });
+          },
+        });
+      } else {
+        // 判断是否已经显示过
+        const cache = get<boolean>(KEY);
 
-      if (!cache) {
-        // 没显示过，则进行展示
-        this.setData({ display: true });
+        if (!cache) {
+          // 没显示过，则进行展示
+          this.setData({ display: true });
 
-        // 关闭时间
-        setTimeout(() => {
-          this.setData({ display: false });
-        }, this.properties.duration);
+          // 关闭时间
+          setTimeout(() => {
+            this.setData({ display: false });
+          }, this.properties.duration);
+        }
       }
     },
   },
 
   methods: {
+    addToMyApps() {
+      if (wx.applyAddToMyApps) wx.applyAddToMyApps();
+      else this.close();
+    },
+
     /** 关闭显示 */
     close(): void {
       this.setData({ display: false });
