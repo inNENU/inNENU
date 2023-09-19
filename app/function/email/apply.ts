@@ -39,7 +39,7 @@ $Page(PAGE_ID, {
     /** 密保电话 */
     phone: "",
 
-    status: <"success" | "error" | "login">"success",
+    status: <"apply" | "success" | "error" | "login">"apply",
   },
 
   state: {
@@ -52,7 +52,7 @@ $Page(PAGE_ID, {
     const { account } = globalData;
 
     if (account) {
-      this.setData({ status: "success" });
+      this.setData({ status: "apply" });
       this.checkEmail();
     } else {
       this.setData({ status: "login" });
@@ -133,14 +133,9 @@ $Page(PAGE_ID, {
     wx.hideLoading();
 
     if (result.success) {
-      if (result.hasEmail)
-        return showModal(
-          "已有邮箱",
-          `您已有邮箱${result.email}，无法再次申请。`,
-          () => {
-            this.$back();
-          },
-        );
+      if (result.hasEmail) {
+        return this.setData({ status: "success", result });
+      }
 
       const { accounts, taskId, instanceId } = result;
 
@@ -238,46 +233,30 @@ $Page(PAGE_ID, {
           shouldApplyOnline
             ? onlineMyEmail(options)
             : activateEmail(options, userInfo!)
-        ).then((res) => {
+        ).then((result) => {
           wx.hideLoading();
 
-          if (res.success) {
-            const hint = `
-您已成功申请邮箱 ${res.email}，密码为 ${res.password}。
-特别提示：未初始化前，邮箱无法正常使用。
-请截屏保存密码，并\
-`;
-
-            if (globalData.env === "app") {
-              showModal(
-                "已申请邮箱",
-                `\
-${hint}立即登录初始化邮箱。
-`,
-                () => {
-                  this.$go(`web?url=${encodeURIComponent(MAIL_LINK)}`);
-                },
-              );
-            } else {
-              setClipboard(MAIL_LINK).then(() => {
-                showModal(
-                  "已申请邮箱",
-                  `\
-${hint}立即前往 ${MAIL_LINK} 手动登录初始化邮箱。(网址已复制到剪切板)。
-`,
-                  () => {
-                    this.$back();
-                  },
-                );
-              });
-            }
-          } else showModal("申请邮箱失败", res.msg);
+          if (result.success) this.setData({ status: "success", result });
+          else showModal("申请邮箱失败", result.msg);
         });
       },
       () => {
         // do nothing
       },
     );
+  },
+
+  initEmail() {
+    if (globalData.env === "app")
+      this.$go(`web?url=${encodeURIComponent(MAIL_LINK)}`);
+    else {
+      setClipboard(MAIL_LINK).then(() =>
+        showModal(
+          "网址已复制",
+          `小程序暂不支持打开网页，请手动粘贴到浏览器地址栏并访问。`,
+        ),
+      );
+    }
   },
 
   retry() {

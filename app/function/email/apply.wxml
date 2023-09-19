@@ -10,6 +10,19 @@
   <view class="content">
     <error-hint wx:if="{{status === 'error'}}" catch:retry="retry" />
     <login-hint wx:elif="{{status === 'login'}}" source="申请校园邮箱" />
+    <view class="success-wrapper" wx:if="{{status === 'success'}}">
+      <icon type="success" size="120" />
+      <view class="success-title">已成功申请邮箱</view>
+      <plain-text
+        config="{{ { tag: 'ul', type: 'info', text: ['邮箱名称: '+ result.email, '邮箱初始密码: '+ result.password] } }}"
+      />
+      <plain-text
+        config="{{ { type: 'warning', text: ['申请邮箱后需要登录并初始化邮箱。请按照要求修改密码并绑定密保手机。未初始化前，邮箱无法正常使用！'] } }}"
+      />
+      <button class="init-button primary" type="primary" catch:tap="initEmail">
+        初始化邮箱
+      </button>
+    </view>
     <block wx:else>
       <image src="{{logo}}" class="logo" />
       <view class="apply-title">申请校园邮箱</view>

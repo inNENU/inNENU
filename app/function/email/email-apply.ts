@@ -8,7 +8,7 @@ import type {
   AuthLoginFailedResponse,
   VPNLoginFailedResponse,
 } from "../../login/index.js";
-import { MY_SERVER, getProcess } from "../../login/my.js";
+import { MY_SERVER, getProcess, queryCompleteActions } from "../../login/my.js";
 import { UserInfo } from "../../utils/typings.js";
 
 const { globalData } = getApp<AppOption>();
@@ -50,60 +50,68 @@ export interface ActivateEmailOptions {
   instanceId: string;
 }
 
-export interface ActivateEmailSuccessResponse {
-  success: true;
-  email: string;
-  password: string;
-}
-
 export type ActivateMailFailedResponse =
   | AuthLoginFailedResponse
   | VPNLoginFailedResponse
   | CommonFailedResponse;
 
 export type ActivateEmailResponse =
-  | ActivateEmailSuccessResponse
+  | MailInitSuccessInfo
   | ActivateMailFailedResponse;
 
 // Note: This can be inferred from app list
 const APPLY_MAIL_APP_ID = "GRYXSQ";
 
-const PASSWORD_CHARS = [
-  "ABCDEFGHIJKLMNOPQRSTUVWXYZ",
-  "abcdefghijklmnopqrstuvwxyz",
-  "1234567890",
-];
+interface MailInitRawData {
+  result: "0";
+  MESSAGE: string;
+  MAILNAME: string;
+  PASSWORD: string;
+}
 
-const initRandomPassWord = (length: number): string => {
-  const password: string[] = [];
-  let n = 0;
+interface MailInitSuccessInfo {
+  success: true;
+  email: string;
+  password: string;
+}
 
-  for (let i = 0; i < length; i++)
-    if (password.length < length - 3) {
-      // Get random passwordArray index
-      const arrayRandom = Math.floor(Math.random() * 3);
-      // Get password array value
-      const passwordItem = PASSWORD_CHARS[arrayRandom];
-      // Get password array value random index
-      // Get random real value
-      const char =
-        passwordItem[Math.floor(Math.random() * passwordItem.length)];
+interface MailInitFailedInfo {
+  success: false;
+  msg: string;
+}
 
-      password.push(char);
-    } else {
-      const passwordItem = PASSWORD_CHARS[n];
+type MailInitInfo = MailInitSuccessInfo | MailInitFailedInfo;
 
-      const char =
-        passwordItem[Math.floor(Math.random() * passwordItem.length)];
-      // Get array splice index
-      const spliceIndex = Math.floor(Math.random() * password.length);
+const getMailInitInfo = async (instanceId: string): Promise<MailInitInfo> => {
+  const mailInfoResponse = await request<MailInitRawData>(
+    `${MY_SERVER}/Gryxsq/getResult`,
+    {
+      method: "POST",
+      header: {
+        Accept: "application/json, text/javascript, */*; q=0.01",
+        "Content-Type": "application/x-www-form-urlencoded; charset=UTF-8",
+      },
+      data: query.stringify({
+        PROC: instanceId,
+      }),
+    },
+  );
 
-      // insert every type randomly
-      password.splice(spliceIndex, 0, char);
-      n++;
-    }
+  if (typeof mailInfoResponse === "object") {
+    const { MESSAGE, MAILNAME, PASSWORD } = mailInfoResponse;
 
-  return password.join("");
+    if (MESSAGE === "邮箱创建成功")
+      return {
+        success: true,
+        email: `${MAILNAME}@nenu.edu.cn`,
+        password: PASSWORD,
+      };
+  }
+
+  return {
+    success: false,
+    msg: "邮箱创建失败，请联系信息化办",
+  };
 };
 
 export const getEmail = async (): Promise<GetEmailResponse> => {
@@ -126,12 +134,28 @@ export const getEmail = async (): Promise<GetEmailResponse> => {
       msg: "获取邮箱信息失败",
     };
 
-  if (!checkResult.flag)
+  if (!checkResult.flag) {
+    const actions = await queryCompleteActions();
+
+    if (!actions.success)
+      return {
+        success: false,
+        msg: "邮箱申请记录失败",
+      };
+
+    const { serviceId } = actions.data.find(
+      (item) => item.flowName === "个人邮箱申请",
+    )!;
+
+    const mailInitInfo = await getMailInitInfo(serviceId);
+
+    if (mailInitInfo.success === false) return mailInitInfo;
+
     return {
-      success: true,
       hasEmail: true,
-      email: checkResult.yxmc,
+      ...mailInitInfo,
     };
+  }
 
   const processResult = await getProcess(APPLY_MAIL_APP_ID);
 
@@ -198,8 +222,6 @@ export const activateEmail = async (
       msg: "邮箱账户已存在",
     };
 
-  const password = initRandomPassWord(10);
-
   const setMailResult = await request<{ success: boolean }>(
     `${MY_SERVER}/dynamicDrawForm/submitAndSend`,
     {
@@ -231,17 +253,15 @@ export const activateEmail = async (
         YXMC: name ?? "",
         SFSYSZ: suffix ? "2" : "1",
         YXHZ: suffix?.toString() ?? "",
-        MM: password,
       }),
     },
   );
 
-  if (typeof setMailResult === "object" && setMailResult.success)
-    return {
-      success: true,
-      email: `${name}${suffix ?? ""}@nenu.edu.cn`,
-      password: password,
-    };
+  if (typeof setMailResult === "object" && setMailResult.success) {
+    const initInfo = await getMailInitInfo(instanceId);
+
+    return initInfo;
+  }
 
   return {
     success: false,
