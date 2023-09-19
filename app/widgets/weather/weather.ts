@@ -1,4 +1,4 @@
-import { $Component, PropType, readFile, set } from "@mptool/all";
+import { $Component, PropType, get, readFile, set } from "@mptool/all";
 
 import type { WeatherData } from "./getWeather.js";
 import { getOnlineWeather, getWeather } from "./getWeather.js";
@@ -63,13 +63,17 @@ $Component({
   },
 
   methods: {
-    getWeather(): Promise<void> {
-      return (
-        useOnlineService("weather") ? getOnlineWeather : getWeather
-      )().then((weather) => {
-        this.setData({ weather });
+    async getWeather(): Promise<void> {
+      let weather = get<WeatherData>(WEATHER_KEY);
+
+      if (!weather) {
+        weather = await (useOnlineService("weather")
+          ? getOnlineWeather
+          : getWeather)();
         set(WEATHER_KEY, weather, 5 * MINUTE);
-      });
+      }
+
+      this.setData({ weather });
     },
 
     updateIcon() {
