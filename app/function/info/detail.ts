@@ -35,7 +35,12 @@ $Page(PAGE_ID, {
     info: <StarredInfo | null>null,
   },
 
-  onLoad({ title = "", type = "notice", url = "" }) {
+  onLoad({
+    scene = "",
+    title = "",
+    url = scene.split("@")[0],
+    type = scene.split("@")[1] || "notice",
+  }) {
     const starredInfos = get<StarredInfo[]>(STARRED_INFO_LIST_KEY) ?? [];
 
     this.state.title = title;
@@ -47,6 +52,8 @@ $Page(PAGE_ID, {
         this.$back();
       });
 
+    console.error(`${url}@${type}`);
+
     this.getInfo();
     this.setData({
       color: getColor(),
@@ -56,7 +63,7 @@ $Page(PAGE_ID, {
       share: {
         title,
         shareable: true,
-        qrcode: `${service}mp/qrcode?appID=${globalData.appID}&page=function/notice/detail&scene=${url}|${type}`,
+        qrcode: `${service}mp/qrcode?appID=${globalData.appID}&page=function/notice/detail&scene=${url}@${type}`,
       },
       starred: starredInfos.some((item) => item.url === url),
     });

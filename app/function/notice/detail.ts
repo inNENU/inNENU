@@ -31,12 +31,7 @@ $Page(PAGE_ID, {
     notice: <StarredNotice | null>null,
   },
 
-  onLoad({
-    scene = "",
-    title = "",
-    id = scene.split("|")[0],
-    type = scene.split("|")[1] || "notice",
-  }) {
+  onLoad({ scene = "", title = "", id = scene, type = "notice" }) {
     const starredNotices = get<StarredNotice[]>(STARRED_NOTICE_LIST_KEY) ?? [];
 
     this.state.type = <NoticeType>type;
@@ -56,7 +51,7 @@ $Page(PAGE_ID, {
       share: {
         title,
         shareable: true,
-        qrcode: `${service}mp/qrcode?appID=${globalData.appID}&page=function/notice/detail&scene=${id}|${type}`,
+        qrcode: `${service}mp/qrcode?appID=${globalData.appID}&page=function/notice/detail&scene=${id}`,
       },
       starred: starredNotices.some((item) => item.id === id),
     });
