@@ -66,8 +66,10 @@ export interface EmailItem {
   subject: string;
   /** 接收日期 */
   receivedDate: number;
-  /** 发件人 */
-  from: string;
+  /** 发件人姓名 */
+  name: string;
+  /** 发件人邮件 */
+  email: string;
   /** 邮件 ID */
   mid: string;
   /** 是否已读 */
@@ -146,7 +148,8 @@ export const recentEmails = async (): Promise<ActionRecentMailResponse> => {
         ({ subject, receivedDate, from, id, flags }) => ({
           subject,
           receivedDate,
-          from,
+          name: /"(.*)"/.exec(from)?.[1] ?? from,
+          email: /<(.*)>/.exec(from)?.[1] ?? from,
           mid: id,
           unread: !flags.read,
         }),

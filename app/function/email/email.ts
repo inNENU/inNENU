@@ -31,7 +31,7 @@ $Page(PAGE_ID, {
       from: "返回",
     },
 
-    recent: <{ subject: string; from: string; mid: string; date: string }[]>[],
+    recent: <{ subject: string; name: string; mid: string; date: string }[]>[],
 
     status: <"success" | "error" | "login">"success",
   },
