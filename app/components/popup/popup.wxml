@@ -1,19 +1,16 @@
 <view class="popup-wrapper{{show ? ' show' : ''}}">
   <view class="mask" catch:tap="closeDialog" />
-  <view
-    class="popup"
-    style="padding-left:{{paddingInline}}px;padding-right:{{paddingInline}}px;padding-bottom: {{paddingBottom}}px;"
-  >
-    <view class="popup-head">
-      <view class="popup-head-button">
+  <view class="popup" style="padding-bottom: {{paddingBottom}}px;">
+    <view class="popup-header">
+      <view class="popup-header-button">
         <!-- 关闭按钮 -->
         <view class="icon-button icon-close" catch:tap="closeDialog" />
       </view>
-      <view class="popup-head-title">
+      <view class="popup-header-title">
         <text class="title">{{config.title}}</text>
         <text class="subtitle">{{config.subtitle}}</text>
       </view>
-      <view class="popup-head-button">
+      <view class="popup-header-button">
         <!-- 更多按钮 -->
         <view
           wx:if="{{config.more}}"
@@ -22,7 +19,10 @@
         />
       </view>
     </view>
-    <view class="popup-body {{config.bodyClass}}">
+    <view
+      class="popup-body body-class"
+      style="padding-left:{{paddingInline}}px;padding-right:{{paddingInline}}px; "
+    >
       <slot>
         <view class="text">{{config.text}}</view>
         <view wx:if="{{config.desc}}" class="desc">{{config.desc}}</view>
@@ -30,7 +30,7 @@
     </view>
     <view
       wx:if="{{config.confirm !== false || config.cancel !== false}}"
-      class="popup-foot"
+      class="popup-footer"
     >
       <button
         wx:if="{{config.cancel !== false}}"
