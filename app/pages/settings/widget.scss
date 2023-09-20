@@ -101,40 +101,43 @@
   @media (min-width: 768px) {
     display: block;
     flex-shrink: 0;
-    width: 200px;
     overflow: scroll;
+    width: 200px;
   }
 }
 
 .category {
   margin: 2px;
-  border-radius: 8px;
   padding: 4px 8px !important;
-  line-height: 1 !important;
+  border-radius: 8px;
 
   background-color: var(--bg-color-block);
   color: var(--action-color);
 
   font-weight: normal;
   font-size: 14px !important;
-
-  &.activate {
-    background-color: var(--action-color);
-    color: #fff;
-  }
+  line-height: 1 !important;
 
   @media (min-width: 768px) {
     display: block !important;
-    font-size: 18px !important;
+
     padding: 12px 15px !important;
+
     background-color: transparent;
     color: var(--text-color);
+
+    font-size: 18px !important;
     line-height: 1.5 !important;
 
     &.activate {
       background-color: var(--bg-color-block);
       color: var(--action-color);
     }
+  }
+
+  &.activate {
+    background-color: var(--action-color);
+    color: #fff;
   }
 }
 
@@ -168,13 +171,15 @@
 }
 
 .add-widget-button {
+  display: block;
+
+  width: unset !important;
+  max-width: 328px;
+  margin: 8px auto !important;
+  border-radius: 8px;
+
   background-color: var(--action-color);
   color: #fff;
-  width: unset !important;
-  border-radius: 8px;
-  display: block;
-  margin: 8px auto !important;
-  max-width: 328px;
 }
 
 .add-widget-hover {
@@ -182,12 +187,15 @@
 }
 
 .empty-hint {
-  height: 384px;
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 14px;
+
+  height: 384px;
+
   color: var(--dark-grey);
+
+  font-size: 14px;
 
   @media (min-width: 768px) {
     flex: 1;

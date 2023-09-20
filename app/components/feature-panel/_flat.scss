@@ -1,7 +1,12 @@
 .features-wrapper.flat {
   display: grid;
-
   grid-template-columns: repeat(3, 1fr);
+  grid-gap: 6px;
+  justify-content: space-around;
+
+  margin: 6px 8px;
+
+  text-align: left;
 
   @media (min-width: 520px) {
     grid-template-columns: repeat(4, 1fr);
@@ -23,26 +28,22 @@
     grid-template-columns: repeat(8, 1fr);
   }
 
-  grid-gap: 6px;
-  justify-content: space-around;
-
-  margin: 6px 8px;
-
-  text-align: left;
-
   .feature {
-    padding: 6px 8px;
-    border-radius: 6px;
-    background-color: var(--bg-color-block);
-    font-size: clamp(0.75rem, 0.636rem + 0.57vw, 1rem);
     display: flex;
     align-items: center;
 
+    padding: 6px 8px;
+    border-radius: 6px;
+
+    background-color: var(--bg-color-block);
+
+    font-size: clamp(0.75rem, 0.636rem + 0.57vw, 1rem);
+
     .icon {
+      flex-shrink: 0;
       width: 22px;
       height: 22px;
       margin-right: 6px;
-      flex-shrink: 0;
     }
 
     .text {
