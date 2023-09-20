@@ -13,6 +13,8 @@
 
   text-align: left;
 
+  overflow: hidden;
+
   &.medium {
     grid-column-start: span 2;
   }

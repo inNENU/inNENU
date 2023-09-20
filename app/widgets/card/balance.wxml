@@ -17,8 +17,13 @@
         <block wx:else>{{balance}}</block>元
       </view>
     </view>
+    <button
+      class="refresh-button"
+      type="default"
+      size="mini"
+      catch:tap="refresh"
+    >
+      <text class="refresh-button-icon" />
+    </button>
   </view>
-  <button class="refresh-button" type="default" size="mini" catch:tap="refresh">
-    <text class="refresh-button-icon" />
-  </button>
 </view>

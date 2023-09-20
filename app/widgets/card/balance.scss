@@ -9,8 +9,8 @@
 
 .refresh-button {
   position: absolute;
-  right: 12px;
-  bottom: 12px;
+  right: 0;
+  bottom: 0;
   background-color: rgb(255 255 255 / 25%) !important;
 
   @media (prefers-color-scheme: dark) {
