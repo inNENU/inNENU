@@ -5,6 +5,7 @@
   background-color-top="{{color.bgColorTop}}"
   background-color-bottom="{{color.bgColorBottom}}"
   root-background-color="{{color.bgColor}}"
+  page-style="{{style}}"
 />
 <view class="{{theme}} customize-page">
   <navbar nav="{{ { title: '自定义小组件' } }}" />

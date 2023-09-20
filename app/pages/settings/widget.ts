@@ -90,6 +90,7 @@ $Page(PAGE_ID, {
   data: {
     theme: globalData.theme,
     darkmode: globalData.darkmode,
+    style: "",
 
     addPopup: {
       title: "新增组件",
@@ -141,7 +142,7 @@ $Page(PAGE_ID, {
   onShareTimeline: () => ({ title: PAGE_TITLE }),
 
   showPopup() {
-    this.setData({ display: true });
+    this.setData({ display: true, style: "overflow:hidden" });
   },
 
   selectWidget({
@@ -153,7 +154,10 @@ $Page(PAGE_ID, {
   >) {
     const { index } = currentTarget.dataset;
 
-    this.setData({ current: WIDGETS[index], swiperIndex: 0 });
+    this.setData({
+      current: WIDGETS[index],
+      swiperIndex: 0,
+    });
   },
 
   swiperChange({ detail }: WechatMiniprogram.SwiperChange) {
@@ -202,6 +206,11 @@ $Page(PAGE_ID, {
   },
 
   close() {
-    this.setData({ display: false, current: null, swiperIndex: 0 });
+    this.setData({
+      display: false,
+      current: null,
+      swiperIndex: 0,
+      style: "",
+    });
   },
 });
