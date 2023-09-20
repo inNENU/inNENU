@@ -31,6 +31,16 @@ declare namespace WechatMiniprogram {
     filePath: string;
   }
 
+  interface DonutRegistOpenUrlParams {
+    action: "scheme" | "webpageURL" | "opensdkOnRep";
+    data: {
+      url: string;
+      host: string;
+      path: string;
+      query: string;
+    };
+  }
+
   interface Wx {
     /** 多端框架接口 */
     miniapp: {
@@ -40,6 +50,10 @@ declare namespace WechatMiniprogram {
       installApp: (options: DonutInstallAppOptions) => void;
       /** openUrl */
       openUrl: (options: DonutOpenUrlOptions) => void;
+      /** 监听进入App的事件，并获取参数 */
+      registOpenURL: (
+        callback: (params: DonutRegistOpenUrlParams) => void,
+      ) => void;
     };
   }
 }
