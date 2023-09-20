@@ -38,9 +38,10 @@
       <button
         type="primary"
         class="confirm-button primary"
-        catch:tap="$bindBack"
+        data-url="account"
+        catch:tap="$bingRedirect"
       >
-        退出
+        登录账号
       </button>
     </block>
     <block wx:else>
