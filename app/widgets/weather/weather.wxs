@@ -2,7 +2,8 @@
 function getClass(weather) {
   var now = getDate();
   /** 天气种类缩写 */
-  var weatherType = weather ? weather.observe.weatherShort : "";
+  var weatherType =
+    weather && weather.observe ? weather.observe.weatherShort : "";
 
   return weatherType.indexOf("晴") !== -1
     ? now.getHours() > 6 && now.getHours() < 18
