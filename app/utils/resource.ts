@@ -105,7 +105,7 @@ let hasResPopup = false;
  * @param dataUsage 消耗的数据流量
  */
 // eslint-disable-next-line max-lines-per-function
-export const checkResource = (): void => {
+export const checkResource = (): Promise<void> => {
   /** 资源提醒状态 */
   let notify = wx.getStorageSync<boolean | undefined>("resourceNotify");
   /** 本地资源版本 */
@@ -133,7 +133,7 @@ export const checkResource = (): void => {
 
   // 需要检查更新
   if (notify && !hasResPopup)
-    request<VersionInfo>(`${server}service/version.php`, {
+    return request<VersionInfo>(`${server}service/version.php`, {
       method: "POST",
     })
       .then((data) => {
@@ -191,4 +191,6 @@ export const checkResource = (): void => {
         console.error("Resource check failed: ", err);
         showToast("服务器出现问题");
       });
+
+  return Promise.resolve();
 };

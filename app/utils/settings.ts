@@ -86,15 +86,19 @@ export const getIdentity = (userInfo: UserInfo | null): Identify => {
   };
 };
 
-export const fetchData = async (globalData: GlobalData): Promise<void> => {
+export const fetchData = async (
+  globalData: GlobalData,
+  isTest = false,
+): Promise<void> => {
   try {
+    const { appID, version } = globalData;
     const { service, notice, ...data } = await request<Data>(
       `${server}service/settings.php`,
       {
         method: "POST",
         data: {
-          version: globalData.version,
-          appID: globalData.appID,
+          appID,
+          version: isTest ? "test" : version,
         },
       },
     );

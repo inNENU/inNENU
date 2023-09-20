@@ -107,7 +107,7 @@ $App<AppOption>({
     // 如果初次启动执行初始化
     if (!wx.getStorageSync(INITIALIZED_KEY)) initializeApp();
 
-    fetchData(this.globalData).then(() => {
+    fetchData(this.globalData, wx.getStorageSync("test")).then(() => {
       this.$emit("data");
     });
     startup(this.globalData);
@@ -126,7 +126,7 @@ $App<AppOption>({
     // 重新应用夜间模式、
     this.globalData.darkmode = wx.getSystemInfoSync().theme === "dark";
 
-    fetchData(this.globalData).then(() => {
+    fetchData(this.globalData, wx.getStorageSync("test")).then(() => {
       this.$emit("data");
     });
     updateApp(this.globalData);

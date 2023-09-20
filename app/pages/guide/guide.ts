@@ -66,9 +66,9 @@ $Page(PAGE_ID, {
     this.$on("theme", this.setTheme);
   },
 
-  onPullDownRefresh() {
+  async onPullDownRefresh() {
     this.setPage();
-    checkResource();
+    await checkResource();
     wx.stopPullDownRefresh();
   },
 

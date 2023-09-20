@@ -1,7 +1,6 @@
 import { $Page, get, put, set, take } from "@mptool/all";
 
 import type { PageDataWithContent } from "../../../typings/index.js";
-import { requestJSON } from "../../api/net.js";
 import type { AppOption } from "../../app.js";
 import { appCoverPrefix, appName, assets } from "../../config/index.js";
 import { DAY } from "../../utils/constant.js";
@@ -41,8 +40,8 @@ $Page(PAGE_ID, {
     statusBarHeight: globalData.info.statusBarHeight,
   },
 
-  async onPreload() {
-    const data = await this.loadPage();
+  onPreload() {
+    const data = this.loadPage();
 
     if (data) put(PAGE_ID, resolvePage({ id: PAGE_ID }, data));
 
@@ -62,7 +61,7 @@ $Page(PAGE_ID, {
     this.$on("data", () => this.setPage());
   },
 
-  async onShow() {
+  onShow() {
     const { account, userInfo } = globalData;
 
     this.setData({
@@ -72,7 +71,7 @@ $Page(PAGE_ID, {
     });
     popNotice(PAGE_ID);
 
-    await this.setPage();
+    this.setPage();
   },
 
   onReady() {
@@ -81,8 +80,8 @@ $Page(PAGE_ID, {
   },
 
   async onPullDownRefresh() {
-    await this.setPage();
-    checkResource();
+    this.setPage();
+    await checkResource();
     wx.stopPullDownRefresh();
   },
 
@@ -110,14 +109,7 @@ $Page(PAGE_ID, {
     this.setData({ color: getColor(this.data.page.grey), theme });
   },
 
-  async loadPage(): Promise<PageDataWithContent | null> {
-    const test = wx.getStorageSync<boolean | undefined>("test");
-
-    if (test)
-      return await requestJSON<PageDataWithContent>(
-        `d/config/${globalData.appID}/test/user`,
-      );
-
+  loadPage(): PageDataWithContent | null {
     if (!globalData.data) return null;
 
     const userPage = {
@@ -132,9 +124,9 @@ $Page(PAGE_ID, {
     return userPage;
   },
 
-  async setPage(): Promise<void> {
+  setPage(): void {
     try {
-      const pageData = await this.loadPage();
+      const pageData = this.loadPage();
 
       if (pageData) setPage({ ctx: this, option: { id: PAGE_ID } }, pageData);
     } catch (err) {
