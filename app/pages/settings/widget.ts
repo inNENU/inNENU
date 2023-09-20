@@ -94,7 +94,7 @@ $Page(PAGE_ID, {
 
     addPopup: {
       title: "新增组件",
-      confirm: "添加组件",
+      confirm: false,
       cancel: false,
     },
 

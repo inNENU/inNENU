@@ -33,7 +33,6 @@
   config="{{addPopup}}"
   show="{{display}}"
   padding-inline="8"
-  catch:confirm="addWidget"
   catch:cancel="close"
   catch:close="close"
 >
@@ -51,31 +50,41 @@
         {{item.name}}
       </button>
     </view>
-    <swiper
-      wx:if="{{current}}"
-      indicator-dots="{{current.types.length > 1}}"
-      current="{{swiperIndex}}"
-      indicator-color="{{indicatorColor}}"
-      indicator-active-color="{{indicatorActiveColor}}"
-      class="widgets-display"
-      bindchange="swiperChange"
-    >
-      <swiper-item
-        wx:for="{{current.types}}"
-        wx:key="*this"
-        class="widget-display"
-        skip-hidden-item-layout
-      >
-        <view
-          wx:if="{{swiperIndex === index || swiperIndex === index + 1 || swiperIndex === index - 1}}"
-          class="widgets"
-          capture-catch:tap="capture"
+    <view class="add-widgets">
+      <block wx:if="{{current}}">
+        <swiper
+          indicator-dots="{{current.types.length > 1}}"
+          current="{{swiperIndex}}"
+          indicator-color="{{indicatorColor}}"
+          indicator-active-color="{{indicatorActiveColor}}"
+          class="widgets-display"
+          bindchange="swiperChange"
         >
-          <template is="widget" data="{{tag: current.tag, type: item}}" />
-        </view>
-        <view class="widget-name">{{item}}</view>
-      </swiper-item>
-    </swiper>
-    <view wx:else class="empty-hint"> 选择一个组件类别 </view></view
-  >
+          <swiper-item
+            wx:for="{{current.types}}"
+            wx:key="*this"
+            class="widget-display"
+            skip-hidden-item-layout
+          >
+            <view
+              wx:if="{{swiperIndex === index || swiperIndex === index + 1 || swiperIndex === index - 1}}"
+              class="widgets"
+              capture-catch:tap="capture"
+            >
+              <template is="widget" data="{{tag: current.tag, type: item}}" />
+            </view>
+            <view class="widget-name">{{item}}</view>
+          </swiper-item>
+        </swiper>
+        <button
+          class="add-widget-button"
+          hover-class="add-widget-hover"
+          catch:tap="addWidget"
+        >
+          添加小组件
+        </button>
+      </block>
+      <view wx:else class="empty-hint"> 选择一个组件类别 </view>
+    </view>
+  </view>
 </popup>
