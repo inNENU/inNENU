@@ -273,16 +273,16 @@
           "scene": null
         },
         {
-          "name": "学校通知详情",
+          "name": "官网通知详情",
           "pathName": "function/info/detail",
-          "query": "from=学校通知&title=关于2023年9月（第70次）全国计算机等级考试报名通知&type=notice&url=info/1056/15931.htm",
+          "query": "from=官网通知&title=关于2023年9月（第70次）全国计算机等级考试报名通知&type=notice&url=info/1056/15931.htm",
           "launchMode": "default",
           "scene": null
         },
         {
-          "name": "学校新闻详情",
+          "name": "官网新闻详情",
           "pathName": "function/info/detail",
-          "query": "from=学校新闻&title=我校学习贯彻习近平新时代中国特色社会主义思想主题教育领导班子调研成果交流会举行&type=news&url=info/1055/16002.htm",
+          "query": "from=官网新闻&title=我校学习贯彻习近平新时代中国特色社会主义思想主题教育领导班子调研成果交流会举行&type=news&url=info/1055/16002.htm",
           "launchMode": "default",
           "scene": null
         },
@@ -294,14 +294,14 @@
           "scene": null
         },
         {
-          "name": "学校通知列表",
+          "name": "官网通知列表",
           "pathName": "function/info/list",
           "query": "",
           "launchMode": "default",
           "scene": null
         },
         {
-          "name": "学校新闻列表",
+          "name": "官网新闻列表",
           "pathName": "function/info/list",
           "query": "type=news",
           "launchMode": "default",

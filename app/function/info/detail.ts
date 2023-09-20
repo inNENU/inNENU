@@ -14,8 +14,8 @@ import type { InfoType, StarredInfo } from "../../widgets/info/info.js";
 const { globalData, useOnlineService } = getApp<AppOption>();
 
 const type2Title = {
-  news: "学校新闻",
-  notice: "学校通知",
+  news: "官网新闻",
+  notice: "官网通知",
   academic: "学术会议",
 };
 

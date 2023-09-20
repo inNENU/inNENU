@@ -10,7 +10,7 @@
   <navbar nav="{{ { title } }}" />
   <scroll-view scroll-y scroll-top="{{scrollTop}}" class="notice-list">
     <error-hint wx:if="{{status === 'error'}}" catch:retry="retry" />
-    <login-hint wx:elif="{{status === 'login'}}" source="学校通知" />
+    <login-hint wx:elif="{{status === 'login'}}" source="{{title}}" />
     <block wx:else>
       <view
         wx:for="{{notices}}"

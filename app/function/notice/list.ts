@@ -38,7 +38,7 @@ $Page(PAGE_ID, {
     this.setData({
       color: getColor(),
       theme: globalData.theme,
-      title: `内网${type === "news" ? "新闻" : "通知"}`,
+      title: `学校${type === "news" ? "新闻" : "通知"}`,
     });
   },
 
