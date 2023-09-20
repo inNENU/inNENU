@@ -33,7 +33,7 @@
           <view class="subject">{{item.subject}}</view>
           <view class="info">
             <view class="time">时间: {{item.date}}</view>
-            <view class="from">发件人: {{item.from}}</view>
+            <view class="name">发件人: {{item.name}}</view>
           </view>
         </view>
       </view>
