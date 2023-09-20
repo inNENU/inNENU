@@ -30,7 +30,7 @@
           <text>{{author || editor}}</text>
         </text>
       </view>
-      <rich-text nodes="{{content}}" space="nbsp" />
+      <rich-text class="rich-media" nodes="{{content}}" space="nbsp" />
     </block>
   </view>
   <view class="star-button" size="mini" catch:tap="toggleStar">
