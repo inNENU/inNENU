@@ -64,7 +64,6 @@ $Page(PAGE_ID, {
       title: "课程列表",
       confirm: "刷新人数",
       cancel: false,
-      bodyClass: "course-detail-popup-body",
     },
     showCourseDetail: false,
     coursesDetail: <FullCourseInfo[]>[],
@@ -166,7 +165,9 @@ $Page(PAGE_ID, {
             },
           );
         });
-    } else {
+    }
+    // TODO: use login-hint
+    else {
       showModal(
         "请先登录",
         "暂无账号信息，请输入",

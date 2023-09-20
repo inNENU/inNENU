@@ -245,6 +245,7 @@
   config="{{courseDetailPopupConfig}}"
   show="{{showCourseDetail}}"
   padding-inline="15"
+  body-class="course-detail-popup-body"
   catch:confirm="refreshDetailAmount"
   catch:close="closeDetailPopup"
 >
