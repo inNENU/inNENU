@@ -37,43 +37,45 @@
   catch:cancel="close"
   catch:close="close"
 >
-  <view class="category-list">
-    <button
-      wx:for="{{WIDGETS}}"
-      wx:key="name"
-      class="category {{current.name === item.name? 'activate': ''}}"
-      hover-class="button-hover"
-      size="mini"
-      data-index="{{index}}"
-      catch:tap="selectWidget"
-    >
-      {{item.name}}
-    </button>
-  </view>
-  <swiper
-    wx:if="{{current}}"
-    indicator-dots="{{current.types.length > 1}}"
-    current="{{swiperIndex}}"
-    indicator-color="{{indicatorColor}}"
-    indicator-active-color="{{indicatorActiveColor}}"
-    class="widgets-display"
-    bindchange="swiperChange"
-  >
-    <swiper-item
-      wx:for="{{current.types}}"
-      wx:key="*this"
-      class="widget-display"
-      skip-hidden-item-layout
-    >
-      <view
-        wx:if="{{swiperIndex === index || swiperIndex === index + 1 || swiperIndex === index - 1}}"
-        class="widgets"
-        capture-catch:tap="capture"
+  <view class="add-widget-wrapper">
+    <view class="category-list">
+      <button
+        wx:for="{{WIDGETS}}"
+        wx:key="name"
+        class="category {{current.name === item.name? 'activate': ''}}"
+        hover-class="button-hover"
+        size="mini"
+        data-index="{{index}}"
+        catch:tap="selectWidget"
       >
-        <template is="widget" data="{{tag: current.tag, type: item}}" />
-      </view>
-      <view class="widget-name">{{item}}</view>
-    </swiper-item>
-  </swiper>
-  <view wx:else class="empty-hint"> 选择一个组件类别 </view>
+        {{item.name}}
+      </button>
+    </view>
+    <swiper
+      wx:if="{{current}}"
+      indicator-dots="{{current.types.length > 1}}"
+      current="{{swiperIndex}}"
+      indicator-color="{{indicatorColor}}"
+      indicator-active-color="{{indicatorActiveColor}}"
+      class="widgets-display"
+      bindchange="swiperChange"
+    >
+      <swiper-item
+        wx:for="{{current.types}}"
+        wx:key="*this"
+        class="widget-display"
+        skip-hidden-item-layout
+      >
+        <view
+          wx:if="{{swiperIndex === index || swiperIndex === index + 1 || swiperIndex === index - 1}}"
+          class="widgets"
+          capture-catch:tap="capture"
+        >
+          <template is="widget" data="{{tag: current.tag, type: item}}" />
+        </view>
+        <view class="widget-name">{{item}}</view>
+      </swiper-item>
+    </swiper>
+    <view wx:else class="empty-hint"> 选择一个组件类别 </view></view
+  >
 </popup>
