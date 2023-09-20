@@ -1,0 +1,11 @@
+module.exports = {
+  getSize: function (type) {
+    console.log(type);
+
+    return type.includes("大")
+      ? "large"
+      : type.includes("小")
+      ? "small"
+      : "medium";
+  },
+};

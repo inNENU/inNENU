@@ -71,7 +71,7 @@
               class="widgets"
               capture-catch:tap="capture"
             >
-              <template is="widget" data="{{tag: current.tag, type: item}}" />
+              <template is="widget" data="{{ tag: current.tag, type: item }}" />
             </view>
             <view class="widget-name">{{item}}</view>
           </swiper-item>

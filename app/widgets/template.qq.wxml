@@ -1,0 +1,53 @@
+<wxs src="./utils.wxs" module="utils" />
+<template name="widget" data="{{ tag, type }}">
+  <card-balance-widget
+    wx:if="{{tag === 'card'}}"
+    type="{{type}}"
+    class="{{utils.getSize(type)}}"
+  />
+  <course-widget
+    wx:elif="{{tag === 'course'}}"
+    type="{{type}}"
+    class="{{utils.getSize(type)}}"
+  />
+  <email-widget
+    wx:elif="{{tag === 'email'}}"
+    type="{{type}}"
+    class="{{utils.getSize(type)}}"
+  />
+  <library-borrow-widget
+    wx:elif="{{tag === 'library-borrow'}}"
+    type="{{type}}"
+    class="{{utils.getSize(type)}}"
+  />
+  <library-people-widget
+    wx:elif="{{tag === 'library-people'}}"
+    type="{{type}}"
+    class="{{utils.getSize(type)}}"
+  />
+  <recent-info-widget
+    wx:elif="{{tag === 'recent-info'}}"
+    type="{{type}}"
+    class="{{utils.getSize(type)}}"
+  />
+  <starred-info-widget
+    wx:elif="{{tag === 'starred-info'}}"
+    type="{{type}}"
+    class="{{utils.getSize(type)}}"
+  />
+  <recent-notice-widget
+    wx:elif="{{tag === 'recent-notice'}}"
+    type="{{type}}"
+    class="{{utils.getSize(type)}}"
+  />
+  <starred-notice-widget
+    wx:elif="{{tag === 'starred-notice'}}"
+    type="{{type}}"
+    class="{{utils.getSize(type)}}"
+  />
+  <weather-widget
+    wx:elif="{{tag === 'weather'}}"
+    type="{{type}}"
+    class="{{utils.getSize(type)}}"
+  />
+</template>

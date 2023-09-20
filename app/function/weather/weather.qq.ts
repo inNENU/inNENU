@@ -136,7 +136,7 @@ $Page("weather", {
       .select(".temperature-canvas")
       .fields({ size: true })
       .exec(([{ width }]: Required<WechatMiniprogram.NodeInfo>[]) => {
-        this.draw(weather, width);
+        this.draw(weather, (width * 5) / 8);
       });
   },
 

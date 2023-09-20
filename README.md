@@ -17,7 +17,7 @@ https://authserver.nenu.edu.cn;
 https://dsjx.webvpn.nenu.edu.cn;
 https://m-443.webvpn.nenu.edu.cn;
 https://my.webvpn.nenu.edu.cn;
-https://webvpn.nenu.edu.cn
+https://webvpn.nenu.edu.cn;
 https://www.nenu.edu.cn;
 https://yzb.nenu.edu.cn;
 ```

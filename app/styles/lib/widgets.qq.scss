@@ -1,0 +1,23 @@
+.widgets {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+  grid-auto-rows: minmax(160px, auto);
+  grid-auto-columns: 160px;
+  gap: 8px;
+  align-content: space-evenly;
+  align-items: center;
+  align-items: stretch;
+  justify-content: space-evenly;
+
+  margin: 16px;
+
+  > .medium {
+    grid-column-start: span 2;
+  }
+
+  > .large {
+    grid-row-start: span 2;
+    grid-column-start: span 2;
+    height: 328px;
+  }
+}
