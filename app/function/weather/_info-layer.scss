@@ -1,0 +1,195 @@
+$asset-url: "https://mp.innenu.com/";
+
+.info-wrapper {
+  /* 背景相关 */
+  .background {
+    z-index: 1;
+    overflow: hidden;
+    width: 100%;
+  }
+
+  .background,
+  .background .layer {
+    position: absolute;
+    top: 60px;
+    bottom: 0;
+  }
+
+  .background .layer {
+    content: "";
+
+    right: -6%;
+    left: -6%;
+
+    background-position: bottom;
+    background-size: 100% auto;
+    background-repeat: no-repeat;
+
+    transition: all 0.2s;
+  }
+
+  .layer1 {
+    z-index: 3;
+    background-image: url("#{$asset-url}img/weather/ground-day.png");
+  }
+
+  .layer2 {
+    z-index: 2;
+    background-image: url("#{$asset-url}img/weather/lake-day.png");
+  }
+
+  .layer3 {
+    z-index: 1;
+    background-image: url("#{$asset-url}img/weather/layer3.png");
+  }
+
+  &.code1 {
+    background-image: linear-gradient(-90deg, #86c3ca, #b5e9e8);
+
+    .layer1 {
+      background-image: url("#{$asset-url}img/weather/groud-day2.png");
+    }
+
+    .layer2 {
+      background-image: url("#{$asset-url}img/weather/lake-day2.png");
+    }
+
+    .layer3 {
+      background-image: url("#{$asset-url}img/weather/C1-layer3.png");
+    }
+  }
+
+  &.code3 {
+    background-image: linear-gradient(-90deg, #43697f, #abd2d7);
+
+    .layer1 {
+      background-image: url("#{$asset-url}img/weather/groud-day3.png");
+    }
+
+    .layer2 {
+      background-image: url("#{$asset-url}img/weather/lake-day3.png");
+    }
+
+    .layer3 {
+      background-image: url("#{$asset-url}img/weather/C3-layer3.png");
+    }
+  }
+
+  &.code4 {
+    background-image: linear-gradient(-90deg, #67a1dc, #a8e0f7);
+
+    .layer1 {
+      background-image: url("#{$asset-url}img/weather/groud-snow.png");
+    }
+
+    .layer2 {
+      background-image: url("#{$asset-url}img/weather/lake-snow.png");
+    }
+
+    .layer3 {
+      background-image: url("#{$asset-url}img/weather/C4-layer3.png");
+    }
+  }
+
+  &.code5 {
+    background-image: linear-gradient(-90deg, #81aedc, #a9def1);
+
+    .layer1 {
+      background-image: url("#{$asset-url}img/weather/groud5.png");
+    }
+
+    .layer2 {
+      background-image: url("#{$asset-url}img/weather/lake5.png");
+    }
+
+    .layer3 {
+      background-image: url("#{$asset-url}img/weather/C4-layer3.png");
+    }
+  }
+
+  &.code6 {
+    background-image: linear-gradient(-90deg, #9b9b96, #c1c1bc);
+
+    .layer1 {
+      background-image: url("#{$asset-url}img/weather/groud6.png");
+    }
+
+    .layer2 {
+      background-image: url("#{$asset-url}img/weather/lake6.png");
+    }
+
+    .layer3 {
+      background-image: url("#{$asset-url}img/weather/C6-layer3.png");
+    }
+  }
+
+  &.code7 {
+    background-image: linear-gradient(-90deg, #c09461, #eedfa1);
+
+    .layer1 {
+      background-image: url("#{$asset-url}img/weather/groud7.png");
+    }
+
+    .layer2 {
+      background-image: url("#{$asset-url}img/weather/lake7.png");
+    }
+
+    .layer3 {
+      background-image: url("#{$asset-url}img/weather/C7-layer3.png");
+    }
+  }
+
+  &.code9 {
+    background-image: linear-gradient(-90deg, #50ade8, #7ae0fa);
+
+    .layer1 {
+      background-image: url("#{$asset-url}img/weather/groud9.png");
+    }
+
+    .layer2 {
+      background-image: url("#{$asset-url}img/weather/lake9.png");
+    }
+
+    .layer3 {
+      background-image: url("#{$asset-url}img/weather/windy.png");
+    }
+  }
+
+  &.night {
+    background-image: linear-gradient(-90deg, #313877, #44abec);
+
+    .layer1 {
+      z-index: 3;
+      background-image: url("#{$asset-url}img/weather/ground-night.png");
+    }
+
+    .layer2 {
+      z-index: 2;
+      background-image: url("#{$asset-url}img/weather/lake-night.png");
+    }
+
+    .layer3 {
+      z-index: 1;
+      background-image: url("#{$asset-url}img/weather/mountain-night.png");
+    }
+
+    &.code9 {
+      background-image: linear-gradient(-90deg, #313877, #44abec);
+
+      .layer1 {
+        z-index: 3;
+        background-image: url("#{$asset-url}img/weather/ground-night.png");
+      }
+
+      .layer2 {
+        z-index: 2;
+        background-image: url("#{$asset-url}img/weather/lake-night.png");
+      }
+
+      .layer3 {
+        z-index: 1;
+        background-image: url("#{$asset-url}img/weather/mountain-night2.png");
+      }
+    }
+  }
+}

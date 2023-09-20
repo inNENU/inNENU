@@ -43,7 +43,7 @@ $Page("weather", {
 
     this.setData({
       // 18 点至次日 5 点为夜间
-      night: currentHour > 18 || currentHour < 5,
+      infoClass: currentHour > 18 || currentHour < 5 ? "night" : "day",
       firstPage: getCurrentPages().length === 1,
       color: getColor(),
       statusBarHeight: globalData.info.statusBarHeight,
@@ -58,9 +58,6 @@ $Page("weather", {
       );
 
       this.setData({
-        // 18 点至次日 5 点为夜间
-        night: new Date().getHours() > 18 || new Date().getHours() < 5,
-
         weatherIcon,
         hintIcon,
       });
@@ -107,8 +104,8 @@ $Page("weather", {
   },
 
   /** 屏幕变化时重绘画布 */
-  onResize({ size }) {
-    this.drawCanvas(this.data.weather, size.windowWidth);
+  onResize() {
+    this.drawCanvas(this.data.weather);
   },
 
   updateIcon(): void {
@@ -127,10 +124,7 @@ $Page("weather", {
    *
    * @param weather 天气详情
    */
-  drawCanvas(
-    weather: WeatherData,
-    windowWidth = wx.getSystemInfoSync().windowWidth,
-  ) {
+  drawCanvas(weather: WeatherData) {
     this.createSelectorQuery()
       .select(CANVAS_SELECTOR)
       .fields({ node: true, size: true })
@@ -142,17 +136,12 @@ $Page("weather", {
 
           canvas.width = width * dpr;
           canvas.height = height * dpr;
-          this.draw(canvas, weather, windowWidth);
+          this.draw(canvas, weather);
         },
       );
   },
 
-  draw(
-    canvas: WechatMiniprogram.Canvas2DNode,
-    weather: WeatherData,
-    // 屏幕宽度可能发生变化
-    width: number,
-  ) {
+  draw(canvas: WechatMiniprogram.Canvas2DNode, weather: WeatherData) {
     const highTemperature: number[] = [];
     const lowTemperature: number[] = [];
     const { dayForecast } = weather;
@@ -175,6 +164,7 @@ $Page("weather", {
 
     const context = canvas.getContext("2d");
     const dpr = globalData.info.pixelRatio;
+    const width = (canvas.width * 5) / 8 / dpr;
 
     context.scale(dpr, dpr);
 

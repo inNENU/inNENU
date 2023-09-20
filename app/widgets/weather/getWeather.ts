@@ -424,7 +424,7 @@ export const getWeather = async (): Promise<WeatherData> => {
       }),
     );
 
-  const tips = Object.values(data.tips.observe);
+  const tips = Object.values(data.tips.observe || {});
 
   return {
     air: {

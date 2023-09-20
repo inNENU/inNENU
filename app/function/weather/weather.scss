@@ -1,364 +1,187 @@
-$asset-url: "https://mp.innenu.com/";
+@use "info-layer";
 
-.wrapper {
+.weather-wrapper {
   width: 100%;
   background-color: var(--bg-color-grey);
   color: var(--text-color);
 }
 
+@media (min-width: 756px) {
+  .weather-wrapper {
+    display: flex;
+    align-items: stretch;
+  }
+
+  .wide-left {
+    display: flex;
+    flex-shrink: 0;
+    flex-direction: column;
+    width: 40vw;
+  }
+
+  .wide-right {
+    flex: 1;
+    overflow-y: auto;
+    max-height: 100vh;
+  }
+}
+
 /* 天气基本信息 */
-.weather-wrapper {
+.info-wrapper {
   position: relative;
 
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: flex-start;
+  justify-content: center;
 
   overflow: hidden;
-  box-sizing: border-box;
 
   width: 100%;
-  height: 470px;
+  height: 360px;
+  padding-bottom: 60px;
 
   background-image: linear-gradient(-90deg, #3bbcff, #4af4ff);
   color: #fff;
 
   text-align: center;
 
-  .alarms {
-    position: absolute;
-    top: 156px;
-    right: 15px;
-    z-index: 10;
+  @media (min-width: 756px) {
+    flex: 1;
+  }
+}
+
+.quality {
+  position: absolute;
+  left: 8px;
+  z-index: 10;
+
+  padding: 8px 12px;
+  border-radius: 8px;
+
+  background-color: #ffbf62;
+  box-shadow: 0 1px 1px 0 rgb(0 0 0 / 12%);
+
+  &.level1 {
+    background-color: #a3d765;
   }
 
-  .alarm {
-    max-width: 80px;
-    margin: 8px auto;
-    padding: 4px 8px;
-    border-radius: 8px;
-
-    background-color: rgb(127 127 127 / 25%);
-
-    font-size: 14px;
-    line-height: 1.25;
-
-    &.yellow {
-      background-color: #ffbf62;
-    }
-
-    &.red {
-      background-color: #ff6033;
-    }
-
-    &.blue {
-      background-color: #3bbcff;
-    }
+  &.level2 {
+    background-color: #f0cc35;
   }
 
-  .temperature {
-    margin-top: 60px;
-    padding-left: 22px;
-    font-size: 62px;
-    line-height: 1.2;
+  &.level3 {
+    background-color: #f1ab62;
   }
 
-  .type {
-    font-size: 22px;
-    line-height: 2;
+  &.level4 {
+    background-color: #ef7f77;
   }
 
-  .detail {
-    font-size: 15px;
-    line-height: 1.5;
-    text-align: justify;
+  &.level5 {
+    background-color: #b28ccb;
   }
 
-  .share-button {
-    position: absolute;
-    top: 120px;
-    right: 15px;
-    z-index: 10;
-
-    width: auto !important;
-    padding: 4px 12px !important;
-    border: none !important;
-    border-radius: 16px;
-
-    background-color: #ffa500 !important;
-    color: #fff !important;
-
-    font-weight: 400;
-    font-size: 15px;
-    line-height: 1.8;
+  &.level6 {
+    background-color: #ad788a;
   }
+}
 
-  .quality {
-    position: absolute;
-    top: 120px;
-    left: 8px;
-    z-index: 10;
+.quality-number {
+  height: 12px;
+  margin-bottom: 3px;
 
-    padding: 8px 12px;
-    border-radius: 8px;
+  color: #fff;
 
+  font-size: 12px;
+  line-height: 12px;
+
+  opacity: 0.8;
+}
+
+.quality-level {
+  height: 14px;
+  margin-top: 2px;
+
+  color: #fff;
+
+  font-size: 12px;
+  line-height: 14px;
+}
+
+.share-button {
+  position: absolute;
+  right: 8px;
+  z-index: 10;
+
+  width: auto !important;
+  padding: 6px 12px !important;
+  border: none !important;
+  border-radius: 16px;
+
+  background-color: #ffa500 !important;
+  color: #fff !important;
+
+  font-weight: 400;
+  font-size: 15px;
+  line-height: 1.5;
+}
+
+.location-wrapper {
+  width: 76%;
+  margin: 8px 12%;
+  font-size: 16px;
+  line-height: 1.5;
+}
+
+.current-info {
+  position: relative;
+  z-index: 10;
+}
+
+.current-temperature {
+  padding-left: 0.5em;
+  font-size: 62px;
+  line-height: 1.2;
+}
+
+.current-type {
+  font-size: 22px;
+  line-height: 2;
+}
+
+.current-detail {
+  font-size: 15px;
+  line-height: 2;
+}
+
+.tip {
+  margin: 8px;
+  font-size: 16px;
+  line-height: 1.5;
+}
+
+.alarm {
+  max-width: 80px;
+  margin: 8px auto;
+  padding: 4px 8px;
+  border-radius: 8px;
+
+  background-color: rgb(127 127 127 / 25%);
+
+  font-size: 14px;
+  line-height: 1.25;
+
+  &.yellow {
     background-color: #ffbf62;
-    box-shadow: 0 1px 1px 0 rgb(0 0 0 / 12%);
-
-    &.level1 {
-      background-color: #a3d765;
-    }
-
-    &.level2 {
-      background-color: #f0cc35;
-    }
-
-    &.level3 {
-      background-color: #f1ab62;
-    }
-
-    &.level4 {
-      background-color: #ef7f77;
-    }
-
-    &.level5 {
-      background-color: #b28ccb;
-    }
-
-    &.level6 {
-      background-color: #ad788a;
-    }
-
-    .number {
-      height: 12px;
-      margin-bottom: 3px;
-
-      color: #fff;
-
-      font-size: 12px;
-      line-height: 12px;
-
-      opacity: 0.8;
-    }
-
-    .level {
-      height: 14px;
-      margin-top: 2px;
-
-      color: #fff;
-
-      font-size: 12px;
-      line-height: 14px;
-    }
   }
 
-  .location-wrapper {
-    width: 76%;
-    height: 16px;
-    margin: 18px 12%;
-
-    font-size: 16px;
-    line-height: 1;
+  &.red {
+    background-color: #ff6033;
   }
 
-  .tip {
-    z-index: 2;
-    margin-top: 16px;
-    font-size: 16px;
-    line-height: 1.5;
-  }
-
-  /* 背景相关 */
-  .background {
-    z-index: 1;
-    overflow: hidden;
-    width: 100%;
-  }
-
-  .background,
-  .background .layer {
-    position: absolute;
-    top: 60px;
-    bottom: 0;
-  }
-
-  .background .layer {
-    content: "";
-
-    right: -6%;
-    left: -6%;
-
-    background-position: bottom;
-    background-size: 100% auto;
-    background-repeat: no-repeat;
-
-    transition: all 0.2s;
-  }
-
-  .layer1 {
-    z-index: 3;
-    background-image: url("#{$asset-url}img/weather/ground-day.png");
-  }
-
-  .layer2 {
-    z-index: 2;
-    background-image: url("#{$asset-url}img/weather/lake-day.png");
-  }
-
-  .layer3 {
-    z-index: 1;
-    background-image: url("#{$asset-url}img/weather/layer3.png");
-  }
-
-  &.code1 {
-    background-image: linear-gradient(-90deg, #86c3ca, #b5e9e8);
-
-    .layer1 {
-      background-image: url("#{$asset-url}img/weather/groud-day2.png");
-    }
-
-    .layer2 {
-      background-image: url("#{$asset-url}img/weather/lake-day2.png");
-    }
-
-    .layer3 {
-      background-image: url("#{$asset-url}img/weather/C1-layer3.png");
-    }
-  }
-
-  &.code3 {
-    background-image: linear-gradient(-90deg, #43697f, #abd2d7);
-
-    .layer1 {
-      background-image: url("#{$asset-url}img/weather/groud-day3.png");
-    }
-
-    .layer2 {
-      background-image: url("#{$asset-url}img/weather/lake-day3.png");
-    }
-
-    .layer3 {
-      background-image: url("#{$asset-url}img/weather/C3-layer3.png");
-    }
-  }
-
-  &.code4 {
-    background-image: linear-gradient(-90deg, #67a1dc, #a8e0f7);
-
-    .layer1 {
-      background-image: url("#{$asset-url}img/weather/groud-snow.png");
-    }
-
-    .layer2 {
-      background-image: url("#{$asset-url}img/weather/lake-snow.png");
-    }
-
-    .layer3 {
-      background-image: url("#{$asset-url}img/weather/C4-layer3.png");
-    }
-  }
-
-  &.code5 {
-    background-image: linear-gradient(-90deg, #81aedc, #a9def1);
-
-    .layer1 {
-      background-image: url("#{$asset-url}img/weather/groud5.png");
-    }
-
-    .layer2 {
-      background-image: url("#{$asset-url}img/weather/lake5.png");
-    }
-
-    .layer3 {
-      background-image: url("#{$asset-url}img/weather/C4-layer3.png");
-    }
-  }
-
-  &.code6 {
-    background-image: linear-gradient(-90deg, #9b9b96, #c1c1bc);
-
-    .layer1 {
-      background-image: url("#{$asset-url}img/weather/groud6.png");
-    }
-
-    .layer2 {
-      background-image: url("#{$asset-url}img/weather/lake6.png");
-    }
-
-    .layer3 {
-      background-image: url("#{$asset-url}img/weather/C6-layer3.png");
-    }
-  }
-
-  &.code7 {
-    background-image: linear-gradient(-90deg, #c09461, #eedfa1);
-
-    .layer1 {
-      background-image: url("#{$asset-url}img/weather/groud7.png");
-    }
-
-    .layer2 {
-      background-image: url("#{$asset-url}img/weather/lake7.png");
-    }
-
-    .layer3 {
-      background-image: url("#{$asset-url}img/weather/C7-layer3.png");
-    }
-  }
-
-  &.code9 {
-    background-image: linear-gradient(-90deg, #50ade8, #7ae0fa);
-
-    .layer1 {
-      background-image: url("#{$asset-url}img/weather/groud9.png");
-    }
-
-    .layer2 {
-      background-image: url("#{$asset-url}img/weather/lake9.png");
-    }
-
-    .layer3 {
-      background-image: url("#{$asset-url}img/weather/windy.png");
-    }
-  }
-
-  &.night {
-    background-image: linear-gradient(-90deg, #313877, #44abec);
-
-    .layer1 {
-      z-index: 3;
-      background-image: url("#{$asset-url}img/weather/ground-night.png");
-    }
-
-    .layer2 {
-      z-index: 2;
-      background-image: url("#{$asset-url}img/weather/lake-night.png");
-    }
-
-    .layer3 {
-      z-index: 1;
-      background-image: url("#{$asset-url}img/weather/mountain-night.png");
-    }
-
-    &.code9 {
-      background-image: linear-gradient(-90deg, #313877, #44abec);
-
-      .layer1 {
-        z-index: 3;
-        background-image: url("#{$asset-url}img/weather/ground-night.png");
-      }
-
-      .layer2 {
-        z-index: 2;
-        background-image: url("#{$asset-url}img/weather/lake-night.png");
-      }
-
-      .layer3 {
-        z-index: 1;
-        background-image: url("#{$asset-url}img/weather/mountain-night2.png");
-      }
-    }
+  &.blue {
+    background-color: #3bbcff;
   }
 }
 
@@ -462,7 +285,7 @@ $asset-url: "https://mp.innenu.com/";
     align-items: center;
     justify-content: space-evenly;
 
-    width: 20vw;
+    width: 20%;
     padding: 20px 0;
   }
 
@@ -508,13 +331,13 @@ $asset-url: "https://mp.innenu.com/";
 /* 画布 */
 .temperature-canvas {
   position: absolute;
-  top: 126px;
+  top: 144px;
   width: 160%;
   height: 148px;
 }
 
 /* 其他信息 */
-.info {
+.hints {
   display: flex;
   flex-wrap: wrap;
   margin: 20px 0;

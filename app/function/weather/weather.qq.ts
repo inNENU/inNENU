@@ -111,8 +111,8 @@ $Page("weather", {
   },
 
   /** 屏幕变化时重绘画布 */
-  onResize({ size }) {
-    this.drawCanvas(this.data.weather, size.windowWidth);
+  onResize() {
+    this.drawCanvas(this.data.weather);
   },
 
   updateIcon(): void {
@@ -131,11 +131,13 @@ $Page("weather", {
    *
    * @param weather 天气详情
    */
-  drawCanvas(
-    weather: WeatherData,
-    windowWidth = wx.getSystemInfoSync().windowWidth,
-  ) {
-    this.draw(weather, windowWidth);
+  drawCanvas(weather: WeatherData) {
+    this.createSelectorQuery()
+      .select(".temperature-canvas")
+      .fields({ size: true })
+      .exec(([{ width }]: Required<WechatMiniprogram.NodeInfo>[]) => {
+        this.draw(weather, width);
+      });
   },
 
   /**
