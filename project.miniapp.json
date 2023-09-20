@@ -25,15 +25,16 @@
     },
     "enableVConsole": "undefined",
     "privacy": {
-      "enable": true,
-      "template": "miniapp-privacy.json"
+      "enable": false,
+      "template": ""
     },
     "abi": {
       "arm64-v8a": true
     },
     "privateDescriptions": {
       "ACCESS_COARSE_LOCATION": "您的位置将用于地图显示",
-      "ACCESS_FINE_LOCATION": "您的位置将用于校园地图导航"
+      "ACCESS_FINE_LOCATION": "您的位置将用于校园地图导航",
+      "READ_CONTACTS": "此权限用于添加联系人到您的通讯录"
     },
     "map": {
       "qmapAPIKey": "NLVBZ-PGJRQ-T7K5F-GQ54N-GIXDH-FCBC4"
@@ -43,7 +44,8 @@
     },
     "schemes": {
       "scheme": "innenu"
-    }
+    },
+    "appMenuEnable": true
   },
   "mini-ios": {
     "sdkVersion": "1.0.30",
@@ -72,8 +74,8 @@
       "customImage": "assets/splash-xxhdpi.jpg"
     },
     "privacy": {
-      "enable": true,
-      "template": "miniapp-privacy.json"
+      "enable": false,
+      "template": ""
     },
     "privateDescriptions": {
       "NSPhotoLibraryAddUsageDescription": "写入图片至你的相册",
@@ -82,7 +84,8 @@
     "qmapAPIKey": "NLVBZ-PGJRQ-T7K5F-GQ54N-GIXDH-FCBC4",
     "infoPlist": {
       "AudioInBackgroundMode": true
-    }
+    },
+    "appMenuEnable": true
   },
   "versionCode": 20
 }

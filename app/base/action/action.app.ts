@@ -30,7 +30,7 @@ $Component({
     link(): void {
       const { content } = this.data.config;
 
-      this.$go(`web?url=${encodeURI(content)}`);
+      wx.miniapp.openUrl({ url: content });
     },
   },
 

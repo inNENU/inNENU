@@ -154,20 +154,17 @@ $Page(PAGE_ID, {
     never,
     { title: string; url: string }
   >) {
-    const { title, url } = currentTarget.dataset;
+    const { url } = currentTarget.dataset;
 
-    this.$go(`web?url=${encodeURIComponent(url)}&title=${title}`);
+    wx.miniapp.openUrl({ url });
   },
 
   follow() {
-    const { follow, qrcode, id } = this.data;
+    const { qrcode, id } = this.data;
 
-    if (follow)
-      this.$go(`web?url=${encodeURIComponent(follow)}&title=欢迎关注`);
-    else
-      savePhoto(qrcode ?? `https://open.weixin.qq.com/qr/code?username=${id}`)
-        .then(() => showToast("二维码已存至相册"))
-        .catch(() => showToast("二维码保存失败"));
+    savePhoto(qrcode ?? `https://open.weixin.qq.com/qr/code?username=${id}`)
+      .then(() => showToast("二维码已存至相册"))
+      .catch(() => showToast("二维码保存失败"));
   },
 
   scrollTop() {

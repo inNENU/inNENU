@@ -51,7 +51,7 @@ $Component({
     openSite(): void {
       const { site } = this.data.config;
 
-      this.$go(`web?url=${encodeURIComponent(site!)}`);
+      wx.miniapp.openUrl({ url: site! });
     },
 
     copyEmail(): void {

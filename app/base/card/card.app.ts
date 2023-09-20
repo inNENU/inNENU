@@ -20,8 +20,8 @@ $Component({
       else if ("path" in config) this.$go(`info?path=${config.path}`);
       // 页面路径
       else if (!config.url.match(/^https?:\/\//)) this.$go(config.url);
-      // 无法跳转，复制链接到剪切板
-      else this.$go(`web?title=${config.title}&url=${encodeURI(config.url)}`);
+      // 打开浏览器或 App
+      else wx.miniapp.openUrl({ url: config.url });
     },
 
     setLogo(value?: string) {
