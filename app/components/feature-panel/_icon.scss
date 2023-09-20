@@ -1,0 +1,46 @@
+.features-wrapper.icon {
+  position: relative;
+
+  display: flex;
+  flex-wrap: wrap;
+
+  overflow: hidden;
+
+  margin: 8px 15px;
+  border-radius: 8px;
+  text-align: center;
+
+  background-color: var(--bg-color-block);
+
+  .feature {
+    position: relative;
+
+    box-sizing: border-box;
+
+    width: 20%;
+    margin: 0;
+    padding: 8px;
+
+    background-color: var(--bg-color-block);
+
+    line-height: 1.25;
+
+    @media (min-width: 480px) {
+      width: 16.666%;
+    }
+
+    @media (min-width: 1024px) {
+      width: 12.5%;
+    }
+
+    .icon {
+      width: 32px;
+      height: 32px;
+    }
+
+    .text {
+      color: var(--dark-grey);
+      font-size: 12px;
+    }
+  }
+}

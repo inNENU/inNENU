@@ -1,5 +1,5 @@
 import type { PropType } from "@mptool/all";
-import { $Component, readFile } from "@mptool/all";
+import { $Component, get, readFile } from "@mptool/all";
 
 import type {
   GridComponentItemOptions,
@@ -15,6 +15,22 @@ $Component({
     },
   },
 
+  lifetimes: {
+    created() {
+      this.setLogo = this.setLogo.bind(this);
+      this.setFlat = this.setFlat.bind(this);
+    },
+    attached() {
+      this.setData({ flat: get<boolean>("flat-feature-panel") ?? true });
+      this.$on("feature-panel", this.setFlat);
+      this.$on("inited", this.setLogo);
+    },
+    detached() {
+      this.$off("feature-panel", this.setFlat);
+      this.$off("inited", this.setLogo);
+    },
+  },
+
   methods: {
     // 设置图标
     setLogo(items?: GridComponentItemOptions[]) {
@@ -26,17 +42,8 @@ $Component({
         ),
       });
     },
-  },
-
-  lifetimes: {
-    created() {
-      this.setLogo = this.setLogo.bind(this);
-    },
-    attached() {
-      this.$on("inited", this.setLogo);
-    },
-    detached() {
-      this.$off("inited", this.setLogo);
+    setFlat(flat: boolean) {
+      this.setData({ flat });
     },
   },
 

@@ -7,7 +7,7 @@
   <view class="header">{{config.header}}</view>
   <view wx:if="{{config.desc}}" class="desc">{{config.desc}}</view>
 </view>
-<view class="features-wrapper">
+<view class="features-wrapper {{flat? 'flat': 'icon'}}">
   <view
     wx:for="{{config.items}}"
     wx:key="text"

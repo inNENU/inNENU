@@ -201,4 +201,11 @@ $Page(PAGE_ID, {
   search({ detail }: WechatMiniprogram.Input) {
     this.$go(`search?type=${PAGE_ID}&word=${detail.value}`);
   },
+
+  toggleFeature() {
+    const isFlat = get<boolean>("flat-feature-panel") ?? true;
+
+    this.$emit("feature-panel", !isFlat);
+    set("flat-feature-panel", !isFlat);
+  },
 });

@@ -31,6 +31,14 @@
   >
     到头啦~人家被你拉得好痛阿(*´д`*) 不许你再拉人家~╭(╯^╰)╮
   </view>
+  <view class="feature-button-wrapper">
+    <view
+      class="feature-button"
+      hover-class="button-hover"
+      catch:tap="toggleFeature"
+      >切换样式</view
+    >
+  </view>
   <feature-panel
     wx:for="{{items}}"
     wx:for-item="config"

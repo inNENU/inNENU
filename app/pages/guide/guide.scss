@@ -2,6 +2,18 @@
   padding-bottom: 15px;
 }
 
+.feature-button-wrapper {
+  margin: 4px 15px;
+  text-align: right;
+}
+
+.feature-button {
+  display: inline-block;
+  color: var(--action-color);
+  font-size: 12px;
+  line-height: 1.5;
+}
+
 .more {
   margin: 15px;
   border-radius: 15px;
