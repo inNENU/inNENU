@@ -34,6 +34,16 @@ const WIDGETS: WidgetInfo[] = [
     types: ["未读邮件 (小)", "最近邮件 (小)", "最近邮件", "最近邮件 (大)"],
   },
   {
+    tag: "recent-notice",
+    name: "学校通知",
+    types: ["通知 (小)", "通知", "通知 (大)", "新闻 (小)", "新闻", "新闻 (大)"],
+  },
+  {
+    tag: "starred-notice",
+    name: "通知收藏",
+    types: ["通知收藏 (小)", "通知收藏", "通知收藏 (大)"],
+  },
+  {
     tag: "recent-info",
     name: "官网信息",
     types: [
@@ -54,26 +64,6 @@ const WIDGETS: WidgetInfo[] = [
     types: ["官网收藏 (小)", "官网收藏", "官网收藏 (大)"],
   },
   {
-    tag: "recent-notice",
-    name: "学校通知",
-    types: ["通知 (小)", "通知", "通知 (大)", "新闻 (小)", "新闻", "新闻 (大)"],
-  },
-  {
-    tag: "starred-notice",
-    name: "通知收藏",
-    types: ["通知收藏 (小)", "通知收藏", "通知收藏 (大)"],
-  },
-  {
-    tag: "library-borrow",
-    name: "图书馆借阅",
-    types: ["借阅书目 (小)", "图书待还 (小)"],
-  },
-  {
-    tag: "library-people",
-    name: "图书馆人数",
-    types: ["图书馆人数 (小)"],
-  },
-  {
     tag: "weather",
     name: "学校天气",
     types: [
@@ -83,6 +73,16 @@ const WIDGETS: WidgetInfo[] = [
       "近日天气",
       "近日天气 (大)",
     ],
+  },
+  {
+    tag: "library-people",
+    name: "图书馆人数",
+    types: ["图书馆人数 (小)"],
+  },
+  {
+    tag: "library-borrow",
+    name: "图书馆借阅",
+    types: ["借阅书目 (小)", "图书待还 (小)"],
   },
 ];
 
