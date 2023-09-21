@@ -1,10 +1,10 @@
 import { $Page } from "@mptool/all";
 
-import { postAdmission, underAdmission } from "./api.js";
 import type {
   AdmissionResponse,
   UnderAdmissionPostOptions,
-} from "./typings.js";
+} from "./getAdmission.js";
+import { postAdmission, underAdmission } from "./getAdmission.js";
 import { showModal } from "../../api/index.js";
 import { appCoverPrefix } from "../../config/index.js";
 import { popNotice } from "../../utils/page.js";

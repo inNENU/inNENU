@@ -1,23 +1,5 @@
 import type { CommonFailedResponse } from "../../../typings/index.js";
 
-export interface AdmissionSuccessResponse {
-  success: true;
-  info: { text: string; value: string }[];
-}
-
-export type AdmissionResponse = AdmissionSuccessResponse | CommonFailedResponse;
-
-export interface PostAdmissionPostOptions {
-  name: string;
-  id: string;
-}
-
-export interface UnderAdmissionPostOptions {
-  name: string;
-  id: string;
-  testId: string;
-}
-
 export interface HistoryGradeOptions {
   year: string;
   province: string;
