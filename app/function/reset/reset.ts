@@ -22,7 +22,7 @@ import { getColor, popNotice } from "../../utils/page.js";
 const { globalData, useOnlineService } = getApp<AppOption>();
 
 const PAGE_ID = "reset";
-const PAGE_TITLE = "重置密码";
+const PAGE_TITLE = "重置统一身份认证密码";
 const RESET_KEY = "reset-sms-code";
 
 $Page(PAGE_ID, {
@@ -38,6 +38,13 @@ $Page(PAGE_ID, {
       title: PAGE_TITLE,
       statusBarHeight: globalData.info.statusBarHeight,
       from: "返回",
+    },
+
+    footer: {
+      desc: `\
+『重置说明』
+小程序通过接入官方接口提供密码重置服务，您所填写的信息会直接发送(或经小程序转发)给官方服务器，在这一过程中，Mr.Hope 不会收集并存储您的任何信息。\
+`,
     },
 
     stage: <"info" | "phone" | "password" | "success">"info",
