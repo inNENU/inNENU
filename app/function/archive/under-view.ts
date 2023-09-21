@@ -1,4 +1,4 @@
-import { encodeBase64, logger } from "@mptool/all";
+import { logger } from "@mptool/all";
 
 import { CommonFailedResponse } from "../../../typings/index.js";
 import { request } from "../../api/net.js";
@@ -82,9 +82,6 @@ const studyRegExp =
   /<td {2}>(\S+)<\/td>\s*<td {2}>(\S+)<\/td>\s*<td\scolspan="4">(\S+)<\/td>\s*<td {2}>(\S+)<\/td>\s*<td\scolspan="2">(\S+)<\/td>\s*<td {2}>(\S+)<\/td>/g;
 const familyRegExp =
   /<td {2}>(\S+)<\/td>\s*<td {2}>(\S+)<\/td>\s*<td\scolspan="2">(\S+)<\/td>\s*<td\scolspan="2">(\S+)<\/td>\s*<td\scolspan="3">(\S+)<\/td>\s*<td {2}>(\S+)<\/td/g;
-const archiveImageRegExp =
-  /"(\/rxuploadfile\/studentphoto\/pic\/(?:.+?)\.JPG)"/;
-const examImageRegExp = /"(\/gkuploadfile\/studentphoto\/pic\/(?:.+?)\.JPG)"/;
 const pathRegExp = /var newwin = window.showModalDialog\("(.+?)"\);/;
 const registerButtonRegExp =
   /<input\s+type="button"\s+id="zc"\s+class="button"\s+value="确定注册"\s+onclick="bc\(\)"\/>/;
@@ -131,28 +128,20 @@ const getStudentArchive = async (
         name || relation || office || title || phone || remark,
     );
 
-  const archiveImageLink = archiveImageRegExp.exec(content)?.[1] || "";
-  const examImageLink = examImageRegExp.exec(content)?.[1] || "";
+  const [examImageLink, archiveImageLink] = Array.from(
+    content.matchAll(/var url\s*=\s*"(.*)"/g),
+  ).map(([, url]) => url);
 
   const [archiveImage, examImage] = await Promise.all([
     archiveImageLink
-      ? request<ArrayBuffer>(`${UNDER_SYSTEM_SERVER}${archiveImageLink}`, {
-          responseType: "arraybuffer",
-        })
-          .then(
-            (archiveImage) =>
-              `data:image/jpeg;base64,${encodeBase64(archiveImage)}`,
-          )
-          .catch(() => "")
+      ? request<string>(`${UNDER_SYSTEM_SERVER}${archiveImageLink}`, {
+          method: "POST",
+        }).catch(() => "")
       : "",
     examImageLink
-      ? request<ArrayBuffer>(`${UNDER_SYSTEM_SERVER}${examImageLink}`, {
-          responseType: "arraybuffer",
-        })
-          .then(
-            (examImage) => `data:image/jpeg;base64,${encodeBase64(examImage)}`,
-          )
-          .catch(() => "")
+      ? request<string>(`${UNDER_SYSTEM_SERVER}${examImageLink}`, {
+          method: "POST",
+        }).catch(() => "")
       : "",
   ]);
 
