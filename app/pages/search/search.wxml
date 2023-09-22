@@ -61,7 +61,7 @@
     <block wx:for="{{result}}" wx:key="title">
       <view
         wx:if="{{item.indexes}}"
-        class="search-item content"
+        class="search-item content-item"
         hover-class="button-hover"
         data-url="{{'info?id=' + item.path + '&from=搜索'}}"
         catch:tap="$bindGo"
@@ -97,7 +97,7 @@
       </view>
       <view
         wx:else
-        class="search-item page"
+        class="search-item page-item"
         data-url="{{item.url}}"
         catch:tap="$bindGo"
       >
