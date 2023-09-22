@@ -3,16 +3,6 @@ var left = 0;
 var top = 0;
 
 module.exports = {
-  /** 是否显示 */
-  isShowed: function (config) {
-    return (
-      config &&
-      (config.contact !== false ||
-        config.feedback !== false ||
-        config.shareable)
-    );
-  },
-
   /** 移动按钮 */
   moveButton: function (event, ownerInstance) {
     var touch = event.touches[0];
@@ -36,26 +26,9 @@ module.exports = {
       case "touchend":
       default:
         if (time > event.timeStamp - 200) {
-          console.log("Tap in shared menu");
-          ownerInstance.selectComponent(".share-wrapper").setStyle({
-            visibility: "visible",
-            opacity: 1,
-          });
-          ownerInstance.selectComponent(".share-menu").setStyle({
-            transform: "translateY(0)",
-          });
+          console.log("Tap in star button");
+          ownerInstance.callMethod("toggleStar");
         }
     }
-  },
-
-  /** 取消显示菜单 */
-  hideMenu: function (event, ownerInstance) {
-    event.instance.setStyle({
-      visibility: "hidden",
-      opacity: 0,
-    });
-    ownerInstance.selectComponent(".share-menu").setStyle({
-      transform: "translateY(100%)",
-    });
   },
 };

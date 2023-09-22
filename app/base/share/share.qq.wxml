@@ -5,9 +5,9 @@
   class="share-button"
   hover-class="hover"
   hover-stay-time="200"
-  catch:touchstart="{{share.button}}"
-  catch:touchmove="{{share.button}}"
-  catch:touchend="{{share.button}}"
+  catch:touchstart="{{share.moveButton}}"
+  catch:touchmove="{{share.moveButton}}"
+  catch:touchend="{{share.moveButton}}"
 >
   <image class="icon" src="./icon/share.svg" />
 </view>

@@ -1,3 +1,4 @@
+<wxs src="./detail.wxs" module="utils" />
 <page-meta
   background-text-style="{{darkmode ? 'dark': 'light'}}"
   background-color="{{color.bgColor}}"
@@ -33,7 +34,13 @@
       <rich-text class="rich-media" nodes="{{content}}" space="nbsp" />
     </block>
   </view>
-  <view class="star-button" size="mini" catch:tap="toggleStar">
+  <view
+    class="star-button"
+    size="mini"
+    catch:touchstart="{{utils.moveButton}}"
+    catch:touchmove="{{utils.moveButton}}"
+    catch:touchend="{{utils.moveButton}}"
+  >
     <view class="icon {{starred? 'starred': ''}}" />
   </view>
   <share config="{{share}}" />
