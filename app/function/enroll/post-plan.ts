@@ -2,7 +2,7 @@ import { $Page } from "@mptool/all";
 
 import type { PostEnrollSchoolPlan } from "./getPostPlan.js";
 import { getPostPlan } from "./getPostPlan.js";
-import { showModal } from "../../api/index.js";
+import { setClipboard, showModal, showToast } from "../../api/index.js";
 import type { AppOption } from "../../app.js";
 import { appCoverPrefix } from "../../config/index.js";
 import { getColor, popNotice } from "../../utils/page.js";
@@ -79,5 +79,18 @@ $Page(PAGE_ID, {
           ? this.state.plans
           : [this.state.plans[Number(detail.value) - 1]],
     });
+  },
+
+  openSite({
+    currentTarget,
+  }: WechatMiniprogram.TouchEvent<
+    Record<string, never>,
+    Record<string, never>,
+    { site: string }
+  >) {
+    const { site } = currentTarget.dataset;
+
+    if (globalData.env === "app") wx.miniapp.openUrl({ url: site });
+    else setClipboard(site).then(() => showToast("网址已复制"));
   },
 });

@@ -10,6 +10,7 @@
 <view class="post-plan {{theme}}">
   <navbar nav="{{ { title } }}" />
   <view class="filter">
+    筛选:
     <picker
       range="{{schools}}"
       value="{{schoolIndex}}"

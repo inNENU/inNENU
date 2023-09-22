@@ -3,7 +3,7 @@ module.exports = {
     return {
       fName: config.contact,
       num: config.phone,
-      remark: config.school + "招生咨询",
+      remark: config.name + "招生咨询",
       mail: config.mail,
       org: "东北师范大学",
     };
