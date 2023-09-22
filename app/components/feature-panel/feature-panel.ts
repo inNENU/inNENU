@@ -15,6 +15,10 @@ $Component({
     },
   },
 
+  data: {
+    flat: get<boolean>("flat-feature-panel") ?? true,
+  },
+
   lifetimes: {
     created() {
       this.setLogo = this.setLogo.bind(this);
