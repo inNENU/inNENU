@@ -19,13 +19,13 @@ $Page(PAGE_ID, {
 
   state: { plans: <PostEnrollSchoolPlan[]>[] },
 
-  onLoad({ recommend }) {
+  onLoad({ recommend, school = "全部" }) {
     this.setData({
       color: getColor(),
       theme: globalData.theme,
       title: recommend ? "研究生推免计划" : "研究生招生计划",
     });
-    this.getPlan(Boolean(recommend));
+    this.getPlan(Boolean(recommend), school);
   },
 
   onShow() {
@@ -47,20 +47,21 @@ $Page(PAGE_ID, {
     imageUrl: `${appCoverPrefix}.jpg`,
   }),
 
-  getPlan(isRecommend: boolean) {
+  getPlan(isRecommend: boolean, school: string) {
     wx.showLoading({ title: "获取中" });
 
     return getPostPlan(isRecommend).then((res) => {
       wx.hideLoading();
 
       if (res.success) {
-        this.state.plans = res.data;
+        const schools = ["全部", ...res.data.map(({ name }) => name)];
 
         this.setData({
-          schools: ["全部", ...res.data.map(({ name }) => name)],
-          schoolIndex: 0,
+          schools,
+          schoolIndex: Math.max(schools.indexOf(school), 0),
           plans: res.data,
         });
+        this.state.plans = res.data;
       } else {
         showModal("获取失败", res.msg, () => {
           void this.$back();
