@@ -37,7 +37,7 @@ $Page(PAGE_ID, {
 
   onShareAppMessage: () => ({
     title: PAGE_TITLE,
-    path: "/function/enroll/plan",
+    path: "/function/enroll/post-plan",
   }),
 
   onShareTimeline: () => ({ title: PAGE_TITLE }),
