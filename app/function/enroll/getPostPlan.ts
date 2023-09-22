@@ -27,5 +27,8 @@ export type PostEnrollResponse =
   | PostEnrollSuccessResponse
   | CommonFailedResponse;
 
-export const getPostPlan = (): Promise<PostEnrollResponse> =>
-  request<PostEnrollResponse>(`${service}enroll/post-plan`, { method: "POST" });
+export const getPostPlan = (isRecommend = false): Promise<PostEnrollResponse> =>
+  request<PostEnrollResponse>(
+    `${service}enroll/post${isRecommend ? "-recommend" : ""}-plan`,
+    { method: "POST" },
+  );

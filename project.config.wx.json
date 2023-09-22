@@ -273,6 +273,13 @@
           "scene": null
         },
         {
+          "name": "研究生推免计划",
+          "pathName": "function/enroll/post-plan",
+          "query": "recommend=true",
+          "launchMode": "default",
+          "scene": null
+        },
+        {
           "name": "招生计划",
           "pathName": "function/enroll/plan",
           "query": "",

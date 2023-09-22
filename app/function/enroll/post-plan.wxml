@@ -8,7 +8,7 @@
   root-background-color="{{color.bgColor}}"
 />
 <view class="post-plan {{theme}}">
-  <navbar nav="{{ { title: '研究生招生计划' } }}" />
+  <navbar nav="{{ { title } }}" />
   <view class="filter">
     <picker
       range="{{schools}}"
@@ -37,7 +37,7 @@
           <view class="name">{{item.major}}</view>
           <view class="info">
             <text>专业代码: {{item.code}}</text>
-            <text>专业类型: {{item.type}}</text>
+            <text wx:if="{{item.type}}">专业类型: {{item.type}}</text>
           </view>
           <rich-text class="rich-media" nodes="{{item.content}}" />
         </view>

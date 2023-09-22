@@ -5,7 +5,6 @@ import { getPostPlan } from "./getPostPlan.js";
 import { showModal } from "../../api/index.js";
 import type { AppOption } from "../../app.js";
 import { appCoverPrefix } from "../../config/index.js";
-import { ensureJSON } from "../../utils/json.js";
 import { getColor, popNotice } from "../../utils/page.js";
 
 const { globalData } = getApp<AppOption>();
@@ -20,16 +19,13 @@ $Page(PAGE_ID, {
 
   state: { plans: <PostEnrollSchoolPlan[]>[] },
 
-  onNavigate() {
-    ensureJSON("function/enroll/plan");
-  },
-
-  onLoad() {
+  onLoad({ recommend }) {
     this.setData({
       color: getColor(),
       theme: globalData.theme,
+      title: recommend ? "研究生推免计划" : "研究生招生计划",
     });
-    this.getPlan();
+    this.getPlan(Boolean(recommend));
   },
 
   onShow() {
@@ -51,8 +47,12 @@ $Page(PAGE_ID, {
     imageUrl: `${appCoverPrefix}.jpg`,
   }),
 
-  getPlan() {
-    return getPostPlan().then((res) => {
+  getPlan(isRecommend: boolean) {
+    wx.showLoading({ title: "获取中" });
+
+    return getPostPlan(isRecommend).then((res) => {
+      wx.hideLoading();
+
       if (res.success) {
         this.state.plans = res.data;
 
