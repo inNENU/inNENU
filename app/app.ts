@@ -49,6 +49,7 @@ $Config({
     ["apply-email", "/function/email/apply"],
     ["admission", "/function/enroll/admission"],
     ["enroll-grade", "/function/enroll/grade"],
+    ["enroll-post-plan", "/function/enroll/post-plan"],
     ["enroll-plan", "/function/enroll/plan"],
     ["info-detail", "/function/info/detail"],
     ["info-list", "/function/info/list"],
