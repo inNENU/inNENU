@@ -46,17 +46,19 @@ const getTimes = (grade: number): string[] => {
 };
 
 const getWeekRange = (timeText: string): WeekRange[] => {
-  const match = /([\d,-]+)[^\d]*周/.exec(timeText);
+  const match = Array.from(timeText.matchAll(/([\d,-]+)[^\d]*周/g));
 
   return match
-    ? match[1].split(",").map((item) => {
+    .map(([, time]) =>
+      time.split(",").map((item) => {
         const range = item.split("-");
 
         if (range.length === 1) range.push(range[0]);
 
         return range.map((str) => Number.parseInt(str, 10)) as WeekRange;
-      })
-    : [];
+      }),
+    )
+    .flat();
 };
 
 const handleCourseTable = (
