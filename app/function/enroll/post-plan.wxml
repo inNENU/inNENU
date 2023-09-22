@@ -1,0 +1,48 @@
+<wxs src="./post-plan.wxs" module="postPlan" />
+<wxs src="./utils.wxs" module="utils" />
+<page-meta
+  background-text-style="{{darkmode ? 'dark' : 'light'}}"
+  background-color="{{color.bgColor}}"
+  background-color-top="{{color.bgColorTop}}"
+  background-color-bottom="{{color.bgColorBottom}}"
+  root-background-color="{{color.bgColor}}"
+/>
+<view class="post-plan {{theme}}">
+  <navbar nav="{{ { title: '研究生招生计划' } }}" />
+  <view class="filter">
+    <picker
+      range="{{schools}}"
+      value="{{schoolIndex}}"
+      bindchange="onSchoolChange"
+    >
+      学院: {{schools[schoolIndex]}}
+    </picker>
+  </view>
+  <view class="content">
+    <view class="list">
+      <view wx:for="{{plans}}" wx:for-item="plan" wx:key="name" class="school">
+        <view class="school-name">
+          <view
+            class="site-button"
+            data-site="{{plan.site}}"
+            catch:tap="openSite"
+          >
+            <image class="site-icon" src="/base/account/icon/web.svg" />
+          </view>
+          {{plan.name}}
+        </view>
+
+        <phone config="{{postPlan.getPhoneConfig(plan)}}" />
+        <view wx:for="{{plan.majors}}" wx:key="name" class="major">
+          <view class="name">{{item.major}}</view>
+          <view class="info">
+            <text>专业代码: {{item.code}}</text>
+            <text>专业类型: {{item.type}}</text>
+          </view>
+          <rich-text class="rich-media" nodes="{{item.content}}" />
+        </view>
+      </view>
+    </view>
+  </view>
+  <footer />
+</view>

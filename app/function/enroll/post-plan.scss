@@ -1,0 +1,52 @@
+.filter {
+  text-align: left;
+}
+
+picker {
+  display: inline-block;
+  margin: 8px 12px;
+  padding: 8px 12px;
+  border-radius: 8px;
+  background-color: var(--bg-color-block);
+}
+
+.school {
+  text-align: left;
+  margin: 8px 0;
+}
+
+.site-button {
+  width: 16px;
+  height: 16px;
+  float: right;
+  padding: 8px;
+  border-radius: 50%;
+  background-color: var(--bg-color-block);
+}
+
+.site-icon {
+  width: 16px;
+  height: 16px;
+  vertical-align: top;
+}
+
+.school-name {
+  margin: 8px 15px 4px;
+  font-size: 22px;
+  font-weight: 500;
+  line-height: 1.5;
+}
+
+.major {
+  margin: 4px 15px;
+  border-bottom: 1px solid var(--border-color);
+}
+
+.name {
+  font-size: 17px;
+  line-height: 1.5;
+}
+
+.info {
+  font-size: 14px;
+}

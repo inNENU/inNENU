@@ -34,6 +34,7 @@
         "email/email",
         "enroll/admission",
         "enroll/grade",
+        "enroll/post-plan",
         "enroll/plan",
         "info/detail",
         "info/list",
