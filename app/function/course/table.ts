@@ -100,6 +100,10 @@ $Page(PAGE_ID, {
     weekIndex: 0,
 
     needLogin: false,
+
+    footer: {
+      desc: "课表数据使用本地缓存，来源于本科教学服务系统。如有课程数据变更请自行点击右上角进行刷新。",
+    },
   },
 
   state: {

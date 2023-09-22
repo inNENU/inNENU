@@ -85,4 +85,5 @@
       </view>
     </view>
   </block>
+  <footer config="{{footer}}" />
 </view>
