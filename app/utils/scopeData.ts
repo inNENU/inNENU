@@ -56,7 +56,7 @@ export const getScopeData = (page: PageDataWithContent): GeneralScopeData => ({
   "@type": "general",
   // eslint-disable-next-line
   uniq_id: page.id!,
-  title: page.title || "in东师",
+  title: page.title || "inNENU",
   ...(page.images ? { cover: page.images[0] } : {}),
   digest: getText(page),
   thumbs: getImages(page),

@@ -52,7 +52,7 @@
   "window": {
     "navigationBarBackgroundColor": "@navBgColor",
     "navigationBarTextStyle": "@navTextStyle",
-    "navigationBarTitleText": "in 东师",
+    "navigationBarTitleText": "inNENU",
     "navigationStyle": "custom",
     "backgroundColor": "@bgColor",
     "backgroundTextStyle": "@bgTxtStyle",

@@ -67,7 +67,7 @@ $Page(PAGE_ID, {
     this.setData({
       login: account !== null,
       userName: userInfo?.name || (account ? appName : "未登录"),
-      desc: account === null ? "in 东师，就用 in 东师" : "以下是你的今日概览",
+      desc: account === null ? "在东师，就用 inNENU" : "以下是你的今日概览",
     });
     popNotice(PAGE_ID);
 
