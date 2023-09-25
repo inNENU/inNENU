@@ -8,11 +8,20 @@
   }
 
   .paragraph-item {
-    margin-bottom: 16px;
+    margin-top: 4px;
+    margin-bottom: 12px;
+
+    &:last-child {
+      margin-bottom: 0;
+    }
   }
 
   .text-list-item {
-    margin-bottom: 4px;
+    margin-bottom: 8px;
+
+    &:last-child {
+      margin-bottom: 0;
+    }
   }
 
   &:not(.grey) {
