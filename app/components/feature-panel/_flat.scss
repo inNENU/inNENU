@@ -48,27 +48,7 @@
 
     .text {
       color: var(--grey4);
+      font-size: 15px;
     }
   }
 }
-
-// .feature-header {
-//   grid-row: 1 / span 2;
-
-//   padding: 6px 8px;
-//   border-radius: 6px;
-
-//   background-color: var(--bg-color-block);
-//   color: var(--text-color);
-
-//   font-weight: 500;
-//   font-size: clamp(1rem, 0.886rem + 0.57vw, 1.25rem);
-//   text-align: left;
-
-//   .desc {
-//     margin-top: 4px;
-//     color: var(--dark-grey);
-//     font-size: 12px;
-//     line-height: 1.25;
-//   }
-// }
