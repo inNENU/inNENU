@@ -35,7 +35,7 @@
   <view class="account-placeholder" style="height:{{statusBarHeight + 66}}px" />
   <view wx:if="{{login}}" class="widgets">
     <course-widget type="下节课程 (小)" />
-    <card-balance-widget />
+    <card-widget />
     <email-widget type="最近邮件 (小)" />
     <starred-notice-widget type="通知收藏 (小)" />
   </view>
