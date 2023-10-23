@@ -4,7 +4,7 @@ import type {
   TextComponentOptions,
   TitleComponentOptions,
 } from "../../typings/index.js";
-import { appCoverPrefix } from "../config/info.js";
+import { appCoverPrefix, appName } from "../config/info.js";
 
 const getText = (page: PageDataWithContent): string => {
   const pageContent = page.content
@@ -56,7 +56,7 @@ export const getScopeData = (page: PageDataWithContent): GeneralScopeData => ({
   "@type": "general",
   // eslint-disable-next-line
   uniq_id: page.id!,
-  title: page.title || "in东师",
+  title: page.title || appName,
   ...(page.images ? { cover: page.images[0] } : {}),
   digest: getText(page),
   thumbs: getImages(page),
