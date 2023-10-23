@@ -42,8 +42,7 @@
   <view class="loading-logo">
     <view class="logo">
       <view class="in">in</view>
-      <view class="dong">东</view>
-      <view class="shi">师</view>
+      <view class="name">NENU</view>
     </view>
     <view class="shadow" />
     <view class="text">加载中...</view>
