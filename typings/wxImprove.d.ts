@@ -78,12 +78,4 @@ declare namespace WechatMiniprogram.Component {
     touchmove: boolean;
     wheel: boolean;
   }
-
-  interface InstanceMethods<D extends DataOption> {
-    /** 设置被动事件 */
-    setPassiveEvent: (events: Partial<PassiveEventOptions>) => void;
-
-    /** 获取节点信息 */
-    getPassiveEvent: (callback: (options: PassiveEventOptions) => void) => void;
-  }
 }

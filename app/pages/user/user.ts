@@ -1,9 +1,9 @@
 import { $Page, get, put, set, take } from "@mptool/all";
 
-import { description, footer } from "./info.js";
+import { footer } from "./info.js";
 import type { PageDataWithContent } from "../../../typings/index.js";
 import type { AppOption } from "../../app.js";
-import { appCoverPrefix, appName } from "../../config/index.js";
+import { appCoverPrefix, appName, description } from "../../config/index.js";
 import { DAY } from "../../utils/constant.js";
 import { getColor, popNotice, resolvePage, setPage } from "../../utils/page.js";
 import { reportInfo } from "../../utils/report.js";

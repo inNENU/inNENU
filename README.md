@@ -1,4 +1,4 @@
-# in 东师 小程序/App
+# inNENU/in东师 小程序/App
 
 [![作者: Mr.Hope](https://img.shields.io/badge/作者-Mr.Hope-blue.svg?style=for-the-badge)](https://mister-hope.com)
 
@@ -31,3 +31,5 @@ https://mp.innenu.com
 https://service.innenu.com
 https://open.weixin.qq.com
 ```
+
+QQ Loading 图标，cover 和 share 图标 二维码合并图标

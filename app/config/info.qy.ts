@@ -1,7 +1,8 @@
 /** 小程序名称 */
-export const appName = "myNENU";
+export const appName = "东师青年+";
+export const description = "走出半生，归来仍是 —— 东师青年";
 /** 小程序版本 */
-export const version = "6.6.1";
+export const version = "6.6.2";
 /** 小程序服务器地址 */
 export const assets = "https://assets.innenu.com/";
 export const server = "https://mp.innenu.com/";

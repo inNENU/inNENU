@@ -2,7 +2,7 @@ import { $Page, get, put, set, take } from "@mptool/all";
 
 import type { PageDataWithContent } from "../../../typings/index.js";
 import type { AppOption } from "../../app.js";
-import { appCoverPrefix, appName } from "../../config/index.js";
+import { appCoverPrefix, appName, description } from "../../config/index.js";
 import { DAY } from "../../utils/constant.js";
 import { getColor, popNotice, resolvePage, setPage } from "../../utils/page.js";
 import { checkResource } from "../../utils/resource.js";
@@ -67,7 +67,7 @@ $Page(PAGE_ID, {
     this.setData({
       login: account !== null,
       userName: userInfo?.name || (account ? appName : "未登录"),
-      desc: account === null ? "in 东师，就用 in 东师" : "以下是你的今日概览",
+      desc: account === null ? description : "以下是你的今日概览",
     });
     popNotice(PAGE_ID);
 

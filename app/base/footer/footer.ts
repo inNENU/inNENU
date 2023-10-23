@@ -3,6 +3,7 @@ import { $Component } from "@mptool/all";
 
 import type { FooterComponentOptions } from "../../../typings/index.js";
 import { setClipboard, showModal } from "../../api/index.js";
+import { description } from "../../config/index.js";
 
 $Component({
   properties: {
@@ -12,6 +13,8 @@ $Component({
       required: true,
     },
   },
+
+  data: { description },
 
   methods: {
     copyCite({
