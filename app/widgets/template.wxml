@@ -1,5 +1,5 @@
 <template name="widget" data="{{ tag, type }}">
-  <card-balance-widget wx:if="{{tag === 'card'}}" type="{{type}}" />
+  <card-widget wx:if="{{tag === 'card'}}" type="{{type}}" />
   <course-widget wx:elif="{{tag === 'course'}}" type="{{type}}" />
   <email-widget wx:elif="{{tag === 'email'}}" type="{{type}}" />
   <library-borrow-widget

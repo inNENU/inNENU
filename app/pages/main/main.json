@@ -2,7 +2,7 @@
   "enablePullDownRefresh": true,
   "usingComponents": {
     "search": "/components/search/search",
-    "card-balance-widget": "/widgets/card/balance",
+    "card-widget": "/widgets/card/card",
     "course-widget": "/widgets/course/course",
     "email-widget": "/widgets/email/email",
     "library-borrow-widget": "/widgets/library/borrow",

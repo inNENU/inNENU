@@ -1,4 +1,4 @@
-import { $Component, get, set } from "@mptool/all";
+import { $Component, PropType, get, set } from "@mptool/all";
 
 import { getCardBalance, getOnlineCardBalance } from "./getBalance.js";
 import { showToast } from "../../api/index.js";
@@ -6,29 +6,57 @@ import type { AppOption } from "../../app.js";
 import { CARD_BALANCE_KEY } from "../../config/index.js";
 import { ensureActionLogin } from "../../login/index.js";
 import { MINUTE } from "../../utils/constant.js";
+import { getSize } from "../utils.js";
 
 const { globalData, useOnlineService } = getApp<AppOption>();
 
 $Component({
+  properties: {
+    type: {
+      type: String as PropType<
+        "校园卡 (小)" | "校园卡余额 (小)" | "校园卡二维码 (小)"
+      >,
+      default: "校园卡 (小)",
+    },
+  },
+
   data: {
+    enableBalance: false,
+    enableQrcode: false,
     status: <"loading" | "error" | "login" | "success">"loading",
   },
 
   lifetimes: {
     attached() {
+      const { type } = this.data;
       const balance = get<number>(CARD_BALANCE_KEY);
 
-      if (balance) this.setData({ status: "success", balance });
-      else this.getCardBalance("validate");
+      const enableBalance = !type.includes("二维码");
+      const enableQrcode = !type.includes("余额");
+
+      this.setData({
+        header: type.includes("未读") ? "未读邮件" : "近期邮件",
+        size: getSize(type),
+        enableBalance,
+        enableQrcode,
+      });
+
+      if (enableBalance) {
+        if (balance) this.setData({ status: "success", balance });
+        else this.getCardBalance("validate");
+      }
     },
   },
 
   pageLifetimes: {
     show() {
+      const { enableBalance, status } = this.data;
+
       if (globalData.account) {
-        if (this.data.status === "login") {
+        if (status === "login") {
           this.setData({ status: "loading" });
-          this.getCardBalance("validate");
+
+          if (enableBalance) this.getCardBalance("validate");
         }
       } else this.setData({ status: "login" });
     },
@@ -64,9 +92,13 @@ $Component({
       } else this.setData({ status: "login" });
     },
 
-    refresh() {
+    refreshBalance() {
       this.setData({ status: "loading" });
       this.getCardBalance("login");
+    },
+
+    viewQrcode() {
+      wx.navigateToMiniProgram({ appId: "wxd04f63577e51959e" });
     },
   },
 

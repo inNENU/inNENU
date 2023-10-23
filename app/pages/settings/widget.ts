@@ -21,7 +21,7 @@ const WIDGETS: WidgetInfo[] = [
   {
     tag: "card",
     name: "校园卡",
-    types: ["校园卡余额 (小)"],
+    types: ["校园卡", "校园卡余额 (小)", "校园卡二维码 (小)"],
   },
   {
     tag: "course",
