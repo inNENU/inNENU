@@ -61,6 +61,9 @@ export const logout = (): void => {
   remove(ACCOUNT_INFO_KEY);
   remove(USER_INFO_KEY);
 
+  // license
+  remove(LICENSE_KEY);
+
   // data
   remove(BORROW_BOOKS_KEY);
   remove(CARD_BALANCE_KEY);
@@ -72,13 +75,12 @@ export const logout = (): void => {
   remove(NEWS_LIST_KEY);
   remove(NOTICE_LIST_KEY);
   remove(SITE_ACADEMIC_LIST_KEY);
-  remove(SITE_NOTICE_LIST_KEY);
   remove(SITE_NEWS_LIST_KEY);
+  remove(SITE_NOTICE_LIST_KEY);
   remove(SPECIAL_EXAM_DATA_KEY);
   remove(STARRED_INFO_LIST_KEY);
   remove(STARRED_NOTICE_LIST_KEY);
   remove(STUDENT_ARCHIVE_KEY);
-  remove(LICENSE_KEY);
 
   globalData.account = null;
   globalData.userInfo = null;

@@ -63,6 +63,7 @@ $Component({
             ),
           ),
         ),
+        missing: false,
       });
     },
 
@@ -81,11 +82,8 @@ $Component({
       );
 
       if (todayCourses.some((item) => item.length))
-        this.setData({
-          isTomorrow,
-          todayCourses,
-        });
-      else this.setData({ isTomorrow, empty: true });
+        this.setData({ isTomorrow, todayCourses, missing: false });
+      else this.setData({ isTomorrow, empty: true, missing: false });
     },
 
     setNextCourse(
@@ -169,6 +167,7 @@ $Component({
       this.setData({
         time,
         nextCourses,
+        missing: false,
       });
     },
 

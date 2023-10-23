@@ -8,6 +8,7 @@ import { getColor, popNotice, resolvePage, setPage } from "../../utils/page.js";
 import { checkResource } from "../../utils/resource.js";
 import { search } from "../../utils/search.js";
 import { getIdentity } from "../../utils/settings.js";
+import { DEFAULT_WIDGETS } from "../../widgets/config.js";
 import { WidgetConfig } from "../../widgets/utils.js";
 
 const { globalData } = getApp<AppOption>();
@@ -53,7 +54,7 @@ $Page(PAGE_ID, {
   },
 
   onShow() {
-    const widgets = get<WidgetConfig[]>(WIDGET_KEY) || [];
+    const widgets = get<WidgetConfig[]>(WIDGET_KEY) || DEFAULT_WIDGETS;
 
     this.setData({
       login: Boolean(globalData.account),
