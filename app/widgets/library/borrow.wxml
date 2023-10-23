@@ -22,34 +22,36 @@
         size="mini"
         catch:retry="retry"
       />
-      <image
-        wx:if="{{status === 'loading'}}"
-        class="loading"
-        src="/icon/loading.svg"
-      />
-      <view wx:elif="{{books.length === 0}}" class="widget-hint-text"
-        >暂无借阅书籍</view
-      >
-      <block wx:elif="{{ header === '图书待还' }}">
-        <view class="outdate"
-          >最近到期: {{hasOutDated? '已有图书到期' : recent + '天'}}</view
+      <block wx:else>
+        <image
+          wx:if="{{status === 'loading'}}"
+          class="loading"
+          src="/icon/loading.svg"
+        />
+        <view wx:elif="{{books.length === 0}}" class="widget-hint-text"
+          >暂无借阅书籍</view
         >
-        <view class="info">已借阅: {{books.length}}本</view>
-      </block>
-      <view wx:else class="list">
-        <view
-          wx:for="{{books}}"
-          class="book"
-          data-index="{{index}}"
-          hover-class="button-hover"
-          hover-start-time="0"
-          hover-stay-time="0"
-          catch:tap="viewBookDetail"
-        >
-          <view class="name">{{item.name}}</view>
-          <view class="time">{{utils.displayDate(item.dueDate)}}到期</view>
+        <block wx:elif="{{ header === '图书待还' }}">
+          <view class="outdate"
+            >最近到期: {{hasOutDated? '已有图书到期' : recent + '天'}}</view
+          >
+          <view class="info">已借阅: {{books.length}}本</view>
+        </block>
+        <view wx:else class="list">
+          <view
+            wx:for="{{books}}"
+            class="book"
+            data-index="{{index}}"
+            hover-class="button-hover"
+            hover-start-time="0"
+            hover-stay-time="0"
+            catch:tap="viewBookDetail"
+          >
+            <view class="name">{{item.name}}</view>
+            <view class="time">{{utils.displayDate(item.dueDate)}}到期</view>
+          </view>
         </view>
-      </view>
+      </block>
     </view>
   </view>
 </view>
