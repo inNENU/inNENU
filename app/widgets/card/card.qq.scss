@@ -1,7 +1,7 @@
 @import "../../styles/lib/refresh-button";
 @import "../../styles/lib/widget";
 
-.card-balance {
+.card {
   position: relative;
   background-color: var(--action-color);
   color: #fff;
@@ -12,6 +12,11 @@
   right: 12px;
   bottom: 12px;
   background-color: rgb(255 255 255 / 25%) !important;
+}
+
+.qrcode-button {
+  background-color: rgb(255 255 255 / 25%) !important;
+  color: inherit;
 }
 
 .loading {
