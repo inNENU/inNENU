@@ -36,13 +36,15 @@
   }
 
   .table {
-    display: block;
+    display: inline-block;
 
     overflow-x: auto;
 
     max-width: 100%;
     margin: 8px;
     border-collapse: collapse;
+    border-radius: 8px;
+    border: 1px solid var(--text-color);
   }
 
   .th,
@@ -50,7 +52,6 @@
     width: fit-content;
     margin: 0;
     padding: 4px 6px;
-    border: 1px solid var(--text-color);
 
     text-align: center;
     white-space: nowrap;
@@ -58,5 +59,34 @@
 
   .th {
     font-weight: 500;
+    border-right: 1px solid var(--text-color);
+
+    &:last-child {
+      border-right: none;
+    }
+  }
+
+  .td {
+    border: 1px solid var(--text-color);
+
+    &:first-child {
+      border-left: none;
+    }
+
+    &:last-child {
+      border-right: none;
+    }
+  }
+
+  .tr:first-child {
+    .td {
+      border-top: none;
+    }
+  }
+
+  .tr:last-child {
+    .td {
+      border-bottom: none;
+    }
   }
 }
