@@ -11,7 +11,7 @@ export interface AppConfig {
 
 /** 小程序配置 */
 export const defaultAppConfig: AppConfig = {
-  theme: "ios",
+  theme: "auto",
   themeNum: 0,
   /** 资源更新提示 */
   resourceNotify: true,
