@@ -12,7 +12,7 @@ import { service } from "../config/index.js";
 import { cookieStore } from "../utils/cookie.js";
 import type { AccountInfo } from "../utils/typings.js";
 
-export const POST_SYSTEM_SERVER = "http://dsyjs.nenu.edu.cn";
+export const POST_SYSTEM_SERVER = "https://dsyjs.nenu.edu.cn";
 
 export const postSystemLogin = async (
   options: AccountInfo,
