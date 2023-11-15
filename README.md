@@ -4,7 +4,9 @@
 
 > 请注意，此项目虽然公开了源代码，但是包含了对应的 [协议](https://github.com/inNENU/inNENU/tree/main/LICENSE) 进行限制。请勿以为本项目代码可随意使用。
 
-## Request 域名
+## 项目信息
+
+### Request 域名
 
 ```
 https://assets.innenu.com;
@@ -22,7 +24,7 @@ https://www.nenu.edu.cn;
 https://yzb.nenu.edu.cn;
 ```
 
-## Download File 域名
+### Download File 域名
 
 ```
 https://assets.innenu.com
@@ -31,5 +33,3 @@ https://mp.innenu.com
 https://service.innenu.com
 https://open.weixin.qq.com
 ```
-
-QQ Loading 图标，cover 和 share 图标 二维码合并图标
