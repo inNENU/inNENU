@@ -38,8 +38,8 @@ const getTags = (page: PageDataWithContent): string[] => {
       ? titles
       : titles.slice(0, 10)
     : page.title
-    ? [page.title]
-    : [];
+      ? [page.title]
+      : [];
 };
 
 const getImages = (page: PageDataWithContent): string[] =>
@@ -47,8 +47,8 @@ const getImages = (page: PageDataWithContent): string[] =>
     ? page.images.length > 10
       ? page.images.slice(0, 10)
       : page.images.length === 0
-      ? [`${appCoverPrefix}jpg`]
-      : page.images
+        ? [`${appCoverPrefix}jpg`]
+        : page.images
     : [`${appCoverPrefix}jpg`];
 
 export const getScopeData = (page: PageDataWithContent): GeneralScopeData => ({

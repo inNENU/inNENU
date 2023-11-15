@@ -25,8 +25,8 @@ const getKey = (type: InfoType): string =>
   type === "academic"
     ? SITE_ACADEMIC_LIST_KEY
     : type === "news"
-    ? SITE_NEWS_LIST_KEY
-    : SITE_NOTICE_LIST_KEY;
+      ? SITE_NEWS_LIST_KEY
+      : SITE_NOTICE_LIST_KEY;
 
 $Component({
   properties: {
@@ -58,8 +58,8 @@ $Component({
       const noticeType = type.includes("学术")
         ? "academic"
         : type.includes("新闻")
-        ? "news"
-        : "notice";
+          ? "news"
+          : "notice";
       const size = getSize(type);
 
       this.setData(
@@ -68,8 +68,8 @@ $Component({
             noticeType === "academic"
               ? "学术会议"
               : noticeType === "news"
-              ? "官网新闻"
-              : "官网通知",
+                ? "官网新闻"
+                : "官网通知",
           noticeType,
           size,
         },

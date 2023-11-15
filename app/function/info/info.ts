@@ -66,8 +66,8 @@ export const getInfo = async (url: string): Promise<MainInfoResponse> => {
           src.includes("/fileTypeImages/")
             ? null
             : src.startsWith("/")
-            ? `${MAIN_URL}${src}`
-            : src,
+              ? `${MAIN_URL}${src}`
+              : src,
       }),
     };
   } catch (err) {

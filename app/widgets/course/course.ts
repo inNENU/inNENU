@@ -103,16 +103,16 @@ $Component({
       let classIndex = isTomorrow
         ? 0
         : hours >= 18 || (hours === 17 && minutes >= 30)
-        ? 5
-        : hours >= 16 || (hours === 15 && minutes >= 30)
-        ? 4
-        : hours >= 14 || (hours === 13 && minutes >= 30)
-        ? 3
-        : hours >= 10
-        ? 2
-        : hours >= 8
-        ? 1
-        : 0;
+          ? 5
+          : hours >= 16 || (hours === 15 && minutes >= 30)
+            ? 4
+            : hours >= 14 || (hours === 13 && minutes >= 30)
+              ? 3
+              : hours >= 10
+                ? 2
+                : hours >= 8
+                  ? 1
+                  : 0;
       let nextCourses: ClassData[] = [];
 
       // eslint-disable-next-line no-constant-condition
@@ -152,16 +152,18 @@ $Component({
         currentDayIndex === dayIndex
           ? "今天"
           : (currentDayIndex + 1) % 7 === dayIndex
-          ? "明天"
-          : (currentDayIndex + 2) % 7 === dayIndex
-          ? "后天"
-          : `${
-              currentWeekIndex === weekIndex
-                ? ""
-                : new Array(weekIndex - currentWeekIndex).fill("下").join()
-            }${
-              ["周一", "周二", "周三", "周四", "周五", "周六", "周日"][dayIndex]
-            }`
+            ? "明天"
+            : (currentDayIndex + 2) % 7 === dayIndex
+              ? "后天"
+              : `${
+                  currentWeekIndex === weekIndex
+                    ? ""
+                    : new Array(weekIndex - currentWeekIndex).fill("下").join()
+                }${
+                  ["周一", "周二", "周三", "周四", "周五", "周六", "周日"][
+                    dayIndex
+                  ]
+                }`
       }${["8:00", "10:00", "13:30", "15:30", "17:30", "19:00"][classIndex]}`;
 
       this.setData({

@@ -25,9 +25,9 @@ module.exports = {
     return level === "红色"
       ? "red"
       : level === "黄色"
-      ? "yellow"
-      : level === "蓝色"
-      ? "blue"
-      : "";
+        ? "yellow"
+        : level === "蓝色"
+          ? "blue"
+          : "";
   },
 };

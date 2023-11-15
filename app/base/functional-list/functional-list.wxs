@@ -15,7 +15,7 @@ module.exports = {
     return listItem.type === "picker"
       ? "onPickerTap"
       : listItem.type === "slider"
-      ? "onSliderTap"
-      : "";
+        ? "onSliderTap"
+        : "";
   },
 };

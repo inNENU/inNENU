@@ -148,20 +148,20 @@ const getWindDirection = (direction: string): string =>
   direction === "8"
     ? "北"
     : direction === "1"
-    ? "东北"
-    : direction === "2"
-    ? "东"
-    : direction === "3"
-    ? "东南"
-    : direction === "4"
-    ? "南"
-    : direction === "5"
-    ? "西南"
-    : direction === "6"
-    ? "西"
-    : direction === "7"
-    ? "西北"
-    : "未知";
+      ? "东北"
+      : direction === "2"
+        ? "东"
+        : direction === "3"
+          ? "东南"
+          : direction === "4"
+            ? "南"
+            : direction === "5"
+              ? "西南"
+              : direction === "6"
+                ? "西"
+                : direction === "7"
+                  ? "西北"
+                  : "未知";
 
 export interface WeatherAirInfo {
   /** 空气质量 */
@@ -399,16 +399,16 @@ export const getWeather = async (): Promise<WeatherData> => {
           index === "0"
             ? "昨天"
             : index === "1"
-            ? "今天"
-            : index === "2"
-            ? "明天"
-            : index === "3"
-            ? "后天"
-            : `星期${
-                ["天", "一", "二", "三", "四", "五", "六"][
-                  (new Date().getDay() + Number(index) - 1) % 7
-                ]
-              }`,
+              ? "今天"
+              : index === "2"
+                ? "明天"
+                : index === "3"
+                  ? "后天"
+                  : `星期${
+                      ["天", "一", "二", "三", "四", "五", "六"][
+                        (new Date().getDay() + Number(index) - 1) % 7
+                      ]
+                    }`,
         dayWeather,
         dayWeatherShort,
         dayWeatherCode: getWeatherCode(dayWeatherCode, true),

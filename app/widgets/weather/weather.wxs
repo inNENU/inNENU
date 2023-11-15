@@ -13,18 +13,19 @@ function getClass(weather) {
           : "rainbow"
         : "starry"
       : weatherType.indexOf("雷") !== -1 ||
-        weatherType.indexOf("电") !== -1 ||
-        weatherType.indexOf("暴") !== -1
-      ? "stormy"
-      : weatherType.indexOf("雪") !== -1 ||
-        weatherType.indexOf("霜") !== -1 ||
-        weatherType.indexOf("冰") !== -1
-      ? "snowy"
-      : weatherType.indexOf("雨") !== -1
-      ? "rainy"
-      : weatherType.indexOf("阴") !== -1 || weatherType.indexOf("云") !== -1
-      ? "cloudy"
-      : "";
+          weatherType.indexOf("电") !== -1 ||
+          weatherType.indexOf("暴") !== -1
+        ? "stormy"
+        : weatherType.indexOf("雪") !== -1 ||
+            weatherType.indexOf("霜") !== -1 ||
+            weatherType.indexOf("冰") !== -1
+          ? "snowy"
+          : weatherType.indexOf("雨") !== -1
+            ? "rainy"
+            : weatherType.indexOf("阴") !== -1 ||
+                weatherType.indexOf("云") !== -1
+              ? "cloudy"
+              : "";
   }
 
   return "";

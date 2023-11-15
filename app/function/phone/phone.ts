@@ -110,11 +110,11 @@ $Page("phone", {
             addressStreet: "吉林省长春市人民大街 5268 号",
           }
         : item.locate === "jingyue"
-        ? {
-            addressPostalCode: "130117",
-            addressStreet: "吉林省长春市净月大街 2555 号",
-          }
-        : {}),
+          ? {
+              addressPostalCode: "130117",
+              addressStreet: "吉林省长春市净月大街 2555 号",
+            }
+          : {}),
     });
   },
 

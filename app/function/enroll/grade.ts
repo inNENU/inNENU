@@ -340,8 +340,8 @@ $Page(PAGE_ID, {
                   ? Number(itemB[0]) - Number(itemA[0])
                   : Number(itemA[0]) - Number(itemB[0])
                 : ascending
-                ? itemA[0].localeCompare(itemB[0])
-                : itemB[0].localeCompare(itemA[0]),
+                  ? itemA[0].localeCompare(itemB[0])
+                  : itemB[0].localeCompare(itemA[0]),
             ),
           });
         } else showModal("获取失败", data.msg);
@@ -376,8 +376,8 @@ $Page(PAGE_ID, {
               ? Number(itemB[index]) - Number(itemA[index])
               : Number(itemA[index]) - Number(itemB[index])
             : ascending
-            ? itemA[index].localeCompare(itemB[index])
-            : itemB[index].localeCompare(itemA[index]),
+              ? itemA[index].localeCompare(itemB[index])
+              : itemB[index].localeCompare(itemA[index]),
         ),
       });
     }

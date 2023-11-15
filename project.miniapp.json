@@ -1,7 +1,7 @@
 {
   "miniVersion": "v2",
   "name": "in东师",
-  "version": "6.6.2",
+  "version": "6.6.3",
   "mini-android": {
     "sdkVersion": "1.1.0",
     "toolkitVersion": "0.7.3",
@@ -88,5 +88,5 @@
     "appMenuEnable": true,
     "enableIpad": true
   },
-  "versionCode": 23
+  "versionCode": 24
 }
