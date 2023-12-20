@@ -3,7 +3,7 @@
   "name": "in东师",
   "version": "6.6.3",
   "mini-android": {
-    "sdkVersion": "1.1.0",
+    "sdkVersion": "1.2.0",
     "toolkitVersion": "0.7.3",
     "useExtendedSdk": {
       "media": true,
@@ -48,7 +48,7 @@
     "appMenuEnable": true
   },
   "mini-ios": {
-    "sdkVersion": "1.1.2",
+    "sdkVersion": "1.2.10",
     "toolkitVersion": "0.0.9",
     "useExtendedSdk": {
       "WeAppOpenFuns": false,
