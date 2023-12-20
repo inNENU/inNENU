@@ -22,6 +22,12 @@
 
 .course-table-row {
   display: flex;
+
+  &:last-child {
+    .course-table-item {
+      border-bottom: 1px dashed var(--border-color);
+    }
+  }
 }
 
 .course-row-header {
