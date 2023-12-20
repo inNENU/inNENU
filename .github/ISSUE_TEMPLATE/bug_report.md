@@ -1,6 +1,6 @@
 ---
 name: Bug 汇报
-about: 汇报发现的 Bug 以帮助我们改进 in东师/inNENU
+about: 汇报发现的 Bug 以帮助我们改进 inNENU
 title: "[Bug]"
 labels: bug
 assignees: Mister-Hope

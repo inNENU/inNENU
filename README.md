@@ -1,4 +1,4 @@
-# inNENU/in东师 小程序/App
+# inNENU 小程序/App
 
 [![作者: Mr.Hope](https://img.shields.io/badge/作者-Mr.Hope-blue.svg?style=for-the-badge)](https://mister-hope.com)
 

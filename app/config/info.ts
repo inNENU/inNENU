@@ -1,6 +1,6 @@
 /** 小程序名称 */
-export const appName = "in东师";
-export const description = "在东师，就用 in 东师";
+export const appName = "inNENU";
+export const description = "在东师，就用 inNENU";
 /** 小程序版本 */
 export const version = "6.6.3";
 /** 小程序服务器地址 */
