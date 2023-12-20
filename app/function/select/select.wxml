@@ -43,13 +43,13 @@
               >
                 <view
                   wx:for="{{cell}}"
-                  wx:for-item="course"
+                  wx:for-item="item"
                   wx:key="cid"
-                  class="course-table-course-item course-item{{hash.getHashIndex(course.name)}}"
-                  data-cid="{{course.cid}}"
+                  class="course-table-course-item course-item{{hash.getHashIndex(item.name)}}"
+                  data-cid="{{item.cid}}"
                   catch:tap="showCourseInfo"
                 >
-                  {{course.name}}
+                  {{item.name}}
                 </view>
               </view>
             </view>
