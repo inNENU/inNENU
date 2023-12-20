@@ -3,7 +3,7 @@ import { logger } from "@mptool/all";
 import type { CommonFailedResponse } from "../../../typings/response.js";
 import { request } from "../../api/net.js";
 import { service } from "../../config/info.js";
-import { AUTH_SERVER } from "../../login/account.js";
+import { AUTH_SERVER } from "../../login/index.js";
 import { LoginFailType } from "../../login/loginFailTypes.js";
 import { AccountInfo, UserInfo } from "../../utils/typings.js";
 

@@ -42,9 +42,9 @@
 
     max-width: 100%;
     margin: 8px;
+    border: 1px solid var(--text-color);
     border-collapse: collapse;
     border-radius: 8px;
-    border: 1px solid var(--text-color);
   }
 
   .th,
@@ -58,8 +58,8 @@
   }
 
   .th {
-    font-weight: 500;
     border-right: 1px solid var(--text-color);
+    font-weight: 500;
 
     &:last-child {
       border-right: none;

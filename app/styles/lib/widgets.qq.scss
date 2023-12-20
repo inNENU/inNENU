@@ -4,10 +4,9 @@
   grid-auto-rows: minmax(160px, auto);
   grid-auto-columns: 160px;
   gap: 8px;
-  align-content: space-evenly;
   align-items: center;
   align-items: stretch;
-  justify-content: space-evenly;
+  place-content: space-evenly space-evenly;
 
   margin: 16px;
 

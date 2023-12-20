@@ -18,7 +18,7 @@ import type {
 } from "./typings.js";
 import { request } from "../../api/index.js";
 import { service } from "../../config/info.js";
-import { AUTH_SERVER } from "../../login/account.js";
+import { AUTH_SERVER } from "../../login/index.js";
 
 const RESET_PASSWORD_PAGE_URL = `${AUTH_SERVER}/authserver/getBackPasswordMainPage.do`;
 const RESET_PASSWORD_URL = `${AUTH_SERVER}/authserver/getBackPassword.do`;

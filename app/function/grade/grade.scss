@@ -100,8 +100,7 @@
 .information {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  row-gap: 8px;
-  column-gap: 16px;
+  gap: 8px 16px;
 
   .label {
     font-weight: bold;

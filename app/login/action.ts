@@ -1,6 +1,6 @@
 import { logger } from "@mptool/all";
 
-import { handleFailResponse } from "./account.js";
+import { handleFailResponse } from "./fail.js";
 import type {
   ActionLoginResponse,
   AuthLoginFailedResponse,
