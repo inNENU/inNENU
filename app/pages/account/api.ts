@@ -54,6 +54,7 @@ export const authInit = async (
     method: "POST",
     data,
     scope: AUTH_SERVER,
+    timeout: 30000,
   });
 
   if (!result.success) logger.error("初始化失败");
