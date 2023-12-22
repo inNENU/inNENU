@@ -47,12 +47,12 @@ $Page(PAGE_ID, {
     this.state.type = <InfoType>type;
     this.state.url = url;
 
-    if (!url)
+    if (!url) {
       showModal("无法获取", "请提供 ID", () => {
         this.$back();
       });
-
-    console.error(`${url}@${type}`);
+      console.error(`${url}@${type}`);
+    }
 
     this.getInfo();
     this.setData({
@@ -78,7 +78,7 @@ $Page(PAGE_ID, {
 
     return {
       title,
-      path: `/function/notice/detail?type=${type}&title=${title}&url=${url}`,
+      path: `/function/info/detail?type=${type}&title=${title}&url=${url}`,
     };
   },
 
