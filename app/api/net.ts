@@ -44,7 +44,7 @@ export const netReport = (): void => {
 
 export type FetchOptions = Pick<
   WechatMiniprogram.RequestOption,
-  "data" | "header" | "method" | "timeout" | "responseType"
+  "data" | "header" | "method" | "timeout" | "responseType" | "redirect"
 > & { scope?: string };
 
 /**
@@ -63,7 +63,7 @@ export const request = <
   >,
 >(
   link: string,
-  options: FetchOptions = {},
+  options: FetchOptions = {}
 ): Promise<T> =>
   new Promise((resolve, reject) => {
     const url = link.startsWith("http") ? link : `${service}${link}`;
@@ -73,13 +73,12 @@ export const request = <
       `Requesting ${url} with cookie`,
       cookieHeader,
       `and options:`,
-      options,
+      options
     );
 
-    wx.request<T>({
+    const requestTask = wx.request<T>({
       url,
       enableHttp2: true,
-
       success: (res) => {
         const { data, statusCode } = res;
 
@@ -91,6 +90,15 @@ export const request = <
           cookieStore.applyResponse(res, options.scope || url);
 
           resolve(data);
+        } else if (statusCode === 302) {
+          // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+          const location: string = res.header.Location || res.header.location;
+
+          // 调试
+          logger.info(`Request 302: `, location);
+          cookieStore.applyResponse(res, options.scope || url);
+
+          resolve(<T>location);
         } else {
           // 调试
           logger.warn(`Request ${url} failed with statusCode: ${statusCode}`);
@@ -115,6 +123,11 @@ export const request = <
         ...options.header,
       },
     });
+
+    requestTask.onHeadersReceived(({ header }) => {
+      console.log(header);
+      cookieStore.applyHeader(header, options.scope || url);
+    });
   });
 
 /**
@@ -126,7 +139,7 @@ export const requestJSON = <
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   T extends Record<never, never> | unknown[] | string = Record<string, any>,
 >(
-  path: string,
+  path: string
 ): Promise<T> =>
   new Promise((resolve, reject) => {
     wx.request<T>({
@@ -141,7 +154,7 @@ export const requestJSON = <
         } else {
           // 调试
           logger.warn(
-            `Request ${path}.json failed with statusCode: ${statusCode}`,
+            `Request ${path}.json failed with statusCode: ${statusCode}`
           );
 
           wx.reportEvent?.("resource_load_failed", {

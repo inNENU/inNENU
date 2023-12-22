@@ -1,3 +1,4 @@
+app/login/account/encrypt.js
 app/function/music/music.wxs
 app/function/utils/encoder.js
 app/function/utils/parser.js

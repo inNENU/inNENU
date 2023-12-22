@@ -20,6 +20,7 @@ plugins:
   - import
 
 ignorePatterns:
+  - app/login/account/encrypt.js
   - app/function/utils/encoder.js
   - app/function/utils/encoder.d.ts
   - app/function/utils/parser.js
