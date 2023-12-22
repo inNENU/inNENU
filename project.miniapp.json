@@ -1,9 +1,9 @@
 {
   "miniVersion": "v2",
   "name": "inNENU",
-  "version": "6.6.3",
+  "version": "6.6.4",
   "mini-android": {
-    "sdkVersion": "1.2.0",
+    "sdkVersion": "1.2.1",
     "toolkitVersion": "0.7.3",
     "useExtendedSdk": {
       "media": true,
@@ -40,7 +40,7 @@
       "qmapAPIKey": "NLVBZ-PGJRQ-T7K5F-GQ54N-GIXDH-FCBC4"
     },
     "usePluginSdk": {
-      "map": "1.0.0"
+      "map": "1.2.0"
     },
     "schemes": {
       "scheme": "innenu"
@@ -62,16 +62,21 @@
     "icons": {
       "mainIcon120": "assets/ios.png",
       "mainIcon180": "assets/ios-retina.png",
+      "ipadMainIcon152": "assets/ipad.png",
+      "ipadMainIcon167": "assets/ipad-pro.png",
       "spotlightIcon80": "assets/spotlight.png",
       "spotlightIcon120": "assets/ios.png",
-      "settingsIcon58": "assets/ios-settings-small.png",
-      "settingsIcon87": "assets/ios-settings.png",
-      "notificationIcon40": "assets/ios-notify-small.png",
-      "notificationIcon60": "assets/ios-notify.png",
+      "settingsIcon58": "assets/ios-settings.png",
+      "ipadSettingsIcon29": "assets/ios-settings-small.png",
+      "ipadSpotlightIcon58": "assets/ios-settings.png",
+      "settingsIcon87": "assets/ios-settings-retina.png",
+      "ipadSpotlightIcon40": "assets/ios-notify.png",
+      "ipadSpotlightIcon80": "assets/spotlight.png",
+      "notificationIcon40": "assets/ios-notify.png",
+      "notificationIcon60": "assets/ios-notify-retina.png",
+      "ipadNotificationIcon20": "assets/ios-notify-small.png",
+      "ipadNotificationIcon40": "assets/ios-notify.png",
       "appStore1024": "assets/app-store.png"
-    },
-    "splashScreen": {
-      "customImage": "assets/splash-xxhdpi.jpg"
     },
     "privacy": {
       "enable": false,
@@ -83,10 +88,17 @@
     },
     "qmapAPIKey": "NLVBZ-PGJRQ-T7K5F-GQ54N-GIXDH-FCBC4",
     "infoPlist": {
-      "AudioInBackgroundMode": true
+      "AudioInBackgroundMode": true,
+      "requiresFullScreen": true,
+      "CFBundleURLTypes": {
+        "CFBundleTypeRole": "None"
+      }
     },
     "appMenuEnable": true,
-    "enableIpad": true
+    "enableIpad": true,
+    "splashscreen": {
+      "customImage": "assets/ios-splash.png"
+    }
   },
-  "versionCode": 24
+  "versionCode": 25
 }
