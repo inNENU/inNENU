@@ -43,6 +43,6 @@
   >
     <view class="icon {{starred? 'starred': ''}}" />
   </view>
-  <share config="{{share}}" />
+  <share wx:if="{{share}}" config="{{share}}" />
   <footer />
 </view>
