@@ -28,6 +28,7 @@ import { MINUTE } from "../../utils/constant.js";
 import { getColor, popNotice } from "../../utils/page.js";
 
 const { globalData, useOnlineService } = getApp<AppOption>();
+const { envName } = globalData;
 
 const ACTIVATE_SMS_KEY = "activate-sms-code";
 const PAGE_ID = "activate";
@@ -51,7 +52,7 @@ $Page(PAGE_ID, {
     footer: {
       desc: `\
 『激活说明』
-小程序提供和官方相同的激活流程，您所填写的信息会直接发送(或经小程序转发)给官方服务器，在这一过程中，Mr.Hope 不会收集并存储您的任何信息。\
+${envName}提供和官方相同的激活流程，您所填写的信息会直接发送(或经${envName}转发)给官方服务器，在这一过程中，Mr.Hope 不会收集并存储您的任何信息。\
 `,
     },
 

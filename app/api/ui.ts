@@ -1,7 +1,7 @@
 import type { AppOption } from "../app.js";
 
 /**
- * 根据用户设置，判断当前小程序是否应启用夜间模式
+ * 判断是否应启用夜间模式
  *
  * @returns 夜间模式状态
  */

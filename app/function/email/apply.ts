@@ -9,6 +9,7 @@ import { ensureMyLogin } from "../../login/my.js";
 import { popNotice } from "../../utils/page.js";
 
 const { globalData, useOnlineService } = getApp<AppOption>();
+const { envName } = globalData;
 
 const MAIL_LINK = "https://mail.nenu.edu.cn";
 const PAGE_ID = "apply-email";
@@ -165,7 +166,7 @@ $Page(PAGE_ID, {
     if (!shouldApplyOnline && !userInfo)
       return showModal(
         "个人信息缺失",
-        `小程序本地暂无个人信息，请重新登录`,
+        `${envName}本地暂无个人信息，请重新登录`,
         () => {
           this.$go(`account?update=true`);
         },

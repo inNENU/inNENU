@@ -14,6 +14,7 @@ import { HOUR } from "../../utils/constant.js";
 import { getColor, popNotice } from "../../utils/page.js";
 
 const { globalData, useOnlineService } = getApp<AppOption>();
+const { envName } = globalData;
 
 const PAGE_ID = "special-exam";
 const PAGE_TITLE = "专项考试成绩";
@@ -48,7 +49,7 @@ $Page(PAGE_ID, {
       if (!userInfo) {
         return showModal(
           "个人信息缺失",
-          "小程序本地暂无个人信息，请重新登录",
+          `${envName}本地暂无个人信息，请重新登录`,
           () => {
             this.$go("account?update=true");
           },

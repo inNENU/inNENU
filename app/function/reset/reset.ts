@@ -20,6 +20,7 @@ import { SECOND } from "../../utils/constant.js";
 import { getColor, popNotice } from "../../utils/page.js";
 
 const { globalData, useOnlineService } = getApp<AppOption>();
+const { envName } = globalData;
 
 const PAGE_ID = "reset";
 const PAGE_TITLE = "重置统一身份认证密码";
@@ -43,7 +44,7 @@ $Page(PAGE_ID, {
     footer: {
       desc: `\
 『重置说明』
-小程序通过接入官方接口提供密码重置服务，您所填写的信息会直接发送(或经小程序转发)给官方服务器，在这一过程中，Mr.Hope 不会收集并存储您的任何信息。\
+${envName}通过接入官方接口提供密码重置服务，您所填写的信息会直接发送(或经${envName}转发)给官方服务器，在这一过程中，Mr.Hope 不会收集并存储您的任何信息。\
 `,
     },
 

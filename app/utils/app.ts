@@ -10,9 +10,9 @@ import type { VersionInfo } from "../../typings/index.js";
 import { getCurrentRoute, request, showToast } from "../api/index.js";
 import {
   ACCOUNT_INFO_KEY,
+  DEFAULT_CONFIG,
   INITIALIZED_KEY,
   USER_INFO_KEY,
-  defaultAppConfig,
   server,
   version,
 } from "../config/index.js";
@@ -25,12 +25,12 @@ export const initializeApp = (): void => {
   logger.info("First launch");
 
   // 写入预设数据
-  Object.entries(defaultAppConfig).forEach(([key, data]) => {
+  Object.entries(DEFAULT_CONFIG).forEach(([key, data]) => {
     wx.setStorageSync(key, data);
   });
 
   // 主题为 auto
-  if (defaultAppConfig.theme === "auto") {
+  if (DEFAULT_CONFIG.theme === "auto") {
     let num;
     let theme;
     const { platform } = wx.getSystemInfoSync();
@@ -54,8 +54,8 @@ export const initializeApp = (): void => {
     wx.setStorageSync("theme", theme);
     wx.setStorageSync("themeNum", num);
   } else {
-    wx.setStorageSync("theme", defaultAppConfig.theme);
-    wx.setStorageSync("themeNum", defaultAppConfig.themeNum);
+    wx.setStorageSync("theme", DEFAULT_CONFIG.theme);
+    wx.setStorageSync("themeNum", DEFAULT_CONFIG.themeNum);
   }
 
   downloadResource(defaultResources, false)

@@ -9,8 +9,8 @@ export interface AppConfig {
   [props: string]: string | boolean | number | undefined;
 }
 
-/** 小程序配置 */
-export const defaultAppConfig: AppConfig = {
+/** 默认配置 */
+export const DEFAULT_CONFIG: AppConfig = {
   theme: "auto",
   themeNum: 0,
   /** 资源更新提示 */

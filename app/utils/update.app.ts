@@ -6,11 +6,11 @@ import { assets } from "../config/index.js";
 let apkFilePath: string | null = null;
 
 /**
- * 检查小程序更新
+ * 检查 App 更新
  *
- * 如果检测到小程序更新，获取升级状态 (新版本号，是否立即更新、是否重置小程序) 并做相应处理
+ * 如果检测到 App 更新，获取升级状态 (新版本号，是否立即更新、是否重置 App ) 并做相应处理
  *
- * @param globalData 小程序的全局数据
+ * @param globalData  App 的全局数据
  */
 export const updateApp = async (globalData: GlobalData): Promise<void> => {
   // 请求配置文件

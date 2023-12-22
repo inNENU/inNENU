@@ -39,7 +39,7 @@ $Page(PAGE_ID, {
     query: "action=all",
   }),
 
-  /** 初始化小程序 */
+  /** 初始化 */
   resetApp,
 
   pathInput({ detail }: WechatMiniprogram.Input) {

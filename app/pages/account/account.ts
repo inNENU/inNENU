@@ -20,6 +20,7 @@ import { popNotice } from "../../utils/page.js";
 import type { UserInfo } from "../../utils/typings.js";
 
 const { globalData } = getApp<AppOption>();
+const { envName } = globalData;
 
 const PAGE_ID = "account";
 const PAGE_TITLE = "统一身份认证信息";
@@ -28,12 +29,12 @@ const EMPTY_CONTENT = [{ text: "暂无个人信息" }];
 
 const FOOTER = `
 『登录说明』
-小程序需自动完成登录以提供基于账户的功能。您可能需要在以下情况时进行额外操作:
-1. 小程序的不同功能可能基于不同系统，需要同时保持多处登录。为正常使用小程序您必须关闭「单处登录」功能，如您已开启请前往统一身份认证官网关闭。
+${envName}需自动完成登录以提供基于账户的功能。您可能需要在以下情况时进行额外操作:
+1. ${envName}的不同功能可能基于不同系统，需要同时保持多处登录。为正常使用${envName}您必须关闭「单处登录」功能，如您已开启请前往统一身份认证官网关闭。
 2. 账户登录失败次数过多或异地登录时将无法自动登录，此时你需要重新登录并填写验证码。
 
 『隐私说明』
-Mr.Hope 会严格遵守隐私协议的要求，您的账号、密码与个人信息将仅存储在本地，并在卸载 App 或小程序时一并删除。Mr.Hope 不会收集并存储您的任何信息。
+Mr.Hope 会严格遵守隐私协议的要求，您的账号、密码与个人信息将仅存储在本地，并在卸载${envName}时一并删除。Mr.Hope 不会收集并存储您的任何信息。
 `;
 
 const getDisplay = ({
