@@ -105,8 +105,7 @@
     <view class="error-text">十分抱歉，页面加载出错!</view>
     <view class="hint">您可以截屏本页面并点击下方按钮进行反馈</view>
     <view class="desc">
-      <text>您可以截屏本页面并点击下方按钮进行反馈\n</text>
-      <text>Current: {{ id || '未知' }}\n</text>
+      <text>Current: {{ id || '未知' }}</text>
       <text>From: {{ from || '未知' }}</text>
     </view>
     <button
