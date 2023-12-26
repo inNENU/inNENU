@@ -2,7 +2,6 @@ import { logger } from "@mptool/all";
 
 import type { CommonFailedResponse } from "../../../typings/index.js";
 import { request } from "../../api/index.js";
-import { service } from "../../config/index.js";
 import type { AuthLoginFailedResponse } from "../../login/index.js";
 import { ACTION_SERVER, handleFailResponse } from "../../login/index.js";
 
@@ -125,11 +124,11 @@ const getBookData = ({
 });
 
 export const getBorrowBooks = async (): Promise<BorrowBooksResponse> => {
-  const data = await request<RawBorrowBooksData>(BORROW_BOOKS_URL, {
-    header: {
+  const { data } = await request<RawBorrowBooksData>(BORROW_BOOKS_URL, {
+    headers: {
       Accept: "application/json, text/javascript, */*; q=0.01",
     },
-    scope: ACTION_SERVER,
+    cookieScope: ACTION_SERVER,
   });
 
   if (data.success)
@@ -145,10 +144,10 @@ export const getBorrowBooks = async (): Promise<BorrowBooksResponse> => {
 };
 
 export const getOnlineBorrowBooks = (): Promise<BorrowBooksResponse> =>
-  request<BorrowBooksResponse>(`${service}action/borrow-books`, {
+  request<BorrowBooksResponse>("/action/borrow-books", {
     method: "POST",
-    scope: ACTION_SERVER,
-  }).then((data) => {
+    cookieScope: ACTION_SERVER,
+  }).then(({ data }) => {
     if (!data.success) {
       logger.error("获取校园卡余额出错", data);
 

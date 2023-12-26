@@ -1,6 +1,5 @@
 import type { CommonFailedResponse } from "../../../typings/response.js";
 import { request } from "../../api/index.js";
-import { service } from "../../config/index.js";
 import { ACTION_SERVER, AuthLoginFailedResponse } from "../../login/index.js";
 import { NoticeInfo } from "../../widgets/notice/notice.js";
 import { getRichTextNodes } from "../utils/parser.js";
@@ -31,7 +30,7 @@ export const getNotice = async ({
   try {
     const url = `${ACTION_SERVER}/page/viewNews?ID=${noticeID}`;
 
-    const responseText = await request<string>(url);
+    const { data: responseText } = await request<string>(url);
     const title = titleRegExp.exec(responseText)![1];
     const author = authorRegExp.exec(responseText)![1];
     const time = timeRegExp.exec(responseText)![1];
@@ -71,8 +70,12 @@ export const getNotice = async ({
 export const getOnlineNotice = (
   options: NoticeOptions,
 ): Promise<NoticeResponse> =>
-  request<NoticeResponse>(`${service}action/notice`, {
+  request<NoticeResponse>("/action/notice", {
     method: "POST",
-    data: options,
-    scope: ACTION_SERVER,
+    body: options,
+    cookieScope: ACTION_SERVER,
+  }).then(({ data }) => {
+    if (!data.success) console.error("获取失败", data.msg);
+
+    return data;
   });

@@ -7,9 +7,7 @@ import type {
   VPNLoginFailedResponse,
 } from "./typings.js";
 import type { CookieVerifyResponse } from "../../typings/index.js";
-import { request } from "../api/index.js";
-import { service } from "../config/index.js";
-import { cookieStore } from "../utils/cookie.js";
+import { cookieStore, request } from "../api/index.js";
 import type { AccountInfo } from "../utils/typings.js";
 
 export const UNDER_SYSTEM_SERVER = "https://dsjx.webvpn.nenu.edu.cn";
@@ -17,12 +15,12 @@ export const UNDER_SYSTEM_SERVER = "https://dsjx.webvpn.nenu.edu.cn";
 export const underSystemLogin = async (
   options: AccountInfo,
 ): Promise<UnderSystemLoginResponse> => {
-  const data = await request<UnderSystemLoginResponse>(
-    `${service}under-system/login`,
+  const { data } = await request<UnderSystemLoginResponse>(
+    "/under-system/login",
     {
       method: "POST",
-      data: options,
-      scope: UNDER_SYSTEM_SERVER,
+      body: options,
+      cookieScope: UNDER_SYSTEM_SERVER,
     },
   );
 
@@ -35,10 +33,10 @@ export const underSystemLogin = async (
 };
 
 export const checkUnderSystemCookie = (): Promise<CookieVerifyResponse> =>
-  request<CookieVerifyResponse>(`${service}under-system/check`, {
+  request<CookieVerifyResponse>("/under-system/check", {
     method: "POST",
-    scope: UNDER_SYSTEM_SERVER,
-  });
+    cookieScope: UNDER_SYSTEM_SERVER,
+  }).then(({ data }) => data);
 
 export const ensureUnderSystemLogin = async (
   account: AccountInfo,

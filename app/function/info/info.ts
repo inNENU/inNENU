@@ -1,7 +1,6 @@
 import type { RichTextNode } from "../../../typings/node.js";
 import type { CommonFailedResponse } from "../../../typings/response.js";
 import { request } from "../../api/index.js";
-import { service } from "../../config/index.js";
 import { getRichTextNodes, getText } from "../utils/parser.js";
 
 export interface MainInfoSuccessResponse {
@@ -32,9 +31,9 @@ const pageViewParamRegExp = /_showDynClicks\("wbnews",\s*(\d+),\s*(\d+)\)/;
 
 export const getInfo = async (url: string): Promise<MainInfoResponse> => {
   try {
-    const text = await request<string>(`${MAIN_URL}/${url}`);
+    const { data: info } = await request<string>(`${MAIN_URL}/${url}`);
 
-    const body = infoBodyRegExp.exec(text)![1];
+    const body = infoBodyRegExp.exec(info)![1];
     const title = infoTitleRegExp.exec(body)![1];
     const time = infoTimeRegExp.exec(body)![1];
     const content = infoContentRegExp.exec(body)![1];
@@ -54,7 +53,9 @@ export const getInfo = async (url: string): Promise<MainInfoResponse> => {
       from,
       author,
       editor,
-      pageView: Number(await request<string>(pageViewUrl)),
+      pageView: Number(
+        await request<string>(pageViewUrl).then(({ data }) => data),
+      ),
       content: await getRichTextNodes(content, {
         getClass: (tag, className) =>
           tag === "img"
@@ -83,4 +84,4 @@ export const getInfo = async (url: string): Promise<MainInfoResponse> => {
 };
 
 export const getOnlineInfo = (url: string): Promise<MainInfoResponse> =>
-  request<MainInfoResponse>(`${service}main/info?url=${url}`);
+  request<MainInfoResponse>(`/main/info?url=${url}`).then(({ data }) => data);

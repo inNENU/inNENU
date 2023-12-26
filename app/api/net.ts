@@ -1,11 +1,14 @@
-import { logger } from "@mptool/all";
+import { createMpFetch, logger } from "@mptool/all";
 
 import { showToast } from "./ui.js";
 import { assets, server, service } from "../config/index.js";
-import { cookieStore } from "../utils/cookie.js";
+
+export const JSONHeader = {
+  "Content-Type": "application/json;charset=UTF-8",
+};
 
 /** 网络状态汇报 */
-export const netReport = (): void => {
+export const networkReport = (): void => {
   // 获取网络信息
   wx.getNetworkType({
     success: ({ networkType }) => {
@@ -42,80 +45,35 @@ export const netReport = (): void => {
   });
 };
 
-export type FetchOptions = Pick<
-  WechatMiniprogram.RequestOption,
-  "data" | "header" | "method" | "timeout" | "responseType"
-> & { scope?: string };
+const { fetch: request, cookieStore } = createMpFetch({
+  server: service,
+  timeout: 30000,
+  responseHandler: ({ data, headers, status }, url, options) => {
+    if (status < 400) {
+      // 调试
+      logger.info(`Request ends with ${status}: `, headers.toObject(), data);
 
-/**
- * 执行网络请求
- *
- * @param url 请求路径
- * @param successFunc 回调函数
- * @param failFunc 失败回调函数
- * @param errorFunc 状态码错误回调函数
- */
-export const request = <
-  T extends Record<never, never> | unknown[] | string | ArrayBuffer = Record<
-    string,
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    any
-  >,
->(
-  link: string,
-  options: FetchOptions = {},
-): Promise<T> =>
-  new Promise((resolve, reject) => {
-    const url = link.startsWith("http") ? link : `${service}${link}`;
-    const cookieHeader = cookieStore.getHeader(options.scope || url);
+      return { data, headers, status };
+    }
 
-    logger.info(
-      `Requesting ${url} with cookie`,
-      cookieHeader,
-      `and options:`,
-      options,
-    );
+    // 调试
+    logger.warn(`Request failed with statusCode: ${status}`);
 
-    wx.request<T>({
+    wx.reportEvent?.("service_error", {
       url,
-      enableHttp2: true,
-
-      success: (res) => {
-        const { data, statusCode } = res;
-
-        logger.info(`Request ends with ${statusCode}`);
-
-        if (statusCode === 200) {
-          // 调试
-          logger.info(`Request response: `, data);
-          cookieStore.applyResponse(res, options.scope || url);
-
-          resolve(data);
-        } else {
-          // 调试
-          logger.warn(`Request ${url} failed with statusCode: ${statusCode}`);
-
-          wx.reportEvent?.("service_error", {
-            url,
-            payload: JSON.stringify(options),
-          });
-
-          reject(`服务器错误: ${statusCode}`);
-        }
-      },
-      fail: ({ errMsg }) => {
-        reject(errMsg);
-
-        // 调试
-        logger.warn(`Request ${url}.json failed: ${errMsg}`);
-      },
-      ...options,
-      header: {
-        Cookie: cookieHeader,
-        ...options.header,
-      },
+      payload: JSON.stringify(options),
     });
-  });
+
+    throw `服务器错误: ${status}`;
+  },
+  errorHandler: (err, url) => {
+    logger.warn(`Request ${url} failed:`, err);
+    networkReport();
+    throw err.errMsg;
+  },
+});
+
+export { cookieStore, request };
 
 /**
  * 执行 JSON 请求
@@ -154,7 +112,7 @@ export const requestJSON = <
       },
       fail: ({ errMsg }) => {
         reject(errMsg);
-        netReport();
+        networkReport();
 
         // 调试
         logger.warn(`Request ${path}.json failed: ${errMsg}`);
@@ -192,7 +150,7 @@ export const downLoad = (path: string, mask = false): Promise<string> =>
 
         reject(errMsg);
 
-        netReport();
+        networkReport();
         logger.warn(`Download ${path} failed:`, errMsg);
       },
     });

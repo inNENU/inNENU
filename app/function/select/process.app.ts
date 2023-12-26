@@ -7,27 +7,24 @@ export const process = (
   { server, courseId, jx0502id, jx0502zbid }: ProcessOptions,
 ): Promise<ProcessResponse> =>
   new Promise((resolve, reject) => {
-    const params = Object.entries({
-      jx0502id,
-      jx0502zbid,
-      jx0404id: courseId,
-    })
-      .map(([key, value]) => `${key}=${value}`)
-      .join("&");
-
     request<{ msgContent: string }>(
       `${server}xk/process${type === "delete" ? "Tx" : "Xk"}`,
       {
         method: "POST",
-        header: {
+        headers: {
           "Content-Type": "application/x-www-form-urlencoded",
         },
-        data: params,
+        // this is not encoded
+        body: Object.entries({
+          jx0502id,
+          jx0502zbid,
+          jx0404id: courseId,
+        })
+          .map(([key, value]) => `${key}=${value}`)
+          .join("&"),
       },
     )
-      .then((data) => {
-        const { msgContent: msg } = data;
-
+      .then(({ data: { msgContent: msg } }) => {
         if (msg === "系统更新了选课数据,请重新登录系统")
           return resolve({
             success: false,

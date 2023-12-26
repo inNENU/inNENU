@@ -7,9 +7,7 @@ import type {
   VPNLoginFailedResponse,
 } from "./typings.js";
 import type { CookieVerifyResponse } from "../../typings/response.js";
-import { request } from "../api/net.js";
-import { service } from "../config/index.js";
-import { cookieStore } from "../utils/cookie.js";
+import { cookieStore, request } from "../api/net.js";
 import type { AccountInfo } from "../utils/typings.js";
 
 export const ACTION_SERVER = "https://m-443.webvpn.nenu.edu.cn";
@@ -18,10 +16,10 @@ export const ACTION_MAIN_PAGE = `${ACTION_SERVER}/portal_main/toPortalPage`;
 export const actionLogin = async (
   options: AccountInfo,
 ): Promise<ActionLoginResponse> => {
-  const data = await request<ActionLoginResponse>(`${service}action/login`, {
+  const { data } = await request<ActionLoginResponse>("/action/login", {
     method: "POST",
-    data: options,
-    scope: ACTION_SERVER,
+    body: options,
+    cookieScope: ACTION_SERVER,
   });
 
   if (!data.success) {
@@ -33,10 +31,10 @@ export const actionLogin = async (
 };
 
 export const checkActionCookie = (): Promise<CookieVerifyResponse> =>
-  request<CookieVerifyResponse>(`${service}action/check`, {
+  request<CookieVerifyResponse>("/action/check", {
     method: "POST",
-    scope: ACTION_SERVER,
-  });
+    cookieScope: ACTION_SERVER,
+  }).then(({ data }) => data);
 
 export const ensureActionLogin = async (
   account: AccountInfo,

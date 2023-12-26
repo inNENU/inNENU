@@ -33,20 +33,20 @@ export const updateApp = (globalData: GlobalData): void => {
       // 请求配置文件
       request<string>(`${server}service/app-version.php`, {
         method: "POST",
-        data: {
+        body: {
           appID: globalData.appID,
         },
       })
-        .then((version) =>
+        .then(({ data: version }) =>
           // 请求配置文件
           request<Data>(`${server}service/settings.php`, {
             method: "POST",
-            data: {
+            body: {
               version,
               appID: globalData.appID,
             },
           })
-            .then(({ update }) => {
+            .then(({ data: { update } }) => {
               // 更新下载就绪，提示用户重新启动
               wx.showModal({
                 title: "已找到新版本",

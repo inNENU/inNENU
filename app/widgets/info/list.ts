@@ -1,6 +1,5 @@
 import type { CommonFailedResponse } from "../../../typings/index.js";
 import { request } from "../../api/index.js";
-import { service } from "../../config/index.js";
 
 export type MainInfoType = "notice" | "news" | "academic";
 
@@ -60,7 +59,7 @@ export const getInfoList = async (
       : `${MAIN_URL}/index/${type2ID[type]}.htm`;
 
   try {
-    const content = await request<string>(url);
+    const { data: content } = await request<string>(url);
 
     totalPageState[type] = Number(totalPageRegExp.exec(content)![1]);
 
@@ -72,7 +71,7 @@ export const getInfoList = async (
       ",",
     )}&owner=${owner}&clicktype=wbnews`;
 
-    const pageViews = (await request<string>(pageViewUrl))
+    const pageViews = (await request<string>(pageViewUrl)).data
       .split(",")
       .map(Number);
 
@@ -109,7 +108,7 @@ export const getInfoList = async (
 export const getOnlineInfoList = (
   options: MainInfoListOptions,
 ): Promise<MainInfoListResponse> =>
-  request<MainInfoListResponse>(`${service}main/info-list`, {
+  request<MainInfoListResponse>("/main/info-list", {
     method: "POST",
-    data: options,
-  });
+    body: options,
+  }).then(({ data }) => data);

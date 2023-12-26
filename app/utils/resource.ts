@@ -136,7 +136,7 @@ export const checkResource = (): Promise<void> => {
     return request<VersionInfo>(`${server}service/version.php`, {
       method: "POST",
     })
-      .then((data) => {
+      .then(({ data }) => {
         const updateList: string[] = [];
 
         for (const key in data.version)

@@ -1,4 +1,4 @@
-import { logger, query } from "@mptool/all";
+import { URLSearchParams, logger } from "@mptool/all";
 
 import type {
   ChangeMajorPlan,
@@ -15,15 +15,13 @@ import {
   tableFieldsRegExp,
   totalPagesRegExp,
 } from "./utils.js";
-import { request } from "../../api/index.js";
-import { service } from "../../config/info.js";
+import { cookieStore, request } from "../../api/index.js";
 import {
   LoginFailType,
   UNDER_SYSTEM_SERVER,
   isWebVPNPage,
 } from "../../login/index.js";
 import { getIETimeStamp } from "../../utils/browser.js";
-import { cookieStore } from "../../utils/cookie.js";
 
 const headerRegExp = /<title>(.*)<\/title>/;
 const planRegExp =
@@ -103,13 +101,13 @@ export const getPlanList = async (
 
   await Promise.all(
     pages.map(async (page) => {
-      const responseText = await request<string>(QUERY_URL, {
+      const { data: responseText } = await request<string>(QUERY_URL, {
         method: "POST",
-        header: {
+        headers: {
           "Content-Type": "application/x-www-form-urlencoded",
           Referer: QUERY_URL,
         },
-        data: query.stringify({
+        body: new URLSearchParams({
           keyCode,
           PageNum: page.toString(),
           printHQL,
@@ -134,7 +132,7 @@ export const getPlanList = async (
 export const getUnderChangeMajorPlans =
   async (): Promise<UnderChangeMajorPlanResponse> => {
     try {
-      const content = await request<string>(
+      const { data: content } = await request<string>(
         `${QUERY_URL}?tktime=${getIETimeStamp()}`,
       );
 
@@ -171,13 +169,10 @@ export const getUnderChangeMajorPlans =
 
 export const getOnlineUnderChangeMajorPlan =
   (): Promise<UnderChangeMajorPlanResponse> =>
-    request<UnderChangeMajorPlanResponse>(
-      `${service}under-system/change-major`,
-      {
-        method: "POST",
-        scope: UNDER_SYSTEM_SERVER,
-      },
-    ).then((data) => {
+    request<UnderChangeMajorPlanResponse>("/under-system/change-major", {
+      method: "POST",
+      cookieScope: UNDER_SYSTEM_SERVER,
+    }).then(({ data }) => {
       if (!data.success) logger.error("获取失败", data.msg);
 
       return data;

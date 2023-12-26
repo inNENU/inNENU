@@ -1,4 +1,4 @@
-import { logger, query } from "@mptool/all";
+import { URLSearchParams, logger } from "@mptool/all";
 
 import { handleFailResponse } from "./fail.js";
 import type {
@@ -10,9 +10,7 @@ import type {
   CommonFailedResponse,
   CookieVerifyResponse,
 } from "../../typings/response.js";
-import { request } from "../api/net.js";
-import { service } from "../config/info.js";
-import { cookieStore } from "../utils/cookie.js";
+import { cookieStore, request } from "../api/net.js";
 import type { AccountInfo, UserInfo } from "../utils/typings.js";
 
 export const MY_SERVER = "https://my.webvpn.nenu.edu.cn";
@@ -21,10 +19,10 @@ export const MY_MAIN_PAGE = `${MY_SERVER}/portal_main/toPortalPage`;
 export const myLogin = async (
   options: AccountInfo,
 ): Promise<MyLoginResponse> => {
-  const data = await request<MyLoginResponse>(`${service}my/login`, {
+  const { data } = await request<MyLoginResponse>("/my/login", {
     method: "POST",
-    data: options,
-    scope: MY_SERVER,
+    body: options,
+    cookieScope: MY_SERVER,
   });
 
   if (!data.success) {
@@ -36,10 +34,10 @@ export const myLogin = async (
 };
 
 export const checkMyCookie = (): Promise<CookieVerifyResponse> =>
-  request<CookieVerifyResponse>(`${service}my/check`, {
+  request<CookieVerifyResponse>("/my/check", {
     method: "POST",
-    scope: MY_SERVER,
-  });
+    cookieScope: MY_SERVER,
+  }).then(({ data }) => data);
 
 export const ensureMyLogin = async (
   account: AccountInfo,
@@ -157,15 +155,15 @@ export interface MyCompleteActionsSuccessResult {
 export const queryCompleteActions = async (): Promise<
   MyCompleteActionsSuccessResult | CommonFailedResponse
 > => {
-  const completeActionsResult = await request<RawCompleteActionData>(
+  const { data: completeActionsResult } = await request<RawCompleteActionData>(
     `${MY_SERVER}/taskCenter/queryMyApplicationComplete`,
     {
       method: "POST",
-      header: {
+      headers: {
         Accept: "application/json, text/javascript, */*; q=0.01",
         "Content-Type": "application/x-www-form-urlencoded; charset=UTF-8",
       },
-      data: query.stringify({
+      body: new URLSearchParams({
         _search: "false",
         nd: Date.now().toString(),
         limit: "100",
@@ -215,16 +213,16 @@ export type MyInfoResult = MyInfoSuccessResult | CommonFailedResponse;
 
 export const getMyInfo = async (): Promise<MyInfoResult> => {
   try {
-    const infoResult = await request<RawInfo>(
+    const { data: infoResult } = await request<RawInfo>(
       `${MY_SERVER}/sysform/loadIntelligent`,
       {
         method: "POST",
-        header: {
+        headers: {
           Accept: "application/json, text/javascript, */*; q=0.01",
           "Content-Type": "application/x-www-form-urlencoded; charset=UTF-8",
         },
-        data: "serviceAddress=dataCenter2.0%2Fsoap%2F00001_00036_01_02_20170918192121",
-        scope: MY_SERVER,
+        body: "serviceAddress=dataCenter2.0%2Fsoap%2F00001_00036_01_02_20170918192121",
+        cookieScope: MY_SERVER,
       },
     );
 
@@ -366,25 +364,24 @@ export const getProcess = async (
   try {
     const processURL = `${MY_SERVER}/wf/process/startProcessByKey/${processId}?random=${Math.random()}`;
 
-    const content = await request<RawProcessResult>(processURL, {
+    const { data } = await request<RawProcessResult>(processURL, {
       method: "POST",
-      header: {
+      headers: {
         Accept: "application/json, text/javascript, */*; q=0.01",
         "Content-Type": "application/x-www-form-urlencoded; charset=UTF-8",
         Referer: MY_MAIN_PAGE,
       },
-      data: "isFormPathDetail=false",
-      scope: processURL,
+      body: "isFormPathDetail=false",
     });
 
     return {
       success: true,
-      taskId: content.TASK_ID_,
-      instanceId: content.PROC_INST_ID_,
-      formPath: content.formPath,
-      realFormPath: content.realFormPath,
-      processId: content.processDefinitionId,
-      processKey: content.processDefinitionKey,
+      taskId: data.TASK_ID_,
+      instanceId: data.PROC_INST_ID_,
+      formPath: data.formPath,
+      realFormPath: data.realFormPath,
+      processId: data.processDefinitionId,
+      processKey: data.processDefinitionKey,
     };
   } catch (err) {
     console.error(err);

@@ -1,4 +1,4 @@
-import { logger, query } from "@mptool/all";
+import { URLSearchParams, logger } from "@mptool/all";
 
 import type { ExamPlace, UnderExamPlaceResponse } from "./typings.js";
 import {
@@ -12,14 +12,12 @@ import {
   tableFieldsRegExp,
   totalPagesRegExp,
 } from "./utils.js";
-import { request } from "../../api/index.js";
-import { service } from "../../config/index.js";
+import { cookieStore, request } from "../../api/index.js";
 import {
   LoginFailType,
   UNDER_SYSTEM_SERVER,
   isWebVPNPage,
 } from "../../login/index.js";
-import { cookieStore } from "../../utils/cookie.js";
 
 const selectRegExp =
   /<select\s+name="kskzid"\s+id="kskzid"[^>]*><option value="">---请选择---<\/option>([\s\S]*?)<\/select>/;
@@ -51,12 +49,13 @@ const getExamPlaces = (content: string): ExamPlace[] =>
   });
 
 export const getExamList = async (value: string): Promise<ExamPlace[]> => {
-  const content = await request<string>(QUERY_URL, {
+  const { data: content } = await request<string>(QUERY_URL, {
     method: "POST",
-    header: {
+    // TODO: Check whether the automatic header with utf8 is working
+    headers: {
       "Content-Type": "application/x-www-form-urlencoded",
     },
-    data: query.stringify({
+    body: new URLSearchParams({
       xnxq: "",
       kskzid: value,
     }),
@@ -92,7 +91,7 @@ export const getExamList = async (value: string): Promise<ExamPlace[]> => {
 
   await Promise.all(
     pages.map(async (page) => {
-      const params = query.stringify({
+      const params = {
         keyCode,
         PageNum: page.toString(),
         printHQL,
@@ -102,15 +101,14 @@ export const getExamList = async (value: string): Promise<ExamPlace[]> => {
         totalPages: totalPages.toString(),
         tableFields: DEFAULT_TABLE_FIELD,
         otherFields: DEFAULT_OTHER_FIELD,
-      });
+      };
 
-      const responseText = await request<string>(INFO_URL, {
+      const { data: responseText } = await request<string>(INFO_URL, {
         method: "POST",
-        header: {
-          "Content-Type": "application/x-www-form-urlencoded",
+        headers: {
           Referer: INFO_URL,
         },
-        data: params,
+        body: new URLSearchParams(params),
       });
 
       const newExamPlaces = getExamPlaces(responseText);
@@ -124,7 +122,7 @@ export const getExamList = async (value: string): Promise<ExamPlace[]> => {
 
 export const getUnderExamPlace = async (): Promise<UnderExamPlaceResponse> => {
   try {
-    const content = await request<string>(INFO_URL);
+    const { data: content } = await request<string>(INFO_URL);
 
     if (isWebVPNPage(content)) {
       cookieStore.clear();
@@ -166,10 +164,10 @@ export const getUnderExamPlace = async (): Promise<UnderExamPlaceResponse> => {
 };
 
 export const getOnlineUnderExamPlace = (): Promise<UnderExamPlaceResponse> =>
-  request<UnderExamPlaceResponse>(`${service}under-system/exam-place`, {
+  request<UnderExamPlaceResponse>("/under-system/exam-place", {
     method: "POST",
-    scope: UNDER_SYSTEM_SERVER,
-  }).then((data) => {
+    cookieScope: UNDER_SYSTEM_SERVER,
+  }).then(({ data }) => {
     if (!data.success) logger.error("获取失败", data.msg);
 
     return data;

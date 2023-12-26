@@ -92,16 +92,15 @@ export const fetchData = async (
 ): Promise<void> => {
   try {
     const { appID, version } = globalData;
-    const { service, notice, ...data } = await request<Data>(
-      `${server}service/settings.php`,
-      {
-        method: "POST",
-        data: {
-          appID,
-          version: isTest ? "test" : version,
-        },
+    const {
+      data: { service, notice, ...data },
+    } = await request<Data>(`${server}service/settings.php`, {
+      method: "POST",
+      body: {
+        appID,
+        version: isTest ? "test" : version,
       },
-    );
+    });
 
     globalData.data = data;
     globalData.service = service;

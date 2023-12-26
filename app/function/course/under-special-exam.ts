@@ -1,4 +1,4 @@
-import { logger, query } from "@mptool/all";
+import { URLSearchParams, logger } from "@mptool/all";
 
 import {
   fieldRegExp,
@@ -12,15 +12,13 @@ import {
   totalPagesRegExp,
 } from "./utils.js";
 import type { CommonFailedResponse } from "../../../typings/response.js";
-import { request } from "../../api/index.js";
-import { service } from "../../config/index.js";
+import { cookieStore, request } from "../../api/index.js";
 import {
   LoginFailType,
   UNDER_SYSTEM_SERVER,
   isWebVPNPage,
 } from "../../login/index.js";
 import { getIETimeStamp } from "../../utils/browser.js";
-import { cookieStore } from "../../utils/cookie.js";
 
 export interface UnderSpecialExamItem {
   /** 考试时间 */
@@ -95,7 +93,7 @@ export const getSpecialExams = async (
 
   await Promise.all(
     pages.map(async (page) => {
-      const params = query.stringify({
+      const params = {
         xsId,
         keyCode,
         PageNum: page.toString(),
@@ -108,14 +106,15 @@ export const getSpecialExams = async (
         totalPages: totalPages.toString(),
         tableFields: DEFAULT_TABLE_FIELD,
         otherFields: DEFAULT_OTHER_FIELD,
-      });
+      };
 
-      const responseText = await request<string>(QUERY_URL, {
+      const { data: responseText } = await request<string>(QUERY_URL, {
         method: "POST",
-        header: {
+        // TODO:
+        headers: {
           "Content-Type": "application/x-www-form-urlencoded",
         },
-        data: params.toString(),
+        body: new URLSearchParams(params),
       });
 
       const newGrades = getGrades(responseText);
@@ -139,7 +138,7 @@ export type UnderSpecialExamResponse =
 export const getUnderSpecialExamScore =
   async (): Promise<UnderSpecialExamResponse> => {
     try {
-      const content = await request<string>(
+      const { data: content } = await request<string>(
         `${QUERY_URL}?tktime=${getIETimeStamp()}`,
       );
 
@@ -173,10 +172,10 @@ export const getUnderSpecialExamScore =
 
 export const getOnlineUnderSpecialExamScore =
   (): Promise<UnderSpecialExamResponse> =>
-    request<UnderSpecialExamResponse>(`${service}under-system/special-exam`, {
+    request<UnderSpecialExamResponse>("/under-system/special-exam", {
       method: "POST",
-      scope: UNDER_SYSTEM_SERVER,
-    }).then((data) => {
+      cookieScope: UNDER_SYSTEM_SERVER,
+    }).then(({ data }) => {
       if (!data.success) logger.error("获取失败", data.msg);
 
       return data;

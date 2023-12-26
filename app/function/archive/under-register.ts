@@ -1,12 +1,10 @@
 import { logger } from "@mptool/all";
 
 import { CommonFailedResponse } from "../../../typings/index.js";
-import { request } from "../../api/net.js";
-import { service } from "../../config/info.js";
+import { cookieStore, request } from "../../api/net.js";
 import { LoginFailType } from "../../login/loginFailTypes.js";
 import { UNDER_SYSTEM_SERVER } from "../../login/under-system.js";
 import { isWebVPNPage } from "../../login/utils.js";
-import { cookieStore } from "../../utils/cookie.js";
 
 const alertRegExp = /window.alert\('(.+?)'\)/;
 
@@ -28,7 +26,7 @@ export const registerStudentArchive = async (
 ): Promise<UnderRegisterStudentArchiveResponse> => {
   const url = `${UNDER_SYSTEM_SERVER}${path}`;
 
-  const content = await request<string>(url);
+  const { data: content } = await request<string>(url);
 
   if (isWebVPNPage(content)) {
     cookieStore.clear();
@@ -54,13 +52,13 @@ export const useOnlineRegisterStudentArchive = (
   path: string,
 ): Promise<UnderRegisterStudentArchiveResponse> =>
   request<UnderRegisterStudentArchiveResponse>(
-    `${service}under-system/student-archive`,
+    "/under-system/student-archive",
     {
       method: "POST",
-      data: { type: "register", path },
-      scope: UNDER_SYSTEM_SERVER,
+      body: { type: "register", path },
+      cookieScope: UNDER_SYSTEM_SERVER,
     },
-  ).then((data) => {
+  ).then(({ data }) => {
     if (!data.success) logger.error("获取失败", data.msg);
 
     return data;

@@ -5,17 +5,16 @@ import type {
   PostCourseTableResponse,
 } from "./typings.js";
 import { request } from "../../api/index.js";
-import { service } from "../../config/index.js";
 import { POST_SYSTEM_SERVER } from "../../login/index.js";
 
 export const getPostCourseTable = (
   options: PostCourseTableOptions,
 ): Promise<PostCourseTableResponse> =>
-  request<PostCourseTableResponse>(`${service}post-system/course-table`, {
+  request<PostCourseTableResponse>("/post-system/course-table", {
     method: "POST",
-    data: options,
-    scope: POST_SYSTEM_SERVER,
-  }).then((data) => {
+    body: options,
+    cookieScope: POST_SYSTEM_SERVER,
+  }).then(({ data }) => {
     if (!data.success) logger.error("获取失败", data.msg);
 
     return data;

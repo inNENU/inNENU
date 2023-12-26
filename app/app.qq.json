@@ -113,12 +113,6 @@
       }
     ]
   },
-  "networkTimeout": {
-    "request": 10000,
-    "connectSocket": 8000,
-    "uploadFile": 8000,
-    "downloadFile": 25000
-  },
   "darkmode": false,
   "debug": false,
   "resizable": true,

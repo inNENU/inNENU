@@ -1,8 +1,7 @@
-import { logger } from "@mptool/all";
+import { URLSearchParams, logger } from "@mptool/all";
 
 import type { CommonFailedResponse } from "../../../typings/index.js";
 import { request } from "../../api/index.js";
-import { service } from "../../config/index.js";
 import { ACTION_SERVER, AuthLoginFailedResponse } from "../../login/index.js";
 
 type RawCardBalanceData =
@@ -33,13 +32,16 @@ export const getCardBalance = async (): Promise<CardBalanceResponse> => {
   try {
     const url = `${ACTION_SERVER}/soapBasic/postSoap`;
 
-    const data = await request<RawCardBalanceData>(url, {
+    const { data } = await request<RawCardBalanceData>(url, {
       method: "POST",
-      header: {
+      headers: {
         Accept: "application/json, text/javascript, */*; q=0.01",
-        "Content-Type": "application/x-www-form-urlencoded; charset=UTF-8",
       },
-      data: "serviceAddress=wis-apis%2Fsoap%2F00001_00083_01_02_20181210185800&serviceSource=ds2&params=%7B%22xgh%22%3Anull%7D",
+      body: new URLSearchParams({
+        serviceAddress: "wis-apis/soap/00001_00083_01_02_20181210185800",
+        serviceSource: "ds2",
+        params: JSON.stringify({ xgh: null }),
+      }),
     });
 
     if (data.success)
@@ -65,13 +67,10 @@ export const getCardBalance = async (): Promise<CardBalanceResponse> => {
 };
 
 export const getOnlineCardBalance = async (): Promise<CardBalanceResponse> => {
-  const data = await request<CardBalanceResponse>(
-    `${service}action/card-balance`,
-    {
-      method: "POST",
-      scope: ACTION_SERVER,
-    },
-  );
+  const data = await request<CardBalanceResponse>("/action/card-balance", {
+    method: "POST",
+    cookieScope: ACTION_SERVER,
+  }).then(({ data }) => data);
 
   if (!data.success) logger.error("获取校园卡余额出错", data);
 

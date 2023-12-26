@@ -15,8 +15,7 @@ import type {
   ActivateReplacePhoneResponse,
   ActivateSuccessResponse,
 } from "./typings.js";
-import { request } from "../../api/index.js";
-import { service } from "../../config/info.js";
+import { JSONHeader, request } from "../../api/index.js";
 
 export const ACTIVATE_SERVER = "https://activate.nenu.edu.cn";
 
@@ -33,12 +32,12 @@ export const idTypes = [
 ] as const;
 
 export const getImage = async (): Promise<ActivateImageResponse> => {
-  const imageUrl = `${ACTIVATE_SERVER}/api/staff/activate/imageCode`;
-  const imageResponse = await request<ArrayBuffer>(imageUrl, {
-    responseType: "arraybuffer",
-  });
+  const { data } = await request<ArrayBuffer>(
+    `${ACTIVATE_SERVER}/api/staff/activate/imageCode`,
+    { responseType: "arraybuffer" },
+  );
 
-  const base64Image = `data:image/jpeg;base64,${encodeBase64(imageResponse)}`;
+  const base64Image = `data:image/jpeg;base64,${encodeBase64(data)}`;
 
   return {
     success: true,
@@ -75,14 +74,12 @@ export const checkAccount = async ({
 }: ActivateInfoOptions): Promise<
   ActivateInfoSuccessResponse | ActivateFailedResponse
 > => {
-  const activateResult = await request<
+  const { data: activateResult } = await request<
     ActivateRawSuccessResponse | RawErrorResponse
   >(`${ACTIVATE_SERVER}/api/staff/activate/id`, {
     method: "POST",
-    header: {
-      "Content-Type": "application/json;charset=UTF-8",
-    },
-    data: {
+    headers: JSONHeader,
+    body: {
       staffNo: schoolID,
       name,
       idNo: id,
@@ -127,17 +124,12 @@ export const sendSms = async ({
   activationId,
   mobile,
 }: ActivatePhoneSmsOptions): Promise<ActivatePhoneSmsResponse> => {
-  const sendCodeResult = await request<
+  const { data: sendCodeResult } = await request<
     CodeRawSuccessResponse | CodeRawFailedResponse
   >(`${ACTIVATE_SERVER}/api/staff/activate/checkCode`, {
     method: "POST",
-    header: {
-      "Content-Type": "application/json;charset=UTF-8",
-    },
-    data: {
-      activationId,
-      mobile,
-    },
+    headers: JSONHeader,
+    body: { activationId, mobile },
   });
 
   if (sendCodeResult.code !== 0)
@@ -152,11 +144,7 @@ export const sendSms = async ({
 interface PhoneRawSuccessResponse {
   code: 0;
   msg: "成功";
-  data:
-    | {
-        boundStaffNo: string;
-      }
-    | Record<string, string>;
+  data: { boundStaffNo: string } | Record<string, string>;
 }
 
 export const bindPhone = async ({
@@ -164,16 +152,13 @@ export const bindPhone = async ({
   code,
   mobile,
 }: ActivateBindPhoneOptions): Promise<ActivateBindPhoneResponse> => {
-  const content = await request<PhoneRawSuccessResponse | RawErrorResponse>(
-    `${ACTIVATE_SERVER}/api/staff/activate/mobile`,
-    {
-      method: "POST",
-      header: {
-        "Content-Type": "application/json;charset=UTF-8",
-      },
-      data: { activationId, mobile, checkCode: code },
-    },
-  );
+  const { data: content } = await request<
+    PhoneRawSuccessResponse | RawErrorResponse
+  >(`${ACTIVATE_SERVER}/api/staff/activate/mobile`, {
+    method: "POST",
+    headers: JSONHeader,
+    body: { activationId, mobile, checkCode: code },
+  });
 
   if (content.code !== 0)
     return {
@@ -199,16 +184,13 @@ export const replacePhone = async ({
   code,
   mobile,
 }: ActivateReplacePhoneOptions): Promise<ActivateReplacePhoneResponse> => {
-  const content = await request<PhoneRawSuccessResponse | RawErrorResponse>(
-    `${ACTIVATE_SERVER}/api/staff/activate/mobile/unbind`,
-    {
-      method: "POST",
-      header: {
-        "Content-Type": "application/json;charset=UTF-8",
-      },
-      data: JSON.stringify({ activationId, mobile, checkCode: code }),
-    },
-  );
+  const { data: content } = await request<
+    PhoneRawSuccessResponse | RawErrorResponse
+  >(`${ACTIVATE_SERVER}/api/staff/activate/mobile/unbind`, {
+    method: "POST",
+    headers: JSONHeader,
+    body: { activationId, mobile, checkCode: code },
+  });
 
   if (content.code !== 0)
     return {
@@ -225,16 +207,13 @@ export const setPassword = async ({
   activationId,
   password,
 }: ActivatePasswordOptions): Promise<ActivatePasswordResponse> => {
-  const content = await request<ActivateRawSuccessResponse | RawErrorResponse>(
-    `${ACTIVATE_SERVER}/api/staff/activate/password`,
-    {
-      method: "POST",
-      header: {
-        "Content-Type": "application/json;charset=UTF-8",
-      },
-      data: { activationId, password },
-    },
-  );
+  const { data: content } = await request<
+    ActivateRawSuccessResponse | RawErrorResponse
+  >(`${ACTIVATE_SERVER}/api/staff/activate/password`, {
+    method: "POST",
+    headers: JSONHeader,
+    body: { activationId, password },
+  });
 
   if (content.code !== 0)
     return {
@@ -259,8 +238,17 @@ export const activateAccountOnline = async <T extends ActivateOptions | "GET">(
         | ActivateReplacePhoneResponse
         | ActivatePasswordResponse
 > =>
-  request(`${service}/auth/activate`, {
+  request<
+    T extends "GET"
+      ? ActivateImageResponse
+      :
+          | ActivateInfoResponse
+          | ActivatePhoneSmsResponse
+          | ActivateBindPhoneOptions
+          | ActivateReplacePhoneResponse
+          | ActivatePasswordResponse
+  >("/auth/activate", {
     method: options === "GET" ? "GET" : "POST",
-    ...(options === "GET" ? {} : { data: options }),
-    scope: `${ACTIVATE_SERVER}/api/`,
-  });
+    ...(options === "GET" ? {} : { body: options }),
+    cookieScope: `${ACTIVATE_SERVER}/api/`,
+  }).then(({ data }) => data);

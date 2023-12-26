@@ -1,4 +1,4 @@
-import { logger, query } from "@mptool/all";
+import { URLSearchParams, logger } from "@mptool/all";
 
 import type {
   GradeDetail,
@@ -8,15 +8,13 @@ import type {
   UnderGradeListResponse,
   UnderGradeResult,
 } from "./typings.js";
-import { request } from "../../api/index.js";
-import { service } from "../../config/index.js";
+import { cookieStore, request } from "../../api/index.js";
 import {
   LoginFailType,
   UNDER_SYSTEM_SERVER,
   isWebVPNPage,
 } from "../../login/index.js";
 import { getIETimeStamp } from "../../utils/browser.js";
-import { cookieStore } from "../../utils/cookie.js";
 import {
   fieldRegExp,
   keyCodeRegExp,
@@ -124,7 +122,7 @@ export const getGrades = (
         const gradeUrl = `${UNDER_SYSTEM_SERVER}${gradeLink}&tktime=${getIETimeStamp()}`;
 
         try {
-          const content = await request<string>(gradeUrl);
+          const { data: content } = await request<string>(gradeUrl);
           const matched = gradeDetailRegExp.exec(content);
 
           if (matched) {
@@ -213,12 +211,13 @@ export const getGradeLists = async (
 
   await Promise.all(
     pages.map(async (page) => {
-      const content = await request<string>(QUERY_URL, {
+      const { data: content } = await request<string>(QUERY_URL, {
         method: "POST",
-        header: {
+        // TODO:
+        headers: {
           "Content-Type": "application/x-www-form-urlencoded",
         },
-        data: query.stringify({
+        body: new URLSearchParams({
           xsId,
           keyCode,
           PageNum: page.toString(),
@@ -250,12 +249,13 @@ export const getUnderGradeList = async ({
   gradeType = "all",
 }: UnderGradeListOptions): Promise<UnderGradeListResponse> => {
   try {
-    const content = await request<string>(QUERY_URL, {
+    const { data: content } = await request<string>(QUERY_URL, {
       method: "POST",
-      header: {
+      // TODO:
+      headers: {
         "Content-Type": "application/x-www-form-urlencoded",
       },
-      data: query.stringify({
+      body: new URLSearchParams({
         kksj: time,
         kcxz: courseType ? COURSE_TYPES[courseType] || "" : "",
         kcmc: name,
@@ -304,11 +304,11 @@ export const getUnderGradeList = async ({
 export const getOnlineUnderGradeList = (
   options: UnderGradeListOptions,
 ): Promise<UnderGradeListResponse> =>
-  request<UnderGradeListResponse>(`${service}under-system/grade-list`, {
+  request<UnderGradeListResponse>("/under-system/grade-list", {
     method: "POST",
-    data: options,
-    scope: UNDER_SYSTEM_SERVER,
-  }).then((data) => {
+    body: options,
+    cookieScope: UNDER_SYSTEM_SERVER,
+  }).then(({ data }) => {
     if (!data.success) logger.error("获取失败", data.msg);
 
     return data;
