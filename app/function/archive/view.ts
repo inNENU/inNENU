@@ -8,7 +8,7 @@ import {
   getUnderStudentArchive,
   useOnlineGetStudentArchive,
 } from "./under-view.js";
-import { confirmAction, showModal } from "../../api/index.js";
+import { confirmAction, retryAction, showModal } from "../../api/index.js";
 import type { AppOption } from "../../app.js";
 import { STUDENT_ARCHIVE_KEY } from "../../config/keys.js";
 import { LoginFailType } from "../../login/loginFailTypes.js";
@@ -105,15 +105,7 @@ $Page(PAGE_ID, {
         this.setData({ stage: "info", ...result.info });
         this.state.loginMethod = "check";
       } else if (result.type === LoginFailType.Expired) {
-        this.state.loginMethod = "login";
-        wx.showModal({
-          title: "登录过期",
-          content: result.msg,
-          confirmText: "重试",
-          success: () => {
-            this.getStudyArchive();
-          },
-        });
+        this.handleExpired(result.msg);
       } else {
         showModal("获取失败", result.msg);
       }
@@ -149,15 +141,7 @@ $Page(PAGE_ID, {
         );
         this.state.loginMethod = "check";
       } else if (result.type === LoginFailType.Expired) {
-        this.state.loginMethod = "login";
-        wx.showModal({
-          title: "登录过期",
-          content: result.msg,
-          confirmText: "重试",
-          success: () => {
-            this.getStudyArchive();
-          },
-        });
+        this.handleExpired(result.msg);
       } else {
         showModal("注册失败", result.msg);
       }
@@ -179,5 +163,10 @@ $Page(PAGE_ID, {
 
   createStudentArchive() {
     this.$go("create-archive");
+  },
+
+  handleExpired(content: string) {
+    this.state.loginMethod = "login";
+    retryAction("登录过期", content, () => this.getStudyArchive());
   },
 });

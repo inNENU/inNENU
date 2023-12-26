@@ -5,7 +5,7 @@ import {
   getOnlineUnderSpecialExamScore,
   getUnderSpecialExamScore,
 } from "./under-special-exam.js";
-import { showModal } from "../../api/index.js";
+import { retryAction, showModal } from "../../api/index.js";
 import type { AppOption } from "../../app.js";
 import { appCoverPrefix } from "../../config/info.js";
 import { SPECIAL_EXAM_DATA_KEY } from "../../config/keys.js";
@@ -111,14 +111,7 @@ $Page(PAGE_ID, {
         this.state.loginMethod = "check";
       } else if (result.type === LoginFailType.Expired) {
         this.state.loginMethod = "login";
-        wx.showModal({
-          title: "登录过期",
-          content: result.msg,
-          confirmText: "重试",
-          success: () => {
-            this.getSpecialExamScore();
-          },
-        });
+        retryAction("登录过期", result.msg, () => this.getSpecialExamScore());
       } else {
         showModal("获取失败", result.msg);
       }

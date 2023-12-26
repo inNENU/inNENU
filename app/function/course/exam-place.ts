@@ -5,7 +5,7 @@ import {
   getOnlineUnderExamPlace,
   getUnderExamPlace,
 } from "./under-exam-place.js";
-import { showModal } from "../../api/index.js";
+import { retryAction, showModal } from "../../api/index.js";
 import type { AppOption } from "../../app.js";
 import { appCoverPrefix } from "../../config/info.js";
 import { EXAM_PLACE_DATA_KEY } from "../../config/keys.js";
@@ -116,14 +116,7 @@ $Page(PAGE_ID, {
         this.state.loginMethod = "check";
       } else if (result.type === LoginFailType.Expired) {
         this.state.loginMethod = "login";
-        wx.showModal({
-          title: "登录过期",
-          content: result.msg,
-          confirmText: "重试",
-          success: () => {
-            this.getExamPlace();
-          },
-        });
+        retryAction("登录过期", result.msg, () => this.getExamPlace());
       } else {
         showModal("获取失败", result.msg);
       }

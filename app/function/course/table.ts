@@ -6,7 +6,7 @@ import {
   getOnlineUnderCourseTable,
   getUnderCourseTable,
 } from "./under-course-table.js";
-import { showModal } from "../../api/index.js";
+import { retryAction, showModal } from "../../api/index.js";
 import type { AppOption } from "../../app.js";
 import { COURSE_DATA_KEY, appCoverPrefix } from "../../config/index.js";
 import {
@@ -231,14 +231,9 @@ $Page(PAGE_ID, {
         set(COURSE_DATA_KEY, this.state.coursesData, 6 * MONTH);
       } else if (result.type === LoginFailType.Expired) {
         this.state.loginMethod = "login";
-        wx.showModal({
-          title: "登录过期",
-          content: result.msg,
-          confirmText: "重试",
-          success: () => {
-            this.getUnderCourseData(time);
-          },
-        });
+        retryAction("登录过期", result.msg, () =>
+          this.getUnderCourseData(time),
+        );
       } else {
         showModal("获取失败", result.msg);
       }
@@ -281,14 +276,7 @@ $Page(PAGE_ID, {
         set(COURSE_DATA_KEY, this.state.coursesData, 6 * MONTH);
       } else if (result.type === LoginFailType.Expired) {
         this.state.loginMethod = "login";
-        wx.showModal({
-          title: "登录过期",
-          content: result.msg,
-          confirmText: "重试",
-          success: () => {
-            this.getPostCourseData(time);
-          },
-        });
+        retryAction("登录过期", result.msg, () => this.getPostCourseData(time));
       } else {
         showModal("获取失败", result.msg);
       }

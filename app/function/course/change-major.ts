@@ -5,7 +5,7 @@ import {
   getUnderChangeMajorPlans,
 } from "./change-major-plan.js";
 import type { ChangeMajorPlan } from "./typings.js";
-import { showModal } from "../../api/index.js";
+import { retryAction, showModal } from "../../api/index.js";
 import type { AppOption } from "../../app.js";
 import { appCoverPrefix } from "../../config/info.js";
 import { CHANGE_MAJOR_DATA_KEY } from "../../config/keys.js";
@@ -124,14 +124,7 @@ $Page(PAGE_ID, {
         this.state.loginMethod = "check";
       } else if (result.type === LoginFailType.Expired) {
         this.state.loginMethod = "login";
-        wx.showModal({
-          title: "登录过期",
-          content: result.msg,
-          confirmText: "重试",
-          success: () => {
-            this.getPlans();
-          },
-        });
+        retryAction("登录过期", result.msg, () => this.getPlans());
       } else {
         showModal("获取失败", result.msg);
       }

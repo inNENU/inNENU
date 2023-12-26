@@ -10,7 +10,7 @@ import {
   getOnlineUnderGradeList,
   getUnderGradeList,
 } from "./under-grade-list.js";
-import { showModal } from "../../api/index.js";
+import { retryAction, showModal } from "../../api/index.js";
 import type { AppOption } from "../../app.js";
 import { GRADE_DATA_KEY, appCoverPrefix } from "../../config/index.js";
 import {
@@ -207,14 +207,9 @@ $Page("course-grade", {
         this.state.loginMethod = "check";
       } else if (result.type === LoginFailType.Expired) {
         this.state.loginMethod = "login";
-        wx.showModal({
-          title: "登录过期",
-          content: result.msg,
-          confirmText: "重试",
-          success: () => {
-            this.getUnderGradeList(options);
-          },
-        });
+        retryAction("登录过期", result.msg, () =>
+          this.getUnderGradeList(options),
+        );
       } else {
         showModal("获取失败", result.msg);
       }
@@ -245,14 +240,7 @@ $Page("course-grade", {
           this.state.loginMethod = "check";
         } else if (res.type === LoginFailType.Expired) {
           this.state.loginMethod = "login";
-          wx.showModal({
-            title: "登录过期",
-            content: res.msg,
-            confirmText: "重试",
-            success: () => {
-              this.getPostGradeList();
-            },
-          });
+          retryAction("登录过期", res.msg, () => this.getPostGradeList());
         } else {
           showModal("获取失败", res.msg);
         }

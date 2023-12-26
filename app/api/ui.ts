@@ -23,8 +23,8 @@ export const getWindowInfo = (): WechatMiniprogram.WindowInfo =>
 export const showModal = (
   title: string,
   content: string,
-  confirmFunc?: () => void,
-  cancelFunc?: () => void,
+  confirmFunc?: () => void | Promise<void>,
+  cancelFunc?: () => void | Promise<void>,
 ): void => {
   /** 显示取消按钮 */
   const showCancel = Boolean(cancelFunc);
@@ -66,9 +66,9 @@ export const showToast = (
  */
 export const confirmAction = (
   actionText: string,
-  confirmFunc: () => void,
+  confirmFunc: () => void | Promise<void>,
   warning = "",
-  cancelFunc: () => void = (): void => void 0,
+  cancelFunc: () => void | Promise<void> = (): void => void 0,
 ): void => {
   showModal(
     "确认操作",
@@ -76,4 +76,24 @@ export const confirmAction = (
     confirmFunc,
     cancelFunc,
   );
+};
+
+export const retryAction = (
+  title: string,
+  content: string,
+  retryAction: () => void | Promise<void>,
+  navigateBack = false,
+): void => {
+  wx.showModal({
+    title,
+    content,
+    confirmText: "重试",
+    // Note: This is for QQ
+    theme: "day",
+    success: ({ cancel, confirm }) => {
+      if (confirm) retryAction();
+      else if (cancel && navigateBack && getCurrentPages().length > 1)
+        wx.navigateBack();
+    },
+  });
 };
