@@ -33,6 +33,7 @@ export const showModal = (
     title,
     content,
     showCancel,
+    // Note: This is for QQ
     theme: "day",
     success: ({ cancel, confirm }) => {
       if (confirm && confirmFunc) confirmFunc();
