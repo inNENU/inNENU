@@ -1,4 +1,4 @@
-import { query } from "@mptool/all";
+import { URLSearchParams } from "@mptool/all";
 
 import { SelectInfoOptions, SelectInfoResponse } from "./typings.js";
 import { CommonFailedResponse } from "../../../typings/index.js";
@@ -278,9 +278,10 @@ const setPostCourseOffices = (documentContent: string): void => {
 };
 
 const setUnderParams = async (server: string): Promise<void> => {
-  const infoStream = await request<ArrayBuffer>(`${server}xk/AccessToXk`, {
-    responseType: "arraybuffer",
-  });
+  const { data: infoStream } = await request<ArrayBuffer>(
+    `${server}xk/AccessToXk`,
+    { responseType: "arraybuffer" },
+  );
 
   const infoResponseText = new TextDecoder("gbk").decode(infoStream);
 
@@ -296,9 +297,10 @@ const setUnderParams = async (server: string): Promise<void> => {
 };
 
 const setPostParams = async (server: string): Promise<void> => {
-  const infoStream = await request<ArrayBuffer>(`${server}xk/AccessToXk`, {
-    responseType: "arraybuffer",
-  });
+  const { data: infoStream } = await request<ArrayBuffer>(
+    `${server}xk/AccessToXk`,
+    { responseType: "arraybuffer" },
+  );
 
   const infoResponseText = new TextDecoder("gbk").decode(infoStream);
 
@@ -360,15 +362,15 @@ export const getInfo = async ({
     type === "under" ? underParamsStore : postParamsStore
   ).state!;
 
-  const urlParams = query.stringify({
+  const urlParams = new URLSearchParams({
     jx0502zbid,
     jx0502id,
     sfktx: "1",
     sfkxk: "1",
   });
 
-  const responseStream = await request<ArrayBuffer>(
-    `${server}xk/getXkInfo?${urlParams}`,
+  const { data: responseStream } = await request<ArrayBuffer>(
+    `${server}xk/getXkInfo?${urlParams.toString()}`,
     { responseType: "arraybuffer" },
   );
 

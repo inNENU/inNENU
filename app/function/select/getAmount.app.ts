@@ -1,4 +1,4 @@
-import { query } from "@mptool/all";
+import { URLSearchParams } from "@mptool/all";
 
 import type {
   StudentAmountData,
@@ -16,17 +16,16 @@ export const getAmount = async ({
 }: StudentAmountOptions): Promise<StudentAmountResponse> => {
   try {
     const url = `${server}xk/GetXkRs`;
-    const params = query.stringify({
-      jx0502id,
-      kch: courseId,
-    });
 
-    const rawData = await request<string | StudentAmountRaw[]>(url, {
+    const { data: rawData } = await request<string | StudentAmountRaw[]>(url, {
       method: "POST",
-      header: {
+      headers: {
         "Content-Type": "application/x-www-form-urlencoded",
       },
-      data: params,
+      body: new URLSearchParams({
+        jx0502id,
+        kch: courseId,
+      }),
     });
 
     if (typeof rawData === "string")

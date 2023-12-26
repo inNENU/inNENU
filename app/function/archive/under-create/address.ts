@@ -1,4 +1,4 @@
-import { logger, query } from "@mptool/all";
+import { URLSearchParams, logger } from "@mptool/all";
 
 import { UnderArchiveFieldInfo, UnderStudyOptions } from "./typings.js";
 import {
@@ -8,13 +8,12 @@ import {
   studyDataRegExp,
 } from "./utils.js";
 import { CommonFailedResponse } from "../../../../typings/index.js";
-import { request } from "../../../api/index.js";
+import { cookieStore, request } from "../../../api/index.js";
 import {
   LoginFailType,
   UNDER_SYSTEM_SERVER,
   isWebVPNPage,
 } from "../../../login/index.js";
-import { cookieStore } from "../../../utils/cookie.js";
 
 export interface UnderCreateStudentArchiveSubmitAddressOptions {
   fields: UnderArchiveFieldInfo[];
@@ -37,15 +36,15 @@ export const submitUnderStudentArchiveAddress = async ({
   fields,
 }: UnderCreateStudentArchiveSubmitAddressOptions): Promise<UnderCreateStudentArchiveSubmitAddressResponse> => {
   try {
-    const content = await request<string>(`${UNDER_SYSTEM_SERVER}${path}`, {
-      method: "POST",
-      header: {
-        "Content-Type": "application/x-www-form-urlencoded",
+    const { data: content } = await request<string>(
+      `${UNDER_SYSTEM_SERVER}${path}`,
+      {
+        method: "POST",
+        body: new URLSearchParams(
+          fields.map<[string, string]>(({ name, value }) => [name, value]),
+        ),
       },
-      data: query.stringify(
-        Object.fromEntries(fields.map(({ name, value }) => [name, value])),
-      ),
-    });
+    );
 
     if (isWebVPNPage(content)) {
       cookieStore.clear();

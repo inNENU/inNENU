@@ -1,9 +1,8 @@
-import { logger, query } from "@mptool/all";
+import { URLSearchParams, logger } from "@mptool/all";
 
 import type { CommonFailedResponse } from "../../../typings/index.js";
 import { request } from "../../api/index.js";
 import type { AppOption } from "../../app.js";
-import { service } from "../../config/info.js";
 import type {
   AuthLoginFailedResponse,
   VPNLoginFailedResponse,
@@ -83,15 +82,14 @@ interface MailInitFailedInfo {
 type MailInitInfo = MailInitSuccessInfo | MailInitFailedInfo;
 
 const getMailInitInfo = async (instanceId: string): Promise<MailInitInfo> => {
-  const mailInfoResponse = await request<MailInitRawData>(
+  const { data: mailInfoResponse } = await request<MailInitRawData>(
     `${MY_SERVER}/Gryxsq/getResult`,
     {
       method: "POST",
-      header: {
+      headers: {
         Accept: "application/json, text/javascript, */*; q=0.01",
-        "Content-Type": "application/x-www-form-urlencoded; charset=UTF-8",
       },
-      data: query.stringify({
+      body: new URLSearchParams({
         PROC: instanceId,
       }),
     },
@@ -115,16 +113,15 @@ const getMailInitInfo = async (instanceId: string): Promise<MailInitInfo> => {
 };
 
 export const getEmail = async (): Promise<GetEmailResponse> => {
-  const checkResult = await request<RawCheckMailData>(
+  const { data: checkResult } = await request<RawCheckMailData>(
     `${MY_SERVER}/Gryxsq/checkMailBox`,
     {
       method: "POST",
-      header: {
+      headers: {
         Accept: "application/json, text/javascript, */*; q=0.01",
-        "Content-Type": "application/x-www-form-urlencoded; charset=UTF-8",
       },
-      data: `userId=${globalData.account!.id}`,
-      scope: MY_SERVER,
+      body: new URLSearchParams({ userId: globalData.account!.id.toString() }),
+      cookieScope: MY_SERVER,
     },
   );
 
@@ -163,16 +160,19 @@ export const getEmail = async (): Promise<GetEmailResponse> => {
 
   const { taskId, instanceId } = processResult;
 
-  const accountListResult = await request<RawAccountList>(
+  const { data: accountListResult } = await request<RawAccountList>(
     `${MY_SERVER}/sysform/getSelectOption?random=${Math.random()}`,
     {
       method: "POST",
-      header: {
+      headers: {
         Accept: "application/json, text/javascript, */*; q=0.01",
-        "Content-Type": "application/x-www-form-urlencoded; charset=UTF-8",
       },
-      data: "beanId=GryxsqService&method=getAccountList&paramStr=%7B%7D",
-      scope: MY_SERVER,
+      body: new URLSearchParams({
+        beanId: "GryxsqService",
+        method: "getAccountList",
+        paramStr: "{}",
+      }),
+      cookieScope: MY_SERVER,
     },
   );
 
@@ -197,16 +197,15 @@ export const activateEmail = async (
   { name, phone, suffix, taskId, instanceId }: ActivateEmailOptions,
   userInfo: UserInfo,
 ): Promise<ActivateEmailResponse> => {
-  const checkResult = await request<{ suc: boolean }>(
+  const { data: checkResult } = await request<{ suc: boolean }>(
     "https://my.webvpn.nenu.edu.cn/Gryxsq/checkMailBoxAccount",
     {
       method: "POST",
-      header: {
+      headers: {
         Accept: "application/json, text/javascript, */*; q=0.01",
-        "Content-Type": "application/x-www-form-urlencoded; charset=UTF-8",
       },
-      data: `mailBoxName=${name}`,
-      scope: MY_SERVER,
+      body: new URLSearchParams({ mailBoxName: name }),
+      cookieScope: MY_SERVER,
     },
   );
 
@@ -222,15 +221,14 @@ export const activateEmail = async (
       msg: "邮箱账户已存在",
     };
 
-  const setMailResult = await request<{ success: boolean }>(
+  const { data: setMailResult } = await request<{ success: boolean }>(
     `${MY_SERVER}/dynamicDrawForm/submitAndSend`,
     {
       method: "POST",
-      header: {
+      headers: {
         Accept: "application/json, text/javascript, */*; q=0.01",
-        "Content-Type": "application/x-www-form-urlencoded; charset=UTF-8",
       },
-      data: query.stringify({
+      body: new URLSearchParams({
         f: "72f6e76cde1b4af890adf5f417ee153f",
         b: "null",
         TASK_ID_: taskId,
@@ -278,12 +276,11 @@ export const onlineMyEmail = async <T>(
     T extends ActivateEmailOptions
       ? ActivateEmailResponse
       : GetEmailInfoResponse
-  >(`${service}my/email`, {
+  >("/my/email", {
     method: "POST",
-    // @ts-ignore
-    ...(options ? { data: query.stringify(options) } : {}),
-    scope: MY_SERVER,
-  }).then((data) => {
+    ...(options ? { body: options } : {}),
+    cookieScope: MY_SERVER,
+  }).then(({ data }) => {
     if (!data.success) logger.error("邮箱接口出错", data);
 
     return data;

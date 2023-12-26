@@ -4,20 +4,19 @@ import type {
   EnrollPlanResponse,
 } from "./typings.js";
 import { request } from "../../api/index.js";
-import { service } from "../../config/index.js";
 
 export const getHistoryGrade = (
   options: EnrollPlanOptions,
 ): Promise<EnrollGradeResponse> =>
-  request<EnrollGradeResponse>(`${service}enroll/grade`, {
+  request<EnrollGradeResponse>("/enroll/grade", {
     method: "POST",
-    data: options,
-  });
+    body: options,
+  }).then(({ data }) => data);
 
 export const getEnrollPlan = (
   options: EnrollPlanOptions,
 ): Promise<EnrollPlanResponse> =>
-  request<EnrollPlanResponse>(`${service}enroll/plan`, {
+  request<EnrollPlanResponse>("/enroll/plan", {
     method: "POST",
-    data: options,
-  });
+    body: options,
+  }).then(({ data }) => data);

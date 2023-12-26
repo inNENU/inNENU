@@ -19,14 +19,13 @@ import {
   selectRegExp,
 } from "./utils.js";
 import { CommonFailedResponse } from "../../../../typings/index.js";
-import { request } from "../../../api/index.js";
+import { cookieStore, request } from "../../../api/index.js";
 import {
   LoginFailType,
   UNDER_SYSTEM_SERVER,
   isWebVPNPage,
 } from "../../../login/index.js";
 import { getIETimeStamp } from "../../../utils/browser.js";
-import { cookieStore } from "../../../utils/cookie.js";
 
 export interface UnderCreateStudentArchiveGetInfoSuccessResponse {
   success: true;
@@ -43,9 +42,9 @@ export type UnderCreateStudentArchiveGetInfoResponse =
 export const getUnderStudentArchiveInfo =
   async (): Promise<UnderCreateStudentArchiveGetInfoResponse> => {
     try {
-      const welcomePageContent = await request<string>(
+      const { data: welcomePageContent } = await request<string>(
         `${UNDER_SYSTEM_SERVER}/ggxx/xj/bdzcsm.jsp?tktime=${getIETimeStamp()}`,
-        { scope: UNDER_SYSTEM_SERVER },
+        { cookieScope: UNDER_SYSTEM_SERVER },
       );
 
       if (isWebVPNPage(welcomePageContent)) {
@@ -73,11 +72,9 @@ export const getUnderStudentArchiveInfo =
           msg: "未找到注册学籍链接",
         };
 
-      const infoContent = await request<string>(
+      const { data: infoContent } = await request<string>(
         `${UNDER_SYSTEM_SERVER}${link}`,
-        {
-          scope: UNDER_SYSTEM_SERVER,
-        },
+        { cookieScope: UNDER_SYSTEM_SERVER },
       );
 
       if (infoContent.includes("不在控制范围内！"))

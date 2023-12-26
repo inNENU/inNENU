@@ -7,9 +7,7 @@ import type {
   VPNLoginFailedResponse,
 } from "./typings.js";
 import type { CookieVerifyResponse } from "../../typings/index.js";
-import { request } from "../api/index.js";
-import { service } from "../config/index.js";
-import { cookieStore } from "../utils/cookie.js";
+import { cookieStore, request } from "../api/index.js";
 import type { AccountInfo } from "../utils/typings.js";
 
 export const POST_SYSTEM_SERVER = "https://dsyjs.nenu.edu.cn";
@@ -17,12 +15,12 @@ export const POST_SYSTEM_SERVER = "https://dsyjs.nenu.edu.cn";
 export const postSystemLogin = async (
   options: AccountInfo,
 ): Promise<PostSystemLoginResponse> => {
-  const data = await request<PostSystemLoginResponse>(
-    `${service}post-system/login`,
+  const { data } = await request<PostSystemLoginResponse>(
+    "/post-system/login",
     {
       method: "POST",
-      data: options,
-      scope: POST_SYSTEM_SERVER,
+      body: options,
+      cookieScope: POST_SYSTEM_SERVER,
     },
   );
 
@@ -35,10 +33,10 @@ export const postSystemLogin = async (
 };
 
 export const checkPostSystemCookie = (): Promise<CookieVerifyResponse> =>
-  request<CookieVerifyResponse>(`${service}post-system/check`, {
+  request<CookieVerifyResponse>("/post-system/check", {
     method: "POST",
-    scope: POST_SYSTEM_SERVER,
-  });
+    cookieScope: POST_SYSTEM_SERVER,
+  }).then(({ data }) => data);
 
 export const ensurePostSystemLogin = async (
   account: AccountInfo,

@@ -2,7 +2,6 @@ import { logger } from "@mptool/all";
 
 import type { CommonFailedResponse } from "../../../typings/response.js";
 import { request } from "../../api/net.js";
-import { service } from "../../config/info.js";
 import { AUTH_SERVER } from "../../login/index.js";
 import { LoginFailType } from "../../login/loginFailTypes.js";
 import { AccountInfo, UserInfo } from "../../utils/typings.js";
@@ -18,10 +17,9 @@ export interface AuthInitInfoResponse {
 export const getAuthInit = async (
   id: string,
 ): Promise<AuthInitInfoResponse | CommonFailedResponse> => {
-  const result = await request<AuthInitInfoResponse | CommonFailedResponse>(
-    `${service}auth/init?id=${id}`,
-    { scope: AUTH_SERVER },
-  );
+  const { data: result } = await request<
+    AuthInitInfoResponse | CommonFailedResponse
+  >(`/auth/init?id=${id}`, { cookieScope: AUTH_SERVER });
 
   if (!result.success) logger.error("初始化失败");
 
@@ -48,13 +46,12 @@ export interface AuthInitFailedResponse extends CommonFailedResponse {
 export type AuthInitResponse = AuthInitSuccessResponse | AuthInitFailedResponse;
 
 export const authInit = async (
-  data: AuthInitOptions,
+  options: AuthInitOptions,
 ): Promise<AuthInitResponse> => {
-  const result = await request<AuthInitResponse>(`${service}auth/init`, {
+  const { data: result } = await request<AuthInitResponse>("/auth/init", {
     method: "POST",
-    data,
-    scope: AUTH_SERVER,
-    timeout: 30000,
+    body: options,
+    cookieScope: AUTH_SERVER,
   });
 
   if (!result.success) logger.error("初始化失败");

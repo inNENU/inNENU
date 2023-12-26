@@ -1,6 +1,5 @@
 import type { CommonFailedResponse } from "../../../typings/index.js";
 import { request } from "../../api/index.js";
-import { service } from "../../config/index.js";
 import type { RichTextNode } from "../utils/parser.js";
 
 export interface PostEnrollPlanInfo {
@@ -31,6 +30,6 @@ export type PostEnrollResponse =
 
 export const getPostPlan = (isRecommend = false): Promise<PostEnrollResponse> =>
   request<PostEnrollResponse>(
-    `${service}enroll/post${isRecommend ? "-recommend" : ""}-plan`,
+    `/enroll/post${isRecommend ? "-recommend" : ""}-plan`,
     { method: "POST" },
-  );
+  ).then(({ data }) => data);

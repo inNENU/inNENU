@@ -1,6 +1,5 @@
 /* eslint-disable @typescript-eslint/naming-convention */
 import { request } from "../../api/index.js";
-import { service } from "../../config/index.js";
 
 type Time = `${number}${number}:${number}${number}`;
 type Date =
@@ -278,12 +277,16 @@ export interface WeatherData {
 
 export const getWeather = async (): Promise<WeatherData> => {
   const {
-    data: { alarm, ...data },
+    data: {
+      data: { alarm, ...data },
+    },
   } = await request<WeatherRawData>(
     `https://wis.qq.com/weather/common?source=pc&weather_type=observe|rise|forecast_1h|forecast_24h|index|alarm|limit|tips&province=吉林&city=长春&county=南关`,
   );
   const {
-    data: { air },
+    data: {
+      data: { air },
+    },
   } = await request<WeatherRawData>(
     `https://wis.qq.com/weather/common?source=pc&weather_type=air&province=吉林&city=长春`,
   );
@@ -466,4 +469,4 @@ export const getWeather = async (): Promise<WeatherData> => {
 };
 
 export const getOnlineWeather = async (): Promise<WeatherData> =>
-  request<WeatherData>(`${service}weather`);
+  request<WeatherData>("/weather").then(({ data }) => data);

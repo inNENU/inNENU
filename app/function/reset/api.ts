@@ -1,4 +1,4 @@
-import { encodeBase64, query } from "@mptool/all";
+import { URLSearchParams, encodeBase64 } from "@mptool/all";
 
 import type {
   RawResetPasswordInfoData,
@@ -17,7 +17,6 @@ import type {
   ResetPasswordVerifySMSResponse,
 } from "./typings.js";
 import { request } from "../../api/index.js";
-import { service } from "../../config/info.js";
 import { AUTH_SERVER } from "../../login/index.js";
 
 const RESET_PASSWORD_PAGE_URL = `${AUTH_SERVER}/authserver/getBackPasswordMainPage.do`;
@@ -27,11 +26,9 @@ const CAPTCHA_URL = `${AUTH_SERVER}/authserver/captcha.html`;
 export const getCaptcha = async (): Promise<ResetPasswordCaptchaResponse> => {
   await request<ArrayBuffer>(RESET_PASSWORD_PAGE_URL);
 
-  const captchaResponse = await request<ArrayBuffer>(
+  const { data: captchaResponse } = await request<ArrayBuffer>(
     `${CAPTCHA_URL}?ts=${new Date().getMilliseconds()}`,
-    {
-      responseType: "arraybuffer",
-    },
+    { responseType: "arraybuffer" },
   );
 
   const base64Image = `data:image/jpeg;base64,${encodeBase64(captchaResponse)}`;
@@ -47,13 +44,14 @@ export const verifyAccount = async ({
   mobile,
   captcha,
 }: ResetPasswordInfoOptions): Promise<ResetPasswordInfoResponse> => {
-  const data = await request<RawResetPasswordInfoData>(RESET_PASSWORD_URL, {
+  const { data } = await request<RawResetPasswordInfoData>(RESET_PASSWORD_URL, {
     method: "POST",
-    header: {
-      "Content-Type": "application/x-www-form-urlencoded",
+    headers: {
       Accept: "application/json, text/javascript, */*; q=0.01",
+      // TODO:
+      "Content-Type": "application/x-www-form-urlencoded",
     },
-    data: query.stringify({
+    body: new URLSearchParams({
       userId: id,
       mobile,
       captcha,
@@ -79,20 +77,24 @@ export const sendSMS = async ({
   mobile,
   sign,
 }: ResetPasswordSendSMSOptions): Promise<ResetPasswordSendSMSResponse> => {
-  const data = await request<RawResetPasswordSendSMSData>(RESET_PASSWORD_URL, {
-    method: "POST",
-    header: {
-      "Content-Type": "application/x-www-form-urlencoded",
-      Accept: "application/json, text/javascript, */*; q=0.01",
+  const { data } = await request<RawResetPasswordSendSMSData>(
+    RESET_PASSWORD_URL,
+    {
+      method: "POST",
+      headers: {
+        Accept: "application/json, text/javascript, */*; q=0.01",
+        // TODO:
+        "Content-Type": "application/x-www-form-urlencoded",
+      },
+      body: new URLSearchParams({
+        userId: id,
+        mobile,
+        sign,
+        type: "mobile",
+        step: "2",
+      }),
     },
-    data: query.stringify({
-      userId: id,
-      mobile,
-      sign,
-      type: "mobile",
-      step: "2",
-    }),
-  });
+  );
 
   if (data.success)
     return {
@@ -112,15 +114,16 @@ export const verifySMS = async ({
   code,
   sign,
 }: ResetPasswordVerifySMSOptions): Promise<ResetPasswordVerifySMSResponse> => {
-  const data = await request<RawResetPasswordVerifySMSData>(
+  const { data } = await request<RawResetPasswordVerifySMSData>(
     RESET_PASSWORD_URL,
     {
       method: "POST",
-      header: {
-        "Content-Type": "application/x-www-form-urlencoded",
+      headers: {
         Accept: "application/json, text/javascript, */*; q=0.01",
+        // TODO:
+        "Content-Type": "application/x-www-form-urlencoded",
       },
-      data: query.stringify({
+      body: new URLSearchParams({
         userId: id,
         mobile,
         code,
@@ -152,24 +155,22 @@ export const setPassword = async ({
   salt,
   sign,
 }: ResetPasswordSetOptions): Promise<ResetPasswordSetResponse> => {
-  const encryptResult = await request<{
+  const { data: encryptResult } = await request<{
     data: string;
     success: true;
-  }>(`${service}auth/encrypt`, {
+  }>("/auth/encrypt", {
     method: "POST",
-    data: {
-      password,
-      salt,
-    },
+    body: { password, salt },
   });
 
-  const data = await request<RawResetPasswordSetData>(RESET_PASSWORD_URL, {
+  const { data } = await request<RawResetPasswordSetData>(RESET_PASSWORD_URL, {
     method: "POST",
-    header: {
-      "Content-Type": "application/x-www-form-urlencoded",
+    headers: {
       Accept: "application/json, text/javascript, */*; q=0.01",
+      // TODO:
+      "Content-Type": "application/x-www-form-urlencoded",
     },
-    data: query.stringify({
+    body: new URLSearchParams({
       userId: id,
       mobile,
       code,
@@ -207,8 +208,16 @@ export const resetPasswordOnline = async <
         | ResetPasswordVerifySMSResponse
         | ResetPasswordSetResponse
 > =>
-  request(`${service}/auth/reset`, {
+  request<
+    T extends "GET"
+      ? ResetPasswordCaptchaResponse
+      :
+          | ResetPasswordInfoResponse
+          | ResetPasswordSendSMSResponse
+          | ResetPasswordVerifySMSResponse
+          | ResetPasswordSetResponse
+  >("/auth/reset", {
     method: options === "GET" ? "GET" : "POST",
-    ...(options === "GET" ? {} : { data: options }),
-    scope: `${AUTH_SERVER}/authserver/`,
-  });
+    ...(options === "GET" ? {} : { body: options }),
+    cookieScope: `${AUTH_SERVER}/authserver/`,
+  }).then(({ data }) => data);

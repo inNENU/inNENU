@@ -1,4 +1,4 @@
-import { logger, query } from "@mptool/all";
+import { URLSearchParams, logger } from "@mptool/all";
 
 import type {
   ClassItem,
@@ -6,14 +6,12 @@ import type {
   UnderCourseTableOptions,
   UnderCourseTableResponse,
 } from "./typings.js";
-import { request } from "../../api/index.js";
-import { service } from "../../config/index.js";
+import { cookieStore, request } from "../../api/index.js";
 import {
   LoginFailType,
   UNDER_SYSTEM_SERVER,
   isWebVPNPage,
 } from "../../login/index.js";
-import { cookieStore } from "../../utils/cookie.js";
 import { getJSON } from "../../utils/json.js";
 
 const courseRowRegExp =
@@ -56,15 +54,15 @@ export const getUnderCourseTable = async ({
     const semesterStartTime = await getJSON<Record<string, string>>(
       "function/data/semester-start-time",
     );
-    const params = {
+    const params = new URLSearchParams({
       method: "goListKbByXs",
       istsxx: "no",
       xnxqh: time,
       zc: "",
-    };
+    });
 
-    const content = await request<string>(
-      `${UNDER_SYSTEM_SERVER}/tkglAction.do?${query.stringify(params)}`,
+    const { data: content } = await request<string>(
+      `${UNDER_SYSTEM_SERVER}/tkglAction.do?${params.toString()}`,
     );
 
     if (isWebVPNPage(content)) {
@@ -105,11 +103,11 @@ export const getUnderCourseTable = async ({
 export const getOnlineUnderCourseTable = (
   options: UnderCourseTableOptions,
 ): Promise<UnderCourseTableResponse> =>
-  request<UnderCourseTableResponse>(`${service}under-system/course-table`, {
+  request<UnderCourseTableResponse>("/under-system/course-table", {
     method: "POST",
-    data: options,
-    scope: UNDER_SYSTEM_SERVER,
-  }).then((data) => {
+    body: options,
+    cookieScope: UNDER_SYSTEM_SERVER,
+  }).then(({ data }) => {
     if (!data.success) logger.error("获取失败", data.msg);
 
     return data;

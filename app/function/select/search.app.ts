@@ -14,29 +14,28 @@ export const search = async ({
   index = "",
 }: SearchOptions): Promise<SelectSearchResponse> => {
   try {
-    const url = `${server}xk/SeachKC`;
-
-    // console.log("Searching with", url, params);
-
-    const rawData = await request<Record<string, string>[] | string>(url, {
-      method: "POST",
-      header: {
-        "Content-Type": "application/x-www-form-urlencoded; charset=UTF-8",
+    const { data: rawData } = await request<Record<string, string>[] | string>(
+      `${server}xk/SeachKC`,
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/x-www-form-urlencoded; charset=UTF-8",
+        },
+        // Note: kcmc is not URL encoded
+        body: Object.entries({
+          jx0502id,
+          kclbs: courseType,
+          kkdws: office,
+          njs: grade,
+          kcmc: courseName,
+          zys: major,
+          xq: week,
+          jc: index,
+        })
+          .map(([key, value]) => `${key}=${value}`)
+          .join("&"),
       },
-      // Tip: kcmc is not URL encoded
-      data: Object.entries({
-        jx0502id,
-        kclbs: courseType,
-        kkdws: office,
-        njs: grade,
-        kcmc: courseName,
-        zys: major,
-        xq: week,
-        jc: index,
-      })
-        .map(([key, value]) => `${key}=${value}`)
-        .join("&"),
-    });
+    );
 
     if (typeof rawData === "string")
       return {

@@ -1,7 +1,6 @@
 import { logger } from "@mptool/all";
 
 import { request } from "../../../api/index.js";
-import { service } from "../../../config/info.js";
 import { UNDER_SYSTEM_SERVER } from "../../../login/index.js";
 
 export const nextLinkRegExp =
@@ -29,13 +28,13 @@ export const onlineUnderStudentArchive = <Option, Response>(
   options: Option,
   additionalOptions: Record<string, unknown> = {},
 ): Promise<Response> => <Promise<Response>>request(
-    `${service}under-system/create-archive`,
+    "/under-system/create-archive",
     {
       method: "POST",
-      data: { ...additionalOptions, ...options },
-      scope: UNDER_SYSTEM_SERVER,
+      body: { ...additionalOptions, ...options },
+      cookieScope: UNDER_SYSTEM_SERVER,
     },
-  ).then((data) => {
+  ).then(({ data }) => {
     if (!data.success) logger.error("获取失败", data.msg);
 
     return data;

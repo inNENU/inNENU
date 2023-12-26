@@ -63,7 +63,9 @@ export const initializeApp = (): void => {
       // 下载资源文件并写入更新时间
       wx.setStorageSync("resource-update-time", Math.round(Date.now() / 1000));
 
-      return request<VersionInfo>(`${server}service/version.php`);
+      return request<VersionInfo>(`${server}service/version.php`).then(
+        ({ data }) => data,
+      );
     })
     .then((data) => {
       console.log("Version info", data);

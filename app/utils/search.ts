@@ -1,6 +1,5 @@
 import { CommonFailedResponse } from "../../typings/response.js";
 import { request, showModal } from "../api/index.js";
-import { service } from "../config/index.js";
 
 export type SearchType = "all" | "guide" | "intro" | "function";
 
@@ -40,15 +39,15 @@ export const search = <T extends string[] | SearchResult[]>(
   wx.reportEvent?.("search", { search_word: data.word });
 
   return request<{ success: true; data: T } | CommonFailedResponse>(
-    `${service}mp/search`,
+    "/mp/search",
     {
       method: "POST",
-      data,
+      body: data,
     },
-  ).then((result) => {
-    if (result.success) return result.data;
+  ).then(({ data }) => {
+    if (data.success) return data.data;
 
-    showModal("搜索失败", result.msg);
+    showModal("搜索失败", data.msg);
 
     return [] as unknown as T;
   });

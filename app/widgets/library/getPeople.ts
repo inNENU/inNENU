@@ -1,5 +1,4 @@
 import { request } from "../../api/index.js";
-import { service } from "../../config/index.js";
 
 export interface LibraryPeopleResponse {
   benbu: number;
@@ -9,4 +8,4 @@ export interface LibraryPeopleResponse {
 }
 
 export const getLibraryPeople = (): Promise<LibraryPeopleResponse> =>
-  request<LibraryPeopleResponse>(`${service}library/people`);
+  request<LibraryPeopleResponse>("/library/people").then(({ data }) => data);

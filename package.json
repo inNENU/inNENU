@@ -44,7 +44,7 @@
     }
   },
   "dependencies": {
-    "@mptool/all": "0.5.0",
+    "@mptool/all": "0.6.0-beta.8",
     "miniprogram-recycle-view": "0.1.5",
     "tslib": "2.6.2"
   },
@@ -60,7 +60,7 @@
     "eslint": "8.56.0",
     "eslint-config-prettier": "9.1.0",
     "eslint-plugin-import": "2.29.1",
-    "eslint-plugin-prettier": "5.1.0",
+    "eslint-plugin-prettier": "5.1.2",
     "gulp": "4.0.2",
     "gulp-rename": "2.0.0",
     "gulp-replace": "1.1.4",
@@ -72,7 +72,7 @@
     "postcss": "8.4.32",
     "prettier": "3.1.1",
     "standard-version": "9.5.0",
-    "stylelint": "16.0.2",
+    "stylelint": "16.1.0",
     "stylelint-config-hope": "5.0.1",
     "typescript": "5.3.3"
   },

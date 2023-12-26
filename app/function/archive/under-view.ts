@@ -1,13 +1,11 @@
 import { logger } from "@mptool/all";
 
 import { CommonFailedResponse } from "../../../typings/index.js";
-import { request } from "../../api/net.js";
-import { service } from "../../config/info.js";
+import { cookieStore, request } from "../../api/net.js";
 import { LoginFailType } from "../../login/loginFailTypes.js";
 import { UNDER_SYSTEM_SERVER } from "../../login/under-system.js";
 import { isWebVPNPage } from "../../login/utils.js";
 import { getIETimeStamp } from "../../utils/browser.js";
-import { cookieStore } from "../../utils/cookie.js";
 
 export interface UnderBasicInfo {
   text: string;
@@ -136,12 +134,16 @@ const getStudentArchive = async (
     archiveImageLink
       ? request<string>(`${UNDER_SYSTEM_SERVER}${archiveImageLink}`, {
           method: "POST",
-        }).catch(() => "")
+        })
+          .then(({ data }) => data)
+          .catch(() => "")
       : "",
     examImageLink
       ? request<string>(`${UNDER_SYSTEM_SERVER}${examImageLink}`, {
           method: "POST",
-        }).catch(() => "")
+        })
+          .then(({ data }) => data)
+          .catch(() => "")
       : "",
   ]);
 
@@ -161,7 +163,7 @@ const getStudentArchive = async (
 
 export const getUnderStudentArchive =
   async (): Promise<UnderGetStudentArchiveResponse> => {
-    const content = await request<string>(
+    const { data: content } = await request<string>(
       `${UNDER_STUDENT_ARCHIVE_QUERY_URL}&tktime=${getIETimeStamp()}`,
     );
 
@@ -192,13 +194,10 @@ export const getUnderStudentArchive =
 
 export const useOnlineGetStudentArchive =
   (): Promise<UnderGetStudentArchiveResponse> =>
-    request<UnderGetStudentArchiveResponse>(
-      `${service}under-system/student-archive`,
-      {
-        method: "POST",
-        scope: UNDER_SYSTEM_SERVER,
-      },
-    ).then((data) => {
+    request<UnderGetStudentArchiveResponse>("/under-system/student-archive", {
+      method: "POST",
+      cookieScope: UNDER_SYSTEM_SERVER,
+    }).then(({ data }) => {
       if (!data.success) logger.error("获取失败", data.msg);
 
       return data;

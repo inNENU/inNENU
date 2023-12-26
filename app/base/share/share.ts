@@ -85,8 +85,8 @@ $Component({
     copyWechatLink() {
       request<LinkData>(`${server}service/share-link.php`, {
         method: "POST",
-        data: { appID, id: this.data.config.id! },
-      }).then((data) => {
+        body: { appID, id: this.data.config.id! },
+      }).then(({ data }) => {
         if (data.error)
           showModal("链接尚未生成", "请使用小程序右上角菜单(···)来复制链接。");
         else this.copy(data.link);

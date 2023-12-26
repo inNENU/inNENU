@@ -1,8 +1,7 @@
-import { logger, query } from "@mptool/all";
+import { URLSearchParams, logger } from "@mptool/all";
 
 import type { CommonFailedResponse } from "../../../typings/index.js";
 import { request } from "../../api/index.js";
-import { service } from "../../config/info.js";
 import { ACTION_MAIN_PAGE, ACTION_SERVER } from "../../login/action.js";
 import { LoginFailType, isWebVPNPage } from "../../login/index.js";
 import type { AccountInfo } from "../../utils/typings.js";
@@ -114,17 +113,20 @@ export type ActionEmailPageResponse =
 const EMAIL_INFO_URL = `${ACTION_SERVER}/extract/getEmailInfo`;
 
 export const recentEmails = async (): Promise<ActionRecentMailResponse> => {
-  const checkResult = await request<RawRecentMailResponse | string>(
+  const { data: checkResult } = await request<RawRecentMailResponse | string>(
     EMAIL_INFO_URL,
     {
       method: "POST",
-      header: {
+      headers: {
         Accept: "application/json, text/javascript, */*; q=0.01",
-        "Content-Type": "application/x-www-form-urlencoded; charset=UTF-8",
         Referer: ACTION_MAIN_PAGE,
       },
-      data: `domain=nenu.edu.cn&type=1&format=json`,
-      scope: EMAIL_INFO_URL,
+      body: new URLSearchParams({
+        domain: "nenu.edu.cn",
+        type: "1",
+        format: "json",
+      }),
+      cookieScope: EMAIL_INFO_URL,
     },
   );
 
@@ -164,10 +166,10 @@ export const recentEmails = async (): Promise<ActionRecentMailResponse> => {
 };
 
 export const onlineRecentEmails = async (): Promise<ActionRecentMailResponse> =>
-  request<ActionRecentMailResponse>(`${service}action/recent-email`, {
+  request<ActionRecentMailResponse>("/action/recent-email", {
     method: "POST",
-    scope: ACTION_SERVER,
-  }).then((data) => {
+    cookieScope: ACTION_SERVER,
+  }).then(({ data }) => {
     if (!data.success) logger.error("获取最近邮件失败", data);
 
     return data;
@@ -177,16 +179,15 @@ const EMAIL_PAGE_URL = `${ACTION_SERVER}/extract/sendRedirect2Email`;
 const EMAIL_URL = `${ACTION_SERVER}/extract/sendRedirect2EmailPage`;
 
 export const emailPage = async (mid = ""): Promise<ActionEmailPageResponse> => {
-  const emailPageResult = await request<RawEmailPageResponse>(
+  const { data: emailPageResult } = await request<RawEmailPageResponse>(
     mid ? EMAIL_PAGE_URL : EMAIL_URL,
     {
       method: "POST",
-      header: {
+      headers: {
         Accept: "application/json, text/javascript, */*; q=0.01",
-        "Content-Type": "application/x-www-form-urlencoded; charset=UTF-8",
         Referer: ACTION_MAIN_PAGE,
       },
-      data: query.stringify({
+      body: new URLSearchParams({
         ...(mid ? { domain: "nenu.edu.cn", mid } : {}),
         // eslint-disable-next-line @typescript-eslint/naming-convention
         account_name: "",
@@ -209,11 +210,11 @@ export const emailPage = async (mid = ""): Promise<ActionEmailPageResponse> => {
 export const onlineEmailPage = async (
   mid = "",
 ): Promise<ActionEmailPageResponse> =>
-  request<ActionEmailPageResponse>(`${service}action/email-page`, {
+  request<ActionEmailPageResponse>("/action/email-page", {
     method: "POST",
-    data: { mid },
-    scope: ACTION_SERVER,
-  }).then((data) => {
+    body: { mid },
+    cookieScope: ACTION_SERVER,
+  }).then(({ data }) => {
     if (!data.success) logger.error("获取最近邮件失败", data);
 
     return data;

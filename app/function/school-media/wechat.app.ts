@@ -77,9 +77,9 @@ $Page(PAGE_ID, {
 
     request<WechatConfig>(`${server}service/account.php`, {
       method: "POST",
-      data: { id: this.state.path },
+      body: { id: this.state.path },
     })
-      .then((data) => {
+      .then(({ data }) => {
         const {
           article,
           name,

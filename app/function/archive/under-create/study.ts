@@ -1,4 +1,4 @@
-import { logger, query } from "@mptool/all";
+import { URLSearchParams, logger } from "@mptool/all";
 
 import {
   UnderArchiveFieldInfo,
@@ -12,13 +12,12 @@ import {
   pathRegExp,
 } from "./utils.js";
 import { CommonFailedResponse } from "../../../../typings/index.js";
-import { request } from "../../../api/index.js";
+import { cookieStore, request } from "../../../api/index.js";
 import {
   LoginFailType,
   UNDER_SYSTEM_SERVER,
   isWebVPNPage,
 } from "../../../login/index.js";
-import { cookieStore } from "../../../utils/cookie.js";
 
 export interface UnderCreateStudentArchiveSubmitStudyOptions {
   fields: UnderArchiveFieldInfo[];
@@ -72,13 +71,17 @@ export const submitUnderStudentArchiveStudy = async ({
 
     params.jls = `,${study.map((_, index) => index + 1).join(",")}`;
 
-    const content = await request<string>(`${UNDER_SYSTEM_SERVER}${path}`, {
-      method: "POST",
-      header: {
-        "Content-Type": "application/x-www-form-urlencoded",
+    const { data: content } = await request<string>(
+      `${UNDER_SYSTEM_SERVER}${path}`,
+      {
+        method: "POST",
+        // TODO: Check header
+        headers: {
+          "Content-Type": "application/x-www-form-urlencoded",
+        },
+        body: new URLSearchParams(params),
       },
-      data: query.stringify(params),
-    });
+    );
 
     if (isWebVPNPage(content)) {
       cookieStore.clear();
