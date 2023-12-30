@@ -108,6 +108,8 @@ rules:
     - allowSeparatedGroups: false
       ignoreDeclarationSort: true
 
+  prefer-template: error
+
 overrides:
   - files:
       - "*.wxs"
@@ -187,6 +189,7 @@ overrides:
           format: null
           selector:
             - property
+
         - selector: default
           format:
             - camelCase
@@ -202,16 +205,14 @@ overrides:
           leadingUnderscore: allowSingleOrDouble
           trailingUnderscore: allowSingleOrDouble
 
-        - selector:
-            - parameter
+        - selector: parameter
           format:
             - camelCase
             - PascalCase
           leadingUnderscore: allow
           trailingUnderscore: allow
 
-        - selector:
-            - property
+        - selector: property
           format:
             - camelCase
             - PascalCase
