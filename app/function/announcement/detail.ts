@@ -53,7 +53,7 @@ $Page(PAGE_ID, {
       share: {
         title,
         shareable: true,
-        qrcode: `${service}mp/qrcode?appID=${globalData.appID}&page=function/notice/detail&scene=${url}`,
+        qrcode: `${service}mp/qrcode?appID=${globalData.appID}&page=function/announcement/detail&scene=${url}`,
       },
       starred: starredAnnouncements.some((item) => item.url === url),
     });
@@ -68,7 +68,7 @@ $Page(PAGE_ID, {
 
     return {
       title,
-      path: `/function/info/detail?title=${title}&url=${url}`,
+      path: `/function/announcement/detail?title=${title}&url=${url}`,
     };
   },
 
