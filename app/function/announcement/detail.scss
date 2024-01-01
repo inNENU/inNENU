@@ -1,0 +1,47 @@
+@import "../../styles/lib/icon";
+@import "../utils/star-button";
+
+.announcement-detail {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  text-align: left;
+}
+
+.title {
+  margin: 6px 15px;
+  font-weight: bold;
+  font-size: 20px;
+  line-height: 1.25;
+}
+
+.info {
+  margin: 4px 0;
+  font-size: 14px;
+
+  .icon-font {
+    margin: 0 2px;
+  }
+}
+
+.content {
+  flex: 1;
+
+  width: calc(100% - 30px);
+  margin: 8px 15px;
+
+  font-size: 15px;
+  text-align: justify;
+  word-break: break-all;
+
+  @media (min-width: 480px) {
+    font-size: 16px;
+  }
+
+  .img {
+    width: 92%;
+    max-width: 517px;
+    margin: 16px auto;
+    border-radius: 16px;
+  }
+}

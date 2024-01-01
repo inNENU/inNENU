@@ -1,6 +1,6 @@
 import { $Page, get, set } from "@mptool/all";
 
-import { getInfo, getOnlineInfo } from "./info.js";
+import { getInfo, getOnlineInfo } from "./api/getInfo.js";
 import { showModal, showToast } from "../../api/index.js";
 import type { AppOption } from "../../app.js";
 import {
@@ -9,21 +9,17 @@ import {
   service,
 } from "../../config/index.js";
 import { getColor, popNotice } from "../../utils/page.js";
-import type { InfoType, StarredInfo } from "../../widgets/info/info.js";
+import type { InfoType } from "../../widgets/info/api/info.js";
+import type { StarredInfo } from "../../widgets/info/typings.js";
+import { getTitle } from "../../widgets/info/utils.js";
 
 const { globalData, useOnlineService } = getApp<AppOption>();
-
-const type2Title = {
-  news: "官网新闻",
-  notice: "官网通知",
-  academic: "学术会议",
-};
 
 const PAGE_ID = "info-detail";
 
 $Page(PAGE_ID, {
   data: {
-    pageTitle: "通知详情",
+    pageTitle: "详情",
     starred: false,
     status: <"error" | "login" | "success">"success",
   },
@@ -31,7 +27,7 @@ $Page(PAGE_ID, {
   state: {
     url: "",
     title: "",
-    type: <InfoType>"notice",
+    type: <InfoType>"news",
     info: <StarredInfo | null>null,
   },
 
@@ -39,7 +35,7 @@ $Page(PAGE_ID, {
     scene = "",
     title = "",
     url = scene.split("@")[0],
-    type = scene.split("@")[1] || "notice",
+    type = scene.split("@")[1] || "news",
   }) {
     const starredInfos = get<StarredInfo[]>(STARRED_INFO_LIST_KEY) ?? [];
 
@@ -58,7 +54,7 @@ $Page(PAGE_ID, {
     this.setData({
       color: getColor(),
       theme: globalData.theme,
-      pageTitle: type2Title[<InfoType>type],
+      pageTitle: getTitle(<InfoType>type),
       title,
       share: {
         title,
@@ -144,7 +140,7 @@ $Page(PAGE_ID, {
     const { starred } = this.data;
     const { info, url } = this.state;
 
-    if (!info) showToast("通知未获取完成", 1500, "error");
+    if (!info) showToast("内容仍在获取", 1500, "error");
 
     if (starred) {
       const starredInfos = get<StarredInfo[]>(STARRED_INFO_LIST_KEY)!;

@@ -1,0 +1,64 @@
+@import "../../styles/lib/icon";
+
+.announcement-list {
+  padding: 6px 0;
+}
+
+.announcement-item {
+  text-align: left;
+  margin: 8px 15px;
+  border-radius: 8px;
+  padding: 8px;
+  overflow: hidden;
+  background: var(--bg-color-block);
+}
+
+.button-hover {
+  background-color: var(--bg-hover) !important;
+}
+
+.title {
+  line-height: 1.25;
+  font-size: 18px;
+}
+
+.person {
+  margin-top: 4px;
+  font-size: 15px;
+  line-height: 1.5;
+}
+
+.info {
+  margin-top: 4px;
+  font-size: 14px;
+
+  .icon-font {
+    margin: 0 2px;
+  }
+}
+
+.pagination {
+  display: flex;
+  align-items: center;
+  justify-content: space-evenly;
+  padding-bottom: 12px;
+
+  @supports (padding-bottom: env(safe-area-inset-bottom)) {
+    padding-bottom: max(env(safe-area-inset-bottom), 10px);
+  }
+
+  .prev,
+  .next {
+    margin: 2px 4px;
+    padding: 5px 8px;
+    font-size: 14px;
+    line-height: 1.5;
+  }
+
+  .current {
+    padding: 5px 8px;
+    border-radius: 8px;
+    background-color: var(--bg-color-block);
+    line-height: 1.5;
+  }
+}

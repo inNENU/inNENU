@@ -1,6 +1,6 @@
 import { $Component, PropType, get } from "@mptool/all";
 
-import { StarredInfo } from "./info.js";
+import { StarredInfo } from "./typings.js";
 import type { AppOption } from "../../app.js";
 import { STARRED_INFO_LIST_KEY } from "../../config/keys.js";
 import { WidgetSize, getSize } from "../utils.js";

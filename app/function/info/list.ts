@@ -3,16 +3,11 @@ import { $Page } from "@mptool/all";
 import type { AppOption } from "../../app.js";
 import { appCoverPrefix } from "../../config/index.js";
 import { getColor, popNotice } from "../../utils/page.js";
-import type { InfoItem, MainInfoType } from "../../widgets/info/list.js";
-import { getInfoList, getOnlineInfoList } from "../../widgets/info/list.js";
+import type { InfoItem, InfoType } from "../../widgets/info/api/info.js";
+import { getInfoList, getOnlineInfoList } from "../../widgets/info/api/info.js";
+import { getTitle } from "../../widgets/info/utils.js";
 
 const { globalData, useOnlineService } = getApp<AppOption>();
-
-const type2Title = {
-  news: "官网新闻",
-  notice: "官网通知",
-  academic: "学术会议",
-};
 
 const PAGE_ID = "info-list";
 
@@ -29,15 +24,15 @@ $Page(PAGE_ID, {
   },
 
   state: {
-    type: <MainInfoType>"notice",
+    type: <InfoType>"news",
   },
 
-  onLoad({ type = "notice" }) {
-    this.state.type = <MainInfoType>type;
+  onLoad({ type = "news" }) {
+    this.state.type = <InfoType>type;
     this.setData({
       color: getColor(),
       theme: globalData.theme,
-      title: type2Title[<MainInfoType>type],
+      title: getTitle(<InfoType>type),
     });
     this.getInfoList(1);
   },
@@ -78,16 +73,18 @@ $Page(PAGE_ID, {
 
     wx.hideLoading();
 
-    if (result.success)
+    if (result.success) {
       this.setData({
-        scrollTop: 0,
         items: result.data,
         page,
         currentPage: result.page,
         totalPage: result.totalPage,
         status: "success",
       });
-    else this.setData({ status: "error" });
+      wx.pageScrollTo({ scrollTop: 0 });
+    } else {
+      this.setData({ status: "error" });
+    }
   },
 
   retry() {

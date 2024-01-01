@@ -1,8 +1,8 @@
 module.exports = {
   getSize: function (type) {
-    return type.includes("大")
+    return type.includes("(大)")
       ? "large"
-      : type.includes("小")
+      : type.includes("(小)")
         ? "small"
         : "medium";
   },

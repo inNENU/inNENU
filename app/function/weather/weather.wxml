@@ -48,7 +48,7 @@
       </view>
 
       <view class="location-wrapper"
-        ><text class="icon-font icon-location" /> 东北师大</view
+        ><text class="icon-font icon-location-white" /> 东北师大</view
       >
 
       <view class="current-info">

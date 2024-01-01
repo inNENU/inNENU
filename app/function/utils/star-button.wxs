@@ -4,7 +4,7 @@ var top = 0;
 
 module.exports = {
   /** 移动按钮 */
-  moveButton: function (event, ownerInstance) {
+  moveStarButton: function (event, ownerInstance) {
     var touch = event.touches[0];
 
     switch (event.type) {

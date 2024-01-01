@@ -51,7 +51,13 @@ const { fetch: request, cookieStore } = createMpFetch({
   responseHandler: ({ data, headers, status }, url, options) => {
     if (status < 400) {
       // 调试
-      logger.info(`Request ends with ${status}: `, headers.toObject(), data);
+      logger.info(
+        `Request ends with ${status}: `,
+        headers.toObject(),
+        typeof data === "string" && data.length > 200
+          ? data.slice(0, 200)
+          : data,
+      );
 
       return { data, headers, status };
     }

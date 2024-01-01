@@ -157,6 +157,12 @@
           "scene": null
         },
         {
+          "name": "学术预告",
+          "pathName": "function/academic/list",
+          "query": "",
+          "scene": null
+        },
+        {
           "id": 14,
           "name": "校历",
           "pathName": "function/calendar/calendar",
@@ -277,9 +283,9 @@
         },
         {
           "id": 29,
-          "name": "学术会议详情",
+          "name": "学术预告详情",
           "pathName": "function/info/detail",
-          "query": "from=学术会议&title=中国社会科学院世界历史研究所一行来我校调研&type=academic&url=info/1057/15976.htm",
+          "query": "from=学术预告&title=中国社会科学院世界历史研究所一行来我校调研&type=academic&url=info/1057/15976.htm",
           "scene": null
         },
         {
@@ -291,14 +297,14 @@
         },
         {
           "id": 31,
-          "name": "官网新闻列表",
+          "name": "要闻速递",
           "pathName": "function/info/list",
           "query": "type=news",
           "scene": null
         },
         {
           "id": 32,
-          "name": "学术会议列表",
+          "name": "学术预告列表",
           "pathName": "function/info/list",
           "query": "type=academic",
           "scene": null

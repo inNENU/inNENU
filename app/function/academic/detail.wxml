@@ -1,0 +1,40 @@
+<wxs src="../utils/star-button.wxs" module="starButton" />
+<page-meta
+  background-text-style="{{darkmode ? 'dark': 'light'}}"
+  background-color="{{color.bgColor}}"
+  background-color-top="{{color.bgColorTop}}"
+  background-color-bottom="{{color.bgColorBottom}}"
+  root-background-color="{{color.bgColor}}"
+/>
+<view class="{{theme}} academic-detail">
+  <navbar nav="{{ { title: pageTitle } }}" />
+  <view class="title">{{title}}</view>
+  <error-hint wx:if="{{ status === 'error' }}" catch:retry="getInfo" />
+  <login-hint wx:elif="{{ status === 'login' }}" source="{{pageTitle}}" />
+  <view class="content">
+    <block wx:if="{{content}}">
+      <view class="info">
+        <text class="time">
+          <text class="icon-font icon-time" />
+          <text>{{time}}</text>
+        </text>
+        <text class="eye">
+          <text class="icon-font icon-eye" />
+          <text>{{pageView}}</text>
+        </text>
+      </view>
+      <rich-text class="rich-media" nodes="{{content}}" space="nbsp" />
+    </block>
+  </view>
+  <view
+    class="star-button"
+    size="mini"
+    catch:touchstart="{{starButton.moveStarButton}}"
+    catch:touchmove="{{starButton.moveStarButton}}"
+    catch:touchend="{{starButton.moveStarButton}}"
+  >
+    <view class="icon {{starred? 'starred': ''}}" />
+  </view>
+  <share wx:if="{{share}}" config="{{share}}" />
+  <footer />
+</view>

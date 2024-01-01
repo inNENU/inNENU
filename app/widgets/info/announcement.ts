@@ -1,15 +1,13 @@
 import { $Component, PropType, get, set } from "@mptool/all";
 
-import type { InfoType } from "./info.js";
-import type { InfoItem } from "./list.js";
-import { getInfoList, getOnlineInfoList } from "./list.js";
+import type { AnnouncementInfoItem } from "./api/announcement.js";
+import {
+  getAnnouncementList,
+  getOnlineAnnouncementList,
+} from "./api/announcement.js";
 import { showToast } from "../../api/ui.js";
 import type { AppOption } from "../../app.js";
-import {
-  SITE_ACADEMIC_LIST_KEY,
-  SITE_NEWS_LIST_KEY,
-  SITE_NOTICE_LIST_KEY,
-} from "../../config/keys.js";
+import { SITE_ANNOUNCEMENT_LIST_KEY } from "../../config/keys.js";
 import { ensureActionLogin } from "../../login/action.js";
 import { HOUR } from "../../utils/constant.js";
 import {
@@ -21,69 +19,35 @@ import {
 
 const { globalData, useOnlineService } = getApp<AppOption>();
 
-const getKey = (type: InfoType): string =>
-  type === "academic"
-    ? SITE_ACADEMIC_LIST_KEY
-    : type === "news"
-      ? SITE_NEWS_LIST_KEY
-      : SITE_NOTICE_LIST_KEY;
-
 $Component({
   properties: {
     type: {
-      type: String as PropType<
-        | "官网通知 (小)"
-        | "官网通知"
-        | "官网通知 (大)"
-        | "官网新闻 (小)"
-        | "官网新闻"
-        | "官网新闻 (大)"
-        | "学术会议 (小)"
-        | "学术会议"
-        | "学术会议 (大)"
-      >,
-      default: "官网通知",
+      type: String as PropType<"通知公告 (小)" | "通知公告" | "通知公告 (大)">,
+      default: "通知公告",
     },
   },
 
   data: {
     size: <WidgetSize>"medium",
-    noticeType: <InfoType>"notice",
     status: <WidgetStatus>"loading",
   },
 
   lifetimes: {
     attached() {
       const { type } = this.data;
-      const noticeType = type.includes("学术")
-        ? "academic"
-        : type.includes("新闻")
-          ? "news"
-          : "notice";
+
       const size = getSize(type);
 
-      this.setData(
-        {
-          header:
-            noticeType === "academic"
-              ? "学术会议"
-              : noticeType === "news"
-                ? "官网新闻"
-                : "官网通知",
-          noticeType,
-          size,
-        },
-        () => {
-          const data = get<InfoItem[]>(getKey(noticeType));
+      this.setData({ size }, () => {
+        const data = get<AnnouncementInfoItem[]>(SITE_ANNOUNCEMENT_LIST_KEY);
 
-          if (data)
-            this.setData({
-              status: "success",
-              data: size === "large" ? data : data.slice(0, 5),
-            });
-          else this.getInfoList("validate");
-        },
-      );
+        if (data)
+          this.setData({
+            status: "success",
+            data: size === "large" ? data : data.slice(0, 5),
+          });
+        else this.getAnnouncementList("validate");
+      });
     },
   },
 
@@ -92,15 +56,17 @@ $Component({
       if (globalData.account) {
         if (this.data.status === "login") {
           this.setData({ status: "loading" });
-          this.getInfoList("validate");
+          this.getAnnouncementList("validate");
         }
       } else this.setData({ status: "login" });
     },
   },
 
   methods: {
-    async getInfoList(status: "check" | "login" | "validate" = "check") {
-      const { noticeType, size } = this.data;
+    async getAnnouncementList(
+      status: "check" | "login" | "validate" = "check",
+    ) {
+      const { size } = this.data;
 
       if (globalData.account) {
         const err = await ensureActionLogin(globalData.account, status);
@@ -112,11 +78,9 @@ $Component({
         }
 
         try {
-          const result = await (useOnlineService("info-list")
-            ? getOnlineInfoList
-            : getInfoList)({
-            type: noticeType,
-          });
+          const result = await (useOnlineService("announcement-list")
+            ? getOnlineAnnouncementList
+            : getAnnouncementList)();
 
           if (result.success) {
             const data = result.data
@@ -130,7 +94,7 @@ $Component({
               status: "success",
               data: size === "large" ? data : data.slice(0, 5),
             });
-            set(getKey(noticeType), data, HOUR);
+            set(SITE_ANNOUNCEMENT_LIST_KEY, data, HOUR);
           } else {
             this.setData({ status: "error" });
           }
@@ -145,24 +109,21 @@ $Component({
     }: WechatMiniprogram.TouchEvent<
       Record<string, never>,
       Record<string, never>,
-      { info: InfoItem }
+      { info: AnnouncementInfoItem }
     >) {
-      const { noticeType } = this.data;
       const { title, url } = currentTarget.dataset.info;
 
-      return this.$go(
-        `info-detail?title=${title}&type=${noticeType}&url=${url}`,
-      );
+      return this.$go(`announcement-detail?title=${title}&url=${url}`);
     },
 
     refresh() {
       this.setData({ status: "loading" });
-      this.getInfoList();
+      this.getAnnouncementList();
     },
 
     retry() {
       this.setData({ status: "loading" });
-      this.getInfoList("login");
+      this.getAnnouncementList("login");
     },
   },
 

@@ -25,6 +25,16 @@
     type="{{type}}"
     class="{{utils.getSize(type)}}"
   />
+  <recent-academic-widget
+    wx:elif="{{tag === 'recent-academic'}}"
+    type="{{type}}"
+    class="{{utils.getSize(type)}}"
+  />
+  <recent-announcement-widget
+    wx:elif="{{tag === 'recent-announcement'}}"
+    type="{{type}}"
+    class="{{utils.getSize(type)}}"
+  />
   <recent-info-widget
     wx:elif="{{tag === 'recent-info'}}"
     type="{{type}}"

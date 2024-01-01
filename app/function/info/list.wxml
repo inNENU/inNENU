@@ -6,39 +6,45 @@
   background-color-bottom="{{color.bgColorBottom}}"
   root-background-color="{{color.bgColor}}"
 />
-<view class="{{theme}} info-list-wrapper">
+<view class="{{theme}} grey">
   <navbar nav="{{ { title } }}" />
-  <scroll-view scroll-y scroll-top="{{scrollTop}}" class="info-list">
+  <view class="info-list">
     <error-hint wx:if="{{status === 'error'}}" catch:retry="retry" />
     <block wx:else>
       <view
         wx:for="{{items}}"
         wx:key="title"
-        class="info-item bt"
+        class="info-item"
         hover-class="button-hover"
         hover-start-time="0"
         hover-stay-time="0"
         data-index="{{index}}"
         catch:tap="viewItem"
       >
-        <view class="title">{{item.title}}</view>
-        <view class="info">
-          <text class="time">
-            <text class="icon-font icon-time" />
-            <text>{{item.time}}</text>
-          </text>
-          <text class="teacher">
-            <text class="icon-font icon-teacher" />
-            <text>{{item.from}}</text>
-          </text>
-          <text class="eye">
-            <text class="icon-font icon-eye" />
-            <text>{{item.pageView}}</text>
-          </text>
+        <view wx:if="{{item.cover}}" class="cover">
+          <image src="{{item.cover}}" mode="aspectFill" />
+        </view>
+        <view class="detail">
+          <view class="title">{{item.title}}</view>
+          <view class="info">
+            <text class="time">
+              <text class="icon-font icon-time" />
+              <text>{{item.time}}</text>
+            </text>
+            <text class="teacher">
+              <text class="icon-font icon-teacher" />
+              <text>{{item.from}}</text>
+            </text>
+            <text class="eye">
+              <text class="icon-font icon-eye" />
+              <text>{{item.pageView}}</text>
+            </text>
+          </view>
+          <view class="description">{{item.description}}</view>
         </view>
       </view>
     </block>
-  </scroll-view>
+  </view>
   <view wx:if="{{status === 'success'}}" class="pagination">
     <button
       size="mini"

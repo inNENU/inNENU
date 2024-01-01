@@ -1,0 +1,70 @@
+<wxs src="../utils/panigation.wxs" module="panigation" />
+<page-meta
+  background-text-style="{{darkmode ? 'dark': 'light'}}"
+  background-color="{{color.bgColor}}"
+  background-color-top="{{color.bgColorTop}}"
+  background-color-bottom="{{color.bgColorBottom}}"
+  root-background-color="{{color.bgColor}}"
+/>
+<view class="{{theme}} grey">
+  <navbar nav="{{ { title } }}" />
+  <view class="academic-list">
+    <error-hint wx:if="{{status === 'error'}}" catch:retry="retry" />
+    <block wx:else>
+      <view
+        wx:for="{{items}}"
+        wx:key="title"
+        class="academic-item"
+        hover-class="button-hover"
+        hover-start-time="0"
+        hover-stay-time="0"
+        data-index="{{index}}"
+        catch:tap="viewItem"
+      >
+        <view class="subject">{{item.subject}}</view>
+        <view class="person">
+          <text class="icon-font icon-teacher" />
+          <text>报告人: {{item.person}}</text>
+        </view>
+        <view class="info">
+          <text class="time">
+            <text class="icon-font icon-time" />
+            <text>{{item.time}}</text>
+          </text>
+          <text class="location">
+            <text class="icon-font icon-location" />
+            <text>{{item.location}}</text>
+          </text>
+          <text class="eye">
+            <text class="icon-font icon-eye" />
+            <text>{{item.pageView}}</text>
+          </text>
+        </view>
+      </view>
+    </block>
+  </view>
+  <view wx:if="{{status === 'success'}}" class="pagination">
+    <button
+      size="mini"
+      class="prev"
+      disabled="{{currentPage === 1}}"
+      catch:tap="prevPage"
+    >
+      上一页
+    </button>
+    <picker
+      class="current"
+      range="{{panigation.getRanges(totalPage)}}"
+      bindchange="changePage"
+      >第 {{currentPage}} 页</picker
+    >
+    <button
+      size="mini"
+      class="next"
+      disabled="{{currentPage === totalPage}}"
+      catch:tap="nextPage"
+    >
+      下一页
+    </button>
+  </view>
+</view>

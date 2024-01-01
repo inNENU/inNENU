@@ -8,7 +8,7 @@ export interface WidgetConfig {
 }
 
 export const getSize = (type: string): WidgetSize =>
-  type.includes("大") ? "large" : type.includes("小") ? "small" : "medium";
+  type.includes("(大)") ? "large" : type.includes("(小)") ? "small" : "medium";
 
 export const FILTERED_SOURCES = [
   "国际合作与交流处",

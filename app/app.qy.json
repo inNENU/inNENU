@@ -21,7 +21,11 @@
     {
       "root": "function",
       "pages": [
+        "academic/detail",
+        "academic/list",
         "activate/activate",
+        "announcement/detail",
+        "announcement/list",
         "archive/create",
         "archive/view",
         "calendar/calendar",

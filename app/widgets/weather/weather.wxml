@@ -14,7 +14,7 @@
           <view class="{{tool.getClass(weather)}}" />
         </view>
         <view class="location">
-          <text class="icon-font icon-location" />
+          <text class="icon-font icon-location-white" />
           东北师大
         </view>
         <view class="main-info">
@@ -42,7 +42,7 @@
             >{{item.type}}{{item.level}}预警</text
           >
 
-          <text class="icon-font icon-location" />
+          <text class="icon-font icon-location-white" />
           东北师大
         </view>
 
@@ -75,7 +75,7 @@
           <view class="{{tool.getClass(weather)}}" />
         </view>
         <view class="location">
-          <text class="icon-font icon-location" />
+          <text class="icon-font icon-location-white" />
           东北师大
         </view>
         <view class="main-info">
@@ -112,7 +112,7 @@
           <text wx:for="{{weather.alarm}}" wx:key="text" class="alarm"
             >{{item.type}}{{item.level}}预警</text
           >
-          <text class="icon-font icon-location" />
+          <text class="icon-font icon-location-white" />
           东北师大
         </view>
         <view class="body">
@@ -162,7 +162,7 @@
           <view class="{{tool.getClass(weather)}}" />
         </view>
         <view class="location">
-          <text class="icon-font icon-location" />
+          <text class="icon-font icon-location-white" />
           东北师大
           <text class="air">{{weather.air.aqiName}}</text>
           <text class="wind">{{tool.getWind(weather)}}</text>
