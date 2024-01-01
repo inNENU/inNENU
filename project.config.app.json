@@ -13,7 +13,7 @@
     "minifyWXSS": true,
     "minifyWXML": true,
     "uglifyFileName": false,
-    "ignoreUploadUnusedFiles": false,
+    "ignoreUploadUnusedFiles": true,
     "autoAudits": false,
     "urlCheck": true,
     "compileHotReLoad": true,
@@ -69,6 +69,13 @@
   "condition": {
     "miniprogram": {
       "list": [
+        {
+          "name": "东师指南",
+          "pathName": "pages/guide/guide",
+          "query": "",
+          "launchMode": "default",
+          "scene": null
+        },
         {
           "name": "功能大厅",
           "pathName": "pages/function/function",
@@ -170,6 +177,13 @@
         {
           "name": "学术预告",
           "pathName": "function/academic/list",
+          "query": "",
+          "launchMode": "default",
+          "scene": null
+        },
+        {
+          "name": "通知公告",
+          "pathName": "function/announcement/list",
           "query": "",
           "launchMode": "default",
           "scene": null
@@ -287,30 +301,9 @@
           "scene": null
         },
         {
-          "name": "官网通知详情",
-          "pathName": "function/info/detail",
-          "query": "from=官网通知&title=关于2023年9月（第70次）全国计算机等级考试报名通知&type=notice&url=info/1056/15931.htm",
-          "launchMode": "default",
-          "scene": null
-        },
-        {
           "name": "官网新闻详情",
           "pathName": "function/info/detail",
           "query": "from=官网新闻&title=我校学习贯彻习近平新时代中国特色社会主义思想主题教育领导班子调研成果交流会举行&type=news&url=info/1055/16002.htm",
-          "launchMode": "default",
-          "scene": null
-        },
-        {
-          "name": "学术预告详情",
-          "pathName": "function/info/detail",
-          "query": "from=学术预告&title=中国社会科学院世界历史研究所一行来我校调研&type=academic&url=info/1057/15976.htm",
-          "launchMode": "default",
-          "scene": null
-        },
-        {
-          "name": "官网通知列表",
-          "pathName": "function/info/list",
-          "query": "",
           "launchMode": "default",
           "scene": null
         },
@@ -322,9 +315,23 @@
           "scene": null
         },
         {
-          "name": "学术预告列表",
+          "name": "媒体师大",
           "pathName": "function/info/list",
-          "query": "type=academic",
+          "query": "type=media",
+          "launchMode": "default",
+          "scene": null
+        },
+        {
+          "name": "人文社科",
+          "pathName": "function/info/list",
+          "query": "type=social",
+          "launchMode": "default",
+          "scene": null
+        },
+        {
+          "name": "自然科学",
+          "pathName": "function/info/list",
+          "query": "type=science",
           "launchMode": "default",
           "scene": null
         },
@@ -398,7 +405,6 @@
           "launchMode": "default",
           "scene": null
         },
-
         {
           "name": "师大黄页",
           "pathName": "function/phone/phone",
