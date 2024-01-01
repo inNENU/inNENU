@@ -33,6 +33,11 @@ export const WIDGETS: WidgetInfo[] = [
     types: ["通知收藏 (小)", "通知收藏", "通知收藏 (大)"],
   },
   {
+    tag: "recent-academic",
+    name: "学术预告",
+    types: ["学术预告 (小)", "学术预告", "学术预告 (大)"],
+  },
+  {
     tag: "recent-announcement",
     name: "通知公告",
     types: ["通知公告 (小)", "通知公告", "通知公告 (大)"],
