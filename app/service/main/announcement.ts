@@ -1,8 +1,8 @@
 import { MAIN_URL, getPageView } from "./utils.js";
 import type { CommonFailedResponse } from "../../../typings/index.js";
 import { request } from "../../api/index.js";
-import type { RichTextNode } from "../../function/utils/parser.js";
-import { getRichTextNodes } from "../../function/utils/parser.js";
+import type { RichTextNode } from "../../utils/parser.js";
+import { getRichTextNodes } from "../../utils/parser.js";
 
 const infoRegExp =
   /<div class="ar_tit">\s*<h3>([^>]+)<\/h3>\s*<h6>([\s\S]+?)<\/h6>/;

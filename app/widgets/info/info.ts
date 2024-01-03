@@ -8,7 +8,7 @@ import {
   SITE_SCIENCE_LIST_KEY,
   SITE_SOCIAL_LIST_KEY,
 } from "../../config/keys.js";
-import { ensureActionLogin } from "../../service/action/login.js";
+import { ensureActionLogin } from "../../service/index.js";
 import type { InfoItem, InfoType } from "../../service/main/info-list.js";
 import {
   getInfoList,

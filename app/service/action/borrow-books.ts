@@ -3,8 +3,11 @@ import { logger } from "@mptool/all";
 import { ACTION_SERVER } from "./utils.js";
 import type { CommonFailedResponse } from "../../../typings/index.js";
 import { request } from "../../api/index.js";
-import type { AuthLoginFailedResponse } from "../index.js";
-import { handleFailResponse } from "../index.js";
+import { handleFailResponse } from "../fail.js";
+import { LoginFailType } from "../loginFailTypes.js";
+import type { AuthLoginFailedResponse } from "../typings.js";
+
+const BORROW_BOOKS_URL = `${ACTION_SERVER}/basicInfo/getBookBorrow`;
 
 interface RawBorrowBookData extends Record<string, unknown> {
   // eslint-disable-next-line @typescript-eslint/naming-convention
@@ -42,7 +45,7 @@ interface RawBorrowBookData extends Record<string, unknown> {
   loan_status: "ACTIVE";
 }
 
-export type RawBorrowBooksData =
+type RawBorrowBooksData =
   | {
       success: true;
       data: RawBorrowBookData[];
@@ -76,18 +79,6 @@ export interface BorrowBookData {
   /** 续借时间 */
   renewTime?: string;
 }
-
-export interface BorrowBooksSuccessResponse {
-  success: true;
-  data: BorrowBookData[];
-}
-
-export type BorrowBooksResponse =
-  | BorrowBooksSuccessResponse
-  | AuthLoginFailedResponse
-  | CommonFailedResponse;
-
-const BORROW_BOOKS_URL = `${ACTION_SERVER}/basicInfo/getBookBorrow`;
 
 const getBookData = ({
   title,
@@ -124,13 +115,32 @@ const getBookData = ({
   status: item_policy.description,
 });
 
+export interface BorrowBooksSuccessResponse {
+  success: true;
+  data: BorrowBookData[];
+}
+
+export type BorrowBooksResponse =
+  | BorrowBooksSuccessResponse
+  | AuthLoginFailedResponse
+  | CommonFailedResponse;
+
 export const getBorrowBooks = async (): Promise<BorrowBooksResponse> => {
-  const { data } = await request<RawBorrowBooksData>(BORROW_BOOKS_URL, {
+  const { data, status } = await request<RawBorrowBooksData>(BORROW_BOOKS_URL, {
     headers: {
       Accept: "application/json, text/javascript, */*; q=0.01",
+      Referer: `${ACTION_SERVER}/basicInfo/studentPageTurn?type=lifestudying&tg=bookborrow`,
     },
     cookieScope: ACTION_SERVER,
+    redirect: "manual",
   });
+
+  if (status === 302)
+    return <AuthLoginFailedResponse>{
+      success: false,
+      type: LoginFailType.Expired,
+      msg: "登录信息已过期，请重新登录",
+    };
 
   if (data.success)
     return <BorrowBooksSuccessResponse>{
@@ -150,7 +160,7 @@ export const getOnlineBorrowBooks = (): Promise<BorrowBooksResponse> =>
     cookieScope: ACTION_SERVER,
   }).then(({ data }) => {
     if (!data.success) {
-      logger.error("获取校园卡余额出错", data);
+      logger.error("获取借阅书籍出错", data);
 
       handleFailResponse(data);
     }

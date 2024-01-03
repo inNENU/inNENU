@@ -11,8 +11,6 @@ import type {
   VPNLoginFailedResponse,
 } from "../typings.js";
 
-export const ACTION_MAIN_PAGE = `${ACTION_SERVER}/portal_main/toPortalPage`;
-
 export const actionLogin = async (
   options: AccountInfo,
 ): Promise<ActionLoginResponse> => {

@@ -1,17 +1,8 @@
-import { RichTextNode } from "../../function/utils/parser.js";
+import type { NoticeSuccessResponse } from "../../service/index.js";
 
 export type NoticeType = "notice" | "news";
 
-export interface NoticeInfo {
-  title: string;
-  author: string;
-  time: string;
-  from: string;
-  pageView: number;
-  content: RichTextNode[];
-}
-
-export interface StarredNotice extends NoticeInfo {
+export interface StarredNotice extends Omit<NoticeSuccessResponse, "success"> {
   id: string;
   type: NoticeType;
 }

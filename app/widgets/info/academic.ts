@@ -3,7 +3,7 @@ import { $Component, PropType, get, set } from "@mptool/all";
 import { showToast } from "../../api/index.js";
 import type { AppOption } from "../../app.js";
 import { SITE_ACADEMIC_LIST_KEY } from "../../config/keys.js";
-import { ensureActionLogin } from "../../service/action/login.js";
+import { ensureActionLogin } from "../../service/index.js";
 import type { AcademicInfoItem } from "../../service/main/academic-list.js";
 import {
   getAcademicList,

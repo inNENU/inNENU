@@ -3,13 +3,13 @@ import { $Component, PropType, get, set } from "@mptool/all";
 import { setClipboard, showModal, showToast } from "../../api/index.js";
 import type { AppOption } from "../../app.js";
 import { EMAIL_DATA_KEY } from "../../config/keys.js";
-import type { EmailItem } from "../../service/action/recent-email.js";
+import type { EmailItem } from "../../service/index.js";
 import {
   emailPage,
   onlineEmailPage,
   onlineRecentEmails,
   recentEmails,
-} from "../../service/action/recent-email.js";
+} from "../../service/index.js";
 import { LoginFailType, ensureActionLogin } from "../../service/index.js";
 import { MINUTE } from "../../utils/constant.js";
 import type { WidgetStatus } from "../utils.js";

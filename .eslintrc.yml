@@ -22,8 +22,8 @@ plugins:
 ignorePatterns:
   - app/function/utils/encoder.js
   - app/function/utils/encoder.d.ts
-  - app/function/utils/parser.js
-  - app/function/utils/parser.d.ts
+  - app/utils/parser.js
+  - app/utils/parser.d.ts
   - dist/
   - server/
 

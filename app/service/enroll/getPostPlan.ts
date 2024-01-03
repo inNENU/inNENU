@@ -1,6 +1,6 @@
 import type { CommonFailedResponse } from "../../../typings/index.js";
 import { request } from "../../api/index.js";
-import type { RichTextNode } from "../../function/utils/parser.js";
+import type { RichTextNode } from "../../utils/parser.js";
 
 export interface PostEnrollPlanInfo {
   major: string;

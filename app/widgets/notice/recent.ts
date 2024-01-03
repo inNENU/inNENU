@@ -4,12 +4,12 @@ import type { NoticeType } from "./notice.js";
 import { showToast } from "../../api/index.js";
 import type { AppOption } from "../../app.js";
 import { NEWS_LIST_KEY, NOTICE_LIST_KEY } from "../../config/keys.js";
-import { ensureActionLogin } from "../../service/action/login.js";
-import type { NoticeItem } from "../../service/action/notice-list.js";
+import type { NoticeItem } from "../../service/index.js";
 import {
+  ensureActionLogin,
   getNoticeList,
   getOnlineNoticeList,
-} from "../../service/action/notice-list.js";
+} from "../../service/index.js";
 import { HOUR } from "../../utils/constant.js";
 import {
   FILTERED_SOURCES,

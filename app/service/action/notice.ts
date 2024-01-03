@@ -1,19 +1,10 @@
 import { ACTION_SERVER } from "./utils.js";
+import type { RichTextNode } from "../../../typings/node.js";
 import type { CommonFailedResponse } from "../../../typings/response.js";
 import { request } from "../../api/index.js";
-import { getRichTextNodes } from "../../function/utils/parser.js";
-import { NoticeInfo } from "../../widgets/notice/notice.js";
-import type { AuthLoginFailedResponse } from "../index.js";
-
-export interface NoticeOptions {
-  noticeID: string;
-}
-
-export interface NoticeSuccessResponse extends NoticeInfo {
-  success: true;
-}
-
-export type NoticeResponse = NoticeSuccessResponse | CommonFailedResponse;
+import { getRichTextNodes } from "../../utils/parser.js";
+import { LoginFailType } from "../loginFailTypes.js";
+import type { AuthLoginFailedResponse } from "../typings.js";
 
 const titleRegExp = /var title = '(.*?)';/;
 const fromRegExp = /var ly = '(.*?)'/;
@@ -25,13 +16,39 @@ const pageViewRegExp =
 const contentRegExp =
   /<div class="read" id="WBNR">\s+([\s\S]*?)\s+<\/div>\s+<p id="zrbj"/;
 
+export interface NoticeOptions {
+  noticeID: string;
+}
+
+export interface NoticeSuccessResponse {
+  success: true;
+  title: string;
+  author: string;
+  time: string;
+  from: string;
+  pageView: number;
+  content: RichTextNode[];
+}
+
+export type NoticeResponse = NoticeSuccessResponse | CommonFailedResponse;
+
 export const getNotice = async ({
   noticeID,
 }: NoticeOptions): Promise<NoticeResponse> => {
   try {
-    const url = `${ACTION_SERVER}/page/viewNews?ID=${noticeID}`;
+    const noticeUrl = `${ACTION_SERVER}/page/viewNews?ID=${noticeID}`;
 
-    const { data: responseText } = await request<string>(url);
+    const { data: responseText, status } = await request<string>(noticeUrl, {
+      redirect: "manual",
+    });
+
+    if (status === 302)
+      return <AuthLoginFailedResponse>{
+        success: false,
+        type: LoginFailType.Expired,
+        msg: "登录信息已过期，请重新登录",
+      };
+
     const title = titleRegExp.exec(responseText)![1];
     const author = authorRegExp.exec(responseText)![1];
     const time = timeRegExp.exec(responseText)![1];
