@@ -8,8 +8,9 @@ import {
   LoginFailType,
   ensurePostSystemLogin,
   ensureUnderSystemLogin,
+  getOnlinePostCourseTable,
+  getPostCourseTable,
 } from "../../service/index.js";
-import { getPostCourseTable } from "../../service/post-system/course-table.js";
 import {
   getOnlineUnderCourseTable,
   getUnderCourseTable,
@@ -254,7 +255,9 @@ $Page(PAGE_ID, {
 
       if (err) throw err.msg;
 
-      const result = await getPostCourseTable({ time });
+      const result = await (useOnlineService("post-course-table")
+        ? getOnlinePostCourseTable
+        : getPostCourseTable)({ time });
 
       wx.hideLoading();
       this.state.inited = true;

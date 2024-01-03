@@ -12,8 +12,9 @@ import {
   LoginFailType,
   ensurePostSystemLogin,
   ensureUnderSystemLogin,
+  getOnlinePostGradeList,
+  getPostGradeList,
 } from "../../service/index.js";
-import { getOnlinePostGradeList } from "../../service/post-system/grade-list.js";
 import {
   getOnlineUnderGradeList,
   getUnderGradeList,
@@ -230,7 +231,11 @@ $Page("course-grade", {
 
       if (err) throw err.msg;
 
-      return getOnlinePostGradeList().then((res) => {
+      return (
+        useOnlineService("post-grade-list")
+          ? getOnlinePostGradeList
+          : getPostGradeList
+      )().then((res) => {
         wx.hideLoading();
         this.state.inited = true;
         if (res.success) {
@@ -238,7 +243,7 @@ $Page("course-grade", {
           this.setGradeData(res.data);
           this.setPostStatistics(res.data);
           this.state.loginMethod = "check";
-        } else if (res.type === LoginFailType.Expired) {
+        } else if ("type" in res && res.type === LoginFailType.Expired) {
           this.state.loginMethod = "login";
           retryAction("登录过期", res.msg, () => this.getPostGradeList());
         } else {

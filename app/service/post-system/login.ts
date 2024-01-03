@@ -1,5 +1,6 @@
 import { logger } from "@mptool/all";
 
+import { POST_HTTPS_SERVER } from "./utils.js";
 import type { CookieVerifyResponse } from "../../../typings/index.js";
 import { cookieStore, request } from "../../api/index.js";
 import type { AccountInfo } from "../../utils/typings.js";
@@ -10,8 +11,6 @@ import type {
   VPNLoginFailedResponse,
 } from "../typings.js";
 
-export const POST_SYSTEM_SERVER = "https://dsyjs.nenu.edu.cn";
-
 export const postSystemLogin = async (
   options: AccountInfo,
 ): Promise<PostSystemLoginResponse> => {
@@ -20,7 +19,7 @@ export const postSystemLogin = async (
     {
       method: "POST",
       body: options,
-      cookieScope: POST_SYSTEM_SERVER,
+      cookieScope: POST_HTTPS_SERVER,
     },
   );
 
@@ -35,7 +34,7 @@ export const postSystemLogin = async (
 export const checkPostSystemCookie = (): Promise<CookieVerifyResponse> =>
   request<CookieVerifyResponse>("/post-system/check", {
     method: "POST",
-    cookieScope: POST_SYSTEM_SERVER,
+    cookieScope: POST_HTTPS_SERVER,
   }).then(({ data }) => data);
 
 export const ensurePostSystemLogin = async (
@@ -43,7 +42,7 @@ export const ensurePostSystemLogin = async (
   status: "check" | "validate" | "login" = "check",
 ): Promise<AuthLoginFailedResponse | VPNLoginFailedResponse | null> => {
   if (status !== "login") {
-    const cookies = cookieStore.getCookies(POST_SYSTEM_SERVER);
+    const cookies = cookieStore.getCookies(POST_HTTPS_SERVER);
 
     if (cookies.length) {
       if (status === "check") return null;
