@@ -23,7 +23,7 @@ $Component({
   },
 
   data: {
-    logo: appCoverPrefix + ".png",
+    logo: `${appCoverPrefix}.png`,
     show: false,
     appName,
   },

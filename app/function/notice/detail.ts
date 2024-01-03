@@ -1,6 +1,5 @@
 import { $Page, get, set } from "@mptool/all";
 
-import { getNotice, getOnlineNotice } from "./notice-detail.js";
 import { showModal, showToast } from "../../api/index.js";
 import type { AppOption } from "../../app.js";
 import {
@@ -8,7 +7,8 @@ import {
   appCoverPrefix,
   service,
 } from "../../config/index.js";
-import { ensureActionLogin } from "../../login/index.js";
+import { getNotice, getOnlineNotice } from "../../service/index.js";
+import { ensureActionLogin } from "../../service/index.js";
 import { getColor, popNotice } from "../../utils/page.js";
 import { NoticeType, StarredNotice } from "../../widgets/notice/notice.js";
 

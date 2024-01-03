@@ -1,11 +1,14 @@
 import { $Component, PropType, get, set } from "@mptool/all";
 
-import type { AcademicInfoItem } from "./api/academic.js";
-import { getAcademicList, getOnlineAcademicList } from "./api/academic.js";
 import { showToast } from "../../api/index.js";
 import type { AppOption } from "../../app.js";
 import { SITE_ACADEMIC_LIST_KEY } from "../../config/keys.js";
-import { ensureActionLogin } from "../../login/action.js";
+import { ensureActionLogin } from "../../service/action/login.js";
+import type { AcademicInfoItem } from "../../service/main/academic-list.js";
+import {
+  getAcademicList,
+  getOnlineAcademicList,
+} from "../../service/main/academic-list.js";
 import { HOUR } from "../../utils/constant.js";
 import { WidgetSize, WidgetStatus, getSize } from "../utils.js";
 

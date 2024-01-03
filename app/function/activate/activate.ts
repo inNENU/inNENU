@@ -1,15 +1,8 @@
 import { $Page, get, set } from "@mptool/all";
 
-import {
-  activateAccountOnline,
-  bindPhone,
-  checkAccount,
-  getImage,
-  idTypes,
-  replacePhone,
-  sendSms,
-  setPassword,
-} from "./api.js";
+import { showModal, showToast } from "../../api/index.js";
+import type { AppOption } from "../../app.js";
+import { appCoverPrefix, assets } from "../../config/info.js";
 import type {
   ActivateBindPhoneOptions,
   ActivateBindPhoneResponse,
@@ -20,10 +13,17 @@ import type {
   ActivatePhoneSmsResponse,
   ActivateReplacePhoneOptions,
   ActivateReplacePhoneResponse,
-} from "./typings.js";
-import { showModal, showToast } from "../../api/index.js";
-import type { AppOption } from "../../app.js";
-import { appCoverPrefix, assets } from "../../config/info.js";
+} from "../../service/index.js";
+import {
+  activateAccountOnline,
+  bindPhone,
+  checkAccount,
+  getImage,
+  idTypes,
+  replacePhone,
+  sendSms,
+  setPassword,
+} from "../../service/index.js";
 import { MINUTE } from "../../utils/constant.js";
 import { getColor, popNotice } from "../../utils/page.js";
 

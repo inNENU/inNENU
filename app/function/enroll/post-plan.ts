@@ -1,10 +1,10 @@
 import { $Page } from "@mptool/all";
 
-import type { PostEnrollSchoolPlan } from "./getPostPlan.js";
-import { getPostPlan } from "./getPostPlan.js";
 import { setClipboard, showModal, showToast } from "../../api/index.js";
 import type { AppOption } from "../../app.js";
 import { appCoverPrefix } from "../../config/index.js";
+import type { PostEnrollSchoolPlan } from "../../service/enroll/getPostPlan.js";
+import { getPostPlan } from "../../service/enroll/getPostPlan.js";
 import { getColor, popNotice } from "../../utils/page.js";
 
 const { globalData } = getApp<AppOption>();

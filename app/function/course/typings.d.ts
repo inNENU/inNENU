@@ -1,5 +1,5 @@
 import type { CommonFailedResponse } from "../../../typings/response.js";
-import type { LoginFailType } from "../../login/index.js";
+import type { LoginFailType } from "../../service/index.js";
 
 export interface ChangeMajorPlan {
   /** 学院 */

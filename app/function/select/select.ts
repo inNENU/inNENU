@@ -13,7 +13,7 @@ import { confirmReplace, courseSorter } from "./utils.js";
 import { getCurrentRoute, showModal, showToast } from "../../api/index.js";
 import type { AppOption } from "../../app.js";
 import { appCoverPrefix } from "../../config/index.js";
-import { LoginFailType } from "../../login/index.js";
+import { LoginFailType } from "../../service/index.js";
 import { getColor, popNotice } from "../../utils/page.js";
 import { promiseQueue } from "../utils/promiseQueue.js";
 

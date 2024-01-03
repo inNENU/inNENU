@@ -1,4 +1,4 @@
-import { getLibraryPeople } from "./getPeople.js";
+import { getLibraryPeople } from "../../service/library/people.js";
 
 Component({
   lifetimes: {

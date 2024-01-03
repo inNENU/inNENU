@@ -1,6 +1,5 @@
 import { $Page } from "@mptool/all";
 
-import { getEnrollPlan } from "./api.js";
 import type { EnrollPlanInfo } from "./typings.js";
 import type { SelectConfig } from "../../../typings/index.js";
 import {
@@ -12,6 +11,7 @@ import {
 import { showModal } from "../../api/index.js";
 import type { AppOption } from "../../app.js";
 import { appCoverPrefix } from "../../config/index.js";
+import { getEnrollPlan } from "../../service/enroll/api.js";
 import { ensureJSON, getJSON } from "../../utils/json.js";
 import { getColor, popNotice } from "../../utils/page.js";
 

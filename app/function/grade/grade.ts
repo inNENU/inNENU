@@ -1,15 +1,10 @@
 import { $Page, get, set } from "@mptool/all";
 
-import { getOnlinePostGradeList } from "./post-grade-list.js";
 import type {
   PostGradeResult,
   UnderGradeListOptions,
   UnderGradeResult,
 } from "./typings.js";
-import {
-  getOnlineUnderGradeList,
-  getUnderGradeList,
-} from "./under-grade-list.js";
 import { retryAction, showModal } from "../../api/index.js";
 import type { AppOption } from "../../app.js";
 import { GRADE_DATA_KEY, appCoverPrefix } from "../../config/index.js";
@@ -17,7 +12,12 @@ import {
   LoginFailType,
   ensurePostSystemLogin,
   ensureUnderSystemLogin,
-} from "../../login/index.js";
+} from "../../service/index.js";
+import { getOnlinePostGradeList } from "../../service/post-system/grade-list.js";
+import {
+  getOnlineUnderGradeList,
+  getUnderGradeList,
+} from "../../service/under-system/grade-list.js";
 import { HOUR } from "../../utils/constant.js";
 import { getColor, popNotice } from "../../utils/page.js";
 

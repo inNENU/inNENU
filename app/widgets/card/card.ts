@@ -1,10 +1,13 @@
 import { $Component, PropType, get, set } from "@mptool/all";
 
-import { getCardBalance, getOnlineCardBalance } from "./getBalance.js";
 import { showToast } from "../../api/index.js";
 import type { AppOption } from "../../app.js";
 import { CARD_BALANCE_KEY } from "../../config/index.js";
-import { ensureActionLogin } from "../../login/index.js";
+import {
+  ensureActionLogin,
+  getCardBalance,
+  getOnlineCardBalance,
+} from "../../service/index.js";
 import { MINUTE } from "../../utils/constant.js";
 import { getSize } from "../utils.js";
 

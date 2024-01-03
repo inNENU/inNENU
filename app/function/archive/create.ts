@@ -1,5 +1,8 @@
 import { $Page } from "@mptool/all";
 
+import { retryAction, showModal } from "../../api/index.js";
+import type { AppOption } from "../../app.js";
+import { LoginFailType, ensureUnderSystemLogin } from "../../service/index.js";
 import type {
   InputUnderArchiveInfo,
   MultiSelectUnderArchiveInfo,
@@ -7,7 +10,7 @@ import type {
   UnderArchiveFieldInfo,
   UnderFamilyOptions,
   UnderStudyOptions,
-} from "./under-create/index.js";
+} from "../../service/under-system/under-create/index.js";
 import {
   getOnlineUnderStudentArchiveInfo,
   getUnderStudentArchiveInfo,
@@ -19,11 +22,7 @@ import {
   submitUnderStudentArchiveFamily,
   submitUnderStudentArchiveInfo,
   submitUnderStudentArchiveStudy,
-} from "./under-create/index.js";
-import { retryAction, showModal } from "../../api/index.js";
-import type { AppOption } from "../../app.js";
-import { LoginFailType } from "../../login/loginFailTypes.js";
-import { ensureUnderSystemLogin } from "../../login/under-system.js";
+} from "../../service/under-system/under-create/index.js";
 import { getColor, popNotice } from "../../utils/page.js";
 
 const { globalData, useOnlineService } = getApp<AppOption>();

@@ -16,7 +16,7 @@ import {
   server,
   version,
 } from "../config/index.js";
-import { login } from "../login/app.js";
+import { login } from "../service/app.js";
 
 /** 初始化小程序 */
 export const initializeApp = (): void => {

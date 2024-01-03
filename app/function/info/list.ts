@@ -2,9 +2,12 @@ import { $Page } from "@mptool/all";
 
 import type { AppOption } from "../../app.js";
 import { appCoverPrefix } from "../../config/index.js";
+import type { InfoItem, InfoType } from "../../service/main/info-list.js";
+import {
+  getInfoList,
+  getOnlineInfoList,
+} from "../../service/main/info-list.js";
 import { getColor, popNotice } from "../../utils/page.js";
-import type { InfoItem, InfoType } from "../../widgets/info/api/info.js";
-import { getInfoList, getOnlineInfoList } from "../../widgets/info/api/info.js";
 import { getTitle } from "../../widgets/info/utils.js";
 
 const { globalData, useOnlineService } = getApp<AppOption>();

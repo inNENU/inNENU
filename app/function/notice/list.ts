@@ -3,13 +3,13 @@ import { $Page } from "@mptool/all";
 import { showToast } from "../../api/index.js";
 import type { AppOption } from "../../app.js";
 import { appCoverPrefix } from "../../config/index.js";
-import { ensureActionLogin } from "../../login/index.js";
-import { getColor, popNotice } from "../../utils/page.js";
-import type { NoticeItem } from "../../widgets/notice/list.js";
+import type { NoticeItem } from "../../service/action/notice-list.js";
 import {
   getNoticeList,
   getOnlineNoticeList,
-} from "../../widgets/notice/list.js";
+} from "../../service/action/notice-list.js";
+import { ensureActionLogin } from "../../service/index.js";
+import { getColor, popNotice } from "../../utils/page.js";
 
 const { globalData, useOnlineService } = getApp<AppOption>();
 

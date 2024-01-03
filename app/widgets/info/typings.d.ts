@@ -1,7 +1,7 @@
-import type { InfoType } from "./api/info.js";
-import type { AcademicInfoSuccessResponse } from "../../function/academic/api/getAcademic.js";
-import type { AnnouncementInfoSuccessResponse } from "../../function/announcement/api/getAnnouncement.js";
-import type { MainInfoSuccessResponse } from "../../function/info/api/getInfo.js";
+import type { AcademicInfoSuccessResponse } from "../../service/main/academic.js";
+import type { AnnouncementInfoSuccessResponse } from "../../service/main/announcement.js";
+import type { InfoType } from "../../service/main/info-list.js";
+import type { MainInfoSuccessResponse } from "../../service/main/info.js";
 
 export interface StarredAcademic
   extends Omit<AcademicInfoSuccessResponse, "success"> {

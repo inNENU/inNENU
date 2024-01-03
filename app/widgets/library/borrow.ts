@@ -1,11 +1,11 @@
 import { $Component, PropType, get, set } from "@mptool/all";
 
-import type { BorrowBookData } from "./borrowBooks.js";
-import { getBorrowBooks, getOnlineBorrowBooks } from "./borrowBooks.js";
 import { showModal, showToast } from "../../api/index.js";
 import type { AppOption } from "../../app.js";
 import { BORROW_BOOKS_KEY } from "../../config/index.js";
-import { ensureActionLogin } from "../../login/index.js";
+import type { BorrowBookData } from "../../service/index.js";
+import { getBorrowBooks, getOnlineBorrowBooks } from "../../service/index.js";
+import { ensureActionLogin } from "../../service/index.js";
 import { DAY, HOUR } from "../../utils/constant.js";
 
 const { globalData, useOnlineService } = getApp<AppOption>();

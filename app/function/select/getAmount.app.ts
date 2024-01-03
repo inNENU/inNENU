@@ -7,7 +7,7 @@ import type {
   StudentAmountResponse,
 } from "./typings";
 import { request } from "../../api/index.js";
-import { LoginFailType } from "../../login/index.js";
+import { LoginFailType } from "../../service/index.js";
 
 export const getAmount = async ({
   server,

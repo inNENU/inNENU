@@ -1,18 +1,18 @@
 import { $Page, set } from "@mptool/all";
 
-import {
-  registerStudentArchive,
-  useOnlineRegisterStudentArchive,
-} from "./under-register.js";
-import {
-  getUnderStudentArchive,
-  useOnlineGetStudentArchive,
-} from "./under-view.js";
 import { confirmAction, retryAction, showModal } from "../../api/index.js";
 import type { AppOption } from "../../app.js";
 import { STUDENT_ARCHIVE_KEY } from "../../config/keys.js";
-import { LoginFailType } from "../../login/loginFailTypes.js";
-import { ensureUnderSystemLogin } from "../../login/under-system.js";
+import { LoginFailType } from "../../service/loginFailTypes.js";
+import { ensureUnderSystemLogin } from "../../service/under-system/login.js";
+import {
+  registerStudentArchive,
+  useOnlineRegisterStudentArchive,
+} from "../../service/under-system/register-archive.js";
+import {
+  getUnderStudentArchive,
+  useOnlineGetStudentArchive,
+} from "../../service/under-system/view-archive.js";
 import { HOUR } from "../../utils/constant.js";
 import { getColor, popNotice } from "../../utils/page.js";
 

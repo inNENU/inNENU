@@ -1,12 +1,15 @@
 import { $Page } from "@mptool/all";
 
+import { showModal } from "../../api/index.js";
+import { appCoverPrefix } from "../../config/index.js";
 import type {
   AdmissionResponse,
   UnderAdmissionPostOptions,
-} from "./getAdmission.js";
-import { postAdmission, underAdmission } from "./getAdmission.js";
-import { showModal } from "../../api/index.js";
-import { appCoverPrefix } from "../../config/index.js";
+} from "../../service/enroll/getAdmission.js";
+import {
+  postAdmission,
+  underAdmission,
+} from "../../service/enroll/getAdmission.js";
 import { popNotice } from "../../utils/page.js";
 import { validateIdCard } from "../utils/validate.js";
 

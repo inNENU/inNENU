@@ -1,15 +1,15 @@
 import { $Page, get, set } from "@mptool/all";
 
-import {
-  getOnlineUnderChangeMajorPlan,
-  getUnderChangeMajorPlans,
-} from "./change-major-plan.js";
 import type { ChangeMajorPlan } from "./typings.js";
 import { retryAction, showModal } from "../../api/index.js";
 import type { AppOption } from "../../app.js";
 import { appCoverPrefix } from "../../config/info.js";
 import { CHANGE_MAJOR_DATA_KEY } from "../../config/keys.js";
-import { LoginFailType, ensureUnderSystemLogin } from "../../login/index.js";
+import { LoginFailType, ensureUnderSystemLogin } from "../../service/index.js";
+import {
+  getOnlineUnderChangeMajorPlan,
+  getUnderChangeMajorPlans,
+} from "../../service/under-system/change-major-plan.js";
 import { HOUR } from "../../utils/constant.js";
 import { getColor, popNotice } from "../../utils/page.js";
 
