@@ -4,7 +4,7 @@ import {
   SITE_SCIENCE_LIST_KEY,
   SITE_SOCIAL_LIST_KEY,
 } from "../../config/keys.js";
-import type { InfoType } from "../../service/main/info-list.js";
+import type { InfoType } from "../../service/index.js";
 
 const keyMap: Record<InfoType, string> = {
   media: SITE_MEDIA_LIST_KEY,

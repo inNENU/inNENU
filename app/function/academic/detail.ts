@@ -7,7 +7,7 @@ import {
   appCoverPrefix,
   service,
 } from "../../config/index.js";
-import { getAcademic, getOnlineAcademic } from "../../service/main/academic.js";
+import { getAcademic, getOnlineAcademic } from "../../service/index.js";
 import { getColor, popNotice } from "../../utils/page.js";
 import type { StarredAcademic } from "../../widgets/info/typings.js";
 

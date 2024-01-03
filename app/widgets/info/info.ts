@@ -8,12 +8,12 @@ import {
   SITE_SCIENCE_LIST_KEY,
   SITE_SOCIAL_LIST_KEY,
 } from "../../config/keys.js";
-import { ensureActionLogin } from "../../service/index.js";
-import type { InfoItem, InfoType } from "../../service/main/info-list.js";
+import type { InfoItem, InfoType } from "../../service/index.js";
 import {
+  ensureActionLogin,
   getInfoList,
   getOnlineInfoList,
-} from "../../service/main/info-list.js";
+} from "../../service/index.js";
 import { HOUR } from "../../utils/constant.js";
 import { WidgetSize, WidgetStatus, getSize } from "../utils.js";
 

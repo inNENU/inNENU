@@ -7,8 +7,8 @@ import {
   appCoverPrefix,
   service,
 } from "../../config/index.js";
-import type { InfoType } from "../../service/main/info-list.js";
-import { getInfo, getOnlineInfo } from "../../service/main/info.js";
+import type { InfoType } from "../../service/index.js";
+import { getInfo, getOnlineInfo } from "../../service/index.js";
 import { getColor, popNotice } from "../../utils/page.js";
 import type { StarredInfo } from "../../widgets/info/typings.js";
 import { getTitle } from "../../widgets/info/utils.js";

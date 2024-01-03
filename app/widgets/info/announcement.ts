@@ -3,12 +3,12 @@ import { $Component, PropType, get, set } from "@mptool/all";
 import { showToast } from "../../api/index.js";
 import type { AppOption } from "../../app.js";
 import { SITE_ANNOUNCEMENT_LIST_KEY } from "../../config/keys.js";
-import { ensureActionLogin } from "../../service/index.js";
-import type { AnnouncementInfoItem } from "../../service/main/announcement-list.js";
+import type { AnnouncementInfoItem } from "../../service/index.js";
 import {
+  ensureActionLogin,
   getAnnouncementList,
   getOnlineAnnouncementList,
-} from "../../service/main/announcement-list.js";
+} from "../../service/index.js";
 import { HOUR } from "../../utils/constant.js";
 import {
   FILTERED_SOURCES,

@@ -1,7 +1,9 @@
-import type { AcademicInfoSuccessResponse } from "../../service/main/academic.js";
-import type { AnnouncementInfoSuccessResponse } from "../../service/main/announcement.js";
-import type { InfoType } from "../../service/main/info-list.js";
-import type { MainInfoSuccessResponse } from "../../service/main/info.js";
+import type {
+  AcademicInfoSuccessResponse,
+  AnnouncementInfoSuccessResponse,
+  InfoType,
+  MainInfoSuccessResponse,
+} from "../../service/index.js";
 
 export interface StarredAcademic
   extends Omit<AcademicInfoSuccessResponse, "success"> {

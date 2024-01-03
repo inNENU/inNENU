@@ -7,10 +7,7 @@ import {
   appCoverPrefix,
   service,
 } from "../../config/index.js";
-import {
-  getAnnouncement,
-  getOnlineAnnouncement,
-} from "../../service/main/announcement.js";
+import { getAnnouncement, getOnlineAnnouncement } from "../../service/index.js";
 import { getColor, popNotice } from "../../utils/page.js";
 import type { StarredAnnouncement } from "../../widgets/info/typings.js";
 

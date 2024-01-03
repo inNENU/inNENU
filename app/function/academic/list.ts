@@ -2,11 +2,8 @@ import { $Page } from "@mptool/all";
 
 import type { AppOption } from "../../app.js";
 import { appCoverPrefix } from "../../config/index.js";
-import type { AcademicInfoItem } from "../../service/main/academic-list.js";
-import {
-  getAcademicList,
-  getOnlineAcademicList,
-} from "../../service/main/academic-list.js";
+import type { AcademicInfoItem } from "../../service/index.js";
+import { getAcademicList, getOnlineAcademicList } from "../../service/index.js";
 import { getColor, popNotice } from "../../utils/page.js";
 
 const { globalData, useOnlineService } = getApp<AppOption>();
