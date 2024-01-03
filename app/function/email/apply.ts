@@ -3,13 +3,13 @@ import { $Page } from "@mptool/all";
 import { setClipboard, showModal, showToast } from "../../api/index.js";
 import type { AppOption } from "../../app.js";
 import { appCoverPrefix, appName, assets } from "../../config/info.js";
-import type { ActivateEmailOptions } from "../../service/my/email-apply.js";
+import type { ActivateEmailOptions } from "../../service/index.js";
 import {
   activateEmail,
+  ensureMyLogin,
   getEmail,
   onlineMyEmail,
-} from "../../service/my/email-apply.js";
-import { ensureMyLogin } from "../../service/my/my.js";
+} from "../../service/index.js";
 import { popNotice } from "../../utils/page.js";
 
 const { globalData, useOnlineService } = getApp<AppOption>();

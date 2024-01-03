@@ -5,6 +5,7 @@ export * from "./fail.js";
 export * from "./library/index.js";
 export * from "./loginFailTypes.js";
 export * from "./main/index.js";
+export * from "./my/index.js";
 export * from "./post-system/index.js";
 export * from "./under-system/index.js";
 export * from "./utils.js";
