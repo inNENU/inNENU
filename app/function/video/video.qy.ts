@@ -1,7 +1,6 @@
 import { $Page } from "@mptool/all";
 
-import { loadFZSSJW } from "../../api/font.js";
-import { showToast } from "../../api/index.js";
+import { loadFZSSJW, showToast } from "../../api/index.js";
 import type { AppOption } from "../../app.js";
 import { appCoverPrefix } from "../../config/index.js";
 import { ensureJSON, getJSON } from "../../utils/json.js";

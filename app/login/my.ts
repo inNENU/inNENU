@@ -10,7 +10,7 @@ import type {
   CommonFailedResponse,
   CookieVerifyResponse,
 } from "../../typings/response.js";
-import { cookieStore, request } from "../api/net.js";
+import { cookieStore, request } from "../api/index.js";
 import type { AccountInfo, UserInfo } from "../utils/typings.js";
 
 export const MY_SERVER = "https://my.webvpn.nenu.edu.cn";

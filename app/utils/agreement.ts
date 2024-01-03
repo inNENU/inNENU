@@ -1,5 +1,5 @@
 import type { PageConfig } from "../../typings/index.js";
-import { requestJSON } from "../api/net.js";
+import { requestJSON } from "../api/index.js";
 import type { AppOption } from "../app.js";
 import { LICENSE_KEY, PRIVACY_KEY } from "../config/keys.js";
 

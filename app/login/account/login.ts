@@ -1,7 +1,7 @@
 import { logger } from "@mptool/all";
 
 import { AUTH_SERVER } from "./utils.js";
-import { request } from "../../api/net.js";
+import { request } from "../../api/index.js";
 import type { AccountInfo } from "../../utils/typings.js";
 import type { AuthLoginResponse } from "../typings.js";
 

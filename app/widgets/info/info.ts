@@ -1,9 +1,8 @@
 import { $Component, PropType, get, set } from "@mptool/all";
 
-import type { InfoType } from "./api/info.js";
-import type { InfoItem } from "./api/info.js";
+import type { InfoItem, InfoType } from "./api/info.js";
 import { getInfoList, getOnlineInfoList } from "./api/info.js";
-import { showToast } from "../../api/ui.js";
+import { showToast } from "../../api/index.js";
 import type { AppOption } from "../../app.js";
 import {
   SITE_MEDIA_LIST_KEY,

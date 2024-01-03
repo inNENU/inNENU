@@ -5,7 +5,7 @@ import {
   getAnnouncementList,
   getOnlineAnnouncementList,
 } from "./api/announcement.js";
-import { showToast } from "../../api/ui.js";
+import { showToast } from "../../api/index.js";
 import type { AppOption } from "../../app.js";
 import { SITE_ANNOUNCEMENT_LIST_KEY } from "../../config/keys.js";
 import { ensureActionLogin } from "../../login/action.js";

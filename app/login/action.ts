@@ -7,7 +7,7 @@ import type {
   VPNLoginFailedResponse,
 } from "./typings.js";
 import type { CookieVerifyResponse } from "../../typings/response.js";
-import { cookieStore, request } from "../api/net.js";
+import { cookieStore, request } from "../api/index.js";
 import type { AccountInfo } from "../utils/typings.js";
 
 export const ACTION_SERVER = "https://m-443.webvpn.nenu.edu.cn";
