@@ -1,5 +1,6 @@
 import { URLSearchParams, encodeBase64 } from "@mptool/all";
 
+import { AUTH_SERVER } from "./utils.js";
 import { request } from "../../api/index.js";
 import type {
   RawResetPasswordInfoData,
@@ -17,7 +18,6 @@ import type {
   ResetPasswordVerifySMSOptions,
   ResetPasswordVerifySMSResponse,
 } from "../../function/reset/typings.js";
-import { AUTH_SERVER } from "../index.js";
 
 const RESET_PASSWORD_PAGE_URL = `${AUTH_SERVER}/authserver/getBackPasswordMainPage.do`;
 const RESET_PASSWORD_URL = `${AUTH_SERVER}/authserver/getBackPassword.do`;
@@ -147,7 +147,7 @@ export const verifySMS = async ({
   };
 };
 
-export const setPassword = async ({
+export const setNewPassword = async ({
   id,
   mobile,
   code,

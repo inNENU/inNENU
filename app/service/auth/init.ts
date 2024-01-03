@@ -1,9 +1,9 @@
 import { logger } from "@mptool/all";
 
+import { AUTH_SERVER } from "./utils.js";
 import type { CommonFailedResponse } from "../../../typings/response.js";
 import { request } from "../../api/index.js";
 import { AccountInfo, UserInfo } from "../../utils/typings.js";
-import { AUTH_SERVER } from "../index.js";
 import { LoginFailType } from "../loginFailTypes.js";
 
 export interface AuthInitInfoResponse {

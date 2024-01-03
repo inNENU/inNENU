@@ -1,7 +1,7 @@
 import { remove } from "@mptool/all";
 
-import { cookieStore } from "../../api/index.js";
-import { AppOption } from "../../app.js";
+import { cookieStore } from "../api/index.js";
+import { AppOption } from "../app.js";
 import {
   ACCOUNT_INFO_KEY,
   BORROW_BOOKS_KEY,
@@ -27,7 +27,7 @@ import {
   STARRED_NOTICE_LIST_KEY,
   STUDENT_ARCHIVE_KEY,
   USER_INFO_KEY,
-} from "../../config/index.js";
+} from "../config/index.js";
 
 const { globalData } = getApp<AppOption>();
 

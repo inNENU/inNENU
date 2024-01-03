@@ -12,10 +12,10 @@ import {
   getCaptcha,
   resetPasswordOnline,
   sendSMS,
-  setPassword,
+  setNewPassword,
   verifyAccount,
   verifySMS,
-} from "../../service/auth/api.js";
+} from "../../service/auth/change-password.js";
 import { SECOND } from "../../utils/constant.js";
 import { getColor, popNotice } from "../../utils/page.js";
 
@@ -226,7 +226,7 @@ ${envName}通过接入官方接口提供密码重置服务，您所填写的信�
       ? <Promise<ResetPasswordVerifySMSResponse>>(
           resetPasswordOnline({ id, mobile, sign, code, password, salt })
         )
-      : setPassword({ id, mobile, sign, code, password, salt }));
+      : setNewPassword({ id, mobile, sign, code, password, salt }));
 
     wx.hideLoading();
 

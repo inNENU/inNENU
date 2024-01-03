@@ -13,9 +13,10 @@ import {
   assets,
 } from "../../config/index.js";
 import { authInit, getAuthInit } from "../../service/auth/init.js";
-import { LoginFailType, logout } from "../../service/index.js";
+import { LoginFailType } from "../../service/index.js";
 import { getLicenseStatus } from "../../utils/agreement.js";
 import { MONTH } from "../../utils/constant.js";
+import { logout } from "../../utils/logout.js";
 import { popNotice } from "../../utils/page.js";
 import type { UserInfo } from "../../utils/typings.js";
 
