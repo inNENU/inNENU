@@ -1,5 +1,6 @@
 export * from "./auth/index.js";
 export * from "./action/index.js";
+export * from "./enroll/index.js";
 export * from "./fail.js";
 export * from "./library/index.js";
 export * from "./loginFailTypes.js";

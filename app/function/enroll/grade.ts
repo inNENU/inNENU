@@ -1,6 +1,5 @@
 import { $Page } from "@mptool/all";
 
-import type { HistoryGradeInfoItem } from "./typings.js";
 import type {
   CategoryConfig,
   PlanConfig,
@@ -11,7 +10,8 @@ import type {
 import { showModal } from "../../api/index.js";
 import type { AppOption } from "../../app.js";
 import { appCoverPrefix } from "../../config/index.js";
-import { getHistoryGrade } from "../../service/enroll/api.js";
+import type { HistoryGradeInfoItem } from "../../service/index.js";
+import { getHistoryGrade } from "../../service/index.js";
 import { ensureJSON, getJSON } from "../../utils/json.js";
 import { getColor, popNotice } from "../../utils/page.js";
 

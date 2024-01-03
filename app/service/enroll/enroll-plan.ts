@@ -1,28 +1,5 @@
 import type { CommonFailedResponse } from "../../../typings/index.js";
-
-export interface HistoryGradeOptions {
-  year: string;
-  province: string;
-  planType: string;
-  majorType: string;
-  reformType: string;
-}
-
-export type HistoryGradeInfoItem = string[];
-
-export interface HistoryGradeResult {
-  titles: string[];
-  items: HistoryGradeInfoItem[];
-}
-
-export interface EnrollGradeSuccessResponse {
-  success: true;
-  data: HistoryGradeResult;
-}
-
-export type EnrollGradeResponse =
-  | EnrollGradeSuccessResponse
-  | CommonFailedResponse;
+import { request } from "../../api/index.js";
 
 export interface EnrollPlanOptions {
   year: string;
@@ -57,3 +34,11 @@ export interface EnrollPlanSuccessResponse {
 export type EnrollPlanResponse =
   | EnrollPlanSuccessResponse
   | CommonFailedResponse;
+
+export const getEnrollPlan = (
+  options: EnrollPlanOptions,
+): Promise<EnrollPlanResponse> =>
+  request<EnrollPlanResponse>("/enroll/plan", {
+    method: "POST",
+    body: options,
+  }).then(({ data }) => data);

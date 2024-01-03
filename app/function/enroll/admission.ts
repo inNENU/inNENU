@@ -1,23 +1,30 @@
 import { $Page } from "@mptool/all";
 
+import { CommonFailedResponse } from "../../../typings/response.js";
 import { showModal } from "../../api/index.js";
+import type { AppOption } from "../../app.js";
 import { appCoverPrefix } from "../../config/index.js";
-import type {
-  AdmissionResponse,
-  UnderAdmissionPostOptions,
-} from "../../service/enroll/getAdmission.js";
+import type { UnderAdmissionPostOptions } from "../../service/index.js";
 import {
+  getOnlineUnderAdmission,
+  getUnderAdmission,
   postAdmission,
-  underAdmission,
-} from "../../service/enroll/getAdmission.js";
+} from "../../service/index.js";
 import { popNotice } from "../../utils/page.js";
 import { validateIdCard } from "../utils/validate.js";
+
+const { useOnlineService } = getApp<AppOption>();
 
 interface InputConfig {
   id: string;
   text: string;
   placeholder: string;
   type: string;
+}
+
+interface AdmissionResponse {
+  success: true;
+  info: { text: string; value: string }[];
 }
 
 const INPUT_CONFIG = <InputConfig[]>[
@@ -45,7 +52,7 @@ $Page(PAGE_ID, {
     popupConfig: { title: "查询结果", cancel: false },
 
     /**  查询结果 */
-    result: <AdmissionResponse | null>null,
+    result: <AdmissionResponse | CommonFailedResponse | null>null,
 
     /** 是否正在输入 */
     isTyping: false,
@@ -210,7 +217,9 @@ $Page(PAGE_ID, {
     wx.setStorageSync("admission-info", input);
 
     if (this.data.level === "本科生")
-      underAdmission<AdmissionResponse>(
+      (useOnlineService("under-admission")
+        ? getOnlineUnderAdmission
+        : getUnderAdmission)(
         input as unknown as UnderAdmissionPostOptions,
       ).then((response) => {
         this.setData({ result: response });
