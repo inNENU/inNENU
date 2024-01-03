@@ -8,7 +8,7 @@ import type { AuthLoginFailedResponse } from "../typings.js";
 
 const CARD_BALANCE_URL = `${ACTION_SERVER}/soapBasic/postSoap`;
 const CARD_BALANCE_PARAMS =
-  '"serviceAddress=wis-apis%2Fsoap%2F00001_00083_01_02_20181210185800&serviceSource=ds2&params=%7B%22xgh%22%3Anull%7D"';
+  "serviceAddress=wis-apis%2Fsoap%2F00001_00083_01_02_20181210185800&serviceSource=ds2&params=%7B%22xgh%22%3Anull%7D";
 
 type RawCardBalanceData =
   | {
