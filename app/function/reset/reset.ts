@@ -1,13 +1,13 @@
 import { $Page, get, set } from "@mptool/all";
 
+import { showModal, showToast } from "../../api/index.js";
+import type { AppOption } from "../../app.js";
+import { appCoverPrefix, assets } from "../../config/info.js";
 import type {
   ResetPasswordInfoResponse,
   ResetPasswordSendSMSResponse,
   ResetPasswordVerifySMSResponse,
-} from "./typings.js";
-import { showModal, showToast } from "../../api/index.js";
-import type { AppOption } from "../../app.js";
-import { appCoverPrefix, assets } from "../../config/info.js";
+} from "../../service/index.js";
 import {
   getCaptcha,
   resetPasswordOnline,
@@ -15,7 +15,7 @@ import {
   setNewPassword,
   verifyAccount,
   verifySMS,
-} from "../../service/auth/change-password.js";
+} from "../../service/index.js";
 import { SECOND } from "../../utils/constant.js";
 import { getColor, popNotice } from "../../utils/page.js";
 

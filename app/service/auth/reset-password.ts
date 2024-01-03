@@ -1,27 +1,24 @@
 import { URLSearchParams, encodeBase64 } from "@mptool/all";
 
 import { AUTH_SERVER } from "./utils.js";
+import type { CommonFailedResponse } from "../../../typings/index.js";
 import { request } from "../../api/index.js";
-import type {
-  RawResetPasswordInfoData,
-  RawResetPasswordSendSMSData,
-  RawResetPasswordSetData,
-  RawResetPasswordVerifySMSData,
-  ResetPasswordCaptchaResponse,
-  ResetPasswordInfoOptions,
-  ResetPasswordInfoResponse,
-  ResetPasswordOptions,
-  ResetPasswordSendSMSOptions,
-  ResetPasswordSendSMSResponse,
-  ResetPasswordSetOptions,
-  ResetPasswordSetResponse,
-  ResetPasswordVerifySMSOptions,
-  ResetPasswordVerifySMSResponse,
-} from "../../function/reset/typings.js";
 
 const RESET_PASSWORD_PAGE_URL = `${AUTH_SERVER}/authserver/getBackPasswordMainPage.do`;
 const RESET_PASSWORD_URL = `${AUTH_SERVER}/authserver/getBackPassword.do`;
 const CAPTCHA_URL = `${AUTH_SERVER}/authserver/captcha.html`;
+
+interface RawFailedData {
+  success: false;
+  data: Record<never, never>;
+  code: number;
+  message: string;
+}
+
+export interface ResetPasswordCaptchaResponse {
+  success: true;
+  captcha: string;
+}
 
 export const getCaptcha = async (): Promise<ResetPasswordCaptchaResponse> => {
   await request<ArrayBuffer>(RESET_PASSWORD_PAGE_URL);
@@ -39,6 +36,34 @@ export const getCaptcha = async (): Promise<ResetPasswordCaptchaResponse> => {
   };
 };
 
+type RawResetPasswordInfoData =
+  | {
+      success: true;
+      code: 0;
+      message: null;
+      data: {
+        sign: string;
+        question: unknown;
+        uid: string;
+      };
+    }
+  | RawFailedData;
+
+export interface ResetPasswordInfoOptions {
+  id: string;
+  mobile: string;
+  captcha: string;
+}
+
+export interface ResetPasswordInfoSuccessResponse {
+  success: true;
+  sign: string;
+}
+
+export type ResetPasswordInfoResponse =
+  | ResetPasswordInfoSuccessResponse
+  | CommonFailedResponse;
+
 export const verifyAccount = async ({
   id,
   mobile,
@@ -48,8 +73,6 @@ export const verifyAccount = async ({
     method: "POST",
     headers: {
       Accept: "application/json, text/javascript, */*; q=0.01",
-      // TODO:
-      "Content-Type": "application/x-www-form-urlencoded",
     },
     body: new URLSearchParams({
       userId: id,
@@ -72,6 +95,35 @@ export const verifyAccount = async ({
   };
 };
 
+export interface ResetPasswordSendSMSOptions {
+  /** 学号 */
+  id: string;
+  /** 手机号 */
+  mobile: string;
+  sign: string;
+}
+
+type RawResetPasswordSendSMSData =
+  | {
+      success: true;
+      code: 0;
+      message: null;
+      data: {
+        sign: string;
+        msgTip: string;
+      };
+    }
+  | RawFailedData;
+
+export interface ResetPasswordSendSMSSuccessResponse {
+  success: true;
+  sign: string;
+}
+
+export type ResetPasswordSendSMSResponse =
+  | ResetPasswordSendSMSSuccessResponse
+  | CommonFailedResponse;
+
 export const sendSMS = async ({
   id,
   mobile,
@@ -83,8 +135,6 @@ export const sendSMS = async ({
       method: "POST",
       headers: {
         Accept: "application/json, text/javascript, */*; q=0.01",
-        // TODO:
-        "Content-Type": "application/x-www-form-urlencoded",
       },
       body: new URLSearchParams({
         userId: id,
@@ -108,6 +158,39 @@ export const sendSMS = async ({
   };
 };
 
+export interface ResetPasswordVerifySMSOptions {
+  /** 学号 */
+  id: string;
+  /** 手机号 */
+  mobile: string;
+  /** 验证码 */
+  code: string;
+  sign: string;
+}
+
+type RawResetPasswordVerifySMSData =
+  | {
+      success: true;
+      code: 0;
+      message: null;
+      data: {
+        sign: string;
+        passwordPolicy: string;
+        pwdDefaultEncryptSalt: string;
+      };
+    }
+  | RawFailedData;
+
+export interface ResetPasswordVerifySMSSuccessResponse {
+  success: true;
+  sign: string;
+  salt: string;
+}
+
+export type ResetPasswordVerifySMSResponse =
+  | ResetPasswordVerifySMSSuccessResponse
+  | CommonFailedResponse;
+
 export const verifySMS = async ({
   id,
   mobile,
@@ -120,8 +203,6 @@ export const verifySMS = async ({
       method: "POST",
       headers: {
         Accept: "application/json, text/javascript, */*; q=0.01",
-        // TODO:
-        "Content-Type": "application/x-www-form-urlencoded",
       },
       body: new URLSearchParams({
         userId: id,
@@ -147,6 +228,37 @@ export const verifySMS = async ({
   };
 };
 
+export interface ResetPasswordSetNewOptions {
+  /** 学号 */
+  id: string;
+  /** 手机号 */
+  mobile: string;
+  /** 验证码 */
+  code: string;
+  password: string;
+  salt: string;
+  sign: string;
+}
+
+type RawResetPasswordSetNewData =
+  | {
+      success: true;
+      code: 0;
+      message: null;
+      data: {
+        sign: string;
+      };
+    }
+  | RawFailedData;
+
+export interface ResetPasswordSetNewSuccessResponse {
+  success: true;
+}
+
+export type ResetPasswordSetNewResponse =
+  | ResetPasswordSetNewSuccessResponse
+  | CommonFailedResponse;
+
 export const setNewPassword = async ({
   id,
   mobile,
@@ -154,7 +266,7 @@ export const setNewPassword = async ({
   password,
   salt,
   sign,
-}: ResetPasswordSetOptions): Promise<ResetPasswordSetResponse> => {
+}: ResetPasswordSetNewOptions): Promise<ResetPasswordSetNewResponse> => {
   const { data: encryptResult } = await request<{
     data: string;
     success: true;
@@ -163,26 +275,27 @@ export const setNewPassword = async ({
     body: { password, salt },
   });
 
-  const { data } = await request<RawResetPasswordSetData>(RESET_PASSWORD_URL, {
-    method: "POST",
-    headers: {
-      Accept: "application/json, text/javascript, */*; q=0.01",
-      // TODO:
-      "Content-Type": "application/x-www-form-urlencoded",
+  const { data } = await request<RawResetPasswordSetNewData>(
+    RESET_PASSWORD_URL,
+    {
+      method: "POST",
+      headers: {
+        Accept: "application/json, text/javascript, */*; q=0.01",
+      },
+      body: new URLSearchParams({
+        userId: id,
+        mobile,
+        code,
+        birthday: "null",
+        answer: "null",
+        sign,
+        password: encryptResult.data,
+        confirmPassword: encryptResult.data,
+        type: "mobile",
+        step: "4",
+      }),
     },
-    body: new URLSearchParams({
-      userId: id,
-      mobile,
-      code,
-      birthday: "null",
-      answer: "null",
-      sign,
-      password: encryptResult.data,
-      confirmPassword: encryptResult.data,
-      type: "mobile",
-      step: "4",
-    }),
-  });
+  );
 
   if (data.success)
     return {
@@ -195,6 +308,12 @@ export const setNewPassword = async ({
   };
 };
 
+export type ResetPasswordOptions =
+  | ResetPasswordInfoOptions
+  | ResetPasswordSendSMSOptions
+  | ResetPasswordVerifySMSOptions
+  | ResetPasswordSetNewOptions;
+
 export const resetPasswordOnline = async <
   T extends ResetPasswordOptions | "GET",
 >(
@@ -206,7 +325,7 @@ export const resetPasswordOnline = async <
         | ResetPasswordInfoResponse
         | ResetPasswordSendSMSResponse
         | ResetPasswordVerifySMSResponse
-        | ResetPasswordSetResponse
+        | ResetPasswordSetNewResponse
 > =>
   request<
     T extends "GET"
@@ -215,7 +334,7 @@ export const resetPasswordOnline = async <
           | ResetPasswordInfoResponse
           | ResetPasswordSendSMSResponse
           | ResetPasswordVerifySMSResponse
-          | ResetPasswordSetResponse
+          | ResetPasswordSetNewResponse
   >("/auth/reset", {
     method: options === "GET" ? "GET" : "POST",
     ...(options === "GET" ? {} : { body: options }),

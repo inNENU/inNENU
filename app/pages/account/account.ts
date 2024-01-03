@@ -12,8 +12,7 @@ import {
   appCoverPrefix,
   assets,
 } from "../../config/index.js";
-import { authInit, getAuthInit } from "../../service/auth/init.js";
-import { LoginFailType } from "../../service/index.js";
+import { LoginFailType, authInit, getAuthInit } from "../../service/index.js";
 import { getLicenseStatus } from "../../utils/agreement.js";
 import { MONTH } from "../../utils/constant.js";
 import { logout } from "../../utils/logout.js";
