@@ -1,4 +1,4 @@
-<wxs src="../../utils/utils.wxs" module="utils" />
+<wxs src="../../utils/helper.wxs" module="helper" />
 <view class="borrow-books widget wrapper-class">
   <view class="widget-header">
     {{header}}
@@ -48,7 +48,7 @@
             catch:tap="viewBookDetail"
           >
             <view class="name">{{item.name}}</view>
-            <view class="time">{{utils.displayDate(item.dueDate)}}到期</view>
+            <view class="time">{{helper.displayDate(item.dueDate)}}到期</view>
           </view>
         </view>
       </block>
