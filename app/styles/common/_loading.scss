@@ -91,61 +91,26 @@
 .loading-logo {
   width: 100px;
   height: 125px;
-  font-family:
-    "Helvetica Neue",
-    FZSSJW,
-    -apple-system-font,
-    "PingFang SC",
-    Helvetica,
-    STHeiti,
-    Tahoma,
-    Simsun,
-    sans-serif;
   filter: drop-shadow(-1px 1px 2px rgb(191 190 195 / 15%));
 
   .logo {
     position: relative;
 
     width: 100px;
-    height: 100px;
+    height: 92px;
     border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    font-weight: bold;
+    font-size: 28px;
+    color: #fff;
 
     background-color: var(--theme-color);
+    padding-bottom: 8px;
 
     animation: jump 1s linear 0s none infinite alternate-reverse;
-
-    .in {
-      position: absolute;
-      top: 6px;
-      left: 50px;
-
-      color: #fff;
-
-      font-weight: 500;
-      font-size: 40px;
-    }
-
-    .dong {
-      position: absolute;
-      top: 34px;
-      left: 14px;
-
-      color: #fff;
-
-      font-weight: bold;
-      font-size: 36px;
-    }
-
-    .shi {
-      position: absolute;
-      top: 46px;
-      right: 15px;
-
-      color: #fff;
-
-      font-weight: bold;
-      font-size: 36px;
-    }
   }
 }
 

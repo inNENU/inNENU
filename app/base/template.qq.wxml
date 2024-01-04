@@ -41,8 +41,8 @@
 <template name="loading">
   <view class="loading-logo">
     <view class="logo">
-      <view class="in">in</view>
-      <view class="name">NENU</view>
+      <view>in</view>
+      <view>NENU</view>
     </view>
     <view class="shadow" />
     <view class="text">加载中...</view>
