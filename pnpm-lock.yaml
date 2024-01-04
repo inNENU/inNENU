@@ -18,8 +18,8 @@ importers:
   .:
     dependencies:
       '@mptool/all':
-        specifier: 0.6.0-beta.9
-        version: 0.6.0-beta.9(miniprogram-api-typings@3.12.2)
+        specifier: 0.6.0-beta.10
+        version: 0.6.0-beta.10(miniprogram-api-typings@3.12.2)
       miniprogram-recycle-view:
         specifier: 0.1.5
         version: 0.1.5
@@ -1152,8 +1152,8 @@ packages:
       markdown-it: 13.0.2
     dev: false
 
-  /@mptool/all@0.6.0-beta.9(miniprogram-api-typings@3.12.2):
-    resolution: {integrity: sha512-YVyHocz278oPOj8ByFrGUC3HzR5YfOU8Tj6ZNoEVFDc59ygM7odDEEGuonWmxGK9ueA5ii+N2x0qkhSuDpUJig==}
+  /@mptool/all@0.6.0-beta.10(miniprogram-api-typings@3.12.2):
+    resolution: {integrity: sha512-RK0frkck6Mvpij+SS7hPSeQHzgMIFIbGYwWvY6XBe3/AqLLZCTYrenzT+r8eg5gwyZWEfHhl2oWBBwPdG9C1mA==}
     peerDependencies:
       miniprogram-api-typings: ^3.12.0
     dependencies:

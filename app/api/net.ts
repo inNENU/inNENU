@@ -1,4 +1,4 @@
-import { createMpFetch, logger } from "@mptool/all";
+import { createRequest, logger } from "@mptool/all";
 
 import { showToast } from "./ui.js";
 import { assets, server, service } from "../config/index.js";
@@ -45,7 +45,7 @@ export const networkReport = (): void => {
   });
 };
 
-const { fetch: request, cookieStore } = createMpFetch({
+const { request, cookieStore } = createRequest({
   server: service,
   timeout: 30000,
   responseHandler: ({ data, headers, status }, url, options) => {
@@ -75,7 +75,7 @@ const { fetch: request, cookieStore } = createMpFetch({
   errorHandler: (err, url) => {
     logger.warn(`Request ${url} failed:`, err);
     networkReport();
-    throw err.errMsg;
+    throw err.message;
   },
 });
 
