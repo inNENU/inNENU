@@ -7,7 +7,7 @@ import type { ActivateEmailOptions } from "../../service/index.js";
 import {
   activateEmail,
   ensureMyLogin,
-  getEmail,
+  getEmailInfo,
   onlineMyEmail,
 } from "../../service/index.js";
 import { popNotice } from "../../utils/page.js";
@@ -133,7 +133,7 @@ $Page(PAGE_ID, {
 
     const result = await (useOnlineService("check-email")
       ? onlineMyEmail
-      : getEmail)();
+      : getEmailInfo)();
 
     wx.hideLoading();
 
@@ -235,9 +235,7 @@ $Page(PAGE_ID, {
         wx.showLoading({ title: "申请中" });
 
         void (
-          shouldApplyOnline
-            ? onlineMyEmail(options)
-            : activateEmail(options, userInfo!)
+          shouldApplyOnline ? onlineMyEmail(options) : activateEmail(options)
         ).then((result) => {
           wx.hideLoading();
 
