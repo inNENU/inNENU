@@ -84,6 +84,13 @@
           "scene": null
         },
         {
+          "name": "东师介绍",
+          "pathName": "pages/intro/intro",
+          "query": "",
+          "launchMode": "default",
+          "scene": null
+        },
+        {
           "name": "用户",
           "pathName": "pages/user/user",
           "query": "",
@@ -91,8 +98,43 @@
           "scene": null
         },
         {
+          "name": "Path 加载",
+          "pathName": "pages/info/info",
+          "query": "path=Gdorm/electricity/power",
+          "launchMode": "default",
+          "scene": null
+        },
+        {
+          "name": "二维码分享",
+          "pathName": "pages/info/info",
+          "query": "scene=guide/dorm/index",
+          "launchMode": "default",
+          "scene": null
+        },
+        {
+          "name": "ID 加载",
+          "pathName": "pages/info/info",
+          "query": "id=other/about/welcome",
+          "launchMode": "default",
+          "scene": null
+        },
+        {
+          "name": "错误页",
+          "pathName": "pages/info/info",
+          "query": "id=other/about/notexist",
+          "launchMode": "default",
+          "scene": null
+        },
+        {
           "name": "账户",
           "pathName": "pages/account/account",
+          "query": "",
+          "launchMode": "default",
+          "scene": null
+        },
+        {
+          "name": "关于",
+          "pathName": "pages/about/about",
           "query": "",
           "launchMode": "default",
           "scene": null
@@ -133,6 +175,13 @@
           "scene": null
         },
         {
+          "name": "授权公众号文章",
+          "pathName": "pages/web/web",
+          "query": "url=https%3A%2F%2Fmp.weixin.qq.com%2Fs%2Fem6A95hFPczubpB_lX24-A&title=纳新%20|%20欣欣向“融”，“媒”你不行",
+          "launchMode": "default",
+          "scene": null
+        },
+        {
           "name": "客服",
           "pathName": "pages/action/action",
           "query": "action=contact",
@@ -147,37 +196,16 @@
           "scene": null
         },
         {
-          "name": "分享",
-          "pathName": "pages/info/info",
-          "query": "path=Gdorm/electricity/power",
-          "launchMode": "default",
-          "scene": null
-        },
-        {
-          "name": "二维码分享",
-          "pathName": "pages/info/info",
-          "query": "scene=guide/dorm/index",
-          "launchMode": "default",
-          "scene": null
-        },
-        {
-          "name": "欢迎入群",
-          "pathName": "pages/info/info",
-          "query": "id=other/about/welcome",
-          "launchMode": "default",
-          "scene": null
-        },
-        {
-          "name": "错误页",
-          "pathName": "pages/info/info",
-          "query": "id=other/about/notexist",
-          "launchMode": "default",
-          "scene": null
-        },
-        {
           "name": "学术预告",
           "pathName": "function/academic/list",
           "query": "",
+          "launchMode": "default",
+          "scene": null
+        },
+        {
+          "name": "学术预告详情",
+          "pathName": "function/academic/detail",
+          "query": "from=学术预告&title=定义欧拉数&url=info/2731/263261.htm",
           "launchMode": "default",
           "scene": null
         },
@@ -189,8 +217,29 @@
           "scene": null
         },
         {
+          "name": "通知公告详情",
+          "pathName": "function/announcement/list",
+          "query": "from=通知公告&title=关于举办“数苑大讲堂”学术报告会的通知&url=info/4871/263271.htm",
+          "launchMode": "default",
+          "scene": null
+        },
+        {
           "name": "激活账户",
           "pathName": "function/activate/activate",
+          "query": "",
+          "launchMode": "default",
+          "scene": null
+        },
+        {
+          "name": "建立学籍",
+          "pathName": "function/archive/create",
+          "query": "",
+          "launchMode": "default",
+          "scene": null
+        },
+        {
+          "name": "查看学籍",
+          "pathName": "function/archive/view",
           "query": "",
           "launchMode": "default",
           "scene": null
@@ -210,7 +259,7 @@
           "scene": null
         },
         {
-          "name": "考场",
+          "name": "考场查询",
           "pathName": "function/course/exam-place",
           "query": "",
           "launchMode": "default",
@@ -224,15 +273,8 @@
           "scene": null
         },
         {
-          "name": "学籍",
-          "pathName": "function/archive/view",
-          "query": "",
-          "launchMode": "default",
-          "scene": null
-        },
-        {
-          "name": "建立学籍",
-          "pathName": "function/archive/create",
+          "name": "课程表",
+          "pathName": "function/course/table",
           "query": "",
           "launchMode": "default",
           "scene": null
@@ -240,13 +282,6 @@
         {
           "name": "成绩",
           "pathName": "function/grade/grade",
-          "query": "",
-          "launchMode": "default",
-          "scene": null
-        },
-        {
-          "name": "课程表",
-          "pathName": "function/course/table",
           "query": "",
           "launchMode": "default",
           "scene": null
@@ -280,6 +315,13 @@
           "scene": null
         },
         {
+          "name": "本科招生计划",
+          "pathName": "function/enroll/plan",
+          "query": "",
+          "launchMode": "default",
+          "scene": null
+        },
+        {
           "name": "研究生招生计划",
           "pathName": "function/enroll/post-plan",
           "query": "",
@@ -287,23 +329,16 @@
           "scene": null
         },
         {
-          "name": "研究生推免计划",
+          "name": "特定学院的研究生招生计划",
           "pathName": "function/enroll/post-plan",
-          "query": "recommend=true",
+          "query": "school=教育学部",
           "launchMode": "default",
           "scene": null
         },
         {
-          "name": "招生计划",
-          "pathName": "function/enroll/plan",
-          "query": "",
-          "launchMode": "default",
-          "scene": null
-        },
-        {
-          "name": "官网新闻详情",
-          "pathName": "function/info/detail",
-          "query": "from=官网新闻&title=我校学习贯彻习近平新时代中国特色社会主义思想主题教育领导班子调研成果交流会举行&type=news&url=info/1055/16002.htm",
+          "name": "特定学院的研究生推免计划",
+          "pathName": "function/enroll/post-plan",
+          "query": "recommend=true&school=教育学部",
           "launchMode": "default",
           "scene": null
         },
@@ -315,9 +350,23 @@
           "scene": null
         },
         {
+          "name": "要闻速递详情",
+          "pathName": "function/info/detail",
+          "query": "from=要闻速递&title=我校承办教育部中外语言交流合作中心“2023东南亚本土中文教师来华研修”项目&type=news&url=info/4881/263281.htm",
+          "launchMode": "default",
+          "scene": null
+        },
+        {
           "name": "媒体师大",
           "pathName": "function/info/list",
           "query": "type=media",
+          "launchMode": "default",
+          "scene": null
+        },
+        {
+          "name": "媒体师大详情",
+          "pathName": "function/info/detail",
+          "query": "from=媒体师大&title=《中国教育报》：强化教育科技人才支撑&type=media&url=info/4891/262011.htm",
           "launchMode": "default",
           "scene": null
         },
@@ -329,9 +378,23 @@
           "scene": null
         },
         {
+          "name": "人文社科详情",
+          "pathName": "function/info/detail",
+          "query": "from=人文社科&title=我校古文字团队加入“古文字青年学者协同创新联盟”&type=social&url=info/2711/260751.htm",
+          "launchMode": "default",
+          "scene": null
+        },
+        {
           "name": "自然科学",
           "pathName": "function/info/list",
           "query": "type=science",
+          "launchMode": "default",
+          "scene": null
+        },
+        {
+          "name": "自然科学详情",
+          "pathName": "function/info/detail",
+          "query": "from=自然科学&title=我校科研团队在细胞衰老领域取得重要进展&type=science&url=info/2721/261891.htm",
           "launchMode": "default",
           "scene": null
         },
@@ -343,7 +406,7 @@
           "scene": null
         },
         {
-          "name": "地图地点",
+          "name": "地图地点详情",
           "pathName": "function/location/location",
           "query": "id=benbu/general/index&point={\"latitude\":43.86188,\"longitude\":125.33137,\"name\":\"自由校区\"}",
           "launchMode": "default",
@@ -357,6 +420,20 @@
           "scene": null
         },
         {
+          "name": "本部地图",
+          "pathName": "function/map/map",
+          "query": "area=benbu",
+          "launchMode": "default",
+          "scene": null
+        },
+        {
+          "name": "净月地图",
+          "pathName": "function/map/map",
+          "query": "area=jingyue",
+          "launchMode": "default",
+          "scene": null
+        },
+        {
           "name": "播放器",
           "pathName": "function/music/music",
           "query": "",
@@ -364,37 +441,44 @@
           "scene": null
         },
         {
-          "name": "特定歌曲",
+          "name": "特定编号歌曲",
           "pathName": "function/music/music",
           "query": "index=17",
           "launchMode": "default",
           "scene": null
         },
         {
-          "name": "通知详情",
-          "pathName": "function/notice/detail",
-          "query": "id=cc1bdeeb92c44111aba5a5051db0c1f8&title=关于申报2023年研究生创新计划类项目的通知",
+          "name": "特定名称歌曲",
+          "pathName": "function/music/music",
+          "query": "name=毕业快乐",
           "launchMode": "default",
           "scene": null
         },
         {
-          "name": "新闻详情",
-          "pathName": "function/notice/detail",
-          "query": "id=7021130a8af34afca342acb02a0766a9&title=我校三个教师团队被认定为优秀团队&type=news",
-          "launchMode": "default",
-          "scene": null
-        },
-        {
-          "name": "通知列表",
+          "name": "内网通知列表",
           "pathName": "function/notice/list",
           "query": "",
           "launchMode": "default",
           "scene": null
         },
         {
-          "name": "新闻列表",
+          "name": "内网通知详情",
+          "pathName": "function/notice/detail",
+          "query": "id=cc1bdeeb92c44111aba5a5051db0c1f8&title=关于申报2023年研究生创新计划类项目的通知",
+          "launchMode": "default",
+          "scene": null
+        },
+        {
+          "name": "内网新闻列表",
           "pathName": "function/notice/list",
           "query": "type=news",
+          "launchMode": "default",
+          "scene": null
+        },
+        {
+          "name": "内网新闻详情",
+          "pathName": "function/notice/detail",
+          "query": "id=7021130a8af34afca342acb02a0766a9&title=我校三个教师团队被认定为优秀团队&type=news",
           "launchMode": "default",
           "scene": null
         },
@@ -427,9 +511,23 @@
           "scene": null
         },
         {
-          "name": "公众号",
+          "name": "校园媒体",
           "pathName": "function/school-media/school-media",
           "query": "",
+          "launchMode": "default",
+          "scene": null
+        },
+        {
+          "name": "校园 QQ 号",
+          "pathName": "function/school-media/school-media",
+          "query": "type=qq",
+          "launchMode": "default",
+          "scene": null
+        },
+        {
+          "name": "校园微信公众号",
+          "pathName": "function/school-media/school-media",
+          "query": "type=wx",
           "launchMode": "default",
           "scene": null
         },
@@ -441,7 +539,7 @@
           "scene": null
         },
         {
-          "name": "工作室关于",
+          "name": "视频假页面渲染",
           "pathName": "function/video/video",
           "query": "",
           "launchMode": "default",
@@ -471,13 +569,6 @@
         {
           "name": "东师网站",
           "pathName": "function/website/website",
-          "query": "",
-          "launchMode": "default",
-          "scene": null
-        },
-        {
-          "name": "关于",
-          "pathName": "pages/about/about",
           "query": "",
           "launchMode": "default",
           "scene": null
