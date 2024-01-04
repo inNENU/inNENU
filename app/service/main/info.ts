@@ -1,7 +1,7 @@
 import { MAIN_URL, getPageView } from "./utils.js";
 import type { CommonFailedResponse } from "../../../typings/index.js";
-import type { RichTextNode } from "../../../typings/node.js";
 import { request } from "../../api/index.js";
+import type { RichTextNode } from "../../utils/parser.js";
 import { getRichTextNodes } from "../../utils/parser.js";
 
 const infoRegExp =

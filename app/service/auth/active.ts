@@ -1,7 +1,7 @@
 import { encodeBase64 } from "@mptool/all";
 
-import type { RichTextNode } from "../../../typings/index.js";
 import { JSONHeader, request } from "../../api/index.js";
+import type { RichTextNode } from "../../utils/parser.js";
 import { getRichTextNodes } from "../../utils/parser.js";
 
 const ACTIVATE_SERVER = "https://activate.nenu.edu.cn";

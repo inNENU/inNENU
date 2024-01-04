@@ -1,10 +1,10 @@
 import { $Page } from "@mptool/all";
 
-import { RichTextNode } from "../../../typings/node.js";
 import { requestJSON } from "../../api/index.js";
 import { AppOption } from "../../app.js";
 import { appCoverPrefix } from "../../config/info.js";
 import { getColor } from "../../utils/page.js";
+import type { RichTextNode } from "../../utils/parser.js";
 
 const { globalData } = getApp<AppOption>();
 
