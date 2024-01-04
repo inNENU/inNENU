@@ -153,7 +153,7 @@ export const getUnderExamPlace = async (): Promise<UnderExamPlaceResponse> => {
       redirect: "manual",
     });
 
-    if (status === 302 && isWebVPNPage(content)) {
+    if (status === 302 || isWebVPNPage(content)) {
       cookieStore.clear();
 
       return {
