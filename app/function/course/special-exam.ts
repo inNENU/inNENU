@@ -1,15 +1,16 @@
 import { $Page, get, set } from "@mptool/all";
 
-import type { UnderSpecialExamItem } from "./under-special-exam.js";
-import {
-  getOnlineUnderSpecialExamScore,
-  getUnderSpecialExamScore,
-} from "./under-special-exam.js";
 import { retryAction, showModal } from "../../api/index.js";
 import type { AppOption } from "../../app.js";
 import { appCoverPrefix } from "../../config/info.js";
 import { SPECIAL_EXAM_DATA_KEY } from "../../config/keys.js";
-import { LoginFailType, ensureUnderSystemLogin } from "../../login/index.js";
+import type { UnderSpecialExamItem } from "../../service/index.js";
+import {
+  LoginFailType,
+  ensureUnderSystemLogin,
+  getOnlineUnderSpecialExamScore,
+  getUnderSpecialExamScore,
+} from "../../service/index.js";
 import { HOUR } from "../../utils/constant.js";
 import { getColor, popNotice } from "../../utils/page.js";
 

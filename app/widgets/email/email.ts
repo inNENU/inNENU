@@ -1,16 +1,16 @@
 import { $Component, PropType, get, set } from "@mptool/all";
 
-import type { EmailItem } from "./recent-email.js";
+import { setClipboard, showModal, showToast } from "../../api/index.js";
+import type { AppOption } from "../../app.js";
+import { EMAIL_DATA_KEY } from "../../config/keys.js";
+import type { EmailItem } from "../../service/index.js";
 import {
   emailPage,
   onlineEmailPage,
   onlineRecentEmails,
   recentEmails,
-} from "./recent-email.js";
-import { setClipboard, showModal, showToast } from "../../api/index.js";
-import type { AppOption } from "../../app.js";
-import { EMAIL_DATA_KEY } from "../../config/keys.js";
-import { LoginFailType, ensureActionLogin } from "../../login/index.js";
+} from "../../service/index.js";
+import { LoginFailType, ensureActionLogin } from "../../service/index.js";
 import { MINUTE } from "../../utils/constant.js";
 import type { WidgetStatus } from "../utils.js";
 import { getSize } from "../utils.js";

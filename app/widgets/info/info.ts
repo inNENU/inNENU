@@ -1,7 +1,5 @@
 import { $Component, PropType, get, set } from "@mptool/all";
 
-import type { InfoItem, InfoType } from "./api/info.js";
-import { getInfoList, getOnlineInfoList } from "./api/info.js";
 import { showToast } from "../../api/index.js";
 import type { AppOption } from "../../app.js";
 import {
@@ -10,7 +8,12 @@ import {
   SITE_SCIENCE_LIST_KEY,
   SITE_SOCIAL_LIST_KEY,
 } from "../../config/keys.js";
-import { ensureActionLogin } from "../../login/action.js";
+import type { InfoItem, InfoType } from "../../service/index.js";
+import {
+  ensureActionLogin,
+  getInfoList,
+  getOnlineInfoList,
+} from "../../service/index.js";
 import { HOUR } from "../../utils/constant.js";
 import { WidgetSize, WidgetStatus, getSize } from "../utils.js";
 

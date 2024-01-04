@@ -1,23 +1,22 @@
 import { $Page, get, set } from "@mptool/all";
 
-import { getOnlinePostGradeList } from "./post-grade-list.js";
+import { retryAction, showModal } from "../../api/index.js";
+import type { AppOption } from "../../app.js";
+import { GRADE_DATA_KEY, appCoverPrefix } from "../../config/index.js";
 import type {
   PostGradeResult,
   UnderGradeListOptions,
   UnderGradeResult,
-} from "./typings.js";
-import {
-  getOnlineUnderGradeList,
-  getUnderGradeList,
-} from "./under-grade-list.js";
-import { retryAction, showModal } from "../../api/index.js";
-import type { AppOption } from "../../app.js";
-import { GRADE_DATA_KEY, appCoverPrefix } from "../../config/index.js";
+} from "../../service/index.js";
 import {
   LoginFailType,
   ensurePostSystemLogin,
   ensureUnderSystemLogin,
-} from "../../login/index.js";
+  getOnlinePostGradeList,
+  getOnlineUnderGradeList,
+  getPostGradeList,
+  getUnderGradeList,
+} from "../../service/index.js";
 import { HOUR } from "../../utils/constant.js";
 import { getColor, popNotice } from "../../utils/page.js";
 
@@ -230,7 +229,11 @@ $Page("course-grade", {
 
       if (err) throw err.msg;
 
-      return getOnlinePostGradeList().then((res) => {
+      return (
+        useOnlineService("post-grade-list")
+          ? getOnlinePostGradeList
+          : getPostGradeList
+      )().then((res) => {
         wx.hideLoading();
         this.state.inited = true;
         if (res.success) {
@@ -238,7 +241,7 @@ $Page("course-grade", {
           this.setGradeData(res.data);
           this.setPostStatistics(res.data);
           this.state.loginMethod = "check";
-        } else if (res.type === LoginFailType.Expired) {
+        } else if ("type" in res && res.type === LoginFailType.Expired) {
           this.state.loginMethod = "login";
           retryAction("登录过期", res.msg, () => this.getPostGradeList());
         } else {

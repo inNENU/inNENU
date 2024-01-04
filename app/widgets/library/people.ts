@@ -1,10 +1,21 @@
-import { getLibraryPeople } from "./getPeople.js";
+import { logger } from "@mptool/all";
+
+import type { AppOption } from "../../app.js";
+import {
+  getLibraryPeople,
+  getOnlineLibraryPeople,
+} from "../../service/index.js";
+
+const { useOnlineService } = getApp<AppOption>();
 
 Component({
   lifetimes: {
     attached() {
-      getLibraryPeople().then((people) => {
-        this.setData(people);
+      (useOnlineService("library-people")
+        ? getOnlineLibraryPeople
+        : getLibraryPeople)().then((result) => {
+        if (result.success) this.setData(result);
+        else logger.error("图书馆人数获取失败");
       });
     },
   },

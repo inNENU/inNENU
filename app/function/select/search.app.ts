@@ -1,6 +1,6 @@
 import type { SearchOptions, SelectSearchResponse } from "./typings.js";
 import { request } from "../../api/index.js";
-import { LoginFailType } from "../../login/index.js";
+import { LoginFailType } from "../../service/index.js";
 
 export const search = async ({
   server,

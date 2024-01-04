@@ -1,21 +1,21 @@
 import { $Page, get, set } from "@mptool/all";
 
-import {
-  getCaptcha,
-  resetPasswordOnline,
-  sendSMS,
-  setPassword,
-  verifyAccount,
-  verifySMS,
-} from "./api.js";
+import { showModal, showToast } from "../../api/index.js";
+import type { AppOption } from "../../app.js";
+import { appCoverPrefix, assets } from "../../config/info.js";
 import type {
   ResetPasswordInfoResponse,
   ResetPasswordSendSMSResponse,
   ResetPasswordVerifySMSResponse,
-} from "./typings.js";
-import { showModal, showToast } from "../../api/index.js";
-import type { AppOption } from "../../app.js";
-import { appCoverPrefix, assets } from "../../config/info.js";
+} from "../../service/index.js";
+import {
+  getCaptcha,
+  resetPasswordOnline,
+  sendSMS,
+  setNewPassword,
+  verifyAccount,
+  verifySMS,
+} from "../../service/index.js";
 import { SECOND } from "../../utils/constant.js";
 import { getColor, popNotice } from "../../utils/page.js";
 
@@ -226,7 +226,7 @@ ${envName}通过接入官方接口提供密码重置服务，您所填写的信�
       ? <Promise<ResetPasswordVerifySMSResponse>>(
           resetPasswordOnline({ id, mobile, sign, code, password, salt })
         )
-      : setPassword({ id, mobile, sign, code, password, salt }));
+      : setNewPassword({ id, mobile, sign, code, password, salt }));
 
     wx.hideLoading();
 

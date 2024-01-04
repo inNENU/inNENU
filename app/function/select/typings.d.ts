@@ -1,5 +1,5 @@
 import type { CommonFailedResponse } from "../../../typings/index.js";
-import { LoginFailType } from "../../login/loginFailTypes.js";
+import { LoginFailType } from "../../service/index.js";
 import type { AccountInfo } from "../../utils/typings";
 
 export interface SelectLoginSuccessResponse {

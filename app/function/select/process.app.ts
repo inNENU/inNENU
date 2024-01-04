@@ -1,6 +1,6 @@
 import type { ProcessOptions, ProcessResponse } from "./typings.js";
 import { request } from "../../api/index.js";
-import { LoginFailType } from "../../login/loginFailTypes.js";
+import { LoginFailType } from "../../service/index.js";
 
 export const process = (
   type: "add" | "delete",

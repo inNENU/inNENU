@@ -1,13 +1,21 @@
 import { $Page } from "@mptool/all";
 
-import type { PostEnrollSchoolPlan } from "./getPostPlan.js";
-import { getPostPlan } from "./getPostPlan.js";
 import { setClipboard, showModal, showToast } from "../../api/index.js";
 import type { AppOption } from "../../app.js";
 import { appCoverPrefix } from "../../config/index.js";
+import type {
+  PostEnrollSchoolPlan,
+  PostRecommendSchoolPlan,
+} from "../../service/index.js";
+import {
+  getOnlinePostPlan,
+  getOnlinePostRecommendPlan,
+  getPostPlan,
+  getPostRecommendPlan,
+} from "../../service/index.js";
 import { getColor, popNotice } from "../../utils/page.js";
 
-const { globalData } = getApp<AppOption>();
+const { globalData, useOnlineService } = getApp<AppOption>();
 
 const PAGE_ID = "post-enroll-plan";
 const PAGE_TITLE = "研究生招生计划";
@@ -17,7 +25,7 @@ $Page(PAGE_ID, {
     theme: globalData.theme,
   },
 
-  state: { plans: <PostEnrollSchoolPlan[]>[] },
+  state: { plans: <PostEnrollSchoolPlan[] | PostRecommendSchoolPlan[]>[] },
 
   onLoad({ recommend, school = "全部" }) {
     this.setData({
@@ -50,7 +58,33 @@ $Page(PAGE_ID, {
   getPlan(isRecommend: boolean, school: string) {
     wx.showLoading({ title: "获取中" });
 
-    return getPostPlan(isRecommend).then((res) => {
+    if (isRecommend)
+      return (
+        useOnlineService("post-recommend-plan")
+          ? getOnlinePostRecommendPlan
+          : getPostRecommendPlan
+      )().then((res) => {
+        wx.hideLoading();
+
+        if (res.success) {
+          const schools = ["全部", ...res.data.map(({ name }) => name)];
+
+          this.setData({
+            schools,
+            schoolIndex: Math.max(schools.indexOf(school), 0),
+            plans: res.data,
+          });
+          this.state.plans = res.data;
+        } else {
+          showModal("获取失败", res.msg, () => {
+            void this.$back();
+          });
+        }
+      });
+
+    return (
+      useOnlineService("post-plan") ? getOnlinePostPlan : getPostPlan
+    )().then((res) => {
       wx.hideLoading();
 
       if (res.success) {

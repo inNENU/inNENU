@@ -1,6 +1,5 @@
 import { $Page, get, set } from "@mptool/all";
 
-import { getAcademic, getOnlineAcademic } from "./api/getAcademic.js";
 import { showModal, showToast } from "../../api/index.js";
 import type { AppOption } from "../../app.js";
 import {
@@ -8,6 +7,7 @@ import {
   appCoverPrefix,
   service,
 } from "../../config/index.js";
+import { getAcademic, getOnlineAcademic } from "../../service/index.js";
 import { getColor, popNotice } from "../../utils/page.js";
 import type { StarredAcademic } from "../../widgets/info/typings.js";
 

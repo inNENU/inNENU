@@ -2,6 +2,7 @@
 import { emitter, get, logger, writeJSON } from "@mptool/all";
 
 import { platformActions } from "./app-platform.js";
+import { login } from "./login.js";
 import { defaultResources, downloadResource } from "./resource.js";
 import type { ServiceSettings } from "./settings.js";
 import type { AccountInfo, AppID, GlobalData, UserInfo } from "./typings.js";
@@ -16,7 +17,6 @@ import {
   server,
   version,
 } from "../config/index.js";
-import { login } from "../login/app.js";
 
 /** 初始化小程序 */
 export const initializeApp = (): void => {

@@ -1,10 +1,10 @@
-import type { InfoType } from "./api/info.js";
 import {
   SITE_MEDIA_LIST_KEY,
   SITE_NEWS_LIST_KEY,
   SITE_SCIENCE_LIST_KEY,
   SITE_SOCIAL_LIST_KEY,
 } from "../../config/keys.js";
+import type { InfoType } from "../../service/index.js";
 
 const keyMap: Record<InfoType, string> = {
   media: SITE_MEDIA_LIST_KEY,

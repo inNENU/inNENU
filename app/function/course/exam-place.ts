@@ -1,15 +1,16 @@
 import { $Page, get, set } from "@mptool/all";
 
-import type { ExamPlace } from "./typings.js";
-import {
-  getOnlineUnderExamPlace,
-  getUnderExamPlace,
-} from "./under-exam-place.js";
 import { retryAction, showModal } from "../../api/index.js";
 import type { AppOption } from "../../app.js";
 import { appCoverPrefix } from "../../config/info.js";
 import { EXAM_PLACE_DATA_KEY } from "../../config/keys.js";
-import { LoginFailType, ensureUnderSystemLogin } from "../../login/index.js";
+import type { ExamPlace } from "../../service/index.js";
+import {
+  LoginFailType,
+  ensureUnderSystemLogin,
+  getOnlineUnderExamPlace,
+  getUnderExamPlace,
+} from "../../service/index.js";
 import { HOUR } from "../../utils/constant.js";
 import { getColor, popNotice } from "../../utils/page.js";
 

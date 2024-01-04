@@ -1,11 +1,15 @@
 import { $Page } from "@mptool/all";
 
-import type { ActivateEmailOptions } from "./email-apply.js";
-import { activateEmail, getEmail, onlineMyEmail } from "./email-apply.js";
 import { setClipboard, showModal, showToast } from "../../api/index.js";
 import type { AppOption } from "../../app.js";
 import { appCoverPrefix, appName, assets } from "../../config/info.js";
-import { ensureMyLogin } from "../../login/my.js";
+import type { ActivateEmailOptions } from "../../service/index.js";
+import {
+  activateEmail,
+  ensureMyLogin,
+  getEmail,
+  onlineMyEmail,
+} from "../../service/index.js";
 import { popNotice } from "../../utils/page.js";
 
 const { globalData, useOnlineService } = getApp<AppOption>();

@@ -1,6 +1,5 @@
 import { $Page, set } from "@mptool/all";
 
-import { authInit, getAuthInit } from "./api.js";
 import type {
   ListComponentConfig,
   ListComponentItemConfig,
@@ -13,9 +12,10 @@ import {
   appCoverPrefix,
   assets,
 } from "../../config/index.js";
-import { LoginFailType, logout } from "../../login/index.js";
+import { LoginFailType, authInit, getAuthInit } from "../../service/index.js";
 import { getLicenseStatus } from "../../utils/agreement.js";
 import { MONTH } from "../../utils/constant.js";
+import { logout } from "../../utils/logout.js";
 import { popNotice } from "../../utils/page.js";
 import type { UserInfo } from "../../utils/typings.js";
 

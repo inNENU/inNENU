@@ -1,6 +1,5 @@
 import { $Page, get, set } from "@mptool/all";
 
-import { getInfo, getOnlineInfo } from "./api/getInfo.js";
 import { showModal, showToast } from "../../api/index.js";
 import type { AppOption } from "../../app.js";
 import {
@@ -8,8 +7,9 @@ import {
   appCoverPrefix,
   service,
 } from "../../config/index.js";
+import type { InfoType } from "../../service/index.js";
+import { getInfo, getOnlineInfo } from "../../service/index.js";
 import { getColor, popNotice } from "../../utils/page.js";
-import type { InfoType } from "../../widgets/info/api/info.js";
 import type { StarredInfo } from "../../widgets/info/typings.js";
 import { getTitle } from "../../widgets/info/utils.js";
 

@@ -1,11 +1,6 @@
 import { $Page, get, set } from "@mptool/all";
 
-import { getPostCourseTable } from "./post-course-table.js";
 import type { ClassItem, TableItem } from "./typings.js";
-import {
-  getOnlineUnderCourseTable,
-  getUnderCourseTable,
-} from "./under-course-table.js";
 import { retryAction, showModal } from "../../api/index.js";
 import type { AppOption } from "../../app.js";
 import { COURSE_DATA_KEY, appCoverPrefix } from "../../config/index.js";
@@ -13,7 +8,12 @@ import {
   LoginFailType,
   ensurePostSystemLogin,
   ensureUnderSystemLogin,
-} from "../../login/index.js";
+  getDisplayTime,
+  getOnlinePostCourseTable,
+  getOnlineUnderCourseTable,
+  getPostCourseTable,
+  getUnderCourseTable,
+} from "../../service/index.js";
 import { DAY, MONTH } from "../../utils/constant.js";
 import { getColor, popNotice } from "../../utils/page.js";
 import type {
@@ -22,7 +22,6 @@ import type {
   WeekRange,
 } from "../../widgets/course/typings.js";
 import { getCurrentTime, getWeekIndex } from "../../widgets/course/utils.js";
-import { getDisplayTime } from "../grade/under-grade-list.js";
 
 const { globalData, useOnlineService } = getApp<AppOption>();
 const { envName } = globalData;
@@ -254,7 +253,9 @@ $Page(PAGE_ID, {
 
       if (err) throw err.msg;
 
-      const result = await getPostCourseTable({ time });
+      const result = await (useOnlineService("post-course-table")
+        ? getOnlinePostCourseTable
+        : getPostCourseTable)({ time });
 
       wx.hideLoading();
       this.state.inited = true;
