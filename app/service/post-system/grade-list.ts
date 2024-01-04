@@ -85,7 +85,7 @@ const getDisplayTime = (time: string): string => {
   return semester === "1" ? `${startYear}年秋季学期` : `${endYear}年春季学期`;
 };
 
-export const getGrades = (content: string, isJS = false): PostGradeResult[] =>
+const getPostGrades = (content: string, isJS = false): PostGradeResult[] =>
   Array.from(content.matchAll(isJS ? jsGradeItemRegExp : gradeItemRegExp)).map(
     ([, item]) => {
       const [
@@ -131,7 +131,7 @@ export const getGrades = (content: string, isJS = false): PostGradeResult[] =>
     },
   );
 
-export const getGradeLists = async (
+const getPostGradeLists = async (
   content: string,
 ): Promise<PostGradeResult[]> => {
   // We force writing these 2 field to ensure we care getting the default table structure
@@ -143,7 +143,7 @@ export const getGradeLists = async (
   const shouldRefetch =
     tableFields !== DEFAULT_TABLE_FIELD || otherFields !== DEFAULT_OTHER_FIELD;
 
-  const grades = shouldRefetch ? [] : getGrades(content);
+  const grades = shouldRefetch ? [] : getPostGrades(content);
 
   console.log("Total pages:", totalPages);
 
@@ -186,7 +186,7 @@ export const getGradeLists = async (
         }),
       });
 
-      const newGrades = getGrades(data, true);
+      const newGrades = getPostGrades(data, true);
 
       grades.push(...newGrades);
     }),
@@ -217,7 +217,7 @@ export const getPostGradeList = async (): Promise<PostGradeListResponse> => {
         type: LoginFailType.Expired,
       };
 
-    const gradeList = await getGradeLists(content);
+    const gradeList = await getPostGradeLists(content);
 
     return <PostGradeListSuccessResponse>{
       success: true,

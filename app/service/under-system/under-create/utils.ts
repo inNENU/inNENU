@@ -1,7 +1,7 @@
 import { logger } from "@mptool/all";
 
 import { request } from "../../../api/index.js";
-import { UNDER_SYSTEM_SERVER } from "../../index.js";
+import { UNDER_SYSTEM_SERVER } from "../utils.js";
 
 export const nextLinkRegExp =
   /<input\s+type="button"\s+class="button"\s+onclick="window.location.href='([^']+)';"\s+value=" 下一步 "\/>/;

@@ -1,8 +1,10 @@
 import { logger } from "@mptool/all";
 
+import { UNDER_SYSTEM_SERVER } from "./utils.js";
 import { CommonFailedResponse } from "../../../typings/index.js";
 import { cookieStore, request } from "../../api/index.js";
-import { LoginFailType, UNDER_SYSTEM_SERVER, isWebVPNPage } from "../index.js";
+import { LoginFailType } from "../loginFailTypes.js";
+import { isWebVPNPage } from "../utils.js";
 
 const alertRegExp = /window.alert\('(.+?)'\)/;
 

@@ -1,7 +1,7 @@
 import { URLSearchParams, logger } from "@mptool/all";
 
-import { cookieStore, request } from "../../api/index.js";
 import {
+  UNDER_SYSTEM_SERVER,
   fieldRegExp,
   keyCodeRegExp,
   otherFieldsRegExp,
@@ -11,17 +11,11 @@ import {
   sqlStringRegExp,
   tableFieldsRegExp,
   totalPagesRegExp,
-} from "../../function/course/utils.js";
-import type {
-  GradeDetail,
-  ScoreDetail,
-  UnderCourseType,
-  UnderGradeListOptions,
-  UnderGradeListResponse,
-  UnderGradeResult,
-} from "../../function/grade/typings.js";
+} from "./utils.js";
+import type { CommonFailedResponse } from "../../../typings/index.js";
+import { cookieStore, request } from "../../api/index.js";
 import { getIETimeStamp } from "../../utils/browser.js";
-import { LoginFailType, UNDER_SYSTEM_SERVER, isWebVPNPage } from "../index.js";
+import { LoginFailType, isWebVPNPage } from "../index.js";
 
 const gradeItemRegExp = /<tr.+?class="smartTr"[^>]*?>([\s\S]*?)<\/tr>/g;
 const jsGradeItemRegExp = /<tr.+?class=\\"smartTr\\"[^>]*?>(.*?)<\/tr>/g;
@@ -39,6 +33,18 @@ const keyRegExp =
 
 const xsIdRegExp =
   /<input\s+type="hidden"\s+name\s*=\s*"xsId"\s+id\s*=\s*"xsId"\s+value="([^"]*?)" \/>/;
+
+export type UnderCourseType =
+  | "通识教育必修课"
+  | "通识教育选修课"
+  | "专业教育必修课"
+  | "专业教育选修课"
+  | "教师职业教育必修课"
+  | "教师职业教育选修课"
+  | "任意选修课"
+  | "发展方向课"
+  | "教师教育必修课"
+  | "教师教育选修课";
 
 const COURSE_TYPES: Record<UnderCourseType, string> = {
   通识教育必修课: "01",
@@ -63,6 +69,16 @@ export const getDisplayTime = (time: string): string => {
   return semester === "1" ? `${startYear}年秋季学期` : `${endYear}年春季学期`;
 };
 
+export interface ScoreDetail {
+  score: number;
+  percent: number;
+}
+
+export interface GradeDetail {
+  usual: ScoreDetail[];
+  exam: ScoreDetail | null;
+}
+
 const getScoreDetail = (content: string): ScoreDetail | null => {
   if (!content.match(/[\d.]+\/\d+%/) || content === "0/0%") return null;
 
@@ -74,7 +90,7 @@ const getScoreDetail = (content: string): ScoreDetail | null => {
   };
 };
 
-export const getGrades = (
+const getUnderGrades = (
   content: string,
   isJS = false,
 ): Promise<UnderGradeResult[]> =>
@@ -171,7 +187,44 @@ export const getGrades = (
     }),
   );
 
-export const getGradeLists = async (
+export interface UnderGradeResult {
+  /** 修读时间 */
+  time: string;
+  /** 课程 id */
+  cid: string;
+  /** 课程名称 */
+  name: string;
+  /** 难度系数 */
+  difficulty: number;
+  /** 分数 */
+  grade: number;
+  /** 分数文本 */
+  gradeText: string | null;
+  /** 分数详情 */
+  gradeDetail: GradeDetail | null;
+  /** 绩点成绩 */
+  gradePoint: number;
+  /** 成绩标志 */
+  mark: string;
+  /** 课程类型 */
+  courseType: string;
+  /** 选修课类型 */
+  commonType: string;
+  /** 课程类型短称 */
+  shortCourseType: string;
+  /** 学时 */
+  hours: number | null;
+  /** 学分 */
+  point: number;
+  /** 考试性质 */
+  examType: string;
+  /** 补重学期 */
+  reLearn: string;
+  /** 审核状态 */
+  status: string;
+}
+
+const getUnderGradeLists = async (
   content: string,
 ): Promise<UnderGradeResult[]> => {
   // We force writing these 2 field to ensure we care getting the default table structure
@@ -183,7 +236,7 @@ export const getGradeLists = async (
   const shouldRefetch =
     tableFields !== DEFAULT_TABLE_FIELD || otherFields !== DEFAULT_OTHER_FIELD;
 
-  const grades = shouldRefetch ? [] : await getGrades(content);
+  const grades = shouldRefetch ? [] : await getUnderGrades(content);
 
   console.log("Total pages:", totalPages);
 
@@ -229,7 +282,7 @@ export const getGradeLists = async (
         }),
       });
 
-      const newGrades = await getGrades(content, true);
+      const newGrades = await getUnderGrades(content, true);
 
       grades.push(...newGrades);
     }),
@@ -237,6 +290,29 @@ export const getGradeLists = async (
 
   return grades;
 };
+
+export interface UnderGradeListOptions {
+  /** 查询时间 */
+  time?: string;
+  /** 课程名称 */
+  name?: string;
+  /** 课程性质 */
+  courseType?: UnderCourseType | "";
+  gradeType?: "all" | "best";
+}
+
+export interface UnderGradeListSuccessResponse {
+  success: true;
+  data: UnderGradeResult[];
+}
+
+export type UnderGradeListFailedResponse = CommonFailedResponse & {
+  type?: LoginFailType.Expired | "error";
+};
+
+export type UnderGradeListResponse =
+  | UnderGradeListSuccessResponse
+  | UnderGradeListFailedResponse;
 
 export const getUnderGradeList = async ({
   time = "",
@@ -279,7 +355,7 @@ export const getUnderGradeList = async ({
           : "部分学期评教未完成，不能查阅全部成绩! 请分学期查询。",
       };
 
-    const gradeList = await getGradeLists(content);
+    const gradeList = await getUnderGradeLists(content);
 
     return {
       success: true,

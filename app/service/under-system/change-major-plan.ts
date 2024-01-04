@@ -1,10 +1,5 @@
 import { URLSearchParams, logger } from "@mptool/all";
 
-import { cookieStore, request } from "../../api/index.js";
-import type {
-  ChangeMajorPlan,
-  UnderChangeMajorPlanResponse,
-} from "../../function/course/typings.js";
 import {
   fieldRegExp,
   keyCodeRegExp,
@@ -15,9 +10,13 @@ import {
   sqlStringRegExp,
   tableFieldsRegExp,
   totalPagesRegExp,
-} from "../../function/course/utils.js";
+} from "./utils.js";
+import { UNDER_SYSTEM_SERVER } from "./utils.js";
+import type { CommonFailedResponse } from "../../../typings/response.js";
+import { cookieStore, request } from "../../api/index.js";
 import { getIETimeStamp } from "../../utils/browser.js";
-import { LoginFailType, UNDER_SYSTEM_SERVER, isWebVPNPage } from "../index.js";
+import { LoginFailType } from "../loginFailTypes.js";
+import { isWebVPNPage } from "../utils.js";
 
 const headerRegExp = /<title>(.*)<\/title>/;
 const planRegExp =
@@ -28,6 +27,31 @@ const DEFAULT_TABLE_FIELD =
 const DEFAULT_OTHER_FIELD = "null";
 
 const QUERY_URL = `${UNDER_SYSTEM_SERVER}/jiaowu/xjgl/zzygl/zzyxxgl_xsd_list.jsp`;
+
+export interface ChangeMajorPlan {
+  /** 学院 */
+  school: string;
+  /** 专业 */
+  major: string;
+  /** 科类 */
+  subject: string;
+  /** 考试类型 */
+  examType: string;
+  /** 考试时间 */
+  time: string;
+  /** 考试地点 */
+  location: string;
+  /** 计划数 */
+  plan: number;
+  /** 当前报名人数 */
+  current: number;
+  /** 准入要求 */
+  requirement: string;
+  /** 联系人 */
+  contact: string;
+  /** 电话 */
+  phone: string;
+}
 
 const getPlans = (content: string): ChangeMajorPlan[] =>
   Array.from(content.matchAll(planRegExp)).map(
@@ -100,7 +124,6 @@ export const getPlanList = async (
       const { data: responseText } = await request<string>(QUERY_URL, {
         method: "POST",
         headers: {
-          "Content-Type": "application/x-www-form-urlencoded",
           Referer: QUERY_URL,
         },
         body: new URLSearchParams({
@@ -125,6 +148,22 @@ export const getPlanList = async (
   return plans;
 };
 
+export interface UnderChangeMajorPlanSuccessResponse {
+  success: true;
+  /** 计划标题 */
+  header: string;
+  /** 计划 */
+  plans: ChangeMajorPlan[];
+}
+
+export type UnderChangeMajorPlanFailedResponse = CommonFailedResponse & {
+  type?: LoginFailType.Expired;
+};
+
+export type UnderChangeMajorPlanResponse =
+  | UnderChangeMajorPlanSuccessResponse
+  | UnderChangeMajorPlanFailedResponse;
+
 export const getUnderChangeMajorPlans =
   async (): Promise<UnderChangeMajorPlanResponse> => {
     try {
@@ -146,7 +185,7 @@ export const getUnderChangeMajorPlans =
 
       const plans = await getPlanList(content);
 
-      return {
+      return <UnderChangeMajorPlanSuccessResponse>{
         success: true,
         header,
         plans,
@@ -169,7 +208,7 @@ export const getOnlineUnderChangeMajorPlan =
       method: "POST",
       cookieScope: UNDER_SYSTEM_SERVER,
     }).then(({ data }) => {
-      if (!data.success) logger.error("获取失败", data.msg);
+      if (!data.success) logger.error("获取转专业计划失败", data.msg);
 
       return data;
     });

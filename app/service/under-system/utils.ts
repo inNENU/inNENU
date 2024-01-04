@@ -1,3 +1,5 @@
+export const UNDER_SYSTEM_SERVER = "https://dsjx.webvpn.nenu.edu.cn";
+
 export const keyCodeRegExp =
   /<input\s+type="hidden"\s+name\s*=\s*"keyCode"\s+id\s*=\s*"keyCode"\s+value="([^"]*?)">/;
 export const printHQLInputRegExp =

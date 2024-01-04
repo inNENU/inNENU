@@ -1,5 +1,6 @@
 import { logger } from "@mptool/all";
 
+import { UNDER_SYSTEM_SERVER } from "./utils.js";
 import type { CookieVerifyResponse } from "../../../typings/index.js";
 import { cookieStore, request } from "../../api/index.js";
 import type { AccountInfo } from "../../utils/typings.js";
@@ -9,8 +10,6 @@ import type {
   UnderSystemLoginResponse,
   VPNLoginFailedResponse,
 } from "../typings.js";
-
-export const UNDER_SYSTEM_SERVER = "https://dsjx.webvpn.nenu.edu.cn";
 
 export const underSystemLogin = async (
   options: AccountInfo,

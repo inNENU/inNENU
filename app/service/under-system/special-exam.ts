@@ -1,7 +1,5 @@
 import { URLSearchParams, logger } from "@mptool/all";
 
-import type { CommonFailedResponse } from "../../../typings/response.js";
-import { cookieStore, request } from "../../api/index.js";
 import {
   fieldRegExp,
   keyCodeRegExp,
@@ -12,9 +10,13 @@ import {
   sqlStringRegExp,
   tableFieldsRegExp,
   totalPagesRegExp,
-} from "../../function/course/utils.js";
+} from "./utils.js";
+import { UNDER_SYSTEM_SERVER } from "./utils.js";
+import type { CommonFailedResponse } from "../../../typings/response.js";
+import { cookieStore, request } from "../../api/index.js";
 import { getIETimeStamp } from "../../utils/browser.js";
-import { LoginFailType, UNDER_SYSTEM_SERVER, isWebVPNPage } from "../index.js";
+import { LoginFailType } from "../loginFailTypes.js";
+import { isWebVPNPage } from "../utils.js";
 
 export interface UnderSpecialExamItem {
   /** 考试时间 */

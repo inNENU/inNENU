@@ -1,14 +1,12 @@
 import { URLSearchParams, logger } from "@mptool/all";
 
+import { UNDER_SYSTEM_SERVER } from "./utils.js";
+import { CommonFailedResponse } from "../../../typings/response.js";
 import { cookieStore, request } from "../../api/index.js";
-import type {
-  ClassItem,
-  TableItem,
-  UnderCourseTableOptions,
-  UnderCourseTableResponse,
-} from "../../function/course/typings.js";
+import type { ClassItem, TableItem } from "../../function/course/typings.js";
+import { getIETimeStamp } from "../../utils/browser.js";
 import { getJSON } from "../../utils/json.js";
-import { LoginFailType, UNDER_SYSTEM_SERVER, isWebVPNPage } from "../index.js";
+import { LoginFailType, isWebVPNPage } from "../index.js";
 
 const courseRowRegExp =
   /<tr>\s+<td[^>]*>\s+\d+\s+<\/td>\s+((?:<td[^>]*>[\s\S]+?<\/td>\s*?)+)\s+<\/tr>/g;
@@ -43,6 +41,25 @@ const getCourses = (content: string): TableItem =>
     }),
   );
 
+export interface UnderCourseTableOptions {
+  /** 查询时间 */
+  time: string;
+}
+
+export interface UnderCourseTableSuccessResponse {
+  success: true;
+  data: TableItem;
+  startTime: string;
+}
+
+export type UnderCourseTableFailedResponse = CommonFailedResponse & {
+  type?: LoginFailType.Expired;
+};
+
+export type UnderCourseTableResponse =
+  | UnderCourseTableSuccessResponse
+  | UnderCourseTableFailedResponse;
+
 export const getUnderCourseTable = async ({
   time,
 }: UnderCourseTableOptions): Promise<UnderCourseTableResponse> => {
@@ -50,18 +67,23 @@ export const getUnderCourseTable = async ({
     const semesterStartTime = await getJSON<Record<string, string>>(
       "function/data/semester-start-time",
     );
-    const params = new URLSearchParams({
-      method: "goListKbByXs",
-      istsxx: "no",
-      xnxqh: time,
-      zc: "",
+    const QUERY_URL = `${UNDER_SYSTEM_SERVER}/tkglAction.do?${new URLSearchParams(
+      {
+        method: "goListKbByXs",
+        istsxx: "no",
+        xnxqh: time,
+        zc: "",
+      },
+    ).toString()}`;
+
+    const { data: content, status } = await request<string>(QUERY_URL, {
+      headers: {
+        Referer: `${UNDER_SYSTEM_SERVER}/tkglAction.do?method=kbxxXs&tktime=${getIETimeStamp()}`,
+      },
+      redirect: "manual",
     });
 
-    const { data: content } = await request<string>(
-      `${UNDER_SYSTEM_SERVER}/tkglAction.do?${params.toString()}`,
-    );
-
-    if (isWebVPNPage(content)) {
+    if (status === 302 || isWebVPNPage(content)) {
       cookieStore.clear();
 
       return {

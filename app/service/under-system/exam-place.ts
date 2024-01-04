@@ -1,11 +1,7 @@
 import { URLSearchParams, logger } from "@mptool/all";
 
-import { cookieStore, request } from "../../api/index.js";
-import type {
-  ExamPlace,
-  UnderExamPlaceResponse,
-} from "../../function/course/typings.js";
 import {
+  UNDER_SYSTEM_SERVER,
   fieldRegExp,
   keyCodeRegExp,
   otherFieldsRegExp,
@@ -15,8 +11,11 @@ import {
   sqlStringRegExp,
   tableFieldsRegExp,
   totalPagesRegExp,
-} from "../../function/course/utils.js";
-import { LoginFailType, UNDER_SYSTEM_SERVER, isWebVPNPage } from "../index.js";
+} from "./utils.js";
+import type { CommonFailedResponse } from "../../../typings/index.js";
+import { cookieStore, request } from "../../api/index.js";
+import { LoginFailType } from "../loginFailTypes.js";
+import { isWebVPNPage } from "../utils.js";
 
 const selectRegExp =
   /<select\s+name="kskzid"\s+id="kskzid"[^>]*><option value="">---请选择---<\/option>([\s\S]*?)<\/select>/;
@@ -31,6 +30,19 @@ const DEFAULT_OTHER_FIELD = "null";
 
 const INFO_URL = `${UNDER_SYSTEM_SERVER}/jiaowu/kwgl/kwgl_xsJgfb_soso.jsp`;
 const QUERY_URL = `${UNDER_SYSTEM_SERVER}/kwsjglAction.do?method=sosoXsFb`;
+
+export interface ExamPlace {
+  /** 课程 */
+  course: string;
+  /** 时间 */
+  time: string;
+  /** 校区 */
+  campus: string;
+  /** 教学楼 */
+  building: string;
+  /** 考场 */
+  classroom: string;
+}
 
 const getExamPlaces = (content: string): ExamPlace[] =>
   Array.from(content.matchAll(examRegExp)).map((item) => {
@@ -50,9 +62,8 @@ const getExamPlaces = (content: string): ExamPlace[] =>
 export const getExamList = async (value: string): Promise<ExamPlace[]> => {
   const { data: content } = await request<string>(QUERY_URL, {
     method: "POST",
-    // TODO: Check whether the automatic header with utf8 is working
     headers: {
-      "Content-Type": "application/x-www-form-urlencoded",
+      Referer: INFO_URL,
     },
     body: new URLSearchParams({
       xnxq: "",
@@ -119,11 +130,30 @@ export const getExamList = async (value: string): Promise<ExamPlace[]> => {
   return exams;
 };
 
+export interface UnderExamPlaceSuccessResponse {
+  success: true;
+
+  /** 计划 */
+  data: {
+    name: string;
+    exams: ExamPlace[];
+  }[];
+}
+
+export type UnderExamPlaceFailedResponse = CommonFailedResponse & {
+  type?: LoginFailType.Expired;
+};
+export type UnderExamPlaceResponse =
+  | UnderExamPlaceSuccessResponse
+  | UnderExamPlaceFailedResponse;
+
 export const getUnderExamPlace = async (): Promise<UnderExamPlaceResponse> => {
   try {
-    const { data: content } = await request<string>(INFO_URL);
+    const { data: content, status } = await request<string>(INFO_URL, {
+      redirect: "manual",
+    });
 
-    if (isWebVPNPage(content)) {
+    if (status === 302 && isWebVPNPage(content)) {
       cookieStore.clear();
 
       return {

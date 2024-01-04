@@ -3,21 +3,11 @@ import { URLSearchParams, logger } from "@mptool/all";
 import { POST_HTTPS_SERVER } from "./utils.js";
 import type { CommonFailedResponse } from "../../../typings/index.js";
 import { cookieStore, request } from "../../api/index.js";
+import type { ClassItem, TableItem } from "../../function/course/typings.js";
 import { getIETimeStamp } from "../../utils/browser.js";
 import { getJSON } from "../../utils/json.js";
 import { LoginFailType } from "../loginFailTypes.js";
 import { isWebVPNPage } from "../utils.js";
-
-export interface ClassItem {
-  name: string;
-  teacher: string;
-  time: string;
-  location: string;
-}
-
-export type CellItem = ClassItem[];
-export type RowItem = CellItem[];
-export type TableItem = RowItem[];
 
 const courseRowRegExp =
   /<tr>\s+<td[^>]*>\s+\d+\s+<\/td>\s+((?:<td[^>]*>[\s\S]+?<\/td>\s*?)+)\s+<\/tr>/g;
