@@ -1,5 +1,5 @@
+import type { AuthLoginFailedResponse } from "./auth/index.js";
 import { LoginFailType } from "./loginFailTypes.js";
-import type { AuthLoginFailedResponse } from "./typings.js";
 import type { CommonFailedResponse } from "../../typings/index.js";
 import { getCurrentRoute, showToast } from "../api/index.js";
 import { logout } from "../utils/logout.js";

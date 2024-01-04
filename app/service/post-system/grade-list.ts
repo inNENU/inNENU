@@ -1,11 +1,11 @@
 import { URLSearchParams, logger } from "@mptool/all";
 
 import { POST_HTTPS_SERVER } from "./utils.js";
-import { CommonFailedResponse } from "../../../typings/response.js";
+import type { CommonFailedResponse } from "../../../typings/index.js";
 import { request } from "../../api/index.js";
 import { getIETimeStamp } from "../../utils/browser.js";
+import type { AuthLoginFailedResponse } from "../auth/index.js";
 import { LoginFailType } from "../loginFailTypes.js";
-import { AuthLoginFailedResponse } from "../typings.js";
 import { isWebVPNPage } from "../utils.js";
 
 export interface PostGradeResult {

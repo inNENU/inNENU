@@ -4,12 +4,18 @@ import { UNDER_SYSTEM_SERVER } from "./utils.js";
 import type { CookieVerifyResponse } from "../../../typings/index.js";
 import { cookieStore, request } from "../../api/index.js";
 import type { AccountInfo } from "../../utils/typings.js";
+import type { AuthLoginFailedResponse } from "../auth/index.js";
 import { handleFailResponse } from "../fail.js";
-import type {
-  AuthLoginFailedResponse,
-  UnderSystemLoginResponse,
-  VPNLoginFailedResponse,
-} from "../typings.js";
+import type { VPNLoginFailedResponse } from "../typings.js";
+
+export interface UnderSystemLoginSuccessResponse {
+  success: true;
+}
+
+export type UnderSystemLoginResponse =
+  | UnderSystemLoginSuccessResponse
+  | AuthLoginFailedResponse
+  | VPNLoginFailedResponse;
 
 export const underSystemLogin = async (
   options: AccountInfo,

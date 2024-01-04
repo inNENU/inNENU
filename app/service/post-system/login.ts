@@ -4,12 +4,17 @@ import { POST_HTTPS_SERVER } from "./utils.js";
 import type { CookieVerifyResponse } from "../../../typings/index.js";
 import { cookieStore, request } from "../../api/index.js";
 import type { AccountInfo } from "../../utils/typings.js";
+import type { AuthLoginFailedResponse } from "../auth/index.js";
 import { handleFailResponse } from "../fail.js";
-import type {
-  AuthLoginFailedResponse,
-  PostSystemLoginResponse,
-  VPNLoginFailedResponse,
-} from "../typings.js";
+import type { VPNLoginFailedResponse } from "../typings.js";
+
+export interface PostSystemLoginSuccessResponse {
+  success: true;
+}
+
+export type PostSystemLoginResponse =
+  | PostSystemLoginSuccessResponse
+  | AuthLoginFailedResponse;
 
 export const postSystemLogin = async (
   options: AccountInfo,

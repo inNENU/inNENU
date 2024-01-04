@@ -1,20 +1,24 @@
 import { URLSearchParams, logger } from "@mptool/all";
 
+import { MY_MAIN_PAGE, MY_SERVER } from "./utils.js";
 import type {
   CommonFailedResponse,
   CookieVerifyResponse,
 } from "../../../typings/response.js";
 import { cookieStore, request } from "../../api/index.js";
 import type { AccountInfo, UserInfo } from "../../utils/typings.js";
+import type { AuthLoginFailedResponse } from "../auth/login.js";
 import { handleFailResponse } from "../fail.js";
-import type {
-  AuthLoginFailedResponse,
-  MyLoginResponse,
-  VPNLoginFailedResponse,
-} from "../typings.js";
+import type { VPNLoginFailedResponse } from "../typings.js";
 
-export const MY_SERVER = "https://my.webvpn.nenu.edu.cn";
-export const MY_MAIN_PAGE = `${MY_SERVER}/portal_main/toPortalPage`;
+export interface MyLoginSuccessResponse {
+  success: true;
+}
+
+export type MyLoginResponse =
+  | MyLoginSuccessResponse
+  | AuthLoginFailedResponse
+  | VPNLoginFailedResponse;
 
 export const myLogin = async (
   options: AccountInfo,

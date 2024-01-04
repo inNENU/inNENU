@@ -1,14 +1,13 @@
 import { URLSearchParams, logger } from "@mptool/all";
 
-import { MY_SERVER, getProcess, queryCompleteActions } from "./login.js";
+import { getProcess, queryCompleteActions } from "./login.js";
+import { MY_SERVER } from "./utils.js";
 import type { CommonFailedResponse } from "../../../typings/index.js";
 import { request } from "../../api/index.js";
 import type { AppOption } from "../../app.js";
 import { UserInfo } from "../../utils/typings.js";
-import type {
-  AuthLoginFailedResponse,
-  VPNLoginFailedResponse,
-} from "../typings.js";
+import type { AuthLoginFailedResponse } from "../auth/index.js";
+import type { VPNLoginFailedResponse } from "../typings.js";
 
 const { globalData } = getApp<AppOption>();
 

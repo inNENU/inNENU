@@ -1,10 +1,10 @@
 import { ACTION_SERVER } from "./utils.js";
-import type { RichTextNode } from "../../../typings/node.js";
-import type { CommonFailedResponse } from "../../../typings/response.js";
+import type { CommonFailedResponse } from "../../../typings/index.js";
 import { request } from "../../api/index.js";
+import type { RichTextNode } from "../../utils/parser.js";
 import { getRichTextNodes } from "../../utils/parser.js";
+import type { AuthLoginFailedResponse } from "../auth/index.js";
 import { LoginFailType } from "../loginFailTypes.js";
-import type { AuthLoginFailedResponse } from "../typings.js";
 
 const titleRegExp = /var title = '(.*?)';/;
 const fromRegExp = /var ly = '(.*?)'/;
