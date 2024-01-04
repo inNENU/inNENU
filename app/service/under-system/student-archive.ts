@@ -135,6 +135,7 @@ const getStudentArchive = async (
   ]);
 
   const path = pathRegExp.exec(content)?.[1] || "";
+  const canRegister = registerButtonRegExp.test(content);
 
   return {
     basic,
@@ -142,8 +143,8 @@ const getStudentArchive = async (
     examImage,
     study,
     family,
-    canRegister: registerButtonRegExp.test(content),
-    isRegistered: isRegisteredRegExp.test(content),
+    canRegister,
+    isRegistered: !canRegister || isRegisteredRegExp.test(content),
     path,
   };
 };
