@@ -1,7 +1,13 @@
 @import "../../styles/lib/icon";
 
+.info-wrapper {
+  display: flex;
+  flex-direction: column;
+}
+
 .info-list {
   padding: 6px 0;
+  flex: 1;
 }
 
 .info-item {

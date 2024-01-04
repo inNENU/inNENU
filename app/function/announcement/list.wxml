@@ -6,7 +6,7 @@
   background-color-bottom="{{color.bgColorBottom}}"
   root-background-color="{{color.bgColor}}"
 />
-<view class="{{theme}} grey">
+<view class="{{theme}} grey announcement-wrapper">
   <navbar nav="{{ { title } }}" />
   <view class="announcement-list">
     <error-hint wx:if="{{status === 'error'}}" catch:retry="retry" />

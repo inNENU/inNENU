@@ -1,7 +1,13 @@
 @import "../../styles/lib/icon";
 
+.academic-wrapper {
+  display: flex;
+  flex-direction: column;
+}
+
 .academic-list {
   padding: 6px 0;
+  flex: 1;
 }
 
 .academic-item {

@@ -1,7 +1,13 @@
 @import "../../styles/lib/icon";
 
+.announcement-wrapper {
+  display: flex;
+  flex-direction: column;
+}
+
 .announcement-list {
   padding: 6px 0;
+  flex: 1;
 }
 
 .announcement-item {
@@ -19,7 +25,7 @@
 
 .title {
   line-height: 1.25;
-  font-size: 18px;
+  font-size: 16px;
 }
 
 .person {
