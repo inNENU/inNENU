@@ -1,5 +1,5 @@
+import type { AppID, Env } from "./typings.js";
 import { request } from "../api/index.js";
-import type { AppID, Env } from "../utils/typings.js";
 
 interface LoginCallback {
   openid: string;

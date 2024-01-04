@@ -29,9 +29,9 @@ import {
   USER_INFO_KEY,
 } from "../config/index.js";
 
-const { globalData } = getApp<AppOption>();
-
 export const logout = (): void => {
+  const { globalData } = getApp<AppOption>();
+
   // cookies
   cookieStore.clear();
 
