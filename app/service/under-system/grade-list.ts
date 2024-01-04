@@ -15,7 +15,8 @@ import {
 import type { CommonFailedResponse } from "../../../typings/index.js";
 import { cookieStore, request } from "../../api/index.js";
 import { getIETimeStamp } from "../../utils/browser.js";
-import { LoginFailType, isWebVPNPage } from "../index.js";
+import { LoginFailType } from "../loginFailTypes.js";
+import { isWebVPNPage } from "../utils.js";
 
 const gradeItemRegExp = /<tr.+?class="smartTr"[^>]*?>([\s\S]*?)<\/tr>/g;
 const jsGradeItemRegExp = /<tr.+?class=\\"smartTr\\"[^>]*?>(.*?)<\/tr>/g;
@@ -27,14 +28,12 @@ const gradeDetailRegExp =
 
 const sqlRegExp =
   /<input\s+type="hidden"\s+name\s*=\s*"isSql"\s+id\s*=\s*"isSql"\s+value="([^"]*?)">/;
-
 const keyRegExp =
   /<input\s+type="hidden"\s+name\s*=\s*"key"\s+id\s*=\s*"key"\s+value="([^"]*?)">/;
-
 const xsIdRegExp =
   /<input\s+type="hidden"\s+name\s*=\s*"xsId"\s+id\s*=\s*"xsId"\s+value="([^"]*?)" \/>/;
 
-export type UnderCourseType =
+type UnderCourseType =
   | "通识教育必修课"
   | "通识教育选修课"
   | "专业教育必修课"
@@ -77,6 +76,43 @@ export interface ScoreDetail {
 export interface GradeDetail {
   usual: ScoreDetail[];
   exam: ScoreDetail | null;
+}
+
+export interface UnderGradeResult {
+  /** 修读时间 */
+  time: string;
+  /** 课程 id */
+  cid: string;
+  /** 课程名称 */
+  name: string;
+  /** 难度系数 */
+  difficulty: number;
+  /** 分数 */
+  grade: number;
+  /** 分数文本 */
+  gradeText: string | null;
+  /** 分数详情 */
+  gradeDetail: GradeDetail | null;
+  /** 绩点成绩 */
+  gradePoint: number;
+  /** 成绩标志 */
+  mark: string;
+  /** 课程类型 */
+  courseType: string;
+  /** 选修课类型 */
+  commonType: string;
+  /** 课程类型短称 */
+  shortCourseType: string;
+  /** 学时 */
+  hours: number | null;
+  /** 学分 */
+  point: number;
+  /** 考试性质 */
+  examType: string;
+  /** 补重学期 */
+  reLearn: string;
+  /** 审核状态 */
+  status: string;
 }
 
 const getScoreDetail = (content: string): ScoreDetail | null => {
@@ -187,44 +223,7 @@ const getUnderGrades = (
     }),
   );
 
-export interface UnderGradeResult {
-  /** 修读时间 */
-  time: string;
-  /** 课程 id */
-  cid: string;
-  /** 课程名称 */
-  name: string;
-  /** 难度系数 */
-  difficulty: number;
-  /** 分数 */
-  grade: number;
-  /** 分数文本 */
-  gradeText: string | null;
-  /** 分数详情 */
-  gradeDetail: GradeDetail | null;
-  /** 绩点成绩 */
-  gradePoint: number;
-  /** 成绩标志 */
-  mark: string;
-  /** 课程类型 */
-  courseType: string;
-  /** 选修课类型 */
-  commonType: string;
-  /** 课程类型短称 */
-  shortCourseType: string;
-  /** 学时 */
-  hours: number | null;
-  /** 学分 */
-  point: number;
-  /** 考试性质 */
-  examType: string;
-  /** 补重学期 */
-  reLearn: string;
-  /** 审核状态 */
-  status: string;
-}
-
-const getUnderGradeLists = async (
+export const getUnderGradeLists = async (
   content: string,
 ): Promise<UnderGradeResult[]> => {
   // We force writing these 2 field to ensure we care getting the default table structure
@@ -260,11 +259,10 @@ const getUnderGradeLists = async (
 
   await Promise.all(
     pages.map(async (page) => {
-      const { data: content } = await request<string>(QUERY_URL, {
+      const { data: responseText } = await request<string>(QUERY_URL, {
         method: "POST",
-        // TODO:
         headers: {
-          "Content-Type": "application/x-www-form-urlencoded",
+          Referer: QUERY_URL,
         },
         body: new URLSearchParams({
           xsId,
@@ -282,7 +280,7 @@ const getUnderGradeLists = async (
         }),
       });
 
-      const newGrades = await getUnderGrades(content, true);
+      const newGrades = await getUnderGrades(responseText, true);
 
       grades.push(...newGrades);
     }),
@@ -306,13 +304,11 @@ export interface UnderGradeListSuccessResponse {
   data: UnderGradeResult[];
 }
 
-export type UnderGradeListFailedResponse = CommonFailedResponse & {
-  type?: LoginFailType.Expired | "error";
-};
-
 export type UnderGradeListResponse =
   | UnderGradeListSuccessResponse
-  | UnderGradeListFailedResponse;
+  | (CommonFailedResponse & {
+      type?: LoginFailType.Expired;
+    });
 
 export const getUnderGradeList = async ({
   time = "",
@@ -321,11 +317,10 @@ export const getUnderGradeList = async ({
   gradeType = "all",
 }: UnderGradeListOptions): Promise<UnderGradeListResponse> => {
   try {
-    const { data: content } = await request<string>(QUERY_URL, {
+    const { data: content, status } = await request<string>(QUERY_URL, {
       method: "POST",
-      // TODO:
       headers: {
-        "Content-Type": "application/x-www-form-urlencoded",
+        Referer: `${UNDER_SYSTEM_SERVER}/jiaowu/cjgl/xszq/query_xscj.jsp?tktime=${getIETimeStamp()}`,
       },
       body: new URLSearchParams({
         kksj: time,
@@ -334,9 +329,10 @@ export const getUnderGradeList = async ({
         xsfs: gradeType === "best" ? "zhcj" : gradeType === "all" ? "qbcj" : "",
         ok: "",
       }),
+      redirect: "manual",
     });
 
-    if (isWebVPNPage(content)) {
+    if (status === 302 || isWebVPNPage(content)) {
       cookieStore.clear();
 
       return {
@@ -349,7 +345,6 @@ export const getUnderGradeList = async ({
     if (content.includes("评教未完成，不能查询成绩！"))
       return {
         success: false,
-        type: "error",
         msg: time
           ? "此学期评教未完成，不能查询成绩！"
           : "部分学期评教未完成，不能查阅全部成绩! 请分学期查询。",

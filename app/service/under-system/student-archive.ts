@@ -7,6 +7,19 @@ import { getIETimeStamp } from "../../utils/browser.js";
 import { LoginFailType } from "../loginFailTypes.js";
 import { isWebVPNPage } from "../utils.js";
 
+const infoRegExp =
+  /<td>(\S+)<\/td>\s+<td colspan="\d">(?:&nbsp;)*(.*?)(?:&nbsp;)*<\/td>/g;
+const studyRegExp =
+  /<td {2}>(\S+)<\/td>\s*<td {2}>(\S+)<\/td>\s*<td\scolspan="4">(\S+)<\/td>\s*<td {2}>(\S+)<\/td>\s*<td\scolspan="2">(\S+)<\/td>\s*<td {2}>(\S+)<\/td>/g;
+const familyRegExp =
+  /<td {2}>(\S+)<\/td>\s*<td {2}>(\S+)<\/td>\s*<td\scolspan="2">(\S+)<\/td>\s*<td\scolspan="2">(\S+)<\/td>\s*<td\scolspan="3">(\S+)<\/td>\s*<td {2}>(\S+)<\/td/g;
+const pathRegExp = /var newwin = window.showModalDialog\("(.+?)"\);/;
+const registerButtonRegExp =
+  /<input\s+type="button"\s+id="zc"\s+class="button"\s+value="确定注册"\s+onclick="bc\(\)"\/>/;
+const isRegisteredRegExp = /您已经提交注册信息/;
+
+const UNDER_STUDENT_ARCHIVE_QUERY_URL = `${UNDER_SYSTEM_SERVER}/xszhxxAction.do?method=addStudentPic_xszc`;
+
 export interface UnderBasicInfo {
   text: string;
   value: string;
@@ -60,32 +73,6 @@ export interface UnderStudentArchiveInfo {
   /** 注册路径 */
   path: string;
 }
-
-export interface GetUnderStudentArchiveOptions {
-  type?: "get";
-}
-
-export interface UnderGetStudentArchiveSuccessResponse {
-  success: true;
-  info: UnderStudentArchiveInfo;
-}
-
-export type UnderGetStudentArchiveResponse =
-  | UnderGetStudentArchiveSuccessResponse
-  | (CommonFailedResponse & { type?: LoginFailType.Expired });
-
-const infoRegExp =
-  /<td>(\S+)<\/td>\s+<td colspan="\d">(?:&nbsp;)*(.*?)(?:&nbsp;)*<\/td>/g;
-const studyRegExp =
-  /<td {2}>(\S+)<\/td>\s*<td {2}>(\S+)<\/td>\s*<td\scolspan="4">(\S+)<\/td>\s*<td {2}>(\S+)<\/td>\s*<td\scolspan="2">(\S+)<\/td>\s*<td {2}>(\S+)<\/td>/g;
-const familyRegExp =
-  /<td {2}>(\S+)<\/td>\s*<td {2}>(\S+)<\/td>\s*<td\scolspan="2">(\S+)<\/td>\s*<td\scolspan="2">(\S+)<\/td>\s*<td\scolspan="3">(\S+)<\/td>\s*<td {2}>(\S+)<\/td/g;
-const pathRegExp = /var newwin = window.showModalDialog\("(.+?)"\);/;
-const registerButtonRegExp =
-  /<input\s+type="button"\s+id="zc"\s+class="button"\s+value="确定注册"\s+onclick="bc\(\)"\/>/;
-const isRegisteredRegExp = /您已经提交注册信息/;
-
-const UNDER_STUDENT_ARCHIVE_QUERY_URL = `${UNDER_SYSTEM_SERVER}/xszhxxAction.do?method=addStudentPic_xszc`;
 
 const getStudentArchive = async (
   content: string,
@@ -155,19 +142,38 @@ const getStudentArchive = async (
     examImage,
     study,
     family,
-    path,
     canRegister: registerButtonRegExp.test(content),
     isRegistered: isRegisteredRegExp.test(content),
+    path,
   };
 };
 
+export interface GetUnderStudentArchiveOptions {
+  type?: "get";
+}
+
+export interface UnderGetStudentArchiveSuccessResponse {
+  success: true;
+  info: UnderStudentArchiveInfo;
+}
+
+export type UnderGetStudentArchiveResponse =
+  | UnderGetStudentArchiveSuccessResponse
+  | (CommonFailedResponse & { type?: LoginFailType.Expired });
+
 export const getUnderStudentArchive =
   async (): Promise<UnderGetStudentArchiveResponse> => {
-    const { data: content } = await request<string>(
+    const { data: content, status } = await request<string>(
       `${UNDER_STUDENT_ARCHIVE_QUERY_URL}&tktime=${getIETimeStamp()}`,
+      {
+        headers: {
+          Referer: `${UNDER_SYSTEM_SERVER}/framework/new_window.jsp?lianjie=&winid=win3`,
+        },
+        redirect: "manual",
+      },
     );
 
-    if (isWebVPNPage(content)) {
+    if (status === 302 || isWebVPNPage(content)) {
       cookieStore.clear();
 
       return {
@@ -202,3 +208,66 @@ export const useOnlineGetStudentArchive =
 
       return data;
     });
+
+const alertRegExp = /window.alert\('(.+?)'\)/;
+
+export interface RegisterUnderStudentArchiveOptions {
+  type?: "register";
+  path: string;
+}
+
+export interface UnderRegisterStudentArchiveSuccessResponse {
+  success: true;
+}
+
+export type UnderRegisterStudentArchiveResponse =
+  | UnderRegisterStudentArchiveSuccessResponse
+  | (CommonFailedResponse & { type?: LoginFailType.Expired });
+
+export const registerStudentArchive = async (
+  path: string,
+): Promise<UnderRegisterStudentArchiveResponse> => {
+  const url = `${UNDER_SYSTEM_SERVER}${path}`;
+
+  const { data: content, status } = await request<string>(url, {
+    headers: {
+      Referer: `${UNDER_SYSTEM_SERVER}/framework/new_window.jsp?lianjie=&winid=win3`,
+    },
+    redirect: "manual",
+  });
+
+  if (status === 302 || isWebVPNPage(content)) {
+    cookieStore.clear();
+
+    return {
+      success: false,
+      type: LoginFailType.Expired,
+      msg: "登录已过期，请重新登录",
+    };
+  }
+
+  const alert = alertRegExp.exec(content)?.[1] || "注册失败";
+
+  if (alert === "注册成功。") return { success: true };
+
+  return {
+    success: false,
+    msg: alert,
+  };
+};
+
+export const useOnlineRegisterStudentArchive = (
+  path: string,
+): Promise<UnderRegisterStudentArchiveResponse> =>
+  request<UnderRegisterStudentArchiveResponse>(
+    "/under-system/student-archive",
+    {
+      method: "POST",
+      body: { type: "register", path },
+      cookieScope: UNDER_SYSTEM_SERVER,
+    },
+  ).then(({ data }) => {
+    if (!data.success) logger.error("获取失败", data.msg);
+
+    return data;
+  });

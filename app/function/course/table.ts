@@ -8,14 +8,12 @@ import {
   LoginFailType,
   ensurePostSystemLogin,
   ensureUnderSystemLogin,
+  getDisplayTime,
   getOnlinePostCourseTable,
-  getPostCourseTable,
-} from "../../service/index.js";
-import {
   getOnlineUnderCourseTable,
+  getPostCourseTable,
   getUnderCourseTable,
-} from "../../service/under-system/course-table.js";
-import { getDisplayTime } from "../../service/under-system/grade-list.js";
+} from "../../service/index.js";
 import { DAY, MONTH } from "../../utils/constant.js";
 import { getColor, popNotice } from "../../utils/page.js";
 import type {

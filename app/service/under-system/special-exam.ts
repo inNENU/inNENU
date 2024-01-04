@@ -91,28 +91,25 @@ export const getSpecialExams = async (
 
   await Promise.all(
     pages.map(async (page) => {
-      const params = {
-        xsId,
-        keyCode,
-        PageNum: page.toString(),
-        printHQL,
-        ...(sqlString ? { sqlString } : {}),
-        isSql,
-        printPageSize,
-        key,
-        field,
-        totalPages: totalPages.toString(),
-        tableFields: DEFAULT_TABLE_FIELD,
-        otherFields: DEFAULT_OTHER_FIELD,
-      };
-
       const { data: responseText } = await request<string>(QUERY_URL, {
         method: "POST",
-        // TODO:
         headers: {
-          "Content-Type": "application/x-www-form-urlencoded",
+          Referer: QUERY_URL,
         },
-        body: new URLSearchParams(params),
+        body: new URLSearchParams({
+          xsId,
+          keyCode,
+          PageNum: page.toString(),
+          printHQL,
+          ...(sqlString ? { sqlString } : {}),
+          isSql,
+          printPageSize,
+          key,
+          field,
+          totalPages: totalPages.toString(),
+          tableFields: DEFAULT_TABLE_FIELD,
+          otherFields: DEFAULT_OTHER_FIELD,
+        }),
       });
 
       const newGrades = getGrades(responseText);
@@ -136,11 +133,17 @@ export type UnderSpecialExamResponse =
 export const getUnderSpecialExamScore =
   async (): Promise<UnderSpecialExamResponse> => {
     try {
-      const { data: content } = await request<string>(
+      const { data: content, status } = await request<string>(
         `${QUERY_URL}?tktime=${getIETimeStamp()}`,
+        {
+          headers: {
+            Referer: `${UNDER_SYSTEM_SERVER}/framework/new_window.jsp?lianjie=&winid=win5`,
+          },
+          redirect: "manual",
+        },
       );
 
-      if (isWebVPNPage(content)) {
+      if (status === 302 || isWebVPNPage(content)) {
         cookieStore.clear();
 
         return {
@@ -152,7 +155,7 @@ export const getUnderSpecialExamScore =
 
       const gradeList = await getSpecialExams(content);
 
-      return <UnderSpecialExamSuccessResponse>{
+      return {
         success: true,
         data: gradeList,
       };

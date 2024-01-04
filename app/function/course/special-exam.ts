@@ -4,12 +4,13 @@ import { retryAction, showModal } from "../../api/index.js";
 import type { AppOption } from "../../app.js";
 import { appCoverPrefix } from "../../config/info.js";
 import { SPECIAL_EXAM_DATA_KEY } from "../../config/keys.js";
-import { LoginFailType, ensureUnderSystemLogin } from "../../service/index.js";
-import type { UnderSpecialExamItem } from "../../service/under-system/special-exam.js";
+import type { UnderSpecialExamItem } from "../../service/index.js";
 import {
+  LoginFailType,
+  ensureUnderSystemLogin,
   getOnlineUnderSpecialExamScore,
   getUnderSpecialExamScore,
-} from "../../service/under-system/special-exam.js";
+} from "../../service/index.js";
 import { HOUR } from "../../utils/constant.js";
 import { getColor, popNotice } from "../../utils/page.js";
 
