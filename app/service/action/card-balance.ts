@@ -59,10 +59,9 @@ export const getCardBalance = async (): Promise<CardBalanceResponse> => {
 
       return <CardBalanceSuccessResponse>{
         success: true,
-        data:
-          balanceList[0]?.kye === "number"
-            ? Number(balanceList[0].kye) / 100
-            : 0,
+        data: balanceList[0]?.kye.match(/\d+/)
+          ? Number(balanceList[0].kye) / 100
+          : 0,
       };
     }
 
