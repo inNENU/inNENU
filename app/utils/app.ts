@@ -109,6 +109,7 @@ export const getGlobalData = (): GlobalData => {
 
 /** 注册全局监听 */
 const registerActions = (globalData: GlobalData): void => {
+  const { env, envName } = globalData;
   const debug = wx.getStorageSync<boolean | undefined>("debugMode") || false;
 
   wx.setEnableDebug({ enableDebug: debug });
@@ -138,7 +139,7 @@ const registerActions = (globalData: GlobalData): void => {
   wx.onNetworkStatusChange(({ isConnected }) => {
     // 显示提示
     if (!isConnected) {
-      showToast(`网络连接中断,部分${globalData.envName}功能暂不可用`);
+      showToast(`网络连接中断,部分${envName}功能暂不可用`);
       wx.setStorageSync("networkError", true);
     } else if (wx.getStorageSync("network")) {
       wx.setStorageSync("networkError", false);
@@ -148,23 +149,22 @@ const registerActions = (globalData: GlobalData): void => {
 
   // 监听用户截屏
   if (
-    wx.canIUse("onUserCaptureScreen") &&
+    ["wx", "qq"].includes(env) &&
     wx.getStorageSync("capture-screen") !== "never"
   ) {
-    // avoid issues on QQ
-    let pending = false;
+    // avoid duplicate modal on QQ
+    let isDisplayingModal = false;
 
-    wx.onUserCaptureScreen(() => {
+    wx.onUserCaptureScreen?.(() => {
       const status = wx.getStorageSync<"never" | "noticed" | undefined>(
         "capture-screen",
       );
 
-      if (status !== "never" && !pending) {
-        pending = true;
+      if (status !== "never" && !isDisplayingModal) {
+        isDisplayingModal = true;
         wx.showModal({
-          title: "善用小程序分享",
-          content:
-            "您可以点击右上角选择分享到好友、分享到朋友圈/空间\n您也可以点击页面右下角的分享图标，选择保存二维码分享小程序",
+          title: `善用${envName}分享`,
+          content: `您可以点击右上角选择分享到好友、分享到朋友圈/空间\n您也可以点击页面右下角的分享图标，选择保存${envName}二维码并分享`,
           showCancel: status === "noticed",
           cancelText: "不再提示",
           theme: "day",
@@ -176,7 +176,7 @@ const registerActions = (globalData: GlobalData): void => {
               if (wx.canIUse("offUserCaptureScreen")) wx.offUserCaptureScreen();
             }
 
-            pending = false;
+            isDisplayingModal = false;
           },
         });
       }
