@@ -166,12 +166,7 @@ export const getUnderStudentArchive =
   async (): Promise<UnderGetStudentArchiveResponse> => {
     const { data: content, status } = await request<string>(
       `${UNDER_STUDENT_ARCHIVE_QUERY_URL}&tktime=${getIETimeStamp()}`,
-      {
-        headers: {
-          Referer: `${UNDER_SYSTEM_SERVER}/framework/new_window.jsp?lianjie=&winid=win3`,
-        },
-        redirect: "manual",
-      },
+      { redirect: "manual" },
     );
 
     if (status === 302 || isWebVPNPage(content)) {
@@ -231,9 +226,6 @@ export const registerStudentArchive = async (
   const url = `${UNDER_SYSTEM_SERVER}${path}`;
 
   const { data: content, status } = await request<string>(url, {
-    headers: {
-      Referer: `${UNDER_SYSTEM_SERVER}/framework/new_window.jsp?lianjie=&winid=win3`,
-    },
     redirect: "manual",
   });
 

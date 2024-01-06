@@ -1,6 +1,6 @@
 import { URLSearchParams, logger } from "@mptool/all";
 
-import { ACTION_MAIN_PAGE, ACTION_SERVER } from "./utils.js";
+import { ACTION_SERVER } from "./utils.js";
 import type { CommonFailedResponse } from "../../../typings/index.js";
 import { request } from "../../api/index.js";
 import { LoginFailType } from "../loginFailTypes.js";
@@ -100,7 +100,6 @@ export const recentEmails = async (): Promise<ActionRecentMailResponse> => {
       method: "POST",
       headers: {
         Accept: "application/json, text/javascript, */*; q=0.01",
-        Referer: ACTION_MAIN_PAGE,
       },
       body: new URLSearchParams({
         domain: "nenu.edu.cn",

@@ -6,6 +6,8 @@ import type { AppOption } from "../../app.js";
 import { COURSE_DATA_KEY, appCoverPrefix } from "../../config/index.js";
 import {
   LoginFailType,
+  ensureOnlinePostSystemLogin,
+  ensureOnlineUnderSystemLogin,
   ensurePostSystemLogin,
   ensureUnderSystemLogin,
   getDisplayTime,
@@ -199,10 +201,9 @@ $Page(PAGE_ID, {
   async getUnderCourseData(time: string) {
     wx.showLoading({ title: "获取中" });
     try {
-      const err = await ensureUnderSystemLogin(
-        globalData.account!,
-        this.state.loginMethod,
-      );
+      const err = await (useOnlineService("under-login")
+        ? ensureOnlineUnderSystemLogin
+        : ensureUnderSystemLogin)(globalData.account!, this.state.loginMethod);
 
       if (err) throw err.msg;
 
@@ -246,10 +247,9 @@ $Page(PAGE_ID, {
     wx.showLoading({ title: "获取中" });
 
     try {
-      const err = await ensurePostSystemLogin(
-        globalData.account!,
-        this.state.loginMethod,
-      );
+      const err = await (useOnlineService("post-login")
+        ? ensureOnlinePostSystemLogin
+        : ensurePostSystemLogin)(globalData.account!, this.state.loginMethod);
 
       if (err) throw err.msg;
 

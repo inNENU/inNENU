@@ -87,7 +87,6 @@ export const queryMyActions = async <T extends Record<string, unknown>>(
       method: "POST",
       headers: {
         Accept: "application/json, text/javascript, */*; q=0.01",
-        Referer: actionPageUrl,
       },
       body: new URLSearchParams({
         tbName: key,

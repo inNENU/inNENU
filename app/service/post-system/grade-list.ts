@@ -1,9 +1,8 @@
 import { URLSearchParams, logger } from "@mptool/all";
 
-import { POST_HTTPS_SERVER } from "./utils.js";
+import { POST_SYSTEM_HTTPS_SERVER } from "./utils.js";
 import type { CommonFailedResponse } from "../../../typings/index.js";
 import { request } from "../../api/index.js";
-import { getIETimeStamp } from "../../utils/browser.js";
 import type { AuthLoginFailedResponse } from "../auth/index.js";
 import { LoginFailType } from "../loginFailTypes.js";
 import { isWebVPNPage } from "../utils.js";
@@ -77,7 +76,7 @@ const otherFieldsRegExp =
 const DEFAULT_TABLE_FIELD =
   "学号:1:1:90:a.xh,姓名:2:1:110:a.xm,开课学期:3:1:120:a.xqmc,课程名称:4:1:130:a.kcmc,总成绩:5:1:70:a.zcj,成绩标志:6:1:90:,课程性质:7:1:110:,课程类别:8:1:90:,学时:9:1:70:a.zxs,学分:10:1:70:a.xf,考试性质:11:1:100:ksxz.dmmc,补重学期:15:1:100:";
 const DEFAULT_OTHER_FIELD = "null";
-const QUERY_URL = `${POST_HTTPS_SERVER}/xszqcjglAction.do?method=queryxscj`;
+const QUERY_URL = `${POST_SYSTEM_HTTPS_SERVER}/xszqcjglAction.do?method=queryxscj`;
 
 const getDisplayTime = (time: string): string => {
   const [startYear, endYear, semester] = time.split("-");
@@ -168,9 +167,6 @@ const getPostGradeLists = async (
     pages.map(async (page) => {
       const { data } = await request<string>(QUERY_URL, {
         method: "POST",
-        headers: {
-          Referer: QUERY_URL,
-        },
         body: new URLSearchParams({
           keyCode,
           PageNum: page.toString(),
@@ -201,7 +197,6 @@ export const getPostGradeList = async (): Promise<PostGradeListResponse> => {
       method: "POST",
       headers: {
         "Content-Type": "application/x-www-form-urlencoded",
-        Referer: `${POST_HTTPS_SERVER}/jiaowu/cjgl/xszq/query_xscj.jsp?tktime=${getIETimeStamp()}`,
       },
       redirect: "manual",
     });
@@ -238,7 +233,7 @@ export const getPostGradeList = async (): Promise<PostGradeListResponse> => {
 export const getOnlinePostGradeList = (): Promise<PostGradeListResponse> =>
   request<PostGradeListResponse>("/post-system/grade-list", {
     method: "POST",
-    cookieScope: POST_HTTPS_SERVER,
+    cookieScope: POST_SYSTEM_HTTPS_SERVER,
   }).then(({ data }) => {
     if (!data.success) logger.error("获取失败", data.msg);
 

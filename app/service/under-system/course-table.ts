@@ -4,7 +4,6 @@ import { UNDER_SYSTEM_SERVER } from "./utils.js";
 import { CommonFailedResponse } from "../../../typings/response.js";
 import { cookieStore, request } from "../../api/index.js";
 import type { ClassItem, TableItem } from "../../function/course/typings.js";
-import { getIETimeStamp } from "../../utils/browser.js";
 import { getJSON } from "../../utils/json.js";
 import { LoginFailType, isWebVPNPage } from "../index.js";
 
@@ -77,9 +76,6 @@ export const getUnderCourseTable = async ({
     ).toString()}`;
 
     const { data: content, status } = await request<string>(QUERY_URL, {
-      headers: {
-        Referer: `${UNDER_SYSTEM_SERVER}/tkglAction.do?method=kbxxXs&tktime=${getIETimeStamp()}`,
-      },
       redirect: "manual",
     });
 

@@ -5,6 +5,7 @@ import type { AppOption } from "../../app.js";
 import { STUDENT_ARCHIVE_KEY } from "../../config/keys.js";
 import {
   LoginFailType,
+  ensureOnlineUnderSystemLogin,
   ensureUnderSystemLogin,
   getUnderStudentArchive,
   registerStudentArchive,
@@ -83,10 +84,9 @@ $Page(PAGE_ID, {
     wx.showLoading({ title: "获取中" });
 
     try {
-      const err = await ensureUnderSystemLogin(
-        globalData.account!,
-        this.state.loginMethod,
-      );
+      const err = await (useOnlineService("under-login")
+        ? ensureOnlineUnderSystemLogin
+        : ensureUnderSystemLogin)(globalData.account!, this.state.loginMethod);
 
       if (err) throw err.msg;
 
@@ -117,10 +117,9 @@ $Page(PAGE_ID, {
     wx.showLoading({ title: "注册中" });
 
     try {
-      const err = await ensureUnderSystemLogin(
-        globalData.account!,
-        this.state.loginMethod,
-      );
+      const err = await (useOnlineService("under-login")
+        ? ensureOnlineUnderSystemLogin
+        : ensureUnderSystemLogin)(globalData.account!, this.state.loginMethod);
 
       if (err) throw err.msg;
 

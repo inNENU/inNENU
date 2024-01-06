@@ -7,6 +7,7 @@ import { CHANGE_MAJOR_DATA_KEY } from "../../config/keys.js";
 import type { ChangeMajorPlan } from "../../service/index.js";
 import {
   LoginFailType,
+  ensureOnlineUnderSystemLogin,
   ensureUnderSystemLogin,
   getOnlineUnderChangeMajorPlan,
   getUnderChangeMajorPlans,
@@ -104,10 +105,9 @@ $Page(PAGE_ID, {
     wx.showLoading({ title: "获取中" });
 
     try {
-      const err = await ensureUnderSystemLogin(
-        globalData.account!,
-        this.state.loginMethod,
-      );
+      const err = await (useOnlineService("under-login")
+        ? ensureOnlineUnderSystemLogin
+        : ensureUnderSystemLogin)(globalData.account!, this.state.loginMethod);
 
       if (err) throw err.msg;
 

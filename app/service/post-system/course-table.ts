@@ -1,10 +1,9 @@
 import { URLSearchParams, logger } from "@mptool/all";
 
-import { POST_HTTPS_SERVER } from "./utils.js";
+import { POST_SYSTEM_HTTPS_SERVER } from "./utils.js";
 import type { CommonFailedResponse } from "../../../typings/index.js";
 import { cookieStore, request } from "../../api/index.js";
 import type { ClassItem, TableItem } from "../../function/course/typings.js";
-import { getIETimeStamp } from "../../utils/browser.js";
 import { getJSON } from "../../utils/json.js";
 import { LoginFailType } from "../loginFailTypes.js";
 import { isWebVPNPage } from "../utils.js";
@@ -69,7 +68,7 @@ export const getPostCourseTable = async ({
       "function/data/semester-start-time",
     );
 
-    const QUERY_URL = `${POST_HTTPS_SERVER}/tkglAction.do?${new URLSearchParams(
+    const QUERY_URL = `${POST_SYSTEM_HTTPS_SERVER}/tkglAction.do?${new URLSearchParams(
       {
         method: "goListKbByXs",
         xnxqh: time,
@@ -77,9 +76,6 @@ export const getPostCourseTable = async ({
     ).toString()}`;
 
     const { data: content, status } = await request<string>(QUERY_URL, {
-      headers: {
-        Referer: `${POST_HTTPS_SERVER}/tkglAction.do?method=kbxxXs&tktime=${getIETimeStamp()}`,
-      },
       redirect: "manual",
     });
 
@@ -118,7 +114,7 @@ export const getOnlinePostCourseTable = (
   request<PostCourseTableResponse>("/post-system/course-table", {
     method: "POST",
     body: options,
-    cookieScope: POST_HTTPS_SERVER,
+    cookieScope: POST_SYSTEM_HTTPS_SERVER,
   }).then(({ data }) => {
     if (!data.success) logger.error("获取失败", data.msg);
 

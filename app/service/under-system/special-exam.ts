@@ -93,9 +93,6 @@ export const getSpecialExams = async (
     pages.map(async (page) => {
       const { data: responseText } = await request<string>(QUERY_URL, {
         method: "POST",
-        headers: {
-          Referer: QUERY_URL,
-        },
         body: new URLSearchParams({
           xsId,
           keyCode,
@@ -136,9 +133,6 @@ export const getUnderSpecialExamScore =
       const { data: content, status } = await request<string>(
         `${QUERY_URL}?tktime=${getIETimeStamp()}`,
         {
-          headers: {
-            Referer: `${UNDER_SYSTEM_SERVER}/framework/new_window.jsp?lianjie=&winid=win5`,
-          },
           redirect: "manual",
         },
       );

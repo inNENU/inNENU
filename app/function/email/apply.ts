@@ -7,6 +7,7 @@ import type { ActivateEmailOptions } from "../../service/index.js";
 import {
   activateEmail,
   ensureMyLogin,
+  ensureOnlineMyLogin,
   getEmailInfo,
   onlineMyEmail,
 } from "../../service/index.js";
@@ -118,10 +119,9 @@ $Page(PAGE_ID, {
   async checkEmail() {
     wx.showLoading({ title: "加载中" });
 
-    const err = await ensureMyLogin(
-      globalData.account!,
-      this.state.loginMethod,
-    );
+    const err = await (useOnlineService("my-login")
+      ? ensureOnlineMyLogin
+      : ensureMyLogin)(globalData.account!, this.state.loginMethod);
 
     if (err) {
       wx.hideLoading();

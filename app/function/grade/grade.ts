@@ -10,6 +10,8 @@ import type {
 } from "../../service/index.js";
 import {
   LoginFailType,
+  ensureOnlinePostSystemLogin,
+  ensureOnlineUnderSystemLogin,
   ensurePostSystemLogin,
   ensureUnderSystemLogin,
   getOnlinePostGradeList,
@@ -181,10 +183,9 @@ $Page("course-grade", {
     wx.showLoading({ title: "获取中" });
 
     try {
-      const err = await ensureUnderSystemLogin(
-        globalData.account!,
-        this.state.loginMethod,
-      );
+      const err = await (useOnlineService("under-login")
+        ? ensureOnlineUnderSystemLogin
+        : ensureUnderSystemLogin)(globalData.account!, this.state.loginMethod);
 
       if (err) throw err.msg;
 
@@ -222,10 +223,9 @@ $Page("course-grade", {
     wx.showLoading({ title: "获取中" });
 
     try {
-      const err = await ensurePostSystemLogin(
-        globalData.account!,
-        this.state.loginMethod,
-      );
+      const err = await (useOnlineService("post-login")
+        ? ensureOnlinePostSystemLogin
+        : ensurePostSystemLogin)(globalData.account!, this.state.loginMethod);
 
       if (err) throw err.msg;
 

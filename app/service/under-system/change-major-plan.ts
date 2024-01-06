@@ -123,9 +123,6 @@ export const getPlanList = async (
     pages.map(async (page) => {
       const { data: responseText } = await request<string>(QUERY_URL, {
         method: "POST",
-        headers: {
-          Referer: QUERY_URL,
-        },
         body: new URLSearchParams({
           keyCode,
           PageNum: page.toString(),

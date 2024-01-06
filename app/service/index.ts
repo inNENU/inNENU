@@ -9,4 +9,4 @@ export * from "./my/index.js";
 export * from "./post-system/index.js";
 export * from "./under-system/index.js";
 export * from "./utils.js";
-export type * from "./typings.js";
+export * from "./vpn/index.js";

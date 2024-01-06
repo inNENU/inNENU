@@ -62,9 +62,6 @@ const getExamPlaces = (content: string): ExamPlace[] =>
 export const getExamList = async (value: string): Promise<ExamPlace[]> => {
   const { data: content } = await request<string>(QUERY_URL, {
     method: "POST",
-    headers: {
-      Referer: INFO_URL,
-    },
     body: new URLSearchParams({
       xnxq: "",
       kskzid: value,
@@ -115,9 +112,6 @@ export const getExamList = async (value: string): Promise<ExamPlace[]> => {
 
       const { data: responseText } = await request<string>(INFO_URL, {
         method: "POST",
-        headers: {
-          Referer: INFO_URL,
-        },
         body: new URLSearchParams(params),
       });
 

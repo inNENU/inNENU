@@ -1,6 +1,6 @@
 import { URLSearchParams, logger } from "@mptool/all";
 
-import { ACTION_MAIN_PAGE, ACTION_SERVER } from "./utils.js";
+import { ACTION_SERVER } from "./utils.js";
 import type { CommonFailedResponse } from "../../../typings/index.js";
 import { request } from "../../api/index.js";
 
@@ -33,7 +33,6 @@ export const emailPage = async (mid = ""): Promise<ActionEmailPageResponse> => {
       method: "POST",
       headers: {
         Accept: "application/json, text/javascript, */*; q=0.01",
-        Referer: ACTION_MAIN_PAGE,
       },
       body: new URLSearchParams({
         ...(mid ? { domain: "nenu.edu.cn", mid } : {}),

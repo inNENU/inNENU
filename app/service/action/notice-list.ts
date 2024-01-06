@@ -84,7 +84,6 @@ export const getNoticeList = async ({
       method: "POST",
       headers: {
         Accept: "application/json, text/javascript, */*; q=0.01",
-        Referer: `${ACTION_SERVER}/basicInfo/studentPageTurn?type=lifeschool`,
       },
       body: new URLSearchParams({
         type,

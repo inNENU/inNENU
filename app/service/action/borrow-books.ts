@@ -129,7 +129,6 @@ export const getBorrowBooks = async (): Promise<BorrowBooksResponse> => {
   const { data, status } = await request<RawBorrowBooksData>(BORROW_BOOKS_URL, {
     headers: {
       Accept: "application/json, text/javascript, */*; q=0.01",
-      Referer: `${ACTION_SERVER}/basicInfo/studentPageTurn?type=lifestudying&tg=bookborrow`,
     },
     cookieScope: ACTION_SERVER,
     redirect: "manual",

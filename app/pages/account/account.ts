@@ -12,14 +12,20 @@ import {
   appCoverPrefix,
   assets,
 } from "../../config/index.js";
-import { LoginFailType, authInit, getAuthInit } from "../../service/index.js";
+import {
+  LoginFailType,
+  authInitInfo,
+  initAuth,
+  onlineAuthInitInfo,
+  onlineInitAuth,
+} from "../../service/index.js";
 import { getLicenseStatus } from "../../utils/agreement.js";
 import { MONTH } from "../../utils/constant.js";
 import { logout } from "../../utils/logout.js";
 import { popNotice } from "../../utils/page.js";
 import type { UserInfo } from "../../utils/typings.js";
 
-const { globalData } = getApp<AppOption>();
+const { globalData, useOnlineService } = getApp<AppOption>();
 const { envName } = globalData;
 
 const PAGE_ID = "account";
@@ -166,7 +172,9 @@ $Page(PAGE_ID, {
 
     if (id.length !== 10) return;
 
-    return getAuthInit(id).then((result) => {
+    return (
+      useOnlineService("auth-init-info") ? onlineAuthInitInfo : authInitInfo
+    )(id).then((result) => {
       if (!result.success) return showModal("登录失败", result.msg);
 
       const { captcha, params, salt } = result;
@@ -201,7 +209,9 @@ $Page(PAGE_ID, {
     wx.setStorageSync("license", (await getLicenseStatus()).version);
 
     try {
-      const result = await authInit({
+      const result = await (useOnlineService("init-auth")
+        ? onlineInitAuth
+        : initAuth)({
         ...this.state.initOptions,
         id: Number(id),
         password,

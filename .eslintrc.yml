@@ -22,6 +22,8 @@ plugins:
 ignorePatterns:
   - app/function/utils/encoder.js
   - app/function/utils/encoder.d.ts
+  - app/service/auth/encrypt.js
+  - app/service/auth/encrypt.d.ts
   - app/utils/parser.js
   - app/utils/parser.d.ts
   - dist/

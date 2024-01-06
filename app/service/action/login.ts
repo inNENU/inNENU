@@ -6,7 +6,7 @@ import { cookieStore, request } from "../../api/index.js";
 import type { AccountInfo } from "../../utils/typings.js";
 import type { AuthLoginFailedResponse } from "../auth/index.js";
 import { handleFailResponse } from "../fail.js";
-import type { VPNLoginFailedResponse } from "../typings.js";
+import type { VPNLoginFailedResponse } from "../vpn/index.js";
 
 export interface ActionLoginSuccessResponse {
   success: true;

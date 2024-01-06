@@ -1,5 +1,6 @@
 app/function/music/music.wxs
 app/function/utils/encoder.js
+app/service/auth/encrypt.js
 app/utils/parser.js
 
 dist/**

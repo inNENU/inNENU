@@ -1,6 +1,6 @@
 import { URLSearchParams } from "@mptool/all";
 
-import { MY_MAIN_PAGE, MY_SERVER } from "./utils.js";
+import { MY_SERVER } from "./utils.js";
 import type { CommonFailedResponse } from "../../../typings/index.js";
 import { request } from "../../api/index.js";
 import type { AuthLoginFailedResponse } from "../auth/index.js";
@@ -42,7 +42,6 @@ export const getProcess = async (
       method: "POST",
       headers: {
         Accept: "application/json, text/javascript, */*; q=0.01",
-        Referer: MY_MAIN_PAGE,
       },
       body: new URLSearchParams({ isFormPathDetail: "false" }),
       redirect: "manual",

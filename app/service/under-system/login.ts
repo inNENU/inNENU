@@ -1,12 +1,19 @@
 import { logger } from "@mptool/all";
 
+import {
+  checkOnlineUnderSystemCookie,
+  checkUnderSystemCookie,
+} from "./check.js";
 import { UNDER_SYSTEM_SERVER } from "./utils.js";
-import type { CookieVerifyResponse } from "../../../typings/index.js";
 import { cookieStore, request } from "../../api/index.js";
 import type { AccountInfo } from "../../utils/typings.js";
 import type { AuthLoginFailedResponse } from "../auth/index.js";
+import { authLogin } from "../auth/index.js";
 import { handleFailResponse } from "../fail.js";
-import type { VPNLoginFailedResponse } from "../typings.js";
+import { LoginFailType } from "../loginFailTypes.js";
+import { supportRedirect } from "../utils.js";
+import type { VPNLoginFailedResponse } from "../vpn/index.js";
+import { vpnCASLogin } from "../vpn/login.js";
 
 export interface UnderSystemLoginSuccessResponse {
   success: true;
@@ -18,6 +25,74 @@ export type UnderSystemLoginResponse =
   | VPNLoginFailedResponse;
 
 export const underSystemLogin = async (
+  options: AccountInfo,
+): Promise<UnderSystemLoginResponse> => {
+  if (!supportRedirect) return onlineUnderSystemLogin(options);
+
+  const vpnLoginResult = await vpnCASLogin(options);
+
+  if (!vpnLoginResult.success) return vpnLoginResult;
+
+  const result = await authLogin(options, {
+    service: "http://dsjx.nenu.edu.cn:80/",
+    webVPN: true,
+  });
+
+  if (!result.success) {
+    console.error(result.msg);
+
+    return {
+      success: false,
+      type: result.type,
+      msg: result.msg,
+    };
+  }
+
+  console.log("Login location", result.location);
+
+  const ticketResponse = await request<string>(result.location, {
+    redirect: "manual",
+  });
+
+  if (ticketResponse.status !== 302)
+    return {
+      success: false,
+      type: LoginFailType.Unknown,
+      msg: "登录失败",
+    };
+
+  const finalLocation = ticketResponse.headers.get("Location");
+
+  if (finalLocation?.includes("http://wafnenu.nenu.edu.cn/offCampus.html"))
+    return {
+      success: false,
+      type: LoginFailType.Forbidden,
+      msg: "此账户无法登录本科教学服务系统",
+    };
+
+  if (finalLocation?.includes(";jsessionid=")) {
+    const ssoUrl = `${UNDER_SYSTEM_SERVER}/Logon.do?method=logonBySSO`;
+
+    await request(ssoUrl, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/x-www-form-urlencoded",
+      },
+    });
+
+    return {
+      success: true,
+    };
+  }
+
+  return {
+    success: false,
+    type: LoginFailType.Unknown,
+    msg: "登录失败",
+  };
+};
+
+export const onlineUnderSystemLogin = async (
   options: AccountInfo,
 ): Promise<UnderSystemLoginResponse> => {
   const { data } = await request<UnderSystemLoginResponse>(
@@ -37,12 +112,6 @@ export const underSystemLogin = async (
   return data;
 };
 
-export const checkUnderSystemCookie = (): Promise<CookieVerifyResponse> =>
-  request<CookieVerifyResponse>("/under-system/check", {
-    method: "POST",
-    cookieScope: UNDER_SYSTEM_SERVER,
-  }).then(({ data }) => data);
-
 export const ensureUnderSystemLogin = async (
   account: AccountInfo,
   status: "check" | "validate" | "login" = "check",
@@ -60,6 +129,27 @@ export const ensureUnderSystemLogin = async (
   }
 
   const result = await underSystemLogin(account);
+
+  return result.success ? null : result;
+};
+
+export const ensureOnlineUnderSystemLogin = async (
+  account: AccountInfo,
+  status: "check" | "validate" | "login" = "check",
+): Promise<AuthLoginFailedResponse | VPNLoginFailedResponse | null> => {
+  if (status !== "login") {
+    const cookies = cookieStore.getCookies(UNDER_SYSTEM_SERVER);
+
+    if (cookies.length) {
+      if (status === "check") return null;
+
+      const { valid } = await checkOnlineUnderSystemCookie();
+
+      if (valid) return null;
+    }
+  }
+
+  const result = await onlineUnderSystemLogin(account);
 
   return result.success ? null : result;
 };

@@ -40,7 +40,6 @@ export const getCardBalance = async (): Promise<CardBalanceResponse> => {
         headers: {
           Accept: "application/json, text/javascript, */*; q=0.01",
           "Content-Type": "application/x-www-form-urlencoded; charset=UTF-8",
-          Referer: `${ACTION_SERVER}/basicInfo/studentPageTurn?type=lifeschool`,
         },
         body: CARD_BALANCE_PARAMS,
         redirect: "manual",

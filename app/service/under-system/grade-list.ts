@@ -261,9 +261,6 @@ export const getUnderGradeLists = async (
     pages.map(async (page) => {
       const { data: responseText } = await request<string>(QUERY_URL, {
         method: "POST",
-        headers: {
-          Referer: QUERY_URL,
-        },
         body: new URLSearchParams({
           xsId,
           keyCode,
@@ -319,9 +316,6 @@ export const getUnderGradeList = async ({
   try {
     const { data: content, status } = await request<string>(QUERY_URL, {
       method: "POST",
-      headers: {
-        Referer: `${UNDER_SYSTEM_SERVER}/jiaowu/cjgl/xszq/query_xscj.jsp?tktime=${getIETimeStamp()}`,
-      },
       body: new URLSearchParams({
         kksj: time,
         kcxz: courseType ? COURSE_TYPES[courseType] || "" : "",
