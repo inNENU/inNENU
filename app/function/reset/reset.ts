@@ -13,6 +13,7 @@ import {
   resetPasswordOnline,
   sendSMS,
   setNewPassword,
+  supportRedirect,
   verifyAccount,
   verifySMS,
 } from "../../service/index.js";
@@ -44,7 +45,10 @@ $Page(PAGE_ID, {
     footer: {
       desc: `\
 『重置说明』
-${envName}通过接入官方接口提供密码重置服务，您所填写的信息会直接发送(或经${envName}转发)给官方服务器，在这一过程中，Mr.Hope 不会收集并存储您的任何信息。\
+${envName}严格使用官方密码重置服务流程。
+您所填写的信息会直接发送给官方服务器${
+        supportRedirect ? "" : "，Mr.Hope 不会收集并存储您的任何信息"
+      }。\
 `,
     },
 
