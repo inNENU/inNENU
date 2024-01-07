@@ -127,32 +127,24 @@ $Page("settings", {
       },
     });
 
-    // FIXME: It will stuck devTools
-    if (globalData.info.platform !== "devtools")
-      wx.getFileSystemManager().stat({
-        path: wx.env.USER_DATA_PATH,
-        recursive: true,
-        success: ({ stats }) => {
-          // FIXME: https://github.com/wechat-miniprogram/api-typings/issues/226
-          // eslint-disable-next-line @typescript-eslint/no-explicit-any
-          const fileSize = (
-            stats as unknown as {
-              path: string;
-              stats: WechatMiniprogram.Stats;
-            }[]
-          ).reduce((total, element) => element.stats.size + total, 0);
+    wx.getFileSystemManager().stat({
+      path: wx.env.USER_DATA_PATH,
+      recursive: true,
+      success: ({ stats }) => {
+        const fileSize = (<WechatMiniprogram.FileStats[]>stats).reduce(
+          (total, element) => element.stats.size + total,
+          0,
+        );
 
-          // 写入文件大小
-          this.setData({
-            // eslint-disable-next-line @typescript-eslint/naming-convention
-            "page.content[2].items[2].desc": `${(
-              fileSize /
-              1024 /
-              1024
-            ).toFixed(2)}MB/10MB`,
-          });
-        },
-      });
+        // 写入文件大小
+        this.setData({
+          // eslint-disable-next-line @typescript-eslint/naming-convention
+          "page.content[2].items[2].desc": `${(fileSize / 1024 / 1024).toFixed(
+            2,
+          )}MB/10MB`,
+        });
+      },
+    });
   },
 
   updateTheme(value: string) {

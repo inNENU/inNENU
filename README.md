@@ -9,19 +9,28 @@
 ### Request 域名
 
 ```
-https://assets.innenu.com;
 https://innenu.com;
+https://assets.innenu.com;
 https://mp.innenu.com;
 https://service.innenu.com;
+
 https://wis.qq.com;
+
 https://activate.nenu.edu.cn;
 https://authserver.nenu.edu.cn;
-https://dsjx.webvpn.nenu.edu.cn;
-https://m-443.webvpn.nenu.edu.cn;
-https://my.webvpn.nenu.edu.cn;
-https://webvpn.nenu.edu.cn;
+https://bkjx.nenu.edu.cn;
+https://bkzsw.nenu.edu.cn;
+https://dsyjs.nenu.edu.cn;
+https://math127.nenu.edu.cn;
+https://www.library.nenu.edu.cn;
 https://www.nenu.edu.cn;
 https://yzb.nenu.edu.cn;
+
+https://webvpn.nenu.edu.cn;
+https://authserver-443.webvpn.nenu.edu.cn;
+https://dsjx.webvpn.nenu.edu.cn;
+https://my.webvpn.nenu.edu.cn;
+https://m-443.webvpn.nenu.edu.cn;
 ```
 
 ### Download File 域名

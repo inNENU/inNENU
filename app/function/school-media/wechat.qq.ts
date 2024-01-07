@@ -195,7 +195,7 @@ $Page(PAGE_ID, {
   follow() {
     const { qrcode, id } = this.data;
 
-    savePhoto(qrcode ?? `https://open.weixin.qq.com/qr/code?username=${id}`)
+    savePhoto(qrcode || `https://open.weixin.qq.com/qr/code?username=${id}`)
       .then(() => showToast("二维码已存至相册"))
       .catch(() => showToast("二维码保存失败"));
   },
