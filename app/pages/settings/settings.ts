@@ -8,6 +8,7 @@ import type {
 } from "../../../typings/index.js";
 import { confirmAction, showModal } from "../../api/index.js";
 import type { AppOption } from "../../app.js";
+import { supportRedirect } from "../../service/utils.js";
 import { getColor, popNotice, setPage } from "../../utils/page.js";
 import { resetApp } from "../../utils/reset.js";
 import { defaultResources, downloadResource } from "../../utils/resource.js";
@@ -41,6 +42,16 @@ $Page("settings", {
             {
               text: "自定义主页小组件",
               url: "widget-settings",
+            },
+          ],
+        },
+        {
+          tag: "list",
+          header: "小程序功能",
+          items: [
+            {
+              text: "本地登录",
+              desc: `${supportRedirect ? "" : "不"}支持`,
             },
           ],
         },
@@ -109,7 +120,7 @@ $Page("settings", {
         // 写入存储大小
         this.setData({
           // eslint-disable-next-line @typescript-eslint/naming-convention
-          "page.content[1].items[1].desc": `${(currentSize / 1024).toFixed(
+          "page.content[2].items[1].desc": `${(currentSize / 1024).toFixed(
             2,
           )}MB/10MB`,
         });
@@ -134,7 +145,7 @@ $Page("settings", {
           // 写入文件大小
           this.setData({
             // eslint-disable-next-line @typescript-eslint/naming-convention
-            "page.content[1].items[2].desc": `${(
+            "page.content[2].items[2].desc": `${(
               fileSize /
               1024 /
               1024

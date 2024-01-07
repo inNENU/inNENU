@@ -18,6 +18,7 @@ import {
   initAuth,
   onlineAuthInitInfo,
   onlineInitAuth,
+  supportRedirect,
 } from "../../service/index.js";
 import { getLicenseStatus } from "../../utils/agreement.js";
 import { MONTH } from "../../utils/constant.js";
@@ -40,7 +41,13 @@ ${envName}需自动完成登录以提供基于账户的功能。您可能需要�
 2. 账户登录失败次数过多或异地登录时将无法自动登录，此时你需要重新登录并填写验证码。
 
 『隐私说明』
-Mr.Hope 会严格遵守隐私协议的要求，您的账号、密码与个人信息将仅存储在本地，并在卸载${envName}时一并删除。Mr.Hope 不会收集并存储您的任何信息。
+Mr.Hope 会严格遵守隐私协议的要求。
+${
+  supportRedirect
+    ? "您的账号、密码与个人信息将仅存储在本地，并会直接通过小程序登录各系统。Mr.Hope 不能收集并存储这些信息。"
+    : "您的账号、密码与个人信息将仅存储在本地，使用时将会经小程序服务器转发给学校各服务系统。Mr.Hope 不会在此过程中收集或存储任何信息。"
+}
+全部个人信息将在卸载${envName}一并删除。
 `;
 
 const getDisplay = ({

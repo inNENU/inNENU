@@ -23,6 +23,7 @@ import {
   replacePhone,
   sendSms,
   setPassword,
+  supportRedirect,
 } from "../../service/index.js";
 import { MINUTE } from "../../utils/constant.js";
 import { getColor, popNotice } from "../../utils/page.js";
@@ -52,7 +53,12 @@ $Page(PAGE_ID, {
     footer: {
       desc: `\
 『激活说明』
-${envName}提供和官方相同的激活流程，您所填写的信息会直接发送(或经${envName}转发)给官方服务器，在这一过程中，Mr.Hope 不会收集并存储您的任何信息。\
+${envName}严格使用官方激活流程。
+您所填写的信息会${
+        supportRedirect ? "直接发送" : `经${envName}转发`
+      }给官方服务器${
+        supportRedirect ? "" : "，Mr.Hope 不会收集并存储您的任何信息"
+      }。\
 `,
     },
 
