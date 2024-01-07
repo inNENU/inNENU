@@ -1,7 +1,8 @@
+import type { RichTextNode } from "@mptool/all";
+import { getRichTextNodes } from "@mptool/all";
+
 import type { CommonFailedResponse } from "../../../typings/index.js";
 import { request } from "../../api/index.js";
-import type { RichTextNode } from "../../utils/parser.js";
-import { getRichTextNodes } from "../../utils/parser.js";
 
 const POST_ENROLL_PLAN_URL = "https://yzb.nenu.edu.cn/tmp/2024ssml.html";
 const schoolInfoRegExp =

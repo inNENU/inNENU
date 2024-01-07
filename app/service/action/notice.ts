@@ -1,10 +1,12 @@
+import type { RichTextNode } from "@mptool/all";
+import { getRichTextNodes } from "@mptool/all";
+
 import { ACTION_SERVER } from "./utils.js";
 import type { CommonFailedResponse } from "../../../typings/index.js";
 import { request } from "../../api/index.js";
-import type { RichTextNode } from "../../utils/parser.js";
-import { getRichTextNodes } from "../../utils/parser.js";
 import type { AuthLoginFailedResponse } from "../auth/index.js";
 import { LoginFailType } from "../loginFailTypes.js";
+import { MY_SERVER } from "../my/utils.js";
 
 const titleRegExp = /var title = '(.*?)';/;
 const fromRegExp = /var ly = '(.*?)'/;
@@ -64,13 +66,22 @@ export const getNotice = async ({
       time,
       pageView: Number(pageView),
       content: await getRichTextNodes(content, {
-        getLinkText: (link) =>
-          link.startsWith(ACTION_SERVER) ||
-          link.startsWith("https://my.webvpn.nenu.edu.cn")
-            ? null
-            : link,
-        // TODO: Support image
-        getImageSrc: () => null,
+        transform: {
+          a: (node) => {
+            const href = node.attrs?.href;
+
+            if (
+              href &&
+              !href.startsWith(ACTION_SERVER) &&
+              !href.startsWith(MY_SERVER)
+            )
+              node.children?.push({ type: "text", text: ` (${href})` });
+
+            return node;
+          },
+          // TODO: Support image
+          img: () => null,
+        },
       }),
     };
   } catch (err) {

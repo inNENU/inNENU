@@ -1,8 +1,9 @@
+import type { RichTextNode } from "@mptool/all";
+import { getRichTextNodes } from "@mptool/all";
+
 import { MAIN_URL, getPageView } from "./utils.js";
 import type { CommonFailedResponse } from "../../../typings/index.js";
 import { request } from "../../api/index.js";
-import type { RichTextNode } from "../../utils/parser.js";
-import { getRichTextNodes } from "../../utils/parser.js";
 
 const infoRegExp =
   /<div class="ar_tit">\s*<h3>([^>]+)<\/h3>\s*<h6>([\s\S]+?)<\/h6>/;
@@ -56,18 +57,24 @@ export const getInfo = async (url: string): Promise<MainInfoResponse> => {
       editor,
       pageView,
       content: await getRichTextNodes(content, {
-        getClass: (tag, className) =>
-          tag === "img"
-            ? className
-              ? `img ${className}`
-              : "img"
-            : className ?? null,
-        getImageSrc: (src) =>
-          src.includes("/fileTypeImages/")
-            ? null
-            : src.startsWith("/")
-              ? `${MAIN_URL}${src}`
-              : src,
+        transform: {
+          img: (node) => {
+            const src = node.attrs?.src;
+
+            if (src) {
+              if (src.includes("/fileTypeImages/")) return null;
+
+              if (src.startsWith("/")) node.attrs!.src = `${MAIN_URL}${src}`;
+            }
+
+            return node;
+          },
+          td: (node) => {
+            delete node.attrs?.style;
+
+            return node;
+          },
+        },
       }),
     };
   } catch (err) {
