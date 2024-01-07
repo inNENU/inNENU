@@ -40,13 +40,23 @@
     type="{{type}}"
     class="{{utils.getSize(type)}}"
   />
-  <starred-info-widget
-    wx:elif="{{tag === 'starred-info'}}"
+  <recent-notice-widget
+    wx:elif="{{tag === 'recent-notice'}}"
     type="{{type}}"
     class="{{utils.getSize(type)}}"
   />
-  <recent-notice-widget
-    wx:elif="{{tag === 'recent-notice'}}"
+  <starred-academic-widget
+    wx:elif="{{tag === 'starred-academic'}}"
+    type="{{type}}"
+    class="{{utils.getSize(type)}}"
+  />
+  <starred-announcement-widget
+    wx:elif="{{tag === 'starred-announcement'}}"
+    type="{{type}}"
+    class="{{utils.getSize(type)}}"
+  />
+  <starred-info-widget
+    wx:elif="{{tag === 'starred-info'}}"
     type="{{type}}"
     class="{{utils.getSize(type)}}"
   />

@@ -7,12 +7,14 @@
     "email-widget": "/widgets/email/email",
     "library-borrow-widget": "/widgets/library/borrow",
     "library-people-widget": "/widgets/library/people",
-    "recent-academic-widget": "/widgets/info/academic",
-    "recent-announcement-widget": "/widgets/info/announcement",
-    "recent-info-widget": "/widgets/info/info",
-    "starred-info-widget": "/widgets/info/star",
-    "recent-notice-widget": "/widgets/notice/recent",
-    "starred-notice-widget": "/widgets/notice/star",
+    "recent-academic-widget": "/widgets/recent/academic",
+    "recent-announcement-widget": "/widgets/recent/announcement",
+    "recent-info-widget": "/widgets/recent/info",
+    "recent-notice-widget": "/widgets/recent/notice",
+    "starred-academic-widget": "/widgets/star/academic",
+    "starred-announcement-widget": "/widgets/star/announcement",
+    "starred-info-widget": "/widgets/star/info",
+    "starred-notice-widget": "/widgets/star/notice",
     "weather-widget": "/widgets/weather/weather"
   }
 }

@@ -1,0 +1,25 @@
+<view class="starred-academic widget {{size}} wrapper-class">
+  <view class="widget-header">收藏会议</view>
+  <view class="widget-body">
+    <view class="widget-content">
+      <view wx:if="{{data.length}}" class="list">
+        <view
+          wx:for="{{data}}"
+          wx:key="title"
+          class="item"
+          hover-class="button-hover"
+          hover-start-time="0"
+          hover-stay-time="0"
+          data-index="{{index}}"
+          catch:tap="viewNotice"
+        >
+          <view class="title {{size}}">{{item.title}}</view>
+          <view>{{item.time}}</view>
+          <view>{{item.person}}</view>
+          <view>{{item.location}}</view>
+        </view>
+      </view>
+      <view wx:else class="widget-hint-text">暂无收藏</view>
+    </view>
+  </view>
+</view>

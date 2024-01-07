@@ -9,7 +9,7 @@ import {
 } from "../../config/index.js";
 import { getAcademic, getOnlineAcademic } from "../../service/index.js";
 import { getColor, popNotice } from "../../utils/page.js";
-import type { StarredAcademic } from "../../widgets/info/typings.js";
+import type { StarredAcademic } from "../../widgets/star/typings.js";
 
 const { globalData, useOnlineService } = getApp<AppOption>();
 
@@ -23,17 +23,22 @@ $Page(PAGE_ID, {
   },
 
   state: {
-    url: "",
     title: "",
+    person: "",
+    url: "",
     info: <StarredAcademic | null>null,
   },
 
-  onLoad({ scene = "", title = "", url = scene }) {
+  onLoad({ scene = "", title = "", person = "", url = scene }) {
     const starredInfos =
       get<StarredAcademic[]>(STARRED_ACADEMIC_LIST_KEY) ?? [];
 
-    this.state.title = title;
-    this.state.url = url;
+    this.state = {
+      ...this.state,
+      title,
+      url,
+      person,
+    };
 
     if (!url) {
       showModal("无法获取", "请提供 ID", () => {
@@ -47,6 +52,7 @@ $Page(PAGE_ID, {
       color: getColor(),
       theme: globalData.theme,
       title,
+      person,
       share: {
         title,
         shareable: true,
@@ -61,35 +67,35 @@ $Page(PAGE_ID, {
   },
 
   onShareAppMessage(): WechatMiniprogram.Page.ICustomShareContent {
-    const { url, title } = this.state;
+    const { title, person, url } = this.state;
 
     return {
       title,
-      path: `/function/academic/detail?title=${title}&url=${url}`,
+      path: `/function/academic/detail?title=${title}&person=${person}&url=${url}`,
     };
   },
 
   onShareTimeline(): WechatMiniprogram.Page.ICustomTimelineContent {
-    const { url, title } = this.state;
+    const { title, person, url } = this.state;
 
     return {
       title,
-      query: `title=${title}&url=${url}`,
+      query: `title=${title}&person=${person}&url=${url}`,
     };
   },
 
   onAddToFavorites(): WechatMiniprogram.Page.IAddToFavoritesContent {
-    const { url, title } = this.state;
+    const { title, person, url } = this.state;
 
     return {
       title,
       imageUrl: `${appCoverPrefix}.jpg`,
-      query: `title=${title}&url=${url}`,
+      query: `title=${title}&person=${person}&url=${url}`,
     };
   },
 
   async getInfo() {
-    const { url } = this.state;
+    const { person, url } = this.state;
 
     const result = await (useOnlineService(PAGE_ID)
       ? getOnlineAcademic
@@ -111,6 +117,7 @@ $Page(PAGE_ID, {
       this.state.info = {
         title,
         time,
+        person,
         pageView,
         content,
         url,

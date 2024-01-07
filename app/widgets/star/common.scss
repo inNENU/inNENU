@@ -1,11 +1,8 @@
-@import "../../styles/lib/refresh-button";
-@import "../../styles/lib/widget";
-
-.notice-list {
+.list {
   flex: 1;
 }
 
-.notice {
+.item {
   position: relative;
   padding: 4px 0;
   font-size: 14px;

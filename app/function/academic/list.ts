@@ -103,10 +103,10 @@ $Page(PAGE_ID, {
     { index: number }
   >) {
     const { index } = currentTarget.dataset;
-    const { subject, url } = this.data.items[index];
+    const { subject, url, person } = this.data.items[index];
 
     return this.$go(
-      `academic-detail?from=${this.data.title}&title=${subject}&url=${url}`,
+      `academic-detail?from=${this.data.title}&title=${subject}&person=${person}&url=${url}`,
     );
   },
 });

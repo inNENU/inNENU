@@ -19,8 +19,16 @@
     type="{{type}}"
   />
   <recent-info-widget wx:elif="{{tag === 'recent-info'}}" type="{{type}}" />
-  <starred-info-widget wx:elif="{{tag === 'starred-info'}}" type="{{type}}" />
   <recent-notice-widget wx:elif="{{tag === 'recent-notice'}}" type="{{type}}" />
+  <starred-academic-widget
+    wx:elif="{{tag === 'starred-academic'}}"
+    type="{{type}}"
+  />
+  <starred-announcement-widget
+    wx:elif="{{tag === 'starred-announcement'}}"
+    type="{{type}}"
+  />
+  <starred-info-widget wx:elif="{{tag === 'starred-info'}}" type="{{type}}" />
   <starred-notice-widget
     wx:elif="{{tag === 'starred-notice'}}"
     type="{{type}}"

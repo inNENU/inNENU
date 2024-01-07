@@ -10,8 +10,8 @@ import {
 import type { InfoType } from "../../service/index.js";
 import { getInfo, getOnlineInfo } from "../../service/index.js";
 import { getColor, popNotice } from "../../utils/page.js";
-import type { StarredInfo } from "../../widgets/info/typings.js";
-import { getTitle } from "../../widgets/info/utils.js";
+import { getTitle } from "../../widgets/recent/utils.js";
+import type { StarredInfo } from "../../widgets/star/typings.js";
 
 const { globalData, useOnlineService } = getApp<AppOption>();
 

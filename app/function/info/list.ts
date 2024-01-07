@@ -5,7 +5,7 @@ import { appCoverPrefix } from "../../config/index.js";
 import type { InfoItem, InfoType } from "../../service/index.js";
 import { getInfoList, getOnlineInfoList } from "../../service/index.js";
 import { getColor, popNotice } from "../../utils/page.js";
-import { getTitle } from "../../widgets/info/utils.js";
+import { getTitle } from "../../widgets/recent/utils.js";
 
 const { globalData, useOnlineService } = getApp<AppOption>();
 

@@ -9,7 +9,7 @@ import {
 } from "../../config/index.js";
 import { getAnnouncement, getOnlineAnnouncement } from "../../service/index.js";
 import { getColor, popNotice } from "../../utils/page.js";
-import type { StarredAnnouncement } from "../../widgets/info/typings.js";
+import type { StarredAnnouncement } from "../../widgets/star/typings.js";
 
 const { globalData, useOnlineService } = getApp<AppOption>();
 

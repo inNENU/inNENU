@@ -7,10 +7,11 @@ import {
   appCoverPrefix,
   service,
 } from "../../config/index.js";
+import type { NoticeType } from "../../service/index.js";
 import { getNotice, getOnlineNotice } from "../../service/index.js";
 import { ensureActionLogin } from "../../service/index.js";
 import { getColor, popNotice } from "../../utils/page.js";
-import { NoticeType, StarredNotice } from "../../widgets/notice/notice.js";
+import type { StarredNotice } from "../../widgets/star/typings.js";
 
 const { globalData, useOnlineService } = getApp<AppOption>();
 
@@ -167,7 +168,7 @@ $Page(PAGE_ID, {
       const starredNotices =
         get<StarredNotice[]>(STARRED_NOTICE_LIST_KEY) ?? [];
 
-      set(STARRED_NOTICE_LIST_KEY, [...starredNotices, notice!]);
+      set(STARRED_NOTICE_LIST_KEY, [...starredNotices, notice]);
     }
 
     showToast(`已${starred ? "取消" : ""}收藏`, 1500, "success");

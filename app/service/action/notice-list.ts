@@ -29,13 +29,15 @@ interface RawNoticeListData {
   totalCount: number;
 }
 
+export type NoticeType = "notice" | "news";
+
 export interface NoticeListOptions {
   /** @default 20 */
   limit?: number;
   /** @default 1 */
   page?: number;
   /** @default "notice" */
-  type?: "notice" | "news";
+  type?: NoticeType;
 }
 
 export interface NoticeItem {
