@@ -1,9 +1,9 @@
 import { $Component, PropType, get, readFile, set } from "@mptool/all";
 
-import type { WeatherData } from "./getWeather.js";
-import { getOnlineWeather, getWeather } from "./getWeather.js";
 import type { AppOption } from "../../app.js";
 import { INITIALIZED_KEY, WEATHER_KEY } from "../../config/index.js";
+import type { WeatherData } from "../../service/index.js";
+import { getOnlineWeather, getWeather } from "../../service/index.js";
 import { MINUTE } from "../../utils/constant.js";
 import { getSize } from "../utils.js";
 

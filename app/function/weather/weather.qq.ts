@@ -7,13 +7,10 @@ import {
   WEATHER_KEY,
   appCoverPrefix,
 } from "../../config/index.js";
+import type { WeatherData } from "../../service/index.js";
+import { getOnlineWeather, getWeather } from "../../service/index.js";
+import { WeatherAlarm } from "../../service/weather.js";
 import { MINUTE } from "../../utils/constant.js";
-import type { WeatherData } from "../../widgets/weather/getWeather.js";
-import {
-  getOnlineWeather,
-  getWeather,
-} from "../../widgets/weather/getWeather.js";
-import { WeatherAlarm } from "../../widgets/weather/getWeather.js";
 
 const { globalData, useOnlineService } = getApp<AppOption>();
 
