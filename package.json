@@ -44,7 +44,7 @@
     }
   },
   "dependencies": {
-    "@mptool/all": "0.6.2",
+    "@mptool/all": "0.6.3",
     "miniprogram-recycle-view": "0.1.5",
     "tslib": "2.6.2"
   },
