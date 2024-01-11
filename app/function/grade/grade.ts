@@ -48,29 +48,40 @@ const postKeys = [
   "examType",
 ] as const;
 
-const getTimes = (grade: number): string[] => {
+interface TimeConfig {
+  under: string[];
+  display: string[];
+}
+
+const getTimeConfig = (grade: number): TimeConfig => {
   const date = new Date();
 
   const currentYear = date.getFullYear();
   const currentMonth = date.getMonth() + 1;
-  const times: string[] = [];
+  const underTimes: string[] = [];
+  const display: string[] = [];
 
-  for (let i = grade; i < currentYear - 1; i++)
-    times.push(`${i}-${i + 1}-1`, `${i}-${i + 1}-2`);
+  for (let i = grade; i < currentYear - 1; i++) {
+    underTimes.push(`${i}01`, `${i}02`);
+    display.push(`${i}年秋季学期`, `${i + 1}年春季学期`);
+  }
 
-  times.push(`${currentYear - 1}-${currentYear}-1`);
-  if (currentMonth >= 6) times.push(`${currentYear - 1}-${currentYear}-2`);
-  if (currentMonth === 12) times.push(`${currentYear}-${currentYear + 1}-1`);
+  underTimes.push(`${currentYear - 1}01`);
+  display.push(`${currentYear - 1}年秋季学期`);
 
-  return times.reverse();
-};
+  if (currentMonth >= 6) {
+    underTimes.push(`${currentYear - 1}02`);
+    display.push(`${currentYear}年春季学期`);
+  }
+  if (currentMonth === 12) {
+    underTimes.push(`${currentYear}01`);
+    display.push(`${currentYear}年秋季学期`);
+  }
 
-const getDisplayTime = (time: string): string => {
-  if (time === "") return "全部学期";
-
-  const [startYear, endYear, semester] = time.split("-");
-
-  return semester === "1" ? `${startYear}年秋季学期` : `${endYear}年春季学期`;
+  return {
+    under: underTimes,
+    display,
+  };
 };
 
 $Page("course-grade", {
@@ -80,7 +91,6 @@ $Page("course-grade", {
     grades: <UnderGradeResult[] | PostGradeResult[]>[],
 
     type: "",
-    times: <string[]>[],
     timeIndex: 0,
 
     showMark: false,
@@ -106,6 +116,7 @@ $Page("course-grade", {
   state: {
     loginMethod: <"check" | "login" | "validate">"validate",
     numberValueIndex: <number[]>[],
+    timeConfig: <TimeConfig>{},
     inited: false,
   },
 
@@ -133,15 +144,14 @@ $Page("course-grade", {
       if (!this.state.inited || this.data.needLogin) {
         const grade = userInfo.grade;
         const type = userInfo.typeId === "bks" ? "under" : "post";
-        const times = ["", ...getTimes(grade)];
-        const timeDisplays = times.map(getDisplayTime);
+        const timeConfig = getTimeConfig(grade);
         const grades = get<UnderGradeResult[] | PostGradeResult[]>(
           GRADE_DATA_KEY,
         );
 
+        this.state.timeConfig = timeConfig;
         this.setData({
-          times,
-          timeDisplays,
+          timeDisplays: ["全部学期", ...timeConfig.display],
           type,
         });
 
@@ -411,13 +421,14 @@ $Page("course-grade", {
 
   changeTime({ detail }: WechatMiniprogram.PickerChange) {
     const timeIndex = Number(detail.value);
-    const { times, timeIndex: timeOldIndex } = this.data;
+    const { timeIndex: timeOldIndex } = this.data;
+    const { timeConfig } = this.state;
 
     if (timeIndex !== timeOldIndex) {
-      const time = times[timeIndex];
+      const time = timeConfig.under[timeIndex - 1];
 
       this.setData({ timeIndex });
-      this.getUnderGradeList({ time });
+      this.getUnderGradeList(time ? { time } : {});
     }
   },
 
