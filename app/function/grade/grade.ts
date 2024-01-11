@@ -105,7 +105,7 @@ $Page("course-grade", {
     totalGradePoint: 0,
     gpa: 0,
 
-    sortIndex: 7,
+    sortIndex: -1,
     ascending: false,
 
     desc: "数据来自教务处教学服务系统，请以各学院实际安排与认定为准。",
@@ -281,7 +281,10 @@ $Page("course-grade", {
     this.state.numberValueIndex = numberValueIndex;
 
     this.setData({
-      grades,
+      // 默认通过时间排序
+      grades: (<UnderGradeResult[]>grades).sort(
+        (itemA, itemB) => itemB.time?.localeCompare(itemA.time),
+      ),
       showMark,
       showRelearn,
     });
