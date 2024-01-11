@@ -10,7 +10,6 @@ import {
   ensureOnlineUnderSystemLogin,
   ensurePostSystemLogin,
   ensureUnderSystemLogin,
-  getDisplayTime,
   getOnlinePostCourseTable,
   getOnlineUnderCourseTable,
   getPostCourseTable,
@@ -30,6 +29,12 @@ const { envName } = globalData;
 
 const PAGE_ID = "course-table";
 const PAGE_TITLE = "课程表";
+
+const getDisplayTime = (time: string): string => {
+  const [startYear, endYear, semester] = time.split("-");
+
+  return semester === "1" ? `${startYear}年秋季学期` : `${endYear}年春季学期`;
+};
 
 const getTimes = (grade: number): string[] => {
   const date = new Date();

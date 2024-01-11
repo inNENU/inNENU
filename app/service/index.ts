@@ -7,6 +7,7 @@ export * from "./loginFailTypes.js";
 export * from "./main/index.js";
 export * from "./my/index.js";
 export * from "./post-system/index.js";
+export * from "./under-study/index.js";
 export * from "./under-system/index.js";
 export * from "./utils.js";
 export * from "./weather.js";

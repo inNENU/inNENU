@@ -47,31 +47,20 @@
             </view>
             <view wx:if="{{showMark}}" class="table-header">成绩标识</view>
             <view wx:if="{{showRelearn}}" class="table-header">补重学期</view>
-            <view wx:if="{{showStatus}}" class="table-header">审核状态</view>
           </view>
 
-          <view
-            wx:for="{{grades}}"
-            wx:for-item="item"
-            class="table-row"
-            data-index="{{index}}"
-            catch:tap="showScoreDetail"
-          >
+          <view wx:for="{{grades}}" wx:for-item="item" class="table-row">
             <view class="cell name">{{item.name}}</view>
             <view class="cell grade {{grade.getGradeState(item.grade)}}"
               >{{item.gradeText || item.grade}}</view
             >
-            <view wx:if="{{type === 'under'}}" class="cell difficulty"
-              >{{item.difficulty}}</view
-            >
             <view class="cell point">{{item.point}}</view>
-            <view class="cell grade-point">{{item.gradePoint}}</view>
-            <block wx:if="{{type === 'under'}}">
-              <view class="cell course-type">{{item.shortCourseType}}</view>
-              <view wx:if="{{type === 'under'}}" class="cell common-type"
-                >{{item.commonType || ''}}</view
-              >
-            </block>
+            <view wx:if="{{type === 'post'}}" class="cell grade-point"
+              >{{item.gradePoint}}</view
+            >
+            <view wx:if="{{type === 'under'}}" class="cell course-type"
+              >{{item.shortCourseType}}</view
+            >
             <block wx:else>
               <view class="cell course-category">{{item.courseCategory}}</view>
               <view class="cell course-type">{{item.courseType}}</view>
@@ -82,9 +71,6 @@
             <view wx:if="{{showMark}}" class="cell mark">{{item.mark}}</view>
             <view wx:if="{{showRelearn}}" class="cell relearn"
               >{{grade.reLearn}}</view
-            >
-            <view wx:if="{{showStatus}}" class="cell status"
-              >{{grade.status}}</view
             >
           </view>
         </view>
@@ -129,7 +115,7 @@
         <text class="value">{{totalBasePoint}}</text>
 
         <text class="label">专业主干课总学分:</text>
-        <text class="value">{{totalMajorRequiredPoint}}</text>
+        <text class="value">{{totalMajorMainPoint}}</text>
 
         <text class="label">专业选修课总学分:</text>
         <text class="value">{{totalMajorOptionalPoint}}</text>

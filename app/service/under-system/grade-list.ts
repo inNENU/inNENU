@@ -62,10 +62,12 @@ const DEFAULT_TABLE_FIELD =
 const DEFAULT_OTHER_FIELD = "null";
 const QUERY_URL = `${UNDER_SYSTEM_SERVER}/xszqcjglAction.do?method=queryxscj`;
 
-export const getDisplayTime = (time: string): string => {
+const getDisplayTime = (time: string): string => {
   const [startYear, endYear, semester] = time.split("-");
 
-  return semester === "1" ? `${startYear}年秋季学期` : `${endYear}年春季学期`;
+  return semester === "1"
+    ? `${startYear.substring(2)}年秋`
+    : `${endYear.substring(2)}年春`;
 };
 
 export interface ScoreDetail {
@@ -78,7 +80,7 @@ export interface GradeDetail {
   exam: ScoreDetail | null;
 }
 
-export interface UnderGradeResult {
+export interface UnderGradeOldResult {
   /** 修读时间 */
   time: string;
   /** 课程 id */
@@ -129,7 +131,7 @@ const getScoreDetail = (content: string): ScoreDetail | null => {
 const getUnderGrades = (
   content: string,
   isJS = false,
-): Promise<UnderGradeResult[]> =>
+): Promise<UnderGradeOldResult[]> =>
   Promise.all(
     Array.from(
       content.matchAll(isJS ? jsGradeItemRegExp : gradeItemRegExp),
@@ -223,9 +225,9 @@ const getUnderGrades = (
     }),
   );
 
-export const getUnderGradeLists = async (
+export const getUnderOldGradeLists = async (
   content: string,
-): Promise<UnderGradeResult[]> => {
+): Promise<UnderGradeOldResult[]> => {
   // We force writing these 2 field to ensure we care getting the default table structure
   const tableFields = tableFieldsRegExp.exec(content)![1];
   const otherFields = String(otherFieldsRegExp.exec(content)?.[1]);
@@ -286,7 +288,7 @@ export const getUnderGradeLists = async (
   return grades;
 };
 
-export interface UnderGradeListOptions {
+export interface UnderOldGradeListOptions {
   /** 查询时间 */
   time?: string;
   /** 课程名称 */
@@ -296,23 +298,23 @@ export interface UnderGradeListOptions {
   gradeType?: "all" | "best";
 }
 
-export interface UnderGradeListSuccessResponse {
+export interface UnderOldGradeListSuccessResponse {
   success: true;
-  data: UnderGradeResult[];
+  data: UnderGradeOldResult[];
 }
 
-export type UnderGradeListResponse =
-  | UnderGradeListSuccessResponse
+export type UnderOldGradeListResponse =
+  | UnderOldGradeListSuccessResponse
   | (CommonFailedResponse & {
       type?: LoginFailType.Expired;
     });
 
-export const getUnderGradeList = async ({
+export const getUnderOldGradeList = async ({
   time = "",
   name = "",
   courseType = "",
   gradeType = "all",
-}: UnderGradeListOptions): Promise<UnderGradeListResponse> => {
+}: UnderOldGradeListOptions): Promise<UnderOldGradeListResponse> => {
   try {
     const { data: content, status } = await request<string>(QUERY_URL, {
       method: "POST",
@@ -344,7 +346,7 @@ export const getUnderGradeList = async ({
           : "部分学期评教未完成，不能查阅全部成绩! 请分学期查询。",
       };
 
-    const gradeList = await getUnderGradeLists(content);
+    const gradeList = await getUnderOldGradeLists(content);
 
     return {
       success: true,
@@ -362,10 +364,10 @@ export const getUnderGradeList = async ({
   }
 };
 
-export const getOnlineUnderGradeList = (
-  options: UnderGradeListOptions,
-): Promise<UnderGradeListResponse> =>
-  request<UnderGradeListResponse>("/under-system/grade-list", {
+export const getOnlineUnderOldGradeList = (
+  options: UnderOldGradeListOptions,
+): Promise<UnderOldGradeListResponse> =>
+  request<UnderOldGradeListResponse>("/under-system/grade-list", {
     method: "POST",
     body: options,
     cookieScope: UNDER_SYSTEM_SERVER,

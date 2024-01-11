@@ -11,9 +11,9 @@ import type {
 import {
   LoginFailType,
   ensureOnlinePostSystemLogin,
-  ensureOnlineUnderSystemLogin,
+  ensureOnlineUnderStudyLogin,
   ensurePostSystemLogin,
-  ensureUnderSystemLogin,
+  ensureUnderStudyLogin,
   getOnlinePostGradeList,
   getOnlineUnderGradeList,
   getPostGradeList,
@@ -30,11 +30,8 @@ const PAGE_TITLE = "成绩查询";
 const underKeys = [
   "name",
   "grade",
-  "difficulty",
   "point",
-  "gradePoint",
   "shortCourseType",
-  "commonType",
   "time",
   "hours",
   "examType",
@@ -88,11 +85,10 @@ $Page("course-grade", {
 
     showMark: false,
     showRelearn: false,
-    showStatus: false,
     totalPoint: 0,
     totalCommonRequiredPoint: 0,
     totalCommonOptionalPoint: 0,
-    totalMajorRequiredPoint: 0,
+    totalMajorMainPoint: 0,
     totalMajorOptionalPoint: 0,
     totalTeacherRequiredPoint: 0,
     totalTeacherOptionalPoint: 0,
@@ -183,13 +179,13 @@ $Page("course-grade", {
     wx.showLoading({ title: "获取中" });
 
     try {
-      const err = await (useOnlineService("under-login")
-        ? ensureOnlineUnderSystemLogin
-        : ensureUnderSystemLogin)(globalData.account!, this.state.loginMethod);
+      const err = await (useOnlineService("under-study-login")
+        ? ensureOnlineUnderStudyLogin
+        : ensureUnderStudyLogin)(globalData.account!, this.state.loginMethod);
 
       if (err) throw err.msg;
 
-      const result = await (useOnlineService(PAGE_ID)
+      const result = await (useOnlineService("under-grade-list")
         ? getOnlineUnderGradeList
         : getUnderGradeList)(options);
 
@@ -256,12 +252,14 @@ $Page("course-grade", {
 
   setGradeData(grades: UnderGradeResult[] | PostGradeResult[]) {
     const { type } = this.data;
-    const showMark = grades.some((item) => item.mark);
-    const showRelearn = grades.some((item) => item.reLearn);
-    const showStatus =
+    const showMark =
       type === "under"
-        ? grades.some((item) => (<UnderGradeResult>item).status)
-        : false;
+        ? false
+        : (<PostGradeResult[]>grades).some((item) => item.mark);
+    const showRelearn =
+      type === "under"
+        ? false
+        : (<PostGradeResult[]>grades).some((item) => item.reLearn);
 
     const numberValueIndex = (type === "under" ? underKeys : postKeys)
       .map((key, index) =>
@@ -276,7 +274,6 @@ $Page("course-grade", {
       grades,
       showMark,
       showRelearn,
-      showStatus,
     });
   },
 
@@ -318,9 +315,10 @@ $Page("course-grade", {
       .reduce((total, { point }) => total + point, 0);
 
     const totalGradePoint = filteredData.reduce(
-      (total, { gradePoint }) => total + gradePoint,
+      (total, { grade, point }) => total + ((grade - 50) / 10) * point,
       0,
     );
+
     const gpa = Math.round((totalGradePoint / totalPoint) * 100) / 100;
     const numberValueIndex = underKeys
       .map((key, index) =>
@@ -499,33 +497,34 @@ $Page("course-grade", {
     }
   },
 
-  showScoreDetail({
-    currentTarget,
-  }: WechatMiniprogram.TouchEvent<
-    Record<never, never>,
-    Record<never, never>,
-    { index: number }
-  >) {
-    const { index } = currentTarget.dataset;
-    const { grades } = this.data;
-    const { name, gradeDetail, mark } = <UnderGradeResult>grades[index];
+  // 本科新系统暂不支持
+  // showScoreDetail({
+  //   currentTarget,
+  // }: WechatMiniprogram.TouchEvent<
+  //   Record<never, never>,
+  //   Record<never, never>,
+  //   { index: number }
+  // >) {
+  //   const { index } = currentTarget.dataset;
+  //   const { grades } = this.data;
+  //   const { name, gradeDetail, mark } = <UnderGradeResult>grades[index];
 
-    if (gradeDetail) {
-      const { usual, exam } = gradeDetail;
+  //   if (gradeDetail) {
+  //     const { usual, exam } = gradeDetail;
 
-      showModal(
-        `${name}成绩详情`,
-        `${mark ? `${mark}\n` : ""}${usual
-          .map(
-            ({ score, percent }, index) =>
-              `平时成绩${
-                usual.length > 1 ? index + 1 : ""
-              }: ${score}分，占比${percent}%`,
-          )
-          .join("\n")}${
-          exam ? `\n期末成绩: ${exam.score}分，占比${exam.percent}%` : ""
-        }`,
-      );
-    } else showModal(name, "暂无成绩详情");
-  },
+  //     showModal(
+  //       `${name}成绩详情`,
+  //       `${mark ? `${mark}\n` : ""}${usual
+  //         .map(
+  //           ({ score, percent }, index) =>
+  //             `平时成绩${
+  //               usual.length > 1 ? index + 1 : ""
+  //             }: ${score}分，占比${percent}%`,
+  //         )
+  //         .join("\n")}${
+  //         exam ? `\n期末成绩: ${exam.score}分，占比${exam.percent}%` : ""
+  //       }`,
+  //     );
+  //   } else showModal(name, "暂无成绩详情");
+  // },
 });
