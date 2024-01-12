@@ -25,7 +25,7 @@ import { getColor, popNotice } from "../../utils/page.js";
 const { globalData, useOnlineService } = getApp<AppOption>();
 const { envName } = globalData;
 
-const PAGE_ID = "grade";
+const PAGE_ID = "course-grade";
 const PAGE_TITLE = "成绩查询";
 const underKeys = [
   "name",
@@ -84,7 +84,7 @@ const getTimeConfig = (grade: number): TimeConfig => {
   };
 };
 
-$Page("course-grade", {
+$Page(PAGE_ID, {
   data: {
     title: PAGE_TITLE,
 
