@@ -3,7 +3,7 @@
   "name": "inNENU",
   "version": "6.8.1",
   "mini-android": {
-    "sdkVersion": "1.2.7",
+    "sdkVersion": "1.2.8",
     "toolkitVersion": "0.7.3",
     "useExtendedSdk": {
       "media": true,
