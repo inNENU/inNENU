@@ -1,4 +1,5 @@
-export const UNDER_SYSTEM_SERVER = "https://dsjx.webvpn.nenu.edu.cn";
+export const UNDER_SYSTEM_DOMAIN = "dsjx.webvpn.nenu.edu.cn";
+export const UNDER_SYSTEM_SERVER = `https://${UNDER_SYSTEM_DOMAIN}`;
 
 export const keyCodeRegExp =
   /<input\s+type="hidden"\s+name\s*=\s*"keyCode"\s+id\s*=\s*"keyCode"\s+value="([^"]*?)">/;

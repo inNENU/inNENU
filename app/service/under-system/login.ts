@@ -4,7 +4,7 @@ import {
   checkOnlineUnderSystemCookie,
   checkUnderSystemCookie,
 } from "./check.js";
-import { UNDER_SYSTEM_SERVER } from "./utils.js";
+import { UNDER_SYSTEM_DOMAIN, UNDER_SYSTEM_SERVER } from "./utils.js";
 import { cookieStore, request } from "../../api/index.js";
 import type { AccountInfo } from "../../utils/typings.js";
 import type { AuthLoginFailedResponse } from "../auth/index.js";
@@ -112,14 +112,17 @@ export const onlineUnderSystemLogin = async (
   return data;
 };
 
+const hasCookie = (): boolean =>
+  cookieStore
+    .getCookies(UNDER_SYSTEM_SERVER)
+    .some(({ domain }) => domain === UNDER_SYSTEM_DOMAIN);
+
 export const ensureUnderSystemLogin = async (
   account: AccountInfo,
   status: "check" | "validate" | "login" = "check",
 ): Promise<AuthLoginFailedResponse | VPNLoginFailedResponse | null> => {
   if (status !== "login") {
-    const cookies = cookieStore.getCookies(UNDER_SYSTEM_SERVER);
-
-    if (cookies.length) {
+    if (hasCookie()) {
       if (status === "check") return null;
 
       const { valid } = await checkUnderSystemCookie();
@@ -138,9 +141,7 @@ export const ensureOnlineUnderSystemLogin = async (
   status: "check" | "validate" | "login" = "check",
 ): Promise<AuthLoginFailedResponse | VPNLoginFailedResponse | null> => {
   if (status !== "login") {
-    const cookies = cookieStore.getCookies(UNDER_SYSTEM_SERVER);
-
-    if (cookies.length) {
+    if (hasCookie()) {
       if (status === "check") return null;
 
       const { valid } = await checkOnlineUnderSystemCookie();

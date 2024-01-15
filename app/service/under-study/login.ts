@@ -114,6 +114,11 @@ export const onlineUnderStudyLogin = async (
   return data;
 };
 
+const hasCookie = (): boolean =>
+  cookieStore
+    .getCookies(UNDER_STUDY_SERVER)
+    .some(({ domain }) => domain === UNDER_STUDY_SERVER);
+
 export const ensureUnderStudyLogin = async (
   account: AccountInfo,
   status: "check" | "validate" | "login" = "check",
@@ -121,9 +126,7 @@ export const ensureUnderStudyLogin = async (
   if (!supportRedirect) return ensureOnlineUnderStudyLogin(account);
 
   if (status !== "login") {
-    const cookies = cookieStore.getCookies(UNDER_STUDY_SERVER);
-
-    if (cookies.length) {
+    if (hasCookie()) {
       if (status === "check") return null;
 
       const { valid } = await checkUnderStudyCookie();
@@ -142,9 +145,7 @@ export const ensureOnlineUnderStudyLogin = async (
   status: "check" | "validate" | "login" = "check",
 ): Promise<AuthLoginFailedResponse | VPNLoginFailedResponse | null> => {
   if (status !== "login") {
-    const cookies = cookieStore.getCookies(UNDER_STUDY_SERVER);
-
-    if (cookies.length) {
+    if (hasCookie()) {
       if (status === "check") return null;
 
       const { valid } = await checkOnlineUnderStudyCookie();

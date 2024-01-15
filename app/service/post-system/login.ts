@@ -1,7 +1,11 @@
 import { logger } from "@mptool/all";
 
 import { checkOnlinePostSystemCookie, checkPostSystemCookie } from "./check.js";
-import { POST_SYSTEM_HTTPS_SERVER, POST_SYSTEM_HTTP_SERVER } from "./utils.js";
+import {
+  POST_SYSTEM_DOMAIN,
+  POST_SYSTEM_HTTPS_SERVER,
+  POST_SYSTEM_HTTP_SERVER,
+} from "./utils.js";
 import { cookieStore, request } from "../../api/index.js";
 import type { AccountInfo } from "../../utils/typings.js";
 import type { AuthLoginFailedResponse } from "../auth/index.js";
@@ -127,14 +131,17 @@ export const onlinePostSystemLogin = async (
   return data;
 };
 
+const hasCookie = (): boolean =>
+  cookieStore
+    .getCookies(POST_SYSTEM_HTTPS_SERVER)
+    .some(({ domain }) => domain === POST_SYSTEM_DOMAIN);
+
 export const ensurePostSystemLogin = async (
   account: AccountInfo,
   status: "check" | "validate" | "login" = "check",
 ): Promise<AuthLoginFailedResponse | VPNLoginFailedResponse | null> => {
   if (status !== "login") {
-    const cookies = cookieStore.getCookies(POST_SYSTEM_HTTPS_SERVER);
-
-    if (cookies.length) {
+    if (hasCookie()) {
       if (status === "check") return null;
 
       const { valid } = await checkPostSystemCookie();
@@ -153,9 +160,7 @@ export const ensureOnlinePostSystemLogin = async (
   status: "check" | "validate" | "login" = "check",
 ): Promise<AuthLoginFailedResponse | VPNLoginFailedResponse | null> => {
   if (status !== "login") {
-    const cookies = cookieStore.getCookies(POST_SYSTEM_HTTPS_SERVER);
-
-    if (cookies.length) {
+    if (hasCookie()) {
       if (status === "check") return null;
 
       const { valid } = await checkOnlinePostSystemCookie();

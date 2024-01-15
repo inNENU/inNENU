@@ -1,7 +1,7 @@
 import { logger } from "@mptool/all";
 
 import { checkActionCookie, checkOnlineActionCookie } from "./check.js";
-import { ACTION_SERVER } from "./utils.js";
+import { ACTION_DOMAIN, ACTION_SERVER } from "./utils.js";
 import { cookieStore, request } from "../../api/index.js";
 import type { AccountInfo } from "../../utils/typings.js";
 import type { AuthLoginFailedResponse } from "../auth/index.js";
@@ -24,7 +24,7 @@ export type ActionLoginResponse =
 export const actionLogin = async (
   options: AccountInfo,
 ): Promise<ActionLoginResponse> => {
-  if (!supportRedirect) return actionOnlineLogin(options);
+  if (!supportRedirect) return onlineActionLogin(options);
 
   const vpnLoginResult = await vpnCASLogin(options);
 
@@ -70,7 +70,7 @@ export const actionLogin = async (
   };
 };
 
-export const actionOnlineLogin = async (
+export const onlineActionLogin = async (
   options: AccountInfo,
 ): Promise<ActionLoginResponse> => {
   const { data } = await request<ActionLoginResponse>("/action/login", {
@@ -87,6 +87,11 @@ export const actionOnlineLogin = async (
   return data;
 };
 
+const hasCookie = (): boolean =>
+  cookieStore
+    .getCookies(ACTION_SERVER)
+    .some(({ domain }) => domain === ACTION_DOMAIN);
+
 export const ensureActionLogin = async (
   account: AccountInfo,
   status: "check" | "validate" | "login" = "check",
@@ -94,9 +99,7 @@ export const ensureActionLogin = async (
   if (!supportRedirect) return ensureOnlineActionLogin(account);
 
   if (status !== "login") {
-    const cookies = cookieStore.getCookies(ACTION_SERVER);
-
-    if (cookies.length) {
+    if (hasCookie()) {
       if (status === "check") return null;
 
       const { valid } = await checkActionCookie();
@@ -115,9 +118,7 @@ export const ensureOnlineActionLogin = async (
   status: "check" | "validate" | "login" = "check",
 ): Promise<AuthLoginFailedResponse | VPNLoginFailedResponse | null> => {
   if (status !== "login") {
-    const cookies = cookieStore.getCookies(ACTION_SERVER);
-
-    if (cookies.length) {
+    if (hasCookie()) {
       if (status === "check") return null;
 
       const { valid } = await checkOnlineActionCookie();
@@ -126,7 +127,7 @@ export const ensureOnlineActionLogin = async (
     }
   }
 
-  const result = await actionOnlineLogin(account);
+  const result = await onlineActionLogin(account);
 
   return result.success ? null : result;
 };
