@@ -18,8 +18,8 @@ import {
   getOnlineUnderGradeDetail,
   getOnlineUnderGradeList,
   getPostGradeList,
-  getUnderGradeDetail,
-  getUnderGradeList,
+  // getUnderGradeDetail,
+  // getUnderGradeList,
 } from "../../service/index.js";
 import { HOUR } from "../../utils/constant.js";
 import { getColor, popNotice } from "../../utils/page.js";
@@ -199,11 +199,10 @@ $Page(PAGE_ID, {
 
       if (err) throw err.msg;
 
-      const result = await (
-        useOnlineService("under-grade-list")
-          ? getOnlineUnderGradeList
-          : getUnderGradeList
-      )(options);
+      // const result = await (useOnlineService("under-grade-list")
+      //   ? getOnlineUnderGradeList
+      //   : getUnderGradeList)(options);
+      const result = await getOnlineUnderGradeList(options);
 
       wx.hideLoading();
       this.state.inited = true;
@@ -527,9 +526,10 @@ $Page(PAGE_ID, {
     const { grades } = this.data;
     const { name, gradeCode, mark } = <UnderGradeResult>grades[index];
 
-    (useOnlineService("under-grade-detail")
-      ? getOnlineUnderGradeDetail
-      : getUnderGradeDetail)(gradeCode).then((res) => {
+    // (useOnlineService("under-grade-detail")
+    //   ? getOnlineUnderGradeDetail
+    //   : getUnderGradeDetail)(gradeCode).then((res) => {
+    getOnlineUnderGradeDetail(gradeCode).then((res) => {
       if (res.success)
         showModal(
           `${name}成绩详情`,

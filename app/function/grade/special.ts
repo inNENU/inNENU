@@ -1,16 +1,15 @@
 import { $Page, get, set } from "@mptool/all";
 
-import { retryAction, showModal } from "../../api/index.js";
+import { showModal } from "../../api/index.js";
 import type { AppOption } from "../../app.js";
 import { appCoverPrefix } from "../../config/info.js";
 import { SPECIAL_EXAM_DATA_KEY } from "../../config/keys.js";
-import type { UnderSpecialExamItem } from "../../service/index.js";
+import type { UnderSpecialExamResult } from "../../service/index.js";
 import {
-  LoginFailType,
-  ensureOnlineUnderSystemLogin,
-  ensureUnderSystemLogin,
-  getOnlineUnderSpecialExamScore,
-  getUnderSpecialExamScore,
+  ensureOnlineUnderStudyLogin,
+  ensureUnderStudyLogin,
+  getOnlineUnderSpecialExam,
+  // getUnderSpecialExam,
 } from "../../service/index.js";
 import { HOUR } from "../../utils/constant.js";
 import { getColor, popNotice } from "../../utils/page.js";
@@ -25,9 +24,9 @@ $Page(PAGE_ID, {
   data: {
     title: PAGE_TITLE,
 
-    data: <UnderSpecialExamItem[]>[],
+    data: <UnderSpecialExamResult[]>[],
 
-    desc: "数据来自教务处教学服务系统",
+    desc: "数据来自本科教学服务系统",
 
     needLogin: false,
   },
@@ -64,7 +63,7 @@ $Page(PAGE_ID, {
             this.$back();
           });
 
-        const data = get<UnderSpecialExamItem[]>(SPECIAL_EXAM_DATA_KEY);
+        const data = get<UnderSpecialExamResult[]>(SPECIAL_EXAM_DATA_KEY);
 
         if (data) this.setData({ data });
         else this.getSpecialExamScore();
@@ -78,7 +77,7 @@ $Page(PAGE_ID, {
 
   onShareAppMessage: () => ({
     title: PAGE_TITLE,
-    path: "/function/course/special-exam",
+    path: "/function/grade/special",
   }),
 
   onShareTimeline: () => ({ title: PAGE_TITLE }),
@@ -92,15 +91,18 @@ $Page(PAGE_ID, {
     wx.showLoading({ title: "获取中" });
 
     try {
-      const err = await (useOnlineService("under-login")
-        ? ensureOnlineUnderSystemLogin
-        : ensureUnderSystemLogin)(globalData.account!, this.state.loginMethod);
+      const err = await (
+        useOnlineService("under-study-login")
+          ? ensureOnlineUnderStudyLogin
+          : ensureUnderStudyLogin
+      )(globalData.account!, this.state.loginMethod);
 
       if (err) throw err.msg;
 
-      const result = await (useOnlineService(PAGE_ID)
-        ? getOnlineUnderSpecialExamScore
-        : getUnderSpecialExamScore)();
+      // const result = await (useOnlineService(PAGE_ID)
+      //   ? getOnlineUnderSpecialExam
+      //   : getUnderSpecialExam)();
+      const result = await getOnlineUnderSpecialExam();
 
       wx.hideLoading();
       this.state.inited = true;
@@ -110,9 +112,6 @@ $Page(PAGE_ID, {
 
         this.setData({ data: result.data });
         this.state.loginMethod = "check";
-      } else if (result.type === LoginFailType.Expired) {
-        this.state.loginMethod = "login";
-        retryAction("登录过期", result.msg, () => this.getSpecialExamScore());
       } else {
         showModal("获取失败", result.msg);
       }

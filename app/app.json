@@ -32,7 +32,7 @@
         "course/change-major",
         "course/exam-place",
         "course/table",
-        "course/special-exam",
+        "grade/special",
         "grade/grade",
         "email/apply",
         "email/email",

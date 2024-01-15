@@ -31,7 +31,7 @@
         "calendar/calendar",
         "course/change-major",
         "course/exam-place",
-        "course/special-exam",
+        "grade/special",
         "course/table",
         "grade/grade",
         "email/apply",

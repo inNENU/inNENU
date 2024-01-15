@@ -267,7 +267,7 @@
         },
         {
           "name": "专项考试",
-          "pathName": "function/course/special-exam",
+          "pathName": "function/grade/special",
           "query": "",
           "launchMode": "default",
           "scene": null
