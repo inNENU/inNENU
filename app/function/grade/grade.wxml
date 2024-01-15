@@ -49,7 +49,13 @@
             <view wx:if="{{showRelearn}}" class="table-header">补重学期</view>
           </view>
 
-          <view wx:for="{{grades}}" wx:for-item="item" class="table-row">
+          <view
+            wx:for="{{grades}}"
+            wx:for-item="item"
+            class="table-row"
+            data-index="{{index}}"
+            catch:tap="{{type === 'under'? 'showScoreDetail': ''}}"
+          >
             <view class="cell name">{{item.name}}</view>
             <view class="cell grade {{grade.getGradeState(item.grade)}}"
               >{{item.gradeText || item.grade}}</view

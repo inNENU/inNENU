@@ -15,8 +15,10 @@ import {
   ensurePostSystemLogin,
   ensureUnderStudyLogin,
   getOnlinePostGradeList,
+  getOnlineUnderGradeDetail,
   getOnlineUnderGradeList,
   getPostGradeList,
+  getUnderGradeDetail,
   getUnderGradeList,
 } from "../../service/index.js";
 import { HOUR } from "../../utils/constant.js";
@@ -25,7 +27,7 @@ import { getColor, popNotice } from "../../utils/page.js";
 const { globalData, useOnlineService } = getApp<AppOption>();
 const { envName } = globalData;
 
-const PAGE_ID = "course-grade";
+const PAGE_ID = "grade";
 const PAGE_TITLE = "成绩查询";
 const underKeys = [
   "name",
@@ -189,15 +191,19 @@ $Page(PAGE_ID, {
     wx.showLoading({ title: "获取中" });
 
     try {
-      const err = await (useOnlineService("under-study-login")
-        ? ensureOnlineUnderStudyLogin
-        : ensureUnderStudyLogin)(globalData.account!, this.state.loginMethod);
+      const err = await (
+        useOnlineService("under-study-login")
+          ? ensureUnderStudyLogin
+          : ensureOnlineUnderStudyLogin
+      )(globalData.account!, this.state.loginMethod);
 
       if (err) throw err.msg;
 
-      const result = await (useOnlineService("under-grade-list")
-        ? getOnlineUnderGradeList
-        : getUnderGradeList)(options);
+      const result = await (
+        useOnlineService("under-grade-list")
+          ? getOnlineUnderGradeList
+          : getUnderGradeList
+      )(options);
 
       wx.hideLoading();
       this.state.inited = true;
@@ -229,9 +235,11 @@ $Page(PAGE_ID, {
     wx.showLoading({ title: "获取中" });
 
     try {
-      const err = await (useOnlineService("post-login")
-        ? ensureOnlinePostSystemLogin
-        : ensurePostSystemLogin)(globalData.account!, this.state.loginMethod);
+      const err = await (
+        useOnlineService("post-login")
+          ? ensureOnlinePostSystemLogin
+          : ensurePostSystemLogin
+      )(globalData.account!, this.state.loginMethod);
 
       if (err) throw err.msg;
 
@@ -262,10 +270,7 @@ $Page(PAGE_ID, {
 
   setGradeData(grades: UnderGradeResult[] | PostGradeResult[]) {
     const { type } = this.data;
-    const showMark =
-      type === "under"
-        ? false
-        : (<PostGradeResult[]>grades).some((item) => item.mark);
+    const showMark = grades.some((item) => item.mark);
     const showRelearn =
       type === "under"
         ? false
@@ -282,8 +287,8 @@ $Page(PAGE_ID, {
 
     this.setData({
       // 默认通过时间排序
-      grades: (<UnderGradeResult[]>grades).sort(
-        (itemA, itemB) => itemB.time?.localeCompare(itemA.time),
+      grades: (<UnderGradeResult[]>grades).sort((itemA, itemB) =>
+        itemB.time?.localeCompare(itemA.time),
       ),
       showMark,
       showRelearn,
@@ -511,34 +516,31 @@ $Page(PAGE_ID, {
     }
   },
 
-  // 本科新系统暂不支持
-  // showScoreDetail({
-  //   currentTarget,
-  // }: WechatMiniprogram.TouchEvent<
-  //   Record<never, never>,
-  //   Record<never, never>,
-  //   { index: number }
-  // >) {
-  //   const { index } = currentTarget.dataset;
-  //   const { grades } = this.data;
-  //   const { name, gradeDetail, mark } = <UnderGradeResult>grades[index];
+  showScoreDetail({
+    currentTarget,
+  }: WechatMiniprogram.TouchEvent<
+    Record<never, never>,
+    Record<never, never>,
+    { index: number }
+  >) {
+    const { index } = currentTarget.dataset;
+    const { grades } = this.data;
+    const { name, gradeCode, mark } = <UnderGradeResult>grades[index];
 
-  //   if (gradeDetail) {
-  //     const { usual, exam } = gradeDetail;
-
-  //     showModal(
-  //       `${name}成绩详情`,
-  //       `${mark ? `${mark}\n` : ""}${usual
-  //         .map(
-  //           ({ score, percent }, index) =>
-  //             `平时成绩${
-  //               usual.length > 1 ? index + 1 : ""
-  //             }: ${score}分，占比${percent}%`,
-  //         )
-  //         .join("\n")}${
-  //         exam ? `\n期末成绩: ${exam.score}分，占比${exam.percent}%` : ""
-  //       }`,
-  //     );
-  //   } else showModal(name, "暂无成绩详情");
-  // },
+    (useOnlineService("under-grade-detail")
+      ? getOnlineUnderGradeDetail
+      : getUnderGradeDetail)(gradeCode).then((res) => {
+      if (res.success)
+        showModal(
+          `${name}成绩详情`,
+          `${mark ? `${mark}\n` : ""}${res.data
+            .map(
+              ({ name, percent, score }) =>
+                `${name}: ${score}分，占比${percent}%`,
+            )
+            .join("\n")}`,
+        );
+      else showModal("获取失败", res.msg);
+    });
+  },
 });

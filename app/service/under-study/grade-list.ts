@@ -35,9 +35,11 @@ interface RawUnderGradeResultItem {
   xdfsmc: string;
   /** 开课单位 */
   kkbmmc: string;
+  /** 成绩标识 */
+  cjbzmc: string;
 
   /** 学年学期代码 */
-  xnxqdm: "202201";
+  xnxqdm: string;
   /** 课程编号 */
   kcbh: string;
   /** 课程平台编号 */
@@ -58,7 +60,7 @@ interface RawUnderGradeResultItem {
   /** 学号 */
   xsbh: string;
   /** 学生代码 */
-  xsdm: "22442910";
+  xsdm: string;
 
   xsckcj: "0";
   rownum_: 1;
@@ -71,7 +73,6 @@ interface RawUnderGradeResultItem {
   xsckcjbz: "";
   kcrwdm: "";
   wzc: "0";
-  cjbzmc: "";
   wpj: "0";
 
   xmmc: "";
@@ -117,6 +118,8 @@ export interface UnderGradeResult {
   hours: number | null;
   /** 学分 */
   point: number;
+  /** 成绩标识 */
+  mark: string;
   /** 考试性质 */
   examType: "正常考试" | "校际交流" | "补考";
 }
@@ -149,6 +152,7 @@ const getGradeLists = (
       xdfsmc,
       kkbmmc,
       cjdm,
+      cjbzmc,
       kcptbh,
     }) => ({
       time: xnxqmc.replace(/^20/, "").replace(/季学期$/, ""),
@@ -163,6 +167,7 @@ const getGradeLists = (
       office: kkbmmc,
       hours: zxs,
       point: xf,
+      mark: cjbzmc,
       examType: ksxzmc,
     }),
   );
@@ -173,6 +178,9 @@ export const getUnderGradeList = async ({
   try {
     const { data } = await request<RawUnderGradeResult>(QUERY_URL, {
       method: "POST",
+      headers: {
+        Accept: "application/json, text/javascript, */*; q=0.01",
+      },
       body: new URLSearchParams({
         xnxqdm: time,
         source: "kccjlist",
