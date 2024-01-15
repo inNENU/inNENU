@@ -2,7 +2,7 @@ import type { RichTextNode } from "@mptool/all";
 import { encodeBase64 } from "@mptool/all";
 import { getRichTextNodes } from "@mptool/all";
 
-import { JSONHeader, request } from "../../api/index.js";
+import { request } from "../../api/index.js";
 
 const ACTIVATE_SERVER = "https://activate.nenu.edu.cn";
 
@@ -97,7 +97,6 @@ export const checkAccount = async ({
     ActivateRawSuccessResponse | RawErrorResponse
   >(`${ACTIVATE_SERVER}/api/staff/activate/id`, {
     method: "POST",
-    headers: JSONHeader,
     body: {
       staffNo: schoolID,
       name,
@@ -153,7 +152,6 @@ export const sendSms = async ({
     CodeRawSuccessResponse | CodeRawFailedResponse
   >(`${ACTIVATE_SERVER}/api/staff/activate/checkCode`, {
     method: "POST",
-    headers: JSONHeader,
     body: { activationId, mobile },
   });
 
@@ -197,7 +195,6 @@ export const bindPhone = async ({
     PhoneRawSuccessResponse | RawErrorResponse
   >(`${ACTIVATE_SERVER}/api/staff/activate/mobile`, {
     method: "POST",
-    headers: JSONHeader,
     body: { activationId, mobile, checkCode: code },
   });
 
@@ -240,7 +237,6 @@ export const replacePhone = async ({
     PhoneRawSuccessResponse | RawErrorResponse
   >(`${ACTIVATE_SERVER}/api/staff/activate/mobile/unbind`, {
     method: "POST",
-    headers: JSONHeader,
     body: { activationId, mobile, checkCode: code },
   });
 
@@ -273,7 +269,6 @@ export const setPassword = async ({
     ActivateRawSuccessResponse | RawErrorResponse
   >(`${ACTIVATE_SERVER}/api/staff/activate/password`, {
     method: "POST",
-    headers: JSONHeader,
     body: { activationId, password },
   });
 

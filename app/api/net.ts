@@ -3,10 +3,6 @@ import { createRequest, logger } from "@mptool/all";
 import { showToast } from "./ui.js";
 import { assets, server, service } from "../config/index.js";
 
-export const JSONHeader = {
-  "Content-Type": "application/json;charset=UTF-8",
-};
-
 /** 网络状态汇报 */
 export const networkReport = (): void => {
   // 获取网络信息
@@ -52,7 +48,7 @@ const { request, cookieStore } = createRequest({
     if (status < 400) {
       // 调试
       logger.info(
-        `Request ends with ${status}: `,
+        `Request ${url} ends with ${status}: `,
         headers.toObject(),
         typeof data === "string" && data.length > 200
           ? data.slice(0, 200)
@@ -63,7 +59,7 @@ const { request, cookieStore } = createRequest({
     }
 
     // 调试
-    logger.warn(`Request failed with statusCode: ${status}`);
+    logger.warn(`Request ${url} failed with statusCode: ${status}`);
 
     wx.reportEvent?.("service_error", {
       url,
