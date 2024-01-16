@@ -8,7 +8,15 @@ import { ensureJSON, getJSON } from "../../utils/json.js";
 import { popNotice } from "../../utils/page.js";
 
 const { globalData } = getApp<AppOption>();
-const { music } = globalData;
+
+interface MusicState {
+  /** 是否正在播放 */
+  playing: boolean;
+  /** 播放歌曲序号 */
+  index: number;
+}
+
+const musicState: MusicState = { playing: false, index: 0 };
 
 /** 音频管理器 */
 const manager = wx.getBackgroundAudioManager();
@@ -66,7 +74,7 @@ $Page("music", {
 
     // 写入基本信息
     this.setData({
-      playing: music.playing,
+      playing: musicState.playing,
       mode: mode || "列表循环",
 
       statusBarHeight: info.statusBarHeight,
@@ -82,19 +90,19 @@ $Page("music", {
 
     getJSON<SongDetail[]>("function/music/index").then((songList) => {
       if (option.index) {
-        music.index = Number(option.index);
+        musicState.index = Number(option.index);
       } else if (option.name) {
         const name = decodeURI(option.name);
 
-        music.index = songList.findIndex((song) => song.title === name);
+        musicState.index = songList.findIndex((song) => song.title === name);
       } else {
         const name = wx.getStorageSync<string | undefined>("music");
 
         if (name)
-          music.index = songList.findIndex((song) => song.title === name);
+          musicState.index = songList.findIndex((song) => song.title === name);
       }
 
-      const { index } = music;
+      const { index } = musicState;
       const currentSong = songList[index];
 
       // 写入歌曲列表与当前歌曲信息
@@ -105,7 +113,7 @@ $Page("music", {
       });
 
       // 如果正在播放，设置能够播放
-      if (music.playing) {
+      if (musicState.playing) {
         this.setData({ canplay: true });
       }
       // 对音频管理器进行设置
@@ -172,13 +180,13 @@ $Page("music", {
     manager.onPlay(() => {
       console.log("play");
       this.setData({ playing: true });
-      music.playing = true;
+      musicState.playing = true;
     });
 
     manager.onPause(() => {
       console.log("pause");
       this.setData({ playing: false });
-      music.playing = false;
+      musicState.playing = false;
     });
 
     manager.onTimeUpdate(() => {
@@ -396,7 +404,7 @@ $Page("music", {
       manager.title = currentSong.title;
       manager.singer = currentSong.singer;
       manager.coverImgUrl = currentSong.cover;
-      music.index = Number(index);
+      musicState.index = Number(index);
 
       this.initLyric();
 

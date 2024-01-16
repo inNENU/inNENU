@@ -86,7 +86,6 @@ export const getGlobalData = (): GlobalData => {
     version,
     account: get<AccountInfo | undefined>(ACCOUNT_INFO_KEY) || null,
     userInfo: get<UserInfo | undefined>(USER_INFO_KEY) || null,
-    music: { playing: false, index: 0 },
     page: {
       data: {},
       id: "",

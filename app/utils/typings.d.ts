@@ -56,13 +56,6 @@ export interface UserInfo {
   location: "benbu" | "jingyue" | "unknown";
 }
 
-export interface MusicState {
-  /** 是否正在播放 */
-  playing: boolean;
-  /** 播放歌曲序号 */
-  index: number;
-}
-
 export interface PageState {
   /** 页面数据 */
   data?: PageData;
@@ -80,8 +73,6 @@ export interface GlobalData {
   /** 账号信息 */
   account: AccountInfo | null;
   userInfo: UserInfo | null;
-  /** 播放器信息 */
-  music: MusicState;
   /** 页面信息 */
   page: PageState;
   /** 启动时间 */
