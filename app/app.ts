@@ -129,7 +129,8 @@ $App<AppOption>({
     console.info(`App awakes after ${time}ms`);
 
     // 重新应用夜间模式、
-    this.globalData.darkmode = wx.getSystemInfoSync().theme === "dark";
+    this.globalData.darkmode =
+      (wx.getAppBaseInfo || wx.getSystemInfoSync)().theme === "dark";
 
     fetchData(this.globalData, wx.getStorageSync("test")).then(() => {
       this.$emit("data");

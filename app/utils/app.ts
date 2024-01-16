@@ -33,7 +33,7 @@ export const initializeApp = (): void => {
   if (DEFAULT_CONFIG.theme === "auto") {
     let num;
     let theme;
-    const { platform } = wx.getSystemInfoSync();
+    const { platform } = (wx.getDeviceInfo || wx.getSystemInfoSync)();
 
     // 根据平台设置主题
     switch (platform) {

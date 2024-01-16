@@ -9,8 +9,7 @@ export const getDarkmode = (): boolean =>
   getApp<AppOption>().globalData.darkmode;
 
 export const getWindowInfo = (): WechatMiniprogram.WindowInfo =>
-  /** @desc >2.20.1 */
-  wx.getWindowInfo?.() || wx.getSystemInfoSync();
+  (wx.getWindowInfo || wx.getSystemInfoSync)();
 
 /**
  * 显示提示窗口
