@@ -99,12 +99,6 @@ const resolveContent = (
           (listElement.currentValue as any[])[index] = Number(pickerElement);
         });
       }
-    else if (listElement.type === "navigator")
-      if (
-        listElement.url?.startsWith("plugin://") &&
-        globalData.appID !== "wx9ce37d9662499df3"
-      )
-        return null;
 
   return listElement;
 };
