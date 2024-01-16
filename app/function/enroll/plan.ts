@@ -8,21 +8,19 @@ import {
   YearConfig,
 } from "../../../typings/index.js";
 import { showModal } from "../../api/index.js";
-import type { AppOption } from "../../app.js";
 import { appCoverPrefix } from "../../config/index.js";
 import type { EnrollPlanInfo } from "../../service/index.js";
 import { getEnrollPlan } from "../../service/index.js";
+import { info } from "../../utils/info.js";
 import { ensureResource, getResource } from "../../utils/json.js";
 import { getColor, popNotice } from "../../utils/page.js";
-
-const { globalData } = getApp<AppOption>();
 
 const PAGE_ID = "enroll-plan";
 const PAGE_TITLE = "招生计划";
 
 $Page(PAGE_ID, {
   data: {
-    theme: globalData.theme,
+    theme: info.theme,
 
     years: <string[]>[],
     provinces: <string[]>[],
@@ -52,7 +50,7 @@ $Page(PAGE_ID, {
   onLoad() {
     this.setData({
       color: getColor(),
-      theme: globalData.theme,
+      theme: info.theme,
     });
 
     getResource<SelectConfig>("function/enroll/plan")

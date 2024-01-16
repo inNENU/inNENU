@@ -1,12 +1,10 @@
 import { $Page } from "@mptool/all";
 
 import { addPhoneContact } from "../../api/index.js";
-import type { AppOption } from "../../app.js";
 import { appCoverPrefix } from "../../config/index.js";
+import { info } from "../../utils/info.js";
 import { ensureResource, getResource } from "../../utils/json.js";
 import { popNotice } from "../../utils/page.js";
-
-const { globalData } = getApp<AppOption>();
 
 interface PhoneItemConfig {
   name: string;
@@ -34,8 +32,7 @@ $Page("phone", {
     getResource<PhoneConfig[]>("function/phone/index").then((config) => {
       this.setData({
         config,
-        height:
-          globalData.info.windowHeight - globalData.info.statusBarHeight - 160,
+        height: info.windowHeight - info.statusBarHeight - 160,
       });
     });
 
@@ -56,7 +53,7 @@ $Page("phone", {
 
   onResize({ size }) {
     this.setData({
-      height: size.windowHeight - globalData.info.statusBarHeight - 160,
+      height: size.windowHeight - info.statusBarHeight - 160,
     });
   },
 

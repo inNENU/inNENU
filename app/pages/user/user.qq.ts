@@ -9,11 +9,12 @@ import {
   description,
 } from "../../config/index.js";
 import { DAY } from "../../config/index.js";
+import { info } from "../../utils/info.js";
 import { getColor, popNotice, resolvePage, setPage } from "../../utils/page.js";
 import { checkResource } from "../../utils/resource.js";
 
 const { globalData } = getApp<AppOption>();
-const { envName, version } = globalData;
+const { envName, version } = info;
 
 const PAGE_ID = "user";
 const PAGE_TITLE = "我的东师";
@@ -41,8 +42,8 @@ $Page(PAGE_ID, {
       desc: `当前版本: ${version}\n${envName}由 Mr.Hope 个人制作，如有错误还请见谅`,
     },
 
-    theme: globalData.theme,
-    statusBarHeight: globalData.info.statusBarHeight,
+    theme: info.theme,
+    statusBarHeight: info.statusBarHeight,
   },
 
   onPreload() {
@@ -50,9 +51,7 @@ $Page(PAGE_ID, {
 
     if (data) put(PAGE_ID, resolvePage({ id: PAGE_ID }, data));
 
-    console.debug(
-      `User page loading time: ${Date.now() - globalData.startupTime}ms`,
-    );
+    console.debug(`User page loading time: ${Date.now() - info.startupTime}ms`);
   },
 
   onLoad() {

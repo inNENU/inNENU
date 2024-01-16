@@ -1,11 +1,6 @@
 import type { AppSettings, ServiceSettings } from "./settings.ts";
 import type { PageData } from "../../typings/index.js";
 
-export type AppID =
-  | "wx33acb831ee1831a5"
-  | "wx9ce37d9662499df3"
-  | "wx69e79c3d87753512"
-  | 1109559721;
 export type Env = "app" | "qq" | "wx" | "web";
 
 export interface AccountInfo {
@@ -64,31 +59,17 @@ export interface PageState {
 }
 
 export interface GlobalData {
-  /** 运行环境 */
-  env: Env;
-  /** 运行环境名称 */
-  envName: string;
-  /** 版本号 */
-  version: string;
   /** 账号信息 */
   account: AccountInfo | null;
-  userInfo: UserInfo | null;
-  /** 页面信息 */
-  page: PageState;
-  /** 启动时间 */
-  startupTime: number;
-  /** 正在应用的主题 */
-  theme: string;
-  /** 夜间模式开启状态 */
-  darkmode: boolean;
-  /** 设备信息 */
-  info: WechatMiniprogram.SystemInfo;
-  /** 小程序 appid */
-  appID: AppID;
   /** 用户 OPENID */
   openid: string;
-  /** 是否能复制 */
-  selectable: boolean;
+  /** 用户信息 */
+  userInfo: UserInfo | null;
+  /** App 设置 */
   settings: Omit<AppSettings, "service" | "notice" | "update"> | null;
+  /** App 服务 */
   service: ServiceSettings;
+
+  /** 页面信息 */
+  page: PageState;
 }

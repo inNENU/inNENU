@@ -9,9 +9,7 @@ import {
   showModal,
   showToast,
 } from "../../api/index.js";
-import type { AppOption } from "../../app.js";
-
-const { globalData } = getApp<AppOption>();
+import { info } from "../../utils/info.js";
 
 $Component({
   properties: {
@@ -92,7 +90,7 @@ $Component({
           setClipboard(url).then(() => {
             showModal(
               "复制成功",
-              `下载链接已复制到您的剪切板。受${globalData.envName}限制，请您自行打开浏览器粘贴在地址栏中以下载。`,
+              `下载链接已复制到您的剪切板。受${info.envName}限制，请您自行打开浏览器粘贴在地址栏中以下载。`,
             );
           });
       } else if (["jpg", "png", "gif"].includes(icon))

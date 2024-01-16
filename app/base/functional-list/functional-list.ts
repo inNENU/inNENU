@@ -9,14 +9,12 @@ import type {
   SliderListComponentItemConfig,
   SwitchListComponentItemConfig,
 } from "../../../typings/index.js";
-import type { AppOption } from "../../app.js";
+import { info } from "../../utils/info.js";
 
 interface ListDetail<T = FunctionalListComponentItemOptions> {
   id: string;
   item: T;
 }
-
-const { globalData } = getApp<AppOption>();
 
 $Component({
   properties: {
@@ -72,7 +70,7 @@ $Component({
             // eslint-disable-next-line
             (item.value as any[])[y] = (item.select as any[][])[y]![Number(x)];
 
-            (item.currentValue as number[])![y] = Number(x);
+            (item.currentValue as number[])[y] = Number(x);
           });
           wx.setStorageSync(item.key, value.join("-"));
 
@@ -179,7 +177,7 @@ $Component({
 
   lifetimes: {
     attached() {
-      const { selectable } = globalData;
+      const { selectable } = info;
 
       this.setData({ selectable });
       this.setLogo = this.setLogo.bind(this);

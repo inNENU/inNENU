@@ -4,6 +4,7 @@ import type { PageDataWithContent } from "../../../typings/index.js";
 import type { AppOption } from "../../app.js";
 import { WIDGET_KEY, appCoverPrefix, appName } from "../../config/index.js";
 import { DAY } from "../../config/index.js";
+import { info } from "../../utils/info.js";
 import { getColor, popNotice, resolvePage, setPage } from "../../utils/page.js";
 import { checkResource } from "../../utils/resource.js";
 import { search } from "../../utils/search.js";
@@ -28,16 +29,16 @@ const defaultPage = <PageDataWithContent>resolvePage(
 
 $Page(PAGE_ID, {
   data: {
-    theme: globalData.theme,
+    theme: info.theme,
 
-    statusBarHeight: globalData.info.statusBarHeight,
+    statusBarHeight: info.statusBarHeight,
 
     /** 候选词 */
     words: <string[]>[],
 
     page: defaultPage,
 
-    menuSpace: globalData.env === "app" ? 10 : 90,
+    menuSpace: info.env === "app" ? 10 : 90,
   },
 
   onLoad() {

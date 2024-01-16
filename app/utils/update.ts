@@ -1,7 +1,7 @@
 import { logger, ls, rm } from "@mptool/all";
 
+import { info } from "./info.js";
 import { AppSettings } from "./settings.js";
-import type { GlobalData } from "./typings.js";
 import { request, showToast } from "../api/index.js";
 import { server } from "../config/info.js";
 
@@ -19,7 +19,7 @@ export interface UpdateInfo {
  *
  * @param globalData 小程序的全局数据
  */
-export const updateApp = (globalData: GlobalData): void => {
+export const updateApp = (): void => {
   const updateManager = wx.getUpdateManager?.();
 
   if (updateManager) {
@@ -34,7 +34,7 @@ export const updateApp = (globalData: GlobalData): void => {
       request<string>(`${server}service/app-version.php`, {
         method: "POST",
         body: {
-          appID: globalData.appID,
+          appID: info.appID,
         },
       })
         .then(({ data: version }) =>
@@ -43,7 +43,7 @@ export const updateApp = (globalData: GlobalData): void => {
             method: "POST",
             body: {
               version,
-              appID: globalData.appID,
+              appID: info.appID,
             },
           })
             .then(({ data: { update } }) => {

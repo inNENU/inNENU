@@ -64,7 +64,7 @@ export const submitUnderStudentArchiveInfo = async ({
         matches.map((item) => item.replace(/&nbsp;/g, " ").trim()),
       )
       .map(([text, input, remark]) => {
-        const [, name, value] = Array.from(input.matchAll(fieldsRegExp)!)[0];
+        const [, name, value] = Array.from(input.matchAll(fieldsRegExp))[0];
         const required = requiredRegExp.test(input);
 
         return {

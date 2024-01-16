@@ -1,22 +1,20 @@
 import { $Page, readFile } from "@mptool/all";
 
-import type { AppOption } from "../../app.js";
 import { appCoverPrefix } from "../../config/index.js";
+import { info } from "../../utils/info.js";
 import { getColor, popNotice } from "../../utils/page.js";
 import type { SearchResult, SearchType } from "../../utils/search.js";
 import { search } from "../../utils/search.js";
 
-const { globalData } = getApp<AppOption>();
-
 $Page("search", {
   data: {
-    theme: globalData.theme,
+    theme: info.theme,
 
     /** 搜索类别 */
     type: <SearchType>"all",
 
     /** 状态栏高度 */
-    statusBarHeight: globalData.info.statusBarHeight,
+    statusBarHeight: info.statusBarHeight,
 
     /** 候选词 */
     words: <string[]>[],
@@ -40,15 +38,15 @@ $Page("search", {
       firstPage: getCurrentPages().length === 1,
       color: getColor(true),
       searchWord: options.word || "",
-      theme: globalData.theme,
-      darkmode: globalData.darkmode,
+      theme: info.theme,
+      darkmode: info.darkmode,
     });
 
     popNotice("search");
   },
 
   onPageScroll(options) {
-    if (options.scrollTop > 250 + globalData.info.statusBarHeight)
+    if (options.scrollTop > 250 + info.statusBarHeight)
       this.setData({ showBackToTop: true });
     else this.setData({ showBackToTop: false });
   },

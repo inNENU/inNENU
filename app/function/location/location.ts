@@ -4,6 +4,7 @@ import type { LocationConfig, PageData } from "../../../typings/index.js";
 import type { AppOption } from "../../app.js";
 import { appCoverPrefix } from "../../config/index.js";
 import { defaultScroller } from "../../mixins/page-scroll.js";
+import { info } from "../../utils/info.js";
 import { getResource } from "../../utils/json.js";
 import { resolvePage, setPage } from "../../utils/page.js";
 
@@ -38,7 +39,7 @@ $Page("location", {
               { option, ctx: this },
               {
                 error: true,
-                statusBarHeight: globalData.info.statusBarHeight,
+                statusBarHeight: info.statusBarHeight,
               },
             );
           });
@@ -47,7 +48,7 @@ $Page("location", {
     }
 
     this.setData({
-      statusBarHeight: globalData.info.statusBarHeight,
+      statusBarHeight: info.statusBarHeight,
       firstPage: getCurrentPages().length === 1,
       point,
     });

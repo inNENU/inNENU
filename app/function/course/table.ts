@@ -16,6 +16,7 @@ import {
   getPostCourseTable,
   getUnderCourseTable,
 } from "../../service/index.js";
+import { info } from "../../utils/info.js";
 import { getColor, popNotice } from "../../utils/page.js";
 import type {
   CourseTableData,
@@ -25,7 +26,7 @@ import type {
 import { getCurrentTime, getWeekIndex } from "../../widgets/course/utils.js";
 
 const { globalData, useOnlineService } = getApp<AppOption>();
-const { envName } = globalData;
+const { envName } = info;
 
 const PAGE_ID = "course-table";
 const PAGE_TITLE = "课程表";
@@ -125,7 +126,7 @@ $Page(PAGE_ID, {
   onLoad() {
     this.setData({
       color: getColor(),
-      theme: globalData.theme,
+      theme: info.theme,
     });
   },
 

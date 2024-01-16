@@ -5,9 +5,7 @@ import type {
   ListComponentConfig,
   ListComponentItemConfig,
 } from "../../../typings/index.js";
-import type { AppOption } from "../../app.js";
-
-const { globalData } = getApp<AppOption>();
+import { info } from "../../utils/info.js";
 
 $Component({
   properties: {
@@ -33,7 +31,7 @@ $Component({
 
   lifetimes: {
     attached() {
-      const { selectable } = globalData;
+      const { selectable } = info;
 
       this.setData({ selectable });
       this.setLogo = this.setLogo.bind(this);

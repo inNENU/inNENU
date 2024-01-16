@@ -1,10 +1,11 @@
 import { logger } from "@mptool/all";
 
+import { info } from "./info.js";
 import { updateNotice } from "./notice.js";
 import type { GlobalData, UserInfo } from "./typings.js";
 import type { ComponentConfig } from "../../typings/components.js";
 import { request } from "../api/index.js";
-import { server } from "../config/info.js";
+import { server, version } from "../config/index.js";
 
 export interface Notice {
   /** 标题 */
@@ -91,13 +92,12 @@ export const fetchAppSettings = async (
   isTest = false,
 ): Promise<void> => {
   try {
-    const { appID, version } = globalData;
     const {
       data: { service, notice, ...data },
     } = await request<AppSettings>(`${server}service/settings.php`, {
       method: "POST",
       body: {
-        appID,
+        appID: info.appID,
         version: isTest ? "test" : version,
       },
     });

@@ -8,10 +8,11 @@ import {
   service,
 } from "../../config/index.js";
 import { getAnnouncement, getOnlineAnnouncement } from "../../service/index.js";
+import { info } from "../../utils/info.js";
 import { getColor, popNotice } from "../../utils/page.js";
 import type { StarredAnnouncement } from "../../widgets/star/typings.js";
 
-const { globalData, useOnlineService } = getApp<AppOption>();
+const { useOnlineService } = getApp<AppOption>();
 
 const PAGE_ID = "announcement-detail";
 
@@ -45,12 +46,12 @@ $Page(PAGE_ID, {
     this.getInfo();
     this.setData({
       color: getColor(),
-      theme: globalData.theme,
+      theme: info.theme,
       title,
       share: {
         title,
         shareable: true,
-        qrcode: `${service}mp/qrcode?appID=${globalData.appID}&page=function/announcement/detail&scene=${url}`,
+        qrcode: `${service}mp/qrcode?appID=${info.appID}&page=function/announcement/detail&scene=${url}`,
       },
       starred: starredAnnouncements.some((item) => item.url === url),
     });
@@ -91,9 +92,9 @@ $Page(PAGE_ID, {
   async getInfo() {
     const { url } = this.state;
 
-    const result = await (useOnlineService(PAGE_ID)
-      ? getOnlineAnnouncement
-      : getAnnouncement)(url);
+    const result = await (
+      useOnlineService(PAGE_ID) ? getOnlineAnnouncement : getAnnouncement
+    )(url);
 
     wx.hideLoading();
     if (result.success) {

@@ -1,7 +1,9 @@
-import type { AppID, Env } from "./typings.js";
+import { info } from "./info.js";
 import { request } from "../api/index.js";
 
-interface LoginCallback {
+const { appID, env } = info;
+
+export interface LoginInfo {
   openid: string;
   isAdmin: boolean;
   inBlacklist: boolean;
@@ -12,18 +14,14 @@ interface LoginCallback {
  *
  * @param appID 小程序的appID
  */
-export const login = (
-  appID: AppID,
-  env: Env,
-  callback: (result: LoginCallback) => void,
-): void => {
+export const login = (callback: (result: LoginInfo) => void): void => {
   const openid = wx.getStorageSync<string | undefined>("openid");
 
   if (env === "qq" || env === "wx") {
     wx.login({
       success: async ({ code }) => {
         if (code) {
-          const { data } = await request<LoginCallback>("/mp/login", {
+          const { data } = await request<LoginInfo>("/mp/login", {
             method: "POST",
             body: { appID, code, env, openid },
           });

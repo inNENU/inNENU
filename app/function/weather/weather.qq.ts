@@ -11,8 +11,9 @@ import { MINUTE } from "../../config/index.js";
 import type { WeatherData } from "../../service/index.js";
 import { getOnlineWeather, getWeather } from "../../service/index.js";
 import { WeatherAlarm } from "../../service/weather.js";
+import { info } from "../../utils/info.js";
 
-const { globalData, useOnlineService } = getApp<AppOption>();
+const { useOnlineService } = getApp<AppOption>();
 
 const PAGE_TITLE = "东师天气";
 
@@ -33,7 +34,6 @@ $Page("weather", {
   onLoad() {
     const weather = get<WeatherData>(WEATHER_KEY);
     const currentHour = new Date().getHours();
-    const { darkmode, info } = globalData;
 
     this.setData({
       // 18 点至次日 5 点为夜间
@@ -79,9 +79,9 @@ $Page("weather", {
 
     // 设置页面背景色
     wx.setBackgroundColor({
-      backgroundColorTop: darkmode ? "#000000" : "#efeef4",
-      backgroundColor: darkmode ? "#000000" : "#efeef4",
-      backgroundColorBottom: darkmode ? "#000000" : "#efeef4",
+      backgroundColorTop: "#efeef4",
+      backgroundColor: "#efeef4",
+      backgroundColorBottom: "#efeef4",
     });
 
     this.backgroundChange();

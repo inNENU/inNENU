@@ -26,10 +26,11 @@ import {
   setPassword,
   supportRedirect,
 } from "../../service/index.js";
+import { info } from "../../utils/info.js";
 import { getColor, popNotice } from "../../utils/page.js";
 
 const { globalData, useOnlineService } = getApp<AppOption>();
-const { envName } = globalData;
+const { envName } = info;
 
 const ACTIVATE_SMS_KEY = "activate-sms-code";
 const PAGE_ID = "activate";
@@ -37,16 +38,16 @@ const PAGE_TITLE = "账号激活";
 
 $Page(PAGE_ID, {
   data: {
-    theme: globalData.theme,
+    theme: info.theme,
     logo:
-      globalData.env === "qq"
+      info.env === "qq"
         ? `${assets}img/inNENU.png`
         : "/frameset/placeholder.png",
 
     /** 导航栏 */
     nav: {
       title: PAGE_TITLE,
-      statusBarHeight: globalData.info.statusBarHeight,
+      statusBarHeight: info.statusBarHeight,
       from: "返回",
     },
 

@@ -1,9 +1,7 @@
 import { get, set } from "@mptool/all";
 
-import type { AppOption } from "../../app.js";
 import { MONTH } from "../../config/index.js";
-
-const { globalData } = getApp<AppOption>();
+import { info } from "../../utils/info.js";
 
 const KEY = "add-miniprogram-hint";
 
@@ -18,10 +16,13 @@ Component({
   data: {
     notAdded: false,
     display: false,
-    statusBarHeight: globalData.info.statusBarHeight,
   },
 
   lifetimes: {
+    attached() {
+      this.setData({ statusBarHeight: info.statusBarHeight });
+    },
+
     ready() {
       if (wx.checkIsAddedToMyMiniProgram) {
         wx.checkIsAddedToMyMiniProgram({

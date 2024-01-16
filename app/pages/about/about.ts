@@ -7,8 +7,9 @@ import type {
 } from "../../../typings/index.js";
 import { setClipboard, showToast } from "../../api/index.js";
 import type { AppOption } from "../../app.js";
-import { appCoverPrefix, appName } from "../../config/index.js";
+import { appCoverPrefix, appName, version } from "../../config/index.js";
 import { DAY } from "../../config/index.js";
+import { info } from "../../utils/info.js";
 import { popNotice, resolvePage, setPage } from "../../utils/page.js";
 import { fetchAppSettings } from "../../utils/settings.js";
 
@@ -21,18 +22,18 @@ const PAGE_TITLE = "关于";
 
 $Page(PAGE_ID, {
   data: {
-    theme: globalData.theme,
-    darkmode: globalData.darkmode,
+    theme: info.theme,
+    darkmode: info.darkmode,
     page: <PageDataWithContent>{
       title: `关于 ${appName}`,
-      desc: `当前版本: ${globalData.version}`,
+      desc: `当前版本: ${version}`,
       grey: true,
       content: [
         {
           tag: "functional-list",
           header: "版本号",
           items: [
-            { text: globalData.version, type: "button", handler: "debugMode" },
+            { text: version, type: "button", handler: "debugMode" },
             {
               text: "允许复制",
               type: "switch",
@@ -247,7 +248,8 @@ $Page(PAGE_ID, {
    * @param value 开关状态
    */
   toggleSelectable(value: boolean) {
-    globalData.selectable = value;
+    // @ts-ignore
+    info.selectable = value;
   },
 
   /**

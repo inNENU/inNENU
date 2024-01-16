@@ -2,10 +2,11 @@
 import { emitter, get, logger, writeJSON } from "@mptool/all";
 
 import { platformActions } from "./app-platform.js";
+import { info } from "./info.js";
 import { login } from "./login.js";
 import { defaultResources, downloadResource } from "./resource.js";
 import type { ServiceSettings } from "./settings.js";
-import type { AccountInfo, AppID, GlobalData, UserInfo } from "./typings.js";
+import type { AccountInfo, GlobalData, UserInfo } from "./typings.js";
 import { updateApp } from "./update.js";
 import type { VersionInfo } from "../../typings/index.js";
 import { getCurrentRoute, request, showToast } from "../api/index.js";
@@ -15,8 +16,9 @@ import {
   INITIALIZED_KEY,
   USER_INFO_KEY,
   server,
-  version,
 } from "../config/index.js";
+
+const { env, envName } = info;
 
 /** 初始化小程序 */
 export const initializeApp = (): void => {
@@ -77,54 +79,34 @@ export const initializeApp = (): void => {
     });
 };
 
-export const getGlobalData = (): GlobalData => {
-  // 获取设备与运行环境信息
-  const info = wx.getSystemInfoSync();
-  const env = "miniapp" in wx ? "app" : info.AppPlatform || "wx";
-
-  return {
-    version,
-    account: get<AccountInfo | undefined>(ACCOUNT_INFO_KEY) || null,
-    userInfo: get<UserInfo | undefined>(USER_INFO_KEY) || null,
-    page: {
-      data: {},
-      id: "",
-    },
-    startupTime: Date.now(),
-    env,
-    envName: env === "app" ? "App" : "小程序",
-    theme: wx.getStorageSync<string>("theme") || "ios",
-    info,
-    settings: null,
-    darkmode: info.theme === "dark",
-    appID: wx.getAccountInfoSync().miniProgram.appId as AppID,
-    openid: "",
-    selectable: wx.getStorageSync<boolean>("selectable") || false,
-    service: wx.getStorageSync<ServiceSettings>("service") || {
-      forceOnline: false,
-    },
-  };
-};
+export const getGlobalData = (): GlobalData => ({
+  account: get<AccountInfo | undefined>(ACCOUNT_INFO_KEY) || null,
+  userInfo: get<UserInfo | undefined>(USER_INFO_KEY) || null,
+  page: {
+    data: {},
+    id: "",
+  },
+  settings: null,
+  openid: "",
+  service: wx.getStorageSync<ServiceSettings>("service") || {
+    forceOnline: false,
+  },
+});
 
 /** 注册全局监听 */
-const registerActions = (globalData: GlobalData): void => {
-  const { env, envName } = globalData;
+const registerActions = (): void => {
   const debug = wx.getStorageSync<boolean | undefined>("debugMode") || false;
 
+  // 设置调试
   wx.setEnableDebug({ enableDebug: debug });
   (wx.env as Record<string, unknown>).DEBUG = debug;
 
   // 获取网络信息
   wx.getNetworkType({
     success: ({ networkType }) => {
-      if (networkType === "none") showToast("您的网络状态不佳");
+      if (networkType === "none") showToast("没有网络连接");
     },
   });
-
-  if (wx.canIUse("onThemeChange"))
-    wx.onThemeChange(({ theme }) => {
-      globalData.darkmode = theme === "dark";
-    });
 
   // 设置内存不足警告
   wx.onMemoryWarning((res) => {
@@ -181,11 +163,6 @@ const registerActions = (globalData: GlobalData): void => {
       }
     });
   }
-
-  // 更新窗口大小
-  wx.onWindowResize(({ size }) => {
-    globalData.info = { ...globalData.info, ...size };
-  });
 };
 
 /**
@@ -196,13 +173,13 @@ const registerActions = (globalData: GlobalData): void => {
  * @param globalData 小程序的全局数据
  */
 export const startup = (globalData: GlobalData): void => {
-  registerActions(globalData);
-  updateApp(globalData);
-  login(globalData.appID, globalData.env, ({ openid, inBlacklist }) => {
+  registerActions();
+  login(({ openid, inBlacklist }) => {
     globalData.openid = openid;
 
     if (inBlacklist && getCurrentRoute() !== "pages/action/action")
       wx.reLaunch({ url: "/pages/action/action?action=blacklist" });
   });
   platformActions(globalData);
+  updateApp();
 };

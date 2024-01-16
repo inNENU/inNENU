@@ -1,21 +1,19 @@
 import { $Page, get, set } from "@mptool/all";
 
 import { confirmAction } from "../../api/index.js";
-import type { AppOption } from "../../app.js";
 import { WIDGET_KEY } from "../../config/index.js";
+import { info } from "../../utils/info.js";
 import { getColor, popNotice } from "../../utils/page.js";
 import { DEFAULT_WIDGETS, WIDGETS, WidgetInfo } from "../../widgets/config.js";
 import { WidgetConfig, getSize } from "../../widgets/utils.js";
-
-const { globalData } = getApp<AppOption>();
 
 const PAGE_ID = "widget-settings";
 const PAGE_TITLE = "小组件设置";
 
 $Page(PAGE_ID, {
   data: {
-    theme: globalData.theme,
-    darkmode: globalData.darkmode,
+    theme: info.theme,
+    darkmode: info.darkmode,
     style: "",
 
     addPopup: {
@@ -36,7 +34,7 @@ $Page(PAGE_ID, {
   },
 
   onLoad() {
-    const { darkmode, theme } = globalData;
+    const { darkmode, theme } = info;
     const widgets = get<WidgetConfig[]>(WIDGET_KEY) || DEFAULT_WIDGETS;
 
     this.setData({

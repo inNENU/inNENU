@@ -12,6 +12,7 @@ import {
   recentEmails,
 } from "../../service/index.js";
 import { LoginFailType, ensureActionLogin } from "../../service/index.js";
+import { info } from "../../utils/info.js";
 import type { WidgetStatus } from "../utils.js";
 import { getSize } from "../utils.js";
 
@@ -160,7 +161,7 @@ $Component({
       if (result.success) {
         const { url } = result;
 
-        if (globalData.env === "app")
+        if (info.env === "app")
           return this.$go(`web?url=${encodeURIComponent(url)}`);
 
         await setClipboard(url);

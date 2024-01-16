@@ -9,6 +9,7 @@ import type {
 import type { AppOption } from "../../app.js";
 import { appCoverPrefix } from "../../config/index.js";
 import { DAY } from "../../config/index.js";
+import { info } from "../../utils/info.js";
 import { getResource } from "../../utils/json.js";
 import { getColor, popNotice } from "../../utils/page.js";
 import { checkResource } from "../../utils/resource.js";
@@ -30,14 +31,14 @@ const defaultData = get<GuideData | undefined>(PAGE_ID);
 
 $Page(PAGE_ID, {
   data: {
-    theme: globalData.theme,
+    theme: info.theme,
 
-    statusBarHeight: globalData.info.statusBarHeight,
+    statusBarHeight: info.statusBarHeight,
 
     /** 候选词 */
     words: <string[]>[],
 
-    menuSpace: globalData.env === "app" ? 10 : 90,
+    menuSpace: info.env === "app" ? 10 : 90,
 
     /** 页面数据 */
     page: <PageDataWithContent>{

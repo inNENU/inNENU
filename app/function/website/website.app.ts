@@ -1,10 +1,8 @@
 import { $Page } from "@mptool/all";
 
-import type { AppOption } from "../../app.js";
+import { info } from "../../utils/info.js";
 import { ensureResource, getResource } from "../../utils/json.js";
 import { popNotice } from "../../utils/page.js";
-
-const { globalData } = getApp<AppOption>();
 
 const PAGE_ID = "website";
 
@@ -21,8 +19,7 @@ $Page("website", {
     getResource<unknown[]>("function/website/index").then((config) => {
       this.setData({
         config,
-        height:
-          globalData.info.windowHeight - globalData.info.statusBarHeight - 160,
+        height: info.windowHeight - info.statusBarHeight - 160,
       });
     });
 
@@ -31,7 +28,7 @@ $Page("website", {
 
   onResize({ size }) {
     this.setData({
-      height: size.windowHeight - globalData.info.statusBarHeight - 160,
+      height: size.windowHeight - info.statusBarHeight - 160,
     });
   },
 

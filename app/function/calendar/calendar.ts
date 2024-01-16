@@ -1,13 +1,11 @@
 import { $Page } from "@mptool/all";
 
 import { showModal, showToast } from "../../api/index.js";
-import type { AppOption } from "../../app.js";
 import type { TimeLineItem } from "../../components/timeline/timeline.js";
 import { appCoverPrefix } from "../../config/index.js";
+import { info } from "../../utils/info.js";
 import { ensureResource, getResource } from "../../utils/json.js";
 import { getColor, popNotice } from "../../utils/page.js";
-
-const { globalData } = getApp<AppOption>();
 
 const PAGE_ID = "calendar";
 const PAGE_TITLE = "东师校历";
@@ -19,7 +17,7 @@ interface CalendarDetail {
 
 $Page(PAGE_ID, {
   data: {
-    theme: globalData.theme,
+    theme: info.theme,
 
     calendar: <TimeLineItem[]>[],
     calendarDetail: <TimeLineItem[]>[],
@@ -38,7 +36,7 @@ $Page(PAGE_ID, {
       .then((calendar) => {
         this.setData({
           color: getColor(),
-          theme: globalData.theme,
+          theme: info.theme,
           calendar,
         });
       })

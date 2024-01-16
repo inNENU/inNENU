@@ -22,12 +22,13 @@ import {
   supportRedirect,
 } from "../../service/index.js";
 import { getLicenseStatus } from "../../utils/agreement.js";
+import { info } from "../../utils/info.js";
 import { logout } from "../../utils/logout.js";
 import { popNotice } from "../../utils/page.js";
 import type { UserInfo } from "../../utils/typings.js";
 
 const { globalData, useOnlineService } = getApp<AppOption>();
-const { envName } = globalData;
+const { envName } = info;
 
 const PAGE_ID = "account";
 const PAGE_TITLE = "统一身份认证信息";
@@ -81,16 +82,16 @@ const getDisplay = ({
 
 $Page(PAGE_ID, {
   data: {
-    theme: globalData.theme,
+    theme: info.theme,
     logo:
-      globalData.env === "qq"
+      info.env === "qq"
         ? `${assets}img/inNENU.png`
         : "/frameset/placeholder.png",
 
     /** 导航栏 */
     nav: {
       title: PAGE_TITLE,
-      statusBarHeight: globalData.info.statusBarHeight,
+      statusBarHeight: info.statusBarHeight,
       from: "返回",
     },
 

@@ -8,6 +8,7 @@ import type {
 import { showModal, showToast } from "../../api/index.js";
 import type { AppOption } from "../../app.js";
 import { getPrivacyStatus } from "../../utils/agreement.js";
+import { info } from "../../utils/info.js";
 import { popNotice, resolvePage, setPage } from "../../utils/page.js";
 
 const { globalData } = getApp<AppOption>();
@@ -37,8 +38,8 @@ const authorizeList: AuthorizeList[] = [
 
 $Page("privacy", {
   data: {
-    theme: globalData.theme,
-    darkmode: globalData.darkmode,
+    theme: info.theme,
+    darkmode: info.darkmode,
     page: <PageDataWithContent>{
       title: "隐私说明",
       content: [

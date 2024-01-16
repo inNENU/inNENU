@@ -1,8 +1,8 @@
 import { $Page } from "@mptool/all";
 
 import { setClipboard, showToast } from "../../api/index.js";
-import type { AppOption } from "../../app.js";
 import { appCoverPrefix } from "../../config/index.js";
+import { info } from "../../utils/info.js";
 import { ensureResource, getResource } from "../../utils/json.js";
 import { popNotice } from "../../utils/page.js";
 
@@ -16,8 +16,6 @@ interface PhoneConfig {
   name: string;
   list: PhoneItemConfig[];
 }
-
-const { globalData } = getApp<AppOption>();
 
 $Page("phone", {
   data: {
@@ -34,8 +32,7 @@ $Page("phone", {
     getResource<PhoneConfig[]>("function/phone/index").then((config) => {
       this.setData({
         config,
-        height:
-          globalData.info.windowHeight - globalData.info.statusBarHeight - 160,
+        height: info.windowHeight - info.statusBarHeight - 160,
       });
     });
 
@@ -56,7 +53,7 @@ $Page("phone", {
 
   onResize({ size }) {
     this.setData({
-      height: size.windowHeight - globalData.info.statusBarHeight - 160,
+      height: size.windowHeight - info.statusBarHeight - 160,
     });
   },
 

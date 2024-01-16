@@ -7,21 +7,21 @@ import type {
   PickerListComponentItemConfig,
 } from "../../../typings/index.js";
 import { confirmAction, showModal } from "../../api/index.js";
-import type { AppOption } from "../../app.js";
+import { version } from "../../config/index.js";
 import { supportRedirect } from "../../service/utils.js";
+import { info } from "../../utils/info.js";
 import { getColor, popNotice, setPage } from "../../utils/page.js";
 import { resetApp } from "../../utils/reset.js";
 import { defaultResources, downloadResource } from "../../utils/resource.js";
 
-const { globalData } = getApp<AppOption>();
-const { envName, version } = globalData;
+const { envName } = info;
 
 const PAGE_TITLE = `${envName}设置`;
 
 $Page("settings", {
   data: {
-    theme: globalData.theme,
-    darkmode: globalData.darkmode,
+    theme: info.theme,
+    darkmode: info.darkmode,
     page: <PageDataWithContent>{
       title: PAGE_TITLE,
       desc: `当前版本: ${version}`,
@@ -156,7 +156,8 @@ $Page("settings", {
       ).select as string[]
     )[Number(value)];
 
-    globalData.theme = theme;
+    // @ts-ignore
+    info.theme = theme;
     wx.setStorageSync("theme", theme);
     this.setData({ color: getColor(this.data.page.grey), theme });
     this.$emit("theme", theme);

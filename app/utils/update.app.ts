@@ -1,4 +1,4 @@
-import type { GlobalData } from "./typings.js";
+import { info } from "./info.js";
 import { compareVersion } from "./version.js";
 import { downLoad, requestJSON, showModal } from "../api/index.js";
 import { assets } from "../config/index.js";
@@ -12,14 +12,14 @@ let apkFilePath: string | null = null;
  *
  * @param globalData  App 的全局数据
  */
-export const updateApp = async (globalData: GlobalData): Promise<void> => {
+export const updateApp = async (): Promise<void> => {
   // 请求配置文件
   const onlineVersion = await requestJSON<string>(
-    `d/config/${globalData.appID}/version`,
+    `d/config/${info.appID}/version`,
   );
 
-  if (compareVersion(onlineVersion, globalData.version) > 0) {
-    if (globalData.info.platform === "android")
+  if (compareVersion(onlineVersion, info.version) > 0) {
+    if (info.platform === "android")
       showModal(
         "App有新版本",
         `App 的最新版本是 ${onlineVersion}，点击确定以更新至最新版本。`,

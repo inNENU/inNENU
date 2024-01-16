@@ -1,9 +1,7 @@
 import type { PropType } from "@mptool/all";
 import { $Component } from "@mptool/all";
 
-import type { AppOption } from "../../app.js";
-
-const { globalData } = getApp<AppOption>();
+import { info } from "../../utils/info.js";
 
 export interface TimeLineItem {
   /** 时间线项目标题 */
@@ -42,7 +40,7 @@ $Component({
 
   lifetimes: {
     attached() {
-      const { selectable } = globalData;
+      const { selectable } = info;
 
       this.setData({ selectable });
     },

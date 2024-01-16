@@ -2,12 +2,10 @@ import { $Page } from "@mptool/all";
 
 import type { Lyric, PlayMode, SongDetail } from "./typings.js";
 import { loadFZSSJW, showToast } from "../../api/index.js";
-import type { AppOption } from "../../app.js";
 import { appCoverPrefix, appName } from "../../config/index.js";
+import { info } from "../../utils/info.js";
 import { ensureResource, getResource } from "../../utils/json.js";
 import { popNotice } from "../../utils/page.js";
-
-const { globalData } = getApp<AppOption>();
 
 interface MusicState {
   /** 是否正在播放 */
@@ -68,7 +66,7 @@ $Page("music", {
   // eslint-disable-next-line max-lines-per-function
   onLoad(option) {
     const mode = wx.getStorageSync<PlayMode | undefined>("play-mode");
-    const { darkmode, info } = globalData;
+    const { darkmode } = info;
 
     if (!mode) wx.setStorageSync("play-mode", "列表循环");
 

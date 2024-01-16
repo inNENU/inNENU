@@ -4,9 +4,10 @@ import type { AppOption } from "../../app.js";
 import { appCoverPrefix } from "../../config/index.js";
 import type { AcademicInfoItem } from "../../service/index.js";
 import { getAcademicList, getOnlineAcademicList } from "../../service/index.js";
+import { info } from "../../utils/info.js";
 import { getColor, popNotice } from "../../utils/page.js";
 
-const { globalData, useOnlineService } = getApp<AppOption>();
+const { useOnlineService } = getApp<AppOption>();
 
 const PAGE_ID = "info-list";
 const PAGE_TITLE = "学术预告";
@@ -15,7 +16,7 @@ $Page(PAGE_ID, {
   data: {
     title: PAGE_TITLE,
 
-    theme: globalData.theme,
+    theme: info.theme,
 
     status: <"error" | "success">"success",
     items: <AcademicInfoItem[]>[],
@@ -26,7 +27,7 @@ $Page(PAGE_ID, {
   onLoad() {
     this.setData({
       color: getColor(),
-      theme: globalData.theme,
+      theme: info.theme,
     });
     this.getAcademicList(1);
   },
@@ -56,9 +57,9 @@ $Page(PAGE_ID, {
   async getAcademicList(page = 1) {
     wx.showLoading({ title: "获取中" });
 
-    const result = await (useOnlineService(PAGE_ID)
-      ? getOnlineAcademicList
-      : getAcademicList)({
+    const result = await (
+      useOnlineService(PAGE_ID) ? getOnlineAcademicList : getAcademicList
+    )({
       page,
       totalPage: this.data.totalPage,
     });

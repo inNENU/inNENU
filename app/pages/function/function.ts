@@ -4,6 +4,7 @@ import type { PageDataWithContent } from "../../../typings/index.js";
 import type { AppOption } from "../../app.js";
 import { appCoverPrefix } from "../../config/index.js";
 import { DAY } from "../../config/index.js";
+import { info } from "../../utils/info.js";
 import { getColor, popNotice, resolvePage, setPage } from "../../utils/page.js";
 import { checkResource } from "../../utils/resource.js";
 import { search } from "../../utils/search.js";
@@ -27,13 +28,13 @@ const defaultPage = <PageDataWithContent>resolvePage(
 
 $Page(PAGE_ID, {
   data: {
-    theme: globalData.theme,
-    statusBarHeight: globalData.info.statusBarHeight,
+    theme: info.theme,
+    statusBarHeight: info.statusBarHeight,
 
     /** 页面数据 */
     page: defaultPage,
 
-    menuSpace: globalData.env === "app" ? 10 : 90,
+    menuSpace: info.env === "app" ? 10 : 90,
   },
 
   onPreload() {
@@ -42,7 +43,7 @@ $Page(PAGE_ID, {
     if (data) put(PAGE_ID, resolvePage({ id: PAGE_ID }, data));
 
     console.debug(
-      `Function page loading time: ${Date.now() - globalData.startupTime}ms`,
+      `Function page loading time: ${Date.now() - info.startupTime}ms`,
     );
   },
 

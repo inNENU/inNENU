@@ -10,6 +10,7 @@ import {
 import type { NoticeType } from "../../service/index.js";
 import { getNotice, getOnlineNotice } from "../../service/index.js";
 import { ensureActionLogin } from "../../service/index.js";
+import { info } from "../../utils/info.js";
 import { getColor, popNotice } from "../../utils/page.js";
 import type { StarredNotice } from "../../widgets/star/typings.js";
 
@@ -46,13 +47,13 @@ $Page(PAGE_ID, {
 
     this.setData({
       color: getColor(),
-      theme: globalData.theme,
+      theme: info.theme,
       pageTitle: `${type === "news" ? "新闻" : "通知"}详情`,
       title,
       share: {
         title,
         shareable: true,
-        qrcode: `${service}mp/qrcode?appID=${globalData.appID}&page=function/notice/detail&scene=${id}`,
+        qrcode: `${service}mp/qrcode?appID=${info.appID}&page=function/notice/detail&scene=${id}`,
       },
       starred: starredNotices.some((item) => item.id === id),
     });
@@ -109,9 +110,9 @@ $Page(PAGE_ID, {
         return this.setData({ status: "error" });
       }
 
-      const result = await (useOnlineService(PAGE_ID)
-        ? getOnlineNotice
-        : getNotice)({
+      const result = await (
+        useOnlineService(PAGE_ID) ? getOnlineNotice : getNotice
+      )({
         noticeID: id,
       });
 

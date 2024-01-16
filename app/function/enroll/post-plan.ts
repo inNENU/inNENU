@@ -13,16 +13,17 @@ import {
   getPostPlan,
   getPostRecommendPlan,
 } from "../../service/index.js";
+import { info } from "../../utils/info.js";
 import { getColor, popNotice } from "../../utils/page.js";
 
-const { globalData, useOnlineService } = getApp<AppOption>();
+const { useOnlineService } = getApp<AppOption>();
 
 const PAGE_ID = "post-enroll-plan";
 const PAGE_TITLE = "研究生招生计划";
 
 $Page(PAGE_ID, {
   data: {
-    theme: globalData.theme,
+    theme: info.theme,
   },
 
   state: { plans: <PostEnrollSchoolPlan[] | PostRecommendSchoolPlan[]>[] },
@@ -30,7 +31,7 @@ $Page(PAGE_ID, {
   onLoad({ recommend, school = "全部" }) {
     this.setData({
       color: getColor(),
-      theme: globalData.theme,
+      theme: info.theme,
       title: recommend ? "研究生推免计划" : "研究生招生计划",
     });
     this.getPlan(Boolean(recommend), school);
@@ -125,7 +126,7 @@ $Page(PAGE_ID, {
   >) {
     const { site } = currentTarget.dataset;
 
-    if (globalData.env === "app") wx.miniapp.openUrl({ url: site });
+    if (info.env === "app") wx.miniapp.openUrl({ url: site });
     else setClipboard(site).then(() => showToast("网址已复制"));
   },
 });

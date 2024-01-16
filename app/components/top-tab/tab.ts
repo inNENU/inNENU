@@ -1,6 +1,4 @@
-import type { AppOption } from "../../app.js";
-
-const { globalData } = getApp<AppOption>();
+import { info } from "../../utils/info.js";
 
 Component({
   properties: {
@@ -17,13 +15,6 @@ Component({
     currentSwipe: 0,
   },
 
-  pageLifetimes: {
-    resize({ size }) {
-      globalData.info.windowWidth = size.windowWidth;
-      globalData.info.windowHeight = size.windowHeight;
-    },
-  },
-
   methods: {
     changeTab({ currentTarget }: WechatMiniprogram.TouchEvent): void {
       this.setData({ current: Number(currentTarget.dataset.index) });
@@ -37,7 +28,7 @@ Component({
     transition({ detail }: WechatMiniprogram.SwiperTransition): void {
       this.setData({
         barleft:
-          (detail.dx + globalData.info.windowWidth * this.data.currentSwipe) /
+          (detail.dx + info.windowWidth * this.data.currentSwipe) /
           this.data.navList.length,
       });
     },

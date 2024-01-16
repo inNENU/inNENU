@@ -6,14 +6,13 @@ import {
   showModal,
   showToast,
 } from "../../api/index.js";
-import type { AppOption } from "../../app.js";
 import { appCoverPrefix } from "../../config/index.js";
+import { info } from "../../utils/info.js";
 import { ensureResource, getResource } from "../../utils/json.js";
 import { popNotice } from "../../utils/page.js";
 import type { Env } from "../../utils/typings.js";
 
-const { globalData } = getApp<AppOption>();
-const { env } = globalData;
+const { env } = info;
 
 const PAGE_ID = "school-media";
 const PAGE_TITLE = "校园媒体";
@@ -24,7 +23,7 @@ $Page(PAGE_ID, {
 
     config: <unknown[]>[],
 
-    type: globalData.env,
+    type: env,
 
     footer: {
       desc: "校园媒体入驻，请联系 Mr.Hope",
@@ -40,8 +39,7 @@ $Page(PAGE_ID, {
       this.setData({
         config,
         type,
-        height:
-          globalData.info.screenHeight - globalData.info.statusBarHeight - 202,
+        height: info.screenHeight - info.statusBarHeight - 202,
       });
     });
 
@@ -62,8 +60,7 @@ $Page(PAGE_ID, {
 
   onResize() {
     this.setData({
-      height:
-        globalData.info.screenHeight - globalData.info.statusBarHeight - 202,
+      height: info.screenHeight - info.statusBarHeight - 202,
     });
   },
 

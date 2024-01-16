@@ -13,11 +13,11 @@ import {
   getOnlineUnderChangeMajorPlan,
   getUnderChangeMajorPlans,
 } from "../../service/index.js";
+import { info } from "../../utils/info.js";
 import { getColor, popNotice } from "../../utils/page.js";
 
 const { globalData, useOnlineService } = getApp<AppOption>();
-const { envName } = globalData;
-
+const { envName } = info;
 const PAGE_ID = "change-major-plan";
 const PAGE_TITLE = "转专业计划";
 
@@ -53,7 +53,7 @@ $Page(PAGE_ID, {
   onLoad() {
     this.setData({
       color: getColor(),
-      theme: globalData.theme,
+      theme: info.theme,
     });
   },
 

@@ -11,10 +11,11 @@ import {
   getEmailInfo,
   onlineMyEmail,
 } from "../../service/index.js";
+import { info } from "../../utils/info.js";
 import { popNotice } from "../../utils/page.js";
 
 const { globalData, useOnlineService } = getApp<AppOption>();
-const { envName } = globalData;
+const { envName } = info;
 
 const MAIL_LINK = "https://mail.nenu.edu.cn";
 const PAGE_ID = "apply-email";
@@ -22,15 +23,15 @@ const PAGE_TITLE = "校园邮箱申请";
 
 $Page(PAGE_ID, {
   data: {
-    theme: globalData.theme,
+    theme: info.theme,
     logo:
-      globalData.env === "qq"
+      info.env === "qq"
         ? `${assets}img/inNENU.png`
         : "/frameset/placeholder.png",
 
     nav: {
       title: PAGE_TITLE,
-      statusBarHeight: globalData.info.statusBarHeight,
+      statusBarHeight: info.statusBarHeight,
       from: "返回",
     },
 
@@ -119,9 +120,9 @@ $Page(PAGE_ID, {
   async checkEmail() {
     wx.showLoading({ title: "加载中" });
 
-    const err = await (useOnlineService("my-login")
-      ? ensureOnlineMyLogin
-      : ensureMyLogin)(globalData.account!, this.state.loginMethod);
+    const err = await (
+      useOnlineService("my-login") ? ensureOnlineMyLogin : ensureMyLogin
+    )(globalData.account!, this.state.loginMethod);
 
     if (err) {
       wx.hideLoading();
@@ -131,9 +132,9 @@ $Page(PAGE_ID, {
       return this.setData({ status: "error" });
     }
 
-    const result = await (useOnlineService("check-email")
-      ? onlineMyEmail
-      : getEmailInfo)();
+    const result = await (
+      useOnlineService("check-email") ? onlineMyEmail : getEmailInfo
+    )();
 
     wx.hideLoading();
 
@@ -250,7 +251,7 @@ $Page(PAGE_ID, {
   },
 
   initEmail() {
-    if (globalData.env === "app")
+    if (info.env === "app")
       this.$go(`web?url=${encodeURIComponent(MAIL_LINK)}`);
     else {
       setClipboard(MAIL_LINK).then(() =>

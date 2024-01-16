@@ -1,10 +1,9 @@
 import { ls, rm } from "@mptool/all";
 
+import { info } from "./info.js";
 import { confirmAction, showModal } from "../api/index.js";
-import type { AppOption } from "../app.js";
 
-const { globalData } = getApp<AppOption>();
-const { envName } = globalData;
+const { envName } = info;
 
 export const resetApp = (): void => {
   confirmAction(`重置${envName}`, () => {

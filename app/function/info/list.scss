@@ -6,14 +6,14 @@
 }
 
 .info-list {
-  padding: 6px 0;
   flex: 1;
+  padding: 6px 0;
 }
 
 .info-item {
+  overflow: hidden;
   margin: 8px 15px;
   border-radius: 8px;
-  overflow: hidden;
   background: var(--bg-color-block);
 }
 
@@ -29,10 +29,11 @@
 
   image {
     position: absolute;
-    left: 0;
     top: 0;
-    bottom: 0;
     right: 0;
+    bottom: 0;
+    left: 0;
+
     width: unset;
     height: unset;
   }
@@ -44,8 +45,8 @@
 }
 
 .title {
-  line-height: 1.25;
   font-size: 17px;
+  line-height: 1.25;
 }
 
 .info {

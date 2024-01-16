@@ -328,7 +328,7 @@ const getCourseTable = (documentContent: string): CourseData[][][] => {
       /<td align='center' height='50' width='123' >&nbsp;(.*?)<\/td>/g;
 
     while ((matched = courseItemReg.exec(item))) {
-      const courseContent = matched[1]!;
+      const courseContent = matched[1];
       const courseDataReg =
         /<a onclick=funSearchYxkc1\(2,'(.+?)',1\); style='cursor:pointer;width:100%'>(.+?)<\/a>/g;
 

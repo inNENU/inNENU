@@ -10,6 +10,7 @@ import {
   onlineRecentEmails,
   recentEmails,
 } from "../../service/index.js";
+import { info } from "../../utils/info.js";
 import { popNotice } from "../../utils/page.js";
 
 const { globalData, useOnlineService } = getApp<AppOption>();
@@ -19,15 +20,15 @@ const PAGE_TITLE = "校园邮箱";
 
 $Page(PAGE_ID, {
   data: {
-    theme: globalData.theme,
+    theme: info.theme,
     logo:
-      globalData.env === "qq"
+      info.env === "qq"
         ? `${assets}img/inNENU.png`
         : "/frameset/placeholder.png",
 
     nav: {
       title: PAGE_TITLE,
-      statusBarHeight: globalData.info.statusBarHeight,
+      statusBarHeight: info.statusBarHeight,
       from: "返回",
     },
 
@@ -88,9 +89,9 @@ $Page(PAGE_ID, {
       return this.setData({ status: "error" });
     }
 
-    const result = await (useOnlineService("recent-email")
-      ? onlineRecentEmails
-      : recentEmails)();
+    const result = await (
+      useOnlineService("recent-email") ? onlineRecentEmails : recentEmails
+    )();
 
     wx.hideLoading();
 
@@ -148,16 +149,16 @@ $Page(PAGE_ID, {
       return this.setData({ status: "error" });
     }
 
-    const result = await (useOnlineService("email-page")
-      ? onlineEmailPage
-      : emailPage)(currentTarget.dataset.mid);
+    const result = await (
+      useOnlineService("email-page") ? onlineEmailPage : emailPage
+    )(currentTarget.dataset.mid);
 
     wx.hideLoading();
 
     if (result.success) {
       const { url } = result;
 
-      if (globalData.env === "app")
+      if (info.env === "app")
         return this.$go(`web?url=${encodeURIComponent(url)}`);
 
       await setClipboard(url);

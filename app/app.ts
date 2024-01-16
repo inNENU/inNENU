@@ -4,6 +4,7 @@ import { $App, $Config, wrapFunction } from "@mptool/all";
 import { getDarkmode } from "./api/index.js";
 import { INITIALIZED_KEY } from "./config/keys.js";
 import { getGlobalData, initializeApp, startup } from "./utils/app.js";
+import { info } from "./utils/info.js";
 import { checkResource } from "./utils/resource.js";
 import { fetchAppSettings } from "./utils/settings.js";
 import type { GlobalData } from "./utils/typings.js";
@@ -129,27 +130,24 @@ $App<AppOption>({
     console.info(`App awakes after ${time}ms`);
 
     // 重新应用夜间模式、
-    this.globalData.darkmode =
+    // @ts-ignore
+    info.darkmode =
       (wx.getAppBaseInfo || wx.getSystemInfoSync)().theme === "dark";
 
     fetchAppSettings(this.globalData, wx.getStorageSync("test")).then(() => {
       this.$emit("data");
     });
-    updateApp(this.globalData);
+    updateApp();
   },
 
   onError(errorMsg) {
     console.error("Catch error msg: ", errorMsg);
   },
 
-  onPageNotFound(msg) {
+  onPageNotFound(options) {
     // 重定向到主界面
     wx.switchTab({ url: "pages/main/main" });
 
-    console.warn("Page not found:", msg);
-  },
-
-  onThemeChange({ theme }) {
-    this.globalData.darkmode = theme === "dark";
+    console.error("Page not found:", options);
   },
 });

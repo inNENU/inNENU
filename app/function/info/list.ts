@@ -4,10 +4,11 @@ import type { AppOption } from "../../app.js";
 import { appCoverPrefix } from "../../config/index.js";
 import type { InfoItem, InfoType } from "../../service/index.js";
 import { getInfoList, getOnlineInfoList } from "../../service/index.js";
+import { info } from "../../utils/info.js";
 import { getColor, popNotice } from "../../utils/page.js";
 import { getTitle } from "../../widgets/recent/utils.js";
 
-const { globalData, useOnlineService } = getApp<AppOption>();
+const { useOnlineService } = getApp<AppOption>();
 
 const PAGE_ID = "info-list";
 
@@ -15,7 +16,7 @@ $Page(PAGE_ID, {
   data: {
     title: "",
 
-    theme: globalData.theme,
+    theme: info.theme,
 
     status: <"error" | "success">"success",
     items: <InfoItem[]>[],
@@ -31,7 +32,7 @@ $Page(PAGE_ID, {
     this.state.type = <InfoType>type;
     this.setData({
       color: getColor(),
-      theme: globalData.theme,
+      theme: info.theme,
       title: getTitle(<InfoType>type),
     });
     this.getInfoList(1);
@@ -63,9 +64,9 @@ $Page(PAGE_ID, {
   async getInfoList(page = 1) {
     wx.showLoading({ title: "获取中" });
 
-    const result = await (useOnlineService(PAGE_ID)
-      ? getOnlineInfoList
-      : getInfoList)({
+    const result = await (
+      useOnlineService(PAGE_ID) ? getOnlineInfoList : getInfoList
+    )({
       page,
       type: this.state.type,
       totalPage: this.data.totalPage,

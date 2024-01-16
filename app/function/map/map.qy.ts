@@ -8,13 +8,11 @@ import type {
   MarkerData,
 } from "../../../typings/index.js";
 import { showModal, showToast } from "../../api/index.js";
-import type { AppOption } from "../../app.js";
 import { appCoverPrefix } from "../../config/index.js";
+import { info } from "../../utils/info.js";
 import { ensureResource, getResource } from "../../utils/json.js";
 import { startNavigation } from "../../utils/location.js";
 import { popNotice } from "../../utils/page.js";
-
-const { globalData } = getApp<AppOption>();
 
 const PAGE_ID = "map";
 const PAGE_TITLE = "东师地图";
@@ -95,8 +93,8 @@ $Page(PAGE_ID, {
 
     this.setData({
       area,
-      statusBarHeight: globalData.info.statusBarHeight,
-      tabHeight: globalData.info.windowHeight / 2 - 20,
+      statusBarHeight: info.statusBarHeight,
+      tabHeight: info.windowHeight / 2 - 20,
       firstPage: getCurrentPages().length === 1,
     });
 

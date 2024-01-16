@@ -2,11 +2,9 @@ import type { RichTextNode } from "@mptool/all";
 import { $Page } from "@mptool/all";
 
 import { requestJSON } from "../../api/index.js";
-import { AppOption } from "../../app.js";
 import { appCoverPrefix } from "../../config/info.js";
+import { info } from "../../utils/info.js";
 import { getColor } from "../../utils/page.js";
-
-const { globalData } = getApp<AppOption>();
 
 const PAGE_ID = "license";
 
@@ -25,14 +23,14 @@ $Page(PAGE_ID, {
   }) {
     this.setData({
       color: getColor(),
-      theme: globalData.theme,
+      theme: info.theme,
     });
 
     return requestJSON<{
       title: string;
       version: number;
       nodes: RichTextNode[];
-    }>(`d/config/${globalData.appID}/${type}-data`).then((data) => {
+    }>(`d/config/${info.appID}/${type}-data`).then((data) => {
       this.setData({ ...data, from, type });
     });
   },

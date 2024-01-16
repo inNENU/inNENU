@@ -1,12 +1,10 @@
 import { $Page } from "@mptool/all";
 
 import { loadFZSSJW, showToast } from "../../api/index.js";
-import type { AppOption } from "../../app.js";
 import { appCoverPrefix } from "../../config/index.js";
+import { info } from "../../utils/info.js";
 import { ensureResource, getResource } from "../../utils/json.js";
 import { popNotice } from "../../utils/page.js";
-
-const { globalData } = getApp<AppOption>();
 
 interface VideoConfig {
   /** 视频名称 */
@@ -79,8 +77,8 @@ $Page("video", {
         vid: item.vid || "",
 
         firstPage: getCurrentPages().length === 1,
-        statusBarHeight: globalData.info.statusBarHeight,
-        theme: globalData.theme,
+        statusBarHeight: info.statusBarHeight,
+        theme: info.theme,
       });
     });
 

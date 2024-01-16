@@ -6,17 +6,20 @@
 }
 
 .announcement-list {
-  padding: 6px 0;
   flex: 1;
+  padding: 6px 0;
 }
 
 .announcement-item {
-  text-align: left;
-  margin: 8px 15px;
-  border-radius: 8px;
-  padding: 8px;
   overflow: hidden;
+
+  margin: 8px 15px;
+  padding: 8px;
+  border-radius: 8px;
+
   background: var(--bg-color-block);
+
+  text-align: left;
 }
 
 .button-hover {
@@ -24,8 +27,8 @@
 }
 
 .title {
-  line-height: 1.25;
   font-size: 16px;
+  line-height: 1.25;
 }
 
 .person {

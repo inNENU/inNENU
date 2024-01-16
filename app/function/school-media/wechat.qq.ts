@@ -12,12 +12,11 @@ import {
   showModal,
   showToast,
 } from "../../api/index.js";
-import type { AppOption } from "../../app.js";
 import { appCoverPrefix, server } from "../../config/index.js";
+import { info } from "../../utils/info.js";
 import { ensureResource } from "../../utils/json.js";
 import { getColor, popNotice } from "../../utils/page.js";
 
-const { globalData } = getApp<AppOption>();
 const PAGE_ID = "wechat-detail";
 
 interface WechatArticleItemWithSize extends WechatArticleItem {
@@ -36,7 +35,7 @@ $Page(PAGE_ID, {
     authorized: false,
     follow: "",
 
-    statusBarHeight: globalData.info.statusBarHeight,
+    statusBarHeight: info.statusBarHeight,
     showBackToTop: false,
     footer: {
       desc: "更新文章，请联系 Mr.Hope",
@@ -63,7 +62,7 @@ $Page(PAGE_ID, {
   },
 
   onShow() {
-    const { windowWidth, windowHeight } = globalData.info;
+    const { windowWidth, windowHeight } = info;
 
     this.setData({
       windowWidth,
@@ -116,7 +115,7 @@ $Page(PAGE_ID, {
   },
 
   onPageScroll(options) {
-    if (options.scrollTop > 250 + globalData.info.statusBarHeight)
+    if (options.scrollTop > 250 + info.statusBarHeight)
       this.setData({ showBackToTop: true });
     else this.setData({ showBackToTop: false });
   },
@@ -152,7 +151,7 @@ $Page(PAGE_ID, {
   },
 
   appendSize(item: WechatArticleItem) {
-    const width = Math.min(globalData.info.windowWidth - 30, 517);
+    const width = Math.min(info.windowWidth - 30, 517);
     const titleCharPerLine = Math.floor((width - 30) / 16);
     const descCharPerLine = Math.floor((width - 30) / 14);
 

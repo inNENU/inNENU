@@ -8,10 +8,11 @@ import {
   service,
 } from "../../config/index.js";
 import { getAcademic, getOnlineAcademic } from "../../service/index.js";
+import { info } from "../../utils/info.js";
 import { getColor, popNotice } from "../../utils/page.js";
 import type { StarredAcademic } from "../../widgets/star/typings.js";
 
-const { globalData, useOnlineService } = getApp<AppOption>();
+const { useOnlineService } = getApp<AppOption>();
 
 const PAGE_ID = "academic-detail";
 
@@ -50,13 +51,13 @@ $Page(PAGE_ID, {
     this.getInfo();
     this.setData({
       color: getColor(),
-      theme: globalData.theme,
+      theme: info.theme,
       title,
       person,
       share: {
         title,
         shareable: true,
-        qrcode: `${service}mp/qrcode?appID=${globalData.appID}&page=function/academic/detail&scene=${url}`,
+        qrcode: `${service}mp/qrcode?appID=${info.appID}&page=function/academic/detail&scene=${url}`,
       },
       starred: starredInfos.some((item) => item.url === url),
     });
@@ -97,9 +98,9 @@ $Page(PAGE_ID, {
   async getInfo() {
     const { person, url } = this.state;
 
-    const result = await (useOnlineService(PAGE_ID)
-      ? getOnlineAcademic
-      : getAcademic)(url);
+    const result = await (
+      useOnlineService(PAGE_ID) ? getOnlineAcademic : getAcademic
+    )(url);
 
     wx.hideLoading();
     if (result.success) {

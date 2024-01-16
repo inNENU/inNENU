@@ -14,6 +14,7 @@ import { getCurrentRoute, showModal, showToast } from "../../api/index.js";
 import type { AppOption } from "../../app.js";
 import { appCoverPrefix } from "../../config/index.js";
 import { LoginFailType } from "../../service/index.js";
+import { info } from "../../utils/info.js";
 import { getColor, popNotice } from "../../utils/page.js";
 import { promiseQueue } from "../utils/promiseQueue.js";
 
@@ -32,7 +33,7 @@ $Page(PAGE_ID, {
     nav: {
       title: PAGE_TITLE,
     },
-    theme: globalData.theme,
+    theme: info.theme,
 
     login: false,
     firstPage: false,
@@ -103,7 +104,7 @@ $Page(PAGE_ID, {
   onLoad() {
     this.setData({
       color: getColor(),
-      theme: globalData.theme,
+      theme: info.theme,
       firstPage: getCurrentPages().length === 1,
     });
   },
@@ -663,8 +664,9 @@ $Page(PAGE_ID, {
               resolve(
                 this.getAmount(id).then((data) => {
                   if (data.success) {
-                    const amount = data.data.find((item) => item.cid === cid)
-                      ?.amount;
+                    const amount = data.data.find(
+                      (item) => item.cid === cid,
+                    )?.amount;
 
                     if (
                       typeof amount === "number" &&

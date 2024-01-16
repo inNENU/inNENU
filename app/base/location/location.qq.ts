@@ -5,9 +5,7 @@ import type {
   LocationComponentOptions,
   LocationConfig,
 } from "../../../typings/index.js";
-import type { AppOption } from "../../app.js";
-
-const { globalData } = getApp<AppOption>();
+import { info } from "../../utils/info.js";
 
 const getPoint = (point: LocationConfig & { id: number }): string =>
   JSON.stringify({
@@ -51,10 +49,7 @@ $Component({
       // add delay to make sure `<map />` is rendered
       setTimeout(() => {
         // FIXME: fix crash on iOS
-        if (
-          this.data.config.points.length === 1 &&
-          globalData.info.platform === "ios"
-        ) {
+        if (this.data.config.points.length === 1 && info.platform === "ios") {
           const { latitude, longitude } = this.data.config.points[0];
 
           this.setData({

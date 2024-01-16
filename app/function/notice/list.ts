@@ -6,6 +6,7 @@ import { appCoverPrefix } from "../../config/index.js";
 import type { NoticeItem } from "../../service/index.js";
 import { getNoticeList, getOnlineNoticeList } from "../../service/index.js";
 import { ensureActionLogin } from "../../service/index.js";
+import { info } from "../../utils/info.js";
 import { getColor, popNotice } from "../../utils/page.js";
 
 const { globalData, useOnlineService } = getApp<AppOption>();
@@ -16,7 +17,7 @@ $Page(PAGE_ID, {
   data: {
     title: "",
 
-    theme: globalData.theme,
+    theme: info.theme,
 
     status: <"error" | "login" | "success">"success",
     notices: <NoticeItem[]>[],
@@ -34,7 +35,7 @@ $Page(PAGE_ID, {
     this.state.type = <"notice" | "news">type;
     this.setData({
       color: getColor(),
-      theme: globalData.theme,
+      theme: info.theme,
       title: `学校${type === "news" ? "新闻" : "通知"}`,
     });
   },
@@ -86,9 +87,9 @@ $Page(PAGE_ID, {
         return this.setData({ status: "error" });
       }
 
-      const result = await (useOnlineService(PAGE_ID)
-        ? getOnlineNoticeList
-        : getNoticeList)({
+      const result = await (
+        useOnlineService(PAGE_ID) ? getOnlineNoticeList : getNoticeList
+      )({
         page,
         type: this.state.type,
       });

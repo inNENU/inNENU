@@ -5,6 +5,7 @@ import type { PageDataWithContent } from "../../../typings/index.js";
 import type { AppOption } from "../../app.js";
 import { appCoverPrefix, appName, description } from "../../config/index.js";
 import { DAY } from "../../config/index.js";
+import { info } from "../../utils/info.js";
 import { getColor, popNotice, resolvePage, setPage } from "../../utils/page.js";
 import { reportInfo } from "../../utils/report.js";
 import { checkResource } from "../../utils/resource.js";
@@ -40,8 +41,8 @@ $Page(PAGE_ID, {
       desc: footer,
     },
 
-    theme: globalData.theme,
-    statusBarHeight: globalData.info.statusBarHeight,
+    theme: info.theme,
+    statusBarHeight: info.statusBarHeight,
   },
 
   onPreload() {
@@ -49,9 +50,7 @@ $Page(PAGE_ID, {
 
     if (data) put(PAGE_ID, resolvePage({ id: PAGE_ID }, data));
 
-    console.debug(
-      `User page loading time: ${Date.now() - globalData.startupTime}ms`,
-    );
+    console.debug(`User page loading time: ${Date.now() - info.startupTime}ms`);
   },
 
   onLoad() {

@@ -3,6 +3,7 @@ import type { PageInstance, PageQuery } from "@mptool/all";
 import { logger, readJSON, writeJSON } from "@mptool/all";
 
 import { id2path } from "./id.js";
+import { info } from "./info.js";
 import { ensureResource } from "./json.js";
 import type { Notice } from "./notice.js";
 import { getScopeData } from "./scopeData.js";
@@ -52,7 +53,7 @@ const resolveContent = (
   if (
     "env" in listElement &&
     listElement.env &&
-    !listElement.env?.includes(globalData.env)
+    !listElement.env?.includes(info.env)
   )
     return null;
 
@@ -113,7 +114,7 @@ export const handleComponents = (
 
     // 设置隐藏
     if ("env" in component)
-      component.hidden = !component.env?.includes(globalData.env);
+      component.hidden = !component.env?.includes(info.env);
 
     if (tag === "img") {
       const { src, res, watermark } = component;
@@ -280,8 +281,8 @@ export interface ColorConfig {
 export const getColor = (grey = false): ColorConfig => {
   let temp: [string, string, string];
 
-  if (globalData.darkmode && grey)
-    switch (globalData.theme) {
+  if (info.darkmode && grey)
+    switch (info.theme) {
       case "Android":
         temp = ["#10110b", "#10110b", "#10110b"];
         break;
@@ -292,16 +293,16 @@ export const getColor = (grey = false): ColorConfig => {
       default:
         temp = ["#070707", "#070707", "#070707"];
     }
-  else if (globalData.darkmode && !grey)
-    switch (globalData.theme) {
+  else if (info.darkmode && !grey)
+    switch (info.theme) {
       case "ios":
       case "Android":
       case "nenu":
       default:
         temp = ["#000000", "#000000", "#000000"];
     }
-  else if (!globalData.darkmode && grey)
-    switch (globalData.theme) {
+  else if (!info.darkmode && grey)
+    switch (info.theme) {
       case "Android":
         temp = ["#f8f8f8", "#f8f8f8", "#f8f8f8"];
         break;
@@ -313,7 +314,7 @@ export const getColor = (grey = false): ColorConfig => {
         temp = ["#f4f4f4", "#efeef4", "#efeef4"];
     }
   else
-    switch (globalData.theme) {
+    switch (info.theme) {
       case "Android":
         temp = ["#f8f8f8", "#f8f8f8", "#f8f8f8"];
         break;
@@ -369,8 +370,8 @@ export const setPage = (
       ctx.setData(
         {
           color: getColor(pageData.grey),
-          theme: globalData.theme,
-          darkmode: globalData.darkmode,
+          theme: info.theme,
+          darkmode: info.darkmode,
           page: pageData,
         },
         () => {
@@ -392,8 +393,8 @@ export const setPage = (
       ctx.setData(
         {
           color: getColor(globalData.page.data?.grey),
-          theme: globalData.theme,
-          darkmode: globalData.darkmode,
+          theme: info.theme,
+          darkmode: info.darkmode,
           page: globalData.page.data,
         },
         () => {
@@ -416,8 +417,8 @@ export const setPage = (
       ctx.setData(
         {
           color: getColor(pageData.grey),
-          theme: globalData.theme,
-          darkmode: globalData.darkmode,
+          theme: info.theme,
+          darkmode: info.darkmode,
           page: pageData,
         },
         resolve,
@@ -482,8 +483,8 @@ export const setOnlinePage = (
       ctx.setData(
         {
           color: getColor(globalData.page.data!.grey),
-          theme: globalData.theme,
-          darkmode: globalData.darkmode,
+          theme: info.theme,
+          darkmode: info.darkmode,
           page: globalData.page.data,
         },
         () => {
@@ -544,7 +545,7 @@ export const setOnlinePage = (
                 error: true,
                 id: option.id,
                 from: option.from,
-                statusBarHeight: globalData.info.statusBarHeight,
+                statusBarHeight: info.statusBarHeight,
               },
             );
             popNotice(option.id || "");
@@ -596,7 +597,7 @@ export const loadOnlinePage = (
             error: true,
             id: option.id,
             from: option.from,
-            statusBarHeight: globalData.info.statusBarHeight,
+            statusBarHeight: info.statusBarHeight,
           },
         );
         popNotice(option.id || "");

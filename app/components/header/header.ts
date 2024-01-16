@@ -1,8 +1,6 @@
 import { $Component } from "@mptool/all";
 
-import type { AppOption } from "../../app.js";
-
-const { globalData } = getApp<AppOption>();
+import { info } from "../../utils/info.js";
 
 $Component({
   properties: {
@@ -13,10 +11,8 @@ $Component({
 
   lifetimes: {
     attached() {
-      const { statusBarHeight } = globalData.info;
-
       this.setData({
-        statusBarHeight,
+        statusBarHeight: info.statusBarHeight,
         firstPage: getCurrentPages().length === 1,
       });
 

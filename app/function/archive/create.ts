@@ -25,10 +25,11 @@ import {
   submitUnderStudentArchiveInfo,
   submitUnderStudentArchiveStudy,
 } from "../../service/index.js";
+import { info } from "../../utils/info.js";
 import { getColor, popNotice } from "../../utils/page.js";
 
 const { globalData, useOnlineService } = getApp<AppOption>();
-const { envName } = globalData;
+const { envName } = info;
 const PAGE_ID = "create-archive";
 const PAGE_TITLE = "建立学籍";
 
@@ -74,7 +75,7 @@ $Page(PAGE_ID, {
   onLoad() {
     this.setData({
       color: getColor(),
-      theme: globalData.theme,
+      theme: info.theme,
     });
   },
 
@@ -210,15 +211,19 @@ $Page(PAGE_ID, {
     wx.showLoading({ title: "获取中" });
 
     try {
-      const err = await (useOnlineService("under-login")
-        ? ensureOnlineUnderSystemLogin
-        : ensureUnderSystemLogin)(globalData.account!, this.state.loginMethod);
+      const err = await (
+        useOnlineService("under-login")
+          ? ensureOnlineUnderSystemLogin
+          : ensureUnderSystemLogin
+      )(globalData.account!, this.state.loginMethod);
 
       if (err) throw err.msg;
 
-      const result = await (useOnlineService(PAGE_ID)
-        ? getOnlineUnderStudentArchiveInfo
-        : getUnderStudentArchiveInfo)();
+      const result = await (
+        useOnlineService(PAGE_ID)
+          ? getOnlineUnderStudentArchiveInfo
+          : getUnderStudentArchiveInfo
+      )();
 
       wx.hideLoading();
       this.state.inited = true;
@@ -316,9 +321,11 @@ $Page(PAGE_ID, {
     wx.showLoading({ title: "提交中" });
 
     try {
-      const err = await (useOnlineService("under-login")
-        ? ensureOnlineUnderSystemLogin
-        : ensureUnderSystemLogin)(globalData.account!, this.state.loginMethod);
+      const err = await (
+        useOnlineService("under-login")
+          ? ensureOnlineUnderSystemLogin
+          : ensureUnderSystemLogin
+      )(globalData.account!, this.state.loginMethod);
 
       if (err) throw err.msg;
 
@@ -366,9 +373,11 @@ $Page(PAGE_ID, {
       fields.find(({ name }) => name === "gxstr")!.value =
         changedFields.join(",");
 
-      const result = await (useOnlineService(PAGE_ID)
-        ? submitOnlineUnderStudentArchiveInfo
-        : submitUnderStudentArchiveInfo)({ fields, path: infoPath });
+      const result = await (
+        useOnlineService(PAGE_ID)
+          ? submitOnlineUnderStudentArchiveInfo
+          : submitUnderStudentArchiveInfo
+      )({ fields, path: infoPath });
 
       wx.hideLoading();
       this.state.inited = true;
@@ -399,9 +408,11 @@ $Page(PAGE_ID, {
     wx.showLoading({ title: "提交中" });
 
     try {
-      const err = await (useOnlineService("under-login")
-        ? ensureOnlineUnderSystemLogin
-        : ensureUnderSystemLogin)(globalData.account!, this.state.loginMethod);
+      const err = await (
+        useOnlineService("under-login")
+          ? ensureOnlineUnderSystemLogin
+          : ensureUnderSystemLogin
+      )(globalData.account!, this.state.loginMethod);
 
       if (err) throw err.msg;
 
@@ -411,9 +422,11 @@ $Page(PAGE_ID, {
         fields.push({ name, value });
       });
 
-      const result = await (useOnlineService(PAGE_ID)
-        ? submitOnlineUnderStudentArchiveAddress
-        : submitUnderStudentArchiveAddress)({ fields, path: addressPath });
+      const result = await (
+        useOnlineService(PAGE_ID)
+          ? submitOnlineUnderStudentArchiveAddress
+          : submitUnderStudentArchiveAddress
+      )({ fields, path: addressPath });
 
       wx.hideLoading();
       this.state.inited = true;
@@ -442,15 +455,19 @@ $Page(PAGE_ID, {
     wx.showLoading({ title: "提交中" });
 
     try {
-      const err = await (useOnlineService("under-login")
-        ? ensureOnlineUnderSystemLogin
-        : ensureUnderSystemLogin)(globalData.account!, this.state.loginMethod);
+      const err = await (
+        useOnlineService("under-login")
+          ? ensureOnlineUnderSystemLogin
+          : ensureUnderSystemLogin
+      )(globalData.account!, this.state.loginMethod);
 
       if (err) throw err.msg;
 
-      const result = await (useOnlineService(PAGE_ID)
-        ? submitOnlineUnderStudentArchiveStudy
-        : submitUnderStudentArchiveStudy)({
+      const result = await (
+        useOnlineService(PAGE_ID)
+          ? submitOnlineUnderStudentArchiveStudy
+          : submitUnderStudentArchiveStudy
+      )({
         fields: studyFields,
         path: studyPath,
         study,
@@ -483,15 +500,19 @@ $Page(PAGE_ID, {
     wx.showLoading({ title: "提交中" });
 
     try {
-      const err = await (useOnlineService("under-login")
-        ? ensureOnlineUnderSystemLogin
-        : ensureUnderSystemLogin)(globalData.account!, this.state.loginMethod);
+      const err = await (
+        useOnlineService("under-login")
+          ? ensureOnlineUnderSystemLogin
+          : ensureUnderSystemLogin
+      )(globalData.account!, this.state.loginMethod);
 
       if (err) throw err.msg;
 
-      const result = await (useOnlineService(PAGE_ID)
-        ? submitOnlineUnderStudentArchiveFamily
-        : submitUnderStudentArchiveFamily)({
+      const result = await (
+        useOnlineService(PAGE_ID)
+          ? submitOnlineUnderStudentArchiveFamily
+          : submitUnderStudentArchiveFamily
+      )({
         fields: familyFields,
         path: familyPath,
         family,

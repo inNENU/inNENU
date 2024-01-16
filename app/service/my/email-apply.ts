@@ -110,7 +110,7 @@ export const getEmailInfo = async (): Promise<GetEmailResponse> => {
         msg: "邮箱已创建，但未找到到申请记录",
       };
 
-    const mailInitInfo = await getMailInitInfo(results[0]!.PROC_INST_ID_);
+    const mailInitInfo = await getMailInitInfo(results[0].PROC_INST_ID_);
 
     if (mailInitInfo.success === false) return mailInitInfo;
 

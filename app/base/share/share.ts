@@ -9,14 +9,10 @@ import {
   showModal,
   showToast,
 } from "../../api/index.js";
-import type { AppOption } from "../../app.js";
 import { appName, server, service } from "../../config/index.js";
 import { path2id } from "../../utils/id.js";
+import { info } from "../../utils/info.js";
 import { reportInfo } from "../../utils/report.js";
-
-const {
-  globalData: { appID },
-} = getApp<AppOption>();
 
 type ShareConfig = Pick<
   PageData,
@@ -32,6 +28,8 @@ interface ActionConfig {
 }
 
 type LinkData = { error: true } | { error: false; link: string };
+
+const { appID } = info;
 
 $Component({
   properties: {
