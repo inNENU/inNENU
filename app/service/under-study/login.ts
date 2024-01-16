@@ -3,7 +3,7 @@ import { logger } from "@mptool/all";
 import { checkOnlineUnderStudyCookie, checkUnderStudyCookie } from "./check.js";
 import { UNDER_STUDY_SERVER } from "./utils.js";
 import { cookieStore, request } from "../../api/index.js";
-import { AccountInfo } from "../../utils/typings.js";
+import type { AccountInfo } from "../../state/user.js";
 import type { AuthLoginFailedResponse } from "../auth/login.js";
 import { authLogin } from "../auth/login.js";
 import { handleFailResponse } from "../fail.js";

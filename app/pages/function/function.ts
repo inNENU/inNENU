@@ -5,10 +5,10 @@ import type { AppOption } from "../../app.js";
 import { appCoverPrefix } from "../../config/index.js";
 import { DAY } from "../../config/index.js";
 import { info } from "../../state/info.js";
+import { getIdentity } from "../../state/user.js";
 import { getColor, popNotice, resolvePage, setPage } from "../../utils/page.js";
 import { checkResource } from "../../utils/resource.js";
 import { search } from "../../utils/search.js";
-import { getIdentity } from "../../utils/settings.js";
 
 const { globalData } = getApp<AppOption>();
 
@@ -100,7 +100,7 @@ $Page(PAGE_ID, {
   loadPage(): PageDataWithContent | null {
     if (!globalData.settings) return null;
 
-    const { id } = getIdentity(globalData.userInfo);
+    const { id } = getIdentity();
     const {
       "function-page": functionConfig,
       "function-presets": functionPresets,

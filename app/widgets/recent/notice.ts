@@ -10,6 +10,7 @@ import {
   getNoticeList,
   getOnlineNoticeList,
 } from "../../service/index.js";
+import { user } from "../../state/user.js";
 import {
   FILTERED_SOURCES,
   WidgetSize,
@@ -17,7 +18,7 @@ import {
   getSize,
 } from "../utils.js";
 
-const { globalData, useOnlineService } = getApp<AppOption>();
+const { useOnlineService } = getApp<AppOption>();
 
 const getKey = (type: NoticeType): string =>
   type === "news" ? NEWS_LIST_KEY : NOTICE_LIST_KEY;
@@ -65,7 +66,7 @@ $Component({
 
   pageLifetimes: {
     show() {
-      if (globalData.account) {
+      if (user.account) {
         if (this.data.status === "login") {
           this.setData({ status: "loading" });
           this.getNoticeList("validate");
@@ -78,8 +79,8 @@ $Component({
     async getNoticeList(status: "check" | "login" | "validate" = "check") {
       const { noticeType, size } = this.data;
 
-      if (globalData.account) {
-        const err = await ensureActionLogin(globalData.account, status);
+      if (user.account) {
+        const err = await ensureActionLogin(user.account, status);
 
         if (err) {
           showToast(err.msg);

@@ -7,9 +7,10 @@ import type { NoticeItem } from "../../service/index.js";
 import { getNoticeList, getOnlineNoticeList } from "../../service/index.js";
 import { ensureActionLogin } from "../../service/index.js";
 import { info } from "../../state/info.js";
+import { user } from "../../state/user.js";
 import { getColor, popNotice } from "../../utils/page.js";
 
-const { globalData, useOnlineService } = getApp<AppOption>();
+const { useOnlineService } = getApp<AppOption>();
 
 const PAGE_ID = "notice-list";
 
@@ -41,7 +42,7 @@ $Page(PAGE_ID, {
   },
 
   onShow() {
-    if (globalData.account) {
+    if (user.account) {
       if (this.data.status === "login" || !this.state.inited)
         this.getNoticeList(1);
     } else {
@@ -71,13 +72,10 @@ $Page(PAGE_ID, {
   },
 
   async getNoticeList(page = 1) {
-    if (globalData.account) {
+    if (user.account) {
       wx.showLoading({ title: "获取中" });
 
-      const err = await ensureActionLogin(
-        globalData.account,
-        this.state.loginMethod,
-      );
+      const err = await ensureActionLogin(user.account, this.state.loginMethod);
 
       if (err) {
         wx.hideLoading();

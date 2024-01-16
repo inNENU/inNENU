@@ -23,9 +23,10 @@ import {
   // getUnderGradeList,
 } from "../../service/index.js";
 import { info } from "../../state/info.js";
+import { user } from "../../state/user.js";
 import { getColor, popNotice } from "../../utils/page.js";
 
-const { globalData, useOnlineService } = getApp<AppOption>();
+const { useOnlineService } = getApp<AppOption>();
 const { envName } = info;
 
 const PAGE_ID = "grade";
@@ -131,10 +132,10 @@ $Page(PAGE_ID, {
   },
 
   onShow() {
-    const { account, userInfo } = globalData;
+    const { account, info } = user;
 
     if (account) {
-      if (!userInfo) {
+      if (!info) {
         return showModal(
           "个人信息缺失",
           `${envName}本地暂无个人信息，请重新登录`,
@@ -145,9 +146,8 @@ $Page(PAGE_ID, {
       }
 
       if (!this.state.inited || this.data.needLogin) {
-        const grade = userInfo.grade;
-        const type = userInfo.typeId === "bks" ? "under" : "post";
-        const timeConfig = getTimeConfig(grade);
+        const type = info.typeId === "bks" ? "under" : "post";
+        const timeConfig = getTimeConfig(info.grade);
         const grades = get<UnderGradeResult[] | PostGradeResult[]>(
           GRADE_DATA_KEY,
         );
@@ -171,7 +171,7 @@ $Page(PAGE_ID, {
       }
     }
 
-    this.setData({ needLogin: !globalData.account });
+    this.setData({ needLogin: !user.account });
 
     popNotice(PAGE_ID);
   },
@@ -196,7 +196,7 @@ $Page(PAGE_ID, {
         useOnlineService("under-study-login")
           ? ensureUnderStudyLogin
           : ensureOnlineUnderStudyLogin
-      )(globalData.account!, this.state.loginMethod);
+      )(user.account!, this.state.loginMethod);
 
       if (err) throw err.msg;
 
@@ -239,7 +239,7 @@ $Page(PAGE_ID, {
         useOnlineService("post-login")
           ? ensureOnlinePostSystemLogin
           : ensurePostSystemLogin
-      )(globalData.account!, this.state.loginMethod);
+      )(user.account!, this.state.loginMethod);
 
       if (err) throw err.msg;
 

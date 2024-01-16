@@ -6,7 +6,7 @@ import {
 } from "./check.js";
 import { UNDER_SYSTEM_DOMAIN, UNDER_SYSTEM_SERVER } from "./utils.js";
 import { cookieStore, request } from "../../api/index.js";
-import type { AccountInfo } from "../../utils/typings.js";
+import type { AccountInfo } from "../../state/user.js";
 import type { AuthLoginFailedResponse } from "../auth/index.js";
 import { authLogin } from "../auth/index.js";
 import { handleFailResponse } from "../fail.js";

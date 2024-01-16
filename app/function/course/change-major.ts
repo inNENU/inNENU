@@ -14,9 +14,10 @@ import {
   getUnderChangeMajorPlans,
 } from "../../service/index.js";
 import { info } from "../../state/info.js";
+import { user } from "../../state/user.js";
 import { getColor, popNotice } from "../../utils/page.js";
 
-const { globalData, useOnlineService } = getApp<AppOption>();
+const { useOnlineService } = getApp<AppOption>();
 const { envName } = info;
 const PAGE_ID = "change-major-plan";
 const PAGE_TITLE = "转专业计划";
@@ -58,10 +59,10 @@ $Page(PAGE_ID, {
   },
 
   onShow() {
-    const { account, userInfo } = globalData;
+    const { account, info } = user;
 
     if (account) {
-      if (!userInfo) {
+      if (!info) {
         return showModal(
           "个人信息缺失",
           `${envName}本地暂无个人信息，请重新登录`,
@@ -72,19 +73,19 @@ $Page(PAGE_ID, {
       }
 
       if (!this.state.inited || this.data.needLogin) {
-        if (userInfo.typeId !== "bks")
+        if (info.typeId !== "bks")
           return showModal("暂不支持", "转专业计划查询仅支持本科生", () => {
             this.$back();
           });
 
-        const info = get<PlanData>(CHANGE_MAJOR_DATA_KEY);
+        const plans = get<PlanData>(CHANGE_MAJOR_DATA_KEY);
 
-        if (info) this.setPlans(info);
+        if (plans) this.setPlans(plans);
         else this.getPlans();
       }
     }
 
-    this.setData({ needLogin: !globalData.account });
+    this.setData({ needLogin: !user.account });
 
     popNotice(PAGE_ID);
   },
@@ -109,7 +110,7 @@ $Page(PAGE_ID, {
         useOnlineService("under-login")
           ? ensureOnlineUnderSystemLogin
           : ensureUnderSystemLogin
-      )(globalData.account!, this.state.loginMethod);
+      )(user.account!, this.state.loginMethod);
 
       if (err) throw err.msg;
 

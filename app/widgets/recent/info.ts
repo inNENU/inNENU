@@ -15,9 +15,10 @@ import {
   getInfoList,
   getOnlineInfoList,
 } from "../../service/index.js";
+import { user } from "../../state/user.js";
 import { WidgetSize, WidgetStatus, getSize } from "../utils.js";
 
-const { globalData, useOnlineService } = getApp<AppOption>();
+const { useOnlineService } = getApp<AppOption>();
 
 const getKey = (type: InfoType): string =>
   ({
@@ -88,7 +89,7 @@ $Component({
 
   pageLifetimes: {
     show() {
-      if (globalData.account) {
+      if (user.account) {
         if (this.data.status === "login") {
           this.setData({ status: "loading" });
           this.getInfoList("validate");
@@ -101,8 +102,8 @@ $Component({
     async getInfoList(status: "check" | "login" | "validate" = "check") {
       const { infoType, size } = this.data;
 
-      if (globalData.account) {
-        const err = await ensureActionLogin(globalData.account, status);
+      if (user.account) {
+        const err = await ensureActionLogin(user.account, status);
 
         if (err) {
           showToast(err.msg);

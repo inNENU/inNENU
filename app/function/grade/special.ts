@@ -13,9 +13,10 @@ import {
   // getUnderSpecialExam,
 } from "../../service/index.js";
 import { info } from "../../state/info.js";
+import { user } from "../../state/user.js";
 import { getColor, popNotice } from "../../utils/page.js";
 
-const { globalData, useOnlineService } = getApp<AppOption>();
+const { useOnlineService } = getApp<AppOption>();
 const { envName } = info;
 
 const PAGE_ID = "special-exam";
@@ -45,10 +46,10 @@ $Page(PAGE_ID, {
   },
 
   onShow() {
-    const { account, userInfo } = globalData;
+    const { account, info } = user;
 
     if (account) {
-      if (!userInfo) {
+      if (!info) {
         return showModal(
           "个人信息缺失",
           `${envName}本地暂无个人信息，请重新登录`,
@@ -59,7 +60,7 @@ $Page(PAGE_ID, {
       }
 
       if (!this.state.inited || this.data.needLogin) {
-        if (userInfo.typeId !== "bks")
+        if (info.typeId !== "bks")
           return showModal("暂不支持", "专项考试查询仅支持本科生", () => {
             this.$back();
           });
@@ -71,7 +72,7 @@ $Page(PAGE_ID, {
       }
     }
 
-    this.setData({ needLogin: !globalData.account });
+    this.setData({ needLogin: !user.account });
 
     popNotice(PAGE_ID);
   },
@@ -96,7 +97,7 @@ $Page(PAGE_ID, {
         useOnlineService("under-study-login")
           ? ensureOnlineUnderStudyLogin
           : ensureUnderStudyLogin
-      )(globalData.account!, this.state.loginMethod);
+      )(user.account!, this.state.loginMethod);
 
       if (err) throw err.msg;
 

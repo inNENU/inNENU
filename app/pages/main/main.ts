@@ -5,10 +5,10 @@ import type { AppOption } from "../../app.js";
 import { WIDGET_KEY, appCoverPrefix, appName } from "../../config/index.js";
 import { DAY } from "../../config/index.js";
 import { info } from "../../state/info.js";
+import { getIdentity } from "../../state/user.js";
 import { getColor, popNotice, resolvePage, setPage } from "../../utils/page.js";
 import { checkResource } from "../../utils/resource.js";
 import { search } from "../../utils/search.js";
-import { getIdentity } from "../../utils/settings.js";
 import { DEFAULT_WIDGETS } from "../../widgets/config.js";
 import { WidgetConfig } from "../../widgets/utils.js";
 
@@ -30,7 +30,6 @@ const defaultPage = <PageDataWithContent>resolvePage(
 $Page(PAGE_ID, {
   data: {
     theme: info.theme,
-
     statusBarHeight: info.statusBarHeight,
 
     /** 候选词 */
@@ -57,14 +56,9 @@ $Page(PAGE_ID, {
   onShow() {
     const widgets = get<WidgetConfig[]>(WIDGET_KEY) || DEFAULT_WIDGETS;
 
-    this.setData({
-      login: Boolean(globalData.account),
-      widgets,
-    });
-
-    popNotice(PAGE_ID);
-
+    this.setData({ widgets });
     this.setPage();
+    popNotice(PAGE_ID);
   },
 
   onReady() {
@@ -112,7 +106,7 @@ $Page(PAGE_ID, {
   loadPage(): PageDataWithContent | null {
     if (!globalData.settings) return null;
 
-    const { id } = getIdentity(globalData.userInfo);
+    const { id } = getIdentity();
     const { "main-page": mainConfig, "main-presets": mainPresets } =
       globalData.settings;
 

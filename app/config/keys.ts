@@ -1,8 +1,6 @@
 export const INITIALIZED_KEY = "initialized";
 export const LICENSE_KEY = "license-agreement";
 export const PRIVACY_KEY = "privacy-agreement";
-export const ACCOUNT_INFO_KEY = "nenu-account-info-v3";
-export const USER_INFO_KEY = "nenu-user-info-v3";
 
 export const BORROW_BOOKS_KEY = "borrow-books-info";
 export const CARD_BALANCE_KEY = "card-balance-info";
@@ -27,5 +25,4 @@ export const STARRED_NOTICE_LIST_KEY = "starred-notice-list-info";
 export const STUDENT_ARCHIVE_KEY = "student-archive-info";
 
 export const WEATHER_KEY = "weather-info";
-
 export const WIDGET_KEY = "widget-info-v2";

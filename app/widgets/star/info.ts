@@ -1,11 +1,9 @@
 import { $Component, PropType, get } from "@mptool/all";
 
 import { StarredInfo } from "./typings.js";
-import type { AppOption } from "../../app.js";
 import { STARRED_INFO_LIST_KEY } from "../../config/keys.js";
+import { user } from "../../state/user.js";
 import { WidgetSize, getSize } from "../utils.js";
-
-const { globalData } = getApp<AppOption>();
 
 $Component({
   properties: {
@@ -32,7 +30,7 @@ $Component({
 
   pageLifetimes: {
     show() {
-      if (globalData.account) {
+      if (user.account) {
         this.setData({ status: "success" });
         this.setInfo();
       } else {

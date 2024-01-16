@@ -9,11 +9,11 @@ import type { AppOption } from "../../app.js";
 import { appCoverPrefix } from "../../config/index.js";
 import { DAY } from "../../config/index.js";
 import { info } from "../../state/info.js";
+import { getIdentity } from "../../state/user.js";
 import { getResource } from "../../utils/json.js";
 import { getColor, popNotice } from "../../utils/page.js";
 import { checkResource } from "../../utils/resource.js";
 import { search } from "../../utils/search.js";
-import { getIdentity } from "../../utils/settings.js";
 import { TabData } from "../typings.js";
 
 const { globalData } = getApp<AppOption>();
@@ -96,7 +96,7 @@ $Page(PAGE_ID, {
     if (globalData.settings) {
       const data = await getResource<TabData>("function/data/tab");
 
-      const { id, type, location } = getIdentity(globalData.userInfo);
+      const { id, type, location } = getIdentity();
 
       const { "intro-page": introPageConfig } = globalData.settings;
 

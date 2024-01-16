@@ -6,10 +6,10 @@ import {
   showModal,
   showToast,
 } from "../../api/index.js";
+import type { Env } from "../../state/info.js";
 import { info } from "../../state/info.js";
 import { ensureResource, getResource } from "../../utils/json.js";
 import { popNotice } from "../../utils/page.js";
-import type { Env } from "../../utils/typings.js";
 
 const { env } = info;
 const PAGE_ID = "school-media";

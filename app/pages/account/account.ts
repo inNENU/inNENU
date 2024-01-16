@@ -1,4 +1,4 @@
-import { $Page, set } from "@mptool/all";
+import { $Page } from "@mptool/all";
 
 import type {
   ListComponentConfig,
@@ -6,13 +6,7 @@ import type {
 } from "../../../typings/components.js";
 import { showModal, showToast } from "../../api/index.js";
 import type { AppOption } from "../../app.js";
-import {
-  ACCOUNT_INFO_KEY,
-  USER_INFO_KEY,
-  appCoverPrefix,
-  assets,
-} from "../../config/index.js";
-import { MONTH } from "../../config/index.js";
+import { appCoverPrefix, assets } from "../../config/index.js";
 import {
   LoginFailType,
   authInitInfo,
@@ -22,12 +16,13 @@ import {
   supportRedirect,
 } from "../../service/index.js";
 import { info } from "../../state/info.js";
+import type { UserInfo } from "../../state/user.js";
+import { setUserInfo, user } from "../../state/user.js";
 import { getLicenseStatus } from "../../utils/agreement.js";
 import { logout } from "../../utils/logout.js";
 import { popNotice } from "../../utils/page.js";
-import type { UserInfo } from "../../utils/typings.js";
 
-const { globalData, useOnlineService } = getApp<AppOption>();
+const { useOnlineService } = getApp<AppOption>();
 const { envName } = info;
 
 const PAGE_ID = "account";
@@ -119,7 +114,7 @@ $Page(PAGE_ID, {
   },
 
   onLoad({ from = "返回", update }) {
-    const { account, userInfo } = globalData;
+    const { account, info } = user;
 
     if (account)
       this.setData({
@@ -128,10 +123,10 @@ $Page(PAGE_ID, {
         isSaved: true,
       });
 
-    if (userInfo)
+    if (info)
       this.setData({
         // eslint-disable-next-line @typescript-eslint/naming-convention
-        "list.items": getDisplay(userInfo),
+        "list.items": getDisplay(info),
       });
 
     if (update) this.state.shouldNavigateBack = true;
@@ -224,22 +219,14 @@ $Page(PAGE_ID, {
         id: Number(id),
         password,
         captcha,
-        openid: globalData.openid,
+        openid: user.openid!,
       });
 
       wx.hideLoading();
 
       if (result.success) {
-        const account = { id: Number(id), password };
-
-        globalData.account = account;
-        set(ACCOUNT_INFO_KEY, account, MONTH);
-
         if (result.info) {
           showModal("登录成功", "您已成功登录");
-
-          set(USER_INFO_KEY, result.info, MONTH);
-          globalData.userInfo = result.info;
 
           this.setData({
             isSaved: true,
@@ -247,14 +234,11 @@ $Page(PAGE_ID, {
             "list.items": getDisplay(result.info),
           });
 
+          setUserInfo({ id: Number(id), password }, result.info);
+
           if (this.state.shouldNavigateBack) this.$back();
         } else {
-          showModal(
-            "登录失败",
-            "账号密码校验成功，但未能获取个人信息，部分功能无法使用。",
-          );
-          this.setData({ isSaved: true });
-          if (this.state.shouldNavigateBack) this.$back();
+          showModal("登录失败", "账号密码校验成功，但个人信息获取失败。");
         }
       } else {
         this.init();

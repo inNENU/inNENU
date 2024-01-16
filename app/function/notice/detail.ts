@@ -11,10 +11,11 @@ import type { NoticeType } from "../../service/index.js";
 import { getNotice, getOnlineNotice } from "../../service/index.js";
 import { ensureActionLogin } from "../../service/index.js";
 import { info } from "../../state/info.js";
+import { user } from "../../state/user.js";
 import { getColor, popNotice } from "../../utils/page.js";
 import type { StarredNotice } from "../../widgets/star/typings.js";
 
-const { globalData, useOnlineService } = getApp<AppOption>();
+const { useOnlineService } = getApp<AppOption>();
 
 const PAGE_ID = "notice-detail";
 
@@ -94,13 +95,10 @@ $Page(PAGE_ID, {
   async getNotice() {
     const { id, type } = this.state;
 
-    if (globalData.account) {
+    if (user.account) {
       wx.showLoading({ title: "获取中" });
 
-      const err = await ensureActionLogin(
-        globalData.account,
-        this.state.loginMethod,
-      );
+      const err = await ensureActionLogin(user.account, this.state.loginMethod);
 
       if (err) {
         wx.hideLoading();

@@ -27,9 +27,10 @@ import {
   supportRedirect,
 } from "../../service/index.js";
 import { info } from "../../state/info.js";
+import { user } from "../../state/user.js";
 import { getColor, popNotice } from "../../utils/page.js";
 
-const { globalData, useOnlineService } = getApp<AppOption>();
+const { useOnlineService } = getApp<AppOption>();
 const { envName } = info;
 
 const ACTIVATE_SMS_KEY = "activate-sms-code";
@@ -88,17 +89,13 @@ ${envName}严格使用官方激活流程。
   },
 
   onLoad() {
-    const { account } = globalData;
-
-    if (account)
+    if (user.account)
       showModal("无需激活", "当前已登录统一身份认证账户", () => {
         this.$back();
       });
     else this.getCaptcha();
 
-    this.setData({
-      color: getColor(),
-    });
+    this.setData({ color: getColor() });
   },
 
   onShow() {

@@ -7,8 +7,9 @@ import { DAY, HOUR } from "../../config/index.js";
 import type { BorrowBookData } from "../../service/index.js";
 import { getBorrowBooks, getOnlineBorrowBooks } from "../../service/index.js";
 import { ensureActionLogin } from "../../service/index.js";
+import { user } from "../../state/user.js";
 
-const { globalData, useOnlineService } = getApp<AppOption>();
+const { useOnlineService } = getApp<AppOption>();
 
 $Component({
   properties: {
@@ -39,7 +40,7 @@ $Component({
 
   pageLifetimes: {
     show() {
-      if (globalData.account) {
+      if (user.account) {
         if (this.data.status === "login") {
           this.setData({ status: "loading" });
           this.getBooks("validate");
@@ -54,8 +55,8 @@ $Component({
     },
 
     async getBooks(status: "check" | "login" | "validate" = "check") {
-      if (globalData.account) {
-        const err = await ensureActionLogin(globalData.account, status);
+      if (user.account) {
+        const err = await ensureActionLogin(user.account, status);
 
         if (err) {
           showToast(err.msg);

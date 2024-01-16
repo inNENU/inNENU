@@ -13,10 +13,11 @@ import {
 } from "../../service/index.js";
 import { LoginFailType, ensureActionLogin } from "../../service/index.js";
 import { info } from "../../state/info.js";
+import { user } from "../../state/user.js";
 import type { WidgetStatus } from "../utils.js";
 import { getSize } from "../utils.js";
 
-const { globalData, useOnlineService } = getApp<AppOption>();
+const { useOnlineService } = getApp<AppOption>();
 
 interface Mail extends Exclude<EmailItem, "receivedDate"> {
   shortDate: string;
@@ -42,7 +43,6 @@ $Component({
 
   lifetimes: {
     attached() {
-      const { account } = globalData;
       const { type } = this.data;
 
       this.setData({
@@ -50,7 +50,7 @@ $Component({
         size: getSize(type),
       });
 
-      if (account) {
+      if (user.account) {
         const emails = get<Mail[]>(EMAIL_DATA_KEY);
 
         if (emails) {
@@ -72,9 +72,7 @@ $Component({
 
   pageLifetimes: {
     show() {
-      const { account } = globalData;
-
-      if (account) {
+      if (user.account) {
         if (this.data.status === "login") {
           this.setData({ status: "loading" });
           this.getEmails();
@@ -89,7 +87,7 @@ $Component({
     async getEmails(): Promise<void> {
       const { type } = this.data;
 
-      const err = await ensureActionLogin(globalData.account!, loginMethod);
+      const err = await ensureActionLogin(user.account!, loginMethod);
 
       if (err) {
         if (loginMethod === "check") {
@@ -144,7 +142,7 @@ $Component({
 
       const { mid } = currentTarget.dataset;
 
-      const err = await ensureActionLogin(globalData.account!, loginMethod);
+      const err = await ensureActionLogin(user.account!, loginMethod);
 
       if (err) {
         if (loginMethod === "check") {

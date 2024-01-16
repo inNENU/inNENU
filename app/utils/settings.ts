@@ -1,7 +1,7 @@
 import { logger } from "@mptool/all";
 
 import { updateNotice } from "./notice.js";
-import type { GlobalData, UserInfo } from "./typings.js";
+import type { GlobalData } from "./typings.js";
 import type { ComponentConfig } from "../../typings/components.js";
 import { request } from "../api/index.js";
 import { server, version } from "../config/index.js";
@@ -63,29 +63,6 @@ export interface AppSettings {
   service: ServiceSettings;
   update: UpdateSettings;
 }
-
-export interface Identify {
-  id: string;
-  type: "under" | "post" | null;
-  location: "benbu" | "jingyue" | null;
-}
-
-export const getIdentity = (userInfo: UserInfo | null): Identify => {
-  if (userInfo === null)
-    return {
-      id: "unlogin",
-      type: null,
-      location: null,
-    };
-
-  const { grade, typeId, location } = userInfo;
-
-  return {
-    id: grade.toString(),
-    type: typeId === "bks" ? "under" : typeId === "yjs" ? "post" : null,
-    location: location === "unknown" ? null : location,
-  };
-};
 
 export const fetchAppSettings = async (
   globalData: GlobalData,

@@ -9,9 +9,10 @@ import {
   getCardBalance,
   getOnlineCardBalance,
 } from "../../service/index.js";
+import { user } from "../../state/user.js";
 import { getSize } from "../utils.js";
 
-const { globalData, useOnlineService } = getApp<AppOption>();
+const { useOnlineService } = getApp<AppOption>();
 
 $Component({
   properties: {
@@ -55,7 +56,7 @@ $Component({
     show() {
       const { enableBalance, status } = this.data;
 
-      if (globalData.account) {
+      if (user.account) {
         if (status === "login") {
           this.setData({ status: "loading" });
 
@@ -67,8 +68,8 @@ $Component({
 
   methods: {
     async getCardBalance(status: "check" | "login" | "validate" = "check") {
-      if (globalData.account) {
-        const err = await ensureActionLogin(globalData.account, status);
+      if (user.account) {
+        const err = await ensureActionLogin(user.account, status);
 
         if (err) {
           showToast(err.msg);

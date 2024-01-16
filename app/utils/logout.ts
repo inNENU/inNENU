@@ -1,9 +1,7 @@
 import { remove } from "@mptool/all";
 
 import { cookieStore } from "../api/index.js";
-import { AppOption } from "../app.js";
 import {
-  ACCOUNT_INFO_KEY,
   BORROW_BOOKS_KEY,
   CARD_BALANCE_KEY,
   CHANGE_MAJOR_DATA_KEY,
@@ -26,18 +24,12 @@ import {
   STARRED_INFO_LIST_KEY,
   STARRED_NOTICE_LIST_KEY,
   STUDENT_ARCHIVE_KEY,
-  USER_INFO_KEY,
 } from "../config/index.js";
+import { clearUserInfo } from "../state/user.js";
 
 export const logout = (): void => {
-  const { globalData } = getApp<AppOption>();
-
-  // cookies
   cookieStore.clear();
-
-  // account data
-  remove(ACCOUNT_INFO_KEY);
-  remove(USER_INFO_KEY);
+  clearUserInfo();
 
   // license
   remove(LICENSE_KEY);
@@ -65,7 +57,4 @@ export const logout = (): void => {
   remove(STARRED_INFO_LIST_KEY);
   remove(STARRED_NOTICE_LIST_KEY);
   remove(STUDENT_ARCHIVE_KEY);
-
-  globalData.account = null;
-  globalData.userInfo = null;
 };

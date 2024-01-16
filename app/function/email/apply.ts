@@ -12,9 +12,10 @@ import {
   onlineMyEmail,
 } from "../../service/index.js";
 import { info } from "../../state/info.js";
+import { user } from "../../state/user.js";
 import { popNotice } from "../../utils/page.js";
 
-const { globalData, useOnlineService } = getApp<AppOption>();
+const { useOnlineService } = getApp<AppOption>();
 const { envName } = info;
 
 const MAIL_LINK = "https://mail.nenu.edu.cn";
@@ -56,9 +57,7 @@ $Page(PAGE_ID, {
   },
 
   onShow() {
-    const { account } = globalData;
-
-    if (account) {
+    if (user.account) {
       this.setData({ status: "apply" });
       this.checkEmail();
     } else {
@@ -122,7 +121,7 @@ $Page(PAGE_ID, {
 
     const err = await (
       useOnlineService("my-login") ? ensureOnlineMyLogin : ensureMyLogin
-    )(globalData.account!, this.state.loginMethod);
+    )(user.account!, this.state.loginMethod);
 
     if (err) {
       wx.hideLoading();
@@ -165,10 +164,10 @@ $Page(PAGE_ID, {
 
   apply() {
     const { accounts, accountIndex, isCustom, name, suffix, phone } = this.data;
-    const { userInfo } = globalData;
+    const { info } = user;
     const shouldApplyOnline = useOnlineService(PAGE_ID);
 
-    if (!shouldApplyOnline && !userInfo)
+    if (!shouldApplyOnline && !info)
       return showModal(
         "个人信息缺失",
         `${envName}本地暂无个人信息，请重新登录`,

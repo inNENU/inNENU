@@ -1,22 +1,17 @@
 /* eslint-disable max-lines */
-import { emitter, get, logger, writeJSON } from "@mptool/all";
+import { emitter, logger, writeJSON } from "@mptool/all";
 
 import { platformActions } from "./app-platform.js";
 import { login } from "./login.js";
 import { defaultResources, downloadResource } from "./resource.js";
 import type { ServiceSettings } from "./settings.js";
-import type { AccountInfo, GlobalData, UserInfo } from "./typings.js";
+import type { GlobalData } from "./typings.js";
 import { updateApp } from "./update.js";
 import type { VersionInfo } from "../../typings/index.js";
 import { getCurrentRoute, request, showToast } from "../api/index.js";
-import {
-  ACCOUNT_INFO_KEY,
-  DEFAULT_CONFIG,
-  INITIALIZED_KEY,
-  USER_INFO_KEY,
-  server,
-} from "../config/index.js";
+import { DEFAULT_CONFIG, INITIALIZED_KEY, server } from "../config/index.js";
 import { info } from "../state/info.js";
+import { setOpenid } from "../state/user.js";
 
 const { env, envName } = info;
 
@@ -80,14 +75,11 @@ export const initializeApp = (): void => {
 };
 
 export const getGlobalData = (): GlobalData => ({
-  account: get<AccountInfo | undefined>(ACCOUNT_INFO_KEY) || null,
-  userInfo: get<UserInfo | undefined>(USER_INFO_KEY) || null,
   page: {
     data: {},
     id: "",
   },
   settings: null,
-  openid: "",
   service: wx.getStorageSync<ServiceSettings>("service") || {
     forceOnline: false,
   },
@@ -124,7 +116,7 @@ const registerActions = (): void => {
       wx.setStorageSync("networkError", true);
     } else if (wx.getStorageSync("network")) {
       wx.setStorageSync("networkError", false);
-      showToast("网络链接恢复");
+      showToast("网络连接恢复");
     }
   });
 
@@ -175,8 +167,7 @@ const registerActions = (): void => {
 export const startup = (globalData: GlobalData): void => {
   registerActions();
   login(({ openid, inBlacklist }) => {
-    globalData.openid = openid;
-
+    setOpenid(openid);
     if (inBlacklist && getCurrentRoute() !== "pages/action/action")
       wx.reLaunch({ url: "/pages/action/action?action=blacklist" });
   });

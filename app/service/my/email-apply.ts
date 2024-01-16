@@ -5,7 +5,7 @@ import { getProcess } from "./process.js";
 import { MY_SERVER } from "./utils.js";
 import type { CommonFailedResponse } from "../../../typings/index.js";
 import { request } from "../../api/index.js";
-import type { AppOption } from "../../app.js";
+import { user } from "../../state/user.js";
 import { LoginFailType } from "../loginFailTypes.js";
 import { isWebVPNPage } from "../utils.js";
 
@@ -81,8 +81,6 @@ export type GetEmailFailedResponse = CommonFailedResponse;
 export type GetEmailResponse = GetEmailSuccessResponse | GetEmailFailedResponse;
 
 export const getEmailInfo = async (): Promise<GetEmailResponse> => {
-  const { globalData } = getApp<AppOption>();
-
   const { data: checkResult } = await request<RawCheckMailData>(
     `${MY_SERVER}/Gryxsq/checkMailBox`,
     {
@@ -91,7 +89,7 @@ export const getEmailInfo = async (): Promise<GetEmailResponse> => {
         Accept: "application/json, text/javascript, */*; q=0.01",
         "Content-Type": "application/x-www-form-urlencoded; charset=UTF-8",
       },
-      body: new URLSearchParams({ userId: globalData.account!.id.toString() }),
+      body: new URLSearchParams({ userId: user.account!.id.toString() }),
     },
   );
 
@@ -184,7 +182,7 @@ export const activateEmail = async ({
   taskId,
   instanceId,
 }: ActivateEmailOptions): Promise<ActivateEmailResponse> => {
-  const userInfo = getApp<AppOption>().globalData.userInfo!;
+  const userInfo = user.info!;
 
   const { data: checkResult, status } = await request<
     | {

@@ -17,6 +17,7 @@ import {
   getUnderCourseTable,
 } from "../../service/index.js";
 import { info } from "../../state/info.js";
+import { user } from "../../state/user.js";
 import { getColor, popNotice } from "../../utils/page.js";
 import type {
   CourseTableData,
@@ -25,7 +26,7 @@ import type {
 } from "../../widgets/course/typings.js";
 import { getCurrentTime, getWeekIndex } from "../../widgets/course/utils.js";
 
-const { globalData, useOnlineService } = getApp<AppOption>();
+const { useOnlineService } = getApp<AppOption>();
 const { envName } = info;
 
 const PAGE_ID = "course-table";
@@ -131,10 +132,10 @@ $Page(PAGE_ID, {
   },
 
   onShow() {
-    const { account, userInfo } = globalData;
+    const { account, info } = user;
 
     if (account) {
-      if (!userInfo) {
+      if (!info) {
         return showModal(
           "个人信息缺失",
           `${envName}本地暂无个人信息，请重新登录`,
@@ -177,7 +178,7 @@ $Page(PAGE_ID, {
       }
     }
 
-    this.setData({ needLogin: !globalData.account });
+    this.setData({ needLogin: !user.account });
 
     popNotice(PAGE_ID);
   },
@@ -195,7 +196,7 @@ $Page(PAGE_ID, {
   }),
 
   getCourseData(time: string) {
-    const { typeId } = globalData.userInfo!;
+    const { typeId } = user.info!;
 
     if (typeId === "bks") return this.getUnderCourseData(time);
 
@@ -211,7 +212,7 @@ $Page(PAGE_ID, {
         useOnlineService("under-login")
           ? ensureOnlineUnderSystemLogin
           : ensureUnderSystemLogin
-      )(globalData.account!, this.state.loginMethod);
+      )(user.account!, this.state.loginMethod);
 
       if (err) throw err.msg;
 
@@ -261,7 +262,7 @@ $Page(PAGE_ID, {
         useOnlineService("post-login")
           ? ensureOnlinePostSystemLogin
           : ensurePostSystemLogin
-      )(globalData.account!, this.state.loginMethod);
+      )(user.account!, this.state.loginMethod);
 
       if (err) throw err.msg;
 

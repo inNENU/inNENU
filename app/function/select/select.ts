@@ -11,14 +11,12 @@ import type {
 import type { FullCourseInfo, SortKey } from "./utils.js";
 import { confirmReplace, courseSorter } from "./utils.js";
 import { getCurrentRoute, showModal, showToast } from "../../api/index.js";
-import type { AppOption } from "../../app.js";
 import { appCoverPrefix } from "../../config/index.js";
 import { LoginFailType } from "../../service/index.js";
 import { info } from "../../state/info.js";
+import { user } from "../../state/user.js";
 import { getColor, popNotice } from "../../utils/page.js";
 import { promiseQueue } from "../utils/promiseQueue.js";
-
-const { globalData } = getApp<AppOption>();
 
 interface ForceSelectMessage {
   type: "success" | LoginFailType.Expired | "conflict" | "forbidden";
@@ -110,7 +108,7 @@ $Page(PAGE_ID, {
   },
 
   onShow() {
-    const { account } = globalData;
+    const { account } = user;
 
     if (account) {
       wx.showLoading({ title: "登录中", mask: true });
@@ -125,8 +123,7 @@ $Page(PAGE_ID, {
             });
 
           this.state.server = data.server;
-          this.state.type =
-            globalData.userInfo!.typeId === "bks" ? "under" : "post";
+          this.state.type = user.info!.typeId === "bks" ? "under" : "post";
 
           this.setData({ login: true }, () => {
             this.createSelectorQuery()

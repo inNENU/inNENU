@@ -11,9 +11,10 @@ import {
   recentEmails,
 } from "../../service/index.js";
 import { info } from "../../state/info.js";
+import { user } from "../../state/user.js";
 import { popNotice } from "../../utils/page.js";
 
-const { globalData, useOnlineService } = getApp<AppOption>();
+const { useOnlineService } = getApp<AppOption>();
 
 const PAGE_ID = "email";
 const PAGE_TITLE = "校园邮箱";
@@ -42,9 +43,7 @@ $Page(PAGE_ID, {
   },
 
   onShow() {
-    const { account } = globalData;
-
-    if (account) {
+    if (user.account) {
       this.setData({ status: "success" });
       this.getEmails();
     } else {
@@ -73,10 +72,7 @@ $Page(PAGE_ID, {
   async getEmails() {
     wx.showLoading({ title: "获取邮件" });
 
-    const err = await ensureActionLogin(
-      globalData.account!,
-      this.state.loginMethod,
-    );
+    const err = await ensureActionLogin(user.account!, this.state.loginMethod);
 
     if (err) {
       wx.hideLoading();
@@ -136,10 +132,7 @@ $Page(PAGE_ID, {
   >) {
     wx.showLoading({ title: "加载中" });
 
-    const err = await ensureActionLogin(
-      globalData.account!,
-      this.state.loginMethod,
-    );
+    const err = await ensureActionLogin(user.account!, this.state.loginMethod);
 
     if (err) {
       wx.hideLoading();

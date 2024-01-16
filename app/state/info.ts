@@ -6,7 +6,7 @@ export type AppID =
 
 export type Env = "app" | "qq" | "wx" | "web";
 
-export interface Info extends Omit<WechatMiniprogram.SystemInfo, "theme"> {
+export interface InfoState extends Omit<WechatMiniprogram.SystemInfo, "theme"> {
   /** 小程序 appid */
   appID: AppID;
   /** 夜间模式 */
@@ -29,7 +29,7 @@ const env: Env = "miniapp" in wx ? "app" : systemInfo.AppPlatform || "wx";
 
 const envName = env === "app" ? "App" : "小程序";
 
-const infoState: Info = {
+const infoState: InfoState = {
   ...systemInfo,
   appID: wx.getAccountInfoSync().miniProgram.appId as AppID,
   darkmode: systemInfo.theme === "dark",
@@ -59,7 +59,7 @@ wx.onAppShow(() => {
     (wx.getAppBaseInfo || wx.getSystemInfoSync)().theme === "dark";
 });
 
-export const info: Readonly<Info> = infoState;
+export const info: Readonly<InfoState> = infoState;
 
 export const updateSelectable = (selectable: boolean): void => {
   infoState.selectable = selectable;
