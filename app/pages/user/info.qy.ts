@@ -1,7 +1,6 @@
-import type { AppOption } from "../../app.js";
+import { info } from "../../state/info.js";
 
-const { globalData } = getApp<AppOption>();
-const { envName, version } = globalData;
+const { envName, version } = info;
 
 export const footer = `\
 当前版本: ${version}
