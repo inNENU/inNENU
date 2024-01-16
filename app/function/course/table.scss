@@ -21,10 +21,17 @@
 }
 
 .course-table {
+  display: flex;
+  flex-direction: column;
   flex: 1;
   border-top: 1px dashed var(--border-color);
-
+  overflow: hidden;
   .name {
     font-weight: 600;
   }
+}
+
+.course-table-body {
+  flex: 1;
+  overflow: auto;
 }
