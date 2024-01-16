@@ -92,12 +92,12 @@ $Page(PAGE_ID, {
   },
 
   async setPage(): Promise<void> {
-    if (globalData.data) {
+    if (globalData.settings) {
       const data = await getJSON<TabData>("function/data/tab");
 
       const { id, type, location } = getIdentity(globalData.userInfo);
 
-      const { "intro-page": introPageConfig } = globalData.data;
+      const { "intro-page": introPageConfig } = globalData.settings;
 
       const introConfig = introPageConfig[id] || introPageConfig.default;
 

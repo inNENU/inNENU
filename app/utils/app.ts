@@ -95,7 +95,7 @@ export const getGlobalData = (): GlobalData => {
     envName: env === "app" ? "App" : "小程序",
     theme: wx.getStorageSync<string>("theme") || "ios",
     info,
-    data: null,
+    settings: null,
     darkmode: info.theme === "dark",
     appID: wx.getAccountInfoSync().miniProgram.appId as AppID,
     openid: "",

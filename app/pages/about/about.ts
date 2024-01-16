@@ -10,7 +10,7 @@ import type { AppOption } from "../../app.js";
 import { appCoverPrefix, appName } from "../../config/index.js";
 import { DAY } from "../../utils/constant.js";
 import { popNotice, resolvePage, setPage } from "../../utils/page.js";
-import { fetchData } from "../../utils/settings.js";
+import { fetchAppSettings } from "../../utils/settings.js";
 
 const { globalData } = getApp<AppOption>();
 let clickNumber = 0;
@@ -126,9 +126,9 @@ $Page(PAGE_ID, {
   }),
 
   loadPage(): PageDataWithContent | null {
-    if (!globalData.data) return null;
+    if (!globalData.settings) return null;
 
-    const { about } = globalData.data;
+    const { about } = globalData.settings;
 
     const aboutPage = {
       ...this.data.page,
@@ -257,7 +257,7 @@ $Page(PAGE_ID, {
    */
   toggleTest(value: boolean) {
     showToast(`已${value ? "启用" : "关闭"}测试功能`);
-    fetchData(globalData, value);
+    fetchAppSettings(globalData, value);
   },
 
   /**

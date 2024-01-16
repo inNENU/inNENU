@@ -109,11 +109,11 @@ $Page(PAGE_ID, {
   },
 
   loadPage(): PageDataWithContent | null {
-    if (!globalData.data) return null;
+    if (!globalData.settings) return null;
 
     const { id } = getIdentity(globalData.userInfo);
     const { "main-page": mainConfig, "main-presets": mainPresets } =
-      globalData.data;
+      globalData.settings;
 
     const configName = mainConfig[id] || mainConfig.default;
 

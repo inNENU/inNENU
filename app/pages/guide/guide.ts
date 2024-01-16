@@ -93,12 +93,12 @@ $Page(PAGE_ID, {
   },
 
   async setPage(): Promise<void> {
-    if (globalData.data) {
+    if (globalData.settings) {
       const data = await getJSON<TabData>("function/data/tab");
 
       const { id, location, type } = getIdentity(globalData.userInfo);
 
-      const { "guide-page": guidePageConfig } = globalData.data;
+      const { "guide-page": guidePageConfig } = globalData.settings;
 
       const guideConfig = guidePageConfig[id] || guidePageConfig.default;
 

@@ -5,7 +5,7 @@ import { getDarkmode } from "./api/index.js";
 import { INITIALIZED_KEY } from "./config/keys.js";
 import { getGlobalData, initializeApp, startup } from "./utils/app.js";
 import { checkResource } from "./utils/resource.js";
-import { fetchData } from "./utils/settings.js";
+import { fetchAppSettings } from "./utils/settings.js";
 import type { GlobalData } from "./utils/typings.js";
 import { updateApp } from "./utils/update.js";
 
@@ -112,7 +112,7 @@ $App<AppOption>({
     // 如果初次启动执行初始化
     if (!wx.getStorageSync(INITIALIZED_KEY)) initializeApp();
 
-    fetchData(this.globalData, wx.getStorageSync("test")).then(() => {
+    fetchAppSettings(this.globalData, wx.getStorageSync("test")).then(() => {
       this.$emit("data");
     });
     startup(this.globalData);
@@ -132,7 +132,7 @@ $App<AppOption>({
     this.globalData.darkmode =
       (wx.getAppBaseInfo || wx.getSystemInfoSync)().theme === "dark";
 
-    fetchData(this.globalData, wx.getStorageSync("test")).then(() => {
+    fetchAppSettings(this.globalData, wx.getStorageSync("test")).then(() => {
       this.$emit("data");
     });
     updateApp(this.globalData);

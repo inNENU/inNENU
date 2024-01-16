@@ -97,13 +97,13 @@ $Page(PAGE_ID, {
   },
 
   loadPage(): PageDataWithContent | null {
-    if (!globalData.data) return null;
+    if (!globalData.settings) return null;
 
     const { id } = getIdentity(globalData.userInfo);
     const {
       "function-page": functionConfig,
       "function-presets": functionPresets,
-    } = globalData.data;
+    } = globalData.settings;
 
     const configName = functionConfig[id] || functionConfig.default;
 

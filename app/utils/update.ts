@@ -1,6 +1,6 @@
 import { logger, ls, rm } from "@mptool/all";
 
-import { Data } from "./settings.js";
+import { AppSettings } from "./settings.js";
 import type { GlobalData } from "./typings.js";
 import { request, showToast } from "../api/index.js";
 import { server } from "../config/info.js";
@@ -39,7 +39,7 @@ export const updateApp = (globalData: GlobalData): void => {
       })
         .then(({ data: version }) =>
           // 请求配置文件
-          request<Data>(`${server}service/settings.php`, {
+          request<AppSettings>(`${server}service/settings.php`, {
             method: "POST",
             body: {
               version,

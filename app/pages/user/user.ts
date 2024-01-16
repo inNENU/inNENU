@@ -118,13 +118,13 @@ $Page(PAGE_ID, {
   },
 
   loadPage(): PageDataWithContent | null {
-    if (!globalData.data) return null;
+    if (!globalData.settings) return null;
 
     const userPage = {
       title: PAGE_TITLE,
       grey: true,
       hidden: true,
-      content: globalData.data.user,
+      content: globalData.settings.user,
     };
 
     set(PAGE_ID, userPage, 3 * DAY);

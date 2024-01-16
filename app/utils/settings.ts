@@ -31,7 +31,7 @@ export interface UpdateSettings {
   reset: boolean;
 }
 
-export interface Data {
+export interface AppSettings {
   // eslint-disable-next-line @typescript-eslint/naming-convention
   "main-page": Record<string, string>;
   // eslint-disable-next-line @typescript-eslint/naming-convention
@@ -86,7 +86,7 @@ export const getIdentity = (userInfo: UserInfo | null): Identify => {
   };
 };
 
-export const fetchData = async (
+export const fetchAppSettings = async (
   globalData: GlobalData,
   isTest = false,
 ): Promise<void> => {
@@ -94,7 +94,7 @@ export const fetchData = async (
     const { appID, version } = globalData;
     const {
       data: { service, notice, ...data },
-    } = await request<Data>(`${server}service/settings.php`, {
+    } = await request<AppSettings>(`${server}service/settings.php`, {
       method: "POST",
       body: {
         appID,
@@ -102,7 +102,7 @@ export const fetchData = async (
       },
     });
 
-    globalData.data = data;
+    globalData.settings = data;
     globalData.service = service;
     wx.setStorageSync("service", service);
     updateNotice(notice);

@@ -1,4 +1,4 @@
-import type { Data, ServiceSettings } from "./settings.ts";
+import type { AppSettings, ServiceSettings } from "./settings.ts";
 import type { PageData } from "../../typings/index.js";
 
 export type AppID =
@@ -89,6 +89,6 @@ export interface GlobalData {
   openid: string;
   /** 是否能复制 */
   selectable: boolean;
-  data: Omit<Data, "service" | "notice" | "update"> | null;
+  settings: Omit<AppSettings, "service" | "notice" | "update"> | null;
   service: ServiceSettings;
 }
