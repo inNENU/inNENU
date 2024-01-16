@@ -1,5 +1,6 @@
 import { $Page, get, put, set, take } from "@mptool/all";
 
+import { footer } from "./info.js";
 import type { PageDataWithContent } from "../../../typings/index.js";
 import type { AppOption } from "../../app.js";
 import {
@@ -15,7 +16,6 @@ import { getColor, popNotice, resolvePage, setPage } from "../../utils/page.js";
 import { checkResource } from "../../utils/resource.js";
 
 const { globalData } = getApp<AppOption>();
-const { envName, version } = info;
 
 const PAGE_ID = "user";
 const PAGE_TITLE = "我的东师";
@@ -40,7 +40,7 @@ $Page(PAGE_ID, {
     logo: `${assets}img/inNENU.png`,
     footer: {
       author: "",
-      desc: `当前版本: ${version}\n${envName}由 Mr.Hope 个人制作，如有错误还请见谅`,
+      desc: footer,
     },
 
     theme: info.theme,
