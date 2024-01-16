@@ -1,5 +1,5 @@
 import { compareVersion } from "./version.js";
-import { downLoad, requestJSON, showModal } from "../api/index.js";
+import { downLoad, requestJSON } from "../api/index.js";
 import { assets } from "../config/index.js";
 import { info } from "../state/info.js";
 
@@ -20,24 +20,25 @@ export const updateApp = async (): Promise<void> => {
 
   if (compareVersion(onlineVersion, info.version) > 0) {
     if (info.platform === "android")
-      showModal(
-        "App有新版本",
-        `App 的最新版本是 ${onlineVersion}，点击确定以更新至最新版本。`,
-        () => {
-          // avoid downloading the same file
-          if (apkFilePath) wx.miniapp.installApp({ filePath: apkFilePath });
-          else
-            downLoad(`${assets}innenu-v${onlineVersion}.apk`).then(
-              (filePath) => {
-                apkFilePath = filePath;
-                wx.miniapp.installApp({ filePath });
-              },
-            );
+      wx.showModal({
+        title: "发现新版本",
+        content: `已发现新版本 ${onlineVersion}，是否更新？`,
+        confirmText: "更新",
+        cancelText: "忽略",
+        success: ({ confirm }) => {
+          if (confirm) {
+            // avoid downloading the same file
+            if (apkFilePath) wx.miniapp.installApp({ filePath: apkFilePath });
+            else
+              downLoad(`${assets}innenu-v${onlineVersion}.apk`).then(
+                (filePath) => {
+                  apkFilePath = filePath;
+                  wx.miniapp.installApp({ filePath });
+                },
+              );
+          }
         },
-        () => {
-          // do nothing
-        },
-      );
+      });
 
     // TODO: Complete iOS logic
   }
