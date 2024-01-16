@@ -112,7 +112,11 @@ $Page(PAGE_ID, {
       if (result.success) {
         set(SPECIAL_EXAM_DATA_KEY, result.data, 3 * HOUR);
 
-        this.setData({ data: result.data });
+        this.setData({
+          data: result.data.sort(
+            (a, b) => new Date(b.time).getTime() - new Date(a.time).getTime(),
+          ),
+        });
         this.state.loginMethod = "check";
       } else {
         showModal("获取失败", result.msg);
