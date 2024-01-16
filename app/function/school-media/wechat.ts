@@ -13,7 +13,7 @@ import {
 } from "../../api/index.js";
 import type { AppOption } from "../../app.js";
 import { appCoverPrefix, server } from "../../config/index.js";
-import { ensureJSON } from "../../utils/json.js";
+import { ensureResource } from "../../utils/json.js";
 import { getColor, popNotice } from "../../utils/page.js";
 
 const { globalData } = getApp<AppOption>();
@@ -47,7 +47,7 @@ $Page(PAGE_ID, {
   },
 
   onNavigate(options) {
-    if (options.path) ensureJSON(`function/account/${options.path}`);
+    if (options.path) ensureResource(`function/account/${options.path}`);
   },
 
   onLoad({ path = "" }) {

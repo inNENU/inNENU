@@ -8,7 +8,7 @@ import {
   showModal,
   showToast,
 } from "../../api/index.js";
-import { navigation } from "../../utils/location.js";
+import { startNavigation } from "../../utils/location.js";
 
 $Component({
   properties: {
@@ -71,7 +71,7 @@ $Component({
     navigate(): void {
       const { location, name } = this.data.config;
 
-      navigation(JSON.stringify({ name, ...location }));
+      startNavigation(JSON.stringify({ name, ...location }));
     },
   },
 });

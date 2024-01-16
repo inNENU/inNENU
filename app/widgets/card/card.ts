@@ -3,12 +3,12 @@ import { $Component, PropType, get, set } from "@mptool/all";
 import { showToast } from "../../api/index.js";
 import type { AppOption } from "../../app.js";
 import { CARD_BALANCE_KEY } from "../../config/index.js";
+import { MINUTE } from "../../config/index.js";
 import {
   ensureActionLogin,
   getCardBalance,
   getOnlineCardBalance,
 } from "../../service/index.js";
-import { MINUTE } from "../../utils/constant.js";
 import { getSize } from "../utils.js";
 
 const { globalData, useOnlineService } = getApp<AppOption>();
@@ -75,9 +75,11 @@ $Component({
           this.setData({ status: "error" });
         } else {
           try {
-            const result = await (useOnlineService("card-balance")
-              ? getOnlineCardBalance
-              : getCardBalance)();
+            const result = await (
+              useOnlineService("card-balance")
+                ? getOnlineCardBalance
+                : getCardBalance
+            )();
 
             if (result.success) {
               set(CARD_BALANCE_KEY, result.data, 5 * MINUTE);

@@ -12,7 +12,7 @@ import type { AppOption } from "../../app.js";
 import { appCoverPrefix } from "../../config/index.js";
 import type { HistoryGradeInfoItem } from "../../service/index.js";
 import { getHistoryGrade } from "../../service/index.js";
-import { ensureJSON, getJSON } from "../../utils/json.js";
+import { ensureResource, getResource } from "../../utils/json.js";
 import { getColor, popNotice } from "../../utils/page.js";
 
 const { globalData } = getApp<AppOption>();
@@ -53,7 +53,7 @@ $Page(PAGE_ID, {
   },
 
   onNavigate() {
-    ensureJSON("function/enroll/grade");
+    ensureResource("function/enroll/grade");
   },
 
   onLoad() {
@@ -62,7 +62,7 @@ $Page(PAGE_ID, {
       theme: globalData.theme,
     });
 
-    getJSON<SelectConfig>("function/enroll/grade")
+    getResource<SelectConfig>("function/enroll/grade")
       .then((historyGrade) => {
         this.state.historyGrade = historyGrade;
         this.setData({

@@ -1,4 +1,4 @@
-import { DAY } from "../../utils/constant.js";
+import { DAY } from "../../config/index.js";
 
 export const getCurrentTime = (): string => {
   const date = new Date();

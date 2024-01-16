@@ -12,7 +12,7 @@ import type { AppOption } from "../../app.js";
 import { appCoverPrefix } from "../../config/index.js";
 import type { EnrollPlanInfo } from "../../service/index.js";
 import { getEnrollPlan } from "../../service/index.js";
-import { ensureJSON, getJSON } from "../../utils/json.js";
+import { ensureResource, getResource } from "../../utils/json.js";
 import { getColor, popNotice } from "../../utils/page.js";
 
 const { globalData } = getApp<AppOption>();
@@ -46,7 +46,7 @@ $Page(PAGE_ID, {
   state: { enrollPlan: <SelectConfig>[] },
 
   onNavigate() {
-    ensureJSON("function/enroll/plan");
+    ensureResource("function/enroll/plan");
   },
 
   onLoad() {
@@ -55,7 +55,7 @@ $Page(PAGE_ID, {
       theme: globalData.theme,
     });
 
-    getJSON<SelectConfig>("function/enroll/plan")
+    getResource<SelectConfig>("function/enroll/plan")
       .then((enrollPlan) => {
         this.state.enrollPlan = enrollPlan;
         this.setData({

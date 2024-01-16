@@ -3,7 +3,7 @@ import { $Page } from "@mptool/all";
 import { loadFZSSJW, showToast } from "../../api/index.js";
 import type { AppOption } from "../../app.js";
 import { appCoverPrefix } from "../../config/index.js";
-import { ensureJSON, getJSON } from "../../utils/json.js";
+import { ensureResource, getResource } from "../../utils/json.js";
 import { popNotice } from "../../utils/page.js";
 
 const { globalData } = getApp<AppOption>();
@@ -35,11 +35,11 @@ $Page("video", {
   },
 
   onNavigate() {
-    ensureJSON("function/video/index");
+    ensureResource("function/video/index");
   },
 
   onLoad(options) {
-    getJSON<VideoGroup[]>("function/video/index").then((videoList) => {
+    getResource<VideoGroup[]>("function/video/index").then((videoList) => {
       let groupID = 0;
       let listID = 0;
 

@@ -1,7 +1,7 @@
 import { $Page } from "@mptool/all";
 
 import type { AppOption } from "../../app.js";
-import { ensureJSON, getJSON } from "../../utils/json.js";
+import { ensureResource, getResource } from "../../utils/json.js";
 import { popNotice } from "../../utils/page.js";
 
 const { globalData } = getApp<AppOption>();
@@ -14,11 +14,11 @@ $Page("website", {
   },
 
   onNavigate() {
-    ensureJSON("function/website/index");
+    ensureResource("function/website/index");
   },
 
   onLoad() {
-    getJSON<unknown[]>("function/website/index").then((config) => {
+    getResource<unknown[]>("function/website/index").then((config) => {
       this.setData({
         config,
         height:

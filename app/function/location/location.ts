@@ -4,7 +4,7 @@ import type { LocationConfig, PageData } from "../../../typings/index.js";
 import type { AppOption } from "../../app.js";
 import { appCoverPrefix } from "../../config/index.js";
 import { defaultScroller } from "../../mixins/page-scroll.js";
-import { getJSON } from "../../utils/json.js";
+import { getResource } from "../../utils/json.js";
 import { resolvePage, setPage } from "../../utils/page.js";
 
 const { globalData } = getApp<AppOption>();
@@ -29,7 +29,7 @@ $Page("location", {
     if (id) {
       if (globalData.page.id === id) setPage({ option, ctx: this });
       else
-        getJSON<PageData>(`function/map/${id}`)
+        getResource<PageData>(`function/map/${id}`)
           .then((data) => {
             setPage({ option, ctx: this }, data);
           })

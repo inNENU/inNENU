@@ -8,7 +8,7 @@ import {
   assets,
   description,
 } from "../../config/index.js";
-import { DAY } from "../../utils/constant.js";
+import { DAY } from "../../config/index.js";
 import { getColor, popNotice, resolvePage, setPage } from "../../utils/page.js";
 import { checkResource } from "../../utils/resource.js";
 

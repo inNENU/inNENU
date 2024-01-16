@@ -2,6 +2,7 @@ import { $Component, PropType, get, set } from "@mptool/all";
 
 import { setClipboard, showModal, showToast } from "../../api/index.js";
 import type { AppOption } from "../../app.js";
+import { MINUTE } from "../../config/index.js";
 import { EMAIL_DATA_KEY } from "../../config/keys.js";
 import type { EmailItem } from "../../service/index.js";
 import {
@@ -11,7 +12,6 @@ import {
   recentEmails,
 } from "../../service/index.js";
 import { LoginFailType, ensureActionLogin } from "../../service/index.js";
-import { MINUTE } from "../../utils/constant.js";
 import type { WidgetStatus } from "../utils.js";
 import { getSize } from "../utils.js";
 
@@ -100,9 +100,9 @@ $Component({
         return this.setData({ status: "error", errMsg: "登陆失败" });
       }
 
-      const result = await (useOnlineService("recent-email")
-        ? onlineRecentEmails
-        : recentEmails)();
+      const result = await (
+        useOnlineService("recent-email") ? onlineRecentEmails : recentEmails
+      )();
 
       if (result.success) {
         const recent = result.recent.map(({ receivedDate, ...rest }) => {
@@ -153,9 +153,9 @@ $Component({
         }
       }
 
-      const result = await (useOnlineService("email-page")
-        ? onlineEmailPage
-        : emailPage)(mid);
+      const result = await (
+        useOnlineService("email-page") ? onlineEmailPage : emailPage
+      )(mid);
 
       if (result.success) {
         const { url } = result;

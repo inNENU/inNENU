@@ -8,7 +8,7 @@ import type {
 import { setClipboard, showToast } from "../../api/index.js";
 import type { AppOption } from "../../app.js";
 import { appCoverPrefix, appName } from "../../config/index.js";
-import { DAY } from "../../utils/constant.js";
+import { DAY } from "../../config/index.js";
 import { popNotice, resolvePage, setPage } from "../../utils/page.js";
 import { fetchAppSettings } from "../../utils/settings.js";
 

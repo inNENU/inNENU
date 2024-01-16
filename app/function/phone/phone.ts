@@ -3,7 +3,7 @@ import { $Page } from "@mptool/all";
 import { addPhoneContact } from "../../api/index.js";
 import type { AppOption } from "../../app.js";
 import { appCoverPrefix } from "../../config/index.js";
-import { ensureJSON, getJSON } from "../../utils/json.js";
+import { ensureResource, getResource } from "../../utils/json.js";
 import { popNotice } from "../../utils/page.js";
 
 const { globalData } = getApp<AppOption>();
@@ -27,11 +27,11 @@ $Page("phone", {
   },
 
   onNavigate() {
-    ensureJSON("function/phone/index");
+    ensureResource("function/phone/index");
   },
 
   onLoad() {
-    getJSON<PhoneConfig[]>("function/phone/index").then((config) => {
+    getResource<PhoneConfig[]>("function/phone/index").then((config) => {
       this.setData({
         config,
         height:

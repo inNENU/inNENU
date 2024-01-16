@@ -3,9 +3,8 @@ import { logger } from "@mptool/all";
 import { UNDER_SYSTEM_SERVER } from "./utils.js";
 import { CommonFailedResponse } from "../../../typings/index.js";
 import { cookieStore, request } from "../../api/net.js";
-import { getIETimeStamp } from "../../utils/browser.js";
 import { LoginFailType } from "../loginFailTypes.js";
-import { isWebVPNPage } from "../utils.js";
+import { getIETimeStamp, isWebVPNPage } from "../utils.js";
 
 const infoRegExp =
   /<td>(\S+)<\/td>\s+<td colspan="\d">(?:&nbsp;)*(.*?)(?:&nbsp;)*<\/td>/g;

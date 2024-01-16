@@ -3,7 +3,7 @@ import type { PageInstance, PageQuery } from "@mptool/all";
 import { logger, readJSON, writeJSON } from "@mptool/all";
 
 import { id2path } from "./id.js";
-import { ensureJSON } from "./json.js";
+import { ensureResource } from "./json.js";
 import type { Notice } from "./notice.js";
 import { getScopeData } from "./scopeData.js";
 import type {
@@ -206,7 +206,7 @@ const preloadPage = (page: PageData): void => {
               | ListComponentItemConfig
             ) & { hidden?: boolean },
           ) => {
-            if ("path" in element) ensureJSON(`${element.path!}`);
+            if ("path" in element) ensureResource(`${element.path!}`);
           },
         );
     });

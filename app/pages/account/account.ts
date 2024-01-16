@@ -12,6 +12,7 @@ import {
   appCoverPrefix,
   assets,
 } from "../../config/index.js";
+import { MONTH } from "../../config/index.js";
 import {
   LoginFailType,
   authInitInfo,
@@ -21,7 +22,6 @@ import {
   supportRedirect,
 } from "../../service/index.js";
 import { getLicenseStatus } from "../../utils/agreement.js";
-import { MONTH } from "../../utils/constant.js";
 import { logout } from "../../utils/logout.js";
 import { popNotice } from "../../utils/page.js";
 import type { UserInfo } from "../../utils/typings.js";
@@ -216,9 +216,9 @@ $Page(PAGE_ID, {
     wx.setStorageSync("license", (await getLicenseStatus()).version);
 
     try {
-      const result = await (useOnlineService("init-auth")
-        ? onlineInitAuth
-        : initAuth)({
+      const result = await (
+        useOnlineService("init-auth") ? onlineInitAuth : initAuth
+      )({
         ...this.state.initOptions,
         id: Number(id),
         password,

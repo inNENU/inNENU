@@ -4,7 +4,7 @@ import type { Lyric, PlayMode, SongDetail } from "./typings.js";
 import { loadFZSSJW, showToast } from "../../api/index.js";
 import type { AppOption } from "../../app.js";
 import { appCoverPrefix, appName } from "../../config/index.js";
-import { ensureJSON, getJSON } from "../../utils/json.js";
+import { ensureResource, getResource } from "../../utils/json.js";
 import { popNotice } from "../../utils/page.js";
 
 const { globalData } = getApp<AppOption>();
@@ -62,7 +62,7 @@ $Page("music", {
   },
 
   onNavigate() {
-    ensureJSON("function/music/index");
+    ensureResource("function/music/index");
   },
 
   // eslint-disable-next-line max-lines-per-function
@@ -88,7 +88,7 @@ $Page("music", {
       firstPage: getCurrentPages().length === 1,
     });
 
-    getJSON<SongDetail[]>("function/music/index").then((songList) => {
+    getResource<SongDetail[]>("function/music/index").then((songList) => {
       if (option.index) {
         musicState.index = Number(option.index);
       } else if (option.name) {
@@ -239,7 +239,7 @@ $Page("music", {
     const { lyric } = this.data.currentSong;
 
     if (lyric)
-      getJSON<Lyric[]>(`function/music/${lyric}`).then((lyrics) => {
+      getResource<Lyric[]>(`function/music/${lyric}`).then((lyrics) => {
         this.setData({
           currentLyric: "",
           currentLyricId: -1,

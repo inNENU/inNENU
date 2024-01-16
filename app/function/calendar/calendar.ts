@@ -4,7 +4,7 @@ import { showModal, showToast } from "../../api/index.js";
 import type { AppOption } from "../../app.js";
 import type { TimeLineItem } from "../../components/timeline/timeline.js";
 import { appCoverPrefix } from "../../config/index.js";
-import { ensureJSON, getJSON } from "../../utils/json.js";
+import { ensureResource, getResource } from "../../utils/json.js";
 import { getColor, popNotice } from "../../utils/page.js";
 
 const { globalData } = getApp<AppOption>();
@@ -30,11 +30,11 @@ $Page(PAGE_ID, {
   },
 
   onNavigate() {
-    ensureJSON("function/calendar/index");
+    ensureResource("function/calendar/index");
   },
 
   onLoad() {
-    getJSON<TimeLineItem[]>("function/calendar/index")
+    getResource<TimeLineItem[]>("function/calendar/index")
       .then((calendar) => {
         this.setData({
           color: getColor(),
@@ -77,7 +77,7 @@ $Page(PAGE_ID, {
     const { path } = event.detail;
 
     if (path)
-      getJSON<CalendarDetail>(`function/calendar/${path}`)
+      getResource<CalendarDetail>(`function/calendar/${path}`)
         .then((data) => {
           this.setData({
             // eslint-disable-next-line @typescript-eslint/naming-convention

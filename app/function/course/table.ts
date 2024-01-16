@@ -4,6 +4,7 @@ import type { ClassItem, TableItem } from "./typings.js";
 import { retryAction, showModal } from "../../api/index.js";
 import type { AppOption } from "../../app.js";
 import { COURSE_DATA_KEY, appCoverPrefix } from "../../config/index.js";
+import { DAY, MONTH } from "../../config/index.js";
 import {
   LoginFailType,
   ensureOnlinePostSystemLogin,
@@ -15,7 +16,6 @@ import {
   getPostCourseTable,
   getUnderCourseTable,
 } from "../../service/index.js";
-import { DAY, MONTH } from "../../utils/constant.js";
 import { getColor, popNotice } from "../../utils/page.js";
 import type {
   CourseTableData,
@@ -206,15 +206,19 @@ $Page(PAGE_ID, {
   async getUnderCourseData(time: string) {
     wx.showLoading({ title: "获取中" });
     try {
-      const err = await (useOnlineService("under-login")
-        ? ensureOnlineUnderSystemLogin
-        : ensureUnderSystemLogin)(globalData.account!, this.state.loginMethod);
+      const err = await (
+        useOnlineService("under-login")
+          ? ensureOnlineUnderSystemLogin
+          : ensureUnderSystemLogin
+      )(globalData.account!, this.state.loginMethod);
 
       if (err) throw err.msg;
 
-      const result = await (useOnlineService(PAGE_ID)
-        ? getOnlineUnderCourseTable
-        : getUnderCourseTable)({ time });
+      const result = await (
+        useOnlineService(PAGE_ID)
+          ? getOnlineUnderCourseTable
+          : getUnderCourseTable
+      )({ time });
 
       wx.hideLoading();
       this.state.inited = true;
@@ -252,15 +256,19 @@ $Page(PAGE_ID, {
     wx.showLoading({ title: "获取中" });
 
     try {
-      const err = await (useOnlineService("post-login")
-        ? ensureOnlinePostSystemLogin
-        : ensurePostSystemLogin)(globalData.account!, this.state.loginMethod);
+      const err = await (
+        useOnlineService("post-login")
+          ? ensureOnlinePostSystemLogin
+          : ensurePostSystemLogin
+      )(globalData.account!, this.state.loginMethod);
 
       if (err) throw err.msg;
 
-      const result = await (useOnlineService("post-course-table")
-        ? getOnlinePostCourseTable
-        : getPostCourseTable)({ time });
+      const result = await (
+        useOnlineService("post-course-table")
+          ? getOnlinePostCourseTable
+          : getPostCourseTable
+      )({ time });
 
       wx.hideLoading();
       this.state.inited = true;

@@ -2,6 +2,7 @@ import { $Page, get, set } from "@mptool/all";
 
 import { retryAction, showModal } from "../../api/index.js";
 import type { AppOption } from "../../app.js";
+import { HOUR } from "../../config/index.js";
 import { appCoverPrefix } from "../../config/info.js";
 import { EXAM_PLACE_DATA_KEY } from "../../config/keys.js";
 import type { ExamPlace } from "../../service/index.js";
@@ -12,7 +13,6 @@ import {
   getOnlineUnderExamPlace,
   getUnderExamPlace,
 } from "../../service/index.js";
-import { HOUR } from "../../utils/constant.js";
 import { getColor, popNotice } from "../../utils/page.js";
 
 const { globalData, useOnlineService } = getApp<AppOption>();
@@ -97,15 +97,17 @@ $Page(PAGE_ID, {
     wx.showLoading({ title: "获取中" });
 
     try {
-      const err = await (useOnlineService("under-login")
-        ? ensureOnlineUnderSystemLogin
-        : ensureUnderSystemLogin)(globalData.account!, this.state.loginMethod);
+      const err = await (
+        useOnlineService("under-login")
+          ? ensureOnlineUnderSystemLogin
+          : ensureUnderSystemLogin
+      )(globalData.account!, this.state.loginMethod);
 
       if (err) throw err.msg;
 
-      const result = await (useOnlineService(PAGE_ID)
-        ? getOnlineUnderExamPlace
-        : getUnderExamPlace)();
+      const result = await (
+        useOnlineService(PAGE_ID) ? getOnlineUnderExamPlace : getUnderExamPlace
+      )();
 
       wx.hideLoading();
       this.state.inited = true;

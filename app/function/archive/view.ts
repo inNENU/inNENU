@@ -2,6 +2,7 @@ import { $Page, set } from "@mptool/all";
 
 import { confirmAction, retryAction, showModal } from "../../api/index.js";
 import type { AppOption } from "../../app.js";
+import { HOUR } from "../../config/index.js";
 import { STUDENT_ARCHIVE_KEY } from "../../config/keys.js";
 import {
   LoginFailType,
@@ -12,7 +13,6 @@ import {
   useOnlineGetStudentArchive,
   useOnlineRegisterStudentArchive,
 } from "../../service/index.js";
-import { HOUR } from "../../utils/constant.js";
 import { getColor, popNotice } from "../../utils/page.js";
 
 const { globalData, useOnlineService } = getApp<AppOption>();
@@ -84,15 +84,19 @@ $Page(PAGE_ID, {
     wx.showLoading({ title: "获取中" });
 
     try {
-      const err = await (useOnlineService("under-login")
-        ? ensureOnlineUnderSystemLogin
-        : ensureUnderSystemLogin)(globalData.account!, this.state.loginMethod);
+      const err = await (
+        useOnlineService("under-login")
+          ? ensureOnlineUnderSystemLogin
+          : ensureUnderSystemLogin
+      )(globalData.account!, this.state.loginMethod);
 
       if (err) throw err.msg;
 
-      const result = await (useOnlineService(PAGE_ID)
-        ? useOnlineGetStudentArchive
-        : getUnderStudentArchive)();
+      const result = await (
+        useOnlineService(PAGE_ID)
+          ? useOnlineGetStudentArchive
+          : getUnderStudentArchive
+      )();
 
       wx.hideLoading();
       this.state.inited = true;
@@ -117,15 +121,19 @@ $Page(PAGE_ID, {
     wx.showLoading({ title: "注册中" });
 
     try {
-      const err = await (useOnlineService("under-login")
-        ? ensureOnlineUnderSystemLogin
-        : ensureUnderSystemLogin)(globalData.account!, this.state.loginMethod);
+      const err = await (
+        useOnlineService("under-login")
+          ? ensureOnlineUnderSystemLogin
+          : ensureUnderSystemLogin
+      )(globalData.account!, this.state.loginMethod);
 
       if (err) throw err.msg;
 
-      const result = await (useOnlineService(PAGE_ID)
-        ? useOnlineRegisterStudentArchive
-        : registerStudentArchive)(this.data.path);
+      const result = await (
+        useOnlineService(PAGE_ID)
+          ? useOnlineRegisterStudentArchive
+          : registerStudentArchive
+      )(this.data.path);
 
       wx.hideLoading();
       this.state.inited = true;

@@ -14,9 +14,8 @@ import {
 import { UNDER_SYSTEM_SERVER } from "./utils.js";
 import type { CommonFailedResponse } from "../../../typings/response.js";
 import { cookieStore, request } from "../../api/index.js";
-import { getIETimeStamp } from "../../utils/browser.js";
 import { LoginFailType } from "../loginFailTypes.js";
-import { isWebVPNPage } from "../utils.js";
+import { getIETimeStamp, isWebVPNPage } from "../utils.js";
 
 const headerRegExp = /<title>(.*)<\/title>/;
 const planRegExp =

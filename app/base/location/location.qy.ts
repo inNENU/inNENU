@@ -6,7 +6,7 @@ import type {
   LocationConfig,
 } from "../../../typings/index.js";
 import { showToast } from "../../api/index.js";
-import { navigation } from "../../utils/location.js";
+import { startNavigation } from "../../utils/location.js";
 
 const getPoint = (point: LocationConfig & { id: number }): string =>
   JSON.stringify({
@@ -71,9 +71,9 @@ $Component({
 
       if (config.navigate !== false)
         if (id === -1)
-          if (markers.length === 1) navigation(getPoint(markers[0]));
+          if (markers.length === 1) startNavigation(getPoint(markers[0]));
           else showToast("请选择一个点");
-        else navigation(getPoint(markers[id]));
+        else startNavigation(getPoint(markers[id]));
     },
 
     detail() {
@@ -102,7 +102,7 @@ $Component({
       if (point.path)
         this.$go(`location?id=${point.path}&point=${getPoint(point)}`);
       else if (navigate !== false)
-        navigation(getPoint(this.data.markers[detail.markerId]));
+        startNavigation(getPoint(this.data.markers[detail.markerId]));
     },
   },
 });

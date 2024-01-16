@@ -2,6 +2,7 @@ import { $Component, PropType, get, set } from "@mptool/all";
 
 import { showToast } from "../../api/index.js";
 import type { AppOption } from "../../app.js";
+import { HOUR } from "../../config/index.js";
 import {
   SITE_MEDIA_LIST_KEY,
   SITE_NEWS_LIST_KEY,
@@ -14,7 +15,6 @@ import {
   getInfoList,
   getOnlineInfoList,
 } from "../../service/index.js";
-import { HOUR } from "../../utils/constant.js";
 import { WidgetSize, WidgetStatus, getSize } from "../utils.js";
 
 const { globalData, useOnlineService } = getApp<AppOption>();
@@ -111,9 +111,9 @@ $Component({
         }
 
         try {
-          const result = await (useOnlineService("info-list")
-            ? getOnlineInfoList
-            : getInfoList)({
+          const result = await (
+            useOnlineService("info-list") ? getOnlineInfoList : getInfoList
+          )({
             type: infoType,
           });
 

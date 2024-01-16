@@ -3,6 +3,7 @@ import { $Page, get, set } from "@mptool/all";
 import { retryAction, showModal } from "../../api/index.js";
 import type { AppOption } from "../../app.js";
 import { GRADE_DATA_KEY, appCoverPrefix } from "../../config/index.js";
+import { HOUR } from "../../config/index.js";
 import type {
   PostGradeResult,
   UnderGradeListOptions,
@@ -21,7 +22,6 @@ import {
   // getUnderGradeDetail,
   // getUnderGradeList,
 } from "../../service/index.js";
-import { HOUR } from "../../utils/constant.js";
 import { getColor, popNotice } from "../../utils/page.js";
 
 const { globalData, useOnlineService } = getApp<AppOption>();

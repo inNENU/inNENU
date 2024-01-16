@@ -2,6 +2,7 @@ import { $Page, get, set } from "@mptool/all";
 
 import { showModal } from "../../api/index.js";
 import type { AppOption } from "../../app.js";
+import { HOUR } from "../../config/index.js";
 import { appCoverPrefix } from "../../config/info.js";
 import { SPECIAL_EXAM_DATA_KEY } from "../../config/keys.js";
 import type { UnderSpecialExamResult } from "../../service/index.js";
@@ -11,7 +12,6 @@ import {
   getOnlineUnderSpecialExam,
   // getUnderSpecialExam,
 } from "../../service/index.js";
-import { HOUR } from "../../utils/constant.js";
 import { getColor, popNotice } from "../../utils/page.js";
 
 const { globalData, useOnlineService } = getApp<AppOption>();

@@ -2,7 +2,7 @@ import { $Page } from "@mptool/all";
 
 import { showModal } from "../../api/index.js";
 import { appCoverPrefix } from "../../config/index.js";
-import { getJSON } from "../../utils/json.js";
+import { getResource } from "../../utils/json.js";
 import { popNotice } from "../../utils/page.js";
 
 /** 分数段设置 */
@@ -311,7 +311,7 @@ $Page("pe-calculator", {
       [peScore.bmi, peScore.passScore] = this.getBMI(result);
 
     // 读取相应配置文件
-    getJSON<GradeConfig>(`function/pe-calculator/${gender}-${grade}`).then(
+    getResource<GradeConfig>(`function/pe-calculator/${gender}-${grade}`).then(
       (config) => {
         // 以下三项越高越好，进行计算
         (<("vitalCapacity" | "sitAndReach" | "standingLongJump")[]>[

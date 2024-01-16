@@ -2,6 +2,7 @@ import { $Page, get, set } from "@mptool/all";
 
 import { showModal, showToast } from "../../api/index.js";
 import type { AppOption } from "../../app.js";
+import { MINUTE } from "../../config/index.js";
 import { appCoverPrefix, assets } from "../../config/info.js";
 import type {
   ActivateBindPhoneOptions,
@@ -25,7 +26,6 @@ import {
   setPassword,
   supportRedirect,
 } from "../../service/index.js";
-import { MINUTE } from "../../utils/constant.js";
 import { getColor, popNotice } from "../../utils/page.js";
 
 const { globalData, useOnlineService } = getApp<AppOption>();

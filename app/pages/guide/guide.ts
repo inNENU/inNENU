@@ -8,8 +8,8 @@ import type {
 } from "../../../typings/index.js";
 import type { AppOption } from "../../app.js";
 import { appCoverPrefix } from "../../config/index.js";
-import { DAY } from "../../utils/constant.js";
-import { getJSON } from "../../utils/json.js";
+import { DAY } from "../../config/index.js";
+import { getResource } from "../../utils/json.js";
 import { getColor, popNotice } from "../../utils/page.js";
 import { checkResource } from "../../utils/resource.js";
 import { search } from "../../utils/search.js";
@@ -94,7 +94,7 @@ $Page(PAGE_ID, {
 
   async setPage(): Promise<void> {
     if (globalData.settings) {
-      const data = await getJSON<TabData>("function/data/tab");
+      const data = await getResource<TabData>("function/data/tab");
 
       const { id, location, type } = getIdentity(globalData.userInfo);
 

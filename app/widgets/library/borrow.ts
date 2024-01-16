@@ -3,10 +3,10 @@ import { $Component, PropType, get, set } from "@mptool/all";
 import { showModal, showToast } from "../../api/index.js";
 import type { AppOption } from "../../app.js";
 import { BORROW_BOOKS_KEY } from "../../config/index.js";
+import { DAY, HOUR } from "../../config/index.js";
 import type { BorrowBookData } from "../../service/index.js";
 import { getBorrowBooks, getOnlineBorrowBooks } from "../../service/index.js";
 import { ensureActionLogin } from "../../service/index.js";
-import { DAY, HOUR } from "../../utils/constant.js";
 
 const { globalData, useOnlineService } = getApp<AppOption>();
 
@@ -63,9 +63,11 @@ $Component({
           return this.setData({ status: "error" });
         }
 
-        const result = await (useOnlineService("borrow-books")
-          ? getOnlineBorrowBooks
-          : getBorrowBooks)();
+        const result = await (
+          useOnlineService("borrow-books")
+            ? getOnlineBorrowBooks
+            : getBorrowBooks
+        )();
 
         if (result.success) {
           set(BORROW_BOOKS_KEY, result.data, 3 * HOUR);

@@ -2,6 +2,7 @@ import { $Component, PropType, get, set } from "@mptool/all";
 
 import { showToast } from "../../api/index.js";
 import type { AppOption } from "../../app.js";
+import { HOUR } from "../../config/index.js";
 import { SITE_ANNOUNCEMENT_LIST_KEY } from "../../config/keys.js";
 import type { AnnouncementInfoItem } from "../../service/index.js";
 import {
@@ -9,7 +10,6 @@ import {
   getAnnouncementList,
   getOnlineAnnouncementList,
 } from "../../service/index.js";
-import { HOUR } from "../../utils/constant.js";
 import {
   FILTERED_SOURCES,
   WidgetSize,
@@ -78,9 +78,11 @@ $Component({
         }
 
         try {
-          const result = await (useOnlineService("announcement-list")
-            ? getOnlineAnnouncementList
-            : getAnnouncementList)();
+          const result = await (
+            useOnlineService("announcement-list")
+              ? getOnlineAnnouncementList
+              : getAnnouncementList
+          )();
 
           if (result.success) {
             const data = result.data

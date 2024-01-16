@@ -8,7 +8,7 @@ import {
 } from "../../api/index.js";
 import type { AppOption } from "../../app.js";
 import { appCoverPrefix } from "../../config/index.js";
-import { ensureJSON, getJSON } from "../../utils/json.js";
+import { ensureResource, getResource } from "../../utils/json.js";
 import { popNotice } from "../../utils/page.js";
 import type { Env } from "../../utils/typings.js";
 
@@ -32,11 +32,11 @@ $Page(PAGE_ID, {
   },
 
   onNavigate() {
-    ensureJSON(`function/account/${env}`);
+    ensureResource(`function/account/${env}`);
   },
 
   onLoad({ type = env }: { type: Env }) {
-    getJSON<unknown[]>(`function/account/${type}`).then((config) => {
+    getResource<unknown[]>(`function/account/${type}`).then((config) => {
       this.setData({
         config,
         type,
@@ -76,7 +76,7 @@ $Page(PAGE_ID, {
   >) {
     const { type } = currentTarget.dataset;
 
-    getJSON<unknown[]>(`function/account/${type}`).then((config) => {
+    getResource<unknown[]>(`function/account/${type}`).then((config) => {
       this.setData({ config, type });
     });
   },
