@@ -24,7 +24,7 @@ const checkGroupApp = (): void => {
     });
 };
 
-export const platformActions = (globalData: GlobalData): void => {
-  globalData;
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+export const platformActions = (_globalData: GlobalData): void => {
   checkGroupApp();
 };
