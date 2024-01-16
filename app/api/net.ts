@@ -44,6 +44,7 @@ export const networkReport = (): void => {
 const { request, cookieStore } = createRequest({
   server: service,
   timeout: 30000,
+  cookieStore: "innenu-v1",
   responseHandler: ({ data, headers, status }, url, options) => {
     if (status < 400) {
       // 调试
