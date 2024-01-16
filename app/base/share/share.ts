@@ -10,8 +10,8 @@ import {
   showToast,
 } from "../../api/index.js";
 import { appName, server, service } from "../../config/index.js";
+import { info } from "../../state/info.js";
 import { path2id } from "../../utils/id.js";
-import { info } from "../../utils/info.js";
 import { reportInfo } from "../../utils/report.js";
 
 type ShareConfig = Pick<

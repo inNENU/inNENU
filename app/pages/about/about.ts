@@ -9,7 +9,7 @@ import { setClipboard, showToast } from "../../api/index.js";
 import type { AppOption } from "../../app.js";
 import { appCoverPrefix, appName, version } from "../../config/index.js";
 import { DAY } from "../../config/index.js";
-import { info } from "../../utils/info.js";
+import { info, updateSelectable } from "../../state/info.js";
 import { popNotice, resolvePage, setPage } from "../../utils/page.js";
 import { fetchAppSettings } from "../../utils/settings.js";
 
@@ -248,8 +248,7 @@ $Page(PAGE_ID, {
    * @param value 开关状态
    */
   toggleSelectable(value: boolean) {
-    // @ts-ignore
-    info.selectable = value;
+    updateSelectable(value);
   },
 
   /**

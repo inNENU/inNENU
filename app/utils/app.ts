@@ -2,7 +2,6 @@
 import { emitter, get, logger, writeJSON } from "@mptool/all";
 
 import { platformActions } from "./app-platform.js";
-import { info } from "./info.js";
 import { login } from "./login.js";
 import { defaultResources, downloadResource } from "./resource.js";
 import type { ServiceSettings } from "./settings.js";
@@ -17,6 +16,7 @@ import {
   USER_INFO_KEY,
   server,
 } from "../config/index.js";
+import { info } from "../state/info.js";
 
 const { env, envName } = info;
 

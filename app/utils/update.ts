@@ -1,9 +1,9 @@
 import { logger, ls, rm } from "@mptool/all";
 
-import { info } from "./info.js";
 import { AppSettings } from "./settings.js";
 import { request, showToast } from "../api/index.js";
 import { server } from "../config/info.js";
+import { info } from "../state/info.js";
 
 export interface UpdateInfo {
   /** 是否进行强制更新 */

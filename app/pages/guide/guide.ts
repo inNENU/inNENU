@@ -9,7 +9,7 @@ import type {
 import type { AppOption } from "../../app.js";
 import { appCoverPrefix } from "../../config/index.js";
 import { DAY } from "../../config/index.js";
-import { info } from "../../utils/info.js";
+import { info } from "../../state/info.js";
 import { getResource } from "../../utils/json.js";
 import { getColor, popNotice } from "../../utils/page.js";
 import { checkResource } from "../../utils/resource.js";

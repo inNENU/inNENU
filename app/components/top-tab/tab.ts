@@ -1,4 +1,4 @@
-import { info } from "../../utils/info.js";
+import { info } from "../../state/info.js";
 
 Component({
   properties: {

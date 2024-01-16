@@ -9,7 +9,7 @@ import type {
   SliderListComponentItemConfig,
   SwitchListComponentItemConfig,
 } from "../../../typings/index.js";
-import { info } from "../../utils/info.js";
+import { info } from "../../state/info.js";
 
 interface ListDetail<T = FunctionalListComponentItemOptions> {
   id: string;

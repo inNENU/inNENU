@@ -1,5 +1,5 @@
-import { info } from "./info.js";
 import { request } from "../api/index.js";
+import { info } from "../state/info.js";
 
 const { appID, env } = info;
 

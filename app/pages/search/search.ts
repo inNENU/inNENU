@@ -1,7 +1,7 @@
 import { $Page, readFile } from "@mptool/all";
 
 import { appCoverPrefix } from "../../config/index.js";
-import { info } from "../../utils/info.js";
+import { info } from "../../state/info.js";
 import { getColor, popNotice } from "../../utils/page.js";
 import type { SearchResult, SearchType } from "../../utils/search.js";
 import { search } from "../../utils/search.js";

@@ -1,7 +1,7 @@
 import type { PropType } from "@mptool/all";
 import { $Component } from "@mptool/all";
 
-import { info } from "../../utils/info.js";
+import { info } from "../../state/info.js";
 
 export interface TimeLineItem {
   /** 时间线项目标题 */

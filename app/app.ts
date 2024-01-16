@@ -1,10 +1,9 @@
 import type { TrivialPageInstance } from "@mptool/all";
 import { $App, $Config, wrapFunction } from "@mptool/all";
 
-import { getDarkmode } from "./api/index.js";
 import { INITIALIZED_KEY } from "./config/keys.js";
+import { info } from "./state/info.js";
 import { getGlobalData, initializeApp, startup } from "./utils/app.js";
-import { info } from "./utils/info.js";
 import { checkResource } from "./utils/resource.js";
 import { fetchAppSettings } from "./utils/settings.js";
 import type { GlobalData } from "./utils/typings.js";
@@ -80,15 +79,15 @@ $Config({
     options.onLoad = wrapFunction(
       options.onLoad,
       function (this: TrivialPageInstance & { onThemeChange: () => void }) {
-        this.setData({ darkmode: getDarkmode() });
-        if (wx.canIUse("onThemeChange")) wx.onThemeChange(this.onThemeChange);
+        this.setData({ darkmode: info.darkmode });
+        wx.onThemeChange?.(this.onThemeChange);
       },
     );
 
     options.onUnload = wrapFunction(
       options.onUnload,
       function (this: TrivialPageInstance & { onThemeChange: () => void }) {
-        if (wx.canIUse("offThemeChange")) wx.offThemeChange(this.onThemeChange);
+        wx.offThemeChange?.(this.onThemeChange);
       },
     );
   },
@@ -110,8 +109,10 @@ $App<AppOption>({
     // 调试
     console.info("App launched with options:", options);
 
-    // 如果初次启动执行初始化
-    if (!wx.getStorageSync(INITIALIZED_KEY)) initializeApp();
+    // 初始化完成，检查页面资源
+    if (wx.getStorageSync(INITIALIZED_KEY)) checkResource();
+    // 初次启动执行初始化
+    else initializeApp();
 
     fetchAppSettings(this.globalData, wx.getStorageSync("test")).then(() => {
       this.$emit("data");
@@ -121,18 +122,8 @@ $App<AppOption>({
     console.info("GlobalData:", this.globalData);
   },
 
-  onShow() {
-    //初始化完成，检查页面资源
-    if (wx.getStorageSync(INITIALIZED_KEY)) checkResource();
-  },
-
   onAwake(time: number) {
     console.info(`App awakes after ${time}ms`);
-
-    // 重新应用夜间模式、
-    // @ts-ignore
-    info.darkmode =
-      (wx.getAppBaseInfo || wx.getSystemInfoSync)().theme === "dark";
 
     fetchAppSettings(this.globalData, wx.getStorageSync("test")).then(() => {
       this.$emit("data");

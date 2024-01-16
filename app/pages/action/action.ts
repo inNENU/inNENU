@@ -1,7 +1,7 @@
 import { $Page } from "@mptool/all";
 
 import { appCoverPrefix } from "../../config/index.js";
-import { info } from "../../utils/info.js";
+import { info } from "../../state/info.js";
 import { getColor } from "../../utils/page.js";
 import { reportInfo } from "../../utils/report.js";
 import { resetApp } from "../../utils/reset.js";

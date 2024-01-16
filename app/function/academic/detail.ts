@@ -8,7 +8,7 @@ import {
   service,
 } from "../../config/index.js";
 import { getAcademic, getOnlineAcademic } from "../../service/index.js";
-import { info } from "../../utils/info.js";
+import { info } from "../../state/info.js";
 import { getColor, popNotice } from "../../utils/page.js";
 import type { StarredAcademic } from "../../widgets/star/typings.js";
 

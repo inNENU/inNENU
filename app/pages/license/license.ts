@@ -3,7 +3,7 @@ import { $Page } from "@mptool/all";
 
 import { requestJSON } from "../../api/index.js";
 import { appCoverPrefix } from "../../config/info.js";
-import { info } from "../../utils/info.js";
+import { info } from "../../state/info.js";
 import { getColor } from "../../utils/page.js";
 
 const PAGE_ID = "license";

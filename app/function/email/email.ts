@@ -10,7 +10,7 @@ import {
   onlineRecentEmails,
   recentEmails,
 } from "../../service/index.js";
-import { info } from "../../utils/info.js";
+import { info } from "../../state/info.js";
 import { popNotice } from "../../utils/page.js";
 
 const { globalData, useOnlineService } = getApp<AppOption>();

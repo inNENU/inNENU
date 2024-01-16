@@ -8,7 +8,7 @@ import {
   service,
 } from "../../config/index.js";
 import { getAnnouncement, getOnlineAnnouncement } from "../../service/index.js";
-import { info } from "../../utils/info.js";
+import { info } from "../../state/info.js";
 import { getColor, popNotice } from "../../utils/page.js";
 import type { StarredAnnouncement } from "../../widgets/star/typings.js";
 

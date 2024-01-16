@@ -11,7 +11,7 @@ import { MINUTE } from "../../config/index.js";
 import type { WeatherData } from "../../service/index.js";
 import { getOnlineWeather, getWeather } from "../../service/index.js";
 import { WeatherAlarm } from "../../service/weather.js";
-import { info } from "../../utils/info.js";
+import { info } from "../../state/info.js";
 
 const { useOnlineService } = getApp<AppOption>();
 

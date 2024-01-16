@@ -3,7 +3,7 @@ import { $Page } from "@mptool/all";
 import { showModal, showToast } from "../../api/index.js";
 import type { TimeLineItem } from "../../components/timeline/timeline.js";
 import { appCoverPrefix } from "../../config/index.js";
-import { info } from "../../utils/info.js";
+import { info } from "../../state/info.js";
 import { ensureResource, getResource } from "../../utils/json.js";
 import { getColor, popNotice } from "../../utils/page.js";
 

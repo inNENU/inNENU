@@ -1,11 +1,11 @@
 import { logger } from "@mptool/all";
 
-import { info } from "./info.js";
 import { updateNotice } from "./notice.js";
 import type { GlobalData, UserInfo } from "./typings.js";
 import type { ComponentConfig } from "../../typings/components.js";
 import { request } from "../api/index.js";
 import { server, version } from "../config/index.js";
+import { info } from "../state/info.js";
 
 export interface Notice {
   /** 标题 */

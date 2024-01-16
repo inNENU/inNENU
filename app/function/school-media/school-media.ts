@@ -7,7 +7,7 @@ import {
   showToast,
 } from "../../api/index.js";
 import { appCoverPrefix } from "../../config/index.js";
-import { info } from "../../utils/info.js";
+import { info } from "../../state/info.js";
 import { ensureResource, getResource } from "../../utils/json.js";
 import { popNotice } from "../../utils/page.js";
 import type { Env } from "../../utils/typings.js";

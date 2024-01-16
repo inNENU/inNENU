@@ -5,7 +5,7 @@ import type {
   ListComponentConfig,
   ListComponentItemConfig,
 } from "../../../typings/index.js";
-import { info } from "../../utils/info.js";
+import { info } from "../../state/info.js";
 
 $Component({
   properties: {

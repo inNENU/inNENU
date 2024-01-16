@@ -1,7 +1,7 @@
 import { ls, rm } from "@mptool/all";
 
-import { info } from "./info.js";
 import { confirmAction, showModal } from "../api/index.js";
+import { info } from "../state/info.js";
 
 const { envName } = info;
 

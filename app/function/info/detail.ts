@@ -9,7 +9,7 @@ import {
 } from "../../config/index.js";
 import type { InfoType } from "../../service/index.js";
 import { getInfo, getOnlineInfo } from "../../service/index.js";
-import { info } from "../../utils/info.js";
+import { info } from "../../state/info.js";
 import { getColor, popNotice } from "../../utils/page.js";
 import { getTitle } from "../../widgets/recent/utils.js";
 import type { StarredInfo } from "../../widgets/star/typings.js";

@@ -1,5 +1,5 @@
 import { version } from "../../config/index.js";
-import { info } from "../../utils/info.js";
+import { info } from "../../state/info.js";
 
 export const footer = `\
 当前版本: ${version}

@@ -4,7 +4,7 @@ import type { AppOption } from "../../app.js";
 import { appCoverPrefix } from "../../config/index.js";
 import type { AcademicInfoItem } from "../../service/index.js";
 import { getAcademicList, getOnlineAcademicList } from "../../service/index.js";
-import { info } from "../../utils/info.js";
+import { info } from "../../state/info.js";
 import { getColor, popNotice } from "../../utils/page.js";
 
 const { useOnlineService } = getApp<AppOption>();

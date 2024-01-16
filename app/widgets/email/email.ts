@@ -12,7 +12,7 @@ import {
   recentEmails,
 } from "../../service/index.js";
 import { LoginFailType, ensureActionLogin } from "../../service/index.js";
-import { info } from "../../utils/info.js";
+import { info } from "../../state/info.js";
 import type { WidgetStatus } from "../utils.js";
 import { getSize } from "../utils.js";
 

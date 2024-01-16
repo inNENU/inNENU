@@ -9,7 +9,7 @@ import type {
 import { confirmAction, showModal } from "../../api/index.js";
 import { version } from "../../config/index.js";
 import { supportRedirect } from "../../service/utils.js";
-import { info } from "../../utils/info.js";
+import { info, updateTheme } from "../../state/info.js";
 import { getColor, popNotice, setPage } from "../../utils/page.js";
 import { resetApp } from "../../utils/reset.js";
 import { defaultResources, downloadResource } from "../../utils/resource.js";
@@ -156,9 +156,7 @@ $Page("settings", {
       ).select as string[]
     )[Number(value)];
 
-    // @ts-ignore
-    info.theme = theme;
-    wx.setStorageSync("theme", theme);
+    updateTheme(theme);
     this.setData({ color: getColor(this.data.page.grey), theme });
     this.$emit("theme", theme);
 

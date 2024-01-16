@@ -6,7 +6,7 @@ import { appCoverPrefix } from "../../config/index.js";
 import type { NoticeItem } from "../../service/index.js";
 import { getNoticeList, getOnlineNoticeList } from "../../service/index.js";
 import { ensureActionLogin } from "../../service/index.js";
-import { info } from "../../utils/info.js";
+import { info } from "../../state/info.js";
 import { getColor, popNotice } from "../../utils/page.js";
 
 const { globalData, useOnlineService } = getApp<AppOption>();

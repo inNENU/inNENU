@@ -18,7 +18,7 @@ import {
   verifyAccount,
   verifySMS,
 } from "../../service/index.js";
-import { info } from "../../utils/info.js";
+import { info } from "../../state/info.js";
 import { getColor, popNotice } from "../../utils/page.js";
 
 const { useOnlineService } = getApp<AppOption>();

@@ -5,7 +5,7 @@ import type {
   LocationComponentOptions,
   LocationConfig,
 } from "../../../typings/index.js";
-import { info } from "../../utils/info.js";
+import { info } from "../../state/info.js";
 
 const getPoint = (point: LocationConfig & { id: number }): string =>
   JSON.stringify({

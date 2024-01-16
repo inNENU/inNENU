@@ -11,7 +11,7 @@ import { showModal } from "../../api/index.js";
 import { appCoverPrefix } from "../../config/index.js";
 import type { EnrollPlanInfo } from "../../service/index.js";
 import { getEnrollPlan } from "../../service/index.js";
-import { info } from "../../utils/info.js";
+import { info } from "../../state/info.js";
 import { ensureResource, getResource } from "../../utils/json.js";
 import { getColor, popNotice } from "../../utils/page.js";
 

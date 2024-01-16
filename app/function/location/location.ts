@@ -4,7 +4,7 @@ import type { LocationConfig, PageData } from "../../../typings/index.js";
 import type { AppOption } from "../../app.js";
 import { appCoverPrefix } from "../../config/index.js";
 import { defaultScroller } from "../../mixins/page-scroll.js";
-import { info } from "../../utils/info.js";
+import { info } from "../../state/info.js";
 import { getResource } from "../../utils/json.js";
 import { resolvePage, setPage } from "../../utils/page.js";
 

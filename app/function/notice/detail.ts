@@ -10,7 +10,7 @@ import {
 import type { NoticeType } from "../../service/index.js";
 import { getNotice, getOnlineNotice } from "../../service/index.js";
 import { ensureActionLogin } from "../../service/index.js";
-import { info } from "../../utils/info.js";
+import { info } from "../../state/info.js";
 import { getColor, popNotice } from "../../utils/page.js";
 import type { StarredNotice } from "../../widgets/star/typings.js";
 

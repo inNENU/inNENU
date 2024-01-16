@@ -4,8 +4,8 @@ import { $Component, logger } from "@mptool/all";
 import type { PageData } from "../../../typings/index.js";
 import { savePhoto, setClipboard, showToast } from "../../api/index.js";
 import { appName, service } from "../../config/index.js";
+import { info } from "../../state/info.js";
 import { path2id } from "../../utils/id.js";
-import { info } from "../../utils/info.js";
 
 const { appID } = info;
 

@@ -3,7 +3,6 @@ import type { PageInstance, PageQuery } from "@mptool/all";
 import { logger, readJSON, writeJSON } from "@mptool/all";
 
 import { id2path } from "./id.js";
-import { info } from "./info.js";
 import { ensureResource } from "./json.js";
 import type { Notice } from "./notice.js";
 import { getScopeData } from "./scopeData.js";
@@ -19,6 +18,7 @@ import type {
 import { requestJSON, showModal } from "../api/index.js";
 import type { AppOption } from "../app.js";
 import { imageWaterMark } from "../config/index.js";
+import { info } from "../state/info.js";
 
 type PageInstanceWithPage = PageInstance<
   // eslint-disable-next-line @typescript-eslint/no-explicit-any

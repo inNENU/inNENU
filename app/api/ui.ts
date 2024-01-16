@@ -1,12 +1,3 @@
-import { info } from "../utils/info.js";
-
-/**
- * 判断是否应启用夜间模式
- *
- * @returns 夜间模式状态
- */
-export const getDarkmode = (): boolean => info.darkmode;
-
 export const getWindowInfo = (): WechatMiniprogram.WindowInfo =>
   (wx.getWindowInfo || wx.getSystemInfoSync)();
 

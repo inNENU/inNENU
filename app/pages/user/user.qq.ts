@@ -9,7 +9,7 @@ import {
   description,
 } from "../../config/index.js";
 import { DAY } from "../../config/index.js";
-import { info } from "../../utils/info.js";
+import { info } from "../../state/info.js";
 import { getColor, popNotice, resolvePage, setPage } from "../../utils/page.js";
 import { checkResource } from "../../utils/resource.js";
 

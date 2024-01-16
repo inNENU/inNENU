@@ -21,8 +21,8 @@ import {
   onlineInitAuth,
   supportRedirect,
 } from "../../service/index.js";
+import { info } from "../../state/info.js";
 import { getLicenseStatus } from "../../utils/agreement.js";
-import { info } from "../../utils/info.js";
 import { logout } from "../../utils/logout.js";
 import { popNotice } from "../../utils/page.js";
 import type { UserInfo } from "../../utils/typings.js";
