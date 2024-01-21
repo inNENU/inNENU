@@ -10,7 +10,7 @@
   <view class="content">
     <error-hint wx:if="{{status === 'error'}}" catch:retry="retry" />
     <login-hint wx:elif="{{status === 'login'}}" source="申请校园邮箱" />
-    <view class="success-wrapper" wx:if="{{status === 'success'}}">
+    <view class="success-wrapper" wx:elif="{{status === 'success'}}">
       <icon type="success" size="120" />
       <view class="success-title">已成功申请邮箱</view>
       <plain-text
