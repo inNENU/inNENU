@@ -34,9 +34,9 @@ $Page(PAGE_ID, {
     header: "",
     plans: <ChangeMajorPlan[]>[],
 
-    subjects: <string[]>[],
+    subjects: <string[]>["全部科类"],
     subjectIndex: 0,
-    schools: <string[]>[],
+    schools: <string[]>["全部学院"],
     schoolIndex: 0,
     notFull: false,
 

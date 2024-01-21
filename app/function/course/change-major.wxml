@@ -33,7 +33,7 @@
         value="{{schoolIndex}}"
         bindchange="changeSchool"
       >
-        {{(schools[schoolIndex])}}
+        {{schools[schoolIndex]}}
       </picker>
       <picker
         class="picker"
@@ -41,7 +41,7 @@
         value="{{subjectIndex}}"
         bindchange="changeSubject"
       >
-        {{(subjects[subjectIndex])}}
+        {{subjects[subjectIndex]}}
       </picker>
     </view>
     <view class="plan-header">{{header}}</view>
