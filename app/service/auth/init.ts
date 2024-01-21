@@ -44,7 +44,13 @@ export const authInitInfo = async (
 
     const content = loginPageResponse.data;
 
-    const salt = SALT_REGEXP.exec(content)![1];
+    const salt = SALT_REGEXP.exec(content)?.[1];
+
+    if (!salt) {
+      cookieStore.clear();
+      throw new Error("获取统一身份认证参数失败");
+    }
+
     const lt = content.match(/name="lt" value="(.*?)"/)![1];
     const dllt = content.match(/name="dllt" value="(.*?)"/)![1];
     const execution = content.match(/name="execution" value="(.*?)"/)![1];
@@ -111,6 +117,8 @@ export const initAuth = async (
   options: InitAuthOptions,
 ): Promise<InitAuthResponse> => {
   if (!supportRedirect) return onlineInitAuth(options);
+
+  cookieStore.clear();
 
   const { id, password, salt, captcha, params } = options;
 
@@ -225,11 +233,11 @@ export const initAuth = async (
 export const onlineAuthInitInfo = async (
   id: string,
 ): Promise<AuthInitInfoResponse> => {
+  cookieStore.clear();
+
   const { data: result } = await request<AuthInitInfoResponse>(
     `/auth/init?id=${id}`,
-    {
-      cookieScope: AUTH_SERVER,
-    },
+    { cookieScope: AUTH_SERVER },
   );
 
   if (!result.success) logger.error("初始化失败");
