@@ -21,9 +21,13 @@
     </view>
     <view wx:if="{{data.length}}" class="exam-list">
       <view wx:for="{{data}}" class="exam-item">
-        <view class="name">考试名称: {{item.name}}</view>
-        <view class="time">考试时间: {{item.time}}</view>
-        <view class="score">考试成绩: {{item.grade}}</view>
+        <view class="info">
+          <view class="name">{{item.name}}</view>
+          <view class="time">
+            <text class="icon-font icon-time" />{{item.time}}</view
+          >
+        </view>
+        <view class="score">{{item.grade}}</view>
       </view>
     </view>
     <view wx:else class="empty-list">暂无专项考试成绩信息</view>

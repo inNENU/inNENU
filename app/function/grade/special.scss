@@ -27,6 +27,17 @@
 .exam-item {
   padding: 4px 15px;
   text-align: left;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  .name {
+    font-size: 17px;
+  }
+
+  .score {
+    font-size: 22px;
+  }
 }
 
 .empty {
