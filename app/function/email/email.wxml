@@ -30,7 +30,10 @@
           data-mid="{{item.mid}}"
           catch:tap="openEmail"
         >
-          <view class="subject">{{item.subject}}</view>
+          <view class="subject"
+            >{{item.subject}}
+            <view class="unread-badge" wx:if="{{item.unread}}"></view>
+          </view>
           <view class="info">
             <view class="time">时间: {{item.date}}</view>
             <view class="name">发件人: {{item.name}}</view>
