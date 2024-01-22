@@ -22,13 +22,14 @@ const getCaptcha = async (): Promise<string> => {
   return `data:image/jpeg;base64,${encodeBase64(captcha)}`;
 };
 
-export interface AuthInitInfoSuccessResponse {
+export type AuthInitInfoSuccessResponse = {
   success: true;
-  needCaptcha: boolean;
-  captcha: string;
   params: Record<string, string>;
   salt: string;
-}
+} & (
+  | { needCaptcha: true; captcha: string }
+  | { needCaptcha: false; captcha: null }
+);
 
 export type AuthInitFailedResponse = CommonFailedResponse;
 
@@ -40,17 +41,13 @@ export const authInitInfo = async (
   id: string,
 ): Promise<AuthInitInfoResponse> => {
   try {
+    cookieStore.clear();
+
     const loginPageResponse = await request<string>(LOGIN_URL);
 
     const content = loginPageResponse.data;
 
-    const salt = SALT_REGEXP.exec(content)?.[1];
-
-    if (!salt) {
-      cookieStore.clear();
-      throw new Error("获取统一身份认证参数失败");
-    }
-
+    const salt = SALT_REGEXP.exec(content)![1];
     const lt = content.match(/name="lt" value="(.*?)"/)![1];
     const dllt = content.match(/name="dllt" value="(.*?)"/)![1];
     const execution = content.match(/name="execution" value="(.*?)"/)![1];
@@ -73,7 +70,6 @@ export const authInitInfo = async (
       success: true,
       needCaptcha,
       captcha,
-      cookieStore,
       salt,
       params: {
         username: id.toString(),
@@ -93,6 +89,21 @@ export const authInitInfo = async (
       msg: (<Error>err).message,
     };
   }
+};
+
+export const onlineAuthInitInfo = async (
+  id: string,
+): Promise<AuthInitInfoResponse> => {
+  cookieStore.clear();
+
+  const { data: result } = await request<AuthInitInfoResponse>(
+    `/auth/init?id=${id}`,
+    { cookieScope: AUTH_SERVER },
+  );
+
+  if (!result.success) logger.error("初始化失败");
+
+  return result;
 };
 
 export interface InitAuthOptions extends AccountInfo {
@@ -117,8 +128,6 @@ export const initAuth = async (
   options: InitAuthOptions,
 ): Promise<InitAuthResponse> => {
   if (!supportRedirect) return onlineInitAuth(options);
-
-  cookieStore.clear();
 
   const { id, password, salt, captcha, params } = options;
 
@@ -228,21 +237,6 @@ export const initAuth = async (
     type: LoginFailType.Unknown,
     msg: "未知错误",
   };
-};
-
-export const onlineAuthInitInfo = async (
-  id: string,
-): Promise<AuthInitInfoResponse> => {
-  cookieStore.clear();
-
-  const { data: result } = await request<AuthInitInfoResponse>(
-    `/auth/init?id=${id}`,
-    { cookieScope: AUTH_SERVER },
-  );
-
-  if (!result.success) logger.error("初始化失败");
-
-  return result;
 };
 
 export const onlineInitAuth = async (

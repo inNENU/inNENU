@@ -104,7 +104,7 @@ $Page(PAGE_ID, {
     captcha: "",
     isSaved: false,
     showPassword: false,
-    captchaContent: "",
+    captchaContent: <string | null>null,
     accept: false,
   },
 
