@@ -49,7 +49,7 @@
     "tslib": "2.6.2"
   },
   "devDependencies": {
-    "@commitlint/cli": "18.4.4",
+    "@commitlint/cli": "18.5.0",
     "@commitlint/config-conventional": "18.4.4",
     "@mr-hope/gulp-sass": "3.1.1",
     "@typescript-eslint/eslint-plugin": "6.19.0",
