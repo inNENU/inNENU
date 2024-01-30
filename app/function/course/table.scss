@@ -22,10 +22,13 @@
 
 .course-table {
   display: flex;
-  flex-direction: column;
   flex: 1;
-  border-top: 1px dashed var(--border-color);
+  flex-direction: column;
+
   overflow: hidden;
+
+  border-top: 1px dashed var(--border-color);
+
   .name {
     font-weight: 600;
   }

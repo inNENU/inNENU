@@ -41,12 +41,14 @@
   }
 
   .unread-badge {
-    border-radius: 50%;
-    background: red;
+    display: inline-block;
+    vertical-align: text-top;
+
     width: 6px;
     height: 6px;
-    vertical-align: text-top;
-    display: inline-block;
+    border-radius: 50%;
+
+    background: #f00;
   }
 
   .info {

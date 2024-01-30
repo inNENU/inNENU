@@ -33,7 +33,7 @@
     "module": "CommonJS",
     "moduleResolution": "Node10",
     "outDir": "dist",
-    "types": ["miniprogram-api-typings"]
+    "types": ["miniprogram-api-typings"],
   },
-  "include": ["app/**/*.ts", "typings/**/*.ts"]
+  "include": ["app/**/*.ts", "typings/**/*.ts"],
 }

@@ -25,11 +25,13 @@
 }
 
 .exam-item {
-  padding: 4px 15px;
-  text-align: left;
   display: flex;
   align-items: center;
   justify-content: space-between;
+
+  padding: 4px 15px;
+
+  text-align: left;
 
   .name {
     font-size: 17px;
