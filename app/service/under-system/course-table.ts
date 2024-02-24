@@ -13,7 +13,7 @@ const courseCellRegExp =
   /<td .*?>\s+<div id="\d-\d-\d"\s?>([\s\S]+?)<\/div>[\s\S]+?<\/td>/g;
 
 const classRegExp =
-  /<a[^>]*?>(\S+?)\s*<br>(\S+?)<br>\s*<nobr>\s*(\S+?)<nobr><br>(\S+?)<br><br>\s*<\/a>/g;
+  /<a[^>]*?>(.+?)\s*<br>(.+?)<br>\s*<nobr>\s*(\S+?)<nobr><br>(.+?)<br><br>\s*<\/a>/g;
 
 const getCourses = (content: string): TableItem =>
   [...content.matchAll(courseRowRegExp)].map(([, rowContent]) =>
