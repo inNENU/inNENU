@@ -93,6 +93,7 @@ export const requestJSON = <
     wx.request<T>({
       url: path.startsWith("http") ? path : `${server}${path}.json`,
       enableHttp2: true,
+      useHighPerformanceMode: true,
       success: ({ data, statusCode }) => {
         if (statusCode === 200) {
           // 调试
