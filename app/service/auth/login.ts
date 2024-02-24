@@ -36,6 +36,9 @@ export const authLogin = async (
   { id, password }: AccountInfo,
   { service = "", webVPN = false }: AuthLoginOptions = {},
 ): Promise<AuthLoginResponse> => {
+  // clear auth cookies
+  cookieStore.clear(AUTH_DOMAIN);
+
   // only use local login when redirect is supported
   if (!supportRedirect) return authOnlineLogin({ id, password });
 

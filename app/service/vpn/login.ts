@@ -1,8 +1,8 @@
 import { URLSearchParams } from "@mptool/all";
 
-import { VPN_SERVER } from "./utils.js";
+import { VPN_DOMAIN, VPN_SERVER } from "./utils.js";
 import type { CommonFailedResponse } from "../../../typings/index.js";
-import { request } from "../../api/index.js";
+import { cookieStore, request } from "../../api/index.js";
 import type { AccountInfo } from "../../state/user.js";
 import type { AuthLoginFailedResponse } from "../auth/login.js";
 import { authLogin } from "../auth/login.js";
@@ -108,6 +108,9 @@ export const vpnCASLogin = async ({
   id,
   password,
 }: AccountInfo): Promise<VPNLoginResponse> => {
+  // clear VPN cookies
+  cookieStore.clear(VPN_DOMAIN);
+
   const casResponse = await request<string>(CAS_LOGIN_URL, {
     redirect: "manual",
   });
