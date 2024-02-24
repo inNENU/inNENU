@@ -38,7 +38,7 @@ $Page(PAGE_ID, {
     /** 候选词 */
     words: <string[]>[],
 
-    menuSpace: info.env === "app" ? 10 : 90,
+    menuSpace: info.platform === "android" || info.platform === "ios" ? 90 : 10,
 
     /** 页面数据 */
     page: <PageDataWithContent>{

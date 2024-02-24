@@ -34,7 +34,7 @@ $Page(PAGE_ID, {
     /** 页面数据 */
     page: defaultPage,
 
-    menuSpace: info.env === "app" ? 10 : 90,
+    menuSpace: info.platform === "android" || info.platform === "ios" ? 90 : 10,
   },
 
   onPreload() {

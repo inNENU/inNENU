@@ -37,7 +37,7 @@ $Page(PAGE_ID, {
 
     page: defaultPage,
 
-    menuSpace: info.env === "app" ? 10 : 90,
+    menuSpace: info.platform === "android" || info.platform === "ios" ? 90 : 10,
   },
 
   onLoad() {
