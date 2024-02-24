@@ -145,8 +145,13 @@ $Page(PAGE_ID, {
         );
       }
 
+      if (!["bks", "yjs"].includes(info.type))
+        return showModal("暂不支持", "成绩查询仅支持本科生和研究生", () => {
+          this.$back();
+        });
+
       if (!this.state.inited || this.data.needLogin) {
-        const type = info.typeId === "bks" ? "under" : "post";
+        const type = info.type === "bks" ? "under" : "post";
         const timeConfig = getTimeConfig(info.grade);
         const grades = get<UnderGradeResult[] | PostGradeResult[]>(
           GRADE_DATA_KEY,

@@ -6,7 +6,8 @@ import type { CommonFailedResponse } from "../../../typings/response.js";
 import { cookieStore, request } from "../../api/index.js";
 import type { AccountInfo, UserInfo } from "../../state/user.js";
 import { LoginFailType } from "../loginFailTypes.js";
-import { getMyInfo } from "../my/info.js";
+import type { MyIdentity } from "../my/identity.js";
+import { myIdentity } from "../my/identity.js";
 import { myLogin } from "../my/login.js";
 import { supportRedirect } from "../utils.js";
 import { vpnLogin } from "../vpn/login.js";
@@ -195,7 +196,7 @@ export const initAuth = async (
         msg: "用户名或密码错误",
       };
 
-    let info: UserInfo | null = null;
+    let identity: MyIdentity | null = null;
 
     let loginResult = await myLogin({ id, password });
 
@@ -209,11 +210,11 @@ export const initAuth = async (
 
     // 获得信息
     if (loginResult.success) {
-      const studentInfo = await getMyInfo();
+      const identifyInfo = await myIdentity();
 
-      if (studentInfo.success) info = studentInfo.data;
+      if (identifyInfo.success) identity = identifyInfo.data;
 
-      console.log(`${id} 登录信息:\n`, JSON.stringify(info, null, 2));
+      console.log(`${id} 登录身份:\n`, JSON.stringify(identifyInfo, null, 2));
     }
 
     // TODO: Add blacklist
@@ -226,7 +227,9 @@ export const initAuth = async (
 
     return {
       success: true,
-      info,
+      info: identity
+        ? { grade: Number(id.toString().substring(0, 4)), ...identity }
+        : null,
     };
   }
 

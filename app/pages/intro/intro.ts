@@ -96,7 +96,7 @@ $Page(PAGE_ID, {
     if (globalData.settings) {
       const data = await getResource<TabData>("function/data/tab");
 
-      const { id, type, location } = getIdentity();
+      const { id, type } = getIdentity();
 
       const { "intro-page": introPageConfig } = globalData.settings;
 
@@ -118,12 +118,6 @@ $Page(PAGE_ID, {
               } else if (type === "post" && "post" in item) {
                 if (item.post === null) return null;
                 item.url = `info?from=${PAGE_TITLE}&id=${item.post}`;
-              } else if (location === "benbu" && "benbu" in item) {
-                if (item.benbu === null) return null;
-                item.url = `info?from=${PAGE_TITLE}&id=${item.benbu}`;
-              } else if (location === "jingyue" && "jingyue" in item) {
-                if (item.jingyue === null) return null;
-                item.url = `info?from=${PAGE_TITLE}&id=${item.jingyue}`;
               } else if (item.path)
                 item.url = `info?from=${PAGE_TITLE}&id=${item.path}`;
 

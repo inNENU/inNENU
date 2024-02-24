@@ -196,11 +196,11 @@ $Page(PAGE_ID, {
   }),
 
   getCourseData(time: string) {
-    const { typeId } = user.info!;
+    const { type } = user.info!;
 
-    if (typeId === "bks") return this.getUnderCourseData(time);
+    if (type === "bks") return this.getUnderCourseData(time);
 
-    if (typeId === "yjs") return this.getPostCourseData(time);
+    if (type === "yjs") return this.getPostCourseData(time);
 
     return showModal("暂不支持", "课表查询仅支持本科生和研究生。");
   },

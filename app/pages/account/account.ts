@@ -46,32 +46,26 @@ ${
 全部个人信息将在卸载${envName}一并删除。
 `;
 
-const getDisplay = ({
-  name,
-  grade,
-  id,
-  org = "未知",
-  major = "未知",
-}: UserInfo): ListComponentItemConfig[] => [
+const getDisplay = (
+  id: string,
+  { type }: UserInfo,
+): ListComponentItemConfig[] => [
   {
-    text: "姓名",
-    desc: name,
+    text: "登录学号",
+    desc: id,
   },
   {
-    text: "学号",
-    desc: id.toString(),
-  },
-  {
-    text: "年级",
-    desc: grade.toString(),
-  },
-  {
-    text: "学院",
-    desc: org,
-  },
-  {
-    text: "专业",
-    desc: major,
+    text: "身份",
+    desc:
+      type === "bks"
+        ? "本科生"
+        : type === "yjs"
+          ? "研究生"
+          : type === "jzg"
+            ? "教职工"
+            : type === "lxs"
+              ? "留学生"
+              : "其他",
   },
 ];
 
@@ -116,18 +110,19 @@ $Page(PAGE_ID, {
   onLoad({ from = "返回", update }) {
     const { account, info } = user;
 
-    if (account)
+    if (account) {
       this.setData({
         id: account.id.toString(),
         password: account.password,
         isSaved: true,
       });
 
-    if (info)
-      this.setData({
-        // eslint-disable-next-line @typescript-eslint/naming-convention
-        "list.items": getDisplay(info),
-      });
+      if (info)
+        this.setData({
+          // eslint-disable-next-line @typescript-eslint/naming-convention
+          "list.items": getDisplay(account.id.toString(), info),
+        });
+    }
 
     if (update) this.state.shouldNavigateBack = true;
 
@@ -231,7 +226,7 @@ $Page(PAGE_ID, {
           this.setData({
             isSaved: true,
             // eslint-disable-next-line @typescript-eslint/naming-convention
-            "list.items": getDisplay(result.info),
+            "list.items": getDisplay(id, result.info),
           });
 
           setUserInfo({ id: Number(id), password }, result.info);

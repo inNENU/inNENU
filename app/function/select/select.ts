@@ -22,7 +22,7 @@ interface ForceSelectMessage {
   type: "success" | LoginFailType.Expired | "conflict" | "forbidden";
   msg: string;
 }
-
+const { envName } = info;
 const PAGE_TITLE = "选课系统";
 const PAGE_ID = "select";
 
@@ -81,7 +81,6 @@ $Page(PAGE_ID, {
 
   state: {
     server: "",
-    type: <"under" | "post">"under",
     jx0502id: "",
     jx0502zbid: "",
 
@@ -108,65 +107,11 @@ $Page(PAGE_ID, {
   },
 
   onShow() {
-    const { account } = user;
+    const { account, info } = user;
 
-    if (account) {
-      wx.showLoading({ title: "登录中", mask: true });
-
-      login(account)
-        .then(async (data) => {
-          wx.hideLoading();
-
-          if (!data.success)
-            return showModal("登录失败", data.msg, (): void => {
-              this.$go("account?from=选课系统&update=true");
-            });
-
-          this.state.server = data.server;
-          this.state.type = user.info!.typeId === "bks" ? "under" : "post";
-
-          this.setData({ login: true }, () => {
-            this.createSelectorQuery()
-              .select(".select-container")
-              .fields({ size: true }, (res) => {
-                if (res) this.setData({ height: res.height as number });
-              })
-              .exec();
-          });
-
-          wx.showLoading({ title: "获取信息" });
-
-          try {
-            const isSuccess = await this.loadInfo();
-
-            if (isSuccess)
-              await this.search({
-                grade: this.state.currentGrade,
-                major: this.state.currentMajor,
-              });
-            wx.hideLoading();
-          } catch (err) {
-            wx.hideLoading();
-            showToast("获取信息失败");
-          }
-        })
-        .catch(() => {
-          showModal(
-            "登录失败",
-            `\
-请检查:
-1. 是否在选课时间
-2. 网络连接是否有效
-`,
-            (): void => {
-              if (getCurrentRoute() === "function/select/select") this.$back();
-            },
-          );
-        });
-    }
     // TODO: use login-hint
-    else {
-      showModal(
+    if (!account)
+      return showModal(
         "请先登录",
         "暂无账号信息，请输入",
         (): void => {
@@ -176,7 +121,73 @@ $Page(PAGE_ID, {
           if (getCurrentRoute() === "function/select/select") this.$back();
         },
       );
+
+    if (!info) {
+      return showModal(
+        "个人信息缺失",
+        `${envName}本地暂无个人信息，请重新登录`,
+        () => {
+          this.$go("account?update=true");
+        },
+      );
     }
+
+    if (info.type !== "bks")
+      return showModal("暂不支持", "选课系统仅支持本科生", () => {
+        this.$back();
+      });
+
+    wx.showLoading({ title: "登录中", mask: true });
+
+    login(account)
+      .then(async (data) => {
+        wx.hideLoading();
+
+        if (!data.success)
+          return showModal("登录失败", data.msg, (): void => {
+            this.$go("account?from=选课系统&update=true");
+          });
+
+        this.state.server = data.server;
+
+        this.setData({ login: true }, () => {
+          this.createSelectorQuery()
+            .select(".select-container")
+            .fields({ size: true }, (res) => {
+              if (res) this.setData({ height: res.height as number });
+            })
+            .exec();
+        });
+
+        wx.showLoading({ title: "获取信息" });
+
+        try {
+          const isSuccess = await this.loadInfo();
+
+          if (isSuccess)
+            await this.search({
+              grade: this.state.currentGrade,
+              major: this.state.currentMajor,
+            });
+          wx.hideLoading();
+        } catch (err) {
+          wx.hideLoading();
+          showToast("获取信息失败");
+        }
+      })
+      .catch(() => {
+        showModal(
+          "登录失败",
+          `\
+请检查:
+1. 是否在选课时间
+2. 网络连接是否有效
+`,
+          (): void => {
+            if (getCurrentRoute() === "function/select/select") this.$back();
+          },
+        );
+      });
 
     popNotice(PAGE_ID);
   },
@@ -752,7 +763,6 @@ $Page(PAGE_ID, {
   async loadInfo() {
     const data = await getInfo({
       server: this.state.server,
-      type: this.state.type,
     });
 
     if (data.success) {

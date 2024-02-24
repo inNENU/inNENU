@@ -1,22 +1,20 @@
 import { $Page } from "@mptool/all";
 
-import { setClipboard, showModal, showToast } from "../../api/index.js";
-import type { AppOption } from "../../app.js";
+import { setClipboard, showModal } from "../../api/index.js";
+// import { setClipboard, showModal, showToast } from "../../api/index.js";
+// import type { AppOption } from "../../app.js";
 import { appCoverPrefix, appName, assets } from "../../config/info.js";
-import type { ActivateEmailOptions } from "../../service/index.js";
-import {
-  activateEmail,
-  ensureMyLogin,
-  ensureOnlineMyLogin,
-  getEmailInfo,
-  onlineMyEmail,
-} from "../../service/index.js";
+// import {
+//   ensureMyLogin,
+//   ensureOnlineMyLogin,
+//   onlineMyEmail,
+// } from "../../service/index.js";
 import { info } from "../../state/info.js";
-import { user } from "../../state/user.js";
+// import { user } from "../../state/user.js";
 import { popNotice } from "../../utils/page.js";
 
-const { useOnlineService } = getApp<AppOption>();
-const { envName } = info;
+// const { useOnlineService } = getApp<AppOption>();
+// const { envName } = info;
 
 const MAIL_LINK = "https://mail.nenu.edu.cn";
 const PAGE_ID = "apply-email";
@@ -57,12 +55,13 @@ $Page(PAGE_ID, {
   },
 
   onShow() {
-    if (user.account) {
-      this.setData({ status: "apply" });
-      this.checkEmail();
-    } else {
-      this.setData({ status: "login" });
-    }
+    // if (user.account) {
+    //   this.setData({ status: "apply" });
+    //   this.checkEmail();
+    // } else {
+    //   this.setData({ status: "login" });
+    // }
+    showModal("正在适配", "学校已将邮箱申请移动至 OA 系统，正在适配中...");
 
     popNotice(PAGE_ID);
   },
@@ -116,138 +115,138 @@ $Page(PAGE_ID, {
     else this.setData({ accountIndex, isCustom });
   },
 
-  async checkEmail() {
-    wx.showLoading({ title: "加载中" });
+  //   async checkEmail() {
+  //     wx.showLoading({ title: "加载中" });
 
-    const err = await (
-      useOnlineService("my-login") ? ensureOnlineMyLogin : ensureMyLogin
-    )(user.account!, this.state.loginMethod);
+  //     const err = await (
+  //       useOnlineService("my-login") ? ensureOnlineMyLogin : ensureMyLogin
+  //     )(user.account!, this.state.loginMethod);
 
-    if (err) {
-      wx.hideLoading();
-      showToast(err.msg);
-      this.state.loginMethod = "login";
+  //     if (err) {
+  //       wx.hideLoading();
+  //       showToast(err.msg);
+  //       this.state.loginMethod = "login";
 
-      return this.setData({ status: "error" });
-    }
+  //       return this.setData({ status: "error" });
+  //     }
 
-    const result = await (
-      useOnlineService("check-email") ? onlineMyEmail : getEmailInfo
-    )();
+  //     const result = await (
+  //       useOnlineService("check-email") ? onlineMyEmail : getEmailInfo
+  //     )();
 
-    wx.hideLoading();
+  //     wx.hideLoading();
 
-    if (result.success) {
-      if (result.hasEmail) {
-        return this.setData({ status: "success", result });
-      }
+  //     if (result.success) {
+  //       if (result.hasEmail) {
+  //         return this.setData({ status: "success", result });
+  //       }
 
-      const { accounts, taskId, instanceId } = result;
+  //       const { accounts, taskId, instanceId } = result;
 
-      this.state = {
-        ...this.state,
-        loginMethod: "check",
-        taskId,
-        instanceId,
-      };
-      this.state.loginMethod = "check";
+  //       this.state = {
+  //         ...this.state,
+  //         loginMethod: "check",
+  //         taskId,
+  //         instanceId,
+  //       };
+  //       this.state.loginMethod = "check";
 
-      return this.setData({
-        accounts: ["请选择", ...accounts, "自定义"],
-      });
-    }
+  //       return this.setData({
+  //         accounts: ["请选择", ...accounts, "自定义"],
+  //       });
+  //     }
 
-    this.state.loginMethod = "login";
+  //     this.state.loginMethod = "login";
 
-    return this.setData({ status: "error" });
-  },
+  //     return this.setData({ status: "error" });
+  //   },
 
-  apply() {
-    const { accounts, accountIndex, isCustom, name, suffix, phone } = this.data;
-    const { info } = user;
-    const shouldApplyOnline = useOnlineService(PAGE_ID);
+  //   apply() {
+  //     const { accounts, accountIndex, isCustom, name, suffix, phone } = this.data;
+  //     const { info } = user;
+  //     const shouldApplyOnline = useOnlineService(PAGE_ID);
 
-    if (!shouldApplyOnline && !info)
-      return showModal(
-        "个人信息缺失",
-        `${envName}本地暂无个人信息，请重新登录`,
-        () => {
-          this.$go(`account?update=true`);
-        },
-      );
+  //     if (!shouldApplyOnline && !info)
+  //       return showModal(
+  //         "个人信息缺失",
+  //         `${envName}本地暂无个人信息，请重新登录`,
+  //         () => {
+  //           this.$go(`account?update=true`);
+  //         },
+  //       );
 
-    if (isCustom) {
-      if (!name) return showModal("无法申请", "请输入自定义邮箱名称");
+  //     if (isCustom) {
+  //       if (!name) return showModal("无法申请", "请输入自定义邮箱名称");
 
-      if (!/^[a-z][a-z0-9-]*[a-z]$/.test(name))
-        return showModal(
-          "邮箱名字有误",
-          "邮箱名称只能包含小写字母、数字和减号",
-        );
+  //       if (!/^[a-z][a-z0-9-]*[a-z]$/.test(name))
+  //         return showModal(
+  //           "邮箱名字有误",
+  //           "邮箱名称只能包含小写字母、数字和减号",
+  //         );
 
-      if (name.length < 5 || name.length > 15)
-        return showModal(
-          "邮箱名长度错误",
-          "邮箱长度需要在 5 - 15 个字符之间。",
-        );
-    } else {
-      if (accountIndex === 0 || accountIndex === accounts.length - 1)
-        return showModal("未选择邮箱名称", "请选择一个合适的邮箱名称");
-      if (suffix) {
-        const suffixNumber = Number(suffix);
+  //       if (name.length < 5 || name.length > 15)
+  //         return showModal(
+  //           "邮箱名长度错误",
+  //           "邮箱长度需要在 5 - 15 个字符之间。",
+  //         );
+  //     } else {
+  //       if (accountIndex === 0 || accountIndex === accounts.length - 1)
+  //         return showModal("未选择邮箱名称", "请选择一个合适的邮箱名称");
+  //       if (suffix) {
+  //         const suffixNumber = Number(suffix);
 
-        if (
-          Number.isNaN(suffix) ||
-          suffixNumber < 100 ||
-          suffixNumber > 999 ||
-          Math.floor(suffixNumber) !== suffixNumber
-        )
-          return showModal(
-            "后缀设置有误",
-            "请设置一个 100 到 999 之间的三位数字",
-          );
-      }
-    }
+  //         if (
+  //           Number.isNaN(suffix) ||
+  //           suffixNumber < 100 ||
+  //           suffixNumber > 999 ||
+  //           Math.floor(suffixNumber) !== suffixNumber
+  //         )
+  //           return showModal(
+  //             "后缀设置有误",
+  //             "请设置一个 100 到 999 之间的三位数字",
+  //           );
+  //       }
+  //     }
 
-    if (!/^1\d{10}$/.test(phone))
-      return showModal("手机号码有误", "请输入正确的 11 位手机号码。");
+  //     if (!/^1\d{10}$/.test(phone))
+  //       return showModal("手机号码有误", "请输入正确的 11 位手机号码。");
 
-    const { taskId, instanceId } = this.state;
+  //     const { taskId, instanceId } = this.state;
 
-    const options: ActivateEmailOptions = {
-      type: "set",
-      ...(isCustom
-        ? { name }
-        : { name: accounts[accountIndex], suffix: suffix ?? "" }),
-      phone,
-      taskId,
-      instanceId,
-    };
+  //     const options: ActivateEmailOptions = {
+  //       type: "set",
+  //       ...(isCustom
+  //         ? { name }
+  //         : { name: accounts[accountIndex], suffix: suffix ?? "" }),
+  //       phone,
+  //       taskId,
+  //       instanceId,
+  //     };
 
-    showModal(
-      "信息确认",
-      `\
-您正在申请我校邮箱。
-账号: ${options.name}${options.suffix || ""}@nenu.edu.cn
-密保手机: ${phone}
-`,
-      () => {
-        wx.showLoading({ title: "申请中" });
+  //     showModal(
+  //       "信息确认",
+  //       `\
+  // 您正在申请我校邮箱。
+  // 账号: ${options.name}${options.suffix || ""}@nenu.edu.cn
+  // 密保手机: ${phone}
+  // `,
+  //       () => {
+  //         wx.showLoading({ title: "申请中" });
 
-        void (
-          shouldApplyOnline ? onlineMyEmail(options) : activateEmail(options)
-        ).then((result) => {
-          wx.hideLoading();
+  //         void (
+  //           shouldApplyOnline ? onlineMyEmail(options) : activateEmail(options)
+  //         ).then((result) => {
+  //           wx.hideLoading();
 
-          if (result.success) this.setData({ status: "success", result });
-          else showModal("申请邮箱失败", result.msg);
-        });
-      },
-      () => {
-        // do nothing
-      },
-    );
-  },
+  //           if (result.success) this.setData({ status: "success", result });
+  //           else showModal("申请邮箱失败", result.msg);
+  //         });
+  //       },
+  //       () => {
+  //         // do nothing
+  //       },
+  //     );
+  //   },
 
   initEmail() {
     if (info.env === "app")
@@ -262,7 +261,7 @@ $Page(PAGE_ID, {
     }
   },
 
-  retry() {
-    return this.checkEmail();
-  },
+  // retry() {
+  //   return this.checkEmail();
+  // },
 });

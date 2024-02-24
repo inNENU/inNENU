@@ -14,44 +14,10 @@ export interface AccountInfo {
 }
 
 export interface UserInfo {
-  /** 用户学号 */
-  id: number;
-  /** 用户姓名 */
-  name: string;
-  /** 用户身份证号 */
-  idCard: string;
-  /** 用户所在组织名称 */
-  org: string;
-  /** 用户所在组织 ID */
-  orgId: number;
-  /** 用户所在专业名称 */
-  major: string;
-  /** 用户所在专业 ID */
-  majorId: string;
-  /** 用户入学年份 */
-  inYear: number;
-  /** 用户入学年级 */
+  /** 用户年级 */
   grade: number;
-  /** 用户层次 */
-  type: string;
   /** 用户层次代码 */
-  typeId: "bks" | "yjs" | "lxs" | "jzg";
-  /** 用户类别码 */
-  code: string;
-  /** 用户政治面貌 */
-  politicalStatus: string;
-  /** 用户民族 */
-  people: string;
-  /** 用户民族代码 */
-  peopleId: number;
-  /** 用户性别 */
-  gender: string;
-  /** 用户性别代码 */
-  genderId: number;
-  /** 用户出生日期 */
-  birth: string;
-  /** 用户所在校区 */
-  location: "benbu" | "jingyue" | "unknown";
+  type: "bks" | "yjs" | "lxs" | "jzg";
 }
 
 export interface UserState {
@@ -85,26 +51,23 @@ export const setOpenid = (openid: string | null): void => {
   wx.setStorageSync(OPEN_ID_KEY, openid);
 };
 
-export interface Identify {
+interface Identity {
   id: string;
   type: "under" | "post" | null;
-  location: "benbu" | "jingyue" | null;
 }
 
-export const getIdentity = (): Identify => {
+export const getIdentity = (): Identity => {
   if (userState.info === null)
     return {
       id: "unlogin",
       type: null,
-      location: null,
     };
 
-  const { grade, typeId, location } = userState.info;
+  const { grade, type } = userState.info;
 
   return {
     id: grade.toString(),
-    type: typeId === "bks" ? "under" : typeId === "yjs" ? "post" : null,
-    location: location === "unknown" ? null : location,
+    type: type === "bks" ? "under" : type === "yjs" ? "post" : null,
   };
 };
 

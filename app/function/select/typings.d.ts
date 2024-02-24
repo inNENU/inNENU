@@ -72,7 +72,6 @@ export interface StudentInfo {
 
 export interface SelectInfoOptions {
   server: string;
-  type: "under" | "post";
 }
 
 export interface SelectInfoSuccessResponse {
