@@ -1,5 +1,6 @@
 import { $Page, get, set } from "@mptool/all";
 
+import { getTitle } from "./utils.js";
 import { showModal, showToast } from "../../api/index.js";
 import type { AppOption } from "../../app.js";
 import {
@@ -11,7 +12,6 @@ import type { InfoType } from "../../service/index.js";
 import { getInfo, getOnlineInfo } from "../../service/index.js";
 import { info } from "../../state/info.js";
 import { getColor, popNotice } from "../../utils/page.js";
-import { getTitle } from "../../widgets/recent/utils.js";
 import type { StarredInfo } from "../../widgets/star/typings.js";
 
 const { useOnlineService } = getApp<AppOption>();
