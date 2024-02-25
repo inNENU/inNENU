@@ -6,7 +6,7 @@ export const getCurrentTime = (): string => {
   const currentYear = date.getFullYear();
   const currentMonth = date.getMonth() + 1;
 
-  if (currentMonth > 2 && currentMonth < 8)
+  if (currentMonth >= 2 && currentMonth < 8)
     return `${currentYear - 1}-${currentYear}-2`;
   if (currentMonth > 7) return `${currentYear}-${currentYear + 1}-1`;
 
