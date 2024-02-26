@@ -91,6 +91,12 @@ export const getPostCourseTable = async ({
 
     const tableData = getCourses(content);
 
+    if (content.includes("该学期无课表时间信息"))
+      return {
+        success: false,
+        msg: "该学期无课表时间信息",
+      };
+
     return <PostCourseTableSuccessResponse>{
       success: true,
       data: tableData,
