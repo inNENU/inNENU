@@ -11,7 +11,13 @@
 <license />
 <view class="{{theme}} select-wrapper">
   <navbar nav="{{nav}}" />
-  <view wx:if="{{login}}" class="select-container">
+  <error-hint
+    wx:if="{{status === 'error'}}"
+    hint="{{errMsg}}"
+    catch:retry="login"
+  />
+  <login-hint wx:elif="{{status === 'login'}}" source="校园邮箱" />
+  <view wx:elif="{{status === 'success'}}" class="select-container">
     <tab-bar nav-list="{{select.titles}}" height="{{height - 20}}">
       <view slot="page1">
         <view class="course-table">

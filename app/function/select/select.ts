@@ -33,7 +33,7 @@ $Page(PAGE_ID, {
     },
     theme: info.theme,
 
-    login: false,
+    status: "loading",
     firstPage: false,
 
     courseOffices: <string[]>[],
@@ -108,76 +108,7 @@ $Page(PAGE_ID, {
   },
 
   onShow() {
-    const { account } = user;
-
-    if (account) {
-      wx.showLoading({ title: "登录中", mask: true });
-
-      login(account)
-        .then(async (data) => {
-          wx.hideLoading();
-
-          if (!data.success)
-            return showModal("登录失败", data.msg, (): void => {
-              this.$go("account?from=选课系统&update=true");
-            });
-
-          this.state.server = data.server;
-          this.state.type = user.info!.typeId === "bks" ? "under" : "post";
-
-          this.setData({ login: true }, () => {
-            this.createSelectorQuery()
-              .select(".select-container")
-              .fields({ size: true }, (res) => {
-                if (res) this.setData({ height: res.height as number });
-              })
-              .exec();
-          });
-
-          wx.showLoading({ title: "获取信息" });
-
-          try {
-            const isSuccess = await this.loadInfo();
-
-            if (isSuccess)
-              await this.search({
-                grade: this.state.currentGrade,
-                major: this.state.currentMajor,
-              });
-            wx.hideLoading();
-          } catch (err) {
-            wx.hideLoading();
-            showToast("获取信息失败");
-          }
-        })
-        .catch(() => {
-          showModal(
-            "登录失败",
-            `\
-请检查:
-1. 是否在选课时间
-2. 网络连接是否有效
-`,
-            (): void => {
-              if (getCurrentRoute() === "function/select/select") this.$back();
-            },
-          );
-        });
-    }
-    // TODO: use login-hint
-    else {
-      showModal(
-        "请先登录",
-        "暂无账号信息，请输入",
-        (): void => {
-          this.$go("account?from=选课系统&update=true");
-        },
-        () => {
-          if (getCurrentRoute() === "function/select/select") this.$back();
-        },
-      );
-    }
-
+    this.login();
     popNotice(PAGE_ID);
   },
 
@@ -302,6 +233,76 @@ $Page(PAGE_ID, {
         .filter((item) => !newValue || item.place.includes(currentLocation))
         .sort(courseSorter(sortKeys[sortKeyIndex], ascending)),
     });
+  },
+
+  async login() {
+    const { account } = user;
+
+    if (account) {
+      wx.showLoading({ title: "登录中", mask: true });
+
+      this.setData({ status: "loading" });
+
+      return login(account)
+        .then(async (data) => {
+          wx.hideLoading();
+
+          if (!data.success) {
+            return this.setData({
+              status: "error",
+              errMsg: data.msg,
+            });
+          }
+
+          this.state.server = data.server;
+          this.state.type = user.info!.typeId === "bks" ? "under" : "post";
+
+          this.setData({ login: true }, () => {
+            this.createSelectorQuery()
+              .select(".select-container")
+              .fields({ size: true }, (res) => {
+                if (res) this.setData({ height: res.height as number });
+              })
+              .exec();
+          });
+
+          wx.showLoading({ title: "获取信息" });
+
+          try {
+            const isSuccess = await this.loadInfo();
+
+            if (isSuccess)
+              await this.search({
+                grade: this.state.currentGrade,
+                major: this.state.currentMajor,
+              });
+            wx.hideLoading();
+          } catch (err) {
+            wx.hideLoading();
+            this.setData({
+              status: "error",
+              errMsg: "获取信息失败",
+            });
+          }
+        })
+        .catch(() => {
+          showModal(
+            "登录失败",
+            `\
+请检查:
+1. 是否在选课时间
+2. 网络连接是否有效
+`,
+            (): void => {
+              if (getCurrentRoute() === "function/select/select") this.$back();
+            },
+          );
+        });
+    } else {
+      this.setData({
+        status: "login",
+      });
+    }
   },
 
   async refreshInfoAmount() {
@@ -795,6 +796,7 @@ $Page(PAGE_ID, {
         .reduce((sum, item) => (item ? item.point + sum : sum), 0);
 
       this.setData({
+        status: "success",
         courseOffices,
         courseTable,
         courseTypes,
@@ -806,8 +808,9 @@ $Page(PAGE_ID, {
         info,
       });
     } else {
-      showModal("获取信息失败", data.msg, () => {
-        this.$back();
+      this.setData({
+        status: "error",
+        errMsg: data.msg,
       });
     }
 
