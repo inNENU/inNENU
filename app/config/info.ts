@@ -2,7 +2,7 @@
 export const appName = "inNENU";
 export const description = "在东师，就用 inNENU";
 /** 小程序版本 */
-export const version = "6.8.4";
+export const version = "6.8.5";
 /** 小程序服务器地址 */
 export const assets = "https://assets.innenu.com/";
 export const server = "https://mp.innenu.com/";
