@@ -271,11 +271,13 @@ $Page(PAGE_ID, {
           try {
             const isSuccess = await this.loadInfo();
 
-            if (isSuccess)
+            if (isSuccess) {
+              wx.showLoading({ title: "加载课程列表" });
               await this.search({
                 grade: this.state.currentGrade,
                 major: this.state.currentMajor,
               });
+            }
             wx.hideLoading();
           } catch (err) {
             wx.hideLoading();

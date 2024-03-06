@@ -51,7 +51,7 @@
                   wx:for="{{cell}}"
                   wx:for-item="item"
                   wx:key="cid"
-                  class="course-table-course-item course-item{{hash.getHashIndex(item.name)}}"
+                  class="course-table-course course-item{{hash.getHashIndex(item.name)}}"
                   data-cid="{{item.cid}}"
                   catch:tap="showCourseInfo"
                 >

@@ -56,11 +56,12 @@
   }
 }
 
-.course-table-course-item {
+.course-table-course {
   margin: 4px 2px;
   border: 1px solid var(--border-color);
   border-radius: 4px;
   font-size: 13px;
+  word-break: break-all;
 }
 
 $colors: #c0392b, #d35400, #f39c12, #27ae60, #16a085, #2980b9, #8e44ad, #2c3e50,

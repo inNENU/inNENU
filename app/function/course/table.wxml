@@ -72,7 +72,7 @@
             >
               <view
                 wx:if="{{table.isMatchingWeek(weekIndex, classItem.weeks)}}"
-                class="course-table-course-item course-item{{hash.getHashIndex(classItem.name)}}"
+                class="course-table-course course-item{{hash.getHashIndex(classItem.name)}}"
                 data-info="{{classItem}}"
                 catch:tap="showClassInfo"
               >
