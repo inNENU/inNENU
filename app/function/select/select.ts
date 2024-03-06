@@ -257,7 +257,7 @@ $Page(PAGE_ID, {
           this.state.server = data.server;
           this.state.type = user.info!.typeId === "bks" ? "under" : "post";
 
-          this.setData({ login: true }, () => {
+          this.setData({ status: "success" }, () => {
             this.createSelectorQuery()
               .select(".select-container")
               .fields({ size: true }, (res) => {
