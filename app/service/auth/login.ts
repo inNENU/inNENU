@@ -36,11 +36,11 @@ export const authLogin = async (
   { id, password }: AccountInfo,
   { service = "", webVPN = false }: AuthLoginOptions = {},
 ): Promise<AuthLoginResponse> => {
-  // clear auth cookies
-  cookieStore.clear(AUTH_DOMAIN);
-
   // only use local login when redirect is supported
   if (!supportRedirect) return authOnlineLogin({ id, password });
+
+  const domain = webVPN ? WEB_VPN_AUTH_DOMAIN : AUTH_DOMAIN;
+  const server = webVPN ? WEB_VPN_AUTH_SERVER : AUTH_SERVER;
 
   // TODO: Add black list
   // if (isInBlackList(id))
@@ -50,8 +50,8 @@ export const authLogin = async (
   //     msg: BLACKLIST_HINT[Math.floor(Math.random() * BLACKLIST_HINT.length)],
   //   };
 
-  const domain = webVPN ? WEB_VPN_AUTH_DOMAIN : AUTH_DOMAIN;
-  const server = webVPN ? WEB_VPN_AUTH_SERVER : AUTH_SERVER;
+  // clear auth cookies
+  cookieStore.clear(domain);
 
   const loginUrl = `${server}/authserver/login${
     service ? `?service=${encodeURIComponent(service)}` : ""
