@@ -88,10 +88,10 @@ export const postSystemLogin = async (
         },
       });
 
-      return <PostSystemLoginSuccessResult>{
+      return {
         success: true,
         cookieStore,
-      };
+      } as PostSystemLoginSuccessResult;
     }
   }
 

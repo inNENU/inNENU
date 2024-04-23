@@ -49,7 +49,7 @@ export const getAmount = async ({
 
     return {
       success: false,
-      msg: (<Error>err).message,
+      msg: (err as Error).message,
     };
   }
 };

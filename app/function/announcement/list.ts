@@ -21,8 +21,8 @@ $Page(PAGE_ID, {
 
     theme: info.theme,
 
-    status: <"error" | "success">"success",
-    items: <AnnouncementInfoItem[]>[],
+    status: "success" as "error" | "success",
+    items: [] as AnnouncementInfoItem[],
     currentPage: 1,
     totalPage: 1,
   },

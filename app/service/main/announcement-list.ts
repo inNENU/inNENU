@@ -68,21 +68,21 @@ export const getAnnouncementList = async ({
       }),
     );
 
-    return <AnnouncementListSuccessResponse>{
+    return {
       success: true,
       data,
       page,
       totalPage: totalPageState,
-    };
+    } as AnnouncementListSuccessResponse;
   } catch (err) {
-    const { message } = <Error>err;
+    const { message } = err as Error;
 
     console.error(err);
 
-    return <CommonFailedResponse>{
+    return {
       success: false,
       msg: message,
-    };
+    } as CommonFailedResponse;
   }
 };
 

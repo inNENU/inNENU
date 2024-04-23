@@ -175,7 +175,7 @@ export const getUnderExamPlace = async (): Promise<UnderExamPlaceResponse> => {
       data,
     };
   } catch (err) {
-    const { message } = <Error>err;
+    const { message } = err as Error;
 
     console.error(err);
 

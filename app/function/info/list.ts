@@ -18,22 +18,22 @@ $Page(PAGE_ID, {
 
     theme: info.theme,
 
-    status: <"error" | "success">"success",
-    items: <InfoItem[]>[],
+    status: "success" as "error" | "success",
+    items: [] as InfoItem[],
     currentPage: 1,
     totalPage: 1,
   },
 
   state: {
-    type: <InfoType>"news",
+    type: "news" as InfoType,
   },
 
   onLoad({ type = "news" }) {
-    this.state.type = <InfoType>type;
+    this.state.type = type as InfoType;
     this.setData({
       color: getColor(),
       theme: info.theme,
-      title: getTitle(<InfoType>type),
+      title: getTitle(type as InfoType),
     });
     this.getInfoList(1);
   },

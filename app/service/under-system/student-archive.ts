@@ -1,7 +1,7 @@
 import { logger } from "@mptool/all";
 
 import { UNDER_SYSTEM_SERVER } from "./utils.js";
-import { CommonFailedResponse } from "../../../typings/index.js";
+import type { CommonFailedResponse } from "../../../typings/index.js";
 import { cookieStore, request } from "../../api/net.js";
 import { LoginFailType } from "../loginFailTypes.js";
 import { getIETimeStamp, isWebVPNPage } from "../utils.js";

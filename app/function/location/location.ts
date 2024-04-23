@@ -12,7 +12,7 @@ const { globalData } = getApp<AppOption>();
 
 $Page("location", {
   data: {
-    page: <PageData>{},
+    page: {} as PageData,
     point: "",
   },
 
@@ -55,7 +55,7 @@ $Page("location", {
   },
 
   onPageScroll(options) {
-    // @ts-ignore
+    // @ts-expect-error: data type is missing
     this.defaultScroller(options);
   },
 
@@ -97,7 +97,7 @@ $Page("location", {
       latitude,
       longitude,
       name = "目的地",
-    } = <LocationConfig>JSON.parse(this.data.point);
+    } = JSON.parse(this.data.point) as LocationConfig;
 
     this.createSelectorQuery()
       .select("#tool")

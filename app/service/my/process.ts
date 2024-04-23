@@ -74,7 +74,7 @@ export const getProcess = async (
 
     return {
       success: false,
-      msg: `获取流程信息失败: ${(<Error>err).message}`,
+      msg: `获取流程信息失败: ${(err as Error).message}`,
     };
   }
 };

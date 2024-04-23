@@ -8,8 +8,11 @@ import {
   service,
 } from "../../config/index.js";
 import type { NoticeType } from "../../service/index.js";
-import { getNotice, getOnlineNotice } from "../../service/index.js";
-import { ensureActionLogin } from "../../service/index.js";
+import {
+  ensureActionLogin,
+  getNotice,
+  getOnlineNotice,
+} from "../../service/index.js";
 import { info } from "../../state/info.js";
 import { user } from "../../state/user.js";
 import { getColor, popNotice } from "../../utils/page.js";
@@ -23,21 +26,21 @@ $Page(PAGE_ID, {
   data: {
     pageTitle: "通知详情",
     starred: false,
-    status: <"error" | "login" | "success">"success",
+    status: "success" as "error" | "login" | "success",
   },
 
   state: {
-    loginMethod: <"check" | "login" | "validate">"validate",
+    loginMethod: "validate" as "check" | "login" | "validate",
     id: "",
     title: "",
-    type: <NoticeType>"notice",
-    notice: <StarredNotice | null>null,
+    type: "notice" as NoticeType,
+    notice: null as StarredNotice | null,
   },
 
   onLoad({ scene = "", title = "", id = scene, type = "notice" }) {
     const starredNotices = get<StarredNotice[]>(STARRED_NOTICE_LIST_KEY) ?? [];
 
-    this.state.type = <NoticeType>type;
+    this.state.type = type as NoticeType;
     this.state.id = id;
 
     if (id) this.getNotice();

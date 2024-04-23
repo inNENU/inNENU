@@ -19,9 +19,9 @@ interface PhoneConfig {
 
 $Page("phone", {
   data: {
-    config: <PhoneConfig[]>[],
+    config: [] as PhoneConfig[],
     showInfo: false,
-    info: <PhoneItemConfig>{},
+    info: {} as PhoneItemConfig,
   },
 
   onNavigate() {

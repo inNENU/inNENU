@@ -216,12 +216,12 @@ export const getPostGradeList = async (): Promise<PostGradeListResponse> => {
 
     const gradeList = await getPostGradeLists(content);
 
-    return <PostGradeListSuccessResponse>{
+    return {
       success: true,
       data: gradeList,
-    };
+    } as PostGradeListSuccessResponse;
   } catch (err) {
-    const { message } = <Error>err;
+    const { message } = err as Error;
 
     console.error(err);
 

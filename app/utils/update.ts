@@ -1,6 +1,6 @@
 import { logger, ls, rm } from "@mptool/all";
 
-import { AppSettings } from "./settings.js";
+import type { AppSettings } from "./settings.js";
 import { request, showToast } from "../api/index.js";
 import { server } from "../config/info.js";
 import { info } from "../state/info.js";

@@ -65,9 +65,9 @@ export const courseSorter =
         : courseB[sortKey];
 
     if (typeof aVal === "number")
-      return ascending ? aVal - <number>bVal : <number>bVal - aVal;
+      return ascending ? aVal - (bVal as number) : (bVal as number) - aVal;
 
     return ascending
-      ? aVal.localeCompare(<string>bVal)
-      : (<string>bVal).localeCompare(aVal);
+      ? aVal.localeCompare(bVal as string)
+      : (bVal as string).localeCompare(aVal);
   };

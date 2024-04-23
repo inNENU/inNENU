@@ -32,7 +32,7 @@ $Page(PAGE_ID, {
   data: {
     title: PAGE_TITLE,
 
-    data: <ExamPlaceData[]>[],
+    data: [] as ExamPlaceData[],
 
     desc: "数据来自教务处教学服务系统",
 
@@ -40,7 +40,7 @@ $Page(PAGE_ID, {
   },
 
   state: {
-    loginMethod: <"check" | "login" | "validate">"validate",
+    loginMethod: "validate" as "check" | "login" | "validate",
     inited: false,
   },
 
@@ -127,7 +127,7 @@ $Page(PAGE_ID, {
       }
     } catch (msg) {
       wx.hideLoading();
-      showModal("获取失败", <string>msg);
+      showModal("获取失败", msg as string);
     }
   },
 });

@@ -20,13 +20,13 @@ $Page(PAGE_ID, {
   data: {
     pageTitle: "通知详情",
     starred: false,
-    status: <"error" | "login" | "success">"success",
+    status: "success" as "error" | "login" | "success",
   },
 
   state: {
     url: "",
     title: "",
-    info: <StarredAnnouncement | null>null,
+    info: null as StarredAnnouncement | null,
   },
 
   onLoad({ scene = "", title = "", url = scene }) {

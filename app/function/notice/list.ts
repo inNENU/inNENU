@@ -4,8 +4,11 @@ import { showToast } from "../../api/index.js";
 import type { AppOption } from "../../app.js";
 import { appCoverPrefix } from "../../config/index.js";
 import type { NoticeItem } from "../../service/index.js";
-import { getNoticeList, getOnlineNoticeList } from "../../service/index.js";
-import { ensureActionLogin } from "../../service/index.js";
+import {
+  ensureActionLogin,
+  getNoticeList,
+  getOnlineNoticeList,
+} from "../../service/index.js";
 import { info } from "../../state/info.js";
 import { user } from "../../state/user.js";
 import { getColor, popNotice } from "../../utils/page.js";
@@ -20,20 +23,20 @@ $Page(PAGE_ID, {
 
     theme: info.theme,
 
-    status: <"error" | "login" | "success">"success",
-    notices: <NoticeItem[]>[],
+    status: "success" as "error" | "login" | "success",
+    notices: [] as NoticeItem[],
     currentPage: 1,
     totalPage: 1,
   },
 
   state: {
-    loginMethod: <"check" | "login" | "validate">"validate",
-    type: <"notice" | "news">"notice",
+    loginMethod: "validate" as "check" | "login" | "validate",
+    type: "notice" as "notice" | "news",
     inited: false,
   },
 
   onLoad({ type = "notice" }) {
-    this.state.type = <"notice" | "news">type;
+    this.state.type = type as "notice" | "news";
     this.setData({
       color: getColor(),
       theme: info.theme,

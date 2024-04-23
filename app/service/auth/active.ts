@@ -1,6 +1,5 @@
 import type { RichTextNode } from "@mptool/all";
-import { encodeBase64 } from "@mptool/all";
-import { getRichTextNodes } from "@mptool/all";
+import { encodeBase64, getRichTextNodes } from "@mptool/all";
 
 import { request } from "../../api/index.js";
 

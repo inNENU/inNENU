@@ -1,4 +1,5 @@
-import { $Component, PropType, get, set } from "@mptool/all";
+import type { PropType } from "@mptool/all";
+import { $Component, get, set } from "@mptool/all";
 
 import { showToast } from "../../api/index.js";
 import type { AppOption } from "../../app.js";
@@ -11,12 +12,8 @@ import {
   getOnlineAnnouncementList,
 } from "../../service/index.js";
 import { user } from "../../state/user.js";
-import {
-  FILTERED_SOURCES,
-  WidgetSize,
-  WidgetStatus,
-  getSize,
-} from "../utils.js";
+import type { WidgetSize, WidgetStatus } from "../utils.js";
+import { FILTERED_SOURCES, getSize } from "../utils.js";
 
 const { useOnlineService } = getApp<AppOption>();
 
@@ -29,8 +26,8 @@ $Component({
   },
 
   data: {
-    size: <WidgetSize>"medium",
-    status: <WidgetStatus>"loading",
+    size: "medium" as WidgetSize,
+    status: "loading" as WidgetStatus,
   },
 
   lifetimes: {

@@ -32,11 +32,11 @@ $Page(PAGE_ID, {
     title: PAGE_TITLE,
 
     header: "",
-    plans: <ChangeMajorPlan[]>[],
+    plans: [] as ChangeMajorPlan[],
 
-    subjects: <string[]>["全部科类"],
+    subjects: ["全部科类"] as string[],
     subjectIndex: 0,
-    schools: <string[]>["全部学院"],
+    schools: ["全部学院"] as string[],
     schoolIndex: 0,
     notFull: false,
 
@@ -46,8 +46,8 @@ $Page(PAGE_ID, {
   },
 
   state: {
-    loginMethod: <"check" | "login" | "validate">"validate",
-    plans: <ChangeMajorPlan[]>[],
+    loginMethod: "validate" as "check" | "login" | "validate",
+    plans: [] as ChangeMajorPlan[],
     inited: false,
   },
 
@@ -136,7 +136,7 @@ $Page(PAGE_ID, {
       }
     } catch (msg) {
       wx.hideLoading();
-      showModal("获取失败", <string>msg);
+      showModal("获取失败", msg as string);
     }
   },
 

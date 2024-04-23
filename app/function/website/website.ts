@@ -11,7 +11,7 @@ const PAGE_TITLE = "东师网站";
 
 $Page(PAGE_ID, {
   data: {
-    config: <unknown[]>[],
+    config: [] as unknown[],
   },
 
   onNavigate() {

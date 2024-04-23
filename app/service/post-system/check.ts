@@ -35,7 +35,7 @@ export const checkPostSystemCookie =
         valid: false,
       };
     } catch (err) {
-      const { message } = <Error>err;
+      const { message } = err as Error;
 
       console.error(err);
 

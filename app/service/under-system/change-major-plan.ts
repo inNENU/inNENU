@@ -1,6 +1,7 @@
 import { URLSearchParams, logger } from "@mptool/all";
 
 import {
+  UNDER_SYSTEM_SERVER,
   fieldRegExp,
   keyCodeRegExp,
   otherFieldsRegExp,
@@ -11,7 +12,6 @@ import {
   tableFieldsRegExp,
   totalPagesRegExp,
 } from "./utils.js";
-import { UNDER_SYSTEM_SERVER } from "./utils.js";
 import type { CommonFailedResponse } from "../../../typings/response.js";
 import { cookieStore, request } from "../../api/index.js";
 import { LoginFailType } from "../loginFailTypes.js";
@@ -181,13 +181,13 @@ export const getUnderChangeMajorPlans =
 
       const plans = await getPlanList(content);
 
-      return <UnderChangeMajorPlanSuccessResponse>{
+      return {
         success: true,
         header,
         plans,
-      };
+      } as UnderChangeMajorPlanSuccessResponse;
     } catch (err) {
-      const { message } = <Error>err;
+      const { message } = err as Error;
 
       console.error(err);
 

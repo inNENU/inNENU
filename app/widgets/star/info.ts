@@ -1,9 +1,11 @@
-import { $Component, PropType, get } from "@mptool/all";
+import type { PropType } from "@mptool/all";
+import { $Component, get } from "@mptool/all";
 
-import { StarredInfo } from "./typings.js";
+import type { StarredInfo } from "./typings.js";
 import { STARRED_INFO_LIST_KEY } from "../../config/keys.js";
 import { user } from "../../state/user.js";
-import { WidgetSize, getSize } from "../utils.js";
+import type { WidgetSize } from "../utils.js";
+import { getSize } from "../utils.js";
 
 $Component({
   properties: {
@@ -14,8 +16,8 @@ $Component({
   },
 
   data: {
-    size: <WidgetSize>"medium",
-    status: <"login" | "success">"loading",
+    size: "medium" as WidgetSize,
+    status: "loading" as "login" | "success",
   },
 
   lifetimes: {

@@ -43,7 +43,7 @@ export const getAnnouncement = async (
 
     const pageView = await getPageView(id, owner);
 
-    return <AnnouncementInfoSuccessResponse>{
+    return {
       success: true,
       title,
       time,
@@ -69,16 +69,16 @@ export const getAnnouncement = async (
           },
         },
       }),
-    };
+    } as AnnouncementInfoSuccessResponse;
   } catch (err) {
-    const { message } = <Error>err;
+    const { message } = err as Error;
 
     console.error(err);
 
-    return <CommonFailedResponse>{
+    return {
       success: false,
       msg: message,
-    };
+    } as CommonFailedResponse;
   }
 };
 

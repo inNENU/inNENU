@@ -12,7 +12,7 @@ $Page("privacy", {
   data: {
     theme: info.theme,
     darkmode: info.darkmode,
-    page: <PageDataWithContent>{
+    page: {
       title: "隐私说明",
       content: [
         {
@@ -43,7 +43,7 @@ $Page("privacy", {
           footer: " ",
         },
       ],
-    },
+    } as PageDataWithContent,
 
     authorize: {},
   },

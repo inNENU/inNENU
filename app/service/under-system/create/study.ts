@@ -1,6 +1,6 @@
 import { URLSearchParams, logger } from "@mptool/all";
 
-import {
+import type {
   UnderArchiveFieldInfo,
   UnderFamilyOptions,
   UnderStudyOptions,
@@ -11,7 +11,7 @@ import {
   onlineUnderStudentArchive,
   pathRegExp,
 } from "./utils.js";
-import { CommonFailedResponse } from "../../../../typings/index.js";
+import type { CommonFailedResponse } from "../../../../typings/index.js";
 import { cookieStore, request } from "../../../api/index.js";
 import { LoginFailType } from "../../loginFailTypes.js";
 import { isWebVPNPage } from "../../utils.js";
@@ -94,15 +94,15 @@ export const submitUnderStudentArchiveStudy = async ({
     const existingData = familyDataRegExp.exec(content)?.[1];
 
     const family = existingData
-      ? (<
-          {
+      ? (
+          JSON.parse(existingData) as {
             gxm: string;
             cyxm: string;
             gzdw: string;
             cym: string;
             gzdwxq: string;
           }[]
-        >JSON.parse(existingData)).map(({ gxm, cyxm, gzdw, cym, gzdwxq }) => ({
+        ).map(({ gxm, cyxm, gzdw, cym, gzdwxq }) => ({
           relation: gxm,
           name: cyxm,
           office: gzdw,
@@ -135,7 +135,7 @@ export const submitUnderStudentArchiveStudy = async ({
 
     return {
       success: false,
-      msg: (<Error>err).message,
+      msg: (err as Error).message,
     };
   }
 };

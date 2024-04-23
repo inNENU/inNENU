@@ -1,10 +1,10 @@
 import { $Page } from "@mptool/all";
 
-import type { SelectConfig } from "../../../typings/index.js";
-import {
+import type {
   CategoryConfig,
   PlanConfig,
   ProvinceConfig,
+  SelectConfig,
   YearConfig,
 } from "../../../typings/index.js";
 import { showModal } from "../../api/index.js";
@@ -22,11 +22,11 @@ $Page(PAGE_ID, {
   data: {
     theme: info.theme,
 
-    years: <string[]>[],
-    provinces: <string[]>[],
-    majorTypes: <string[]>[],
-    planTypes: <string[]>[],
-    reformTypes: <string[]>[],
+    years: [] as string[],
+    provinces: [] as string[],
+    majorTypes: [] as string[],
+    planTypes: [] as string[],
+    reformTypes: [] as string[],
 
     yearIndex: 0,
     provinceIndex: 0,
@@ -38,10 +38,10 @@ $Page(PAGE_ID, {
       title: "招生计划详情",
       cancel: false,
     },
-    results: <EnrollPlanInfo[]>[],
+    results: [] as EnrollPlanInfo[],
   },
 
-  state: { enrollPlan: <SelectConfig>[] },
+  state: { enrollPlan: [] as SelectConfig },
 
   onNavigate() {
     ensureResource("function/enroll/plan");

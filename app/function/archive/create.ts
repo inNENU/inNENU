@@ -38,38 +38,40 @@ $Page(PAGE_ID, {
   data: {
     title: PAGE_TITLE,
 
-    stage: <"loading" | "info" | "address" | "study" | "family" | "success">(
-      "loading"
-    ),
+    stage: "loading" as
+      | "loading"
+      | "info"
+      | "address"
+      | "study"
+      | "family"
+      | "success",
 
-    inputs: <InputUnderArchiveInfo[]>[],
+    inputs: [] as InputUnderArchiveInfo[],
 
-    editable: <
-      (
-        | (MultiSelectUnderArchiveInfo & {
-            categoryIndex: number;
-            selectedIndex: number;
-          })
-        | (SingleSelectUnderArchiveInfo & { selectedIndex: number })
-      )[]
-    >[],
+    editable: [] as (
+      | (MultiSelectUnderArchiveInfo & {
+          categoryIndex: number;
+          selectedIndex: number;
+        })
+      | (SingleSelectUnderArchiveInfo & { selectedIndex: number })
+    )[],
 
-    family: <UnderFamilyOptions[]>[],
-    study: <UnderStudyOptions[]>[],
+    family: [] as UnderFamilyOptions[],
+    study: [] as UnderStudyOptions[],
 
     needLogin: false,
   },
 
   state: {
-    loginMethod: <"check" | "login" | "validate">"validate",
+    loginMethod: "validate" as "check" | "login" | "validate",
     inited: false,
-    infoFields: <UnderArchiveFieldInfo[]>[],
+    infoFields: [] as UnderArchiveFieldInfo[],
     infoPath: "",
-    addressFields: <UnderArchiveFieldInfo[]>[],
+    addressFields: [] as UnderArchiveFieldInfo[],
     addressPath: "",
-    studyFields: <UnderArchiveFieldInfo[]>[],
+    studyFields: [] as UnderArchiveFieldInfo[],
     studyPath: "",
-    familyFields: <UnderArchiveFieldInfo[]>[],
+    familyFields: [] as UnderArchiveFieldInfo[],
     familyPath: "",
   },
 
@@ -162,7 +164,7 @@ $Page(PAGE_ID, {
   },
 
   addStudy() {
-    this.setData({ study: [...this.data.study, <UnderStudyOptions>{}] });
+    this.setData({ study: [...this.data.study, {} as UnderStudyOptions] });
   },
 
   removeStudy({
@@ -191,7 +193,7 @@ $Page(PAGE_ID, {
   },
 
   addFamily() {
-    this.setData({ family: [...this.data.family, <UnderFamilyOptions>{}] });
+    this.setData({ family: [...this.data.family, {} as UnderFamilyOptions] });
   },
 
   removeFamily({
@@ -283,7 +285,7 @@ $Page(PAGE_ID, {
       }
     } catch (msg) {
       wx.hideLoading();
-      showModal("获取失败", <string>msg);
+      showModal("获取失败", msg as string);
     }
   },
 
@@ -396,7 +398,7 @@ $Page(PAGE_ID, {
     } catch (msg) {
       console.error(msg);
       wx.hideLoading();
-      showModal("获取失败", <string>msg);
+      showModal("获取失败", msg as string);
     }
   },
 
@@ -445,7 +447,7 @@ $Page(PAGE_ID, {
     } catch (msg) {
       console.error(msg);
       wx.hideLoading();
-      showModal("获取失败", <string>msg);
+      showModal("获取失败", msg as string);
     }
   },
 
@@ -490,7 +492,7 @@ $Page(PAGE_ID, {
     } catch (msg) {
       console.error(msg);
       wx.hideLoading();
-      showModal("获取失败", <string>msg);
+      showModal("获取失败", msg as string);
     }
   },
 
@@ -532,7 +534,7 @@ $Page(PAGE_ID, {
     } catch (msg) {
       console.error(msg);
       wx.hideLoading();
-      showModal("获取失败", <string>msg);
+      showModal("获取失败", msg as string);
     }
   },
 

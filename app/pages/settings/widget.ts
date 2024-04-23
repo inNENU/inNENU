@@ -4,8 +4,10 @@ import { confirmAction } from "../../api/index.js";
 import { WIDGET_KEY } from "../../config/index.js";
 import { info } from "../../state/info.js";
 import { getColor, popNotice } from "../../utils/page.js";
-import { DEFAULT_WIDGETS, WIDGETS, WidgetInfo } from "../../widgets/config.js";
-import { WidgetConfig, getSize } from "../../widgets/utils.js";
+import type { WidgetInfo } from "../../widgets/config.js";
+import { DEFAULT_WIDGETS, WIDGETS } from "../../widgets/config.js";
+import type { WidgetConfig } from "../../widgets/utils.js";
+import { getSize } from "../../widgets/utils.js";
 
 const PAGE_ID = "widget-settings";
 const PAGE_TITLE = "小组件设置";
@@ -24,9 +26,9 @@ $Page(PAGE_ID, {
 
     WIDGETS,
 
-    current: <WidgetInfo | null>null,
+    current: null as WidgetInfo | null,
     swiperIndex: 0,
-    widgets: <WidgetConfig[]>[],
+    widgets: [] as WidgetConfig[],
   },
 
   state: {

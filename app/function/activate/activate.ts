@@ -64,7 +64,7 @@ ${envName}严格使用官方激活流程。
 `,
     },
 
-    stage: <"license" | "info" | "phone" | "password" | "success">"license",
+    stage: "license" as "license" | "info" | "phone" | "password" | "success",
 
     accept: false,
 
@@ -164,7 +164,7 @@ ${envName}严格使用官方激活流程。
     wx.showLoading({ title: "正在验证" });
 
     const data = await (useOnlineService(PAGE_ID)
-      ? <Promise<ActivateInfoResponse>>activateAccountOnline(options)
+      ? (activateAccountOnline(options) as Promise<ActivateInfoResponse>)
       : checkAccount(options));
 
     wx.hideLoading();
@@ -200,7 +200,7 @@ ${envName}严格使用官方激活流程。
     wx.showLoading({ title: "发送中" });
 
     const data = await (useOnlineService(PAGE_ID)
-      ? <Promise<ActivatePhoneSmsResponse>>activateAccountOnline(options)
+      ? (activateAccountOnline(options) as Promise<ActivatePhoneSmsResponse>)
       : sendSms(options));
 
     wx.hideLoading();
@@ -224,7 +224,7 @@ ${envName}严格使用官方激活流程。
     wx.showLoading({ title: "绑定中" });
 
     const data = await (useOnlineService(PAGE_ID)
-      ? <Promise<ActivateBindPhoneResponse>>activateAccountOnline(options)
+      ? (activateAccountOnline(options) as Promise<ActivateBindPhoneResponse>)
       : bindPhone(options));
 
     wx.hideLoading();
@@ -243,9 +243,9 @@ ${envName}严格使用官方激活流程。
           };
 
           (useOnlineService(PAGE_ID)
-            ? <Promise<ActivateReplacePhoneResponse>>(
-                activateAccountOnline(options)
-              )
+            ? (activateAccountOnline(
+                options,
+              ) as Promise<ActivateReplacePhoneResponse>)
             : replacePhone(options)
           ).then((data) => {
             if (data.success) this.setData({ stage: "password" });
@@ -300,7 +300,7 @@ ${envName}严格使用官方激活流程。
     };
 
     const data = await (useOnlineService(PAGE_ID)
-      ? <Promise<ActivatePasswordResponse>>activateAccountOnline(options)
+      ? (activateAccountOnline(options) as Promise<ActivatePasswordResponse>)
       : setPassword(options));
 
     wx.hideLoading();

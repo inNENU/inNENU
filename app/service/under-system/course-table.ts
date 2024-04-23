@@ -1,7 +1,7 @@
 import { URLSearchParams, logger } from "@mptool/all";
 
 import { UNDER_SYSTEM_SERVER } from "./utils.js";
-import { CommonFailedResponse } from "../../../typings/response.js";
+import type { CommonFailedResponse } from "../../../typings/response.js";
 import { cookieStore, request } from "../../api/index.js";
 import type { ClassItem, TableItem } from "../../function/course/typings.js";
 import { getResource } from "../../utils/json.js";
@@ -103,7 +103,7 @@ export const getUnderCourseTable = async ({
       startTime: semesterStartTime[time],
     };
   } catch (err) {
-    const { message } = <Error>err;
+    const { message } = err as Error;
 
     console.error(err);
 

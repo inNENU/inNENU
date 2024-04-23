@@ -1,4 +1,4 @@
-import { CommonFailedResponse } from "../../../typings/index.js";
+import type { CommonFailedResponse } from "../../../typings/index.js";
 import { request } from "../../api/index.js";
 
 interface LibraryPeopleRawData {

@@ -1,4 +1,5 @@
-import { $Component, PropType, get, set } from "@mptool/all";
+import type { PropType } from "@mptool/all";
+import { $Component, get, set } from "@mptool/all";
 
 import { setClipboard, showModal, showToast } from "../../api/index.js";
 import type { AppOption } from "../../app.js";
@@ -6,12 +7,13 @@ import { MINUTE } from "../../config/index.js";
 import { EMAIL_DATA_KEY } from "../../config/keys.js";
 import type { EmailItem } from "../../service/index.js";
 import {
+  LoginFailType,
   emailPage,
+  ensureActionLogin,
   onlineEmailPage,
   onlineRecentEmails,
   recentEmails,
 } from "../../service/index.js";
-import { LoginFailType, ensureActionLogin } from "../../service/index.js";
 import { info } from "../../state/info.js";
 import { user } from "../../state/user.js";
 import type { WidgetStatus } from "../utils.js";
@@ -37,8 +39,8 @@ $Component({
   },
 
   data: {
-    data: <Mail[]>[],
-    status: <WidgetStatus>"loading",
+    data: [] as Mail[],
+    status: "loading" as WidgetStatus,
   },
 
   lifetimes: {

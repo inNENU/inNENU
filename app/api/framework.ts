@@ -2,9 +2,8 @@
 export const getCurrentPage = <T extends Record<string, any>>():
   | (T & WechatMiniprogram.Page.TrivialInstance)
   | null => {
-  const pages = <(T & WechatMiniprogram.Page.TrivialInstance)[]>(
-    getCurrentPages()
-  );
+  const pages = getCurrentPages() as (T &
+    WechatMiniprogram.Page.TrivialInstance)[];
 
   return pages[pages.length - 1] || null;
 };

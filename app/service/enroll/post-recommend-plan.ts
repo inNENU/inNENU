@@ -98,14 +98,14 @@ export const getPostRecommendPlan =
 
       return { success: true, data: schoolInfo };
     } catch (err) {
-      const { message } = <Error>err;
+      const { message } = err as Error;
 
       console.error(err);
 
-      return <CommonFailedResponse>{
+      return {
         success: false,
         msg: message,
-      };
+      } as CommonFailedResponse;
     }
   };
 

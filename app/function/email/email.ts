@@ -33,13 +33,18 @@ $Page(PAGE_ID, {
       from: "返回",
     },
 
-    recent: <{ subject: string; name: string; mid: string; date: string }[]>[],
+    recent: [] as {
+      subject: string;
+      name: string;
+      mid: string;
+      date: string;
+    }[],
 
-    status: <"success" | "error" | "login">"success",
+    status: "success" as "success" | "error" | "login",
   },
 
   state: {
-    loginMethod: <"check" | "login" | "validate">"validate",
+    loginMethod: "validate" as "check" | "login" | "validate",
   },
 
   onShow() {

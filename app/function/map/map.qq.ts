@@ -31,10 +31,10 @@ $Page(PAGE_ID, {
     currentCategory: "all",
 
     /** 校区 */
-    area: <Area>"benbu",
+    area: "benbu" as Area,
 
     /** 地图点位 */
-    marker: <Record<string, MarkerData[]>>{},
+    marker: {} as Record<string, MarkerData[]>,
   },
 
   /** 状态 */
@@ -42,16 +42,16 @@ $Page(PAGE_ID, {
     gestureHold: false,
     isSet: false,
     benbu: {
-      category: <Category[]>[],
-      marker: <Record<string, MarkerData[]>>{},
+      category: [] as Category[],
+      marker: {} as Record<string, MarkerData[]>,
     },
     jingyue: {
-      category: <Category[]>[],
-      marker: <Record<string, MarkerData[]>>{},
+      category: [] as Category[],
+      marker: {} as Record<string, MarkerData[]>,
     },
   },
 
-  context: <WechatMiniprogram.MapContext>{},
+  context: {} as WechatMiniprogram.MapContext,
 
   onNavigate() {
     console.info("Navigating to Map");

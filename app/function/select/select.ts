@@ -36,12 +36,12 @@ $Page(PAGE_ID, {
     status: "loading",
     firstPage: false,
 
-    courseOffices: <string[]>[],
-    courseTable: <CourseData[][][]>[],
-    courseTypes: <string[]>[],
-    courses: <CourseBasicInfo[]>[],
-    grades: <string[]>[],
-    majors: <MajorInfo[]>[],
+    courseOffices: [] as string[],
+    courseTable: [] as CourseData[][][],
+    courseTypes: [] as string[],
+    courses: [] as CourseBasicInfo[],
+    grades: [] as string[],
+    majors: [] as MajorInfo[],
 
     courseName: "",
     classIndex: 0,
@@ -51,13 +51,13 @@ $Page(PAGE_ID, {
     majorIndex: 0,
     weekIndex: 0,
 
-    courseInfo: <FullCourseInfo | null>null,
+    courseInfo: null as FullCourseInfo | null,
     courseInfoPopupConfig: {
       title: "课程详情",
       confirm: "刷新人数",
       cancel: false,
     },
-    relatedCourses: <FullCourseInfo[]>[],
+    relatedCourses: [] as FullCourseInfo[],
 
     courseDetailPopupConfig: {
       title: "课程列表",
@@ -65,15 +65,15 @@ $Page(PAGE_ID, {
       cancel: false,
     },
     showCourseDetail: false,
-    coursesDetail: <FullCourseInfo[]>[],
+    coursesDetail: [] as FullCourseInfo[],
 
-    sortKeys: <SortKey[]>[
+    sortKeys: [
       "className",
       "teacher",
       "spare",
       "amount",
       "capacity",
-    ],
+    ] as SortKey[],
     sortKeyIndex: 0,
     ascending: true,
     filterLocation: true,
@@ -81,7 +81,7 @@ $Page(PAGE_ID, {
 
   state: {
     server: "",
-    type: <"under" | "post">"under",
+    type: "under" as "under" | "post",
     jx0502id: "",
     jx0502zbid: "",
 
@@ -90,12 +90,12 @@ $Page(PAGE_ID, {
     currentGrade: "",
     currentLocation: "",
     currentMajor: "",
-    selectedCourseIds: <string[]>[],
+    selectedCourseIds: [] as string[],
 
     currentCourseId: "",
     currentCredit: 0,
-    coursesDetail: <FullCourseInfo[]>[],
-    relatedCourses: <FullCourseInfo[]>[],
+    coursesDetail: [] as FullCourseInfo[],
+    relatedCourses: [] as FullCourseInfo[],
     isForceSelecting: false,
   },
 

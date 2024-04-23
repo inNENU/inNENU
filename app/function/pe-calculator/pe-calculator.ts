@@ -118,7 +118,7 @@ $Page("pe-calculator", {
 
   state: {
     /** 测试成绩 */
-    result: <Record<string, number>>{},
+    result: {} as Record<string, number>,
     /** 性别 */
     gender: "",
     /** 年级 */
@@ -314,11 +314,13 @@ $Page("pe-calculator", {
     getResource<GradeConfig>(`function/pe-calculator/${gender}-${grade}`).then(
       (config) => {
         // 以下三项越高越好，进行计算
-        (<("vitalCapacity" | "sitAndReach" | "standingLongJump")[]>[
-          "vitalCapacity",
-          "sitAndReach",
-          "standingLongJump",
-        ]).forEach((x) => {
+        (
+          ["vitalCapacity", "sitAndReach", "standingLongJump"] as (
+            | "vitalCapacity"
+            | "sitAndReach"
+            | "standingLongJump"
+          )[]
+        ).forEach((x) => {
           if (result[x] && Number(result[x])) {
             for (let i = length; i >= 0; i -= 1)
               if (result[x] >= config[x][i]) {
@@ -333,7 +335,7 @@ $Page("pe-calculator", {
         });
 
         // 以下两项越低越好
-        (<("shortRun" | "longRun")[]>["shortRun", "longRun"]).forEach((x) => {
+        (["shortRun", "longRun"] as ("shortRun" | "longRun")[]).forEach((x) => {
           if (result[x]) {
             for (let i = length; i >= 0; i -= 1)
               if (result[x] <= config[x][i]) {

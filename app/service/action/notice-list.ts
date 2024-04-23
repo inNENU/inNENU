@@ -51,6 +51,7 @@ const getNoticeItem = ({
   // eslint-disable-next-line @typescript-eslint/naming-convention
   ID__,
   CJBM,
+  // eslint-disable-next-line @typescript-eslint/naming-convention
   KEYWORDS_,
   FBSJ,
 }: RawNoticeItem): NoticeItem => ({
@@ -98,35 +99,35 @@ export const getNoticeList = async ({
     });
 
     if (status === 302)
-      return <AuthLoginFailedResponse>{
+      return {
         success: false,
         type: LoginFailType.Expired,
         msg: "登录信息已过期，请重新登录",
-      };
+      } as AuthLoginFailedResponse;
 
     if (data.length)
-      return <NoticeListSuccessResponse>{
+      return {
         success: true,
         data: data.map(getNoticeItem),
         pageIndex,
         pageSize,
         totalCount,
         totalPage,
-      };
+      } as NoticeListSuccessResponse;
 
-    return <AuthLoginFailedResponse>{
+    return {
       success: false,
       msg: JSON.stringify(data),
-    };
+    } as AuthLoginFailedResponse;
   } catch (err) {
-    const { message } = <Error>err;
+    const { message } = err as Error;
 
     console.error(err);
 
-    return <AuthLoginFailedResponse>{
+    return {
       success: false,
       msg: message,
-    };
+    } as AuthLoginFailedResponse;
   }
 };
 

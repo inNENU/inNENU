@@ -3,8 +3,12 @@ import { $Page, get, set } from "@mptool/all";
 import type { ClassItem, TableItem } from "./typings.js";
 import { retryAction, showModal } from "../../api/index.js";
 import type { AppOption } from "../../app.js";
-import { COURSE_DATA_KEY, appCoverPrefix } from "../../config/index.js";
-import { DAY, MONTH } from "../../config/index.js";
+import {
+  COURSE_DATA_KEY,
+  DAY,
+  MONTH,
+  appCoverPrefix,
+} from "../../config/index.js";
 import {
   LoginFailType,
   ensureOnlinePostSystemLogin,
@@ -104,8 +108,8 @@ const getDates = (startTime: string, weekIndex: number): string[] => {
 
 $Page(PAGE_ID, {
   data: {
-    courseData: <TableData>[],
-    times: <string[]>[],
+    courseData: [] as TableData,
+    times: [] as string[],
     timeIndex: 0,
     weeks: 0,
     weekIndex: 0,
@@ -118,8 +122,8 @@ $Page(PAGE_ID, {
   },
 
   state: {
-    loginMethod: <"check" | "login" | "validate">"validate",
-    coursesData: <Record<string, CourseTableData>>{},
+    loginMethod: "validate" as "check" | "login" | "validate",
+    coursesData: {} as Record<string, CourseTableData>,
     grade: new Date().getFullYear(),
     inited: false,
   },
@@ -155,7 +159,7 @@ $Page(PAGE_ID, {
       const time = getCurrentTime();
       const timeIndex = times.indexOf(time);
 
-      if (coursesData && coursesData[time]) {
+      if (coursesData?.[time]) {
         const { courseData, weeks, startTime } = coursesData[time];
         const weekIndex = getWeekIndex(startTime, weeks);
 
@@ -250,7 +254,7 @@ $Page(PAGE_ID, {
       }
     } catch (msg) {
       wx.hideLoading();
-      showModal("获取失败", <string>msg);
+      showModal("获取失败", msg as string);
     }
   },
 
@@ -298,7 +302,7 @@ $Page(PAGE_ID, {
       }
     } catch (msg) {
       wx.hideLoading();
-      showModal("获取失败", <string>msg);
+      showModal("获取失败", msg as string);
     }
   },
 

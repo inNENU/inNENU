@@ -9,7 +9,7 @@ import { authLogin } from "../auth/login.js";
 import { handleFailResponse } from "../fail.js";
 import { LoginFailType } from "../loginFailTypes.js";
 import { supportRedirect } from "../utils.js";
-import { VPNLoginFailedResponse } from "../vpn/login.js";
+import type { VPNLoginFailedResponse } from "../vpn/login.js";
 
 export interface UnderStudyLoginSuccessResponse {
   success: true;
@@ -82,7 +82,7 @@ export const underStudyLogin = async (
       msg: "登录失败",
     };
   } catch (err) {
-    const { message } = <Error>err;
+    const { message } = err as Error;
 
     console.error(err);
 

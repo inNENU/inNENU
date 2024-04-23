@@ -3,8 +3,12 @@ import { $Page, get, put, set, take } from "@mptool/all";
 import { footer } from "./info.js";
 import type { PageDataWithContent } from "../../../typings/index.js";
 import type { AppOption } from "../../app.js";
-import { appCoverPrefix, appName, description } from "../../config/index.js";
-import { DAY } from "../../config/index.js";
+import {
+  DAY,
+  appCoverPrefix,
+  appName,
+  description,
+} from "../../config/index.js";
 import { info } from "../../state/info.js";
 import { user } from "../../state/user.js";
 import { getColor, popNotice, resolvePage, setPage } from "../../utils/page.js";
@@ -15,16 +19,16 @@ const { globalData } = getApp<AppOption>();
 const PAGE_ID = "user";
 const PAGE_TITLE = "我的东师";
 
-const defaultPage = <PageDataWithContent>resolvePage(
+const defaultPage = resolvePage(
   { id: PAGE_ID },
   get<PageDataWithContent>(PAGE_ID) ||
-    <PageDataWithContent>{
+    ({
       title: PAGE_TITLE,
       grey: true,
       hidden: true,
       content: [{ tag: "loading" }],
-    },
-);
+    } as PageDataWithContent),
+) as PageDataWithContent;
 
 $Page(PAGE_ID, {
   data: {

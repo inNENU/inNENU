@@ -48,7 +48,7 @@ export const getInfo = async (url: string): Promise<MainInfoResponse> => {
 
     const pageView = await getPageView(id, owner);
 
-    return <MainInfoSuccessResponse>{
+    return {
       success: true,
       title,
       time,
@@ -76,16 +76,16 @@ export const getInfo = async (url: string): Promise<MainInfoResponse> => {
           },
         },
       }),
-    };
+    } as MainInfoSuccessResponse;
   } catch (err) {
-    const { message } = <Error>err;
+    const { message } = err as Error;
 
     console.error(err);
 
-    return <CommonFailedResponse>{
+    return {
       success: false,
       msg: message,
-    };
+    } as CommonFailedResponse;
   }
 };
 

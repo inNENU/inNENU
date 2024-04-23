@@ -22,11 +22,11 @@ $Page(PAGE_ID, {
   data: {
     theme: info.theme,
 
-    years: <string[]>[],
-    provinces: <string[]>[],
-    majorTypes: <string[]>[],
-    planTypes: <string[]>[],
-    reformTypes: <string[]>[],
+    years: [] as string[],
+    provinces: [] as string[],
+    majorTypes: [] as string[],
+    planTypes: [] as string[],
+    reformTypes: [] as string[],
 
     yearIndex: 0,
     provinceIndex: 0,
@@ -34,7 +34,7 @@ $Page(PAGE_ID, {
     planTypeIndex: 0,
     reformTypeIndex: 0,
 
-    titles: <string[]>[],
+    titles: [] as string[],
     sortIndex: 0,
     ascending: false,
 
@@ -42,12 +42,12 @@ $Page(PAGE_ID, {
       title: "历史分数详情",
       cancel: false,
     },
-    results: <HistoryGradeInfoItem[]>[],
+    results: [] as HistoryGradeInfoItem[],
   },
 
   state: {
-    historyGrade: <SelectConfig>[],
-    numberValueIndex: <number[]>[],
+    historyGrade: [] as SelectConfig,
+    numberValueIndex: [] as number[],
   },
 
   onNavigate() {

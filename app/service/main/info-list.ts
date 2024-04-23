@@ -85,21 +85,21 @@ export const getInfoList = async ({
         : {}),
     }));
 
-    return <InfoListSuccessResponse>{
+    return {
       success: true,
       data,
       page,
       totalPage: totalPageState[type],
-    };
+    } as InfoListSuccessResponse;
   } catch (err) {
-    const { message } = <Error>err;
+    const { message } = err as Error;
 
     console.error(err);
 
-    return <CommonFailedResponse>{
+    return {
       success: false,
       msg: message,
-    };
+    } as CommonFailedResponse;
   }
 };
 

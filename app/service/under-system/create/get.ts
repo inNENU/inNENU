@@ -1,6 +1,6 @@
 import { logger } from "@mptool/all";
 
-import {
+import type {
   MultiSelectUnderArchiveInfo,
   ReadonlyUnderArchiveInfo,
   SingleSelectUnderArchiveInfo,
@@ -18,7 +18,7 @@ import {
   readonlyRegExp,
   selectRegExp,
 } from "./utils.js";
-import { CommonFailedResponse } from "../../../../typings/index.js";
+import type { CommonFailedResponse } from "../../../../typings/index.js";
 import { cookieStore, request } from "../../../api/index.js";
 import { LoginFailType } from "../../loginFailTypes.js";
 import { getIETimeStamp, isWebVPNPage } from "../../utils.js";
@@ -124,8 +124,8 @@ export const getUnderStudentArchiveInfo =
                 return result;
               },
               {
-                category: <{ value: string; text: string }[]>[],
-                values: <{ value: string; text: string }[][]>[],
+                category: [] as { value: string; text: string }[],
+                values: [] as { value: string; text: string }[][],
               },
             );
 
@@ -196,7 +196,7 @@ export const getUnderStudentArchiveInfo =
 
       return {
         success: false,
-        msg: (<Error>err).message,
+        msg: (err as Error).message,
       };
     }
   };

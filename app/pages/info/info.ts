@@ -11,7 +11,7 @@ import {
 
 $Page("info", {
   data: {
-    page: <PageData & { id: string }>{},
+    page: {} as PageData & { id: string },
   },
 
   onNavigate(option) {
@@ -22,7 +22,7 @@ $Page("info", {
     console.info("onLoad options: ", option);
 
     if (option.path) {
-      loadOnlinePage(<PageOption & { path: string }>option, this);
+      loadOnlinePage(option as PageOption & { path: string }, this);
     } else {
       // 生成页面 ID
       option.id = id2path(

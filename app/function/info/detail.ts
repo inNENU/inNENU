@@ -22,14 +22,14 @@ $Page(PAGE_ID, {
   data: {
     pageTitle: "详情",
     starred: false,
-    status: <"error" | "login" | "success">"success",
+    status: "success" as "error" | "login" | "success",
   },
 
   state: {
     url: "",
     title: "",
-    type: <InfoType>"news",
-    info: <StarredInfo | null>null,
+    type: "news" as InfoType,
+    info: null as StarredInfo | null,
   },
 
   onLoad({
@@ -41,7 +41,7 @@ $Page(PAGE_ID, {
     const starredInfos = get<StarredInfo[]>(STARRED_INFO_LIST_KEY) ?? [];
 
     this.state.title = title;
-    this.state.type = <InfoType>type;
+    this.state.type = type as InfoType;
     this.state.url = url;
 
     if (!url) {
@@ -55,7 +55,7 @@ $Page(PAGE_ID, {
     this.setData({
       color: getColor(),
       theme: info.theme,
-      pageTitle: getTitle(<InfoType>type),
+      pageTitle: getTitle(type as InfoType),
       title,
       share: {
         title,

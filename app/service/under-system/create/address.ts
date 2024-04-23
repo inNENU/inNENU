@@ -1,13 +1,13 @@
 import { URLSearchParams, logger } from "@mptool/all";
 
-import { UnderArchiveFieldInfo, UnderStudyOptions } from "./typings.js";
+import type { UnderArchiveFieldInfo, UnderStudyOptions } from "./typings.js";
 import {
   hiddenFieldsRegExp,
   onlineUnderStudentArchive,
   pathRegExp,
   studyDataRegExp,
 } from "./utils.js";
-import { CommonFailedResponse } from "../../../../typings/index.js";
+import type { CommonFailedResponse } from "../../../../typings/index.js";
 import { cookieStore, request } from "../../../api/index.js";
 import { LoginFailType } from "../../loginFailTypes.js";
 import { isWebVPNPage } from "../../utils.js";
@@ -57,15 +57,15 @@ export const submitUnderStudentArchiveAddress = async ({
     const existingData = studyDataRegExp.exec(content)?.[1];
 
     const study = existingData
-      ? (<
-          {
+      ? (
+          JSON.parse(existingData) as {
             qsrq: string;
             zzrq: string;
             szdw: string;
             gznr: string;
             zmr: string;
           }[]
-        >JSON.parse(existingData)).map(({ qsrq, zzrq, szdw, gznr, zmr }) => ({
+        ).map(({ qsrq, zzrq, szdw, gznr, zmr }) => ({
           startTime: qsrq,
           endTime: zzrq,
           school: szdw,
@@ -98,7 +98,7 @@ export const submitUnderStudentArchiveAddress = async ({
 
     return {
       success: false,
-      msg: (<Error>err).message,
+      msg: (err as Error).message,
     };
   }
 };

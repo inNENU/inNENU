@@ -47,36 +47,36 @@ export const getCardBalance = async (): Promise<CardBalanceResponse> => {
     );
 
     if (status === 302)
-      return <AuthLoginFailedResponse>{
+      return {
         success: false,
         type: LoginFailType.Expired,
         msg: "登录信息已过期，请重新登录",
-      };
+      } as AuthLoginFailedResponse;
 
     if (data.success) {
       const balanceList = data.demo.items.item;
 
-      return <CardBalanceSuccessResponse>{
+      return {
         success: true,
         data: balanceList[0]?.kye.match(/\d+/)
           ? Number(balanceList[0].kye) / 100
           : 0,
-      };
+      } as CardBalanceSuccessResponse;
     }
 
-    return <AuthLoginFailedResponse>{
+    return {
       success: false,
       msg: JSON.stringify(data),
-    };
+    } as AuthLoginFailedResponse;
   } catch (err) {
-    const { message } = <Error>err;
+    const { message } = err as Error;
 
     console.error(err);
 
-    return <AuthLoginFailedResponse>{
+    return {
       success: false,
       msg: message,
-    };
+    } as AuthLoginFailedResponse;
   }
 };
 

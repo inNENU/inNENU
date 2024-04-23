@@ -27,15 +27,13 @@ export const familyDataRegExp = /"jtcy"\s*:\s*(\[.*?\])/;
 export const onlineUnderStudentArchive = <Option, Response>(
   options: Option,
   additionalOptions: Record<string, unknown> = {},
-): Promise<Response> => <Promise<Response>>request(
-    "/under-system/create-archive",
-    {
-      method: "POST",
-      body: { ...additionalOptions, ...options },
-      cookieScope: UNDER_SYSTEM_SERVER,
-    },
-  ).then(({ data }) => {
+): Promise<Response> =>
+  request("/under-system/create-archive", {
+    method: "POST",
+    body: { ...additionalOptions, ...options },
+    cookieScope: UNDER_SYSTEM_SERVER,
+  }).then(({ data }) => {
     if (!data.success) logger.error("获取失败", data.msg);
 
     return data;
-  });
+  }) as Promise<Response>;

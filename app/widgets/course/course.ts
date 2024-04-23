@@ -1,4 +1,5 @@
-import { $Component, PropType, get } from "@mptool/all";
+import type { PropType } from "@mptool/all";
+import { $Component, get } from "@mptool/all";
 
 import type { ClassData, CourseTableData, TableData } from "./typings.js";
 import { getCurrentTime, getWeekIndex } from "./utils.js";
@@ -37,7 +38,7 @@ $Component({
       const coursesData = get<Record<string, CourseTableData>>(COURSE_DATA_KEY);
       const time = getCurrentTime();
 
-      if (coursesData && coursesData[time]) {
+      if (coursesData?.[time]) {
         const { courseData, weeks, startTime } = coursesData[time];
         const weekIndex = getWeekIndex(startTime, weeks);
 

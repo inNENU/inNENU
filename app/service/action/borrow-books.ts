@@ -135,22 +135,22 @@ export const getBorrowBooks = async (): Promise<BorrowBooksResponse> => {
   });
 
   if (status === 302)
-    return <AuthLoginFailedResponse>{
+    return {
       success: false,
       type: LoginFailType.Expired,
       msg: "登录信息已过期，请重新登录",
-    };
+    } as AuthLoginFailedResponse;
 
   if (data.success)
-    return <BorrowBooksSuccessResponse>{
+    return {
       success: true,
       data: data.data.map(getBookData),
-    };
+    } as BorrowBooksSuccessResponse;
 
-  return <BorrowBooksSuccessResponse>{
+  return {
     success: true,
     data: [],
-  };
+  } as BorrowBooksSuccessResponse;
 };
 
 export const getOnlineBorrowBooks = (): Promise<BorrowBooksResponse> =>

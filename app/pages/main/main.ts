@@ -2,30 +2,34 @@ import { $Page, get, set } from "@mptool/all";
 
 import type { PageDataWithContent } from "../../../typings/index.js";
 import type { AppOption } from "../../app.js";
-import { WIDGET_KEY, appCoverPrefix, appName } from "../../config/index.js";
-import { DAY } from "../../config/index.js";
+import {
+  DAY,
+  WIDGET_KEY,
+  appCoverPrefix,
+  appName,
+} from "../../config/index.js";
 import { info } from "../../state/info.js";
 import { getIdentity } from "../../state/user.js";
 import { getColor, popNotice, resolvePage, setPage } from "../../utils/page.js";
 import { checkResource } from "../../utils/resource.js";
 import { search } from "../../utils/search.js";
 import { DEFAULT_WIDGETS } from "../../widgets/config.js";
-import { WidgetConfig } from "../../widgets/utils.js";
+import type { WidgetConfig } from "../../widgets/utils.js";
 
 const { globalData } = getApp<AppOption>();
 
 const PAGE_ID = "main";
 
-const defaultPage = <PageDataWithContent>resolvePage(
+const defaultPage = resolvePage(
   { id: PAGE_ID },
   get<PageDataWithContent>(PAGE_ID) ||
-    <PageDataWithContent>{
+    ({
       title: "首页",
       grey: true,
       hidden: true,
       content: [{ tag: "loading" }],
-    },
-);
+    } as PageDataWithContent),
+) as PageDataWithContent;
 
 $Page(PAGE_ID, {
   data: {
@@ -33,7 +37,7 @@ $Page(PAGE_ID, {
     statusBarHeight: info.statusBarHeight,
 
     /** 候选词 */
-    words: <string[]>[],
+    words: [] as string[],
 
     page: defaultPage,
 

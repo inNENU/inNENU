@@ -90,10 +90,10 @@ $Page(PAGE_ID, {
       from: "返回",
     },
 
-    list: <ListComponentConfig>{
+    list: {
       header: false,
       items: EMPTY_CONTENT,
-    },
+    } as ListComponentConfig,
 
     footer: {
       desc: FOOTER,
@@ -104,13 +104,13 @@ $Page(PAGE_ID, {
     captcha: "",
     isSaved: false,
     showPassword: false,
-    captchaContent: <string | null>null,
+    captchaContent: null as string | null,
     accept: false,
   },
 
   state: {
     shouldNavigateBack: false,
-    initOptions: <{ params: Record<string, string>; salt: string }>{},
+    initOptions: {} as { params: Record<string, string>; salt: string },
   },
 
   onLoad({ from = "返回", update }) {

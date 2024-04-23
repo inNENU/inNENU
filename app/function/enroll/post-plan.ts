@@ -26,7 +26,7 @@ $Page(PAGE_ID, {
     theme: info.theme,
   },
 
-  state: { plans: <PostEnrollSchoolPlan[] | PostRecommendSchoolPlan[]>[] },
+  state: { plans: [] as PostEnrollSchoolPlan[] | PostRecommendSchoolPlan[] },
 
   onLoad({ recommend, school = "全部" }) {
     this.setData({

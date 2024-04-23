@@ -2,8 +2,7 @@ import { $Page, get, set } from "@mptool/all";
 
 import { retryAction, showModal } from "../../api/index.js";
 import type { AppOption } from "../../app.js";
-import { GRADE_DATA_KEY, appCoverPrefix } from "../../config/index.js";
-import { HOUR } from "../../config/index.js";
+import { GRADE_DATA_KEY, HOUR, appCoverPrefix } from "../../config/index.js";
 import type {
   PostGradeResult,
   UnderGradeListOptions,
@@ -92,7 +91,7 @@ $Page(PAGE_ID, {
   data: {
     title: PAGE_TITLE,
 
-    grades: <UnderGradeResult[] | PostGradeResult[]>[],
+    grades: [] as UnderGradeResult[] | PostGradeResult[],
 
     type: "",
     timeIndex: 0,
@@ -118,9 +117,9 @@ $Page(PAGE_ID, {
   },
 
   state: {
-    loginMethod: <"check" | "login" | "validate">"validate",
-    numberValueIndex: <number[]>[],
-    timeConfig: <TimeConfig>{},
+    loginMethod: "validate" as "check" | "login" | "validate",
+    numberValueIndex: [] as number[],
+    timeConfig: {} as TimeConfig,
     inited: false,
   },
 
@@ -161,7 +160,7 @@ $Page(PAGE_ID, {
         if (grades) {
           this.setGradeData(grades);
           this[type === "under" ? "setUnderStatistics" : "setPostStatistics"](
-            // @ts-ignore
+            // @ts-expect-error: Type is a union
             grades,
           );
         } else {
@@ -227,7 +226,7 @@ $Page(PAGE_ID, {
       }
     } catch (msg) {
       wx.hideLoading();
-      showModal("获取失败", <string>msg);
+      showModal("获取失败", msg as string);
     }
   },
 
@@ -264,7 +263,7 @@ $Page(PAGE_ID, {
       });
     } catch (msg) {
       wx.hideLoading();
-      showModal("获取失败", <string>msg);
+      showModal("获取失败", msg as string);
     }
   },
 
@@ -274,11 +273,11 @@ $Page(PAGE_ID, {
     const showRelearn =
       type === "under"
         ? false
-        : (<PostGradeResult[]>grades).some((item) => item.reLearn);
+        : (grades as PostGradeResult[]).some((item) => item.reLearn);
 
     const numberValueIndex = (type === "under" ? underKeys : postKeys)
       .map((key, index) =>
-        // @ts-ignore
+        // @ts-expect-error: Type is a union
         grades.some((item) => Number.isNaN(Number(item[key]))) ? null : index,
       )
       .filter((item): item is number => item !== null);
@@ -287,7 +286,7 @@ $Page(PAGE_ID, {
 
     this.setData({
       // 默认通过时间排序
-      grades: (<UnderGradeResult[]>grades).sort((itemA, itemB) =>
+      grades: (grades as UnderGradeResult[]).sort((itemA, itemB) =>
         itemB.time?.localeCompare(itemA.time),
       ),
       showMark,
@@ -340,7 +339,6 @@ $Page(PAGE_ID, {
     const gpa = Math.round((totalGradePoint / totalPoint) * 100) / 100;
     const numberValueIndex = underKeys
       .map((key, index) =>
-        // @ts-ignore
         grades.some((item) => Number.isNaN(Number(item[key]))) ? null : index,
       )
       .filter((item): item is number => item !== null);
@@ -408,7 +406,6 @@ $Page(PAGE_ID, {
     const gpa = Math.round((totalGradePoint / totalPoint) * 100) / 100;
     const numberValueIndex = postKeys
       .map((key, index) =>
-        // @ts-ignore
         grades.some((item) => Number.isNaN(Number(item[key]))) ? null : index,
       )
       .filter((item): item is number => item !== null);
@@ -461,7 +458,7 @@ $Page(PAGE_ID, {
 
       this.setData({
         sortIndex: index,
-        grades: (<UnderGradeResult[]>grades).sort((itemA, itemB) => {
+        grades: (grades as UnderGradeResult[]).sort((itemA, itemB) => {
           if (!itemA[key]) return 1;
           if (!itemB[key]) return -1;
 
@@ -471,8 +468,8 @@ $Page(PAGE_ID, {
               : Number(itemB[key]) - Number(itemA[key]);
 
           return ascending
-            ? (<string>itemA[key])?.localeCompare(<string>itemB[key])
-            : (<string>itemB[key])?.localeCompare(<string>itemA[key]);
+            ? (itemA[key] as string)?.localeCompare(itemB[key] as string)
+            : (itemB[key] as string)?.localeCompare(itemA[key] as string);
         }),
       });
     }
@@ -499,7 +496,7 @@ $Page(PAGE_ID, {
 
       this.setData({
         sortIndex: index,
-        grades: (<PostGradeResult[]>grades).sort((itemA, itemB) => {
+        grades: (grades as PostGradeResult[]).sort((itemA, itemB) => {
           if (!itemA[key]) return 1;
           if (!itemB[key]) return -1;
 
@@ -509,8 +506,8 @@ $Page(PAGE_ID, {
               : Number(itemB[key]) - Number(itemA[key]);
 
           return ascending
-            ? (<string>itemA[key])?.localeCompare(<string>itemB[key])
-            : (<string>itemB[key])?.localeCompare(<string>itemA[key]);
+            ? (itemA[key] as string)?.localeCompare(itemB[key] as string)
+            : (itemB[key] as string)?.localeCompare(itemA[key] as string);
         }),
       });
     }
@@ -525,7 +522,7 @@ $Page(PAGE_ID, {
   >) {
     const { index } = currentTarget.dataset;
     const { grades } = this.data;
-    const { name, gradeCode, mark } = <UnderGradeResult>grades[index];
+    const { name, gradeCode, mark } = grades[index] as UnderGradeResult;
 
     // (useOnlineService("under-grade-detail")
     //   ? getOnlineUnderGradeDetail

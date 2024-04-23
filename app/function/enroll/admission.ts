@@ -1,6 +1,6 @@
 import { $Page } from "@mptool/all";
 
-import { CommonFailedResponse } from "../../../typings/response.js";
+import type { CommonFailedResponse } from "../../../typings/response.js";
 import { showModal } from "../../api/index.js";
 import type { AppOption } from "../../app.js";
 import { appCoverPrefix } from "../../config/index.js";
@@ -27,11 +27,11 @@ interface AdmissionResponse {
   info: { text: string; value: string }[];
 }
 
-const INPUT_CONFIG = <InputConfig[]>[
+const INPUT_CONFIG = [
   { text: "姓名", type: "text", placeholder: "请输入姓名", id: "name" },
   { text: "身份证", type: "idcard", placeholder: "请输入身份证号", id: "id" },
   { text: "考生号", type: "digit", placeholder: "请输入考生号", id: "testId" },
-];
+] as InputConfig[];
 
 const PAGE_ID = "admission";
 const PAGE_TITLE = "录取查询";
@@ -44,15 +44,15 @@ $Page(PAGE_ID, {
     level: "本科生",
 
     /** 输入列表 */
-    input: <InputConfig[]>[],
+    input: [] as InputConfig[],
 
-    detail: <{ title: string; content: string } | null>null,
+    detail: null as { title: string; content: string } | null,
 
     /** 弹窗配置 */
     popupConfig: { title: "查询结果", cancel: false },
 
     /**  查询结果 */
-    result: <AdmissionResponse | CommonFailedResponse | null>null,
+    result: null as AdmissionResponse | CommonFailedResponse | null,
 
     /** 是否正在输入 */
     isTyping: false,
@@ -62,10 +62,10 @@ $Page(PAGE_ID, {
 
   state: {
     /** 表单信息 */
-    info: <string[]>[],
+    info: [] as string[],
 
     /** 输入信息 */
-    input: <Record<string, string>>{},
+    input: {} as Record<string, string>,
   },
 
   onLoad({ type = "debug" }) {

@@ -7,8 +7,7 @@ import type {
 } from "../../../typings/index.js";
 import { setClipboard, showToast } from "../../api/index.js";
 import type { AppOption } from "../../app.js";
-import { appCoverPrefix, appName, version } from "../../config/index.js";
-import { DAY } from "../../config/index.js";
+import { DAY, appCoverPrefix, appName, version } from "../../config/index.js";
 import { info, updateSelectable } from "../../state/info.js";
 import { popNotice, resolvePage, setPage } from "../../utils/page.js";
 import { fetchAppSettings } from "../../utils/settings.js";
@@ -24,7 +23,7 @@ $Page(PAGE_ID, {
   data: {
     theme: info.theme,
     darkmode: info.darkmode,
-    page: <PageDataWithContent>{
+    page: {
       title: `关于 ${appName}`,
       desc: `当前版本: ${version}`,
       grey: true,
@@ -62,7 +61,7 @@ $Page(PAGE_ID, {
         },
         { tag: "loading" },
       ],
-    },
+    } as PageDataWithContent,
   },
 
   onNavigate(res) {

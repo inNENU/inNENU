@@ -1,9 +1,9 @@
-import { $Component, PropType, get, set } from "@mptool/all";
+import type { PropType } from "@mptool/all";
+import { $Component, get, set } from "@mptool/all";
 
 import { showToast } from "../../api/index.js";
 import type { AppOption } from "../../app.js";
-import { CARD_BALANCE_KEY } from "../../config/index.js";
-import { MINUTE } from "../../config/index.js";
+import { CARD_BALANCE_KEY, MINUTE } from "../../config/index.js";
 import {
   ensureActionLogin,
   getCardBalance,
@@ -27,7 +27,7 @@ $Component({
   data: {
     enableBalance: false,
     enableQrcode: false,
-    status: <"loading" | "error" | "login" | "success">"loading",
+    status: "loading" as "loading" | "error" | "login" | "success",
   },
 
   lifetimes: {

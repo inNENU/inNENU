@@ -20,14 +20,14 @@ $Page(PAGE_ID, {
   data: {
     pageTitle: "学术报告详情",
     starred: false,
-    status: <"error" | "login" | "success">"success",
+    status: "success" as "error" | "login" | "success",
   },
 
   state: {
     title: "",
     person: "",
     url: "",
-    info: <StarredAcademic | null>null,
+    info: null as StarredAcademic | null,
   },
 
   onLoad({ scene = "", title = "", person = "", url = scene }) {

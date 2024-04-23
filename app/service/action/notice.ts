@@ -45,11 +45,11 @@ export const getNotice = async ({
     });
 
     if (status === 302)
-      return <AuthLoginFailedResponse>{
+      return {
         success: false,
         type: LoginFailType.Expired,
         msg: "登录信息已过期，请重新登录",
-      };
+      } as AuthLoginFailedResponse;
 
     const title = titleRegExp.exec(responseText)![1];
     const author = authorRegExp.exec(responseText)![1];
@@ -58,7 +58,7 @@ export const getNotice = async ({
     const pageView = pageViewRegExp.exec(responseText)![1];
     const content = contentRegExp.exec(responseText)![1];
 
-    return <NoticeSuccessResponse>{
+    return {
       success: true,
       title,
       author,
@@ -83,16 +83,16 @@ export const getNotice = async ({
           img: () => null,
         },
       }),
-    };
+    } as NoticeSuccessResponse;
   } catch (err) {
-    const { message } = <Error>err;
+    const { message } = err as Error;
 
     console.error(err);
 
-    return <AuthLoginFailedResponse>{
+    return {
       success: false,
       msg: message,
-    };
+    } as AuthLoginFailedResponse;
   }
 };
 

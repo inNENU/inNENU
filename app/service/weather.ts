@@ -20,8 +20,9 @@ interface WeatherRawData {
     };
 
     /** 天气预警 */
-    alarm: {
-      [props: number]: {
+    alarm: Record<
+      number,
+      {
         /** 城市 */
         city: string;
         /** 区域 */
@@ -44,8 +45,8 @@ interface WeatherRawData {
         update_time: string;
         /** 对应地址 */
         url: string;
-      };
-    };
+      }
+    >;
 
     forecast_1h: Record<
       `${number}`,
@@ -122,9 +123,7 @@ interface WeatherRawData {
     >;
 
     tips: {
-      observe: {
-        [props: string]: string;
-      };
+      observe: Record<string, string>;
     };
   };
   status: 200;
@@ -324,7 +323,7 @@ export const getWeather = async (): Promise<WeatherData> => {
       .filter(([id]) => id !== "time")
       .map(([id, value]) => ({
         id,
-        ...(<{ name: string; info: string; detail: string }>value),
+        ...(value as { name: string; info: string; detail: string }),
       })),
     {
       id: "tailnumber",

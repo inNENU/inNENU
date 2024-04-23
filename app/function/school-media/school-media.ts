@@ -21,7 +21,7 @@ $Page(PAGE_ID, {
   data: {
     title: PAGE_TITLE,
 
-    config: <unknown[]>[],
+    config: [] as unknown[],
 
     type: env,
 

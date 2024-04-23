@@ -6,15 +6,14 @@ import type {
   ListComponentItemConfig,
 } from "../../../typings/index.js";
 import type { AppOption } from "../../app.js";
-import { appCoverPrefix } from "../../config/index.js";
-import { DAY } from "../../config/index.js";
+import { DAY, appCoverPrefix } from "../../config/index.js";
 import { info } from "../../state/info.js";
 import { getIdentity } from "../../state/user.js";
 import { getResource } from "../../utils/json.js";
 import { getColor, popNotice } from "../../utils/page.js";
 import { checkResource } from "../../utils/resource.js";
 import { search } from "../../utils/search.js";
-import { TabData } from "../typings.js";
+import type { TabData } from "../typings.js";
 
 const { globalData } = getApp<AppOption>();
 
@@ -35,7 +34,7 @@ $Page(PAGE_ID, {
     statusBarHeight: info.statusBarHeight,
 
     /** 候选词 */
-    words: <string[]>[],
+    words: [] as string[],
 
     menuSpace: info.platform === "android" || info.platform === "ios" ? 90 : 10,
 

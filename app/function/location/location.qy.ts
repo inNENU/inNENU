@@ -13,7 +13,7 @@ const { globalData } = getApp<AppOption>();
 
 $Page("location", {
   data: {
-    page: <PageData>{},
+    page: {} as PageData,
     point: "",
   },
 
@@ -56,7 +56,7 @@ $Page("location", {
   },
 
   onPageScroll(options) {
-    // @ts-ignore
+    // @ts-expect-error: data type is missing
     this.defaultScroller(options);
   },
 

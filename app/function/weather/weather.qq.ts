@@ -4,13 +4,13 @@ import { showModal } from "../../api/index.js";
 import type { AppOption } from "../../app.js";
 import {
   INITIALIZED_KEY,
+  MINUTE,
   WEATHER_KEY,
   appCoverPrefix,
 } from "../../config/index.js";
-import { MINUTE } from "../../config/index.js";
 import type { WeatherData } from "../../service/index.js";
 import { getOnlineWeather, getWeather } from "../../service/index.js";
-import { WeatherAlarm } from "../../service/weather.js";
+import type { WeatherAlarm } from "../../service/weather.js";
 import { info } from "../../state/info.js";
 
 const { useOnlineService } = getApp<AppOption>();
@@ -20,7 +20,7 @@ const PAGE_TITLE = "东师天气";
 $Page("weather", {
   data: {
     /** 天气数据 */
-    weather: <WeatherData>{},
+    weather: {} as WeatherData,
     /** 当前 tips 的索引值 */
     tipIndex: 0,
     /** 动画对象 */
@@ -28,7 +28,7 @@ $Page("weather", {
   },
 
   state: {
-    weatherIcon: <Record<string, string>>{},
+    weatherIcon: {} as Record<string, string>,
   },
 
   onLoad() {
@@ -43,12 +43,12 @@ $Page("weather", {
     });
 
     if (wx.getStorageSync(INITIALIZED_KEY)) {
-      const weatherIcon = <Record<string, string>>(
-        JSON.parse((readFile("./icon/weather/icon") as string) || "{}")
-      );
-      const hintIcon = <Record<string, string>>(
-        JSON.parse((readFile("./icon/weather/hint") as string) || "{}")
-      );
+      const weatherIcon = JSON.parse(
+        (readFile("./icon/weather/icon") as string) || "{}",
+      ) as Record<string, string>;
+      const hintIcon = JSON.parse(
+        (readFile("./icon/weather/hint") as string) || "{}",
+      ) as Record<string, string>;
 
       this.setData({
         weatherIcon,
@@ -114,12 +114,13 @@ $Page("weather", {
 
   updateIcon(): void {
     this.setData({
-      weatherIcon: <Record<string, string>>(
-        JSON.parse(readFile("./icon/weather/icon") as string)
-      ),
-      hintIcon: <Record<string, string>>(
-        JSON.parse(readFile("./icon/weather/hint") as string)
-      ),
+      weatherIcon: JSON.parse(
+        readFile("./icon/weather/icon") as string,
+      ) as Record<string, string>,
+      hintIcon: JSON.parse(readFile("./icon/weather/hint") as string) as Record<
+        string,
+        string
+      >,
     });
   },
 

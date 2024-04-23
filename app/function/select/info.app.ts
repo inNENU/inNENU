@@ -1,7 +1,7 @@
 import { URLSearchParams } from "@mptool/all";
 
-import { SelectInfoOptions, SelectInfoResponse } from "./typings.js";
-import { CommonFailedResponse } from "../../../typings/index.js";
+import type { SelectInfoOptions, SelectInfoResponse } from "./typings.js";
+import type { CommonFailedResponse } from "../../../typings/index.js";
 import { request } from "../../api/index.js";
 import { TextDecoder } from "../utils/encoder.js";
 
@@ -377,10 +377,10 @@ export const getInfo = async ({
   const documentContent = new TextDecoder("gbk").decode(responseStream);
 
   if (documentContent.includes("不在选课时间范围内，无法选课!"))
-    return <CommonFailedResponse>{
+    return {
       success: false,
       msg: "不在选课时间范围内，无法选课!",
-    };
+    } as CommonFailedResponse;
 
   const courseTable = getCourseTable(documentContent);
 
@@ -406,7 +406,7 @@ export const getInfo = async ({
 
   console.log("Personal Information:", currentGrade, currentMajor);
 
-  return <SelectInfoSuccessResponse>{
+  return {
     success: true,
     ...(type === "under" ? underParamsStore : postParamsStore).state!,
     currentLocation,
@@ -422,5 +422,5 @@ export const getInfo = async ({
       ? underCoursesOfficeStore
       : postCoursesStore
     ).state,
-  };
+  } as SelectInfoSuccessResponse;
 };

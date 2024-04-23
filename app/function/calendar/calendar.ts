@@ -19,8 +19,8 @@ $Page(PAGE_ID, {
   data: {
     theme: info.theme,
 
-    calendar: <TimeLineItem[]>[],
-    calendarDetail: <TimeLineItem[]>[],
+    calendar: [] as TimeLineItem[],
+    calendarDetail: [] as TimeLineItem[],
     popupConfig: {
       title: "校历详情",
       cancel: false,

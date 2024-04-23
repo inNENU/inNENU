@@ -24,7 +24,7 @@ $Component({
   },
 
   data: {
-    markers: <(LocationConfig & { id: number })[]>[],
+    markers: [] as (LocationConfig & { id: number })[],
     id: -1,
     title: "",
     hasDetail: false,

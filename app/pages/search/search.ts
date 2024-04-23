@@ -11,16 +11,16 @@ $Page("search", {
     theme: info.theme,
 
     /** 搜索类别 */
-    type: <SearchType>"all",
+    type: "all" as SearchType,
 
     /** 状态栏高度 */
     statusBarHeight: info.statusBarHeight,
 
     /** 候选词 */
-    words: <string[]>[],
+    words: [] as string[],
 
     /** 搜索结果 */
-    result: <SearchResult[]>[],
+    result: [] as SearchResult[],
   },
 
   state: {
@@ -34,7 +34,7 @@ $Page("search", {
     if (options.word) this.search({ detail: { value: options.word } });
 
     this.setData({
-      type: <SearchType>options.type || "all",
+      type: (options.type as SearchType) || "all",
       firstPage: getCurrentPages().length === 1,
       color: getColor(true),
       searchWord: options.word || "",

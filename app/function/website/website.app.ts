@@ -8,7 +8,7 @@ const PAGE_ID = "website";
 
 $Page("website", {
   data: {
-    config: <unknown[]>[],
+    config: [] as unknown[],
   },
 
   onNavigate() {

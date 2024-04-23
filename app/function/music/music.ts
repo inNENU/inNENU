@@ -32,20 +32,20 @@ $Page("music", {
     /** 歌曲总长度 */
     totalTime: 1,
     /** 当前歌曲信息 */
-    currentSong: <SongDetail>{},
+    currentSong: {} as SongDetail,
     /** 是否展示歌曲列表 */
     showSongList: false,
     /** 歌曲列表 */
-    songList: <SongDetail[]>[],
+    songList: [] as SongDetail[],
     /** 播放模式 */
-    mode: <PlayMode>"列表循环",
+    mode: "列表循环" as PlayMode,
 
     /** 激活的歌词序号 */
     currentLyricId: -1,
     /** 当前歌词 */
     currentLyric: "",
     /** 歌词配置 */
-    lyrics: <Lyric[]>[],
+    lyrics: [] as Lyric[],
 
     /** 弹窗配置 */
     popupConfig: {
@@ -248,7 +248,7 @@ $Page("music", {
       this.setData({
         currentLyric: "",
         currentLyricId: -1,
-        lyrics: <Lyric[]>[],
+        lyrics: [] as Lyric[],
       });
   },
 

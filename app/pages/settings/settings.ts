@@ -22,7 +22,7 @@ $Page("settings", {
   data: {
     theme: info.theme,
     darkmode: info.darkmode,
-    page: <PageDataWithContent>{
+    page: {
       title: PAGE_TITLE,
       desc: `当前版本: ${version}`,
       grey: true,
@@ -97,7 +97,7 @@ $Page("settings", {
           footer: `如果${envName}出现问题请尝试重置${envName}`,
         },
       ],
-    },
+    } as PageDataWithContent,
   },
 
   onLoad() {
@@ -131,7 +131,7 @@ $Page("settings", {
       path: wx.env.USER_DATA_PATH,
       recursive: true,
       success: ({ stats }) => {
-        const fileSize = (<WechatMiniprogram.FileStats[]>stats).reduce(
+        const fileSize = (stats as WechatMiniprogram.FileStats[]).reduce(
           (total, element) => element.stats.size + total,
           0,
         );

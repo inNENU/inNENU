@@ -13,7 +13,7 @@ export const checkActionCookie = async (): Promise<CookieVerifyResponse> => {
 
   if (response.status === 200)
     try {
-      const result = <{ success: boolean }>response.data;
+      const result = response.data as { success: boolean };
 
       return {
         success: true,

@@ -1,12 +1,15 @@
-import { $Component, PropType, get, set } from "@mptool/all";
+import type { PropType } from "@mptool/all";
+import { $Component, get, set } from "@mptool/all";
 
 import { showModal, showToast } from "../../api/index.js";
 import type { AppOption } from "../../app.js";
-import { BORROW_BOOKS_KEY } from "../../config/index.js";
-import { DAY, HOUR } from "../../config/index.js";
+import { BORROW_BOOKS_KEY, DAY, HOUR } from "../../config/index.js";
 import type { BorrowBookData } from "../../service/index.js";
-import { getBorrowBooks, getOnlineBorrowBooks } from "../../service/index.js";
-import { ensureActionLogin } from "../../service/index.js";
+import {
+  ensureActionLogin,
+  getBorrowBooks,
+  getOnlineBorrowBooks,
+} from "../../service/index.js";
 import { user } from "../../state/user.js";
 
 const { useOnlineService } = getApp<AppOption>();
@@ -20,8 +23,8 @@ $Component({
   },
 
   data: {
-    books: <BorrowBookData[]>[],
-    status: <"loading" | "error" | "login" | "success">"loading",
+    books: [] as BorrowBookData[],
+    status: "loading" as "loading" | "error" | "login" | "success",
   },
 
   lifetimes: {

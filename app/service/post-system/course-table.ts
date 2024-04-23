@@ -97,20 +97,20 @@ export const getPostCourseTable = async ({
         msg: "该学期无课表时间信息",
       };
 
-    return <PostCourseTableSuccessResponse>{
+    return {
       success: true,
       data: tableData,
       startTime: semesterStartTime[time],
-    };
+    } as PostCourseTableSuccessResponse;
   } catch (err) {
-    const { message } = <Error>err;
+    const { message } = err as Error;
 
     console.error(err);
 
-    return <CommonFailedResponse>{
+    return {
       success: false,
       msg: message,
-    };
+    } as CommonFailedResponse;
   }
 };
 

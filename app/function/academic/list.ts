@@ -18,8 +18,8 @@ $Page(PAGE_ID, {
 
     theme: info.theme,
 
-    status: <"error" | "success">"success",
-    items: <AcademicInfoItem[]>[],
+    status: "success" as "error" | "success",
+    items: [] as AcademicInfoItem[],
     currentPage: 1,
     totalPage: 1,
   },

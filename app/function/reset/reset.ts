@@ -53,7 +53,7 @@ ${envName}严格使用官方密码重置服务流程。
 `,
     },
 
-    stage: <"info" | "phone" | "password" | "success">"info",
+    stage: "info" as "info" | "phone" | "password" | "success",
 
     id: "",
     mobile: "",
@@ -125,9 +125,11 @@ ${envName}严格使用官方密码重置服务流程。
     wx.showLoading({ title: "正在验证" });
 
     const data = await (useOnlineService(PAGE_ID)
-      ? <Promise<ResetPasswordInfoResponse>>(
-          resetPasswordOnline({ id, mobile, captcha })
-        )
+      ? (resetPasswordOnline({
+          id,
+          mobile,
+          captcha,
+        }) as Promise<ResetPasswordInfoResponse>)
       : verifyAccount({ id, mobile, captcha }));
 
     wx.hideLoading();
@@ -153,9 +155,11 @@ ${envName}严格使用官方密码重置服务流程。
     wx.showLoading({ title: "发送中" });
 
     const data = await (useOnlineService(PAGE_ID)
-      ? <Promise<ResetPasswordSendSMSResponse>>(
-          resetPasswordOnline({ id, mobile, sign })
-        )
+      ? (resetPasswordOnline({
+          id,
+          mobile,
+          sign,
+        }) as Promise<ResetPasswordSendSMSResponse>)
       : sendSMS({ id, mobile, sign }));
 
     wx.hideLoading();
@@ -174,9 +178,12 @@ ${envName}严格使用官方密码重置服务流程。
     wx.showLoading({ title: "验证中" });
 
     const data = await (useOnlineService(PAGE_ID)
-      ? <Promise<ResetPasswordVerifySMSResponse>>(
-          resetPasswordOnline({ id, mobile, sign, code })
-        )
+      ? (resetPasswordOnline({
+          id,
+          mobile,
+          sign,
+          code,
+        }) as Promise<ResetPasswordVerifySMSResponse>)
       : verifySMS({ id, mobile, sign, code }));
 
     wx.hideLoading();
@@ -228,9 +235,14 @@ ${envName}严格使用官方密码重置服务流程。
     wx.showLoading({ title: "重置密码" });
 
     const data = await (useOnlineService(PAGE_ID)
-      ? <Promise<ResetPasswordVerifySMSResponse>>(
-          resetPasswordOnline({ id, mobile, sign, code, password, salt })
-        )
+      ? (resetPasswordOnline({
+          id,
+          mobile,
+          sign,
+          code,
+          password,
+          salt,
+        }) as Promise<ResetPasswordVerifySMSResponse>)
       : setNewPassword({ id, mobile, sign, code, password, salt }));
 
     wx.hideLoading();

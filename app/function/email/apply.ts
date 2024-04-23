@@ -38,7 +38,7 @@ $Page(PAGE_ID, {
 
     isCustom: false,
 
-    accounts: <string[]>[],
+    accounts: [] as string[],
     accountIndex: 0,
     /** 自定义邮箱名称 */
     name: "",
@@ -47,11 +47,11 @@ $Page(PAGE_ID, {
     /** 密保电话 */
     phone: "",
 
-    status: <"apply" | "success" | "error" | "login">"apply",
+    status: "apply" as "apply" | "success" | "error" | "login",
   },
 
   state: {
-    loginMethod: <"check" | "login" | "validate">"validate",
+    loginMethod: "validate" as "check" | "login" | "validate",
     taskId: "",
     instanceId: "",
   },

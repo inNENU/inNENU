@@ -1,5 +1,5 @@
 import { UNDER_STUDY_SERVER } from "./utils.js";
-import { CommonFailedResponse } from "../../../typings/index.js";
+import type { CommonFailedResponse } from "../../../typings/index.js";
 import { request } from "../../api/net.js";
 import type { AuthLoginFailedResponse } from "../auth/index.js";
 // import { LoginFailType } from "../loginFailTypes.js";

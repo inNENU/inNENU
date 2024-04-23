@@ -16,7 +16,7 @@ const PAGE_ID = "school-media";
 
 $Page(PAGE_ID, {
   data: {
-    config: <unknown[]>[],
+    config: [] as unknown[],
 
     type: env,
 

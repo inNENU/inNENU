@@ -1,6 +1,9 @@
 import { URLSearchParams, logger } from "@mptool/all";
 
-import { InputUnderArchiveInfo, UnderArchiveFieldInfo } from "./typings.js";
+import type {
+  InputUnderArchiveInfo,
+  UnderArchiveFieldInfo,
+} from "./typings.js";
 import {
   fieldsRegExp,
   hiddenFieldsRegExp,
@@ -9,7 +12,7 @@ import {
   pathRegExp,
   requiredRegExp,
 } from "./utils.js";
-import { CommonFailedResponse } from "../../../../typings/index.js";
+import type { CommonFailedResponse } from "../../../../typings/index.js";
 import { cookieStore, request } from "../../../api/index.js";
 import { LoginFailType } from "../../loginFailTypes.js";
 import { isWebVPNPage } from "../../utils.js";
@@ -91,7 +94,7 @@ export const submitUnderStudentArchiveInfo = async ({
 
     return {
       success: false,
-      msg: (<Error>err).message,
+      msg: (err as Error).message,
     };
   }
 };

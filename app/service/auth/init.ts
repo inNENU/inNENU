@@ -66,7 +66,7 @@ export const authInitInfo = async (
 
     const captcha = needCaptcha ? await getCaptcha() : null;
 
-    return <AuthInitInfoSuccessResponse>{
+    return {
       success: true,
       needCaptcha,
       captcha,
@@ -80,13 +80,13 @@ export const authInitInfo = async (
         rmShown,
         rememberMe: "on",
       },
-    };
+    } as AuthInitInfoSuccessResponse;
   } catch (err) {
     logger.error(err);
 
     return {
       success: false,
-      msg: (<Error>err).message,
+      msg: (err as Error).message,
     };
   }
 };

@@ -184,7 +184,7 @@ const disposePage = (page: PageData, option: PageOption): PageData => {
  * @param page 页面数据
  */
 const preloadPage = (page: PageData): void => {
-  if (page && page.content)
+  if (page?.content)
     page.content.forEach((component) => {
       const { tag } = component;
 
@@ -383,9 +383,7 @@ export const setPage = (
     // 页面已经预处理完毕，立即写入 page 并执行本界面的预加载
     else if (
       (option.id && globalData.page.id === option.id) ||
-      (ctx.data.page &&
-        ctx.data.page.title &&
-        globalData.page.id === ctx.data.page.title)
+      (ctx.data.page?.title && globalData.page.id === ctx.data.page.title)
     ) {
       const { id } = globalData.page;
 

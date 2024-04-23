@@ -1,8 +1,8 @@
-import { $Component, PropType, get, readFile, set } from "@mptool/all";
+import type { PropType } from "@mptool/all";
+import { $Component, get, readFile, set } from "@mptool/all";
 
 import type { AppOption } from "../../app.js";
-import { INITIALIZED_KEY, WEATHER_KEY } from "../../config/index.js";
-import { MINUTE } from "../../config/index.js";
+import { INITIALIZED_KEY, MINUTE, WEATHER_KEY } from "../../config/index.js";
 import type { WeatherData } from "../../service/index.js";
 import { getOnlineWeather, getWeather } from "../../service/index.js";
 import { getSize } from "../utils.js";
@@ -27,7 +27,7 @@ $Component({
     /** 提示的索引值 */
     tipIndex: 0,
     /** 天气信息 */
-    weather: <WeatherData | null>null,
+    weather: null as WeatherData | null,
   },
 
   lifetimes: {
@@ -35,12 +35,12 @@ $Component({
       const { type } = this.data;
 
       if (wx.getStorageSync(INITIALIZED_KEY)) {
-        const weatherIcon = <Record<string, string>>(
-          JSON.parse((readFile("./icon/weather/icon") as string) || "{}")
-        );
-        const hintIcon = <Record<string, string>>(
-          JSON.parse((readFile("./icon/weather/hint") as string) || "{}")
-        );
+        const weatherIcon = JSON.parse(
+          (readFile("./icon/weather/icon") as string) || "{}",
+        ) as Record<string, string>;
+        const hintIcon = JSON.parse(
+          (readFile("./icon/weather/hint") as string) || "{}",
+        ) as Record<string, string>;
 
         this.setData({
           // 18 点至次日 5 点为夜间
@@ -78,12 +78,12 @@ $Component({
 
     updateIcon() {
       this.setData({
-        weatherIcon: <Record<string, string>>(
-          JSON.parse(readFile("./icon/weather/icon") as string)
-        ),
-        hintIcon: <Record<string, string>>(
-          JSON.parse(readFile("./icon/weather/hint") as string)
-        ),
+        weatherIcon: JSON.parse(
+          readFile("./icon/weather/icon") as string,
+        ) as Record<string, string>,
+        hintIcon: JSON.parse(
+          readFile("./icon/weather/hint") as string,
+        ) as Record<string, string>,
       });
     },
   },
