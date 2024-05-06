@@ -11,9 +11,10 @@
   "include": [
     "app/**/*.ts",
     "app/**/*.wxs",
+    "scripts/**/*.js",
     "typings/**/*.ts",
-    "script/**/*.js",
     "commitlint.config.ts",
+    "eslint.config.js",
     "gulpfile.cjs"
   ]
 }
