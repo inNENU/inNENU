@@ -72,7 +72,7 @@
     "stylelint-config-hope": "6.0.1",
     "typescript": "5.4.5"
   },
-  "packageManager": "pnpm@9.0.6",
+  "packageManager": "pnpm@9.1.1",
   "prettier": {
     "overrides": [
       {
@@ -98,11 +98,11 @@
   },
   "pnpm": {
     "overrides": {
-      "cacache": "^17.0.5",
+      "cacache": "^17.1.4",
       "chokidar": "^3.6.0",
-      "css": "npm:@adobe/css-tools@^4.3.0",
+      "css": "npm:@adobe/css-tools@^4.3.3",
       "glob-parent": "^6.0.2",
-      "glob-stream": "^7.0.0",
+      "glob-stream": "^8.0.0",
       "micromatch": "^4.0.5",
       "yargs-parser": "^21.1.1"
     }
