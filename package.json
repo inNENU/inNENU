@@ -53,7 +53,7 @@
     "@commitlint/config-conventional": "19.2.2",
     "@mr-hope/gulp-sass": "3.1.1",
     "commitizen": "4.3.0",
-    "cz-git": "1.9.1",
+    "cz-git": "1.9.2",
     "del": "7.1.0",
     "eslint": "8.57.0",
     "eslint-config-mister-hope": "0.1.0",
@@ -68,11 +68,11 @@
     "postcss": "8.4.38",
     "prettier": "3.2.5",
     "standard-version": "9.5.0",
-    "stylelint": "16.5.0",
+    "stylelint": "16.6.0",
     "stylelint-config-hope": "6.0.1",
     "typescript": "5.4.5"
   },
-  "packageManager": "pnpm@9.1.1",
+  "packageManager": "pnpm@9.1.2",
   "prettier": {
     "overrides": [
       {
