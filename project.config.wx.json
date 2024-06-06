@@ -44,7 +44,8 @@
     "useApiHostProcess": true,
     "showES6CompileOption": false,
     "condition": true,
-    "skylineRenderEnable": true
+    "skylineRenderEnable": true,
+    "swc": true
   },
   "editorSetting": {
     "tabIndent": "insertSpaces",
@@ -52,7 +53,7 @@
   },
   "projectArchitecture": "multiPlatform",
   "simulatorPluginLibVersion": {
-    "wxext14566970e7e9f62": "2.27.3"
+    "wxext14566970e7e9f62": "3.2.5-25"
   },
   "packOptions": {
     "ignore": [
