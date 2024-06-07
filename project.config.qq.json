@@ -186,7 +186,7 @@
         },
         {
           "name": "通知公告详情",
-          "pathName": "function/announcement/list",
+          "pathName": "function/announcement/detail",
           "query": "from=通知公告&title=关于举办“数苑大讲堂”学术报告会的通知&url=info/4871/263271.htm",
           "scene": null
         },
