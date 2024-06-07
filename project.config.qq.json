@@ -270,7 +270,7 @@
         },
         {
           "name": "本科招生计划",
-          "pathName": "function/enroll/plan",
+          "pathName": "function/enroll/under-plan",
           "query": "",
           "scene": null
         },

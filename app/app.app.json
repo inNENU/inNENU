@@ -34,7 +34,7 @@
     "function/enroll/admission",
     "function/enroll/grade",
     "function/enroll/post-plan",
-    "function/enroll/plan",
+    "function/enroll/under-plan",
     "function/info/detail",
     "function/info/list",
     "function/library/library",

@@ -54,7 +54,7 @@ $Config({
     ["admission", "/function/enroll/admission"],
     ["enroll-grade", "/function/enroll/grade"],
     ["enroll-post-plan", "/function/enroll/post-plan"],
-    ["enroll-plan", "/function/enroll/plan"],
+    ["enroll-under-plan", "/function/enroll/under-plan"],
     ["info-detail", "/function/info/detail"],
     ["info-list", "/function/info/list"],
     ["notice-detail", "/function/notice/detail"],

@@ -9,14 +9,14 @@ import type {
 } from "../../../typings/index.js";
 import { showModal } from "../../api/index.js";
 import { appCoverPrefix } from "../../config/index.js";
-import type { EnrollPlanInfo } from "../../service/index.js";
-import { getEnrollPlan } from "../../service/index.js";
+import type { UnderEnrollPlanInfo } from "../../service/index.js";
+import { getUnderEnrollPlan } from "../../service/index.js";
 import { info } from "../../state/info.js";
 import { ensureResource, getResource } from "../../utils/json.js";
 import { getColor, popNotice } from "../../utils/page.js";
 
-const PAGE_ID = "enroll-plan";
-const PAGE_TITLE = "招生计划";
+const PAGE_ID = "under-enroll-plan";
+const PAGE_TITLE = "本科招生计划";
 
 $Page(PAGE_ID, {
   data: {
@@ -38,13 +38,13 @@ $Page(PAGE_ID, {
       title: "招生计划详情",
       cancel: false,
     },
-    results: [] as EnrollPlanInfo[],
+    results: [] as UnderEnrollPlanInfo[],
   },
 
   state: { enrollPlan: [] as SelectConfig },
 
   onNavigate() {
-    ensureResource("function/enroll/plan");
+    ensureResource("function/enroll/under-plan");
   },
 
   onLoad() {
@@ -53,7 +53,7 @@ $Page(PAGE_ID, {
       theme: info.theme,
     });
 
-    getResource<SelectConfig>("function/enroll/plan")
+    getResource<SelectConfig>("function/enroll/under-plan")
       .then((enrollPlan) => {
         this.state.enrollPlan = enrollPlan;
         this.setData({
@@ -80,7 +80,7 @@ $Page(PAGE_ID, {
 
   onShareAppMessage: () => ({
     title: PAGE_TITLE,
-    path: "/function/enroll/plan",
+    path: "/function/enroll/under-plan",
   }),
 
   onShareTimeline: () => ({ title: PAGE_TITLE }),
@@ -304,7 +304,7 @@ $Page(PAGE_ID, {
 
     wx.showLoading({ title: "检索中" });
 
-    return getEnrollPlan({
+    return getUnderEnrollPlan({
       year: years[yearIndex],
       province: provinces[provinceIndex],
       majorType: majorTypes[majorTypeIndex],
