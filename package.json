@@ -44,7 +44,7 @@
     }
   },
   "dependencies": {
-    "@mptool/all": "0.6.3",
+    "@mptool/all": "0.6.4",
     "miniprogram-recycle-view": "0.1.5",
     "tslib": "2.6.3"
   },
@@ -72,7 +72,7 @@
     "stylelint-config-hope": "6.0.1",
     "typescript": "5.4.5"
   },
-  "packageManager": "pnpm@9.1.4",
+  "packageManager": "pnpm@9.2.0",
   "prettier": {
     "overrides": [
       {

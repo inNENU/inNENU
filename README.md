@@ -24,7 +24,7 @@ https://dsyjs.nenu.edu.cn;
 https://math127.nenu.edu.cn;
 https://www.library.nenu.edu.cn;
 https://www.nenu.edu.cn;
-https://yzb.nenu.edu.cn;
+https://yz.nenu.edu.cn;
 
 https://webvpn.nenu.edu.cn;
 https://authserver-443.webvpn.nenu.edu.cn;
