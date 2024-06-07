@@ -309,8 +309,8 @@
           "scene": null
         },
         {
-          "name": "历史分数",
-          "pathName": "function/enroll/grade",
+          "name": "历史分数线",
+          "pathName": "function/enroll/under-grade",
           "query": "",
           "launchMode": "default",
           "scene": null

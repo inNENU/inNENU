@@ -32,7 +32,7 @@
     "function/email/apply",
     "function/email/email",
     "function/enroll/admission",
-    "function/enroll/grade",
+    "function/enroll/under-grade",
     "function/enroll/post-plan",
     "function/enroll/under-plan",
     "function/info/detail",

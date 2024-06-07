@@ -25,8 +25,6 @@ const getUnderEnrollInfo = async (): Promise<UnderEnrollInfo> => {
   const yearOptions = YEAR_REG_EXP.exec(content)?.[1];
   const provinceOptions = PROVINCE_REG_EXP.exec(content)?.[1];
 
-  console.log(yearOptions, provinceOptions);
-
   if (!yearOptions || !provinceOptions) {
     throw new Error("获取省份和年份信息失败");
   }
@@ -129,6 +127,7 @@ export interface UnderEnrollPlanQueryOptions {
   majorType: string;
   plan: string;
   province: string;
+  year: string;
 }
 
 export interface RawUnderEnrollPlanConfig {

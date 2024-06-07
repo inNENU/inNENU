@@ -7,7 +7,7 @@
   root-background-color="{{color.bgColor}}"
 />
 <view class="{{theme}}">
-  <header title="招生计划" />
+  <header title="历史分数线" />
   <view class="selector">
     <picker
       range="{{utils.getRange(years)}}"
@@ -48,7 +48,7 @@
       科类: {{utils.getDisplay(majorClasses, majorClassIndex)}}
     </picker>
 
-    <button type="primary" class="primary" catch:tap="getPlan">查询</button>
+    <button type="primary" class="primary" catch:tap="getScore">查询</button>
   </view>
   <footer />
 </view>
@@ -59,14 +59,40 @@
   catch:confirm="close"
   catch:close="close"
 >
-  <view wx:for="{{results}}" wx:key="major" class="plan-item">
-    <view class="header">{{item.major}}: {{item.count}}人</view>
+  <view class="filter">
+    <button
+      wx:for="{{titles}}"
+      wx:key="*this"
+      wx:for-item="title"
+      type="{{sortKey === title.key? 'primary': 'default'}}"
+      size="mini"
+      data-key="{{title.key}}"
+      catch:tap="sortResults"
+    >
+      {{title.text}} {{sortKey === title.key? ascending? '↓': '↑': ''}}
+    </button>
+  </view>
+  <view wx:for="{{results}}" wx:key="0" wx:for-item="result" class="grade-item">
+    <view class="header">{{result.major}}</view>
     <view class="info">
-      <view><text class="label">专业属性:</text>{{item.majorType}}</view>
-      <view><text class="label">学制:</text>{{item.years}}</view>
-      <view
-        ><text class="label">学费:</text>{{item.fee == '0'? '免费':
-        item.fee}}</view
+      <view><text class="label">专业类别:</text>{{result.majorType}}</view>
+      <view wx:if="{{result.baseline}}"
+        ><text class="label">重点线:</text>{{result.baseline}}</view
+      >
+      <view wx:if="{{result.minMajorScore}}"
+        ><text class="label">专业录取线:</text>{{result.minMajorScore}}</view
+      >
+      <view wx:if="{{result.minCulturalScore}}"
+        ><text class="label">最低文化成绩:</text
+        >{{result.minCulturalScore}}</view
+      >
+      <view wx:if="{{result.minAdmissionScore}}"
+        ><text class="label">最低录取成绩:</text
+        >{{result.minAdmissionScore}}</view
+      >
+      <view wx:if="{{result.maxAdmissionScore}}"
+        ><text class="label">最高录取成绩:</text
+        >{{result.maxAdmissionScore}}</view
       >
     </view>
   </view>

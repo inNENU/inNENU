@@ -2,10 +2,10 @@ import { $Page } from "@mptool/all";
 
 import { showModal } from "../../api/index.js";
 import { appCoverPrefix } from "../../config/index.js";
-import type { UnderEnrollPlanConfig } from "../../service/index.js";
+import type { UnderHistoryGradeConfig } from "../../service/index.js";
 import {
-  getUnderEnrollPlan,
-  getOnlineUnderEnrollPlan,
+  getOnlineUnderHistoryGrade,
+  getUnderHistoryGrade,
 } from "../../service/index.js";
 import { info } from "../../state/info.js";
 import { getColor, popNotice } from "../../utils/page.js";
@@ -13,8 +13,8 @@ import type { AppOption } from "../../app.js";
 
 const { useOnlineService } = getApp<AppOption>();
 
-const PAGE_ID = "under-enroll-plan";
-const PAGE_TITLE = "本科招生计划";
+const PAGE_ID = "under-history-grade";
+const PAGE_TITLE = "往年分数线";
 
 $Page(PAGE_ID, {
   data: {
@@ -32,11 +32,15 @@ $Page(PAGE_ID, {
     planTypeIndex: 0,
     majorClassIndex: 0,
 
+    titles: [] as { text: string; key: string }[],
+    sortKey: "",
+    ascending: false,
+
     popupConfig: {
-      title: "招生计划详情",
+      title: "历史分数详情",
       cancel: false,
     },
-    results: [] as UnderEnrollPlanConfig[],
+    results: [] as UnderHistoryGradeConfig[],
   },
 
   onLoad() {
@@ -44,7 +48,7 @@ $Page(PAGE_ID, {
       color: getColor(),
       theme: info.theme,
     });
-    this.getPlanInfo();
+    this.getHistoryGradeInfo();
   },
 
   onShow() {
@@ -56,7 +60,7 @@ $Page(PAGE_ID, {
 
   onShareAppMessage: () => ({
     title: PAGE_TITLE,
-    path: "/function/enroll/under-plan",
+    path: "/function/enroll/history-grade",
   }),
 
   onShareTimeline: () => ({ title: PAGE_TITLE }),
@@ -66,11 +70,11 @@ $Page(PAGE_ID, {
     imageUrl: `${appCoverPrefix}.jpg`,
   }),
 
-  async getPlanInfo() {
+  async getHistoryGradeInfo() {
     const { years, provinces } = await (
-      useOnlineService("enroll-under-plan")
-        ? getOnlineUnderEnrollPlan
-        : getUnderEnrollPlan
+      useOnlineService(PAGE_ID)
+        ? getOnlineUnderHistoryGrade
+        : getUnderHistoryGrade
     )({
       type: "info",
     });
@@ -82,9 +86,9 @@ $Page(PAGE_ID, {
     const { yearIndex, years, provinceIndex, provinces } = this.data;
 
     const planTypes = await (
-      useOnlineService("enroll-under-plan")
-        ? getOnlineUnderEnrollPlan
-        : getUnderEnrollPlan
+      useOnlineService(PAGE_ID)
+        ? getOnlineUnderHistoryGrade
+        : getUnderHistoryGrade
     )({
       type: "planType",
       year: years[yearIndex - 1],
@@ -112,9 +116,9 @@ $Page(PAGE_ID, {
     } = this.data;
 
     const majorTypes = await (
-      useOnlineService("enroll-under-plan")
-        ? getOnlineUnderEnrollPlan
-        : getUnderEnrollPlan
+      useOnlineService(PAGE_ID)
+        ? getOnlineUnderHistoryGrade
+        : getUnderHistoryGrade
     )({
       type: "majorType",
       year: years[yearIndex - 1],
@@ -145,9 +149,9 @@ $Page(PAGE_ID, {
     } = this.data;
 
     const majorClasses = await (
-      useOnlineService("enroll-under-plan")
-        ? getOnlineUnderEnrollPlan
-        : getUnderEnrollPlan
+      useOnlineService(PAGE_ID)
+        ? getOnlineUnderHistoryGrade
+        : getUnderHistoryGrade
     )({
       type: "majorClass",
       year: years[yearIndex - 1],
@@ -229,7 +233,7 @@ $Page(PAGE_ID, {
     this.setData({ majorClassIndex: Number(detail.value) });
   },
 
-  getPlan() {
+  getScore() {
     const {
       yearIndex,
       provinceIndex,
@@ -258,7 +262,9 @@ $Page(PAGE_ID, {
     wx.showLoading({ title: "查询中" });
 
     return (
-      useOnlineService(PAGE_ID) ? getOnlineUnderEnrollPlan : getUnderEnrollPlan
+      useOnlineService(PAGE_ID)
+        ? getOnlineUnderHistoryGrade
+        : getUnderHistoryGrade
     )({
       type: "query",
       year: years[yearIndex - 1],
@@ -268,8 +274,75 @@ $Page(PAGE_ID, {
       majorClass: majorClasses[majorClassIndex - 1],
     }).then((data) => {
       wx.hideLoading();
-      this.setData({ results: data });
+      const titles = [
+        {
+          text: "专业",
+          key: "major",
+        },
+        {
+          text: "专业类别",
+          key: "majorType",
+        },
+      ];
+
+      if (data.some(({ minMajorScore }) => minMajorScore > 0))
+        titles.push({
+          text: "专业录取线",
+          key: "minMajorScore",
+        });
+      if (data.some(({ minCulturalScore }) => minCulturalScore > 0))
+        titles.push({
+          text: "最低文化成绩",
+          key: "minCulturalScore",
+        });
+      if (data.some(({ minAdmissionScore }) => minAdmissionScore > 0))
+        titles.push({
+          text: "最低录取成绩",
+          key: "minAdmissionScore",
+        });
+      if (data.some(({ maxAdmissionScore }) => maxAdmissionScore > 0))
+        titles.push({
+          text: "最高录取成绩",
+          key: "maxAdmissionScore",
+        });
+
+      this.setData({ titles, sortKey: "", results: data });
+      this.sortResults({
+        // @ts-expect-error: Fake event
+        currentTarget: { dataset: { key: titles[0].key } },
+      });
     });
+  },
+
+  sortResults({
+    currentTarget,
+  }: WechatMiniprogram.TouchEvent<
+    Record<never, never>,
+    Record<never, never>,
+    { key: keyof UnderHistoryGradeConfig }
+  >) {
+    const { key } = currentTarget.dataset;
+    const { ascending, sortKey, results } = this.data;
+
+    if (key === sortKey) {
+      this.setData({
+        ascending: !ascending,
+        results: results.reverse(),
+      });
+    } else {
+      this.setData({
+        sortKey: key,
+        results: results.sort((itemA, itemB) =>
+          key === "major" || key === "majorType"
+            ? ascending
+              ? itemA[key].localeCompare(itemB[key])
+              : itemB[key].localeCompare(itemA[key])
+            : ascending
+              ? Number(itemB[key]) - Number(itemA[key])
+              : Number(itemA[key]) - Number(itemB[key]),
+        ),
+      });
+    }
   },
 
   close() {
