@@ -16,7 +16,7 @@ import { ensureResource, getResource } from "../../utils/json.js";
 import { getColor, popNotice } from "../../utils/page.js";
 
 const PAGE_ID = "enroll-grade";
-const PAGE_TITLE = "往年分数";
+const PAGE_TITLE = "往年分数线";
 
 $Page(PAGE_ID, {
   data: {

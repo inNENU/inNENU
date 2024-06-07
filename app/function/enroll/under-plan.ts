@@ -92,6 +92,13 @@ $Page(PAGE_ID, {
     });
 
     this.setData({ planTypes });
+
+    if (planTypes.length === 1) {
+      this.setData({ planTypeIndex: 1 });
+      // @ts-expect-error: Fake event
+      this.planTypeChange({ detail: { value: 1 } });
+      this.getMajorType();
+    }
   },
 
   async getMajorType() {
@@ -116,6 +123,13 @@ $Page(PAGE_ID, {
     });
 
     this.setData({ majorTypes });
+
+    if (majorTypes.length === 1) {
+      this.setData({ majorTypeIndex: 1 });
+      // @ts-expect-error: Fake event
+      this.majorTypeChange({ detail: { value: 1 } });
+      this.getMajorClass();
+    }
   },
 
   async getMajorClass() {
@@ -143,6 +157,10 @@ $Page(PAGE_ID, {
     });
 
     this.setData({ majorClasses });
+
+    if (majorClasses.length === 1) {
+      this.setData({ majorClassIndex: 1 });
+    }
   },
 
   yearChange({ detail }: WechatMiniprogram.PickerChange) {
