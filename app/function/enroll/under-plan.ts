@@ -1,22 +1,20 @@
 import { $Page } from "@mptool/all";
 
-import type {
-  CategoryConfig,
-  PlanConfig,
-  ProvinceConfig,
-  SelectConfig,
-  YearConfig,
-} from "../../../typings/index.js";
 import { showModal } from "../../api/index.js";
 import { appCoverPrefix } from "../../config/index.js";
-import type { UnderEnrollPlanInfo } from "../../service/index.js";
-import { getUnderEnrollPlan } from "../../service/index.js";
+import type { UnderEnrollPlanConfig } from "../../service/index.js";
+import {
+  getUnderEnrollPlan,
+  getOnlineUnderEnrollPlan,
+} from "../../service/index.js";
 import { info } from "../../state/info.js";
-import { ensureResource, getResource } from "../../utils/json.js";
 import { getColor, popNotice } from "../../utils/page.js";
+import type { AppOption } from "../../app.js";
 
 const PAGE_ID = "under-enroll-plan";
 const PAGE_TITLE = "本科招生计划";
+
+const { useOnlineService } = getApp<AppOption>();
 
 $Page(PAGE_ID, {
   data: {
@@ -26,25 +24,19 @@ $Page(PAGE_ID, {
     provinces: [] as string[],
     majorTypes: [] as string[],
     planTypes: [] as string[],
-    reformTypes: [] as string[],
+    majorClasses: [] as string[],
 
     yearIndex: 0,
     provinceIndex: 0,
     majorTypeIndex: 0,
     planTypeIndex: 0,
-    reformTypeIndex: 0,
+    majorClassIndex: 0,
 
     popupConfig: {
       title: "招生计划详情",
       cancel: false,
     },
-    results: [] as UnderEnrollPlanInfo[],
-  },
-
-  state: { enrollPlan: [] as SelectConfig },
-
-  onNavigate() {
-    ensureResource("function/enroll/under-plan");
+    results: [] as UnderEnrollPlanConfig[],
   },
 
   onLoad() {
@@ -52,23 +44,7 @@ $Page(PAGE_ID, {
       color: getColor(),
       theme: info.theme,
     });
-
-    getResource<SelectConfig>("function/enroll/under-plan")
-      .then((enrollPlan) => {
-        this.state.enrollPlan = enrollPlan;
-        this.setData({
-          years: ["", ...enrollPlan.map(({ year }) => year)],
-        });
-      })
-      .catch(() => {
-        showModal(
-          "获取失败",
-          "招生计划获取失败，请稍后重试。如果该情况持续发生，请反馈给开发者",
-          () => {
-            void this.$back();
-          },
-        );
-      });
+    this.getPlanInfo();
   },
 
   onShow() {
@@ -90,190 +66,149 @@ $Page(PAGE_ID, {
     imageUrl: `${appCoverPrefix}.jpg`,
   }),
 
-  getProvince(yearConfig: YearConfig) {
-    const { provinces: oldProvinces, provinceIndex: oldProvinceIndex } =
-      this.data;
-    const oldProvince = oldProvinces[oldProvinceIndex];
-    const provinces = ["", ...yearConfig.items.map(({ province }) => province)];
+  async getPlanInfo() {
+    const { years, provinces } = await (
+      useOnlineService("enroll-under-plan")
+        ? getOnlineUnderEnrollPlan
+        : getUnderEnrollPlan
+    )({
+      type: "info",
+    });
 
-    const provinceIndex = provinces.indexOf(oldProvince);
+    this.setData({ years, provinces });
+  },
 
-    return {
-      config: provinceIndex === -1 ? null : yearConfig.items[provinceIndex - 1],
+  async getPlanType() {
+    const { yearIndex, years, provinceIndex, provinces } = this.data;
+
+    const planTypes = await (
+      useOnlineService("enroll-under-plan")
+        ? getOnlineUnderEnrollPlan
+        : getUnderEnrollPlan
+    )({
+      type: "planType",
+      year: years[yearIndex - 1],
+      province: provinces[provinceIndex - 1],
+    });
+
+    this.setData({ planTypes });
+  },
+
+  async getMajorType() {
+    const {
+      yearIndex,
+      years,
+      provinceIndex,
       provinces,
-      provinceIndex: Math.max(provinceIndex, 0),
-    };
-  },
-
-  getPlanType(provinceConfig: ProvinceConfig) {
-    const { planTypes: oldPlanTypes, planTypeIndex: oldPlanTypeIndex } =
-      this.data;
-    const oldPlanType = oldPlanTypes[oldPlanTypeIndex];
-    const planTypes = ["", ...provinceConfig.items.map(({ plan }) => plan)];
-
-    const planTypeIndex = planTypes.indexOf(oldPlanType);
-
-    return {
-      config:
-        planTypeIndex === -1 ? null : provinceConfig.items[planTypeIndex - 1],
+      planTypeIndex,
       planTypes,
-      planTypeIndex: Math.max(planTypeIndex, 0),
-    };
+    } = this.data;
+
+    const majorTypes = await (
+      useOnlineService("enroll-under-plan")
+        ? getOnlineUnderEnrollPlan
+        : getUnderEnrollPlan
+    )({
+      type: "majorType",
+      year: years[yearIndex - 1],
+      province: provinces[provinceIndex - 1],
+      plan: planTypes[planTypeIndex - 1],
+    });
+
+    this.setData({ majorTypes });
   },
 
-  getMajorType(planTypeConfig: PlanConfig) {
-    const { majorTypes: oldMajorTypes, majorTypeIndex: oldMajorTypeIndex } =
-      this.data;
-    const oldMajorType = oldMajorTypes[oldMajorTypeIndex];
-    const majorTypes = [
-      "",
-      ...planTypeConfig.items.map(({ category }) => category),
-    ];
-
-    const majorTypeIndex = majorTypes.indexOf(oldMajorType);
-
-    return {
-      config:
-        majorTypeIndex === -1 ? null : planTypeConfig.items[majorTypeIndex - 1],
+  async getMajorClass() {
+    const {
+      yearIndex,
+      years,
+      provinceIndex,
+      provinces,
+      planTypeIndex,
+      planTypes,
+      majorTypeIndex,
       majorTypes,
-      majorTypeIndex: Math.max(majorTypeIndex, 0),
-    };
-  },
+    } = this.data;
 
-  getReformType(majorTypeConfig: CategoryConfig) {
-    const { reformTypes: oldReformTypes, reformTypeIndex: oldReformTypeIndex } =
-      this.data;
-    const oldReformType = oldReformTypes[oldReformTypeIndex];
-    const reformTypes = ["", ...majorTypeConfig.items.map(({ type }) => type)];
+    const majorClasses = await (
+      useOnlineService("enroll-under-plan")
+        ? getOnlineUnderEnrollPlan
+        : getUnderEnrollPlan
+    )({
+      type: "majorClass",
+      year: years[yearIndex - 1],
+      province: provinces[provinceIndex - 1],
+      plan: planTypes[planTypeIndex - 1],
+      majorType: majorTypes[majorTypeIndex - 1],
+    });
 
-    const reformTypeIndex = reformTypes.indexOf(oldReformType);
-
-    return {
-      reformTypes,
-      reformTypeIndex: Math.max(reformTypeIndex, 0),
-    };
+    this.setData({ majorClasses });
   },
 
   yearChange({ detail }: WechatMiniprogram.PickerChange) {
-    const { enrollPlan } = this.state;
     const yearIndex = Number(detail.value);
 
-    const {
-      config: provinceConfig,
-      provinceIndex,
-      provinces,
-    } = this.getProvince(enrollPlan[yearIndex - 1]);
-    const {
-      config: planTypeConfig = null,
-      planTypeIndex = 0,
-      planTypes = [],
-    } = provinceConfig ? this.getPlanType(provinceConfig) : {};
-    const {
-      config: majorTypeConfig = null,
-      majorTypeIndex = 0,
-      majorTypes = [],
-    } = planTypeConfig ? this.getMajorType(planTypeConfig) : {};
-    const { reformTypeIndex = 0, reformTypes = [] } = majorTypeConfig
-      ? this.getReformType(majorTypeConfig)
-      : {};
-
-    this.setData({
-      yearIndex,
-
-      provinces,
-      planTypes,
-      majorTypes,
-      reformTypes,
-
-      provinceIndex,
-      planTypeIndex,
-      majorTypeIndex,
-      reformTypeIndex,
-    });
+    if (yearIndex !== this.data.yearIndex) {
+      this.setData({
+        yearIndex,
+        provinceIndex: 0,
+        planTypes: [],
+        planTypeIndex: 0,
+        majorTypes: [],
+        majorTypeIndex: 0,
+        majorClasses: [],
+        majorClassIndex: 0,
+      });
+    }
   },
 
   provinceChange({ detail }: WechatMiniprogram.PickerChange) {
-    const { yearIndex } = this.data;
-    const { enrollPlan } = this.state;
     const provinceIndex = Number(detail.value);
 
-    const {
-      config: planTypeConfig = null,
-      planTypeIndex = 0,
-      planTypes = [],
-    } = this.getPlanType(enrollPlan[yearIndex - 1].items[provinceIndex - 1]);
-    const {
-      config: majorTypeConfig = null,
-      majorTypeIndex = 0,
-      majorTypes = [],
-    } = planTypeConfig ? this.getMajorType(planTypeConfig) : {};
-    const { reformTypeIndex = 0, reformTypes = [] } = majorTypeConfig
-      ? this.getReformType(majorTypeConfig)
-      : {};
-
-    this.setData({
-      provinceIndex,
-
-      planTypes,
-      majorTypes,
-      reformTypes,
-      planTypeIndex,
-      majorTypeIndex,
-      reformTypeIndex,
-    });
+    if (provinceIndex !== this.data.provinceIndex) {
+      this.setData({
+        provinceIndex,
+        planTypes: [],
+        planTypeIndex: 0,
+        majorTypes: [],
+        majorTypeIndex: 0,
+        majorClasses: [],
+        majorClassIndex: 0,
+      });
+      this.getPlanType();
+    }
   },
 
   planTypeChange({ detail }: WechatMiniprogram.PickerChange) {
-    const { yearIndex, provinceIndex } = this.data;
-    const { enrollPlan } = this.state;
     const planTypeIndex = Number(detail.value);
 
-    const {
-      config: majorTypeConfig = null,
-      majorTypeIndex = 0,
-      majorTypes = [],
-    } = this.getMajorType(
-      enrollPlan[yearIndex - 1].items[provinceIndex - 1].items[
-        planTypeIndex - 1
-      ],
-    );
-    const { reformTypeIndex = 0, reformTypes = [] } = majorTypeConfig
-      ? this.getReformType(majorTypeConfig)
-      : {};
-
-    this.setData({
-      planTypeIndex,
-
-      majorTypes,
-      reformTypes,
-      majorTypeIndex,
-      reformTypeIndex,
-    });
+    if (planTypeIndex !== this.data.planTypeIndex) {
+      this.setData({
+        planTypeIndex,
+        majorTypes: [],
+        majorTypeIndex: 0,
+        majorClasses: [],
+        majorClassIndex: 0,
+      });
+      this.getMajorType();
+    }
   },
 
   majorTypeChange({ detail }: WechatMiniprogram.PickerChange) {
-    const { yearIndex, provinceIndex, planTypeIndex } = this.data;
-    const { enrollPlan } = this.state;
     const majorTypeIndex = Number(detail.value);
 
-    const { reformTypeIndex = 0, reformTypes = [] } = this.getReformType(
-      enrollPlan[yearIndex - 1].items[provinceIndex - 1].items[
-        planTypeIndex - 1
-      ].items[majorTypeIndex - 1],
-    );
-
-    this.setData({
-      majorTypeIndex,
-
-      reformTypes,
-      reformTypeIndex,
-    });
+    if (majorTypeIndex !== this.data.majorTypeIndex) {
+      this.setData({
+        majorTypeIndex,
+        majorClasses: [],
+        majorClassIndex: 0,
+      });
+      this.getMajorClass();
+    }
   },
 
-  reformTypeChange({ detail }: WechatMiniprogram.PickerChange) {
-    const reformTypeIndex = Number(detail.value);
-
-    this.setData({ reformTypeIndex });
+  majorClassChange({ detail }: WechatMiniprogram.PickerChange) {
+    this.setData({ majorClassIndex: Number(detail.value) });
   },
 
   getPlan() {
@@ -282,12 +217,12 @@ $Page(PAGE_ID, {
       provinceIndex,
       planTypeIndex,
       majorTypeIndex,
-      reformTypeIndex,
+      majorClassIndex,
       years,
       provinces,
       planTypes,
       majorTypes,
-      reformTypes,
+      majorClasses,
     } = this.data;
 
     if (
@@ -295,7 +230,7 @@ $Page(PAGE_ID, {
       provinceIndex === 0 ||
       planTypeIndex === 0 ||
       majorTypeIndex === 0 ||
-      reformTypeIndex === 0
+      majorClassIndex === 0
     ) {
       showModal("缺少选项", "请补充全部选项");
 
@@ -304,21 +239,19 @@ $Page(PAGE_ID, {
 
     wx.showLoading({ title: "检索中" });
 
-    return getUnderEnrollPlan({
+    return (
+      useOnlineService(PAGE_ID) ? getOnlineUnderEnrollPlan : getUnderEnrollPlan
+    )({
+      type: "query",
       year: years[yearIndex],
-      province: provinces[provinceIndex],
-      majorType: majorTypes[majorTypeIndex],
-      planType: planTypes[planTypeIndex],
-      reformType: reformTypes[reformTypeIndex],
-    })
-      .then((data) => {
-        wx.hideLoading();
-        if (data.success) this.setData({ results: data.data });
-        else showModal("获取失败", data.msg);
-      })
-      .catch(() => {
-        showModal("获取失败", "网络请求失败");
-      });
+      province: provinces[provinceIndex - 1],
+      plan: planTypes[planTypeIndex - 1],
+      majorType: majorTypes[majorTypeIndex - 1],
+      majorClass: majorClasses[majorClassIndex - 1],
+    }).then((data) => {
+      wx.hideLoading();
+      this.setData({ results: data });
+    });
   },
 
   close() {

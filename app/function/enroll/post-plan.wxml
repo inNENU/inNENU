@@ -1,5 +1,4 @@
 <wxs src="./post-plan.wxs" module="postPlan" />
-<wxs src="./utils.wxs" module="utils" />
 <page-meta
   background-text-style="{{darkmode ? 'dark' : 'light'}}"
   background-color="{{color.bgColor}}"

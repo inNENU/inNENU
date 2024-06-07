@@ -1,4 +1,4 @@
-<wxs src="./utils.wxs" module="utils" />
+<wxs src="./under-plan.wxs" module="underPlan" />
 <page-meta
   background-text-style="{{darkmode ? 'dark' : 'light'}}"
   background-color="{{color.bgColor}}"
@@ -9,33 +9,43 @@
 <view class="{{theme}}">
   <header title="招生计划" />
   <view class="selector">
-    <picker range="{{years}}" value="{{yearIndex}}" bindchange="yearChange">
-      年份: {{years[yearIndex]}}
+    <picker
+      range="{{underPlan.getRange(years)}}"
+      value="{{yearIndex}}"
+      bindchange="yearChange"
+    >
+      年份: {{underPlan.getDisplay(years, yearIndex)}}
     </picker>
     <picker
-      range="{{provinces}}"
+      range="{{underPlan.getRange(provinces)}}"
       value="{{provinceIndex}}"
       bindchange="provinceChange"
     >
-      省份: {{provinces[provinceIndex]}}
+      省份: {{underPlan.getDisplay(provinces, provinceIndex)}}
     </picker>
     <picker
-      range="{{planTypes}}"
+      wx:if="{{planTypes.length > 0}}"
+      range="{{underPlan.getRange(planTypes)}}"
       value="{{planTypeIndex}}"
       bindchange="planTypeChange"
     >
-      计划性质: {{planTypes[planTypeIndex]}}
+      计划性质: {{underPlan.getDisplay(planTypes, planTypeIndex)}}
     </picker>
     <picker
-      range="{{majorTypes}}"
+      wx:if="{{majorTypes.length > 0}}"
+      range="{{underPlan.getRange(majorTypes)}}"
       value="{{majorTypeIndex}}"
       bindchange="majorTypeChange"
     >
-      专业类别: {{majorTypes[majorTypeIndex]}}
+      专业类别: {{underPlan.getDisplay(majorTypes, majorTypeIndex)}}
     </picker>
-
-    <picker range="{{reformTypes}}" bindchange="reformTypeChange">
-      科类: {{reformTypes[reformTypeIndex]}}
+    <picker
+      wx:if="{{majorClasses.length > 0}}"
+      range="{{underPlan.getRange(majorClasses)}}"
+      value="{{majorClassIndex}}"
+      bindchange="majorClassChange"
+    >
+      科类: {{underPlan.getDisplay(majorClasses, majorClassIndex)}}
     </picker>
 
     <button type="primary" class="primary" catch:tap="getPlan">查询</button>
@@ -52,18 +62,12 @@
   <view wx:for="{{results}}" wx:key="major" class="plan-item">
     <view class="header">{{item.major}}: {{item.count}}人</view>
     <view class="info">
-      <view><text class="label">科类:</text>{{item.planType}}</view>
       <view><text class="label">专业属性:</text>{{item.majorType}}</view>
-      <view><text class="label">学制:</text>{{item.year}}</view>
+      <view><text class="label">学制:</text>{{item.years}}</view>
       <view
         ><text class="label">学费:</text>{{item.fee == '0'? '免费':
         item.fee}}</view
       >
-      <view>
-        <block wx:if="{{item.remark}}">
-          <text class="label">备注:</text>{{item.remark}}
-        </block>
-      </view>
     </view>
   </view>
 </popup>

@@ -1,0 +1,19 @@
+module.exports = {
+  getRange: function (values) {
+    var result = values.map(function (item) {
+      return item;
+    });
+
+    result.unshift("");
+
+    return result;
+  },
+
+  getDisplay: function (values, index) {
+    if (!values.length) {
+      return "";
+    }
+
+    return values[index - 1] || "请选择";
+  },
+};
