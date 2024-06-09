@@ -17,6 +17,7 @@ export default config(
       "app/service/auth/encrypt.d.ts",
       "dist/**",
       "server/**",
+      "temp/**",
     ],
   },
 

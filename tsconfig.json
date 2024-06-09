@@ -11,7 +11,8 @@
   "include": [
     "app/**/*.ts",
     "app/**/*.wxs",
-    "scripts/**/*.js",
+    "scripts/**/*.ts",
+    "temp/**/*.ts",
     "typings/**/*.ts",
     "commitlint.config.ts",
     "eslint.config.js",
