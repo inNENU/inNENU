@@ -11,7 +11,7 @@ import {
   postAdmission,
 } from "../../service/index.js";
 import { popNotice } from "../../utils/page.js";
-import { validateIdCard } from "../utils/validate.js";
+import { validateIdCard } from "../utils/index.js";
 
 const { useOnlineService } = getApp<AppOption>();
 

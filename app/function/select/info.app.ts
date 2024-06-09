@@ -3,7 +3,7 @@ import { URLSearchParams } from "@mptool/all";
 import type { SelectInfoOptions, SelectInfoResponse } from "./typings.js";
 import type { CommonFailedResponse } from "../../../typings/index.js";
 import { request } from "../../api/index.js";
-import { TextDecoder } from "../utils/encoder.js";
+import { TextDecoder } from "../utils/index.js";
 
 const UNDER_COURSE_TYPES = [
   "通识教育必修课",

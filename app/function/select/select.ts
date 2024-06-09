@@ -16,7 +16,7 @@ import { LoginFailType } from "../../service/index.js";
 import { info } from "../../state/info.js";
 import { user } from "../../state/user.js";
 import { getColor, popNotice } from "../../utils/page.js";
-import { promiseQueue } from "../utils/promiseQueue.js";
+import { promiseQueue } from "../utils/index.js";
 
 interface ForceSelectMessage {
   type: "success" | LoginFailType.Expired | "conflict" | "forbidden";
