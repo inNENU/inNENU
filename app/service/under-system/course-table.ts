@@ -5,7 +5,8 @@ import type { CommonFailedResponse } from "../../../typings/response.js";
 import { cookieStore, request } from "../../api/index.js";
 import type { ClassItem, TableItem } from "../../function/course/typings.js";
 import { getResource } from "../../utils/json.js";
-import { LoginFailType, isWebVPNPage } from "../index.js";
+import { LoginFailType } from "../loginFailTypes.js";
+import { isWebVPNPage } from "../utils.js";
 
 const courseRowRegExp =
   /<tr>\s+<td[^>]*>\s+\d+\s+<\/td>\s+((?:<td[^>]*>[\s\S]+?<\/td>\s*?)+)\s+<\/tr>/g;
