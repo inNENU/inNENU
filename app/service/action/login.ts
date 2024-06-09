@@ -5,7 +5,7 @@ import { ACTION_DOMAIN, ACTION_SERVER } from "./utils.js";
 import { cookieStore, request } from "../../api/index.js";
 import type { AccountInfo } from "../../state/user.js";
 import type { AuthLoginFailedResponse } from "../auth/index.js";
-import { authLogin } from "../auth/index.js";
+import { authLocalLogin } from "../auth/index.js";
 import { handleFailResponse } from "../fail.js";
 import { LoginFailType } from "../loginFailTypes.js";
 import { supportRedirect } from "../utils.js";
@@ -30,7 +30,7 @@ export const actionLogin = async (
 
   if (!vpnLoginResult.success) return vpnLoginResult;
 
-  const result = await authLogin(options, {
+  const result = await authLocalLogin(options, {
     service: `${ACTION_SERVER}/portal_main/toPortalPage`,
     webVPN: true,
   });

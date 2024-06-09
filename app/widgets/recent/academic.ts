@@ -2,20 +2,13 @@ import type { PropType } from "@mptool/all";
 import { $Component, get, set } from "@mptool/all";
 
 import { showToast } from "../../api/index.js";
-import type { AppOption } from "../../app.js";
 import { HOUR } from "../../config/index.js";
 import { SITE_ACADEMIC_LIST_KEY } from "../../config/keys.js";
 import type { AcademicInfoItem } from "../../service/index.js";
-import {
-  ensureActionLogin,
-  getAcademicList,
-  getOnlineAcademicList,
-} from "../../service/index.js";
+import { ensureActionLogin, getAcademicList } from "../../service/index.js";
 import { user } from "../../state/user.js";
 import type { WidgetSize, WidgetStatus } from "../utils.js";
 import { getSize } from "../utils.js";
-
-const { useOnlineService } = getApp<AppOption>();
 
 $Component({
   properties: {
@@ -74,11 +67,7 @@ $Component({
         }
 
         try {
-          const result = await (
-            useOnlineService("academic-list")
-              ? getOnlineAcademicList
-              : getAcademicList
-          )();
+          const result = await getAcademicList();
 
           if (result.success) {
             const { data } = result;

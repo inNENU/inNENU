@@ -1,36 +1,23 @@
 import { $Page, get, set } from "@mptool/all";
 
 import { showModal, showToast } from "../../api/index.js";
-import type { AppOption } from "../../app.js";
 import { MINUTE } from "../../config/index.js";
 import { appCoverPrefix, assets } from "../../config/info.js";
 import type {
   ActivateBindPhoneOptions,
-  ActivateBindPhoneResponse,
-  ActivateInfoResponse,
   ActivatePasswordOptions,
-  ActivatePasswordResponse,
   ActivatePhoneSmsOptions,
-  ActivatePhoneSmsResponse,
   ActivateReplacePhoneOptions,
-  ActivateReplacePhoneResponse,
 } from "../../service/index.js";
 import {
-  activateAccountOnline,
-  bindPhone,
-  checkAccount,
-  getImage,
+  activateAccount,
   idTypes,
-  replacePhone,
-  sendSms,
-  setPassword,
   supportRedirect,
 } from "../../service/index.js";
 import { info } from "../../state/info.js";
 import { user } from "../../state/user.js";
 import { getColor, popNotice } from "../../utils/page.js";
 
-const { useOnlineService } = getApp<AppOption>();
 const { envName } = info;
 
 const ACTIVATE_SMS_KEY = "activate-sms-code";
@@ -126,9 +113,7 @@ ${envName}严格使用官方激活流程。
   },
 
   getCaptcha() {
-    return (
-      useOnlineService(PAGE_ID) ? activateAccountOnline("GET") : getImage()
-    ).then(({ license, image }) => {
+    return activateAccount({ type: "captcha" }).then(({ license, image }) => {
       this.setData({ license, image });
     });
   },
@@ -163,9 +148,7 @@ ${envName}严格使用官方激活流程。
 
     wx.showLoading({ title: "正在验证" });
 
-    const data = await (useOnlineService(PAGE_ID)
-      ? (activateAccountOnline(options) as Promise<ActivateInfoResponse>)
-      : checkAccount(options));
+    const data = await activateAccount(options);
 
     wx.hideLoading();
 
@@ -199,9 +182,7 @@ ${envName}严格使用官方激活流程。
 
     wx.showLoading({ title: "发送中" });
 
-    const data = await (useOnlineService(PAGE_ID)
-      ? (activateAccountOnline(options) as Promise<ActivatePhoneSmsResponse>)
-      : sendSms(options));
+    const data = await activateAccount(options);
 
     wx.hideLoading();
 
@@ -223,9 +204,7 @@ ${envName}严格使用官方激活流程。
 
     wx.showLoading({ title: "绑定中" });
 
-    const data = await (useOnlineService(PAGE_ID)
-      ? (activateAccountOnline(options) as Promise<ActivateBindPhoneResponse>)
-      : bindPhone(options));
+    const data = await activateAccount(options);
 
     wx.hideLoading();
 
@@ -242,12 +221,7 @@ ${envName}严格使用官方激活流程。
             code: smsCode,
           };
 
-          (useOnlineService(PAGE_ID)
-            ? (activateAccountOnline(
-                options,
-              ) as Promise<ActivateReplacePhoneResponse>)
-            : replacePhone(options)
-          ).then((data) => {
+          activateAccount(options).then((data) => {
             if (data.success) this.setData({ stage: "password" });
             else showModal("替换失败", data.msg);
           });
@@ -299,9 +273,7 @@ ${envName}严格使用官方激活流程。
       activationId: this.state.activationId,
     };
 
-    const data = await (useOnlineService(PAGE_ID)
-      ? (activateAccountOnline(options) as Promise<ActivatePasswordResponse>)
-      : setPassword(options));
+    const data = await activateAccount(options);
 
     wx.hideLoading();
 

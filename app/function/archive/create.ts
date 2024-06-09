@@ -12,10 +12,7 @@ import type {
 } from "../../service/index.js";
 import {
   LoginFailType,
-  ensureOnlineUnderSystemLogin,
-  ensureUnderSystemLogin,
-  getOnlineUnderStudentArchiveInfo,
-  getUnderStudentArchiveInfo,
+  getCreateUnderStudentArchiveInfo,
   submitOnlineUnderStudentArchiveAddress,
   submitOnlineUnderStudentArchiveFamily,
   submitOnlineUnderStudentArchiveInfo,
@@ -24,6 +21,7 @@ import {
   submitUnderStudentArchiveFamily,
   submitUnderStudentArchiveInfo,
   submitUnderStudentArchiveStudy,
+  ensureUnderStudyLogin,
 } from "../../service/index.js";
 import { info } from "../../state/info.js";
 import { user } from "../../state/user.js";
@@ -214,19 +212,14 @@ $Page(PAGE_ID, {
     wx.showLoading({ title: "获取中" });
 
     try {
-      const err = await (
-        useOnlineService("under-login")
-          ? ensureOnlineUnderSystemLogin
-          : ensureUnderSystemLogin
-      )(user.account!, this.state.loginMethod);
+      const err = await ensureUnderStudyLogin(
+        user.account!,
+        this.state.loginMethod,
+      );
 
       if (err) throw err.msg;
 
-      const result = await (
-        useOnlineService(PAGE_ID)
-          ? getOnlineUnderStudentArchiveInfo
-          : getUnderStudentArchiveInfo
-      )();
+      const result = await getCreateUnderStudentArchiveInfo();
 
       wx.hideLoading();
       this.state.inited = true;
@@ -324,11 +317,10 @@ $Page(PAGE_ID, {
     wx.showLoading({ title: "提交中" });
 
     try {
-      const err = await (
-        useOnlineService("under-login")
-          ? ensureOnlineUnderSystemLogin
-          : ensureUnderSystemLogin
-      )(user.account!, this.state.loginMethod);
+      const err = await ensureUnderStudyLogin(
+        user.account!,
+        this.state.loginMethod,
+      );
 
       if (err) throw err.msg;
 
@@ -411,11 +403,10 @@ $Page(PAGE_ID, {
     wx.showLoading({ title: "提交中" });
 
     try {
-      const err = await (
-        useOnlineService("under-login")
-          ? ensureOnlineUnderSystemLogin
-          : ensureUnderSystemLogin
-      )(user.account!, this.state.loginMethod);
+      const err = await ensureUnderStudyLogin(
+        user.account!,
+        this.state.loginMethod,
+      );
 
       if (err) throw err.msg;
 
@@ -458,11 +449,10 @@ $Page(PAGE_ID, {
     wx.showLoading({ title: "提交中" });
 
     try {
-      const err = await (
-        useOnlineService("under-login")
-          ? ensureOnlineUnderSystemLogin
-          : ensureUnderSystemLogin
-      )(user.account!, this.state.loginMethod);
+      const err = await ensureUnderStudyLogin(
+        user.account!,
+        this.state.loginMethod,
+      );
 
       if (err) throw err.msg;
 
@@ -503,11 +493,10 @@ $Page(PAGE_ID, {
     wx.showLoading({ title: "提交中" });
 
     try {
-      const err = await (
-        useOnlineService("under-login")
-          ? ensureOnlineUnderSystemLogin
-          : ensureUnderSystemLogin
-      )(user.account!, this.state.loginMethod);
+      const err = await ensureUnderStudyLogin(
+        user.account!,
+        this.state.loginMethod,
+      );
 
       if (err) throw err.msg;
 

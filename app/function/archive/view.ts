@@ -6,12 +6,11 @@ import { HOUR } from "../../config/index.js";
 import { STUDENT_ARCHIVE_KEY } from "../../config/keys.js";
 import {
   LoginFailType,
-  ensureOnlineUnderSystemLogin,
-  ensureUnderSystemLogin,
   getUnderStudentArchive,
   registerStudentArchive,
   useOnlineGetStudentArchive,
   useOnlineRegisterStudentArchive,
+  ensureUnderStudyLogin,
 } from "../../service/index.js";
 import { info } from "../../state/info.js";
 import { user } from "../../state/user.js";
@@ -86,11 +85,10 @@ $Page(PAGE_ID, {
     wx.showLoading({ title: "获取中" });
 
     try {
-      const err = await (
-        useOnlineService("under-login")
-          ? ensureOnlineUnderSystemLogin
-          : ensureUnderSystemLogin
-      )(user.account!, this.state.loginMethod);
+      const err = await ensureUnderStudyLogin(
+        user.account!,
+        this.state.loginMethod,
+      );
 
       if (err) throw err.msg;
 
@@ -123,11 +121,10 @@ $Page(PAGE_ID, {
     wx.showLoading({ title: "注册中" });
 
     try {
-      const err = await (
-        useOnlineService("under-login")
-          ? ensureOnlineUnderSystemLogin
-          : ensureUnderSystemLogin
-      )(user.account!, this.state.loginMethod);
+      const err = await ensureUnderStudyLogin(
+        user.account!,
+        this.state.loginMethod,
+      );
 
       if (err) throw err.msg;
 

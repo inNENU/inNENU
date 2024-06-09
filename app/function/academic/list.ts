@@ -1,13 +1,10 @@
 import { $Page } from "@mptool/all";
 
-import type { AppOption } from "../../app.js";
 import { appCoverPrefix } from "../../config/index.js";
 import type { AcademicInfoItem } from "../../service/index.js";
-import { getAcademicList, getOnlineAcademicList } from "../../service/index.js";
+import { getAcademicList } from "../../service/index.js";
 import { info } from "../../state/info.js";
 import { getColor, popNotice } from "../../utils/page.js";
-
-const { useOnlineService } = getApp<AppOption>();
 
 const PAGE_ID = "info-list";
 const PAGE_TITLE = "学术预告";
@@ -36,30 +33,22 @@ $Page(PAGE_ID, {
     popNotice(PAGE_ID);
   },
 
-  onShareAppMessage(): WechatMiniprogram.Page.ICustomShareContent {
-    return {
-      title: PAGE_TITLE,
-      path: `/function/academic/list`,
-    };
-  },
+  onShareAppMessage: () => ({
+    title: PAGE_TITLE,
+    path: `/function/academic/list`,
+  }),
 
-  onShareTimeline(): WechatMiniprogram.Page.ICustomTimelineContent {
-    return { title: PAGE_TITLE };
-  },
+  onShareTimeline: () => ({ title: PAGE_TITLE }),
 
-  onAddToFavorites(): WechatMiniprogram.Page.IAddToFavoritesContent {
-    return {
-      title: PAGE_TITLE,
-      imageUrl: `${appCoverPrefix}.jpg`,
-    };
-  },
+  onAddToFavorites: () => ({
+    title: PAGE_TITLE,
+    imageUrl: `${appCoverPrefix}.jpg`,
+  }),
 
   async getAcademicList(page = 1) {
     wx.showLoading({ title: "获取中" });
 
-    const result = await (
-      useOnlineService(PAGE_ID) ? getOnlineAcademicList : getAcademicList
-    )({
+    const result = await getAcademicList({
       page,
       totalPage: this.data.totalPage,
     });

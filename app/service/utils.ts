@@ -1,3 +1,5 @@
+import type { AppOption } from "../app.js";
+
 // 检测环境是否支持重定向
 const [major, minor, patch] = (wx.getAppBaseInfo || wx.getSystemInfoSync)()
   .SDKVersion.split(".")
@@ -9,6 +11,24 @@ const isDevTools =
 export const supportRedirect =
   !isDevTools &&
   (major > 3 || (major === 3 && (minor > 2 || (minor === 2 && patch >= 2))));
+
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+export const createService = <T extends (...args: any) => any>(
+  name: string,
+  localService: T,
+  onlineService: T,
+): T =>
+  ((...args: Parameters<T>): ReturnType<T> => {
+    const { globalData } = getApp<AppOption>();
+
+    const shouldUseOnlineService =
+      globalData.service[name] === "online" ||
+      globalData.service.forceOnline ||
+      false;
+
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-return
+    return (shouldUseOnlineService ? onlineService : localService)(...args);
+  }) as T;
 
 export const getIETimeStamp = (): number => {
   const time = new Date().getMilliseconds();

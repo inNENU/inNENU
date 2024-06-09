@@ -1,6 +1,7 @@
 import { MAIN_URL, getPageView } from "./utils.js";
 import type { CommonFailedResponse } from "../../../typings/index.js";
 import { request } from "../../api/index.js";
+import { createService } from "../utils.js";
 
 const totalItemsRegExp = /<span class="p_t">共(\d+)条<\/span>/;
 const pageViewRegExp =
@@ -39,7 +40,7 @@ export type AnnouncementListResponse =
 
 let totalPageState = 0;
 
-export const getAnnouncementList = async ({
+export const getAnnouncementListLocal = async ({
   page = 1,
   totalPage = totalPageState,
 }: AnnouncementListOptions = {}): Promise<AnnouncementListResponse> => {
@@ -86,10 +87,16 @@ export const getAnnouncementList = async ({
   }
 };
 
-export const getOnlineAnnouncementList = async (
+export const getAnnouncementListOnline = async (
   options: AnnouncementListOptions = {},
 ): Promise<AnnouncementListResponse> =>
   request<AnnouncementListResponse>(`/main/announcement-list`, {
     method: "post",
     body: options,
   }).then(({ data }) => data);
+
+export const getAnnouncementList = createService(
+  "announcement-list",
+  getAnnouncementListLocal,
+  getAnnouncementListOnline,
+);

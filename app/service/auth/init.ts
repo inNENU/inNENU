@@ -8,7 +8,7 @@ import type { AccountInfo, UserInfo } from "../../state/user.js";
 import { LoginFailType } from "../loginFailTypes.js";
 import { getMyInfo } from "../my/info.js";
 import { myLogin } from "../my/login.js";
-import { supportRedirect } from "../utils.js";
+import { createService, supportRedirect } from "../utils.js";
 import { vpnLogin } from "../vpn/login.js";
 
 const LOGIN_URL = `${AUTH_SERVER}/authserver/login`;
@@ -37,7 +37,7 @@ export type AuthInitInfoResponse =
   | AuthInitInfoSuccessResponse
   | AuthInitFailedResponse;
 
-export const authInitInfo = async (
+export const getAuthInitInfoLocal = async (
   id: string,
 ): Promise<AuthInitInfoResponse> => {
   try {
@@ -91,7 +91,7 @@ export const authInitInfo = async (
   }
 };
 
-export const onlineAuthInitInfo = async (
+export const getAuthInitInfoOnline = async (
   id: string,
 ): Promise<AuthInitInfoResponse> => {
   cookieStore.clear();
@@ -105,6 +105,12 @@ export const onlineAuthInitInfo = async (
 
   return result;
 };
+
+export const getAuthInitInfo = createService(
+  "auth-init-info",
+  getAuthInitInfoLocal,
+  getAuthInitInfoOnline,
+);
 
 export interface InitAuthOptions extends AccountInfo {
   params: Record<string, string>;
@@ -124,10 +130,10 @@ export interface InitAuthFailedResponse extends CommonFailedResponse {
 
 export type InitAuthResponse = InitAuthSuccessResponse | InitAuthFailedResponse;
 
-export const initAuth = async (
+export const initAuthLocal = async (
   options: InitAuthOptions,
 ): Promise<InitAuthResponse> => {
-  if (!supportRedirect) return onlineInitAuth(options);
+  if (!supportRedirect) return initAuthOnline(options);
 
   const { id, password, salt, captcha, params } = options;
 
@@ -239,7 +245,7 @@ export const initAuth = async (
   };
 };
 
-export const onlineInitAuth = async (
+export const initAuthOnline = async (
   options: InitAuthOptions,
 ): Promise<InitAuthResponse> => {
   const { data: result } = await request<InitAuthResponse>("/auth/init", {
@@ -252,3 +258,9 @@ export const onlineInitAuth = async (
 
   return result;
 };
+
+export const initAuth = createService(
+  "init-auth",
+  initAuthLocal,
+  initAuthOnline,
+);

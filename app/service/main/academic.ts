@@ -4,6 +4,7 @@ import { getRichTextNodes } from "@mptool/all";
 import { MAIN_URL, getPageView } from "./utils.js";
 import type { CommonFailedResponse } from "../../../typings/index.js";
 import { request } from "../../api/index.js";
+import { createService } from "../utils.js";
 
 const infoRegExp =
   /<div class="ar_tit">\s*<h3>([^>]+)<\/h3>\s*<h6>([\s\S]+?)<\/h6>/;
@@ -24,7 +25,7 @@ export type AcademicInfoResponse =
   | AcademicInfoSuccessResponse
   | CommonFailedResponse;
 
-export const getAcademic = async (
+export const getAcademicDetailLocal = async (
   url: string,
 ): Promise<AcademicInfoResponse> => {
   try {
@@ -76,7 +77,15 @@ export const getAcademic = async (
   }
 };
 
-export const getOnlineAcademic = (url: string): Promise<AcademicInfoResponse> =>
+export const getAcademicDetailOnline = (
+  url: string,
+): Promise<AcademicInfoResponse> =>
   request<AcademicInfoResponse>(`/main/academic?url=${url}`).then(
     ({ data }) => data,
   );
+
+export const getAcademicDetail = createService(
+  "academic-detail",
+  getAcademicDetailLocal,
+  getAcademicDetailOnline,
+);

@@ -2,6 +2,7 @@ import type { RichTextNode } from "@mptool/all";
 import { encodeBase64, getRichTextNodes } from "@mptool/all";
 
 import { request } from "../../api/index.js";
+import { createService } from "../utils.js";
 
 const ACTIVATE_SERVER = "https://activate.nenu.edu.cn";
 
@@ -16,7 +17,11 @@ export interface ActivateFailedResponse {
   msg: string;
 }
 
-export interface ActivateImageResponse {
+export interface ActivateCaptchaOptions {
+  type: "captcha";
+}
+
+export interface ActivateCaptchaResponse {
   success: true;
   license: RichTextNode[];
   image: string;
@@ -31,7 +36,10 @@ export const idTypes = [
   "港澳台居民居住证",
 ] as const;
 
-export const getImage = async (): Promise<ActivateImageResponse> => {
+const getCaptcha = async (
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  _options?: ActivateCaptchaOptions,
+): Promise<ActivateCaptchaResponse> => {
   const LICENSE_NODES = await getRichTextNodes(LICENSE_TEXT);
   const { data } = await request<ArrayBuffer>(
     `${ACTIVATE_SERVER}/api/staff/activate/imageCode`,
@@ -85,7 +93,7 @@ export type ActivateInfoResponse =
   | ActivateInfoSuccessResponse
   | ActivateFailedResponse;
 
-export const checkAccount = async ({
+const checkAccount = async ({
   schoolID,
   name,
   id,
@@ -143,7 +151,7 @@ export type ActivatePhoneSmsResponse =
   | ActivateSuccessResponse
   | ActivateFailedResponse;
 
-export const sendSms = async ({
+const sendSms = async ({
   activationId,
   mobile,
 }: ActivatePhoneSmsOptions): Promise<ActivatePhoneSmsResponse> => {
@@ -185,7 +193,7 @@ export type ActivateBindPhoneResponse =
   | ActivateSuccessResponse
   | ActivateBindPhoneConflictResponse;
 
-export const bindPhone = async ({
+const bindPhone = async ({
   activationId,
   code,
   mobile,
@@ -227,7 +235,7 @@ export type ActivateReplacePhoneResponse =
   | ActivateSuccessResponse
   | ActivateFailedResponse;
 
-export const replacePhone = async ({
+const replacePhone = async ({
   activationId,
   code,
   mobile,
@@ -260,7 +268,7 @@ export type ActivatePasswordResponse =
   | ActivateSuccessResponse
   | ActivateFailedResponse;
 
-export const setPassword = async ({
+const setPassword = async ({
   activationId,
   password,
 }: ActivatePasswordOptions): Promise<ActivatePasswordResponse> => {
@@ -283,35 +291,50 @@ export const setPassword = async ({
 };
 
 export type ActivateOptions =
+  | ActivateCaptchaOptions
   | ActivateInfoOptions
   | ActivatePhoneSmsOptions
   | ActivateBindPhoneOptions
   | ActivateReplacePhoneOptions
   | ActivatePasswordOptions;
 
-export const activateAccountOnline = async <T extends ActivateOptions | "GET">(
+export type ActiveResponse<T extends ActivateOptions> =
+  T extends ActivateCaptchaOptions
+    ? ActivateCaptchaResponse
+    : T["type"] extends "info"
+      ? ActivateInfoResponse
+      : T["type"] extends "sms"
+        ? ActivatePhoneSmsResponse
+        : T["type"] extends "bind-phone"
+          ? ActivateBindPhoneResponse
+          : T["type"] extends "replace-phone"
+            ? ActivateReplacePhoneResponse
+            : ActivatePasswordResponse;
+
+export const activateAccountOnline = async <T extends ActivateOptions>(
   options: T,
-): Promise<
-  T extends "GET"
-    ? ActivateImageResponse
-    :
-        | ActivateInfoResponse
-        | ActivatePhoneSmsResponse
-        | ActivateBindPhoneOptions
-        | ActivateReplacePhoneResponse
-        | ActivatePasswordResponse
-> =>
-  request<
-    T extends "GET"
-      ? ActivateImageResponse
-      :
-          | ActivateInfoResponse
-          | ActivatePhoneSmsResponse
-          | ActivateBindPhoneOptions
-          | ActivateReplacePhoneResponse
-          | ActivatePasswordResponse
-  >("/auth/activate", {
-    method: options === "GET" ? "GET" : "POST",
-    ...(options === "GET" ? {} : { body: options }),
+): Promise<ActiveResponse<T>> =>
+  request<ActiveResponse<T>>("/auth/activate", {
+    method: options.type === "captcha" ? "GET" : "POST",
+    ...(options.type === "captcha" ? {} : { body: options }),
     cookieScope: `${ACTIVATE_SERVER}/api/`,
   }).then(({ data }) => data);
+
+export const activateAccount: <T extends ActivateOptions>(
+  options: T,
+) => Promise<ActiveResponse<T>> = createService(
+  "activate",
+  <T extends ActivateOptions>(options: T): Promise<ActiveResponse<T>> =>
+    (options.type === "captcha"
+      ? getCaptcha()
+      : options.type === "info"
+        ? checkAccount(options)
+        : options.type === "sms"
+          ? sendSms(options)
+          : options.type === "bind-phone"
+            ? bindPhone(options)
+            : options.type === "replace-phone"
+              ? replacePhone(options)
+              : setPassword(options)) as Promise<ActiveResponse<T>>,
+  activateAccountOnline,
+);

@@ -8,10 +8,10 @@ import { UNDER_SYSTEM_DOMAIN, UNDER_SYSTEM_SERVER } from "./utils.js";
 import { cookieStore, request } from "../../api/index.js";
 import type { AccountInfo } from "../../state/user.js";
 import type { AuthLoginFailedResponse } from "../auth/index.js";
-import { authLogin } from "../auth/index.js";
+import { authLocalLogin } from "../auth/index.js";
 import { handleFailResponse } from "../fail.js";
 import { LoginFailType } from "../loginFailTypes.js";
-import { supportRedirect } from "../utils.js";
+import { createService, supportRedirect } from "../utils.js";
 import type { VPNLoginFailedResponse } from "../vpn/index.js";
 import { vpnCASLogin } from "../vpn/login.js";
 
@@ -33,7 +33,7 @@ export const underSystemLogin = async (
 
   if (!vpnLoginResult.success) return vpnLoginResult;
 
-  const result = await authLogin(options, {
+  const result = await authLocalLogin(options, {
     service: "http://dsjx.nenu.edu.cn:80/",
     webVPN: true,
   });
@@ -117,7 +117,7 @@ const hasCookie = (): boolean =>
     .getCookies(UNDER_SYSTEM_SERVER)
     .some(({ domain }) => domain === UNDER_SYSTEM_DOMAIN);
 
-export const ensureUnderSystemLogin = async (
+export const ensureUnderSystemLoginLocal = async (
   account: AccountInfo,
   status: "check" | "validate" | "login" = "check",
 ): Promise<AuthLoginFailedResponse | VPNLoginFailedResponse | null> => {
@@ -136,7 +136,7 @@ export const ensureUnderSystemLogin = async (
   return result.success ? null : result;
 };
 
-export const ensureOnlineUnderSystemLogin = async (
+export const ensureUnderSystemLoginOnline = async (
   account: AccountInfo,
   status: "check" | "validate" | "login" = "check",
 ): Promise<AuthLoginFailedResponse | VPNLoginFailedResponse | null> => {
@@ -154,3 +154,9 @@ export const ensureOnlineUnderSystemLogin = async (
 
   return result.success ? null : result;
 };
+
+export const ensureUnderSystemLogin = createService(
+  "under-login",
+  ensureUnderSystemLoginLocal,
+  ensureUnderSystemLoginOnline,
+);

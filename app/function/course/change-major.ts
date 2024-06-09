@@ -8,10 +8,9 @@ import { CHANGE_MAJOR_DATA_KEY } from "../../config/keys.js";
 import type { ChangeMajorPlan } from "../../service/index.js";
 import {
   LoginFailType,
-  ensureOnlineUnderSystemLogin,
-  ensureUnderSystemLogin,
   getOnlineUnderChangeMajorPlan,
   getUnderChangeMajorPlans,
+  ensureUnderStudyLogin,
 } from "../../service/index.js";
 import { info } from "../../state/info.js";
 import { user } from "../../state/user.js";
@@ -106,11 +105,10 @@ $Page(PAGE_ID, {
     wx.showLoading({ title: "获取中" });
 
     try {
-      const err = await (
-        useOnlineService("under-login")
-          ? ensureOnlineUnderSystemLogin
-          : ensureUnderSystemLogin
-      )(user.account!, this.state.loginMethod);
+      const err = await ensureUnderStudyLogin(
+        user.account!,
+        this.state.loginMethod,
+      );
 
       if (err) throw err.msg;
 

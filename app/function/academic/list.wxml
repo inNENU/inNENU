@@ -8,6 +8,7 @@
 />
 <view class="{{theme}} grey academic-wrapper">
   <navbar nav="{{ { title } }}" />
+
   <view class="academic-list">
     <error-hint wx:if="{{status === 'error'}}" catch:retry="retry" />
     <block wx:else>
@@ -43,6 +44,8 @@
       </view>
     </block>
   </view>
+
+  <!-- 分页组件 -->
   <view wx:if="{{status === 'success'}}" class="pagination">
     <button
       size="mini"

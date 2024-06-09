@@ -5,7 +5,7 @@ import { MY_DOMAIN, MY_MAIN_PAGE, MY_SERVER } from "./utils.js";
 import { cookieStore, request } from "../../api/index.js";
 import type { AccountInfo } from "../../state/user.js";
 import type { AuthLoginFailedResponse } from "../auth/index.js";
-import { authLogin } from "../auth/login.js";
+import { authLocalLogin } from "../auth/login.js";
 import { handleFailResponse } from "../fail.js";
 import { LoginFailType } from "../loginFailTypes.js";
 import { supportRedirect } from "../utils.js";
@@ -31,7 +31,7 @@ export const myLogin = async (
 
   if (!vpnLoginResponse.success) return vpnLoginResponse;
 
-  const result = await authLogin(options, {
+  const result = await authLocalLogin(options, {
     service: MY_MAIN_PAGE,
     webVPN: true,
   });

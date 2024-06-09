@@ -12,7 +12,7 @@ import type { CommonFailedResponse } from "../../../typings/index.js";
 import { cookieStore, request } from "../../api/index.js";
 import type { AccountInfo } from "../../state/user.js";
 import { LoginFailType } from "../loginFailTypes.js";
-import { supportRedirect } from "../utils.js";
+import { createService, supportRedirect } from "../utils.js";
 
 export interface AuthLoginOptions {
   service?: string;
@@ -32,7 +32,7 @@ export type AuthLoginResponse =
   | AuthLoginSuccessResponse
   | AuthLoginFailedResponse;
 
-export const authLogin = async (
+export const authLocalLogin = async (
   { id, password }: AccountInfo,
   { service = "", webVPN = false }: AuthLoginOptions = {},
 ): Promise<AuthLoginResponse> => {
@@ -221,3 +221,9 @@ export const authOnlineLogin = async ({
 
   return data;
 };
+
+export const authLogin = createService(
+  "auth-login",
+  authLocalLogin,
+  authOnlineLogin,
+);

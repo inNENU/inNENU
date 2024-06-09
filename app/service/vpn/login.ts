@@ -5,7 +5,7 @@ import type { CommonFailedResponse } from "../../../typings/index.js";
 import { cookieStore, request } from "../../api/index.js";
 import type { AccountInfo } from "../../state/user.js";
 import type { AuthLoginFailedResponse } from "../auth/login.js";
-import { authLogin } from "../auth/login.js";
+import { authLocalLogin } from "../auth/login.js";
 import { LoginFailType } from "../loginFailTypes.js";
 
 const AUTHENTICITY_TOKEN_REGEXP =
@@ -116,7 +116,7 @@ export const vpnCASLogin = async ({
   });
 
   if (casResponse.status === 302) {
-    const authResult = await authLogin(
+    const authResult = await authLocalLogin(
       { id, password },
       {
         service: `${VPN_SERVER}/users/auth/cas/callback?url=${encodeURIComponent(

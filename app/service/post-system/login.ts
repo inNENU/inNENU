@@ -9,7 +9,7 @@ import {
 import { cookieStore, request } from "../../api/index.js";
 import type { AccountInfo } from "../../state/user.js";
 import type { AuthLoginFailedResponse } from "../auth/index.js";
-import { authLogin } from "../auth/login.js";
+import { authLocalLogin } from "../auth/login.js";
 import { handleFailResponse } from "../fail.js";
 import { LoginFailType } from "../loginFailTypes.js";
 import { supportRedirect } from "../utils.js";
@@ -29,7 +29,7 @@ export const postSystemLogin = async (
 ): Promise<PostSystemLoginResult> => {
   if (!supportRedirect) return onlinePostSystemLogin(options);
 
-  const result = await authLogin(options, {
+  const result = await authLocalLogin(options, {
     service: `${POST_SYSTEM_HTTP_SERVER}/`,
   });
 

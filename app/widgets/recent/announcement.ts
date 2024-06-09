@@ -2,20 +2,13 @@ import type { PropType } from "@mptool/all";
 import { $Component, get, set } from "@mptool/all";
 
 import { showToast } from "../../api/index.js";
-import type { AppOption } from "../../app.js";
 import { HOUR } from "../../config/index.js";
 import { SITE_ANNOUNCEMENT_LIST_KEY } from "../../config/keys.js";
 import type { AnnouncementInfoItem } from "../../service/index.js";
-import {
-  ensureActionLogin,
-  getAnnouncementList,
-  getOnlineAnnouncementList,
-} from "../../service/index.js";
+import { ensureActionLogin, getAnnouncementList } from "../../service/index.js";
 import { user } from "../../state/user.js";
 import type { WidgetSize, WidgetStatus } from "../utils.js";
 import { FILTERED_SOURCES, getSize } from "../utils.js";
-
-const { useOnlineService } = getApp<AppOption>();
 
 $Component({
   properties: {
@@ -76,11 +69,7 @@ $Component({
         }
 
         try {
-          const result = await (
-            useOnlineService("announcement-list")
-              ? getOnlineAnnouncementList
-              : getAnnouncementList
-          )();
+          const result = await getAnnouncementList();
 
           if (result.success) {
             const data = result.data

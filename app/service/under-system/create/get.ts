@@ -21,7 +21,7 @@ import {
 import type { CommonFailedResponse } from "../../../../typings/index.js";
 import { cookieStore, request } from "../../../api/index.js";
 import { LoginFailType } from "../../loginFailTypes.js";
-import { getIETimeStamp, isWebVPNPage } from "../../utils.js";
+import { createService, getIETimeStamp, isWebVPNPage } from "../../utils.js";
 import { UNDER_SYSTEM_SERVER } from "../utils.js";
 
 export interface UnderCreateStudentArchiveGetInfoSuccessResponse {
@@ -36,7 +36,7 @@ export type UnderCreateStudentArchiveGetInfoResponse =
   | UnderCreateStudentArchiveGetInfoSuccessResponse
   | (CommonFailedResponse & { type?: LoginFailType.Expired | "created" });
 
-export const getUnderStudentArchiveInfo =
+export const getCreateUnderStudentArchiveInfoLocal =
   async (): Promise<UnderCreateStudentArchiveGetInfoResponse> => {
     try {
       const { data: welcomePageContent } = await request<string>(
@@ -201,9 +201,15 @@ export const getUnderStudentArchiveInfo =
     }
   };
 
-export const getOnlineUnderStudentArchiveInfo =
+export const getCreateUnderStudentArchiveInfoOnline =
   (): Promise<UnderCreateStudentArchiveGetInfoResponse> =>
     onlineUnderStudentArchive<
       Record<never, never>,
       UnderCreateStudentArchiveGetInfoResponse
     >({}, { type: "get-info" });
+
+export const getCreateUnderStudentArchiveInfo = createService(
+  "create-archive",
+  getCreateUnderStudentArchiveInfoLocal,
+  getCreateUnderStudentArchiveInfoOnline,
+);

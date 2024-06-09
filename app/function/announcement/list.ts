@@ -1,16 +1,10 @@
 import { $Page } from "@mptool/all";
 
-import type { AppOption } from "../../app.js";
 import { appCoverPrefix } from "../../config/index.js";
 import type { AnnouncementInfoItem } from "../../service/index.js";
-import {
-  getAnnouncementList,
-  getOnlineAnnouncementList,
-} from "../../service/index.js";
+import { getAnnouncementList } from "../../service/index.js";
 import { info } from "../../state/info.js";
 import { getColor, popNotice } from "../../utils/page.js";
-
-const { useOnlineService } = getApp<AppOption>();
 
 const PAGE_ID = "info-list";
 const PAGE_TITLE = "通知公告";
@@ -60,11 +54,7 @@ $Page(PAGE_ID, {
   async getAnnouncementList(page = 1) {
     wx.showLoading({ title: "获取中" });
 
-    const result = await (
-      useOnlineService(PAGE_ID)
-        ? getOnlineAnnouncementList
-        : getAnnouncementList
-    )({
+    const result = await getAnnouncementList({
       page,
       totalPage: this.data.totalPage,
     });

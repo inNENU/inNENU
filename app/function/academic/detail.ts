@@ -1,18 +1,15 @@
-import { $Page, get, set } from "@mptool/all";
+import { $Page, get, logger, set } from "@mptool/all";
 
 import { showModal, showToast } from "../../api/index.js";
-import type { AppOption } from "../../app.js";
 import {
   STARRED_ACADEMIC_LIST_KEY,
   appCoverPrefix,
   service,
 } from "../../config/index.js";
-import { getAcademic, getOnlineAcademic } from "../../service/index.js";
+import { getAcademicDetail } from "../../service/index.js";
 import { info } from "../../state/info.js";
 import { getColor, popNotice } from "../../utils/page.js";
 import type { StarredAcademic } from "../../widgets/star/typings.js";
-
-const { useOnlineService } = getApp<AppOption>();
 
 const PAGE_ID = "academic-detail";
 
@@ -98,11 +95,12 @@ $Page(PAGE_ID, {
   async getInfo() {
     const { person, url } = this.state;
 
-    const result = await (
-      useOnlineService(PAGE_ID) ? getOnlineAcademic : getAcademic
-    )(url);
+    wx.showLoading({ title: "获取中" });
+
+    const result = await getAcademicDetail(url);
 
     wx.hideLoading();
+
     if (result.success) {
       const { title, time, pageView, content } = result;
 
@@ -115,6 +113,8 @@ $Page(PAGE_ID, {
         pageView,
         content,
       });
+
+      // store info in page state
       this.state.info = {
         title,
         time,
@@ -124,6 +124,7 @@ $Page(PAGE_ID, {
         url,
       };
     } else {
+      logger.error(result.msg);
       this.setData({ status: "error" });
     }
   },

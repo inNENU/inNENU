@@ -1,6 +1,7 @@
 import { MAIN_URL, getPageView } from "./utils.js";
 import type { CommonFailedResponse } from "../../../typings/index.js";
 import { request } from "../../api/index.js";
+import { createService } from "../utils.js";
 
 const listBodyRegExp = /<ul class=".*? xsyg">([\s\S]+?)<\/ul>/;
 const totalItemsRegExp = /<span class="p_t">共(\d+)条<\/span>/;
@@ -36,7 +37,7 @@ export type AcademicListResponse =
 
 let totalPageState = 0;
 
-export const getAcademicList = async ({
+export const getAcademicListLocal = async ({
   page = 1,
   totalPage = totalPageState || 0,
 }: AcademicListOptions = {}): Promise<AcademicListResponse> => {
@@ -84,10 +85,16 @@ export const getAcademicList = async ({
   }
 };
 
-export const getOnlineAcademicList = async (
+export const getAcademicListOnline = async (
   options: AcademicListOptions = {},
 ): Promise<AcademicListResponse> =>
   request<AcademicListResponse>(`/main/academic-list`, {
     method: "post",
     body: options,
   }).then(({ data }) => data);
+
+export const getAcademicList = createService(
+  "academic-list",
+  getAcademicListLocal,
+  getAcademicListOnline,
+);

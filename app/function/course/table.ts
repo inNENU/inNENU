@@ -12,13 +12,12 @@ import {
 import {
   LoginFailType,
   ensureOnlinePostSystemLogin,
-  ensureOnlineUnderSystemLogin,
   ensurePostSystemLogin,
-  ensureUnderSystemLogin,
   getOnlinePostCourseTable,
   getOnlineUnderCourseTable,
   getPostCourseTable,
   getUnderCourseTable,
+  ensureUnderStudyLogin,
 } from "../../service/index.js";
 import { info } from "../../state/info.js";
 import { user } from "../../state/user.js";
@@ -212,11 +211,10 @@ $Page(PAGE_ID, {
   async getUnderCourseData(time: string) {
     wx.showLoading({ title: "获取中" });
     try {
-      const err = await (
-        useOnlineService("under-login")
-          ? ensureOnlineUnderSystemLogin
-          : ensureUnderSystemLogin
-      )(user.account!, this.state.loginMethod);
+      const err = await ensureUnderStudyLogin(
+        user.account!,
+        this.state.loginMethod,
+      );
 
       if (err) throw err.msg;
 
