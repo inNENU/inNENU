@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/naming-convention */
 import { request } from "../../api/index.js";
 
 export interface UnderEnrollInfoOptions {
