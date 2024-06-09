@@ -101,7 +101,7 @@ $Page(PAGE_ID, {
       setPage({ option: { id: "about" }, ctx: this }, page);
     }
 
-    this.$on("data", () => this.setPage());
+    this.$on("settings", () => this.setPage());
   },
 
   onShow() {

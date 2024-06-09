@@ -54,7 +54,7 @@ $Page(PAGE_ID, {
       preloadData || this.data.page,
     );
 
-    this.$on("data", () => this.setPage());
+    this.$on("settings", () => this.setPage());
   },
 
   onShow() {

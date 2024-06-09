@@ -115,7 +115,7 @@ $App<AppOption>({
     else initializeApp();
 
     fetchAppSettings(this.globalData, wx.getStorageSync("test")).then(() => {
-      this.$emit("data");
+      this.$emit("settings");
     });
     startup(this.globalData);
 
@@ -126,7 +126,7 @@ $App<AppOption>({
     console.info(`App awakes after ${time}ms`);
 
     fetchAppSettings(this.globalData, wx.getStorageSync("test")).then(() => {
-      this.$emit("data");
+      this.$emit("settings");
     });
     updateApp();
   },

@@ -52,7 +52,7 @@ $Page(PAGE_ID, {
 
   onLoad() {
     this.setData({ color: getColor(true) });
-    this.$on("data", () => this.setPage());
+    this.$on("settings", () => this.setPage());
   },
 
   onShow() {
