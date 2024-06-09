@@ -94,7 +94,7 @@ export interface Identify {
 export const getIdentity = (): Identify => {
   if (userState.info === null)
     return {
-      id: "unlogin",
+      id: "guest",
       type: null,
       location: null,
     };

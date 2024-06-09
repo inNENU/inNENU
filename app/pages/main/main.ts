@@ -35,6 +35,7 @@ $Page(PAGE_ID, {
   data: {
     theme: info.theme,
     statusBarHeight: info.statusBarHeight,
+    id: getIdentity(),
 
     /** 候选词 */
     words: [] as string[],
@@ -54,14 +55,14 @@ $Page(PAGE_ID, {
       this.data.page,
     );
 
-    this.$on("settings", () => this.setPage());
+    this.$on("settings", () => this.renderPage());
   },
 
   onShow() {
     const widgets = get<WidgetConfig[]>(WIDGET_KEY) || DEFAULT_WIDGETS;
 
     this.setData({ widgets });
-    this.setPage();
+    this.renderPage();
     popNotice(PAGE_ID);
   },
 
@@ -76,7 +77,7 @@ $Page(PAGE_ID, {
   },
 
   async onPullDownRefresh() {
-    this.setPage();
+    this.renderPage();
     await checkResource();
     wx.stopPullDownRefresh();
   },
@@ -128,7 +129,7 @@ $Page(PAGE_ID, {
     return mainPage;
   },
 
-  setPage(): void {
+  renderPage(): void {
     try {
       const pageData = this.loadPage();
 
@@ -139,6 +140,8 @@ $Page(PAGE_ID, {
         get(PAGE_ID) || this.data.page,
       );
     }
+
+    this.setData({ id: getIdentity() });
   },
 
   /**
