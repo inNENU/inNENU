@@ -3,15 +3,9 @@ import { $Page } from "@mptool/all";
 import { showModal } from "../../api/index.js";
 import { appCoverPrefix } from "../../config/index.js";
 import type { UnderHistoryGradeConfig } from "../../service/index.js";
-import {
-  getOnlineUnderHistoryGrade,
-  getUnderHistoryGrade,
-} from "../../service/index.js";
+import { getUnderHistoryGrade } from "../../service/index.js";
 import { info } from "../../state/info.js";
 import { getColor, popNotice } from "../../utils/page.js";
-import type { AppOption } from "../../app.js";
-
-const { useOnlineService } = getApp<AppOption>();
 
 const PAGE_ID = "under-history-grade";
 const PAGE_TITLE = "往年分数线";
@@ -71,11 +65,7 @@ $Page(PAGE_ID, {
   }),
 
   async getHistoryGradeInfo() {
-    const { years, provinces } = await (
-      useOnlineService(PAGE_ID)
-        ? getOnlineUnderHistoryGrade
-        : getUnderHistoryGrade
-    )({
+    const { years, provinces } = await getUnderHistoryGrade({
       type: "info",
     });
 
@@ -85,11 +75,7 @@ $Page(PAGE_ID, {
   async getPlanType() {
     const { yearIndex, years, provinceIndex, provinces } = this.data;
 
-    const planTypes = await (
-      useOnlineService(PAGE_ID)
-        ? getOnlineUnderHistoryGrade
-        : getUnderHistoryGrade
-    )({
+    const planTypes = await getUnderHistoryGrade({
       type: "planType",
       year: years[yearIndex - 1],
       province: provinces[provinceIndex - 1],
@@ -115,11 +101,7 @@ $Page(PAGE_ID, {
       planTypes,
     } = this.data;
 
-    const majorTypes = await (
-      useOnlineService(PAGE_ID)
-        ? getOnlineUnderHistoryGrade
-        : getUnderHistoryGrade
-    )({
+    const majorTypes = await getUnderHistoryGrade({
       type: "majorType",
       year: years[yearIndex - 1],
       province: provinces[provinceIndex - 1],
@@ -148,11 +130,7 @@ $Page(PAGE_ID, {
       majorTypes,
     } = this.data;
 
-    const majorClasses = await (
-      useOnlineService(PAGE_ID)
-        ? getOnlineUnderHistoryGrade
-        : getUnderHistoryGrade
-    )({
+    const majorClasses = await getUnderHistoryGrade({
       type: "majorClass",
       year: years[yearIndex - 1],
       province: provinces[provinceIndex - 1],
@@ -261,11 +239,7 @@ $Page(PAGE_ID, {
 
     wx.showLoading({ title: "查询中" });
 
-    return (
-      useOnlineService(PAGE_ID)
-        ? getOnlineUnderHistoryGrade
-        : getUnderHistoryGrade
-    )({
+    return getUnderHistoryGrade({
       type: "query",
       year: years[yearIndex - 1],
       province: provinces[provinceIndex - 1],

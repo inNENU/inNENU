@@ -14,10 +14,9 @@ import {
   ensureOnlinePostSystemLogin,
   ensurePostSystemLogin,
   getOnlinePostCourseTable,
-  getOnlineUnderCourseTable,
   getPostCourseTable,
-  getUnderCourseTable,
   ensureUnderStudyLogin,
+  getUnderCourseTable,
 } from "../../service/index.js";
 import { info } from "../../state/info.js";
 import { user } from "../../state/user.js";
@@ -221,11 +220,7 @@ $Page(PAGE_ID, {
 
       if (err) throw err.msg;
 
-      const result = await (
-        useOnlineService(PAGE_ID)
-          ? getOnlineUnderCourseTable
-          : getUnderCourseTable
-      )({ time });
+      const result = await getUnderCourseTable({ time });
 
       wx.hideLoading();
       this.state.inited = true;

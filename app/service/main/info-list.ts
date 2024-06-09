@@ -1,6 +1,7 @@
 import { MAIN_URL, getPageView } from "./utils.js";
 import type { CommonFailedResponse } from "../../../typings/index.js";
 import { request } from "../../api/index.js";
+import { createService } from "../utils.js";
 
 const listBodyRegExp = /<ul class=".*? dsyw">([\s\S]+?)<\/ul>/;
 const totalItemsRegExp = /<span class="p_t">共(\d+)条<\/span>/;
@@ -50,7 +51,7 @@ const type2ID = {
 
 const totalPageState: Record<string, number> = {};
 
-export const getInfoList = async ({
+const getInfoListLocal = async ({
   type,
   page = 1,
   totalPage = totalPageState[type] || 0,
@@ -103,10 +104,16 @@ export const getInfoList = async ({
   }
 };
 
-export const getOnlineInfoList = (
+const getInfoListOnline = (
   options: InfoListOptions,
 ): Promise<InfoListResponse> =>
   request<InfoListResponse>("/main/info-list", {
     method: "POST",
     body: options,
   }).then(({ data }) => data);
+
+export const getInfoList = createService(
+  "info-list",
+  getInfoListLocal,
+  getInfoListOnline,
+);

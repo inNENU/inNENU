@@ -1,5 +1,6 @@
 /* eslint-disable @typescript-eslint/naming-convention */
 import { request } from "../../api/index.js";
+import { createService } from "../utils.js";
 
 export interface UnderHistoryGradeInfoOptions {
   type: "info";
@@ -232,7 +233,9 @@ export type UnderHistoryGradeResponse =
   | UnderHistoryGradeDetailsSuccessResponse
   | UnderHistoryGradeSuccessResponse;
 
-export const getUnderHistoryGrade = async <T extends UnderHistoryGradeOptions>(
+export const getUnderHistoryGradeLocal = async <
+  T extends UnderHistoryGradeOptions,
+>(
   options: T,
 ): Promise<
   T extends UnderHistoryGradeInfoOptions
@@ -260,7 +263,7 @@ export const getUnderHistoryGrade = async <T extends UnderHistoryGradeOptions>(
       : string[];
 };
 
-export const getOnlineUnderHistoryGrade = async <
+export const getUnderHistoryGradeOnline = async <
   T extends UnderHistoryGradeOptions,
 >(
   options: T,
@@ -281,3 +284,9 @@ export const getOnlineUnderHistoryGrade = async <
     method: "POST",
     body: options,
   }).then(({ data }) => data);
+
+export const getUnderHistoryGrade = createService(
+  "under-history-grade",
+  getUnderHistoryGradeLocal,
+  getUnderHistoryGradeOnline,
+);

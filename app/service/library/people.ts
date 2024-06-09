@@ -1,5 +1,6 @@
 import type { CommonFailedResponse } from "../../../typings/index.js";
 import { request } from "../../api/index.js";
+import { createService } from "../utils.js";
 
 interface LibraryPeopleRawData {
   code: number;
@@ -25,7 +26,7 @@ export type LibraryPeopleResponse =
   | LibraryPeopleSuccessResponse
   | CommonFailedResponse;
 
-export const getLibraryPeople = async (): Promise<LibraryPeopleResponse> => {
+const getLibraryPeopleLocal = async (): Promise<LibraryPeopleResponse> => {
   const { data } = await request<LibraryPeopleRawData>(
     "https://www.library.nenu.edu.cn/engine2/custom/nenu/onlineUserNum",
   );
@@ -48,5 +49,11 @@ export const getLibraryPeople = async (): Promise<LibraryPeopleResponse> => {
   };
 };
 
-export const getOnlineLibraryPeople = (): Promise<LibraryPeopleResponse> =>
+const getLibraryPeopleOnline = (): Promise<LibraryPeopleResponse> =>
   request<LibraryPeopleResponse>("/library/people").then(({ data }) => data);
+
+export const getLibraryPeople = createService(
+  "library-people",
+  getLibraryPeopleLocal,
+  getLibraryPeopleOnline,
+);

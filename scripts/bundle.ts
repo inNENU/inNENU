@@ -2,11 +2,8 @@ import { existsSync, readdirSync, statSync } from "node:fs";
 import { dirname, join, resolve, sep } from "node:path";
 import { fileURLToPath } from "node:url";
 import commonjs from "@rollup/plugin-commonjs";
-import type { Options } from "rollup-plugin-esbuild";
 import esbuild from "rollup-plugin-esbuild";
 import { rollup } from "rollup";
-// @ts-expect-error: tsconfig is not correct
-import tsconfig from "../tsconfig.json";
 
 // @ts-expect-error: tsconfig is not correct
 // eslint-disable-next-line @typescript-eslint/naming-convention
@@ -58,14 +55,6 @@ rollup({
     esbuild({
       charset: "utf8",
       target: "es2017",
-      tsconfigRaw: {
-        ...tsconfig,
-        // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
-        compilerOptions: {
-          // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
-          ...tsconfig.compilerOptions,
-        },
-      } as Options["tsconfigRaw"],
       minify: true,
     }),
   ],

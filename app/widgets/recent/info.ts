@@ -2,7 +2,6 @@ import type { PropType } from "@mptool/all";
 import { $Component, get, set } from "@mptool/all";
 
 import { showToast } from "../../api/index.js";
-import type { AppOption } from "../../app.js";
 import {} from "../../config/index.js";
 import {
   HOUR,
@@ -12,16 +11,10 @@ import {
   SITE_SOCIAL_LIST_KEY,
 } from "../../config/index.js";
 import type { InfoItem, InfoType } from "../../service/index.js";
-import {
-  ensureActionLogin,
-  getInfoList,
-  getOnlineInfoList,
-} from "../../service/index.js";
+import { ensureActionLogin, getInfoList } from "../../service/index.js";
 import { user } from "../../state/user.js";
 import type { WidgetSize, WidgetStatus } from "../utils.js";
 import { getSize } from "../utils.js";
-
-const { useOnlineService } = getApp<AppOption>();
 
 const getKey = (type: InfoType): string =>
   ({
@@ -115,9 +108,7 @@ $Component({
         }
 
         try {
-          const result = await (
-            useOnlineService("info-list") ? getOnlineInfoList : getInfoList
-          )({
+          const result = await getInfoList({
             type: infoType,
           });
 

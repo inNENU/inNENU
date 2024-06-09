@@ -1,7 +1,6 @@
 import { $Page, get, set } from "@mptool/all";
 
 import { retryAction, showModal } from "../../api/index.js";
-import type { AppOption } from "../../app.js";
 import {
   EXAM_PLACE_DATA_KEY,
   HOUR,
@@ -10,15 +9,13 @@ import {
 import type { ExamPlace } from "../../service/index.js";
 import {
   LoginFailType,
-  getOnlineUnderExamPlace,
-  getUnderExamPlace,
   ensureUnderStudyLogin,
+  getUnderExamPlace,
 } from "../../service/index.js";
 import { info } from "../../state/info.js";
 import { user } from "../../state/user.js";
 import { getColor, popNotice } from "../../utils/page.js";
 
-const { useOnlineService } = getApp<AppOption>();
 const { envName } = info;
 
 const PAGE_ID = "exam-place";
@@ -107,9 +104,7 @@ $Page(PAGE_ID, {
 
       if (err) throw err.msg;
 
-      const result = await (
-        useOnlineService(PAGE_ID) ? getOnlineUnderExamPlace : getUnderExamPlace
-      )();
+      const result = await getUnderExamPlace();
 
       wx.hideLoading();
       this.state.inited = true;

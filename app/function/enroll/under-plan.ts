@@ -3,15 +3,9 @@ import { $Page } from "@mptool/all";
 import { showModal } from "../../api/index.js";
 import { appCoverPrefix } from "../../config/index.js";
 import type { UnderEnrollPlanConfig } from "../../service/index.js";
-import {
-  getUnderEnrollPlan,
-  getOnlineUnderEnrollPlan,
-} from "../../service/index.js";
+import { getUnderEnrollPlan } from "../../service/index.js";
 import { info } from "../../state/info.js";
 import { getColor, popNotice } from "../../utils/page.js";
-import type { AppOption } from "../../app.js";
-
-const { useOnlineService } = getApp<AppOption>();
 
 const PAGE_ID = "under-enroll-plan";
 const PAGE_TITLE = "本科招生计划";
@@ -67,11 +61,7 @@ $Page(PAGE_ID, {
   }),
 
   async getPlanInfo() {
-    const { years, provinces } = await (
-      useOnlineService("enroll-under-plan")
-        ? getOnlineUnderEnrollPlan
-        : getUnderEnrollPlan
-    )({
+    const { years, provinces } = await getUnderEnrollPlan({
       type: "info",
     });
 
@@ -81,11 +71,7 @@ $Page(PAGE_ID, {
   async getPlanType() {
     const { yearIndex, years, provinceIndex, provinces } = this.data;
 
-    const planTypes = await (
-      useOnlineService("enroll-under-plan")
-        ? getOnlineUnderEnrollPlan
-        : getUnderEnrollPlan
-    )({
+    const planTypes = await getUnderEnrollPlan({
       type: "planType",
       year: years[yearIndex - 1],
       province: provinces[provinceIndex - 1],
@@ -111,11 +97,7 @@ $Page(PAGE_ID, {
       planTypes,
     } = this.data;
 
-    const majorTypes = await (
-      useOnlineService("enroll-under-plan")
-        ? getOnlineUnderEnrollPlan
-        : getUnderEnrollPlan
-    )({
+    const majorTypes = await getUnderEnrollPlan({
       type: "majorType",
       year: years[yearIndex - 1],
       province: provinces[provinceIndex - 1],
@@ -144,11 +126,7 @@ $Page(PAGE_ID, {
       majorTypes,
     } = this.data;
 
-    const majorClasses = await (
-      useOnlineService("enroll-under-plan")
-        ? getOnlineUnderEnrollPlan
-        : getUnderEnrollPlan
-    )({
+    const majorClasses = await getUnderEnrollPlan({
       type: "majorClass",
       year: years[yearIndex - 1],
       province: provinces[provinceIndex - 1],
@@ -257,9 +235,7 @@ $Page(PAGE_ID, {
 
     wx.showLoading({ title: "查询中" });
 
-    return (
-      useOnlineService(PAGE_ID) ? getOnlineUnderEnrollPlan : getUnderEnrollPlan
-    )({
+    return getUnderEnrollPlan({
       type: "query",
       year: years[yearIndex - 1],
       province: provinces[provinceIndex - 1],

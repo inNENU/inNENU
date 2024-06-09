@@ -15,7 +15,7 @@ import {
 import type { CommonFailedResponse } from "../../../typings/response.js";
 import { cookieStore, request } from "../../api/index.js";
 import { LoginFailType } from "../loginFailTypes.js";
-import { getIETimeStamp, isWebVPNPage } from "../utils.js";
+import { createService, getIETimeStamp, isWebVPNPage } from "../utils.js";
 
 const headerRegExp = /<title>(.*)<\/title>/;
 const planRegExp =
@@ -160,7 +160,7 @@ export type UnderChangeMajorPlanResponse =
   | UnderChangeMajorPlanSuccessResponse
   | UnderChangeMajorPlanFailedResponse;
 
-export const getUnderChangeMajorPlans =
+const getUnderChangeMajorPlansLocal =
   async (): Promise<UnderChangeMajorPlanResponse> => {
     try {
       const { data: content } = await request<string>(
@@ -198,7 +198,7 @@ export const getUnderChangeMajorPlans =
     }
   };
 
-export const getOnlineUnderChangeMajorPlan =
+const getUnderChangeMajorPlansOnline =
   (): Promise<UnderChangeMajorPlanResponse> =>
     request<UnderChangeMajorPlanResponse>("/under-system/change-major", {
       method: "POST",
@@ -208,3 +208,9 @@ export const getOnlineUnderChangeMajorPlan =
 
       return data;
     });
+
+export const getUnderChangeMajorPlans = createService(
+  "change-major-plan",
+  getUnderChangeMajorPlansLocal,
+  getUnderChangeMajorPlansOnline,
+);

@@ -15,7 +15,7 @@ import {
 import type { CommonFailedResponse } from "../../../typings/index.js";
 import { cookieStore, request } from "../../api/index.js";
 import { LoginFailType } from "../loginFailTypes.js";
-import { isWebVPNPage } from "../utils.js";
+import { createService, isWebVPNPage } from "../utils.js";
 
 const selectRegExp =
   /<select\s+name="kskzid"\s+id="kskzid"[^>]*><option value="">---请选择---<\/option>([\s\S]*?)<\/select>/;
@@ -141,7 +141,7 @@ export type UnderExamPlaceResponse =
   | UnderExamPlaceSuccessResponse
   | UnderExamPlaceFailedResponse;
 
-export const getUnderExamPlace = async (): Promise<UnderExamPlaceResponse> => {
+const getUnderExamPlaceLocal = async (): Promise<UnderExamPlaceResponse> => {
   try {
     const { data: content, status } = await request<string>(INFO_URL, {
       redirect: "manual",
@@ -186,7 +186,7 @@ export const getUnderExamPlace = async (): Promise<UnderExamPlaceResponse> => {
   }
 };
 
-export const getOnlineUnderExamPlace = (): Promise<UnderExamPlaceResponse> =>
+const getUnderExamPlaceOnline = (): Promise<UnderExamPlaceResponse> =>
   request<UnderExamPlaceResponse>("/under-system/exam-place", {
     method: "POST",
     cookieScope: UNDER_SYSTEM_SERVER,
@@ -195,3 +195,9 @@ export const getOnlineUnderExamPlace = (): Promise<UnderExamPlaceResponse> =>
 
     return data;
   });
+
+export const getUnderExamPlace = createService(
+  "exam-place",
+  getUnderExamPlaceLocal,
+  getUnderExamPlaceOnline,
+);

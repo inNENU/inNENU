@@ -1,7 +1,6 @@
 import { $Page, get, readFile, set } from "@mptool/all";
 
 import { showModal } from "../../api/index.js";
-import type { AppOption } from "../../app.js";
 import {
   INITIALIZED_KEY,
   MINUTE,
@@ -9,11 +8,9 @@ import {
   appCoverPrefix,
 } from "../../config/index.js";
 import type { WeatherData } from "../../service/index.js";
-import { getOnlineWeather, getWeather } from "../../service/index.js";
+import { getWeather } from "../../service/index.js";
 import type { WeatherAlarm } from "../../service/weather.js";
 import { info } from "../../state/info.js";
-
-const { useOnlineService } = getApp<AppOption>();
 
 const PAGE_TITLE = "东师天气";
 
@@ -68,13 +65,11 @@ $Page("weather", {
     }
     // 需要重新获取并处理
     else {
-      (useOnlineService("weather") ? getOnlineWeather : getWeather)().then(
-        (weather) => {
-          this.drawCanvas(weather);
-          this.setData({ weather });
-          set(WEATHER_KEY, weather, 5 * MINUTE);
-        },
-      );
+      getWeather().then((weather) => {
+        this.drawCanvas(weather);
+        this.setData({ weather });
+        set(WEATHER_KEY, weather, 5 * MINUTE);
+      });
     }
 
     // 设置页面背景色

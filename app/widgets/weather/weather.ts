@@ -1,13 +1,10 @@
 import type { PropType } from "@mptool/all";
 import { $Component, get, readFile, set } from "@mptool/all";
 
-import type { AppOption } from "../../app.js";
 import { INITIALIZED_KEY, MINUTE, WEATHER_KEY } from "../../config/index.js";
 import type { WeatherData } from "../../service/index.js";
-import { getOnlineWeather, getWeather } from "../../service/index.js";
+import { getWeather } from "../../service/index.js";
 import { getSize } from "../utils.js";
-
-const { useOnlineService } = getApp<AppOption>();
 
 $Component({
   properties: {
@@ -67,9 +64,7 @@ $Component({
       let weather = get<WeatherData>(WEATHER_KEY);
 
       if (!weather) {
-        weather = await (
-          useOnlineService("weather") ? getOnlineWeather : getWeather
-        )();
+        weather = await getWeather();
         set(WEATHER_KEY, weather, 5 * MINUTE);
       }
 

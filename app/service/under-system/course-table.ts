@@ -6,7 +6,7 @@ import { cookieStore, request } from "../../api/index.js";
 import type { ClassItem, TableItem } from "../../function/course/typings.js";
 import { getResource } from "../../utils/json.js";
 import { LoginFailType } from "../loginFailTypes.js";
-import { isWebVPNPage } from "../utils.js";
+import { createService, isWebVPNPage } from "../utils.js";
 
 const courseRowRegExp =
   /<tr>\s+<td[^>]*>\s+\d+\s+<\/td>\s+((?:<td[^>]*>[\s\S]+?<\/td>\s*?)+)\s+<\/tr>/g;
@@ -60,7 +60,7 @@ export type UnderCourseTableResponse =
   | UnderCourseTableSuccessResponse
   | UnderCourseTableFailedResponse;
 
-export const getUnderCourseTable = async ({
+export const getUnderCourseTableLocal = async ({
   time,
 }: UnderCourseTableOptions): Promise<UnderCourseTableResponse> => {
   try {
@@ -115,7 +115,7 @@ export const getUnderCourseTable = async ({
   }
 };
 
-export const getOnlineUnderCourseTable = (
+export const getUnderCourseTableOnline = (
   options: UnderCourseTableOptions,
 ): Promise<UnderCourseTableResponse> =>
   request<UnderCourseTableResponse>("/under-system/course-table", {
@@ -127,3 +127,9 @@ export const getOnlineUnderCourseTable = (
 
     return data;
   });
+
+export const getUnderCourseTable = createService(
+  "course-table",
+  getUnderCourseTableLocal,
+  getUnderCourseTableOnline,
+);

@@ -24,10 +24,10 @@ export type UnderSystemLoginResponse =
   | AuthLoginFailedResponse
   | VPNLoginFailedResponse;
 
-export const underSystemLogin = async (
+export const underSystemLoginLocal = async (
   options: AccountInfo,
 ): Promise<UnderSystemLoginResponse> => {
-  if (!supportRedirect) return onlineUnderSystemLogin(options);
+  if (!supportRedirect) return underSystemLoginOnline(options);
 
   const vpnLoginResult = await vpnCASLogin(options);
 
@@ -92,7 +92,7 @@ export const underSystemLogin = async (
   };
 };
 
-export const onlineUnderSystemLogin = async (
+export const underSystemLoginOnline = async (
   options: AccountInfo,
 ): Promise<UnderSystemLoginResponse> => {
   const { data } = await request<UnderSystemLoginResponse>(
@@ -131,7 +131,7 @@ export const ensureUnderSystemLoginLocal = async (
     }
   }
 
-  const result = await underSystemLogin(account);
+  const result = await underSystemLoginLocal(account);
 
   return result.success ? null : result;
 };
@@ -150,7 +150,7 @@ export const ensureUnderSystemLoginOnline = async (
     }
   }
 
-  const result = await onlineUnderSystemLogin(account);
+  const result = await underSystemLoginOnline(account);
 
   return result.success ? null : result;
 };

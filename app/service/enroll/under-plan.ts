@@ -1,5 +1,6 @@
 /* eslint-disable @typescript-eslint/naming-convention */
 import { request } from "../../api/index.js";
+import { createService } from "../utils.js";
 
 export interface UnderEnrollInfoOptions {
   type: "info";
@@ -206,7 +207,7 @@ export type UnderEnrollPlanResponse =
   | UnderEnrollDetailsSuccessResponse
   | UnderEnrollPlanSuccessResponse;
 
-export const getUnderEnrollPlan = async <T extends UnderEnrollPlanOptions>(
+export const getUnderEnrollPlanLocal = async <T extends UnderEnrollPlanOptions>(
   options: T,
 ): Promise<
   T extends UnderEnrollInfoOptions
@@ -234,7 +235,7 @@ export const getUnderEnrollPlan = async <T extends UnderEnrollPlanOptions>(
       : string[];
 };
 
-export const getOnlineUnderEnrollPlan = async <
+export const getUnderEnrollPlanOnline = async <
   T extends UnderEnrollPlanOptions,
 >(
   options: T,
@@ -255,3 +256,9 @@ export const getOnlineUnderEnrollPlan = async <
     method: "POST",
     body: options,
   }).then(({ data }) => data);
+
+export const getUnderEnrollPlan = createService(
+  "under-enroll-plan",
+  getUnderEnrollPlanLocal,
+  getUnderEnrollPlanOnline,
+);

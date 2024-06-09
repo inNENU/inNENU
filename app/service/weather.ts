@@ -1,5 +1,6 @@
 /* eslint-disable @typescript-eslint/naming-convention */
 import { request } from "../api/index.js";
+import { createService } from "./utils.js";
 
 type Time = `${number}${number}:${number}${number}`;
 type Date =
@@ -274,7 +275,7 @@ export interface WeatherData {
   hints: WeatherHint[];
 }
 
-export const getWeather = async (): Promise<WeatherData> => {
+const getWeatherLocal = async (): Promise<WeatherData> => {
   const {
     data: {
       data: { alarm, ...data },
@@ -467,5 +468,11 @@ export const getWeather = async (): Promise<WeatherData> => {
   };
 };
 
-export const getOnlineWeather = async (): Promise<WeatherData> =>
+const getWeatherOnline = async (): Promise<WeatherData> =>
   request<WeatherData>("/weather").then(({ data }) => data);
+
+export const getWeather = createService(
+  "weather",
+  getWeatherLocal,
+  getWeatherOnline,
+);

@@ -1,7 +1,6 @@
 import { $Page, get, set } from "@mptool/all";
 
 import { retryAction, showModal } from "../../api/index.js";
-import type { AppOption } from "../../app.js";
 import {
   HOUR,
   CHANGE_MAJOR_DATA_KEY,
@@ -10,15 +9,13 @@ import {
 import type { ChangeMajorPlan } from "../../service/index.js";
 import {
   LoginFailType,
-  getOnlineUnderChangeMajorPlan,
-  getUnderChangeMajorPlans,
   ensureUnderStudyLogin,
+  getUnderChangeMajorPlans,
 } from "../../service/index.js";
 import { info } from "../../state/info.js";
 import { user } from "../../state/user.js";
 import { getColor, popNotice } from "../../utils/page.js";
 
-const { useOnlineService } = getApp<AppOption>();
 const { envName } = info;
 const PAGE_ID = "change-major-plan";
 const PAGE_TITLE = "转专业计划";
@@ -114,11 +111,7 @@ $Page(PAGE_ID, {
 
       if (err) throw err.msg;
 
-      const result = await (
-        useOnlineService(PAGE_ID)
-          ? getOnlineUnderChangeMajorPlan
-          : getUnderChangeMajorPlans
-      )();
+      const result = await getUnderChangeMajorPlans();
 
       wx.hideLoading();
       this.state.inited = true;
