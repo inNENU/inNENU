@@ -202,6 +202,12 @@ const buildApp = parallel(
   moveAppAssets,
   getConfigJob("app"),
 );
+const bundleApp = parallel(
+  buildAppWXSS,
+  getAssetsJob("app", { bundle: true }),
+  getMoveScriptJob("app"),
+  getConfigJob("app"),
+);
 
 /* Wechat */
 const buildWechatScript = getScriptJob("wx");
@@ -352,6 +358,7 @@ exports.default = buildWechat;
 
 exports.watchApp = watchApp;
 exports.buildApp = buildApp;
+exports.bundleApp = bundleApp;
 
 exports.watchWechat = watchWechat;
 exports.buildWechat = buildWechat;

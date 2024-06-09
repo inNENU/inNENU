@@ -1,7 +1,7 @@
 {
   "miniVersion": "v2",
   "name": "inNENU",
-  "version": "6.8.4",
+  "version": "6.9.1",
   "mini-android": {
     "sdkVersion": "1.3.17",
     "toolkitVersion": "0.7.3",
@@ -54,9 +54,11 @@
       "WeAppOpenFuns": false,
       "WeAppNetwork": false,
       "WeAppBluetooth": false,
-      "WeAppMedia": true,
       "WeAppLBS": true,
-      "WeAppOthers": false
+      "WeAppOthers": false,
+      "WeAppVideo": true,
+      "WeAppImage": true,
+      "WeAppAudio": true
     },
     "enableVConsole": "undefined",
     "icons": {
@@ -100,7 +102,7 @@
       "customImage": "assets/ios-splash.png"
     }
   },
-  "versionCode": 33,
+  "versionCode": 34,
   "mini-plugin": {
     "android": []
   }
