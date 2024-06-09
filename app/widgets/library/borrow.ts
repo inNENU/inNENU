@@ -2,17 +2,10 @@ import type { PropType } from "@mptool/all";
 import { $Component, get, set } from "@mptool/all";
 
 import { showModal, showToast } from "../../api/index.js";
-import type { AppOption } from "../../app.js";
 import { BORROW_BOOKS_KEY, DAY, HOUR } from "../../config/index.js";
 import type { BorrowBookData } from "../../service/index.js";
-import {
-  ensureActionLogin,
-  getBorrowBooks,
-  getOnlineBorrowBooks,
-} from "../../service/index.js";
+import { ensureActionLogin, getBorrowBooks } from "../../service/index.js";
 import { user } from "../../state/user.js";
-
-const { useOnlineService } = getApp<AppOption>();
 
 $Component({
   properties: {
@@ -67,11 +60,7 @@ $Component({
           return this.setData({ status: "error" });
         }
 
-        const result = await (
-          useOnlineService("borrow-books")
-            ? getOnlineBorrowBooks
-            : getBorrowBooks
-        )();
+        const result = await getBorrowBooks();
 
         if (result.success) {
           set(BORROW_BOOKS_KEY, result.data, 3 * HOUR);

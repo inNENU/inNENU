@@ -5,6 +5,7 @@ import type { CommonFailedResponse } from "../../../typings/index.js";
 import { request } from "../../api/index.js";
 import type { AuthLoginFailedResponse } from "../auth/index.js";
 import { LoginFailType } from "../loginFailTypes.js";
+import { createService } from "../utils.js";
 
 const NOTICE_LIST_QUERY_URL = `${ACTION_SERVER}/page/queryList`;
 
@@ -74,7 +75,7 @@ export type NoticeListResponse =
   | NoticeListSuccessResponse
   | CommonFailedResponse;
 
-export const getNoticeList = async ({
+const getNoticeListLocal = async ({
   limit = 20,
   page = 1,
   type = "notice",
@@ -131,7 +132,7 @@ export const getNoticeList = async ({
   }
 };
 
-export const getOnlineNoticeList = (
+const getNoticeListOnline = (
   options: NoticeListOptions,
 ): Promise<NoticeListResponse> =>
   request<NoticeListResponse>("/action/notice-list", {
@@ -139,3 +140,9 @@ export const getOnlineNoticeList = (
     body: options,
     cookieScope: ACTION_SERVER,
   }).then(({ data }) => data);
+
+export const getNoticeList = createService(
+  "notice-list",
+  getNoticeListLocal,
+  getNoticeListOnline,
+);

@@ -1,19 +1,12 @@
 import { $Page } from "@mptool/all";
 
 import { showToast } from "../../api/index.js";
-import type { AppOption } from "../../app.js";
 import { appCoverPrefix } from "../../config/index.js";
 import type { NoticeItem } from "../../service/index.js";
-import {
-  ensureActionLogin,
-  getNoticeList,
-  getOnlineNoticeList,
-} from "../../service/index.js";
+import { ensureActionLogin, getNoticeList } from "../../service/index.js";
 import { info } from "../../state/info.js";
 import { user } from "../../state/user.js";
 import { getColor, popNotice } from "../../utils/page.js";
-
-const { useOnlineService } = getApp<AppOption>();
 
 const PAGE_ID = "notice-list";
 
@@ -88,9 +81,7 @@ $Page(PAGE_ID, {
         return this.setData({ status: "error" });
       }
 
-      const result = await (
-        useOnlineService(PAGE_ID) ? getOnlineNoticeList : getNoticeList
-      )({
+      const result = await getNoticeList({
         page,
         type: this.state.type,
       });

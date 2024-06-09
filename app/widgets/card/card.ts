@@ -2,17 +2,10 @@ import type { PropType } from "@mptool/all";
 import { $Component, get, set } from "@mptool/all";
 
 import { showToast } from "../../api/index.js";
-import type { AppOption } from "../../app.js";
 import { CARD_BALANCE_KEY, MINUTE } from "../../config/index.js";
-import {
-  ensureActionLogin,
-  getCardBalance,
-  getOnlineCardBalance,
-} from "../../service/index.js";
+import { ensureActionLogin, getCardBalance } from "../../service/index.js";
 import { user } from "../../state/user.js";
 import { getSize } from "../utils.js";
-
-const { useOnlineService } = getApp<AppOption>();
 
 $Component({
   properties: {
@@ -76,11 +69,7 @@ $Component({
           this.setData({ status: "error" });
         } else {
           try {
-            const result = await (
-              useOnlineService("card-balance")
-                ? getOnlineCardBalance
-                : getCardBalance
-            )();
+            const result = await getCardBalance();
 
             if (result.success) {
               set(CARD_BALANCE_KEY, result.data, 5 * MINUTE);

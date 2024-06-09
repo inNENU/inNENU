@@ -1,24 +1,17 @@
 import { $Page, get, set } from "@mptool/all";
 
 import { showModal, showToast } from "../../api/index.js";
-import type { AppOption } from "../../app.js";
 import {
   STARRED_NOTICE_LIST_KEY,
   appCoverPrefix,
   service,
 } from "../../config/index.js";
 import type { NoticeType } from "../../service/index.js";
-import {
-  ensureActionLogin,
-  getNotice,
-  getOnlineNotice,
-} from "../../service/index.js";
+import { ensureActionLogin, getNotice } from "../../service/index.js";
 import { info } from "../../state/info.js";
 import { user } from "../../state/user.js";
 import { getColor, popNotice } from "../../utils/page.js";
 import type { StarredNotice } from "../../widgets/star/typings.js";
-
-const { useOnlineService } = getApp<AppOption>();
 
 const PAGE_ID = "notice-detail";
 
@@ -111,9 +104,7 @@ $Page(PAGE_ID, {
         return this.setData({ status: "error" });
       }
 
-      const result = await (
-        useOnlineService(PAGE_ID) ? getOnlineNotice : getNotice
-      )({
+      const result = await getNotice({
         noticeID: id,
       });
 

@@ -15,7 +15,7 @@ import {
 import type { CommonFailedResponse } from "../../../../typings/index.js";
 import { cookieStore, request } from "../../../api/index.js";
 import { LoginFailType } from "../../loginFailTypes.js";
-import { isWebVPNPage } from "../../utils.js";
+import { createService, isWebVPNPage } from "../../utils.js";
 import { UNDER_SYSTEM_SERVER } from "../utils.js";
 
 export interface UnderCreateStudentArchiveSubmitInfoOptions {
@@ -34,7 +34,7 @@ export type UnderCreateStudentArchiveSubmitInfoResponse =
   | UnderCreateStudentArchiveSubmitInfoSuccessResponse
   | (CommonFailedResponse & { type?: LoginFailType.Expired });
 
-export const submitUnderStudentArchiveInfo = async ({
+export const submitUnderStudentArchiveInfoLocal = async ({
   path,
   fields,
 }: UnderCreateStudentArchiveSubmitInfoOptions): Promise<UnderCreateStudentArchiveSubmitInfoResponse> => {
@@ -99,10 +99,16 @@ export const submitUnderStudentArchiveInfo = async ({
   }
 };
 
-export const submitOnlineUnderStudentArchiveInfo = (
+export const submitUnderStudentArchiveInfoOnline = (
   options: UnderCreateStudentArchiveSubmitInfoOptions,
 ): Promise<UnderCreateStudentArchiveSubmitInfoResponse> =>
   onlineUnderStudentArchive<
     UnderCreateStudentArchiveSubmitInfoOptions,
     UnderCreateStudentArchiveSubmitInfoResponse
   >(options, { type: "submit-info" });
+
+export const submitUnderStudentArchiveInfo = createService(
+  "create-archive",
+  submitUnderStudentArchiveInfoLocal,
+  submitUnderStudentArchiveInfoOnline,
+);

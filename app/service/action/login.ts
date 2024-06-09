@@ -1,6 +1,6 @@
 import { logger } from "@mptool/all";
 
-import { checkActionCookie, checkOnlineActionCookie } from "./check.js";
+import { checkActionCookiesLocal, checkActionCookiesOnline } from "./check.js";
 import { ACTION_DOMAIN, ACTION_SERVER } from "./utils.js";
 import { cookieStore, request } from "../../api/index.js";
 import type { AccountInfo } from "../../state/user.js";
@@ -21,10 +21,10 @@ export type ActionLoginResponse =
   | AuthLoginFailedResponse
   | VPNLoginFailedResponse;
 
-export const actionLogin = async (
+export const actionLoginLocal = async (
   options: AccountInfo,
 ): Promise<ActionLoginResponse> => {
-  if (!supportRedirect) return onlineActionLogin(options);
+  if (!supportRedirect) return actionLoginOnline(options);
 
   const vpnLoginResult = await vpnCASLogin(options);
 
@@ -70,7 +70,7 @@ export const actionLogin = async (
   };
 };
 
-export const onlineActionLogin = async (
+export const actionLoginOnline = async (
   options: AccountInfo,
 ): Promise<ActionLoginResponse> => {
   const { data } = await request<ActionLoginResponse>("/action/login", {
@@ -102,13 +102,13 @@ export const ensureActionLogin = async (
     if (hasCookie()) {
       if (status === "check") return null;
 
-      const { valid } = await checkActionCookie();
+      const { valid } = await checkActionCookiesLocal();
 
       if (valid) return null;
     }
   }
 
-  const result = await actionLogin(account);
+  const result = await actionLoginLocal(account);
 
   return result.success ? null : result;
 };
@@ -121,13 +121,13 @@ export const ensureOnlineActionLogin = async (
     if (hasCookie()) {
       if (status === "check") return null;
 
-      const { valid } = await checkOnlineActionCookie();
+      const { valid } = await checkActionCookiesOnline();
 
       if (valid) return null;
     }
   }
 
-  const result = await onlineActionLogin(account);
+  const result = await actionLoginOnline(account);
 
   return result.success ? null : result;
 };

@@ -4,7 +4,7 @@ import { UNDER_SYSTEM_SERVER } from "./utils.js";
 import type { CommonFailedResponse } from "../../../typings/index.js";
 import { cookieStore, request } from "../../api/net.js";
 import { LoginFailType } from "../loginFailTypes.js";
-import { getIETimeStamp, isWebVPNPage } from "../utils.js";
+import { createService, getIETimeStamp, isWebVPNPage } from "../utils.js";
 
 const infoRegExp =
   /<td>(\S+)<\/td>\s+<td colspan="\d">(?:&nbsp;)*(.*?)(?:&nbsp;)*<\/td>/g;
@@ -161,7 +161,7 @@ export type UnderGetStudentArchiveResponse =
   | UnderGetStudentArchiveSuccessResponse
   | (CommonFailedResponse & { type?: LoginFailType.Expired });
 
-export const getUnderStudentArchive =
+export const getUnderStudentArchiveLocal =
   async (): Promise<UnderGetStudentArchiveResponse> => {
     const { data: content, status } = await request<string>(
       `${UNDER_STUDENT_ARCHIVE_QUERY_URL}&tktime=${getIETimeStamp()}`,
@@ -193,7 +193,7 @@ export const getUnderStudentArchive =
     };
   };
 
-export const useOnlineGetStudentArchive =
+export const getUnderStudentArchiveOnline =
   (): Promise<UnderGetStudentArchiveResponse> =>
     request<UnderGetStudentArchiveResponse>("/under-system/student-archive", {
       method: "POST",
@@ -203,6 +203,12 @@ export const useOnlineGetStudentArchive =
 
       return data;
     });
+
+export const getUnderStudentArchive = createService(
+  "view-archive",
+  getUnderStudentArchiveLocal,
+  getUnderStudentArchiveOnline,
+);
 
 const alertRegExp = /window.alert\('(.+?)'\)/;
 
@@ -219,7 +225,7 @@ export type UnderRegisterStudentArchiveResponse =
   | UnderRegisterStudentArchiveSuccessResponse
   | (CommonFailedResponse & { type?: LoginFailType.Expired });
 
-export const registerStudentArchive = async (
+export const registerUnderStudentArchiveLocal = async (
   path: string,
 ): Promise<UnderRegisterStudentArchiveResponse> => {
   const url = `${UNDER_SYSTEM_SERVER}${path}`;
@@ -248,7 +254,7 @@ export const registerStudentArchive = async (
   };
 };
 
-export const useOnlineRegisterStudentArchive = (
+export const registerUnderStudentArchiveOnline = (
   path: string,
 ): Promise<UnderRegisterStudentArchiveResponse> =>
   request<UnderRegisterStudentArchiveResponse>(
@@ -263,3 +269,9 @@ export const useOnlineRegisterStudentArchive = (
 
     return data;
   });
+
+export const registerUnderStudentArchive = createService(
+  "register-archive",
+  registerUnderStudentArchiveLocal,
+  registerUnderStudentArchiveOnline,
+);

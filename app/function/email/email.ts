@@ -1,20 +1,15 @@
 import { $Page } from "@mptool/all";
 
 import { setClipboard, showModal, showToast } from "../../api/index.js";
-import type { AppOption } from "../../app.js";
 import { appCoverPrefix, assets } from "../../config/info.js";
 import {
-  emailPage,
   ensureActionLogin,
-  onlineEmailPage,
-  onlineRecentEmails,
-  recentEmails,
+  getRecentEmails,
+  getEmailPage,
 } from "../../service/index.js";
 import { info } from "../../state/info.js";
 import { user } from "../../state/user.js";
 import { popNotice } from "../../utils/page.js";
-
-const { useOnlineService } = getApp<AppOption>();
 
 const PAGE_ID = "email";
 const PAGE_TITLE = "校园邮箱";
@@ -90,9 +85,7 @@ $Page(PAGE_ID, {
       return this.setData({ status: "error" });
     }
 
-    const result = await (
-      useOnlineService("recent-email") ? onlineRecentEmails : recentEmails
-    )();
+    const result = await getRecentEmails();
 
     wx.hideLoading();
 
@@ -147,9 +140,7 @@ $Page(PAGE_ID, {
       return this.setData({ status: "error" });
     }
 
-    const result = await (
-      useOnlineService("email-page") ? onlineEmailPage : emailPage
-    )(currentTarget.dataset.mid);
+    const result = await getEmailPage(currentTarget.dataset.mid);
 
     wx.hideLoading();
 

@@ -3,6 +3,7 @@ import { URLSearchParams, logger } from "@mptool/all";
 import { ACTION_SERVER } from "./utils.js";
 import type { CommonFailedResponse } from "../../../typings/index.js";
 import { request } from "../../api/index.js";
+import { createService } from "../utils.js";
 
 const EMAIL_PAGE_URL = `${ACTION_SERVER}/extract/sendRedirect2Email`;
 const EMAIL_URL = `${ACTION_SERVER}/extract/sendRedirect2EmailPage`;
@@ -26,7 +27,9 @@ export type ActionEmailPageResponse =
   | ActionEmailPageSuccessResponse
   | CommonFailedResponse;
 
-export const emailPage = async (mid = ""): Promise<ActionEmailPageResponse> => {
+const getEmailPageLocal = async (
+  mid = "",
+): Promise<ActionEmailPageResponse> => {
   const { data: emailPageResult } = await request<RawEmailPageResponse>(
     mid ? EMAIL_PAGE_URL : EMAIL_URL,
     {
@@ -54,9 +57,7 @@ export const emailPage = async (mid = ""): Promise<ActionEmailPageResponse> => {
   };
 };
 
-export const onlineEmailPage = async (
-  mid = "",
-): Promise<ActionEmailPageResponse> =>
+const getEmailPageOnline = async (mid = ""): Promise<ActionEmailPageResponse> =>
   request<ActionEmailPageResponse>("/action/email-page", {
     method: "POST",
     body: { mid },
@@ -66,3 +67,9 @@ export const onlineEmailPage = async (
 
     return data;
   });
+
+export const getEmailPage = createService(
+  "email-page",
+  getEmailPageLocal,
+  getEmailPageOnline,
+);

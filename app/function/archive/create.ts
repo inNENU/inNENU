@@ -1,7 +1,6 @@
 import { $Page } from "@mptool/all";
 
 import { retryAction, showModal } from "../../api/index.js";
-import type { AppOption } from "../../app.js";
 import type {
   InputUnderArchiveInfo,
   MultiSelectUnderArchiveInfo,
@@ -13,21 +12,16 @@ import type {
 import {
   LoginFailType,
   getCreateUnderStudentArchiveInfo,
-  submitOnlineUnderStudentArchiveAddress,
-  submitOnlineUnderStudentArchiveFamily,
-  submitOnlineUnderStudentArchiveInfo,
-  submitOnlineUnderStudentArchiveStudy,
-  submitUnderStudentArchiveAddress,
-  submitUnderStudentArchiveFamily,
-  submitUnderStudentArchiveInfo,
-  submitUnderStudentArchiveStudy,
   ensureUnderStudyLogin,
+  submitUnderStudentArchiveAddress,
+  submitUnderStudentArchiveInfo,
+  submitUnderStudentArchiveFamily,
+  submitUnderStudentArchiveStudy,
 } from "../../service/index.js";
 import { info } from "../../state/info.js";
 import { user } from "../../state/user.js";
 import { getColor, popNotice } from "../../utils/page.js";
 
-const { useOnlineService } = getApp<AppOption>();
 const { envName } = info;
 const PAGE_ID = "create-archive";
 const PAGE_TITLE = "建立学籍";
@@ -368,11 +362,10 @@ $Page(PAGE_ID, {
       fields.find(({ name }) => name === "gxstr")!.value =
         changedFields.join(",");
 
-      const result = await (
-        useOnlineService(PAGE_ID)
-          ? submitOnlineUnderStudentArchiveInfo
-          : submitUnderStudentArchiveInfo
-      )({ fields, path: infoPath });
+      const result = await submitUnderStudentArchiveInfo({
+        fields,
+        path: infoPath,
+      });
 
       wx.hideLoading();
       this.state.inited = true;
@@ -416,11 +409,10 @@ $Page(PAGE_ID, {
         fields.push({ name, value });
       });
 
-      const result = await (
-        useOnlineService(PAGE_ID)
-          ? submitOnlineUnderStudentArchiveAddress
-          : submitUnderStudentArchiveAddress
-      )({ fields, path: addressPath });
+      const result = await submitUnderStudentArchiveAddress({
+        fields,
+        path: addressPath,
+      });
 
       wx.hideLoading();
       this.state.inited = true;
@@ -456,11 +448,7 @@ $Page(PAGE_ID, {
 
       if (err) throw err.msg;
 
-      const result = await (
-        useOnlineService(PAGE_ID)
-          ? submitOnlineUnderStudentArchiveStudy
-          : submitUnderStudentArchiveStudy
-      )({
+      const result = await submitUnderStudentArchiveStudy({
         fields: studyFields,
         path: studyPath,
         study,
@@ -500,11 +488,7 @@ $Page(PAGE_ID, {
 
       if (err) throw err.msg;
 
-      const result = await (
-        useOnlineService(PAGE_ID)
-          ? submitOnlineUnderStudentArchiveFamily
-          : submitUnderStudentArchiveFamily
-      )({
+      const result = await submitUnderStudentArchiveFamily({
         fields: familyFields,
         path: familyPath,
         family,

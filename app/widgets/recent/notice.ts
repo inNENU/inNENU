@@ -2,20 +2,13 @@ import type { PropType } from "@mptool/all";
 import { $Component, get, set } from "@mptool/all";
 
 import { showToast } from "../../api/index.js";
-import type { AppOption } from "../../app.js";
 import { HOUR } from "../../config/index.js";
 import { NEWS_LIST_KEY, NOTICE_LIST_KEY } from "../../config/keys.js";
 import type { NoticeItem, NoticeType } from "../../service/index.js";
-import {
-  ensureActionLogin,
-  getNoticeList,
-  getOnlineNoticeList,
-} from "../../service/index.js";
+import { ensureActionLogin, getNoticeList } from "../../service/index.js";
 import { user } from "../../state/user.js";
 import type { WidgetSize, WidgetStatus } from "../utils.js";
 import { FILTERED_SOURCES, getSize } from "../utils.js";
-
-const { useOnlineService } = getApp<AppOption>();
 
 const getKey = (type: NoticeType): string =>
   type === "news" ? NEWS_LIST_KEY : NOTICE_LIST_KEY;
@@ -86,11 +79,7 @@ $Component({
         }
 
         try {
-          const result = await (
-            useOnlineService("notice-list")
-              ? getOnlineNoticeList
-              : getNoticeList
-          )({
+          const result = await getNoticeList({
             type: noticeType,
           });
 

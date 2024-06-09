@@ -7,6 +7,7 @@ import { request } from "../../api/index.js";
 import type { AuthLoginFailedResponse } from "../auth/index.js";
 import { LoginFailType } from "../loginFailTypes.js";
 import { MY_SERVER } from "../my/utils.js";
+import { createService } from "../utils.js";
 
 const titleRegExp = /var title = '(.*?)';/;
 const fromRegExp = /var ly = '(.*?)'/;
@@ -34,7 +35,7 @@ export interface NoticeSuccessResponse {
 
 export type NoticeResponse = NoticeSuccessResponse | CommonFailedResponse;
 
-export const getNotice = async ({
+export const getNoticeLocal = async ({
   noticeID,
 }: NoticeOptions): Promise<NoticeResponse> => {
   try {
@@ -96,7 +97,7 @@ export const getNotice = async ({
   }
 };
 
-export const getOnlineNotice = (
+export const getNoticeOnline = (
   options: NoticeOptions,
 ): Promise<NoticeResponse> =>
   request<NoticeResponse>("/action/notice", {
@@ -108,3 +109,9 @@ export const getOnlineNotice = (
 
     return data;
   });
+
+export const getNotice = createService(
+  "notice",
+  getNoticeLocal,
+  getNoticeOnline,
+);

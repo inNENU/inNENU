@@ -1,22 +1,18 @@
 import { $Page, set } from "@mptool/all";
 
 import { confirmAction, retryAction, showModal } from "../../api/index.js";
-import type { AppOption } from "../../app.js";
 import { HOUR } from "../../config/index.js";
 import { STUDENT_ARCHIVE_KEY } from "../../config/keys.js";
 import {
   LoginFailType,
-  getUnderStudentArchive,
-  registerStudentArchive,
-  useOnlineGetStudentArchive,
-  useOnlineRegisterStudentArchive,
   ensureUnderStudyLogin,
+  getUnderStudentArchive,
+  registerUnderStudentArchive,
 } from "../../service/index.js";
 import { info } from "../../state/info.js";
 import { user } from "../../state/user.js";
 import { getColor, popNotice } from "../../utils/page.js";
 
-const { useOnlineService } = getApp<AppOption>();
 const { envName } = info;
 const PAGE_ID = "view-archive";
 const PAGE_TITLE = "学籍信息";
@@ -92,11 +88,7 @@ $Page(PAGE_ID, {
 
       if (err) throw err.msg;
 
-      const result = await (
-        useOnlineService(PAGE_ID)
-          ? useOnlineGetStudentArchive
-          : getUnderStudentArchive
-      )();
+      const result = await getUnderStudentArchive();
 
       wx.hideLoading();
       this.state.inited = true;
@@ -128,11 +120,7 @@ $Page(PAGE_ID, {
 
       if (err) throw err.msg;
 
-      const result = await (
-        useOnlineService(PAGE_ID)
-          ? useOnlineRegisterStudentArchive
-          : registerStudentArchive
-      )(this.data.path);
+      const result = await registerUnderStudentArchive(this.data.path);
 
       wx.hideLoading();
       this.state.inited = true;

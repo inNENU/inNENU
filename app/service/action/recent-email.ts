@@ -4,7 +4,7 @@ import { ACTION_SERVER } from "./utils.js";
 import type { CommonFailedResponse } from "../../../typings/index.js";
 import { request } from "../../api/index.js";
 import { LoginFailType } from "../loginFailTypes.js";
-import { isWebVPNPage } from "../utils.js";
+import { createService, isWebVPNPage } from "../utils.js";
 
 const EMAIL_INFO_URL = `${ACTION_SERVER}/extract/getEmailInfo`;
 
@@ -93,7 +93,7 @@ export type ActionRecentMailResponse =
   | ActionRecentMailSuccessResponse
   | ActionRecentMailFailedResponse;
 
-export const recentEmails = async (): Promise<ActionRecentMailResponse> => {
+const getRecentEmailsLocal = async (): Promise<ActionRecentMailResponse> => {
   const { data: checkResult } = await request<RawRecentMailResponse | string>(
     EMAIL_INFO_URL,
     {
@@ -145,7 +145,7 @@ export const recentEmails = async (): Promise<ActionRecentMailResponse> => {
   };
 };
 
-export const onlineRecentEmails = async (): Promise<ActionRecentMailResponse> =>
+const getRecentEmailsOnline = async (): Promise<ActionRecentMailResponse> =>
   request<ActionRecentMailResponse>("/action/recent-email", {
     method: "POST",
     cookieScope: ACTION_SERVER,
@@ -154,3 +154,9 @@ export const onlineRecentEmails = async (): Promise<ActionRecentMailResponse> =>
 
     return data;
   });
+
+export const getRecentEmails = createService(
+  "recent-email",
+  getRecentEmailsLocal,
+  getRecentEmailsOnline,
+);

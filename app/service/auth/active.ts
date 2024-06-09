@@ -311,7 +311,7 @@ export type ActiveResponse<T extends ActivateOptions> =
             ? ActivateReplacePhoneResponse
             : ActivatePasswordResponse;
 
-export const activateAccountOnline = async <T extends ActivateOptions>(
+const activateAccountOnline = async <T extends ActivateOptions>(
   options: T,
 ): Promise<ActiveResponse<T>> =>
   request<ActiveResponse<T>>("/auth/activate", {

@@ -5,6 +5,7 @@ import type { CommonFailedResponse } from "../../../typings/index.js";
 import { request } from "../../api/index.js";
 import type { AuthLoginFailedResponse } from "../auth/index.js";
 import { LoginFailType } from "../loginFailTypes.js";
+import { createService } from "../utils.js";
 
 const CARD_BALANCE_URL = `${ACTION_SERVER}/soapBasic/postSoap`;
 const CARD_BALANCE_PARAMS =
@@ -31,7 +32,7 @@ export type CardBalanceResponse =
   | AuthLoginFailedResponse
   | CommonFailedResponse;
 
-export const getCardBalance = async (): Promise<CardBalanceResponse> => {
+const getCardBalanceLocal = async (): Promise<CardBalanceResponse> => {
   try {
     const { data, status } = await request<RawCardBalanceData>(
       CARD_BALANCE_URL,
@@ -80,7 +81,7 @@ export const getCardBalance = async (): Promise<CardBalanceResponse> => {
   }
 };
 
-export const getOnlineCardBalance = async (): Promise<CardBalanceResponse> => {
+const getCardBalanceOnline = async (): Promise<CardBalanceResponse> => {
   const data = await request<CardBalanceResponse>("/action/card-balance", {
     method: "POST",
     cookieScope: ACTION_SERVER,
@@ -90,3 +91,9 @@ export const getOnlineCardBalance = async (): Promise<CardBalanceResponse> => {
 
   return data;
 };
+
+export const getCardBalance = createService(
+  "card-balance",
+  getCardBalanceLocal,
+  getCardBalanceOnline,
+);

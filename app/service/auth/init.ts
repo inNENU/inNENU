@@ -37,7 +37,7 @@ export type AuthInitInfoResponse =
   | AuthInitInfoSuccessResponse
   | AuthInitFailedResponse;
 
-export const getAuthInitInfoLocal = async (
+const getAuthInitInfoLocal = async (
   id: string,
 ): Promise<AuthInitInfoResponse> => {
   try {
@@ -91,7 +91,7 @@ export const getAuthInitInfoLocal = async (
   }
 };
 
-export const getAuthInitInfoOnline = async (
+const getAuthInitInfoOnline = async (
   id: string,
 ): Promise<AuthInitInfoResponse> => {
   cookieStore.clear();
@@ -130,7 +130,7 @@ export interface InitAuthFailedResponse extends CommonFailedResponse {
 
 export type InitAuthResponse = InitAuthSuccessResponse | InitAuthFailedResponse;
 
-export const initAuthLocal = async (
+const initAuthLocal = async (
   options: InitAuthOptions,
 ): Promise<InitAuthResponse> => {
   if (!supportRedirect) return initAuthOnline(options);
@@ -245,7 +245,7 @@ export const initAuthLocal = async (
   };
 };
 
-export const initAuthOnline = async (
+const initAuthOnline = async (
   options: InitAuthOptions,
 ): Promise<InitAuthResponse> => {
   const { data: result } = await request<InitAuthResponse>("/auth/init", {

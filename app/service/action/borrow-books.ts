@@ -6,6 +6,7 @@ import { request } from "../../api/index.js";
 import type { AuthLoginFailedResponse } from "../auth/index.js";
 import { handleFailResponse } from "../fail.js";
 import { LoginFailType } from "../loginFailTypes.js";
+import { createService } from "../utils.js";
 
 const BORROW_BOOKS_URL = `${ACTION_SERVER}/basicInfo/getBookBorrow`;
 
@@ -125,7 +126,7 @@ export type BorrowBooksResponse =
   | AuthLoginFailedResponse
   | CommonFailedResponse;
 
-export const getBorrowBooks = async (): Promise<BorrowBooksResponse> => {
+const getBorrowBooksLocal = async (): Promise<BorrowBooksResponse> => {
   const { data, status } = await request<RawBorrowBooksData>(BORROW_BOOKS_URL, {
     headers: {
       Accept: "application/json, text/javascript, */*; q=0.01",
@@ -153,7 +154,7 @@ export const getBorrowBooks = async (): Promise<BorrowBooksResponse> => {
   } as BorrowBooksSuccessResponse;
 };
 
-export const getOnlineBorrowBooks = (): Promise<BorrowBooksResponse> =>
+const getBorrowBooksOnline = (): Promise<BorrowBooksResponse> =>
   request<BorrowBooksResponse>("/action/borrow-books", {
     method: "POST",
     cookieScope: ACTION_SERVER,
@@ -166,3 +167,9 @@ export const getOnlineBorrowBooks = (): Promise<BorrowBooksResponse> =>
 
     return data;
   });
+
+export const getBorrowBooks = createService(
+  "borrow-books",
+  getBorrowBooksLocal,
+  getBorrowBooksOnline,
+);

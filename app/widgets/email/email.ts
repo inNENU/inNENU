@@ -2,24 +2,19 @@ import type { PropType } from "@mptool/all";
 import { $Component, get, set } from "@mptool/all";
 
 import { setClipboard, showModal, showToast } from "../../api/index.js";
-import type { AppOption } from "../../app.js";
 import { MINUTE } from "../../config/index.js";
 import { EMAIL_DATA_KEY } from "../../config/keys.js";
 import type { EmailItem } from "../../service/index.js";
 import {
   LoginFailType,
-  emailPage,
   ensureActionLogin,
-  onlineEmailPage,
-  onlineRecentEmails,
-  recentEmails,
+  getRecentEmails,
+  getEmailPage,
 } from "../../service/index.js";
 import { info } from "../../state/info.js";
 import { user } from "../../state/user.js";
 import type { WidgetStatus } from "../utils.js";
 import { getSize } from "../utils.js";
-
-const { useOnlineService } = getApp<AppOption>();
 
 interface Mail extends Exclude<EmailItem, "receivedDate"> {
   shortDate: string;
@@ -101,9 +96,7 @@ $Component({
         return this.setData({ status: "error", errMsg: "登陆失败" });
       }
 
-      const result = await (
-        useOnlineService("recent-email") ? onlineRecentEmails : recentEmails
-      )();
+      const result = await getRecentEmails();
 
       if (result.success) {
         const recent = result.recent.map(({ receivedDate, ...rest }) => {
@@ -154,9 +147,7 @@ $Component({
         }
       }
 
-      const result = await (
-        useOnlineService("email-page") ? onlineEmailPage : emailPage
-      )(mid);
+      const result = await getEmailPage(mid);
 
       if (result.success) {
         const { url } = result;
