@@ -1,7 +1,7 @@
 import { $Page } from "@mptool/all";
 
 import { setClipboard, showModal, showToast } from "../../api/index.js";
-import { appCoverPrefix, assets } from "../../config/info.js";
+import { appCoverPrefix, assets } from "../../config/index.js";
 import {
   ensureActionLogin,
   getRecentEmails,

@@ -1,6 +1,6 @@
 import { DAY } from "../../config/index.js";
 
-export const getCurrentTime = (): string => {
+export const getCurrentTimeCode = (): string => {
   const date = new Date();
 
   const currentYear = date.getFullYear();

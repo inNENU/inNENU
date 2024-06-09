@@ -1,6 +1,6 @@
 import { $Component } from "@mptool/all";
 
-import { defaultScroller, pageScrollMixin } from "../../mixins/page-scroll.js";
+import { defaultScroller, pageScrollMixin } from "../../mixins/index.js";
 import { info } from "../../state/info.js";
 
 $Component({

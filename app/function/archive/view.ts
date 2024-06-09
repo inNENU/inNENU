@@ -1,8 +1,7 @@
 import { $Page, set } from "@mptool/all";
 
 import { confirmAction, retryAction, showModal } from "../../api/index.js";
-import { HOUR } from "../../config/index.js";
-import { STUDENT_ARCHIVE_KEY } from "../../config/keys.js";
+import { HOUR, STUDENT_ARCHIVE_KEY } from "../../config/index.js";
 import {
   LoginFailType,
   ensureUnderStudyLogin,

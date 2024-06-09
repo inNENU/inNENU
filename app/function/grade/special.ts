@@ -2,9 +2,11 @@ import { $Page, get, set } from "@mptool/all";
 
 import { showModal } from "../../api/index.js";
 import type { AppOption } from "../../app.js";
-import { HOUR } from "../../config/index.js";
-import { appCoverPrefix } from "../../config/info.js";
-import { SPECIAL_EXAM_DATA_KEY } from "../../config/keys.js";
+import {
+  HOUR,
+  appCoverPrefix,
+  SPECIAL_EXAM_DATA_KEY,
+} from "../../config/index.js";
 import type { UnderSpecialExamResult } from "../../service/index.js";
 import {
   ensureOnlineUnderStudyLogin,

@@ -1,6 +1,6 @@
 import type { PageConfig } from "../../typings/index.js";
 import { requestJSON } from "../api/index.js";
-import { LICENSE_KEY, PRIVACY_KEY } from "../config/keys.js";
+import { LICENSE_KEY, PRIVACY_KEY } from "../config/index.js";
 import { info } from "../state/info.js";
 
 const localLicenseVersion = wx.getStorageSync<number | undefined>(LICENSE_KEY);

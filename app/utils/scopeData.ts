@@ -4,7 +4,7 @@ import type {
   TextComponentOptions,
   TitleComponentOptions,
 } from "../../typings/index.js";
-import { appCoverPrefix, appName } from "../config/info.js";
+import { appCoverPrefix, appName } from "../config/index.js";
 
 const getText = (page: PageDataWithContent): string => {
   const pageContent = page.content

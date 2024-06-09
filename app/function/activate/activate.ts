@@ -2,7 +2,7 @@ import { $Page, get, set } from "@mptool/all";
 
 import { showModal, showToast } from "../../api/index.js";
 import { MINUTE } from "../../config/index.js";
-import { appCoverPrefix, assets } from "../../config/info.js";
+import { appCoverPrefix, assets } from "../../config/index.js";
 import type {
   ActivateBindPhoneOptions,
   ActivatePasswordOptions,

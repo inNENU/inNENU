@@ -3,13 +3,14 @@ import { $Component, get, set } from "@mptool/all";
 
 import { showToast } from "../../api/index.js";
 import type { AppOption } from "../../app.js";
-import { HOUR } from "../../config/index.js";
+import {} from "../../config/index.js";
 import {
+  HOUR,
   SITE_MEDIA_LIST_KEY,
   SITE_NEWS_LIST_KEY,
   SITE_SCIENCE_LIST_KEY,
   SITE_SOCIAL_LIST_KEY,
-} from "../../config/keys.js";
+} from "../../config/index.js";
 import type { InfoItem, InfoType } from "../../service/index.js";
 import {
   ensureActionLogin,

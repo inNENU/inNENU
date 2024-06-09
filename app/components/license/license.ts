@@ -1,7 +1,7 @@
 import type { PropType } from "@mptool/all";
 import { $Component } from "@mptool/all";
 
-import { appCoverPrefix, appName } from "../../config/info.js";
+import { appCoverPrefix, appName } from "../../config/index.js";
 import {
   agreeLicense,
   agreePrivacy,

@@ -27,7 +27,10 @@ import type {
   TableData,
   WeekRange,
 } from "../../widgets/course/typings.js";
-import { getCurrentTime, getWeekIndex } from "../../widgets/course/utils.js";
+import {
+  getCurrentTimeCode,
+  getWeekIndex,
+} from "../../widgets/course/utils.js";
 
 const { useOnlineService } = getApp<AppOption>();
 const { envName } = info;
@@ -155,7 +158,7 @@ $Page(PAGE_ID, {
       const grade = Math.floor(account.id / 1000000);
       const times = getTimes(grade);
       const timeDisplays = times.map(getDisplayTime);
-      const time = getCurrentTime();
+      const time = getCurrentTimeCode();
       const timeIndex = times.indexOf(time);
 
       if (coursesData?.[time]) {

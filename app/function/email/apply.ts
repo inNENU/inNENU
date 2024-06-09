@@ -2,7 +2,7 @@ import { $Page } from "@mptool/all";
 
 import { setClipboard, showModal, showToast } from "../../api/index.js";
 import type { AppOption } from "../../app.js";
-import { appCoverPrefix, appName, assets } from "../../config/info.js";
+import { appCoverPrefix, appName, assets } from "../../config/index.js";
 import type { ActivateEmailOptions } from "../../service/index.js";
 import {
   activateEmail,

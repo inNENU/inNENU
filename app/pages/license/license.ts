@@ -2,7 +2,7 @@ import type { RichTextNode } from "@mptool/all";
 import { $Page } from "@mptool/all";
 
 import { requestJSON } from "../../api/index.js";
-import { appCoverPrefix } from "../../config/info.js";
+import { appCoverPrefix } from "../../config/index.js";
 import { info } from "../../state/info.js";
 import { getColor } from "../../utils/page.js";
 

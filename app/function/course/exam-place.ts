@@ -2,9 +2,11 @@ import { $Page, get, set } from "@mptool/all";
 
 import { retryAction, showModal } from "../../api/index.js";
 import type { AppOption } from "../../app.js";
-import { HOUR } from "../../config/index.js";
-import { appCoverPrefix } from "../../config/info.js";
-import { EXAM_PLACE_DATA_KEY } from "../../config/keys.js";
+import {
+  EXAM_PLACE_DATA_KEY,
+  HOUR,
+  appCoverPrefix,
+} from "../../config/index.js";
 import type { ExamPlace } from "../../service/index.js";
 import {
   LoginFailType,

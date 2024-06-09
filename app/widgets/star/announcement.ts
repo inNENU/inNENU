@@ -2,7 +2,7 @@ import type { PropType } from "@mptool/all";
 import { $Component, get } from "@mptool/all";
 
 import type { StarredAnnouncement } from "./typings.js";
-import { STARRED_ANNOUNCEMENT_LIST_KEY } from "../../config/keys.js";
+import { STARRED_ANNOUNCEMENT_LIST_KEY } from "../../config/index.js";
 import type { WidgetSize } from "../utils.js";
 import { getSize } from "../utils.js";
 

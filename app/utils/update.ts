@@ -2,7 +2,7 @@ import { logger, ls, rm } from "@mptool/all";
 
 import type { AppSettings } from "./settings.js";
 import { request, showToast } from "../api/index.js";
-import { server } from "../config/info.js";
+import { server } from "../config/index.js";
 import { info } from "../state/info.js";
 
 export interface UpdateInfo {

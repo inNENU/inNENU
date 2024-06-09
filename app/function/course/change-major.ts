@@ -2,9 +2,11 @@ import { $Page, get, set } from "@mptool/all";
 
 import { retryAction, showModal } from "../../api/index.js";
 import type { AppOption } from "../../app.js";
-import { HOUR } from "../../config/index.js";
-import { appCoverPrefix } from "../../config/info.js";
-import { CHANGE_MAJOR_DATA_KEY } from "../../config/keys.js";
+import {
+  HOUR,
+  CHANGE_MAJOR_DATA_KEY,
+  appCoverPrefix,
+} from "../../config/index.js";
 import type { ChangeMajorPlan } from "../../service/index.js";
 import {
   LoginFailType,

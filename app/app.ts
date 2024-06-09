@@ -1,7 +1,7 @@
 import type { TrivialPageInstance } from "@mptool/all";
 import { $App, $Config, wrapFunction } from "@mptool/all";
 
-import { INITIALIZED_KEY } from "./config/keys.js";
+import { INITIALIZED_KEY } from "./config/index.js";
 import { info } from "./state/info.js";
 import { getGlobalData, initializeApp, startup } from "./utils/app.js";
 import { checkResource } from "./utils/resource.js";

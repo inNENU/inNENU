@@ -2,8 +2,7 @@ import type { PropType } from "@mptool/all";
 import { $Component, get, set } from "@mptool/all";
 
 import { setClipboard, showModal, showToast } from "../../api/index.js";
-import { MINUTE } from "../../config/index.js";
-import { EMAIL_DATA_KEY } from "../../config/keys.js";
+import { EMAIL_DATA_KEY, MINUTE } from "../../config/index.js";
 import type { EmailItem } from "../../service/index.js";
 import {
   LoginFailType,

@@ -2,8 +2,7 @@ import { $Page, get, set } from "@mptool/all";
 
 import { showModal, showToast } from "../../api/index.js";
 import type { AppOption } from "../../app.js";
-import { SECOND } from "../../config/index.js";
-import { appCoverPrefix, assets } from "../../config/info.js";
+import { SECOND, appCoverPrefix, assets } from "../../config/index.js";
 import type {
   ResetPasswordInfoResponse,
   ResetPasswordSendSMSResponse,

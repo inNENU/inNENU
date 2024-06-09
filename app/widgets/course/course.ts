@@ -2,7 +2,7 @@ import type { PropType } from "@mptool/all";
 import { $Component, get } from "@mptool/all";
 
 import type { ClassData, CourseTableData, TableData } from "./typings.js";
-import { getCurrentTime, getWeekIndex } from "./utils.js";
+import { getCurrentTimeCode, getWeekIndex } from "./utils.js";
 import { showModal } from "../../api/index.js";
 import { COURSE_DATA_KEY } from "../../config/index.js";
 import { getSize } from "../utils.js";
@@ -36,7 +36,7 @@ $Component({
     init() {
       const { type } = this.data;
       const coursesData = get<Record<string, CourseTableData>>(COURSE_DATA_KEY);
-      const time = getCurrentTime();
+      const time = getCurrentTimeCode();
 
       if (coursesData?.[time]) {
         const { courseData, weeks, startTime } = coursesData[time];

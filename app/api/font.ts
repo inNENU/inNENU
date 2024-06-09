@@ -1,4 +1,4 @@
-import { assets } from "../config/info.js";
+import { assets } from "../config/index.js";
 
 export const loadFZSSJW = (global = false): void => {
   wx.loadFontFace({
