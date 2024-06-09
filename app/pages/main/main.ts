@@ -35,7 +35,7 @@ $Page(PAGE_ID, {
   data: {
     theme: info.theme,
     statusBarHeight: info.statusBarHeight,
-    id: getIdentity(),
+    id: getIdentity().id,
 
     /** 候选词 */
     words: [] as string[],
@@ -141,7 +141,7 @@ $Page(PAGE_ID, {
       );
     }
 
-    this.setData({ id: getIdentity() });
+    this.setData({ id: getIdentity().id });
   },
 
   /**
