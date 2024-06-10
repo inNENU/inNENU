@@ -1,7 +1,7 @@
 import { $Page } from "@mptool/all";
 
 import { info } from "../../state/index.js";
-import { ensureResource, getResource, popNotice } from "../../utils/index.js";
+import { ensureResource, getResource, showNotice } from "../../utils/index.js";
 
 const PAGE_ID = "website";
 
@@ -22,7 +22,7 @@ $Page("website", {
       });
     });
 
-    popNotice(PAGE_ID);
+    showNotice(PAGE_ID);
   },
 
   onResize({ size }) {

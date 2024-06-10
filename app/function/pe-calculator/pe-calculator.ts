@@ -2,8 +2,9 @@ import { $Page } from "@mptool/all";
 
 import { showModal } from "../../api/index.js";
 import { appCoverPrefix } from "../../config/index.js";
-import { getResource, popNotice } from "../../utils/index.js";
+import { getResource, showNotice } from "../../utils/index.js";
 
+showModal;
 /** 分数段设置 */
 const gradeLevels = [
   10, 20, 30, 40, 50, 60, 62, 64, 66, 68, 70, 72, 74, 76, 78, 80, 85, 90, 95,
@@ -156,7 +157,7 @@ $Page("pe-calculator", {
       this.state.grade = this.data.grade.values[gradeIndex];
 
     // 设置通知
-    popNotice("pe-calculator");
+    showNotice("pe-calculator");
   },
 
   // eslint-disable-next-line @typescript-eslint/no-empty-function

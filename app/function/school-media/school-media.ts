@@ -9,7 +9,7 @@ import {
 import { appCoverPrefix } from "../../config/index.js";
 import type { Env } from "../../state/index.js";
 import { info } from "../../state/index.js";
-import { ensureResource, getResource, popNotice } from "../../utils/index.js";
+import { ensureResource, getResource, showNotice } from "../../utils/index.js";
 
 const { env } = info;
 
@@ -42,7 +42,7 @@ $Page(PAGE_ID, {
       });
     });
 
-    popNotice(PAGE_ID);
+    showNotice(PAGE_ID);
   },
 
   onShareAppMessage: () => ({

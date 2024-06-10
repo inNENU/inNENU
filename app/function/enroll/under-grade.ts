@@ -5,7 +5,7 @@ import { appCoverPrefix } from "../../config/index.js";
 import type { UnderHistoryGradeConfig } from "../../service/index.js";
 import { getUnderHistoryGrade } from "../../service/index.js";
 import { info } from "../../state/index.js";
-import { getColor, popNotice } from "../../utils/index.js";
+import { getColor, showNotice } from "../../utils/index.js";
 
 const PAGE_ID = "under-history-grade";
 const PAGE_TITLE = "往年分数线";
@@ -46,7 +46,7 @@ $Page(PAGE_ID, {
   },
 
   onShow() {
-    popNotice(PAGE_ID);
+    showNotice(PAGE_ID);
   },
 
   // eslint-disable-next-line @typescript-eslint/no-empty-function

@@ -5,7 +5,7 @@ import { showModal } from "../../api/index.js";
 import { appCoverPrefix } from "../../config/index.js";
 import type { UnderAdmissionPostOptions } from "../../service/index.js";
 import { getPostAdmission, getUnderAdmission } from "../../service/index.js";
-import { popNotice } from "../../utils/index.js";
+import { showNotice } from "../../utils/index.js";
 import { validateIdCard } from "../utils/index.js";
 
 interface InputConfig {
@@ -78,7 +78,7 @@ $Page(PAGE_ID, {
     if (info) this.state.input = info;
 
     // 设置通知
-    popNotice(PAGE_ID);
+    showNotice(PAGE_ID);
   },
 
   // eslint-disable-next-line @typescript-eslint/no-empty-function

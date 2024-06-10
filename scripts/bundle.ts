@@ -77,6 +77,7 @@ rollup({
 
       for (const name of [
         "api",
+        "app",
         "config",
         "mixins",
         "service",

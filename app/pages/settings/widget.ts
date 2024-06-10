@@ -3,7 +3,7 @@ import { $Page, get, set } from "@mptool/all";
 import { confirmAction } from "../../api/index.js";
 import { WIDGET_KEY } from "../../config/index.js";
 import { info } from "../../state/index.js";
-import { getColor, popNotice } from "../../utils/index.js";
+import { getColor, showNotice } from "../../utils/index.js";
 import type { WidgetInfo } from "../../widgets/config.js";
 import { DEFAULT_WIDGETS, WIDGETS } from "../../widgets/config.js";
 import type { WidgetConfig } from "../../widgets/utils.js";
@@ -54,7 +54,7 @@ $Page(PAGE_ID, {
   },
 
   onShow() {
-    popNotice(PAGE_ID);
+    showNotice(PAGE_ID);
   },
 
   // eslint-disable-next-line @typescript-eslint/no-empty-function

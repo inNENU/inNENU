@@ -13,7 +13,7 @@ import { info } from "../../state/index.js";
 import {
   ensureResource,
   getResource,
-  popNotice,
+  showNotice,
   startNavigation,
 } from "../../utils/index.js";
 
@@ -101,7 +101,7 @@ $Page(PAGE_ID, {
       firstPage: getCurrentPages().length === 1,
     });
 
-    popNotice(PAGE_ID);
+    showNotice(PAGE_ID);
   },
 
   onShow() {

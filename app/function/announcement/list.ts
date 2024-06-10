@@ -4,7 +4,7 @@ import { appCoverPrefix } from "../../config/index.js";
 import type { AnnouncementInfoItem } from "../../service/index.js";
 import { getAnnouncementList } from "../../service/index.js";
 import { info } from "../../state/index.js";
-import { getColor, popNotice } from "../../utils/index.js";
+import { getColor, showNotice } from "../../utils/index.js";
 
 const PAGE_ID = "info-list";
 const PAGE_TITLE = "通知公告";
@@ -30,7 +30,7 @@ $Page(PAGE_ID, {
   },
 
   onShow() {
-    popNotice(PAGE_ID);
+    showNotice(PAGE_ID);
   },
 
   onShareAppMessage(): WechatMiniprogram.Page.ICustomShareContent {

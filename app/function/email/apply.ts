@@ -5,8 +5,9 @@ import { appCoverPrefix, appName, assets } from "../../config/index.js";
 import type { ActivateEmailOptions } from "../../service/index.js";
 import { applyEmail, ensureMyLogin } from "../../service/index.js";
 import { info, user } from "../../state/index.js";
-import { popNotice } from "../../utils/index.js";
+import { showNotice } from "../../utils/index.js";
 
+showModal;
 const { envName } = info;
 
 const MAIL_LINK = "https://mail.nenu.edu.cn";
@@ -55,7 +56,7 @@ $Page(PAGE_ID, {
       this.setData({ status: "login" });
     }
 
-    popNotice(PAGE_ID);
+    showNotice(PAGE_ID);
   },
 
   // eslint-disable-next-line @typescript-eslint/no-empty-function

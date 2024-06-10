@@ -12,10 +12,10 @@ import { getIdentity, info } from "../../state/index.js";
 import {
   checkResource,
   getColor,
-  popNotice,
   resolvePage,
   search,
   setPage,
+  showNotice,
 } from "../../utils/index.js";
 import { DEFAULT_WIDGETS } from "../../widgets/config.js";
 import type { WidgetConfig } from "../../widgets/utils.js";
@@ -67,7 +67,7 @@ $Page(PAGE_ID, {
 
     this.setData({ widgets });
     this.renderPage();
-    popNotice(PAGE_ID);
+    showNotice(PAGE_ID);
   },
 
   onReady() {

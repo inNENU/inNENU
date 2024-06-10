@@ -13,7 +13,7 @@ import {
 } from "../../api/index.js";
 import { appCoverPrefix, server } from "../../config/index.js";
 import { info } from "../../state/index.js";
-import { ensureResource, getColor, popNotice } from "../../utils/index.js";
+import { ensureResource, getColor, showNotice } from "../../utils/index.js";
 
 const PAGE_ID = "wechat-detail";
 
@@ -56,7 +56,7 @@ $Page(PAGE_ID, {
 
     this.state.path = path;
 
-    popNotice(`wechat/${path}`);
+    showNotice(`wechat/${path}`);
   },
 
   onShow() {

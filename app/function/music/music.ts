@@ -4,7 +4,7 @@ import type { Lyric, PlayMode, SongDetail } from "./typings.js";
 import { loadFZSSJW, showToast } from "../../api/index.js";
 import { appCoverPrefix, appName } from "../../config/index.js";
 import { info } from "../../state/index.js";
-import { ensureResource, getResource, popNotice } from "../../utils/index.js";
+import { ensureResource, getResource, showNotice } from "../../utils/index.js";
 
 interface MusicState {
   /** 是否正在播放 */
@@ -129,7 +129,7 @@ $Page("music", {
     this.managerRegister();
 
     loadFZSSJW();
-    popNotice("music");
+    showNotice("music");
   },
 
   onShareAppMessage(): WechatMiniprogram.Page.ICustomShareContent {

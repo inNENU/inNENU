@@ -14,7 +14,7 @@ import {
 } from "../../service/index.js";
 import type { UserInfo } from "../../state/index.js";
 import { info, setUserInfo, user } from "../../state/index.js";
-import { getLicenseStatus, logout, popNotice } from "../../utils/index.js";
+import { getLicenseStatus, logout, showNotice } from "../../utils/index.js";
 
 const { envName } = info;
 
@@ -131,7 +131,7 @@ $Page(PAGE_ID, {
   },
 
   onShow() {
-    popNotice(PAGE_ID);
+    showNotice(PAGE_ID);
   },
 
   // eslint-disable-next-line @typescript-eslint/no-empty-function

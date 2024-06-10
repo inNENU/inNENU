@@ -1,4 +1,4 @@
-import type { AppSettings, ServiceSettings } from "./settings.ts";
+import type { AppSettings, ServiceSettings } from "./settings.js";
 import type { PageData } from "../../typings/index.js";
 
 export interface PageState {
@@ -17,3 +17,15 @@ export interface GlobalData {
   /** 页面信息 */
   page: PageState;
 }
+
+/** 全局数据 */
+export const globalData: GlobalData = {
+  page: {
+    data: {},
+    id: "",
+  },
+  settings: null,
+  service: wx.getStorageSync<ServiceSettings>("service") || {
+    forceOnline: false,
+  },
+};

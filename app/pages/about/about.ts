@@ -6,15 +6,11 @@ import type {
   SwitchListComponentItemConfig,
 } from "../../../typings/index.js";
 import { setClipboard, showToast } from "../../api/index.js";
+import { syncAppSettings } from "../../app/index.js";
 import type { AppOption } from "../../app.js";
 import { DAY, appCoverPrefix, appName, version } from "../../config/index.js";
 import { info, updateSelectable } from "../../state/index.js";
-import {
-  fetchAppSettings,
-  popNotice,
-  resolvePage,
-  setPage,
-} from "../../utils/index.js";
+import { resolvePage, setPage, showNotice } from "../../utils/index.js";
 
 const { globalData } = getApp<AppOption>();
 let clickNumber = 0;
@@ -110,7 +106,7 @@ $Page(PAGE_ID, {
 
   onShow() {
     this.setPage();
-    popNotice(PAGE_ID);
+    showNotice(PAGE_ID);
   },
 
   // eslint-disable-next-line @typescript-eslint/no-empty-function
@@ -261,7 +257,7 @@ $Page(PAGE_ID, {
    */
   toggleTest(value: boolean) {
     showToast(`已${value ? "启用" : "关闭"}测试功能`);
-    fetchAppSettings(globalData, value);
+    syncAppSettings(globalData, value);
   },
 
   /**

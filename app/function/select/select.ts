@@ -14,7 +14,7 @@ import { getCurrentRoute, showModal, showToast } from "../../api/index.js";
 import { appCoverPrefix } from "../../config/index.js";
 import { LoginFailType } from "../../service/index.js";
 import { info, user } from "../../state/index.js";
-import { getColor, popNotice } from "../../utils/index.js";
+import { getColor, showNotice } from "../../utils/index.js";
 import { promiseQueue } from "../utils/index.js";
 
 interface ForceSelectMessage {
@@ -108,7 +108,7 @@ $Page(PAGE_ID, {
 
   onShow() {
     this.login();
-    popNotice(PAGE_ID);
+    showNotice(PAGE_ID);
   },
 
   onShareAppMessage: () => ({

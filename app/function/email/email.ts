@@ -8,8 +8,9 @@ import {
   getRecentEmails,
 } from "../../service/index.js";
 import { info, user } from "../../state/index.js";
-import { popNotice } from "../../utils/index.js";
+import { showNotice } from "../../utils/index.js";
 
+showModal;
 const PAGE_ID = "email";
 const PAGE_TITLE = "校园邮箱";
 
@@ -49,7 +50,7 @@ $Page(PAGE_ID, {
       this.setData({ status: "login" });
     }
 
-    popNotice(PAGE_ID);
+    showNotice(PAGE_ID);
   },
 
   // eslint-disable-next-line @typescript-eslint/no-empty-function

@@ -1,22 +1,12 @@
 import { logger } from "@mptool/all";
 
-import { updateNotice } from "./notice.js";
-import type { GlobalData } from "./typings.js";
+import type { GlobalData } from "./globalData.js";
+import type { NoticeSettings } from "./notice.js";
+import { syncNotice } from "./notice.js";
 import type { ComponentConfig } from "../../typings/components.js";
 import { request } from "../api/index.js";
 import { server, version } from "../config/index.js";
 import { info } from "../state/index.js";
-
-export interface NoticeItem {
-  /** 标题 */
-  title: string;
-  /** 内容 */
-  content: string;
-  /** 是否每次都通知 */
-  force?: boolean;
-}
-
-export type NoticeSettings = Record<string, NoticeItem>;
 
 export type ServiceStatus = "local" | "online";
 
@@ -25,7 +15,7 @@ export type ServiceSettings = { forceOnline?: boolean } & Record<
   ServiceStatus
 >;
 
-export interface UpdateSettings {
+export interface AppUpdateSettings {
   /** 是否进行强制更新 */
   force: boolean;
   /** 是否进行强制初始化 */
@@ -61,10 +51,10 @@ export interface AppSettings {
   about: ComponentConfig[];
   notice: NoticeSettings;
   service: ServiceSettings;
-  update: UpdateSettings;
+  update: AppUpdateSettings;
 }
 
-export const fetchAppSettings = async (
+export const syncAppSettings = async (
   globalData: GlobalData,
   isTest = false,
 ): Promise<void> => {
@@ -82,7 +72,7 @@ export const fetchAppSettings = async (
     globalData.settings = data;
     globalData.service = service;
     wx.setStorageSync("service", service);
-    updateNotice(notice);
+    syncNotice(notice);
   } catch (err) {
     // 调试信息
     logger.warn(`Fetch settings failed`);

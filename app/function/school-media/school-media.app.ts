@@ -8,7 +8,7 @@ import {
 } from "../../api/index.js";
 import type { Env } from "../../state/index.js";
 import { info } from "../../state/index.js";
-import { ensureResource, getResource, popNotice } from "../../utils/index.js";
+import { ensureResource, getResource, showNotice } from "../../utils/index.js";
 
 const { env } = info;
 const PAGE_ID = "school-media";
@@ -39,7 +39,7 @@ $Page(PAGE_ID, {
       });
     });
 
-    popNotice(PAGE_ID);
+    showNotice(PAGE_ID);
   },
 
   onResize({ size }) {

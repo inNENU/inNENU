@@ -7,10 +7,10 @@ import { getIdentity, info } from "../../state/index.js";
 import {
   checkResource,
   getColor,
-  popNotice,
   resolvePage,
   search,
   setPage,
+  showNotice,
 } from "../../utils/index.js";
 
 const { globalData } = getApp<AppOption>();
@@ -62,7 +62,7 @@ $Page(PAGE_ID, {
   },
 
   onShow() {
-    popNotice(PAGE_ID);
+    showNotice(PAGE_ID);
     this.setPage();
   },
 

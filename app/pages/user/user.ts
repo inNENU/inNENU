@@ -13,10 +13,10 @@ import { info, user } from "../../state/index.js";
 import {
   checkResource,
   getColor,
-  popNotice,
   reportInfo,
   resolvePage,
   setPage,
+  showNotice,
 } from "../../utils/index.js";
 
 const plugin = requirePlugin("wxacommentplugin") as {
@@ -81,7 +81,7 @@ $Page(PAGE_ID, {
       userName: info?.name || (account ? appName : "未登录"),
       desc: account === null ? description : "以下是你的今日概览",
     });
-    popNotice(PAGE_ID);
+    showNotice(PAGE_ID);
 
     this.setPage();
   },

@@ -13,9 +13,9 @@ import { info, user } from "../../state/index.js";
 import {
   checkResource,
   getColor,
-  popNotice,
   resolvePage,
   setPage,
+  showNotice,
 } from "../../utils/index.js";
 
 const { globalData } = getApp<AppOption>();
@@ -77,7 +77,7 @@ $Page(PAGE_ID, {
       userName: info?.name || (account ? appName : "未登录"),
       desc: account === null ? description : "以下是你的今日概览",
     });
-    popNotice(PAGE_ID);
+    showNotice(PAGE_ID);
 
     this.setPage();
   },

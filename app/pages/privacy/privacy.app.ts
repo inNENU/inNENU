@@ -5,9 +5,9 @@ import type { AppOption } from "../../app.js";
 import { info } from "../../state/index.js";
 import {
   getPrivacyStatus,
-  popNotice,
   resolvePage,
   setPage,
+  showNotice,
 } from "../../utils/index.js";
 
 const { globalData } = getApp<AppOption>();
@@ -60,7 +60,7 @@ $Page("privacy", {
     if (globalData.page.id === "授权设置") setPage({ option, ctx: this });
     else setPage({ option: { id: "authorize" }, ctx: this });
 
-    popNotice("privacy");
+    showNotice("privacy");
   },
 
   onShow() {
@@ -85,7 +85,7 @@ $Page("privacy", {
       "page.content[1].items[1].desc": albumAuthorized ? "已授权✓" : "未授权×",
     });
 
-    popNotice("privacy");
+    showNotice("privacy");
   },
 
   // eslint-disable-next-line @typescript-eslint/no-empty-function

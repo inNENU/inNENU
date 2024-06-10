@@ -1,17 +1,17 @@
 import type { TrivialPageInstance } from "@mptool/all";
 import { $App, $Config, wrapFunction } from "@mptool/all";
 
-import { INITIALIZED_KEY } from "./config/index.js";
-import { info } from "./state/index.js";
-import type { GlobalData } from "./utils/index.js";
+import type { GlobalData } from "./app/index.js";
 import {
-  checkResource,
-  fetchAppSettings,
-  getGlobalData,
+  globalData,
   initializeApp,
   startup,
+  syncAppSettings,
   updateApp,
-} from "./utils/index.js";
+} from "./app/index.js";
+import { INITIALIZED_KEY } from "./config/index.js";
+import { info } from "./state/index.js";
+import { checkResource } from "./utils/index.js";
 
 export interface AppOption {
   globalData: GlobalData;
@@ -98,7 +98,7 @@ $Config({
 
 $App<AppOption>({
   /** 全局数据 */
-  globalData: getGlobalData(),
+  globalData,
 
   onLaunch(options) {
     // 调试
@@ -109,7 +109,7 @@ $App<AppOption>({
     // 初次启动执行初始化
     else initializeApp();
 
-    fetchAppSettings(this.globalData, wx.getStorageSync("test")).then(() => {
+    syncAppSettings(this.globalData, wx.getStorageSync("test")).then(() => {
       this.$emit("settings");
     });
     startup(this.globalData);
@@ -120,7 +120,7 @@ $App<AppOption>({
   onAwake(time: number) {
     console.info(`App awakes after ${time}ms`);
 
-    fetchAppSettings(this.globalData, wx.getStorageSync("test")).then(() => {
+    syncAppSettings(this.globalData, wx.getStorageSync("test")).then(() => {
       this.$emit("settings");
     });
     updateApp();

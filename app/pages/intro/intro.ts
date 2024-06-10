@@ -12,8 +12,8 @@ import {
   checkResource,
   getColor,
   getResource,
-  popNotice,
   search,
+  showNotice,
 } from "../../utils/index.js";
 import type { TabData } from "../typings.js";
 
@@ -57,7 +57,7 @@ $Page(PAGE_ID, {
   },
 
   onShow() {
-    popNotice(PAGE_ID);
+    showNotice(PAGE_ID);
 
     this.setPage();
   },

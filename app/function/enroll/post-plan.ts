@@ -8,7 +8,7 @@ import type {
 } from "../../service/index.js";
 import { getPostPlan, getPostRecommendPlan } from "../../service/index.js";
 import { info } from "../../state/index.js";
-import { getColor, popNotice } from "../../utils/index.js";
+import { getColor, showNotice } from "../../utils/index.js";
 
 const PAGE_ID = "post-enroll-plan";
 const PAGE_TITLE = "研究生招生计划";
@@ -30,7 +30,7 @@ $Page(PAGE_ID, {
   },
 
   onShow() {
-    popNotice(PAGE_ID);
+    showNotice(PAGE_ID);
   },
 
   // eslint-disable-next-line @typescript-eslint/no-empty-function

@@ -3,7 +3,7 @@ import { $Page } from "@mptool/all";
 import { setClipboard, showModal } from "../../api/index.js";
 import { appCoverPrefix } from "../../config/index.js";
 import { info } from "../../state/index.js";
-import { ensureResource, getResource, popNotice } from "../../utils/index.js";
+import { ensureResource, getResource, showNotice } from "../../utils/index.js";
 
 const PAGE_ID = "website";
 const PAGE_TITLE = "东师网站";
@@ -25,7 +25,7 @@ $Page(PAGE_ID, {
       });
     });
 
-    popNotice(PAGE_ID);
+    showNotice(PAGE_ID);
   },
 
   onShareAppMessage: () => ({

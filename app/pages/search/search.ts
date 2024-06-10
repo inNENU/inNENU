@@ -3,7 +3,7 @@ import { $Page, readFile } from "@mptool/all";
 import { appCoverPrefix } from "../../config/index.js";
 import { info } from "../../state/index.js";
 import type { SearchResult, SearchType } from "../../utils/index.js";
-import { getColor, popNotice, search } from "../../utils/index.js";
+import { getColor, search, showNotice } from "../../utils/index.js";
 
 $Page("search", {
   data: {
@@ -41,7 +41,7 @@ $Page("search", {
       darkmode: info.darkmode,
     });
 
-    popNotice("search");
+    showNotice("search");
   },
 
   onPageScroll(options) {

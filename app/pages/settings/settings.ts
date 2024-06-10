@@ -14,9 +14,9 @@ import {
   defaultResources,
   downloadResource,
   getColor,
-  popNotice,
   resetApp,
   setPage,
+  showNotice,
 } from "../../utils/index.js";
 
 const { envName } = info;
@@ -108,7 +108,7 @@ $Page("settings", {
   onLoad() {
     setPage({ option: { id: "settings" }, ctx: this }, this.data.page);
 
-    popNotice("settings");
+    showNotice("settings");
   },
 
   onShow() {

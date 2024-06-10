@@ -5,7 +5,6 @@ import { logger, readJSON, writeJSON } from "@mptool/all";
 import { id2path } from "./id.js";
 import { ensureResource } from "./json.js";
 import { getScopeData } from "./scopeData.js";
-import type { NoticeItem } from "./settings.js";
 import type {
   ComponentConfig,
   FunctionalListComponentItemConfig,
@@ -16,6 +15,7 @@ import type {
   PageOption,
 } from "../../typings/index.js";
 import { requestJSON, showModal } from "../api/index.js";
+import type { NoticeItem } from "../app/index.js";
 import type { AppOption } from "../app.js";
 import { imageWaterMark } from "../config/index.js";
 import { info } from "../state/index.js";
@@ -436,7 +436,7 @@ export const setPage = (
  *
  * @param id 当前界面的标识符
  */
-export const popNotice = (id: string): void => {
+export const showNotice = (id: string): void => {
   if (!wx.getStorageSync(`${id}-notifyed`)) {
     // 没有进行过通知，判断是否需要弹窗，从存储中获取通知内容并展示
     const notice = wx.getStorageSync<NoticeItem | undefined>(`${id}-notice`);
@@ -489,7 +489,7 @@ export const setOnlinePage = (
         },
         () => {
           logger.debug(`${id} pageData is set`);
-          popNotice(id);
+          showNotice(id);
 
           if (preload) {
             preloadPage(ctx.data.page!);
@@ -506,7 +506,7 @@ export const setOnlinePage = (
       // 如果本地存储中含有 page 直接处理
       if (page) {
         setPage({ option, ctx }, page);
-        popNotice(id);
+        showNotice(id);
         logger.info(`${id} onLoad success: `, ctx.data);
 
         // 如果需要执行预加载，则执行
@@ -532,7 +532,7 @@ export const setOnlinePage = (
             }
 
             // 弹出通知
-            popNotice(id);
+            showNotice(id);
 
             // 调试
             logger.info(`${id} onLoad Succeed`);
@@ -548,7 +548,7 @@ export const setOnlinePage = (
                 statusBarHeight: info.statusBarHeight,
               },
             );
-            popNotice(option.id || "");
+            showNotice(option.id || "");
 
             // 调试
             logger.warn(`${id} onLoad failed with error:`, err);
@@ -585,7 +585,7 @@ export const loadOnlinePage = (
       .then((page) => {
         if (page) {
           setPage({ option, ctx }, page);
-          popNotice(option.path);
+          showNotice(option.path);
           logger.info(`${option.path} onLoad succeed:`, ctx.data);
         }
       })
@@ -600,7 +600,7 @@ export const loadOnlinePage = (
             statusBarHeight: info.statusBarHeight,
           },
         );
-        popNotice(option.id || "");
+        showNotice(option.id || "");
 
         // 调试
         logger.warn(`${option.path} onLoad failed with error: `, errMsg);

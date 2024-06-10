@@ -8,7 +8,7 @@ import {
   ensureResource,
   getColor,
   getResource,
-  popNotice,
+  showNotice,
 } from "../../utils/index.js";
 
 const PAGE_ID = "calendar";
@@ -56,7 +56,7 @@ $Page(PAGE_ID, {
   },
 
   onShow() {
-    popNotice(PAGE_ID);
+    showNotice(PAGE_ID);
   },
 
   // eslint-disable-next-line @typescript-eslint/no-empty-function

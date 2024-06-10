@@ -14,7 +14,7 @@ import {
   supportRedirect,
 } from "../../service/index.js";
 import { info, user } from "../../state/index.js";
-import { getColor, popNotice } from "../../utils/index.js";
+import { getColor, showNotice } from "../../utils/index.js";
 
 const { envName } = info;
 
@@ -84,7 +84,7 @@ ${envName}严格使用官方激活流程。
   },
 
   onShow() {
-    popNotice(PAGE_ID);
+    showNotice(PAGE_ID);
   },
 
   // eslint-disable-next-line @typescript-eslint/no-empty-function

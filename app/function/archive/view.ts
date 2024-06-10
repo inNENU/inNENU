@@ -9,8 +9,9 @@ import {
   registerUnderStudentArchive,
 } from "../../service/index.js";
 import { info, user } from "../../state/index.js";
-import { getColor, popNotice } from "../../utils/index.js";
+import { getColor, showNotice } from "../../utils/index.js";
 
+showModal;
 const { envName } = info;
 const PAGE_ID = "view-archive";
 const PAGE_TITLE = "学籍信息";
@@ -65,7 +66,7 @@ $Page(PAGE_ID, {
 
     this.setData({ needLogin: !user.account });
 
-    popNotice(PAGE_ID);
+    showNotice(PAGE_ID);
   },
 
   onShareAppMessage: () => ({

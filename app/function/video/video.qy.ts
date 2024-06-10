@@ -3,7 +3,7 @@ import { $Page } from "@mptool/all";
 import { loadFZSSJW, showToast } from "../../api/index.js";
 import { appCoverPrefix } from "../../config/index.js";
 import { info } from "../../state/index.js";
-import { ensureResource, getResource, popNotice } from "../../utils/index.js";
+import { ensureResource, getResource, showNotice } from "../../utils/index.js";
 
 interface VideoConfig {
   /** 视频名称 */
@@ -82,7 +82,7 @@ $Page("video", {
     });
 
     loadFZSSJW();
-    popNotice("video");
+    showNotice("video");
   },
 
   onReady() {
