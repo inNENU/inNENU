@@ -7,7 +7,7 @@ import type { CommonFailedResponse } from "../../../typings/index.js";
 import { request } from "../../api/index.js";
 import { user } from "../../state/user.js";
 import { LoginFailType } from "../loginFailTypes.js";
-import { isWebVPNPage } from "../utils.js";
+import { createService, isWebVPNPage } from "../utils.js";
 
 // Note: This can be inferred from app list
 const APPLY_MAIL_APP_ID = "GRYXSQ";
@@ -51,6 +51,10 @@ const getMailInitInfo = async (instanceId: string): Promise<MailInitInfo> => {
   };
 };
 
+export interface GetEmailInfoOptions {
+  type: "get";
+}
+
 type RawCheckMailData = { flag: false; yxmc: string } | { flag: true };
 
 interface RawAccountList {
@@ -80,7 +84,10 @@ export type GetEmailFailedResponse = CommonFailedResponse;
 
 export type GetEmailResponse = GetEmailSuccessResponse | GetEmailFailedResponse;
 
-export const getEmailInfo = async (): Promise<GetEmailResponse> => {
+const getEmailInfoLocal = async (
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  _options: GetEmailInfoOptions,
+): Promise<GetEmailResponse> => {
   const { data: checkResult } = await request<RawCheckMailData>(
     `${MY_SERVER}/Gryxsq/checkMailBox`,
     {
@@ -175,7 +182,7 @@ export type ActivateEmailResponse =
   | ActivateMailSuccessResponse
   | ActivateMailFailedResponse;
 
-export const activateEmail = async ({
+const activateEmailLocal = async ({
   name,
   phone,
   suffix,
@@ -269,8 +276,8 @@ export const activateEmail = async ({
   };
 };
 
-export const onlineMyEmail = async <T>(
-  options?: T,
+export const applyEmailOnline = async <T>(
+  options: T,
 ): Promise<
   T extends ActivateEmailOptions ? ActivateEmailResponse : GetEmailInfoResponse
 > =>
@@ -287,3 +294,22 @@ export const onlineMyEmail = async <T>(
 
     return data;
   });
+
+export const applyEmail = createService(
+  "activate-email",
+  async <T extends GetEmailInfoOptions | ActivateEmailOptions>(
+    options: T,
+  ): Promise<
+    T extends ActivateEmailOptions
+      ? ActivateEmailResponse
+      : GetEmailInfoResponse
+  > =>
+    (options.type === "set"
+      ? activateEmailLocal(options)
+      : getEmailInfoLocal(options)) as Promise<
+      T extends ActivateEmailOptions
+        ? ActivateEmailResponse
+        : GetEmailInfoResponse
+    >,
+  applyEmailOnline,
+);

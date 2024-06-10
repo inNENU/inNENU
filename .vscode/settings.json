@@ -38,6 +38,11 @@
   "minapp-vscode.jsExtname": "ts",
   "minapp-vscode.wxmlFormatter": "prettier",
   "typescript.tsdk": "./node_modules/typescript/lib",
+  "search.exclude": {
+    "**/node_modules/**": true,
+    "**/dist/**": true,
+    "**/temp/**": true
+  },
   "yaml.schemas": {
     "./server/.vscode/settings.schema.json": ["/server/config/**/settings.yml"],
     "./server/.vscode/account.schema.json": ["/server/data/account/*.yml"],

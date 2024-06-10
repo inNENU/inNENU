@@ -32,12 +32,12 @@ export type AuthLoginResponse =
   | AuthLoginSuccessResponse
   | AuthLoginFailedResponse;
 
-export const authLocalLogin = async (
+export const authLoginLocal = async (
   { id, password }: AccountInfo,
   { service = "", webVPN = false }: AuthLoginOptions = {},
 ): Promise<AuthLoginResponse> => {
   // only use local login when redirect is supported
-  if (!supportRedirect) return authOnlineLogin({ id, password });
+  if (!supportRedirect) return authLoginOnline({ id, password });
 
   const domain = webVPN ? WEB_VPN_AUTH_DOMAIN : AUTH_DOMAIN;
   const server = webVPN ? WEB_VPN_AUTH_SERVER : AUTH_SERVER;
@@ -206,7 +206,7 @@ export const authLocalLogin = async (
   };
 };
 
-export const authOnlineLogin = async ({
+const authLoginOnline = async ({
   id,
   password,
 }: AccountInfo): Promise<AuthLoginResponse> => {
@@ -224,6 +224,6 @@ export const authOnlineLogin = async ({
 
 export const authLogin = createService(
   "auth-login",
-  authLocalLogin,
-  authOnlineLogin,
+  authLoginLocal,
+  authLoginOnline,
 );

@@ -1,14 +1,14 @@
 import { logger } from "@mptool/all";
 
-import { checkMyCookie, checkOnlineMyCookie } from "./check.js";
+import { checkMyCookieLocal, checkMyCookieOnline } from "./check.js";
 import { MY_DOMAIN, MY_MAIN_PAGE, MY_SERVER } from "./utils.js";
 import { cookieStore, request } from "../../api/index.js";
 import type { AccountInfo } from "../../state/user.js";
 import type { AuthLoginFailedResponse } from "../auth/index.js";
-import { authLocalLogin } from "../auth/login.js";
+import { authLoginLocal } from "../auth/login.js";
 import { handleFailResponse } from "../fail.js";
 import { LoginFailType } from "../loginFailTypes.js";
-import { supportRedirect } from "../utils.js";
+import { createService, supportRedirect } from "../utils.js";
 import type { VPNLoginFailedResponse } from "../vpn/index.js";
 import { vpnCASLogin } from "../vpn/login.js";
 
@@ -22,16 +22,16 @@ export type MyLoginFailedResponse =
 
 export type MyLoginResponse = MyLoginSuccessResponse | MyLoginFailedResponse;
 
-export const myLogin = async (
+export const myLoginLocal = async (
   options: AccountInfo,
 ): Promise<MyLoginResponse> => {
-  if (!supportRedirect) return onlineMyLogin(options);
+  if (!supportRedirect) return myLoginOnline(options);
 
   const vpnLoginResponse = await vpnCASLogin(options);
 
   if (!vpnLoginResponse.success) return vpnLoginResponse;
 
-  const result = await authLocalLogin(options, {
+  const result = await authLoginLocal(options, {
     service: MY_MAIN_PAGE,
     webVPN: true,
   });
@@ -80,7 +80,7 @@ export const myLogin = async (
   };
 };
 
-export const onlineMyLogin = async (
+export const myLoginOnline = async (
   options: AccountInfo,
 ): Promise<MyLoginResponse> => {
   const { data } = await request<MyLoginResponse>("/my/login", {
@@ -100,7 +100,7 @@ export const onlineMyLogin = async (
 const hasCookie = (): boolean =>
   cookieStore.getCookies(MY_SERVER).some(({ domain }) => domain === MY_DOMAIN);
 
-export const ensureMyLogin = async (
+const ensureMyLoginLocal = async (
   account: AccountInfo,
   status: "check" | "validate" | "login" = "check",
 ): Promise<AuthLoginFailedResponse | VPNLoginFailedResponse | null> => {
@@ -108,18 +108,18 @@ export const ensureMyLogin = async (
     if (hasCookie()) {
       if (status === "check") return null;
 
-      const { valid } = await checkMyCookie();
+      const { valid } = await checkMyCookieLocal();
 
       if (valid) return null;
     }
   }
 
-  const result = await myLogin(account);
+  const result = await myLoginLocal(account);
 
   return result.success ? null : result;
 };
 
-export const ensureOnlineMyLogin = async (
+const ensureMyLoginOnline = async (
   account: AccountInfo,
   status: "check" | "validate" | "login" = "check",
 ): Promise<AuthLoginFailedResponse | VPNLoginFailedResponse | null> => {
@@ -127,13 +127,19 @@ export const ensureOnlineMyLogin = async (
     if (hasCookie()) {
       if (status === "check") return null;
 
-      const { valid } = await checkOnlineMyCookie();
+      const { valid } = await checkMyCookieOnline();
 
       if (valid) return null;
     }
   }
 
-  const result = await onlineMyLogin(account);
+  const result = await myLoginOnline(account);
 
   return result.success ? null : result;
 };
+
+export const ensureMyLogin = createService(
+  "my-login",
+  ensureMyLoginLocal,
+  ensureMyLoginOnline,
+);

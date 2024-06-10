@@ -2,7 +2,7 @@ import { MY_SERVER } from "./utils.js";
 import type { CookieVerifyResponse } from "../../../typings/index.js";
 import { request } from "../../api/index.js";
 
-export const checkMyCookie = async (): Promise<CookieVerifyResponse> => {
+export const checkMyCookieLocal = async (): Promise<CookieVerifyResponse> => {
   const { data: identityResult } = await request<{ success: boolean } | string>(
     `${MY_SERVER}/hallIndex/getidentity`,
     {
@@ -20,7 +20,7 @@ export const checkMyCookie = async (): Promise<CookieVerifyResponse> => {
   };
 };
 
-export const checkOnlineMyCookie = (): Promise<CookieVerifyResponse> =>
+export const checkMyCookieOnline = (): Promise<CookieVerifyResponse> =>
   request<CookieVerifyResponse>("/my/check", {
     method: "POST",
     cookieScope: MY_SERVER,

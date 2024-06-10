@@ -3,6 +3,7 @@ import { getRichTextNodes } from "@mptool/all";
 
 import type { CommonFailedResponse } from "../../../typings/index.js";
 import { request } from "../../api/index.js";
+import { createService } from "../utils.js";
 
 const POST_ENROLL_PLAN_URL = "https://yz.nenu.edu.cn/source/ssml/2024zsml.html";
 const schoolInfoRegExp =
@@ -36,7 +37,7 @@ export type PostEnrollResponse =
   | PostEnrollSuccessResponse
   | CommonFailedResponse;
 
-export const getPostPlan = async (): Promise<PostEnrollResponse> => {
+const getPostPlanLocal = async (): Promise<PostEnrollResponse> => {
   try {
     const { data: content, status } =
       await request<string>(POST_ENROLL_PLAN_URL);
@@ -119,7 +120,13 @@ export const getPostPlan = async (): Promise<PostEnrollResponse> => {
   }
 };
 
-export const getOnlinePostPlan = (): Promise<PostEnrollResponse> =>
+const getPostPlanOnline = (): Promise<PostEnrollResponse> =>
   request<PostEnrollResponse>(`/enroll/post-plan`, { method: "POST" }).then(
     ({ data }) => data,
   );
+
+export const getPostPlan = createService(
+  "post-plan",
+  getPostPlanLocal,
+  getPostPlanOnline,
+);

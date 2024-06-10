@@ -40,7 +40,7 @@ export type AnnouncementListResponse =
 
 let totalPageState = 0;
 
-export const getAnnouncementListLocal = async ({
+const getAnnouncementListLocal = async ({
   page = 1,
   totalPage = totalPageState,
 }: AnnouncementListOptions = {}): Promise<AnnouncementListResponse> => {
@@ -87,7 +87,7 @@ export const getAnnouncementListLocal = async ({
   }
 };
 
-export const getAnnouncementListOnline = async (
+const getAnnouncementListOnline = async (
   options: AnnouncementListOptions = {},
 ): Promise<AnnouncementListResponse> =>
   request<AnnouncementListResponse>(`/main/announcement-list`, {

@@ -1,21 +1,13 @@
 import { $Page } from "@mptool/all";
 
 import { setClipboard, showModal, showToast } from "../../api/index.js";
-import type { AppOption } from "../../app.js";
 import { appCoverPrefix, appName, assets } from "../../config/index.js";
 import type { ActivateEmailOptions } from "../../service/index.js";
-import {
-  activateEmail,
-  ensureMyLogin,
-  ensureOnlineMyLogin,
-  getEmailInfo,
-  onlineMyEmail,
-} from "../../service/index.js";
+import { applyEmail, ensureMyLogin } from "../../service/index.js";
 import { info } from "../../state/info.js";
 import { user } from "../../state/user.js";
 import { popNotice } from "../../utils/page.js";
 
-const { useOnlineService } = getApp<AppOption>();
 const { envName } = info;
 
 const MAIL_LINK = "https://mail.nenu.edu.cn";
@@ -119,9 +111,7 @@ $Page(PAGE_ID, {
   async checkEmail() {
     wx.showLoading({ title: "加载中" });
 
-    const err = await (
-      useOnlineService("my-login") ? ensureOnlineMyLogin : ensureMyLogin
-    )(user.account!, this.state.loginMethod);
+    const err = await ensureMyLogin(user.account!, this.state.loginMethod);
 
     if (err) {
       wx.hideLoading();
@@ -131,9 +121,7 @@ $Page(PAGE_ID, {
       return this.setData({ status: "error" });
     }
 
-    const result = await (
-      useOnlineService("check-email") ? onlineMyEmail : getEmailInfo
-    )();
+    const result = await applyEmail({ type: "get" });
 
     wx.hideLoading();
 
@@ -165,9 +153,8 @@ $Page(PAGE_ID, {
   apply() {
     const { accounts, accountIndex, isCustom, name, suffix, phone } = this.data;
     const { info } = user;
-    const shouldApplyOnline = useOnlineService(PAGE_ID);
 
-    if (!shouldApplyOnline && !info)
+    if (!info)
       return showModal(
         "个人信息缺失",
         `${envName}本地暂无个人信息，请重新登录`,
@@ -234,9 +221,7 @@ $Page(PAGE_ID, {
       () => {
         wx.showLoading({ title: "申请中" });
 
-        void (
-          shouldApplyOnline ? onlineMyEmail(options) : activateEmail(options)
-        ).then((result) => {
+        applyEmail(options).then((result) => {
           wx.hideLoading();
 
           if (result.success) this.setData({ status: "success", result });

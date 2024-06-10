@@ -25,7 +25,7 @@ export type AcademicInfoResponse =
   | AcademicInfoSuccessResponse
   | CommonFailedResponse;
 
-export const getAcademicDetailLocal = async (
+const getAcademicDetailLocal = async (
   url: string,
 ): Promise<AcademicInfoResponse> => {
   try {
@@ -77,9 +77,7 @@ export const getAcademicDetailLocal = async (
   }
 };
 
-export const getAcademicDetailOnline = (
-  url: string,
-): Promise<AcademicInfoResponse> =>
+const getAcademicDetailOnline = (url: string): Promise<AcademicInfoResponse> =>
   request<AcademicInfoResponse>(`/main/academic?url=${url}`).then(
     ({ data }) => data,
   );

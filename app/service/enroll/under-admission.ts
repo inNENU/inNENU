@@ -1,5 +1,7 @@
 import type { CommonFailedResponse } from "../../../typings/index.js";
 import { request } from "../../api/index.js";
+import { createService } from "../utils.js";
+import { UNDER_ENROLL_SERVER } from "./utils.js";
 
 export interface UnderAdmissionPostOptions {
   name: string;
@@ -31,13 +33,13 @@ export type UnderAdmissionResponse =
   | UnderAdmissionSuccessResponse
   | CommonFailedResponse;
 
-export const getUnderAdmission = async ({
+const getUnderAdmissionLocal = async ({
   testId,
   id,
   name,
 }: UnderAdmissionPostOptions): Promise<UnderAdmissionResponse> => {
   const { data: result, status } = await request<RawEnrollResult>(
-    "https://bkzsw.nenu.edu.cn/query",
+    `${UNDER_ENROLL_SERVER}/query`,
     {
       method: "POST",
       body: {
@@ -99,10 +101,16 @@ export const getUnderAdmission = async ({
   };
 };
 
-export const getOnlineUnderAdmission = (
+const getUnderAdmissionOnline = (
   options: UnderAdmissionPostOptions,
 ): Promise<UnderAdmissionResponse> =>
   request<UnderAdmissionResponse>("/enroll/under-admission", {
     method: "POST",
     ...(options ? { body: options } : {}),
   }).then(({ data }) => data);
+
+export const getUnderAdmission = createService(
+  "under-admission",
+  getUnderAdmissionLocal,
+  getUnderAdmissionOnline,
+);

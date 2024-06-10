@@ -37,7 +37,7 @@ export type AcademicListResponse =
 
 let totalPageState = 0;
 
-export const getAcademicListLocal = async ({
+const getAcademicListLocal = async ({
   page = 1,
   totalPage = totalPageState || 0,
 }: AcademicListOptions = {}): Promise<AcademicListResponse> => {
@@ -85,7 +85,7 @@ export const getAcademicListLocal = async ({
   }
 };
 
-export const getAcademicListOnline = async (
+const getAcademicListOnline = async (
   options: AcademicListOptions = {},
 ): Promise<AcademicListResponse> =>
   request<AcademicListResponse>(`/main/academic-list`, {

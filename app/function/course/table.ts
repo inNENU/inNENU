@@ -179,7 +179,7 @@ $Page(PAGE_ID, {
           timeDisplays,
           timeIndex,
         });
-        void this.getCourseData(time);
+        this.getCourseData(time);
       }
     }
 

@@ -2,18 +2,11 @@ import { $Page } from "@mptool/all";
 
 import type { CommonFailedResponse } from "../../../typings/response.js";
 import { showModal } from "../../api/index.js";
-import type { AppOption } from "../../app.js";
 import { appCoverPrefix } from "../../config/index.js";
 import type { UnderAdmissionPostOptions } from "../../service/index.js";
-import {
-  getOnlineUnderAdmission,
-  getUnderAdmission,
-  postAdmission,
-} from "../../service/index.js";
+import { getUnderAdmission, getPostAdmission } from "../../service/index.js";
 import { popNotice } from "../../utils/page.js";
 import { validateIdCard } from "../utils/index.js";
-
-const { useOnlineService } = getApp<AppOption>();
 
 interface InputConfig {
   id: string;
@@ -217,15 +210,13 @@ $Page(PAGE_ID, {
     wx.setStorageSync("admission-info", input);
 
     if (this.data.level === "本科生")
-      (useOnlineService("under-admission")
-        ? getOnlineUnderAdmission
-        : getUnderAdmission)(
-        input as unknown as UnderAdmissionPostOptions,
-      ).then((response) => {
-        this.setData({ result: response });
-      });
+      getUnderAdmission(input as unknown as UnderAdmissionPostOptions).then(
+        (response) => {
+          this.setData({ result: response });
+        },
+      );
     else
-      postAdmission({ name: input.name, id: input.id }).then((response) => {
+      getPostAdmission({ name: input.name, id: input.id }).then((response) => {
         this.setData({ result: response });
       });
   },

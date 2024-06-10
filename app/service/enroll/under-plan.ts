@@ -1,6 +1,12 @@
 /* eslint-disable @typescript-eslint/naming-convention */
 import { request } from "../../api/index.js";
 import { createService } from "../utils.js";
+import {
+  UNDER_ENROLL_MAJOR_CLASS_URL,
+  UNDER_ENROLL_MAJOR_TYPE_URL,
+  UNDER_ENROLL_PLAN_URL,
+  UNDER_ENROLL_SERVER,
+} from "./utils.js";
 
 export interface UnderEnrollInfoOptions {
   type: "info";
@@ -11,8 +17,7 @@ export interface UnderEnrollInfo {
   provinces: string[];
 }
 
-const UNDER_ENROLL_PAGE_URL =
-  "https://bkzsw.nenu.edu.cn/col_000018_000171.html";
+const UNDER_ENROLL_PAGE_URL = `${UNDER_ENROLL_SERVER}/col_000018_000171.html`;
 
 const YEAR_REG_EXP =
   /<select class="custom-select year" id="inputGroupSelect01">\s*?<option selected>请选择<\/option>\s*((?:<option value=".*">.*<\/option>\s*?)+)<\/select>/;
@@ -50,8 +55,6 @@ export interface UnderEnrollPlanTypeOptions {
   year: string;
 }
 
-const UNDER_ENROLL_PLAN_URL = "https://bkzsw.nenu.edu.cn/getPlanOpt";
-
 const getUnderEnrollPlanType = async ({
   year,
   province,
@@ -72,8 +75,6 @@ export interface UnderEnrollMajorTypeOptions {
   year: string;
   plan: string;
 }
-
-const UNDER_ENROLL_MAJOR_TYPE_URL = "https://bkzsw.nenu.edu.cn/getMajorTypeOpt";
 
 const getUnderEnrollMajorType = async ({
   year,
@@ -97,9 +98,6 @@ export interface UnderEnrollMajorClassOptions {
   plan: string;
   majorType: string;
 }
-
-const UNDER_ENROLL_MAJOR_CLASS_URL =
-  "https://bkzsw.nenu.edu.cn/getMajorClassOpt";
 
 const getUnderEnrollMajorClass = async ({
   year,
@@ -153,13 +151,11 @@ export interface UnderEnrollPlanConfig {
   fee: string;
 }
 
-const QUERY_URL = "https://bkzsw.nenu.edu.cn/queryPlan";
-
 const getUnderEnrollPlans = async (
   options: UnderEnrollPlanQueryOptions,
 ): Promise<UnderEnrollPlanConfig[]> => {
   const { data: rawPlans } = await request<RawUnderEnrollPlanConfig[]>(
-    QUERY_URL,
+    `${UNDER_ENROLL_SERVER}/queryPlan`,
     {
       method: "POST",
       headers: {
@@ -207,7 +203,7 @@ export type UnderEnrollPlanResponse =
   | UnderEnrollDetailsSuccessResponse
   | UnderEnrollPlanSuccessResponse;
 
-export const getUnderEnrollPlanLocal = async <T extends UnderEnrollPlanOptions>(
+const getUnderEnrollPlanLocal = async <T extends UnderEnrollPlanOptions>(
   options: T,
 ): Promise<
   T extends UnderEnrollInfoOptions
@@ -235,9 +231,7 @@ export const getUnderEnrollPlanLocal = async <T extends UnderEnrollPlanOptions>(
       : string[];
 };
 
-export const getUnderEnrollPlanOnline = async <
-  T extends UnderEnrollPlanOptions,
->(
+const getUnderEnrollPlanOnline = async <T extends UnderEnrollPlanOptions>(
   options: T,
 ): Promise<
   T extends UnderEnrollInfoOptions

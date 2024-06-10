@@ -1,6 +1,12 @@
 /* eslint-disable @typescript-eslint/naming-convention */
 import { request } from "../../api/index.js";
 import { createService } from "../utils.js";
+import {
+  UNDER_ENROLL_MAJOR_CLASS_URL,
+  UNDER_ENROLL_MAJOR_TYPE_URL,
+  UNDER_ENROLL_PLAN_URL,
+  UNDER_ENROLL_SERVER,
+} from "./utils.js";
 
 export interface UnderHistoryGradeInfoOptions {
   type: "info";
@@ -11,8 +17,7 @@ export interface UnderHistoryGradeInfo {
   provinces: string[];
 }
 
-const UNDER_HISTORY_GRADE_PAGE_URL =
-  "https://bkzsw.nenu.edu.cn/col_000018_000170.html";
+const UNDER_HISTORY_GRADE_PAGE_URL = `${UNDER_ENROLL_SERVER}/col_000018_000170.html`;
 
 const YEAR_REG_EXP =
   /<select class="custom-select year" id="inputGroupSelect01">\s*?<option selected>请选择<\/option>\s*((?:<option value=".*">.*<\/option>\s*?)+)<\/select>/;
@@ -50,14 +55,12 @@ export interface UnderHistoryGradeTypeOptions {
   year: string;
 }
 
-const UNDER_HISTORY_GRADE_PLAN_URL = "https://bkzsw.nenu.edu.cn/getPlanOpt";
-
 const getUnderHistoryGradeType = async ({
   year,
   province,
 }: UnderHistoryGradeTypeOptions): Promise<string[]> =>
   (
-    await request<string[]>(UNDER_HISTORY_GRADE_PLAN_URL, {
+    await request<string[]>(UNDER_ENROLL_PLAN_URL, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -73,16 +76,13 @@ export interface UnderHistoryGradeMajorTypeOptions {
   plan: string;
 }
 
-const UNDER_HISTORY_GRADE_MAJOR_TYPE_URL =
-  "https://bkzsw.nenu.edu.cn/getMajorTypeOpt";
-
 const getUnderHistoryGradeMajorType = async ({
   year,
   province,
   plan,
 }: UnderHistoryGradeMajorTypeOptions): Promise<string[]> =>
   (
-    await request<string[]>(UNDER_HISTORY_GRADE_MAJOR_TYPE_URL, {
+    await request<string[]>(UNDER_ENROLL_MAJOR_TYPE_URL, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -99,9 +99,6 @@ export interface UnderHistoryGradeMajorClassOptions {
   majorType: string;
 }
 
-const UNDER_HISTORY_GRADE_MAJOR_CLASS_URL =
-  "https://bkzsw.nenu.edu.cn/getMajorClassOpt";
-
 const getUnderHistoryGradeMajorClass = async ({
   year,
   province,
@@ -109,7 +106,7 @@ const getUnderHistoryGradeMajorClass = async ({
   majorType,
 }: UnderHistoryGradeMajorClassOptions): Promise<string[]> =>
   (
-    await request<string[]>(UNDER_HISTORY_GRADE_MAJOR_CLASS_URL, {
+    await request<string[]>(UNDER_ENROLL_MAJOR_CLASS_URL, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -169,7 +166,7 @@ export interface UnderHistoryGradeConfig {
   maxAdmissionScore: number;
 }
 
-const QUERY_URL = "https://bkzsw.nenu.edu.cn/queryScore";
+const QUERY_URL = `${UNDER_ENROLL_SERVER}/queryScore`;
 
 const getUnderHistoryGrades = async (
   options: UnderHistoryGradeQueryOptions,
@@ -233,9 +230,7 @@ export type UnderHistoryGradeResponse =
   | UnderHistoryGradeDetailsSuccessResponse
   | UnderHistoryGradeSuccessResponse;
 
-export const getUnderHistoryGradeLocal = async <
-  T extends UnderHistoryGradeOptions,
->(
+const getUnderHistoryGradeLocal = async <T extends UnderHistoryGradeOptions>(
   options: T,
 ): Promise<
   T extends UnderHistoryGradeInfoOptions
@@ -263,9 +258,7 @@ export const getUnderHistoryGradeLocal = async <
       : string[];
 };
 
-export const getUnderHistoryGradeOnline = async <
-  T extends UnderHistoryGradeOptions,
->(
+const getUnderHistoryGradeOnline = async <T extends UnderHistoryGradeOptions>(
   options: T,
 ): Promise<
   T extends UnderHistoryGradeInfoOptions

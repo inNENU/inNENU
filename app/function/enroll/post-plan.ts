@@ -1,22 +1,14 @@
 import { $Page } from "@mptool/all";
 
 import { setClipboard, showModal, showToast } from "../../api/index.js";
-import type { AppOption } from "../../app.js";
 import { appCoverPrefix } from "../../config/index.js";
 import type {
   PostEnrollSchoolPlan,
   PostRecommendSchoolPlan,
 } from "../../service/index.js";
-import {
-  getOnlinePostPlan,
-  getOnlinePostRecommendPlan,
-  getPostPlan,
-  getPostRecommendPlan,
-} from "../../service/index.js";
+import { getPostRecommendPlan, getPostPlan } from "../../service/index.js";
 import { info } from "../../state/info.js";
 import { getColor, popNotice } from "../../utils/page.js";
-
-const { useOnlineService } = getApp<AppOption>();
 
 const PAGE_ID = "post-enroll-plan";
 const PAGE_TITLE = "研究生招生计划";
@@ -60,11 +52,7 @@ $Page(PAGE_ID, {
     wx.showLoading({ title: "获取中" });
 
     if (isRecommend)
-      return (
-        useOnlineService("post-recommend-plan")
-          ? getOnlinePostRecommendPlan
-          : getPostRecommendPlan
-      )().then((res) => {
+      return getPostRecommendPlan().then((res) => {
         wx.hideLoading();
 
         if (res.success) {
@@ -78,14 +66,12 @@ $Page(PAGE_ID, {
           this.state.plans = res.data;
         } else {
           showModal("获取失败", res.msg, () => {
-            void this.$back();
+            this.$back();
           });
         }
       });
 
-    return (
-      useOnlineService("post-plan") ? getOnlinePostPlan : getPostPlan
-    )().then((res) => {
+    return getPostPlan().then((res) => {
       wx.hideLoading();
 
       if (res.success) {
@@ -99,7 +85,7 @@ $Page(PAGE_ID, {
         this.state.plans = res.data;
       } else {
         showModal("获取失败", res.msg, () => {
-          void this.$back();
+          this.$back();
         });
       }
     });

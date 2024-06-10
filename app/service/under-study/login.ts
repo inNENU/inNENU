@@ -5,7 +5,7 @@ import { UNDER_STUDY_SERVER } from "./utils.js";
 import { cookieStore, request } from "../../api/index.js";
 import type { AccountInfo } from "../../state/user.js";
 import type { AuthLoginFailedResponse } from "../auth/login.js";
-import { authLocalLogin } from "../auth/login.js";
+import { authLoginLocal } from "../auth/login.js";
 import { handleFailResponse } from "../fail.js";
 import { LoginFailType } from "../loginFailTypes.js";
 import { supportRedirect } from "../utils.js";
@@ -27,7 +27,7 @@ export const underStudyLogin = async (
   if (!supportRedirect) return onlineUnderStudyLogin(options);
 
   try {
-    const result = await authLocalLogin(options, {
+    const result = await authLoginLocal(options, {
       service: SSO_LOGIN_URL,
     });
 

@@ -8,7 +8,7 @@ import { UNDER_SYSTEM_DOMAIN, UNDER_SYSTEM_SERVER } from "./utils.js";
 import { cookieStore, request } from "../../api/index.js";
 import type { AccountInfo } from "../../state/user.js";
 import type { AuthLoginFailedResponse } from "../auth/index.js";
-import { authLocalLogin } from "../auth/index.js";
+import { authLoginLocal } from "../auth/index.js";
 import { handleFailResponse } from "../fail.js";
 import { LoginFailType } from "../loginFailTypes.js";
 import { createService, supportRedirect } from "../utils.js";
@@ -33,7 +33,7 @@ export const underSystemLoginLocal = async (
 
   if (!vpnLoginResult.success) return vpnLoginResult;
 
-  const result = await authLocalLogin(options, {
+  const result = await authLoginLocal(options, {
     service: "http://dsjx.nenu.edu.cn:80/",
     webVPN: true,
   });

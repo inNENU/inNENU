@@ -7,7 +7,7 @@ import { cookieStore, request } from "../../api/index.js";
 import type { AccountInfo, UserInfo } from "../../state/user.js";
 import { LoginFailType } from "../loginFailTypes.js";
 import { getMyInfo } from "../my/info.js";
-import { myLogin } from "../my/login.js";
+import { myLoginLocal } from "../my/login.js";
 import { createService, supportRedirect } from "../utils.js";
 import { vpnLogin } from "../vpn/login.js";
 
@@ -203,13 +203,14 @@ const initAuthLocal = async (
 
     let info: UserInfo | null = null;
 
-    let loginResult = await myLogin({ id, password });
+    let loginResult = await myLoginLocal({ id, password });
 
     if ("type" in loginResult && loginResult.type === LoginFailType.Forbidden) {
       // Activate VPN by login
       const vpnLoginResult = await vpnLogin({ id, password });
 
-      if (vpnLoginResult.success) loginResult = await myLogin({ id, password });
+      if (vpnLoginResult.success)
+        loginResult = await myLoginLocal({ id, password });
       else console.error("VPN login failed", vpnLoginResult);
     }
 

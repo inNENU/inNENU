@@ -2,19 +2,16 @@ import { $Page, get, set } from "@mptool/all";
 
 import { getTitle } from "./utils.js";
 import { showModal, showToast } from "../../api/index.js";
-import type { AppOption } from "../../app.js";
 import {
   STARRED_INFO_LIST_KEY,
   appCoverPrefix,
   service,
 } from "../../config/index.js";
 import type { InfoType } from "../../service/index.js";
-import { getInfo, getOnlineInfo } from "../../service/index.js";
+import { getInfo } from "../../service/index.js";
 import { info } from "../../state/info.js";
 import { getColor, popNotice } from "../../utils/page.js";
 import type { StarredInfo } from "../../widgets/star/typings.js";
-
-const { useOnlineService } = getApp<AppOption>();
 
 const PAGE_ID = "info-detail";
 
@@ -101,9 +98,7 @@ $Page(PAGE_ID, {
   async getInfo() {
     const { type, url } = this.state;
 
-    const result = await (useOnlineService(PAGE_ID) ? getOnlineInfo : getInfo)(
-      url,
-    );
+    const result = await getInfo(url);
 
     wx.hideLoading();
     if (result.success) {

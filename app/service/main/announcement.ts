@@ -28,7 +28,7 @@ export type AnnouncementInfoResponse =
   | AnnouncementInfoSuccessResponse
   | CommonFailedResponse;
 
-export const getAnnouncementLocal = async (
+const getAnnouncementLocal = async (
   url: string,
 ): Promise<AnnouncementInfoResponse> => {
   try {
@@ -83,7 +83,7 @@ export const getAnnouncementLocal = async (
   }
 };
 
-export const getAnnouncementOnline = (
+const getAnnouncementOnline = (
   url: string,
 ): Promise<AnnouncementInfoResponse> =>
   request<AnnouncementInfoResponse>(`/main/announcement?url=${url}`).then(

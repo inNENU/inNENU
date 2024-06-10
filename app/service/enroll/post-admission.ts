@@ -15,7 +15,7 @@ export type PostAdmissionResponse =
   | PostAdmissionSuccessResponse
   | CommonFailedResponse;
 
-export const postAdmission = (
+export const getPostAdmission = (
   options: PostAdmissionPostOptions,
 ): Promise<PostAdmissionResponse> =>
   request<PostAdmissionResponse>("/enroll/post-admission", {

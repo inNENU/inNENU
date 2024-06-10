@@ -4,6 +4,7 @@ import { getRichTextNodes } from "@mptool/all";
 import { MAIN_URL, getPageView } from "./utils.js";
 import type { CommonFailedResponse } from "../../../typings/index.js";
 import { request } from "../../api/index.js";
+import { createService } from "../utils.js";
 
 const infoRegExp =
   /<div class="ar_tit">\s*<h3>([^>]+)<\/h3>\s*<h6>([\s\S]+?)<\/h6>/;
@@ -33,7 +34,7 @@ export interface MainInfoSuccessResponse {
 
 export type MainInfoResponse = MainInfoSuccessResponse | CommonFailedResponse;
 
-export const getInfo = async (url: string): Promise<MainInfoResponse> => {
+const getInfoLocal = async (url: string): Promise<MainInfoResponse> => {
   try {
     const { data: text } = await request<string>(`${MAIN_URL}/${url}`);
 
@@ -89,5 +90,7 @@ export const getInfo = async (url: string): Promise<MainInfoResponse> => {
   }
 };
 
-export const getOnlineInfo = (url: string): Promise<MainInfoResponse> =>
+const getInfoOnline = (url: string): Promise<MainInfoResponse> =>
   request<MainInfoResponse>(`/main/info?url=${url}`).then(({ data }) => data);
+
+export const getInfo = createService("info", getInfoLocal, getInfoOnline);
