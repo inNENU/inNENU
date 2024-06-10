@@ -14,7 +14,7 @@ import {
 } from "../../api/index.js";
 import { appCoverPrefix, server } from "../../config/index.js";
 import { info } from "../../state/index.js";
-import { ensureResource, getColor, showNotice } from "../../utils/index.js";
+import { ensureJson, getPageColor, showNotice } from "../../utils/index.js";
 
 const PAGE_ID = "wechat-detail";
 
@@ -46,13 +46,13 @@ $Page(PAGE_ID, {
   },
 
   onNavigate(options) {
-    if (options.path) ensureResource(`function/account/${options.path}`);
+    if (options.path) ensureJson(`function/account/${options.path}`);
   },
 
   onLoad({ path = "" }) {
     this.setData({
       firstPage: getCurrentPages().length === 1,
-      color: getColor(true),
+      color: getPageColor(true),
     });
 
     this.state.path = path;

@@ -1,6 +1,6 @@
 import { downLoad, requestJSON } from "../api/index.js";
 import { assets } from "../config/index.js";
-import { info } from "../state/index.js";
+import { appID, info } from "../state/index.js";
 import { compareVersion } from "../utils/index.js";
 
 let apkFilePath: string | null = null;
@@ -14,9 +14,7 @@ let apkFilePath: string | null = null;
  */
 export const updateApp = async (): Promise<void> => {
   // 请求配置文件
-  const onlineVersion = await requestJSON<string>(
-    `d/config/${info.appID}/version`,
-  );
+  const onlineVersion = await requestJSON<string>(`d/config/${appID}/version`);
 
   if (compareVersion(onlineVersion, info.version) > 0) {
     if (info.platform === "android")

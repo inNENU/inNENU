@@ -1,7 +1,7 @@
 import type { PropType } from "@mptool/all";
 import { $Component, logger } from "@mptool/all";
 
-import type { PageData } from "../../../typings/index.js";
+import type { PageState } from "../../../typings/index.js";
 import {
   request,
   savePhoto,
@@ -10,11 +10,11 @@ import {
   showToast,
 } from "../../api/index.js";
 import { appName, server, service } from "../../config/index.js";
-import { info } from "../../state/index.js";
+import { appID } from "../../state/index.js";
 import { path2id, reportInfo } from "../../utils/index.js";
 
 type ShareConfig = Pick<
-  PageData,
+  PageState,
   "id" | "contact" | "qrcode" | "title" | "shareable"
 >;
 
@@ -27,8 +27,6 @@ interface ActionConfig {
 }
 
 type LinkData = { error: true } | { error: false; link: string };
-
-const { appID } = info;
 
 $Component({
   properties: {

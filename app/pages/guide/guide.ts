@@ -4,21 +4,21 @@ import type {
   GridComponentConfig,
   GridComponentItemConfig,
   ListComponentItemConfig,
-  PageDataWithContent,
+  PageStateWithContent,
 } from "../../../typings/index.js";
-import type { AppOption } from "../../app.js";
+import type { App } from "../../app.js";
 import { DAY, appCoverPrefix } from "../../config/index.js";
 import { getIdentity, info } from "../../state/index.js";
 import {
   checkResource,
-  getColor,
-  getResource,
+  getJson,
+  getPageColor,
   search,
   showNotice,
 } from "../../utils/index.js";
 import type { TabData } from "../typings.js";
 
-const { globalData } = getApp<AppOption>();
+const { globalData } = getApp<App>();
 
 const PAGE_ID = "guide";
 const PAGE_TITLE = "东师指南";
@@ -46,14 +46,14 @@ $Page(PAGE_ID, {
       title: PAGE_TITLE,
       grey: true,
       hidden: true,
-    } as PageDataWithContent,
+    } as PageStateWithContent,
 
     displayMore: false,
     ...defaultData,
   },
 
   onLoad() {
-    this.setData({ color: getColor(true) });
+    this.setData({ color: getPageColor(true) });
     this.$on("settings", () => this.setPage());
   },
 
@@ -91,12 +91,12 @@ $Page(PAGE_ID, {
   },
 
   setTheme(theme: string): void {
-    this.setData({ color: getColor(this.data.page.grey), theme });
+    this.setData({ color: getPageColor(this.data.page.grey), theme });
   },
 
   async setPage(): Promise<void> {
     if (globalData.settings) {
-      const data = await getResource<TabData>("function/data/tab");
+      const data = await getJson<TabData>("function/data/tab");
 
       const { id, location, type } = getIdentity();
 

@@ -5,7 +5,7 @@ import { appCoverPrefix } from "../../config/index.js";
 import type { UnderEnrollPlanConfig } from "../../service/index.js";
 import { getUnderEnrollPlan } from "../../service/index.js";
 import { info } from "../../state/index.js";
-import { getColor, showNotice } from "../../utils/index.js";
+import { getPageColor, showNotice } from "../../utils/index.js";
 
 const PAGE_ID = "under-enroll-plan";
 const PAGE_TITLE = "本科招生计划";
@@ -35,7 +35,7 @@ $Page(PAGE_ID, {
 
   onLoad() {
     this.setData({
-      color: getColor(),
+      color: getPageColor(),
       theme: info.theme,
     });
     this.getPlanInfo();

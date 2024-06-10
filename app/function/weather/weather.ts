@@ -10,7 +10,7 @@ import {
 import type { WeatherAlarm, WeatherData } from "../../service/index.js";
 import { getWeather } from "../../service/index.js";
 import { info } from "../../state/index.js";
-import { getColor } from "../../utils/index.js";
+import { getPageColor } from "../../utils/index.js";
 
 const PAGE_TITLE = "东师天气";
 const CANVAS_SELECTOR = ".temperature-canvas";
@@ -37,7 +37,7 @@ $Page("weather", {
       // 18 点至次日 5 点为夜间
       infoClass: currentHour > 18 || currentHour < 5 ? "night" : "day",
       firstPage: getCurrentPages().length === 1,
-      color: getColor(),
+      color: getPageColor(),
       statusBarHeight: info.statusBarHeight,
     });
 

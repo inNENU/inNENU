@@ -4,7 +4,7 @@ import type { Lyric, PlayMode, SongDetail } from "./typings.js";
 import { loadFZSSJW, showToast } from "../../api/index.js";
 import { appCoverPrefix, appName } from "../../config/index.js";
 import { info } from "../../state/index.js";
-import { ensureResource, getResource, showNotice } from "../../utils/index.js";
+import { ensureJson, getJson, showNotice } from "../../utils/index.js";
 
 interface MusicState {
   /** 是否正在播放 */
@@ -59,7 +59,7 @@ $Page("music", {
   },
 
   onNavigate() {
-    ensureResource("function/music/index");
+    ensureJson("function/music/index");
   },
 
   // eslint-disable-next-line max-lines-per-function
@@ -85,7 +85,7 @@ $Page("music", {
       firstPage: getCurrentPages().length === 1,
     });
 
-    getResource<SongDetail[]>("function/music/index").then((songList) => {
+    getJson<SongDetail[]>("function/music/index").then((songList) => {
       if (option.index) {
         musicState.index = Number(option.index);
       } else if (option.name) {
@@ -236,7 +236,7 @@ $Page("music", {
     const { lyric } = this.data.currentSong;
 
     if (lyric)
-      getResource<Lyric[]>(`function/music/${lyric}`).then((lyrics) => {
+      getJson<Lyric[]>(`function/music/${lyric}`).then((lyrics) => {
         this.setData({
           currentLyric: "",
           currentLyricId: -1,

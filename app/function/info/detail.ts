@@ -9,8 +9,8 @@ import {
 } from "../../config/index.js";
 import type { InfoType } from "../../service/index.js";
 import { getInfo } from "../../service/index.js";
-import { info } from "../../state/index.js";
-import { getColor, showNotice } from "../../utils/index.js";
+import { appID, info } from "../../state/index.js";
+import { getPageColor, showNotice } from "../../utils/index.js";
 import type { StarredInfo } from "../../widgets/star/typings.js";
 
 const PAGE_ID = "info-detail";
@@ -50,14 +50,14 @@ $Page(PAGE_ID, {
 
     this.getInfo();
     this.setData({
-      color: getColor(),
+      color: getPageColor(),
       theme: info.theme,
       pageTitle: getTitle(type as InfoType),
       title,
       share: {
         title,
         shareable: true,
-        qrcode: `${service}mp/qrcode?appID=${info.appID}&page=function/info/detail&scene=${url}@${type}`,
+        qrcode: `${service}mp/qrcode?appID=${appID}&page=function/info/detail&scene=${url}@${type}`,
       },
       starred: starredInfos.some((item) => item.url === url),
     });

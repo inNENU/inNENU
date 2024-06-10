@@ -2,10 +2,8 @@ import type { GlobalData } from "./globalData.js";
 import { platformActions } from "./platform.js";
 import { updateApp } from "./update.js";
 import { getCurrentRoute, showToast } from "../api/index.js";
-import { info, setOpenid } from "../state/index.js";
+import { env, envName, setOpenid } from "../state/index.js";
 import { login } from "../utils/index.js";
-
-const { env, envName } = info;
 
 /** 注册全局监听 */
 const registerActions = (): void => {

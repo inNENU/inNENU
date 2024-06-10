@@ -1,20 +1,33 @@
+import { assets } from "../config/index.js";
+
+const systemInfo = wx.getSystemInfoSync();
+
+/** 小程序 appid */
+export const appID = wx.getAccountInfoSync().miniProgram.appId as AppID;
+
+/** 小程序 appid */
 export type AppID =
   | "wx33acb831ee1831a5"
   | "wx9ce37d9662499df3"
   | "wx69e79c3d87753512"
   | 1109559721;
 
+/** 运行环境 */
 export type Env = "app" | "qq" | "wx" | "web";
 
+/** 运行环境 */
+export const env: Env =
+  "miniapp" in wx ? "app" : systemInfo.AppPlatform || "wx";
+
+/** 运行环境名称 */
+export const envName = env === "app" ? "App" : "小程序";
+
+export const logo =
+  env === "qq" ? `${assets}img/inNENU.png` : "/frameset/placeholder.png";
+
 export interface InfoState extends Omit<WechatMiniprogram.SystemInfo, "theme"> {
-  /** 小程序 appid */
-  appID: AppID;
   /** 夜间模式 */
   darkmode: boolean;
-  /** 运行环境 */
-  env: Env;
-  /** 运行环境名称 */
-  envName: string;
   /** 启动时间 */
   startupTime: number;
   /** 当前主题 */
@@ -23,18 +36,9 @@ export interface InfoState extends Omit<WechatMiniprogram.SystemInfo, "theme"> {
   selectable: boolean;
 }
 
-const systemInfo = wx.getSystemInfoSync();
-
-const env: Env = "miniapp" in wx ? "app" : systemInfo.AppPlatform || "wx";
-
-const envName = env === "app" ? "App" : "小程序";
-
 const infoState: InfoState = {
   ...systemInfo,
-  appID: wx.getAccountInfoSync().miniProgram.appId as AppID,
   darkmode: systemInfo.theme === "dark",
-  env,
-  envName,
   startupTime: Date.now(),
   theme: wx.getStorageSync<string>("theme") || "ios",
   selectable: wx.getStorageSync<boolean>("selectable") || false,

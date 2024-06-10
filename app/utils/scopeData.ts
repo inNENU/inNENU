@@ -1,12 +1,12 @@
 import type {
   GeneralScopeData,
-  PageDataWithContent,
+  PageStateWithContent,
   TextComponentOptions,
   TitleComponentOptions,
 } from "../../typings/index.js";
 import { appCoverPrefix, appName } from "../config/index.js";
 
-const getText = (page: PageDataWithContent): string => {
+const getText = (page: PageStateWithContent): string => {
   const pageContent = page.content
     .filter(
       (element): element is TextComponentOptions =>
@@ -26,7 +26,7 @@ const getText = (page: PageDataWithContent): string => {
   return pageContent.length > 120 ? pageContent.slice(0, 120) : pageContent;
 };
 
-const getTags = (page: PageDataWithContent): string[] => {
+const getTags = (page: PageStateWithContent): string[] => {
   const titles = page.content
     .filter(
       (element): element is TitleComponentOptions => element.tag === "title",
@@ -42,7 +42,7 @@ const getTags = (page: PageDataWithContent): string[] => {
       : [];
 };
 
-const getImages = (page: PageDataWithContent): string[] =>
+const getImages = (page: PageStateWithContent): string[] =>
   page.images
     ? page.images.length > 10
       ? page.images.slice(0, 10)
@@ -51,7 +51,7 @@ const getImages = (page: PageDataWithContent): string[] =>
         : page.images
     : [`${appCoverPrefix}jpg`];
 
-export const getScopeData = (page: PageDataWithContent): GeneralScopeData => ({
+export const getScopeData = (page: PageStateWithContent): GeneralScopeData => ({
   // eslint-disable-next-line @typescript-eslint/naming-convention
   "@type": "general",
   // eslint-disable-next-line

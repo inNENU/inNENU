@@ -2,9 +2,8 @@ import { $Page } from "@mptool/all";
 
 import { showModal } from "../../api/index.js";
 import { appCoverPrefix } from "../../config/index.js";
-import { getResource, showNotice } from "../../utils/index.js";
+import { getJson, showNotice } from "../../utils/index.js";
 
-showModal;
 /** 分数段设置 */
 const gradeLevels = [
   10, 20, 30, 40, 50, 60, 62, 64, 66, 68, 70, 72, 74, 76, 78, 80, 85, 90, 95,
@@ -311,7 +310,7 @@ $Page("pe-calculator", {
       [peScore.bmi, peScore.passScore] = this.getBMI(result);
 
     // 读取相应配置文件
-    getResource<GradeConfig>(`function/pe-calculator/${gender}-${grade}`).then(
+    getJson<GradeConfig>(`function/pe-calculator/${gender}-${grade}`).then(
       (config) => {
         // 以下三项越高越好，进行计算
         (

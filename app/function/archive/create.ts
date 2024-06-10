@@ -18,11 +18,9 @@ import {
   submitUnderStudentArchiveInfo,
   submitUnderStudentArchiveStudy,
 } from "../../service/index.js";
-import { info, user } from "../../state/index.js";
-import { getColor, showNotice } from "../../utils/index.js";
+import { envName, info, user } from "../../state/index.js";
+import { getPageColor, showNotice } from "../../utils/index.js";
 
-showModal;
-const { envName } = info;
 const PAGE_ID = "create-archive";
 const PAGE_TITLE = "建立学籍";
 
@@ -69,7 +67,7 @@ $Page(PAGE_ID, {
 
   onLoad() {
     this.setData({
-      color: getColor(),
+      color: getPageColor(),
       theme: info.theme,
     });
   },

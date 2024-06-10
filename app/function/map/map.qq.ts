@@ -12,7 +12,7 @@ import type {
 import { showModal, showToast } from "../../api/index.js";
 import { appCoverPrefix } from "../../config/index.js";
 import { info } from "../../state/index.js";
-import { ensureResource, getResource, showNotice } from "../../utils/index.js";
+import { ensureJson, getJson, showNotice } from "../../utils/index.js";
 
 const PAGE_ID = "map";
 const PAGE_TITLE = "东师地图";
@@ -54,8 +54,8 @@ $Page(PAGE_ID, {
 
   onNavigate() {
     console.info("Navigating to Map");
-    ensureResource("function/map/marker/benbu");
-    ensureResource("function/map/marker/jingyue");
+    ensureJson("function/map/marker/benbu");
+    ensureJson("function/map/marker/jingyue");
   },
 
   onLoad(options: { area?: "benbu" | "jingyue" }) {
@@ -149,7 +149,7 @@ $Page(PAGE_ID, {
   /** 生成点位 */
   setMarker() {
     const promises = ["benbu", "jingyue"].map((path) =>
-      getResource<MarkerConfig>(`function/map/marker/${path}`)
+      getJson<MarkerConfig>(`function/map/marker/${path}`)
         .then((markerData) => {
           this.state[path as Area] = markerData;
         })

@@ -3,7 +3,7 @@ import { $Page, readFile } from "@mptool/all";
 import { appCoverPrefix } from "../../config/index.js";
 import { info } from "../../state/index.js";
 import type { SearchResult, SearchType } from "../../utils/index.js";
-import { getColor, search, showNotice } from "../../utils/index.js";
+import { getPageColor, search, showNotice } from "../../utils/index.js";
 
 $Page("search", {
   data: {
@@ -35,7 +35,7 @@ $Page("search", {
     this.setData({
       type: (options.type as SearchType) || "all",
       firstPage: getCurrentPages().length === 1,
-      color: getColor(true),
+      color: getPageColor(true),
       searchWord: options.word || "",
       theme: info.theme,
       darkmode: info.darkmode,

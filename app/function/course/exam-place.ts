@@ -12,11 +12,8 @@ import {
   ensureUnderSystemLogin,
   getUnderExamPlace,
 } from "../../service/index.js";
-import { info, user } from "../../state/index.js";
-import { getColor, showNotice } from "../../utils/index.js";
-
-showModal;
-const { envName } = info;
+import { envName, info, user } from "../../state/index.js";
+import { getPageColor, showNotice } from "../../utils/index.js";
 
 const PAGE_ID = "exam-place";
 const PAGE_TITLE = "考场查询";
@@ -44,7 +41,7 @@ $Page(PAGE_ID, {
 
   onLoad() {
     this.setData({
-      color: getColor(),
+      color: getPageColor(),
       theme: info.theme,
     });
   },

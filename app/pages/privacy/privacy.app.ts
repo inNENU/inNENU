@@ -1,7 +1,7 @@
 import { $Page } from "@mptool/all";
 
-import type { PageDataWithContent } from "../../../typings/index.js";
-import type { AppOption } from "../../app.js";
+import type { PageStateWithContent } from "../../../typings/index.js";
+import type { App } from "../../app.js";
 import { info } from "../../state/index.js";
 import {
   getPrivacyStatus,
@@ -10,7 +10,7 @@ import {
   showNotice,
 } from "../../utils/index.js";
 
-const { globalData } = getApp<AppOption>();
+const { globalData } = getApp<App>();
 
 $Page("privacy", {
   data: {
@@ -47,7 +47,7 @@ $Page("privacy", {
           footer: " ",
         },
       ],
-    } as PageDataWithContent,
+    } as PageStateWithContent,
 
     authorize: {},
   },

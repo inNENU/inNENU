@@ -1,7 +1,7 @@
 import { $Page, get, set } from "@mptool/all";
 
 import { showModal, showToast } from "../../api/index.js";
-import { MINUTE, appCoverPrefix, assets } from "../../config/index.js";
+import { MINUTE, appCoverPrefix } from "../../config/index.js";
 import type {
   ActivateBindPhoneOptions,
   ActivatePasswordOptions,
@@ -13,10 +13,8 @@ import {
   idTypes,
   supportRedirect,
 } from "../../service/index.js";
-import { info, user } from "../../state/index.js";
-import { getColor, showNotice } from "../../utils/index.js";
-
-const { envName } = info;
+import { envName, info, logo, user } from "../../state/index.js";
+import { getPageColor, showNotice } from "../../utils/index.js";
 
 const ACTIVATE_SMS_KEY = "activate-sms-code";
 const PAGE_ID = "activate";
@@ -25,10 +23,7 @@ const PAGE_TITLE = "账号激活";
 $Page(PAGE_ID, {
   data: {
     theme: info.theme,
-    logo:
-      info.env === "qq"
-        ? `${assets}img/inNENU.png`
-        : "/frameset/placeholder.png",
+    logo,
 
     /** 导航栏 */
     nav: {
@@ -80,7 +75,7 @@ ${envName}严格使用官方激活流程。
       });
     else this.getCaptcha();
 
-    this.setData({ color: getColor() });
+    this.setData({ color: getPageColor() });
   },
 
   onShow() {

@@ -1,9 +1,9 @@
 import type { AppSettings, ServiceSettings } from "./settings.js";
-import type { PageData } from "../../typings/index.js";
+import type { PageState } from "../../typings/index.js";
 
-export interface PageState {
+export interface PageInfo {
   /** 页面数据 */
-  data?: PageData;
+  data?: PageState;
   /** 页面标识符 */
   id?: string;
 }
@@ -15,7 +15,7 @@ export interface GlobalData {
   service: ServiceSettings;
 
   /** 页面信息 */
-  page: PageState;
+  page: PageInfo;
 }
 
 /** 全局数据 */

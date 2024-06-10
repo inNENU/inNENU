@@ -8,10 +8,8 @@ import {
 } from "../../api/index.js";
 import { appCoverPrefix } from "../../config/index.js";
 import type { Env } from "../../state/index.js";
-import { info } from "../../state/index.js";
-import { ensureResource, getResource, showNotice } from "../../utils/index.js";
-
-const { env } = info;
+import { env, info } from "../../state/index.js";
+import { ensureJson, getJson, showNotice } from "../../utils/index.js";
 
 const PAGE_ID = "school-media";
 const PAGE_TITLE = "校园媒体";
@@ -30,11 +28,11 @@ $Page(PAGE_ID, {
   },
 
   onNavigate() {
-    ensureResource(`function/account/${env}`);
+    ensureJson(`function/account/${env}`);
   },
 
   onLoad({ type = env }: { type: Env }) {
-    getResource<unknown[]>(`function/account/${type}`).then((config) => {
+    getJson<unknown[]>(`function/account/${type}`).then((config) => {
       this.setData({
         config,
         type,
@@ -72,7 +70,7 @@ $Page(PAGE_ID, {
   >) {
     const { type } = currentTarget.dataset;
 
-    getResource<unknown[]>(`function/account/${type}`).then((config) => {
+    getJson<unknown[]>(`function/account/${type}`).then((config) => {
       this.setData({ config, type });
     });
   },

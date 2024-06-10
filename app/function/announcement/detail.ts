@@ -7,8 +7,8 @@ import {
   service,
 } from "../../config/index.js";
 import { getAnnouncement } from "../../service/index.js";
-import { info } from "../../state/index.js";
-import { getColor, showNotice } from "../../utils/index.js";
+import { appID, info } from "../../state/index.js";
+import { getPageColor, showNotice } from "../../utils/index.js";
 import type { StarredAnnouncement } from "../../widgets/star/typings.js";
 
 const PAGE_ID = "announcement-detail";
@@ -42,13 +42,13 @@ $Page(PAGE_ID, {
 
     this.getInfo();
     this.setData({
-      color: getColor(),
+      color: getPageColor(),
       theme: info.theme,
       title,
       share: {
         title,
         shareable: true,
-        qrcode: `${service}mp/qrcode?appID=${info.appID}&page=function/announcement/detail&scene=${url}`,
+        qrcode: `${service}mp/qrcode?appID=${appID}&page=function/announcement/detail&scene=${url}`,
       },
       starred: starredAnnouncements.some((item) => item.url === url),
     });

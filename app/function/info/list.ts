@@ -5,7 +5,7 @@ import { appCoverPrefix } from "../../config/index.js";
 import type { InfoItem, InfoType } from "../../service/index.js";
 import { getInfoList } from "../../service/index.js";
 import { info } from "../../state/index.js";
-import { getColor, showNotice } from "../../utils/index.js";
+import { getPageColor, showNotice } from "../../utils/index.js";
 
 const PAGE_ID = "info-list";
 
@@ -28,7 +28,7 @@ $Page(PAGE_ID, {
   onLoad({ type = "news" }) {
     this.state.type = type as InfoType;
     this.setData({
-      color: getColor(),
+      color: getPageColor(),
       theme: info.theme,
       title: getTitle(type as InfoType),
     });

@@ -1,26 +1,22 @@
 import { $Page } from "@mptool/all";
 
 import { setClipboard, showModal, showToast } from "../../api/index.js";
-import { appCoverPrefix, assets } from "../../config/index.js";
+import { appCoverPrefix } from "../../config/index.js";
 import {
   ensureActionLogin,
   getEmailPage,
   getRecentEmails,
 } from "../../service/index.js";
-import { info, user } from "../../state/index.js";
+import { env, info, logo, user } from "../../state/index.js";
 import { showNotice } from "../../utils/index.js";
 
-showModal;
 const PAGE_ID = "email";
 const PAGE_TITLE = "校园邮箱";
 
 $Page(PAGE_ID, {
   data: {
     theme: info.theme,
-    logo:
-      info.env === "qq"
-        ? `${assets}img/inNENU.png`
-        : "/frameset/placeholder.png",
+    logo,
 
     nav: {
       title: PAGE_TITLE,
@@ -147,8 +143,7 @@ $Page(PAGE_ID, {
     if (result.success) {
       const { url } = result;
 
-      if (info.env === "app")
-        return this.$go(`web?url=${encodeURIComponent(url)}`);
+      if (env === "app") return this.$go(`web?url=${encodeURIComponent(url)}`);
 
       await setClipboard(url);
 

@@ -8,8 +8,8 @@ import {
 } from "../../config/index.js";
 import type { NoticeType } from "../../service/index.js";
 import { ensureActionLogin, getNotice } from "../../service/index.js";
-import { info, user } from "../../state/index.js";
-import { getColor, showNotice } from "../../utils/index.js";
+import { appID, info, user } from "../../state/index.js";
+import { getPageColor, showNotice } from "../../utils/index.js";
 import type { StarredNotice } from "../../widgets/star/typings.js";
 
 const PAGE_ID = "notice-detail";
@@ -42,14 +42,14 @@ $Page(PAGE_ID, {
       });
 
     this.setData({
-      color: getColor(),
+      color: getPageColor(),
       theme: info.theme,
       pageTitle: `${type === "news" ? "新闻" : "通知"}详情`,
       title,
       share: {
         title,
         shareable: true,
-        qrcode: `${service}mp/qrcode?appID=${info.appID}&page=function/notice/detail&scene=${id}`,
+        qrcode: `${service}mp/qrcode?appID=${appID}&page=function/notice/detail&scene=${id}`,
       },
       starred: starredNotices.some((item) => item.id === id),
     });

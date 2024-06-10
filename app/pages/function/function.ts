@@ -1,33 +1,33 @@
 import { $Page, get, put, set, take } from "@mptool/all";
 
-import type { PageDataWithContent } from "../../../typings/index.js";
-import type { AppOption } from "../../app.js";
+import type { PageStateWithContent } from "../../../typings/index.js";
+import type { App } from "../../app.js";
 import { DAY, appCoverPrefix } from "../../config/index.js";
 import { getIdentity, info } from "../../state/index.js";
 import {
   checkResource,
-  getColor,
+  getPageColor,
   resolvePage,
   search,
   setPage,
   showNotice,
 } from "../../utils/index.js";
 
-const { globalData } = getApp<AppOption>();
+const { globalData } = getApp<App>();
 
 const PAGE_ID = "function";
 const PAGE_TITLE = "功能大厅";
 
 const defaultPage = resolvePage(
   { id: PAGE_ID },
-  get<PageDataWithContent>(PAGE_ID) ||
+  get<PageStateWithContent>(PAGE_ID) ||
     ({
       title: PAGE_TITLE,
       grey: true,
       hidden: true,
       content: [{ tag: "loading" }],
-    } as PageDataWithContent),
-) as PageDataWithContent;
+    } as PageStateWithContent),
+) as PageStateWithContent;
 
 $Page(PAGE_ID, {
   data: {
@@ -51,7 +51,7 @@ $Page(PAGE_ID, {
   },
 
   onLoad() {
-    const preloadData = take<PageDataWithContent>(PAGE_ID);
+    const preloadData = take<PageStateWithContent>(PAGE_ID);
 
     setPage(
       { option: { id: PAGE_ID }, ctx: this, handle: Boolean(preloadData) },
@@ -97,10 +97,10 @@ $Page(PAGE_ID, {
   },
 
   setTheme(theme: string): void {
-    this.setData({ color: getColor(this.data.page.grey), theme });
+    this.setData({ color: getPageColor(this.data.page.grey), theme });
   },
 
-  loadPage(): PageDataWithContent | null {
+  loadPage(): PageStateWithContent | null {
     if (!globalData.settings) return null;
 
     const { id } = getIdentity();

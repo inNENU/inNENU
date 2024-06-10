@@ -3,7 +3,7 @@ import { $Page } from "@mptool/all";
 import { setClipboard, showModal } from "../../api/index.js";
 import { appCoverPrefix } from "../../config/index.js";
 import { info } from "../../state/index.js";
-import { ensureResource, getResource, showNotice } from "../../utils/index.js";
+import { ensureJson, getJson, showNotice } from "../../utils/index.js";
 
 const PAGE_ID = "website";
 const PAGE_TITLE = "东师网站";
@@ -14,11 +14,11 @@ $Page(PAGE_ID, {
   },
 
   onNavigate() {
-    ensureResource("function/website/index");
+    ensureJson("function/website/index");
   },
 
   onLoad() {
-    getResource<unknown[]>("function/website/index").then((config) => {
+    getJson<unknown[]>("function/website/index").then((config) => {
       this.setData({
         config,
         height: info.windowHeight - info.statusBarHeight - 160,

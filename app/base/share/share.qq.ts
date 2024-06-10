@@ -1,16 +1,14 @@
 import type { PropType } from "@mptool/all";
 import { $Component, logger } from "@mptool/all";
 
-import type { PageData } from "../../../typings/index.js";
+import type { PageState } from "../../../typings/index.js";
 import { savePhoto, setClipboard, showToast } from "../../api/index.js";
 import { appName, service } from "../../config/index.js";
-import { info } from "../../state/index.js";
+import { appID } from "../../state/index.js";
 import { path2id } from "../../utils/index.js";
 
-const { appID } = info;
-
 type ShareConfig = Pick<
-  PageData,
+  PageState,
   "id" | "contact" | "qrcode" | "title" | "shareable"
 >;
 

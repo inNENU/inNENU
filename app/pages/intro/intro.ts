@@ -5,19 +5,19 @@ import type {
   GridComponentItemConfig,
   ListComponentItemConfig,
 } from "../../../typings/index.js";
-import type { AppOption } from "../../app.js";
+import type { App } from "../../app.js";
 import { DAY, appCoverPrefix } from "../../config/index.js";
 import { getIdentity, info } from "../../state/index.js";
 import {
   checkResource,
-  getColor,
-  getResource,
+  getJson,
+  getPageColor,
   search,
   showNotice,
 } from "../../utils/index.js";
 import type { TabData } from "../typings.js";
 
-const { globalData } = getApp<AppOption>();
+const { globalData } = getApp<App>();
 
 const PAGE_ID = "intro";
 const PAGE_TITLE = "东师介绍";
@@ -52,7 +52,7 @@ $Page(PAGE_ID, {
   },
 
   onLoad() {
-    this.setData({ color: getColor(true) });
+    this.setData({ color: getPageColor(true) });
     this.$on("settings", () => this.setPage());
   },
 
@@ -90,12 +90,12 @@ $Page(PAGE_ID, {
   },
 
   setTheme(theme: string): void {
-    this.setData({ color: getColor(this.data.page.grey), theme });
+    this.setData({ color: getPageColor(this.data.page.grey), theme });
   },
 
   async setPage(): Promise<void> {
     if (globalData.settings) {
-      const data = await getResource<TabData>("function/data/tab");
+      const data = await getJson<TabData>("function/data/tab");
 
       const { id, type, location } = getIdentity();
 

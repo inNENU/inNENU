@@ -5,7 +5,7 @@ import { appCoverPrefix } from "../../config/index.js";
 import type { NoticeItem } from "../../service/index.js";
 import { ensureActionLogin, getNoticeList } from "../../service/index.js";
 import { info, user } from "../../state/index.js";
-import { getColor, showNotice } from "../../utils/index.js";
+import { getPageColor, showNotice } from "../../utils/index.js";
 
 const PAGE_ID = "notice-list";
 
@@ -30,7 +30,7 @@ $Page(PAGE_ID, {
   onLoad({ type = "notice" }) {
     this.state.type = type as "notice" | "news";
     this.setData({
-      color: getColor(),
+      color: getPageColor(),
       theme: info.theme,
       title: `学校${type === "news" ? "新闻" : "通知"}`,
     });

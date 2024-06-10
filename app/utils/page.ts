@@ -3,26 +3,26 @@ import type { PageInstance, PageQuery } from "@mptool/all";
 import { logger, readJSON, writeJSON } from "@mptool/all";
 
 import { id2path } from "./id.js";
-import { ensureResource } from "./json.js";
+import { ensureJson } from "./json.js";
 import { getScopeData } from "./scopeData.js";
 import type {
   ComponentConfig,
   FunctionalListComponentItemConfig,
   GridComponentItemConfig,
   ListComponentItemConfig,
-  PageData,
-  PageDataWithContent,
-  PageOption,
+  PageOptions,
+  PageState,
+  PageStateWithContent,
 } from "../../typings/index.js";
 import { requestJSON, showModal } from "../api/index.js";
 import type { NoticeItem } from "../app/index.js";
-import type { AppOption } from "../app.js";
+import type { App } from "../app.js";
 import { imageWaterMark } from "../config/index.js";
-import { info } from "../state/index.js";
+import { env, info } from "../state/index.js";
 
 type PageInstanceWithPage = PageInstance<
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  Record<string, any> & { page?: PageData },
+  Record<string, any> & { page?: PageState },
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   Record<string, any>
 >;
@@ -33,7 +33,7 @@ type PageInstanceWithPage = PageInstance<
  * @param element 列表的内容
  * @param page 页面内容
  */
-const resolveContent = (
+const setListItemState = (
   listElement: (
     | FunctionalListComponentItemConfig
     | GridComponentItemConfig
@@ -50,7 +50,7 @@ const resolveContent = (
   if (
     "env" in listElement &&
     listElement.env &&
-    !listElement.env?.includes(info.env)
+    !listElement.env?.includes(env)
   )
     return null;
 
@@ -101,7 +101,7 @@ const resolveContent = (
   return listElement;
 };
 
-export const handleComponents = (
+export const setComponentState = (
   components: ComponentConfig[],
   images: string[] = [],
   title = "返回",
@@ -110,8 +110,7 @@ export const handleComponents = (
     const { tag } = component;
 
     // 设置隐藏
-    if ("env" in component)
-      component.hidden = !component.env?.includes(info.env);
+    if ("env" in component) component.hidden = !component.env?.includes(env);
 
     if (tag === "img") {
       const { src, res, watermark } = component;
@@ -138,7 +137,7 @@ export const handleComponents = (
               | GridComponentItemConfig
               | ListComponentItemConfig
             ) & { hidden?: boolean },
-          ) => resolveContent(listElement, title),
+          ) => setListItemState(listElement, title),
         )
         .filter((listElement) => listElement !== null) as
         | FunctionalListComponentItemConfig[]
@@ -156,15 +155,18 @@ export const handleComponents = (
  *
  * @returns 处理之后的page
  */
-const disposePage = (page: PageData, option: PageOption): PageData => {
+const setPageState = (
+  page: PageState | PageStateWithContent,
+  option: PageOptions,
+): PageState => {
   // 设置界面名称
   page.id = option.id || page.title;
   // 设置页面来源
   page.from = option.from || "返回";
 
   if (page.content) {
-    handleComponents(page.content, (page.images ??= []), page.title);
-    page.scopeData = getScopeData(page as PageDataWithContent);
+    setComponentState(page.content, (page.images ??= []), page.title);
+    page.scopeData = getScopeData(page as PageStateWithContent);
   }
 
   // 调试
@@ -180,8 +182,8 @@ const disposePage = (page: PageData, option: PageOption): PageData => {
  *
  * @param page 页面数据
  */
-const preloadPage = (page: PageData): void => {
-  if (page?.content)
+const preloadPageLinks = (page: PageState): void => {
+  if (page.content)
     page.content.forEach((component) => {
       const { tag } = component;
 
@@ -198,7 +200,7 @@ const preloadPage = (page: PageData): void => {
               | ListComponentItemConfig
             ) & { hidden?: boolean },
           ) => {
-            if ("path" in element) ensureResource(`${element.path!}`);
+            if ("path" in element) ensureJson(`${element.path!}`);
           },
         );
     });
@@ -230,25 +232,25 @@ const preloadPage = (page: PageData): void => {
  */
 export const resolvePage = (
   options: PageQuery,
-  page?: PageData,
+  page?: PageState,
   setGlobal = true,
-): PageData | null => {
+): PageState | null => {
   // 控制台输出参数
   logger.info("Navigating to: ", options);
 
   let pageData = null;
 
   if (page) {
-    pageData = disposePage(page, options);
+    pageData = setPageState(page, options);
   } else if (options.id) {
-    const pageContent = readJSON<PageData>(`${options.id}`);
+    const pageContent = readJSON<PageState>(`${options.id}`);
 
-    if (pageContent) pageData = disposePage(pageContent, options);
+    if (pageContent) pageData = setPageState(pageContent, options);
     else logger.warn(`Can't resolve ${options.id} because file doesn't exist`);
   }
 
   if (pageData && setGlobal) {
-    const { globalData } = getApp<AppOption>();
+    const { globalData } = getApp<App>();
 
     // 写入 globalData
     globalData.page.id = options.id || pageData.title;
@@ -258,7 +260,7 @@ export const resolvePage = (
   return pageData;
 };
 
-export interface ColorConfig {
+export interface PageColors {
   bgColor: string;
   bgColorTop: string;
   bgColorBottom: string;
@@ -277,7 +279,7 @@ export interface ColorConfig {
  *
  * @returns 页面实际的胶囊与背景颜色
  */
-export const getColor = (grey = false): ColorConfig => {
+export const getPageColor = (grey = false): PageColors => {
   let temp: [string, string, string];
 
   if (info.darkmode && grey)
@@ -332,8 +334,8 @@ export const getColor = (grey = false): ColorConfig => {
   };
 };
 
-interface SetPageOption {
-  option: PageOption;
+interface SetPageOptions {
+  option: PageOptions;
   ctx: PageInstanceWithPage;
   handle?: boolean;
 }
@@ -357,20 +359,20 @@ interface SetPageOption {
  * @param preload 是否预加载子页面
  */
 export const setPage = (
-  { option, ctx, handle = false }: SetPageOption,
-  page?: PageData,
+  { option, ctx, handle = false }: SetPageOptions,
+  page?: PageState,
   preload = true,
 ): Promise<void> =>
   new Promise((resolve) => {
-    const { globalData } = getApp<AppOption>();
+    const { globalData } = getApp<App>();
 
     // 设置页面数据
     if (page) {
-      const pageData = handle ? page : disposePage(page, option);
+      const pageData = handle ? page : setPageState(page, option);
 
       ctx.setData(
         {
-          color: getColor(pageData.grey),
+          color: getPageColor(pageData.grey),
           theme: info.theme,
           darkmode: info.darkmode,
           page: pageData,
@@ -391,7 +393,7 @@ export const setPage = (
       logger.debug(`${id} has been resolved`);
       ctx.setData(
         {
-          color: getColor(globalData.page.data?.grey),
+          color: getPageColor(globalData.page.data?.grey),
           theme: info.theme,
           darkmode: info.darkmode,
           page: globalData.page.data,
@@ -399,7 +401,7 @@ export const setPage = (
         () => {
           logger.debug(`${id} pageData is set`);
           if (preload) {
-            preloadPage(ctx.data.page!);
+            preloadPageLinks(ctx.data.page!);
             logger.debug(`Preloaded ${id} links`);
           }
           resolve();
@@ -408,14 +410,14 @@ export const setPage = (
     } else if (ctx.data.page) {
       logger.debug(`${option.id || "Unknown"} not resolved`);
 
-      const pageData: PageData = handle
+      const pageData: PageState = handle
         ? ctx.data.page
-        : disposePage(ctx.data.page, option);
+        : setPageState(ctx.data.page, option);
 
       // 设置页面数据
       ctx.setData(
         {
-          color: getColor(pageData.grey),
+          color: getPageColor(pageData.grey),
           theme: info.theme,
           darkmode: info.darkmode,
           page: pageData,
@@ -468,11 +470,11 @@ export const showNotice = (id: string): void => {
  */
 // eslint-disable-next-line max-lines-per-function
 export const setOnlinePage = (
-  option: PageOption,
+  option: PageOptions,
   ctx: PageInstanceWithPage,
   preload = true,
 ): void => {
-  const { globalData } = getApp<AppOption>();
+  const { globalData } = getApp<App>();
   const { id } = option;
 
   if (id)
@@ -482,7 +484,7 @@ export const setOnlinePage = (
 
       ctx.setData(
         {
-          color: getColor(globalData.page.data!.grey),
+          color: getPageColor(globalData.page.data!.grey),
           theme: info.theme,
           darkmode: info.darkmode,
           page: globalData.page.data,
@@ -492,7 +494,7 @@ export const setOnlinePage = (
           showNotice(id);
 
           if (preload) {
-            preloadPage(ctx.data.page!);
+            preloadPageLinks(ctx.data.page!);
             logger.debug(`Preloaded ${id} links`);
           }
         },
@@ -501,7 +503,7 @@ export const setOnlinePage = (
       // 需要重新载入界面
       logger.info(`${id} onLoad with options: `, option);
 
-      const page = readJSON<PageData>(`${id}`);
+      const page = readJSON<PageState>(`${id}`);
 
       // 如果本地存储中含有 page 直接处理
       if (page) {
@@ -511,13 +513,13 @@ export const setOnlinePage = (
 
         // 如果需要执行预加载，则执行
         if (preload) {
-          preloadPage(ctx.data.page!);
+          preloadPageLinks(ctx.data.page!);
           logger.debug(`${id} preload complete`);
         }
       }
       // 请求页面Json
       else {
-        requestJSON<PageData>(`d/${id}`)
+        requestJSON<PageState>(`d/${id}`)
           .then((data) => {
             // 非分享界面下将页面数据写入存储
             if (option.from !== "share") writeJSON(`${id}`, data);
@@ -527,7 +529,7 @@ export const setOnlinePage = (
 
             // 如果需要执行预加载，则执行
             if (preload) {
-              preloadPage(ctx.data.page!);
+              preloadPageLinks(ctx.data.page!);
               logger.debug(`Preload ${id} complete`);
             }
 
@@ -572,7 +574,7 @@ export const setOnlinePage = (
  * @param preload 是否需要预加载(默认需要)
  */
 export const loadOnlinePage = (
-  option: PageOption & { path: string },
+  option: PageOptions & { path: string },
   ctx: PageInstanceWithPage,
 ): void => {
   if (option.path) {
@@ -581,7 +583,7 @@ export const loadOnlinePage = (
     logger.info(`${option.path} onLoad starts with options:`, option);
 
     // 需要在线获取界面
-    requestJSON<PageData>(`d/${option.id}`)
+    requestJSON<PageState>(`d/${option.id}`)
       .then((page) => {
         if (page) {
           setPage({ option, ctx }, page);

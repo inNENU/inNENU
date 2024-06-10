@@ -3,7 +3,7 @@ import { $Page } from "@mptool/all";
 import { addPhoneContact } from "../../api/index.js";
 import { appCoverPrefix } from "../../config/index.js";
 import { info } from "../../state/index.js";
-import { ensureResource, getResource, showNotice } from "../../utils/index.js";
+import { ensureJson, getJson, showNotice } from "../../utils/index.js";
 
 interface PhoneItemConfig {
   name: string;
@@ -24,11 +24,11 @@ $Page("phone", {
   },
 
   onNavigate() {
-    ensureResource("function/phone/index");
+    ensureJson("function/phone/index");
   },
 
   onLoad() {
-    getResource<PhoneConfig[]>("function/phone/index").then((config) => {
+    getJson<PhoneConfig[]>("function/phone/index").then((config) => {
       this.setData({
         config,
         height: info.windowHeight - info.statusBarHeight - 160,

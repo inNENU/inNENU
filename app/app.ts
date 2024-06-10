@@ -13,7 +13,7 @@ import { INITIALIZED_KEY } from "./config/index.js";
 import { info } from "./state/index.js";
 import { checkResource } from "./utils/index.js";
 
-export interface AppOption {
+export interface App {
   globalData: GlobalData;
 }
 
@@ -96,7 +96,7 @@ $Config({
   },
 });
 
-$App<AppOption>({
+$App<App>({
   /** 全局数据 */
   globalData,
 

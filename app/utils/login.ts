@@ -1,7 +1,5 @@
 import { request } from "../api/index.js";
-import { info, user } from "../state/index.js";
-
-const { appID, env } = info;
+import { appID, env, user } from "../state/index.js";
 
 export interface LoginInfo {
   openid: string;

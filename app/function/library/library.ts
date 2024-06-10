@@ -2,7 +2,7 @@ import { $Page } from "@mptool/all";
 
 import { appCoverPrefix } from "../../config/index.js";
 import { info } from "../../state/index.js";
-import { getColor } from "../../utils/index.js";
+import { getPageColor } from "../../utils/index.js";
 
 const PAGE_ID = "library";
 const PAGE_TITLE = "图书馆";
@@ -17,7 +17,7 @@ $Page(PAGE_ID, {
 
   onLoad() {
     this.setData({
-      color: getColor(),
+      color: getPageColor(),
       theme: info.theme,
     });
   },

@@ -3,23 +3,21 @@ import { $Page } from "@mptool/all";
 import { size } from "./size.js";
 import type {
   FunctionalListComponentConfig,
-  PageDataWithContent,
+  PageStateWithContent,
   PickerListComponentItemConfig,
 } from "../../../typings/index.js";
 import { confirmAction, showModal } from "../../api/index.js";
 import { version } from "../../config/index.js";
 import { supportRedirect } from "../../service/utils.js";
-import { info, updateTheme } from "../../state/index.js";
+import { envName, info, updateTheme } from "../../state/index.js";
 import {
   defaultResources,
   downloadResource,
-  getColor,
+  getPageColor,
   resetApp,
   setPage,
   showNotice,
 } from "../../utils/index.js";
-
-const { envName } = info;
 
 const PAGE_TITLE = `${envName}设置`;
 
@@ -102,7 +100,7 @@ $Page("settings", {
           footer: `如果${envName}出现问题请尝试重置${envName}`,
         },
       ],
-    } as PageDataWithContent,
+    } as PageStateWithContent,
   },
 
   onLoad() {
@@ -162,7 +160,7 @@ $Page("settings", {
     )[Number(value)];
 
     updateTheme(theme);
-    this.setData({ color: getColor(this.data.page.grey), theme });
+    this.setData({ color: getPageColor(this.data.page.grey), theme });
     this.$emit("theme", theme);
 
     // debug

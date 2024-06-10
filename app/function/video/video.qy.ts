@@ -3,7 +3,7 @@ import { $Page } from "@mptool/all";
 import { loadFZSSJW, showToast } from "../../api/index.js";
 import { appCoverPrefix } from "../../config/index.js";
 import { info } from "../../state/index.js";
-import { ensureResource, getResource, showNotice } from "../../utils/index.js";
+import { ensureJson, getJson, showNotice } from "../../utils/index.js";
 
 interface VideoConfig {
   /** 视频名称 */
@@ -32,11 +32,11 @@ $Page("video", {
   },
 
   onNavigate() {
-    ensureResource("function/video/index");
+    ensureJson("function/video/index");
   },
 
   onLoad(options) {
-    getResource<VideoGroup[]>("function/video/index").then((videoList) => {
+    getJson<VideoGroup[]>("function/video/index").then((videoList) => {
       let groupID = 0;
       let listID = 0;
 

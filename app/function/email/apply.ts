@@ -1,14 +1,11 @@
 import { $Page } from "@mptool/all";
 
 import { setClipboard, showModal, showToast } from "../../api/index.js";
-import { appCoverPrefix, appName, assets } from "../../config/index.js";
+import { appCoverPrefix, appName } from "../../config/index.js";
 import type { ActivateEmailOptions } from "../../service/index.js";
 import { applyEmail, ensureMyLogin } from "../../service/index.js";
-import { info, user } from "../../state/index.js";
+import { env, envName, info, logo, user } from "../../state/index.js";
 import { showNotice } from "../../utils/index.js";
-
-showModal;
-const { envName } = info;
 
 const MAIL_LINK = "https://mail.nenu.edu.cn";
 const PAGE_ID = "apply-email";
@@ -17,10 +14,7 @@ const PAGE_TITLE = "校园邮箱申请";
 $Page(PAGE_ID, {
   data: {
     theme: info.theme,
-    logo:
-      info.env === "qq"
-        ? `${assets}img/inNENU.png`
-        : "/frameset/placeholder.png",
+    logo,
 
     nav: {
       title: PAGE_TITLE,
@@ -235,8 +229,7 @@ $Page(PAGE_ID, {
   },
 
   initEmail() {
-    if (info.env === "app")
-      this.$go(`web?url=${encodeURIComponent(MAIL_LINK)}`);
+    if (env === "app") this.$go(`web?url=${encodeURIComponent(MAIL_LINK)}`);
     else {
       setClipboard(MAIL_LINK).then(() =>
         showModal(

@@ -1,7 +1,7 @@
 import { $Page, get, set } from "@mptool/all";
 
-import type { PageDataWithContent } from "../../../typings/index.js";
-import type { AppOption } from "../../app.js";
+import type { PageStateWithContent } from "../../../typings/index.js";
+import type { App } from "../../app.js";
 import {
   DAY,
   WIDGET_KEY,
@@ -11,7 +11,7 @@ import {
 import { getIdentity, info } from "../../state/index.js";
 import {
   checkResource,
-  getColor,
+  getPageColor,
   resolvePage,
   search,
   setPage,
@@ -20,20 +20,20 @@ import {
 import { DEFAULT_WIDGETS } from "../../widgets/config.js";
 import type { WidgetConfig } from "../../widgets/utils.js";
 
-const { globalData } = getApp<AppOption>();
+const { globalData } = getApp<App>();
 
 const PAGE_ID = "main";
 
 const defaultPage = resolvePage(
   { id: PAGE_ID },
-  get<PageDataWithContent>(PAGE_ID) ||
+  get<PageStateWithContent>(PAGE_ID) ||
     ({
       title: "首页",
       grey: true,
       hidden: true,
       content: [{ tag: "loading" }],
-    } as PageDataWithContent),
-) as PageDataWithContent;
+    } as PageStateWithContent),
+) as PageStateWithContent;
 
 $Page(PAGE_ID, {
   data: {
@@ -109,10 +109,10 @@ $Page(PAGE_ID, {
   },
 
   setTheme(theme: string): void {
-    this.setData({ color: getColor(this.data.page.grey), theme });
+    this.setData({ color: getPageColor(this.data.page.grey), theme });
   },
 
-  loadPage(): PageDataWithContent | null {
+  loadPage(): PageStateWithContent | null {
     if (!globalData.settings) return null;
 
     const { id } = getIdentity();

@@ -7,10 +7,9 @@ import {
   showToast,
 } from "../../api/index.js";
 import type { Env } from "../../state/index.js";
-import { info } from "../../state/index.js";
-import { ensureResource, getResource, showNotice } from "../../utils/index.js";
+import { env, info } from "../../state/index.js";
+import { ensureJson, getJson, showNotice } from "../../utils/index.js";
 
-const { env } = info;
 const PAGE_ID = "school-media";
 
 $Page(PAGE_ID, {
@@ -25,13 +24,13 @@ $Page(PAGE_ID, {
   },
 
   onNavigate() {
-    ensureResource(`function/account/${env}`);
+    ensureJson(`function/account/${env}`);
   },
 
   onLoad({ type }: { type: Env }) {
     const res = type || (env === "qq" ? "qq" : "wx");
 
-    getResource<unknown[]>(`function/account/${res}`).then((config) => {
+    getJson<unknown[]>(`function/account/${res}`).then((config) => {
       this.setData({
         config,
         type: res,
@@ -57,7 +56,7 @@ $Page(PAGE_ID, {
   >) {
     const { type } = currentTarget.dataset;
 
-    getResource<unknown[]>(`function/account/${type}`).then((config) => {
+    getJson<unknown[]>(`function/account/${type}`).then((config) => {
       this.setData({ config, type });
     });
   },

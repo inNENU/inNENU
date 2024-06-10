@@ -1,6 +1,6 @@
 import { $Page } from "@mptool/all";
 
-import type { PageData, PageOption } from "../../../typings/index.js";
+import type { PageOptions, PageState } from "../../../typings/index.js";
 import { appCoverPrefix } from "../../config/index.js";
 import {
   id2path,
@@ -11,18 +11,18 @@ import {
 
 $Page("info", {
   data: {
-    page: {} as PageData & { id: string },
+    page: {} as PageState & { id: string },
   },
 
   onNavigate(option) {
     resolvePage(option);
   },
 
-  onLoad(option: PageOption & { path?: string }) {
+  onLoad(option: PageOptions & { path?: string }) {
     console.info("onLoad options: ", option);
 
     if (option.path) {
-      loadOnlinePage(option as PageOption & { path: string }, this);
+      loadOnlinePage(option as PageOptions & { path: string }, this);
     } else {
       // 生成页面 ID
       option.id = id2path(

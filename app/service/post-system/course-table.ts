@@ -4,7 +4,7 @@ import { POST_SYSTEM_HTTPS_SERVER } from "./utils.js";
 import type { CommonFailedResponse } from "../../../typings/index.js";
 import { cookieStore, request } from "../../api/index.js";
 import type { ClassItem, TableItem } from "../../function/course/typings.js";
-import { getResource } from "../../utils/index.js";
+import { getJson } from "../../utils/index.js";
 import { LoginFailType } from "../loginFailTypes.js";
 import { createService, isWebVPNPage } from "../utils.js";
 
@@ -64,7 +64,7 @@ const getPostCourseTableLocal = async ({
   time,
 }: PostCourseTableOptions): Promise<PostCourseTableResponse> => {
   try {
-    const semesterStartTime = await getResource<Record<string, string>>(
+    const semesterStartTime = await getJson<Record<string, string>>(
       "function/data/semester-start-time",
     );
 

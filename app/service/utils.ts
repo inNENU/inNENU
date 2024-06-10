@@ -1,15 +1,14 @@
-import type { AppOption } from "../app.js";
+import type { App } from "../app.js";
+import { env, info } from "../state";
 
 // 检测环境是否支持重定向
 const [major, minor, patch] = (wx.getAppBaseInfo || wx.getSystemInfoSync)()
   .SDKVersion.split(".")
   .map(Number);
 
-const isDevTools =
-  (wx.getDeviceInfo || wx.getSystemInfoSync)().platform === "devtools";
-
 export const supportRedirect =
-  !isDevTools &&
+  env !== "app" &&
+  info.platform !== "devtools" &&
   (major > 3 || (major === 3 && (minor > 2 || (minor === 2 && patch >= 2))));
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -19,7 +18,7 @@ export const createService = <T extends (...args: any) => any>(
   onlineService: T,
 ): T =>
   ((...args: Parameters<T>): ReturnType<T> => {
-    const { globalData } = getApp<AppOption>();
+    const { globalData } = getApp<App>();
 
     const shouldUseOnlineService =
       globalData.service[name] === "online" ||

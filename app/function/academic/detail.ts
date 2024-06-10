@@ -7,8 +7,8 @@ import {
   service,
 } from "../../config/index.js";
 import { getAcademicDetail } from "../../service/index.js";
-import { info } from "../../state/index.js";
-import { getColor, showNotice } from "../../utils/index.js";
+import { appID, info } from "../../state/index.js";
+import { getPageColor, showNotice } from "../../utils/index.js";
 import type { StarredAcademic } from "../../widgets/star/typings.js";
 
 const PAGE_ID = "academic-detail";
@@ -47,14 +47,14 @@ $Page(PAGE_ID, {
 
     this.getInfo();
     this.setData({
-      color: getColor(),
+      color: getPageColor(),
       theme: info.theme,
       title,
       person,
       share: {
         title,
         shareable: true,
-        qrcode: `${service}mp/qrcode?appID=${info.appID}&page=function/academic/detail&scene=${url}`,
+        qrcode: `${service}mp/qrcode?appID=${appID}&page=function/academic/detail&scene=${url}`,
       },
       starred: starredInfos.some((item) => item.url === url),
     });

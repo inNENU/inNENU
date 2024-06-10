@@ -1,7 +1,7 @@
 import type { PageConfig } from "../../typings/index.js";
 import { requestJSON } from "../api/index.js";
 import { LICENSE_KEY, PRIVACY_KEY } from "../config/index.js";
-import { info } from "../state/index.js";
+import { appID } from "../state/index.js";
 
 const localLicenseVersion = wx.getStorageSync<number | undefined>(LICENSE_KEY);
 const localPrivacyVersion = wx.getStorageSync<number | undefined>(PRIVACY_KEY);
@@ -24,7 +24,7 @@ export const getLicenseStatus = (): Promise<LicenseStatus> => {
     });
 
   return requestJSON<PageConfig & { version: number }>(
-    `d/config/${info.appID}/license-data`,
+    `d/config/${appID}/license-data`,
   ).then(({ version }) => {
     onlineLicenseVersion = version;
     needLicense = version !== localLicenseVersion;
@@ -61,7 +61,7 @@ export const getPrivacyStatus = (): Promise<PrivacyStatus> => {
     });
 
   return requestJSON<PageConfig & { version: number }>(
-    `d/config/${info.appID}/privacy-data`,
+    `d/config/${appID}/privacy-data`,
   ).then(({ version }) => {
     onlinePrivacyVersion = version;
     needPrivacy = version !== localPrivacyVersion;

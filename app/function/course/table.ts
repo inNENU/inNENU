@@ -15,8 +15,8 @@ import {
   getPostCourseTable,
   getUnderCourseTable,
 } from "../../service/index.js";
-import { info, user } from "../../state/index.js";
-import { getColor, showNotice } from "../../utils/index.js";
+import { envName, info, user } from "../../state/index.js";
+import { getPageColor, showNotice } from "../../utils/index.js";
 import type {
   CourseTableData,
   TableData,
@@ -26,8 +26,6 @@ import {
   getCurrentTimeCode,
   getWeekIndex,
 } from "../../widgets/course/utils.js";
-
-const { envName } = info;
 
 const PAGE_ID = "course-table";
 const PAGE_TITLE = "课程表";
@@ -126,7 +124,7 @@ $Page(PAGE_ID, {
 
   onLoad() {
     this.setData({
-      color: getColor(),
+      color: getPageColor(),
       theme: info.theme,
     });
   },

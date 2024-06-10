@@ -14,7 +14,7 @@ import { getCurrentRoute, showModal, showToast } from "../../api/index.js";
 import { appCoverPrefix } from "../../config/index.js";
 import { LoginFailType } from "../../service/index.js";
 import { info, user } from "../../state/index.js";
-import { getColor, showNotice } from "../../utils/index.js";
+import { getPageColor, showNotice } from "../../utils/index.js";
 import { promiseQueue } from "../utils/index.js";
 
 interface ForceSelectMessage {
@@ -100,7 +100,7 @@ $Page(PAGE_ID, {
 
   onLoad() {
     this.setData({
-      color: getColor(),
+      color: getPageColor(),
       theme: info.theme,
       firstPage: getCurrentPages().length === 1,
     });

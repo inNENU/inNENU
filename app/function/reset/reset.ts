@@ -1,12 +1,10 @@
 import { $Page, get, set } from "@mptool/all";
 
 import { showModal, showToast } from "../../api/index.js";
-import { SECOND, appCoverPrefix, assets } from "../../config/index.js";
+import { SECOND, appCoverPrefix } from "../../config/index.js";
 import { resetPassword, supportRedirect } from "../../service/index.js";
-import { info } from "../../state/index.js";
-import { getColor, showNotice } from "../../utils/index.js";
-
-const { envName } = info;
+import { envName, info, logo } from "../../state/index.js";
+import { getPageColor, showNotice } from "../../utils/index.js";
 
 const PAGE_ID = "reset";
 const PAGE_TITLE = "重置统一身份认证密码";
@@ -15,10 +13,7 @@ const RESET_KEY = "reset-sms-code";
 $Page(PAGE_ID, {
   data: {
     theme: info.theme,
-    logo:
-      info.env === "qq"
-        ? `${assets}img/inNENU.png`
-        : "/frameset/placeholder.png",
+    logo,
 
     /** 导航栏 */
     nav: {
@@ -60,7 +55,7 @@ ${envName}严格使用官方密码重置服务流程。
     this.getCaptcha();
 
     this.setData({
-      color: getColor(),
+      color: getPageColor(),
     });
   },
 

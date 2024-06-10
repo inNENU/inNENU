@@ -3,8 +3,8 @@ import { $Page } from "@mptool/all";
 
 import { requestJSON } from "../../api/index.js";
 import { appCoverPrefix } from "../../config/index.js";
-import { info } from "../../state/index.js";
-import { getColor } from "../../utils/index.js";
+import { appID, info } from "../../state/index.js";
+import { getPageColor } from "../../utils/index.js";
 
 const PAGE_ID = "license";
 
@@ -22,7 +22,7 @@ $Page(PAGE_ID, {
     from?: string;
   }) {
     this.setData({
-      color: getColor(),
+      color: getPageColor(),
       theme: info.theme,
     });
 
@@ -30,7 +30,7 @@ $Page(PAGE_ID, {
       title: string;
       version: number;
       nodes: RichTextNode[];
-    }>(`d/config/${info.appID}/${type}-data`).then((data) => {
+    }>(`d/config/${appID}/${type}-data`).then((data) => {
       this.setData({ ...data, from, type });
     });
   },

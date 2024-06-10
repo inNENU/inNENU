@@ -5,7 +5,7 @@ import type {
   ListComponentItemConfig,
 } from "../../../typings/components.js";
 import { showModal, showToast } from "../../api/index.js";
-import { appCoverPrefix, assets } from "../../config/index.js";
+import { appCoverPrefix } from "../../config/index.js";
 import {
   LoginFailType,
   getAuthInitInfo,
@@ -13,10 +13,8 @@ import {
   supportRedirect,
 } from "../../service/index.js";
 import type { UserInfo } from "../../state/index.js";
-import { info, setUserInfo, user } from "../../state/index.js";
+import { envName, info, logo, setUserInfo, user } from "../../state/index.js";
 import { getLicenseStatus, logout, showNotice } from "../../utils/index.js";
-
-const { envName } = info;
 
 const PAGE_ID = "account";
 const PAGE_TITLE = "统一身份认证信息";
@@ -71,10 +69,7 @@ const getDisplay = ({
 $Page(PAGE_ID, {
   data: {
     theme: info.theme,
-    logo:
-      info.env === "qq"
-        ? `${assets}img/inNENU.png`
-        : "/frameset/placeholder.png",
+    logo,
 
     /** 导航栏 */
     nav: {

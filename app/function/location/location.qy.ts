@@ -1,22 +1,22 @@
 import { $Page, readJSON } from "@mptool/all";
 
-import type { PageData } from "../../../typings/index.js";
-import type { AppOption } from "../../app.js";
+import type { PageState } from "../../../typings/index.js";
+import type { App } from "../../app.js";
 import { appCoverPrefix } from "../../config/index.js";
 import { defaultScroller } from "../../mixins/index.js";
 import { info } from "../../state/index.js";
 import {
-  getResource,
+  getJson,
   resolvePage,
   setPage,
   startNavigation,
 } from "../../utils/index.js";
 
-const { globalData } = getApp<AppOption>();
+const { globalData } = getApp<App>();
 
 $Page("location", {
   data: {
-    page: {} as PageData,
+    page: {} as PageState,
     point: "",
   },
 
@@ -34,7 +34,7 @@ $Page("location", {
     if (id) {
       if (globalData.page.id === id) setPage({ option, ctx: this });
       else
-        getResource<PageData>(`function/map/${id}`)
+        getJson<PageState>(`function/map/${id}`)
           .then((data) => {
             setPage({ option, ctx: this }, data);
           })

@@ -5,9 +5,9 @@ import type { TimeLineItem } from "../../components/timeline/timeline.js";
 import { appCoverPrefix } from "../../config/index.js";
 import { info } from "../../state/index.js";
 import {
-  ensureResource,
-  getColor,
-  getResource,
+  ensureJson,
+  getJson,
+  getPageColor,
   showNotice,
 } from "../../utils/index.js";
 
@@ -32,14 +32,14 @@ $Page(PAGE_ID, {
   },
 
   onNavigate() {
-    ensureResource("function/calendar/index");
+    ensureJson("function/calendar/index");
   },
 
   onLoad() {
-    getResource<TimeLineItem[]>("function/calendar/index")
+    getJson<TimeLineItem[]>("function/calendar/index")
       .then((calendar) => {
         this.setData({
-          color: getColor(),
+          color: getPageColor(),
           theme: info.theme,
           calendar,
         });
@@ -79,7 +79,7 @@ $Page(PAGE_ID, {
     const { path } = event.detail;
 
     if (path)
-      getResource<CalendarDetail>(`function/calendar/${path}`)
+      getJson<CalendarDetail>(`function/calendar/${path}`)
         .then((data) => {
           this.setData({
             // eslint-disable-next-line @typescript-eslint/naming-convention

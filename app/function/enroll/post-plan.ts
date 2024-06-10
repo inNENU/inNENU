@@ -7,8 +7,8 @@ import type {
   PostRecommendSchoolPlan,
 } from "../../service/index.js";
 import { getPostPlan, getPostRecommendPlan } from "../../service/index.js";
-import { info } from "../../state/index.js";
-import { getColor, showNotice } from "../../utils/index.js";
+import { env, info } from "../../state/index.js";
+import { getPageColor, showNotice } from "../../utils/index.js";
 
 const PAGE_ID = "post-enroll-plan";
 const PAGE_TITLE = "研究生招生计划";
@@ -22,7 +22,7 @@ $Page(PAGE_ID, {
 
   onLoad({ recommend, school = "全部" }) {
     this.setData({
-      color: getColor(),
+      color: getPageColor(),
       theme: info.theme,
       title: recommend ? "研究生推免计划" : "研究生招生计划",
     });
@@ -112,7 +112,7 @@ $Page(PAGE_ID, {
   >) {
     const { site } = currentTarget.dataset;
 
-    if (info.env === "app") wx.miniapp.openUrl({ url: site });
+    if (env === "app") wx.miniapp.openUrl({ url: site });
     else setClipboard(site).then(() => showToast("网址已复制"));
   },
 });

@@ -2,17 +2,17 @@ import { $Page, set } from "@mptool/all";
 
 import type {
   FunctionalListComponentConfig,
-  PageDataWithContent,
+  PageStateWithContent,
   SwitchListComponentItemConfig,
 } from "../../../typings/index.js";
 import { setClipboard, showToast } from "../../api/index.js";
 import { syncAppSettings } from "../../app/index.js";
-import type { AppOption } from "../../app.js";
+import type { App } from "../../app.js";
 import { DAY, appCoverPrefix, appName, version } from "../../config/index.js";
 import { info, updateSelectable } from "../../state/index.js";
 import { resolvePage, setPage, showNotice } from "../../utils/index.js";
 
-const { globalData } = getApp<AppOption>();
+const { globalData } = getApp<App>();
 let clickNumber = 0;
 let developMode = false;
 
@@ -61,7 +61,7 @@ $Page(PAGE_ID, {
         },
         { tag: "loading" },
       ],
-    } as PageDataWithContent,
+    } as PageStateWithContent,
   },
 
   onNavigate(res) {
@@ -125,7 +125,7 @@ $Page(PAGE_ID, {
     imageUrl: `${appCoverPrefix}.jpg`,
   }),
 
-  loadPage(): PageDataWithContent | null {
+  loadPage(): PageStateWithContent | null {
     if (!globalData.settings) return null;
 
     const { about } = globalData.settings;

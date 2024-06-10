@@ -3,10 +3,10 @@ import { $Page } from "@mptool/all";
 import type {
   ButtonListComponentItemConfig,
   ListComponentConfig,
-  PageDataWithContent,
+  PageStateWithContent,
 } from "../../../typings/index.js";
 import { showModal, showToast } from "../../api/index.js";
-import type { AppOption } from "../../app.js";
+import type { App } from "../../app.js";
 import { info } from "../../state/index.js";
 import {
   getPrivacyStatus,
@@ -15,7 +15,7 @@ import {
   showNotice,
 } from "../../utils/index.js";
 
-const { globalData } = getApp<AppOption>();
+const { globalData } = getApp<App>();
 
 type AuthorizeList =
   | "scope.userLocation"
@@ -108,7 +108,7 @@ $Page("privacy", {
           footer: " ",
         },
       ],
-    } as PageDataWithContent,
+    } as PageStateWithContent,
 
     authorize: {},
   },

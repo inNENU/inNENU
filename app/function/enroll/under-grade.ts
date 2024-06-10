@@ -5,7 +5,7 @@ import { appCoverPrefix } from "../../config/index.js";
 import type { UnderHistoryGradeConfig } from "../../service/index.js";
 import { getUnderHistoryGrade } from "../../service/index.js";
 import { info } from "../../state/index.js";
-import { getColor, showNotice } from "../../utils/index.js";
+import { getPageColor, showNotice } from "../../utils/index.js";
 
 const PAGE_ID = "under-history-grade";
 const PAGE_TITLE = "往年分数线";
@@ -39,7 +39,7 @@ $Page(PAGE_ID, {
 
   onLoad() {
     this.setData({
-      color: getColor(),
+      color: getPageColor(),
       theme: info.theme,
     });
     this.getHistoryGradeInfo();

@@ -1,9 +1,18 @@
 import type { ComponentConfig } from "./components.js";
 import type { GeneralScopeData } from "./scopeData.js";
-import type { PageOptions } from "../server/typings/index.js";
+import type { PageData } from "../server/typings/index.js";
 
-/** 页面数据 */
-export interface PageData extends Partial<PageOptions> {
+/** 页面选项 */
+export interface PageOptions {
+  id?: string;
+  scene?: string;
+  from?: string;
+  path?: string;
+  action?: string;
+}
+
+/** 页面状态 */
+export interface PageState extends Partial<PageData> {
   /** 状态栏高度 */
   statusBarHeight?: number;
   /** 页面深度 */
@@ -26,14 +35,7 @@ export interface PageData extends Partial<PageOptions> {
   scopeData?: GeneralScopeData;
 }
 
-export interface PageDataWithContent extends PageData {
+/** 含有内容的页面状态 */
+export interface PageStateWithContent extends PageState {
   content: ComponentConfig[];
-}
-
-export interface PageOption {
-  id?: string;
-  scene?: string;
-  from?: string;
-  path?: string;
-  action?: string;
 }
