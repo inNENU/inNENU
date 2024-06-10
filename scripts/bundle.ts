@@ -10,13 +10,13 @@ import { rollup } from "rollup";
 const __dirname = dirname(fileURLToPath(import.meta.url));
 
 const getInputOptions = (dir: string): [string, string][] => {
-  const dirPath = resolve(__dirname, "../temp/", dir);
+  const dirPath = resolve(__dirname, "../.temp/", dir);
 
   if (!existsSync(dirPath)) return [];
 
   const contents = readdirSync(dirPath);
   const dirs = contents.filter((content) =>
-    statSync(resolve(__dirname, "../temp/", dir, content)).isDirectory(),
+    statSync(resolve(__dirname, "../.temp/", dir, content)).isDirectory(),
   );
   const files = contents.filter(
     (file) => file.endsWith(".ts") && !file.endsWith(".d.ts"),
@@ -26,7 +26,7 @@ const getInputOptions = (dir: string): [string, string][] => {
     ...dirs.flatMap((subDir) => getInputOptions(join(dir, subDir))),
     ...files.map<[string, string]>((file) => [
       join(dir, file.split(".")[0]).replaceAll(sep, "/"),
-      resolve(__dirname, "../temp/", dir, file),
+      resolve(__dirname, "../.temp/", dir, file),
     ]),
   ];
 };
@@ -42,7 +42,7 @@ const widgets = getInputOptions("widgets");
 // repack miniapp
 rollup({
   input: {
-    app: resolve(__dirname, `../temp/app.ts`),
+    app: resolve(__dirname, `../.temp/app.ts`),
     ...Object.fromEntries(base),
     ...Object.fromEntries(components),
     ...Object.fromEntries(widgets),
@@ -74,7 +74,7 @@ rollup({
     manualChunks: (id): string | void => {
       const normalizedId = sep === "/" ? id : id.replace(/\\/g, "/");
 
-      if (normalizedId.includes("/temp/app.ts")) return "app";
+      if (normalizedId.includes("/.temp/app.ts")) return "app";
 
       for (const name of [
         "api",
@@ -83,7 +83,7 @@ rollup({
         "service",
         "function/utils",
       ]) {
-        if (normalizedId.includes(`/temp/${name}/index.ts`))
+        if (normalizedId.includes(`/.temp/${name}/index.ts`))
           return `${name}/index`;
       }
     },

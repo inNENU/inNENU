@@ -74,7 +74,7 @@ const getMoveScriptJob = (id) => {
             );
         }),
       )
-      .pipe(dest("temp"));
+      .pipe(dest(".temp"));
 
   return moveScript;
 };

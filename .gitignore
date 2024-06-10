@@ -1,9 +1,10 @@
 # Node Modules
 **/node_modules/**
+# temp files
+.temp/**
 
 # Output Files
 dist/**
-temp/**
 
 project.config.json
 project.private.config.json

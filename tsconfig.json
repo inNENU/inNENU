@@ -9,10 +9,10 @@
     "types": ["miniprogram-api-typings"]
   },
   "include": [
+    ".temp/**/*.ts",
     "app/**/*.ts",
     "app/**/*.wxs",
     "scripts/**/*.ts",
-    "temp/**/*.ts",
     "typings/**/*.ts",
     "commitlint.config.ts",
     "eslint.config.js",

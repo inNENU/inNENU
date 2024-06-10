@@ -41,7 +41,7 @@
   "search.exclude": {
     "**/node_modules/**": true,
     "**/dist/**": true,
-    "**/temp/**": true
+    "**/.temp/**": true
   },
   "yaml.schemas": {
     "./server/.vscode/settings.schema.json": ["/server/config/**/settings.yml"],

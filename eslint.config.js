@@ -11,13 +11,13 @@ export default config(
   {
     ignores: [
       "**/node_modules/**",
+      ".temp/**",
       "app/function/utils/encoder.js",
       "app/function/utils/encoder.d.ts",
       "app/service/auth/encrypt.js",
       "app/service/auth/encrypt.d.ts",
       "dist/**",
       "server/**",
-      "temp/**",
     ],
   },
 
