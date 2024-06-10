@@ -6,9 +6,9 @@ import type {
   PostEnrollSchoolPlan,
   PostRecommendSchoolPlan,
 } from "../../service/index.js";
-import { getPostRecommendPlan, getPostPlan } from "../../service/index.js";
-import { info } from "../../state/info.js";
-import { getColor, popNotice } from "../../utils/page.js";
+import { getPostPlan, getPostRecommendPlan } from "../../service/index.js";
+import { info } from "../../state/index.js";
+import { getColor, popNotice } from "../../utils/index.js";
 
 const PAGE_ID = "post-enroll-plan";
 const PAGE_TITLE = "研究生招生计划";

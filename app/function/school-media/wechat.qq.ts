@@ -13,9 +13,8 @@ import {
   showToast,
 } from "../../api/index.js";
 import { appCoverPrefix, server } from "../../config/index.js";
-import { info } from "../../state/info.js";
-import { ensureResource } from "../../utils/json.js";
-import { getColor, popNotice } from "../../utils/page.js";
+import { info } from "../../state/index.js";
+import { ensureResource, getColor, popNotice } from "../../utils/index.js";
 
 const PAGE_ID = "wechat-detail";
 

@@ -8,16 +8,13 @@ import { showModal, showToast } from "../../api/index.js";
 import { appCoverPrefix, assets } from "../../config/index.js";
 import {
   LoginFailType,
-  supportRedirect,
   getAuthInitInfo,
   initAuth,
+  supportRedirect,
 } from "../../service/index.js";
-import { info } from "../../state/info.js";
-import type { UserInfo } from "../../state/user.js";
-import { setUserInfo, user } from "../../state/user.js";
-import { getLicenseStatus } from "../../utils/agreement.js";
-import { logout } from "../../utils/logout.js";
-import { popNotice } from "../../utils/page.js";
+import type { UserInfo } from "../../state/index.js";
+import { info, setUserInfo, user } from "../../state/index.js";
+import { getLicenseStatus, logout, popNotice } from "../../utils/index.js";
 
 const { envName } = info;
 

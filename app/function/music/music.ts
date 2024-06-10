@@ -3,9 +3,8 @@ import { $Page } from "@mptool/all";
 import type { Lyric, PlayMode, SongDetail } from "./typings.js";
 import { loadFZSSJW, showToast } from "../../api/index.js";
 import { appCoverPrefix, appName } from "../../config/index.js";
-import { info } from "../../state/info.js";
-import { ensureResource, getResource } from "../../utils/json.js";
-import { popNotice } from "../../utils/page.js";
+import { info } from "../../state/index.js";
+import { ensureResource, getResource, popNotice } from "../../utils/index.js";
 
 interface MusicState {
   /** 是否正在播放 */

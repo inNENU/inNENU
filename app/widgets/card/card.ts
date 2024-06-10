@@ -4,7 +4,7 @@ import { $Component, get, set } from "@mptool/all";
 import { showToast } from "../../api/index.js";
 import { CARD_BALANCE_KEY, MINUTE } from "../../config/index.js";
 import { ensureActionLogin, getCardBalance } from "../../service/index.js";
-import { user } from "../../state/user.js";
+import { user } from "../../state/index.js";
 import { getSize } from "../utils.js";
 
 $Component({

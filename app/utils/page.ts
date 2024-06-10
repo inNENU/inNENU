@@ -4,8 +4,8 @@ import { logger, readJSON, writeJSON } from "@mptool/all";
 
 import { id2path } from "./id.js";
 import { ensureResource } from "./json.js";
-import type { Notice } from "./notice.js";
 import { getScopeData } from "./scopeData.js";
+import type { NoticeItem } from "./settings.js";
 import type {
   ComponentConfig,
   FunctionalListComponentItemConfig,
@@ -18,7 +18,7 @@ import type {
 import { requestJSON, showModal } from "../api/index.js";
 import type { AppOption } from "../app.js";
 import { imageWaterMark } from "../config/index.js";
-import { info } from "../state/info.js";
+import { info } from "../state/index.js";
 
 type PageInstanceWithPage = PageInstance<
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -26,9 +26,6 @@ type PageInstanceWithPage = PageInstance<
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   Record<string, any>
 >;
-
-/** 全局数据 */
-const { globalData } = getApp<AppOption>();
 
 /**
  * 处理详情内容
@@ -251,6 +248,8 @@ export const resolvePage = (
   }
 
   if (pageData && setGlobal) {
+    const { globalData } = getApp<AppOption>();
+
     // 写入 globalData
     globalData.page.id = options.id || pageData.title;
     globalData.page.data = pageData;
@@ -363,6 +362,8 @@ export const setPage = (
   preload = true,
 ): Promise<void> =>
   new Promise((resolve) => {
+    const { globalData } = getApp<AppOption>();
+
     // 设置页面数据
     if (page) {
       const pageData = handle ? page : disposePage(page, option);
@@ -438,7 +439,7 @@ export const setPage = (
 export const popNotice = (id: string): void => {
   if (!wx.getStorageSync(`${id}-notifyed`)) {
     // 没有进行过通知，判断是否需要弹窗，从存储中获取通知内容并展示
-    const notice = wx.getStorageSync<Notice | undefined>(`${id}-notice`);
+    const notice = wx.getStorageSync<NoticeItem | undefined>(`${id}-notice`);
 
     if (notice) {
       showModal(notice.title, notice.content, () => {
@@ -471,6 +472,7 @@ export const setOnlinePage = (
   ctx: PageInstanceWithPage,
   preload = true,
 ): void => {
+  const { globalData } = getApp<AppOption>();
   const { id } = option;
 
   if (id)

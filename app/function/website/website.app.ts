@@ -1,8 +1,7 @@
 import { $Page } from "@mptool/all";
 
-import { info } from "../../state/info.js";
-import { ensureResource, getResource } from "../../utils/json.js";
-import { popNotice } from "../../utils/page.js";
+import { info } from "../../state/index.js";
+import { ensureResource, getResource, popNotice } from "../../utils/index.js";
 
 const PAGE_ID = "website";
 

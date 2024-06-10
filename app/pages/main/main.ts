@@ -8,11 +8,15 @@ import {
   appCoverPrefix,
   appName,
 } from "../../config/index.js";
-import { info } from "../../state/info.js";
-import { getIdentity } from "../../state/user.js";
-import { getColor, popNotice, resolvePage, setPage } from "../../utils/page.js";
-import { checkResource } from "../../utils/resource.js";
-import { search } from "../../utils/search.js";
+import { getIdentity, info } from "../../state/index.js";
+import {
+  checkResource,
+  getColor,
+  popNotice,
+  resolvePage,
+  search,
+  setPage,
+} from "../../utils/index.js";
 import { DEFAULT_WIDGETS } from "../../widgets/config.js";
 import type { WidgetConfig } from "../../widgets/utils.js";
 

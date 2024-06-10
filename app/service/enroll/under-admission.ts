@@ -1,7 +1,7 @@
+import { UNDER_ENROLL_SERVER } from "./utils.js";
 import type { CommonFailedResponse } from "../../../typings/index.js";
 import { request } from "../../api/index.js";
 import { createService } from "../utils.js";
-import { UNDER_ENROLL_SERVER } from "./utils.js";
 
 export interface UnderAdmissionPostOptions {
   name: string;

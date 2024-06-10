@@ -12,9 +12,8 @@ import {
   ensureUnderSystemLogin,
   getUnderExamPlace,
 } from "../../service/index.js";
-import { info } from "../../state/info.js";
-import { user } from "../../state/user.js";
-import { getColor, popNotice } from "../../utils/page.js";
+import { info, user } from "../../state/index.js";
+import { getColor, popNotice } from "../../utils/index.js";
 
 const { envName } = info;
 

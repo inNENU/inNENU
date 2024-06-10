@@ -9,7 +9,7 @@ import {
   showModal,
   showToast,
 } from "../../api/index.js";
-import { info } from "../../state/info.js";
+import { info } from "../../state/index.js";
 
 $Component({
   properties: {

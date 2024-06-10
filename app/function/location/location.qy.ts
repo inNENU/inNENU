@@ -4,10 +4,13 @@ import type { PageData } from "../../../typings/index.js";
 import type { AppOption } from "../../app.js";
 import { appCoverPrefix } from "../../config/index.js";
 import { defaultScroller } from "../../mixins/index.js";
-import { info } from "../../state/info.js";
-import { getResource } from "../../utils/json.js";
-import { startNavigation } from "../../utils/location.js";
-import { resolvePage, setPage } from "../../utils/page.js";
+import { info } from "../../state/index.js";
+import {
+  getResource,
+  resolvePage,
+  setPage,
+  startNavigation,
+} from "../../utils/index.js";
 
 const { globalData } = getApp<AppOption>();
 

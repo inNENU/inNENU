@@ -10,9 +10,8 @@ import {
   showToast,
 } from "../../api/index.js";
 import { appName, server, service } from "../../config/index.js";
-import { info } from "../../state/info.js";
-import { path2id } from "../../utils/id.js";
-import { reportInfo } from "../../utils/report.js";
+import { info } from "../../state/index.js";
+import { path2id, reportInfo } from "../../utils/index.js";
 
 type ShareConfig = Pick<
   PageData,

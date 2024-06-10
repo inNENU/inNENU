@@ -1,7 +1,7 @@
 import { compareVersion } from "./version.js";
 import { downLoad, requestJSON } from "../api/index.js";
 import { assets } from "../config/index.js";
-import { info } from "../state/info.js";
+import { info } from "../state/index.js";
 
 let apkFilePath: string | null = null;
 

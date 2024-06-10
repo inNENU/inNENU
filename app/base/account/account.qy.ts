@@ -8,7 +8,7 @@ import {
   showModal,
   showToast,
 } from "../../api/index.js";
-import { startNavigation } from "../../utils/location.js";
+import { startNavigation } from "../../utils/index.js";
 
 $Component({
   properties: {

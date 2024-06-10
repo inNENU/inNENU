@@ -31,9 +31,8 @@
     "dev:qq": "gulp -f gulpfile.cjs watchQQ",
     "dev:qy": "gulp -f gulpfile.cjs watchNenuyouth",
     "dev:wx": "gulp -f gulpfile.cjs watchWechat",
-    "lint": "pnpm lint:prettier --write && pnpm lint:wxs --write && pnpm lint:wxml --write && pnpm lint:eslint --fix && pnpm lint:stylelint --fix",
-    "lint:check": "pnpm lint:prettier && pnpm lint:wxs && pnpm lint:wxml && pnpm lint:eslint && pnpm lint:stylelint",
-    "lint:eslint": "eslint .",
+    "lint": "pnpm lint:prettier --write && pnpm lint:wxs --write && pnpm lint:wxml --write && pnpm eslint . --fix && pnpm lint:stylelint --fix",
+    "lint:check": "pnpm lint:prettier && pnpm lint:wxs && pnpm lint:wxml && pnpm eslint . && pnpm lint:stylelint",
     "lint:prettier": "prettier --check .",
     "lint:stylelint": "stylelint **/*.scss",
     "lint:wxml": "prettier --check --parser html **/*.wxml",
@@ -60,7 +59,7 @@
     "cz-git": "1.9.2",
     "del": "7.1.0",
     "eslint": "8.57.0",
-    "eslint-config-mister-hope": "0.1.0",
+    "eslint-config-mister-hope": "0.1.1",
     "gulp": "5.0.0",
     "gulp-rename": "2.0.0",
     "gulp-replace": "1.1.4",
@@ -76,10 +75,10 @@
     "standard-version": "9.5.0",
     "stylelint": "16.6.1",
     "stylelint-config-hope": "7.0.2",
-    "tsx": "4.13.2",
+    "tsx": "4.15.1",
     "typescript": "5.4.5"
   },
-  "packageManager": "pnpm@9.2.0",
+  "packageManager": "pnpm@9.3.0",
   "prettier": {
     "overrides": [
       {

@@ -2,12 +2,12 @@ import { $Page } from "@mptool/all";
 
 import type { PageData, PageOption } from "../../../typings/index.js";
 import { appCoverPrefix } from "../../config/index.js";
-import { id2path } from "../../utils/id.js";
 import {
+  id2path,
   loadOnlinePage,
   resolvePage,
   setOnlinePage,
-} from "../../utils/page.js";
+} from "../../utils/index.js";
 
 $Page("info", {
   data: {

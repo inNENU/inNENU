@@ -8,9 +8,13 @@ import type {
 import { setClipboard, showToast } from "../../api/index.js";
 import type { AppOption } from "../../app.js";
 import { DAY, appCoverPrefix, appName, version } from "../../config/index.js";
-import { info, updateSelectable } from "../../state/info.js";
-import { popNotice, resolvePage, setPage } from "../../utils/page.js";
-import { fetchAppSettings } from "../../utils/settings.js";
+import { info, updateSelectable } from "../../state/index.js";
+import {
+  fetchAppSettings,
+  popNotice,
+  resolvePage,
+  setPage,
+} from "../../utils/index.js";
 
 const { globalData } = getApp<AppOption>();
 let clickNumber = 0;

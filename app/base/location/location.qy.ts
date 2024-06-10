@@ -6,7 +6,7 @@ import type {
   LocationConfig,
 } from "../../../typings/index.js";
 import { showToast } from "../../api/index.js";
-import { startNavigation } from "../../utils/location.js";
+import { startNavigation } from "../../utils/index.js";
 
 const getPoint = (point: LocationConfig & { id: number }): string =>
   JSON.stringify({

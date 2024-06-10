@@ -1,9 +1,10 @@
 import { existsSync, readdirSync, statSync } from "node:fs";
 import { dirname, join, resolve, sep } from "node:path";
 import { fileURLToPath } from "node:url";
+
 import commonjs from "@rollup/plugin-commonjs";
-import esbuild from "rollup-plugin-esbuild";
 import { rollup } from "rollup";
+import esbuild from "rollup-plugin-esbuild";
 
 // @ts-expect-error: tsconfig is not correct
 // eslint-disable-next-line @typescript-eslint/naming-convention
@@ -74,18 +75,20 @@ rollup({
     manualChunks: (id): string | void => {
       const normalizedId = sep === "/" ? id : id.replace(/\\/g, "/");
 
-      if (normalizedId.includes("/.temp/app.ts")) return "app";
-
       for (const name of [
         "api",
         "config",
         "mixins",
         "service",
+        "state",
+        "utils",
         "function/utils",
       ]) {
         if (normalizedId.includes(`/.temp/${name}/index.ts`))
           return `${name}/index`;
       }
+
+      if (normalizedId.includes("/.temp/app.ts")) return "app";
     },
   }),
 );

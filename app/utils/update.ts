@@ -3,7 +3,7 @@ import { logger, ls, rm } from "@mptool/all";
 import type { AppSettings } from "./settings.js";
 import { request, showToast } from "../api/index.js";
 import { server } from "../config/index.js";
-import { info } from "../state/info.js";
+import { info } from "../state/index.js";
 
 export interface UpdateInfo {
   /** 是否进行强制更新 */

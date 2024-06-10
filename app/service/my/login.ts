@@ -3,7 +3,7 @@ import { logger } from "@mptool/all";
 import { checkMyCookiesLocal, checkMyCookiesOnline } from "./check.js";
 import { MY_DOMAIN, MY_MAIN_PAGE, MY_SERVER } from "./utils.js";
 import { cookieStore, request } from "../../api/index.js";
-import type { AccountInfo } from "../../state/user.js";
+import type { AccountInfo } from "../../state/index.js";
 import type { AuthLoginFailedResponse } from "../auth/index.js";
 import { authLoginLocal } from "../auth/login.js";
 import { handleFailResponse } from "../fail.js";

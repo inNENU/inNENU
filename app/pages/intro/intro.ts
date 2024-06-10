@@ -7,12 +7,14 @@ import type {
 } from "../../../typings/index.js";
 import type { AppOption } from "../../app.js";
 import { DAY, appCoverPrefix } from "../../config/index.js";
-import { info } from "../../state/info.js";
-import { getIdentity } from "../../state/user.js";
-import { getResource } from "../../utils/json.js";
-import { getColor, popNotice } from "../../utils/page.js";
-import { checkResource } from "../../utils/resource.js";
-import { search } from "../../utils/search.js";
+import { getIdentity, info } from "../../state/index.js";
+import {
+  checkResource,
+  getColor,
+  getResource,
+  popNotice,
+  search,
+} from "../../utils/index.js";
 import type { TabData } from "../typings.js";
 
 const { globalData } = getApp<AppOption>();

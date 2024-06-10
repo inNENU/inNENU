@@ -2,7 +2,7 @@ import type { AuthLoginFailedResponse } from "./auth/index.js";
 import { LoginFailType } from "./loginFailTypes.js";
 import type { CommonFailedResponse } from "../../typings/index.js";
 import { getCurrentRoute, showToast } from "../api/index.js";
-import { logout } from "../utils/logout.js";
+import { logout } from "../utils/index.js";
 
 export const handleFailResponse = (
   response: AuthLoginFailedResponse | CommonFailedResponse,

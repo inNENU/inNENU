@@ -25,7 +25,7 @@ import {
   STARRED_NOTICE_LIST_KEY,
   STUDENT_ARCHIVE_KEY,
 } from "../config/index.js";
-import { clearUserInfo } from "../state/user.js";
+import { clearUserInfo } from "../state/index.js";
 
 export const logout = (): void => {
   cookieStore.clear();

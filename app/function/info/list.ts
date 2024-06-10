@@ -4,8 +4,8 @@ import { getTitle } from "./utils.js";
 import { appCoverPrefix } from "../../config/index.js";
 import type { InfoItem, InfoType } from "../../service/index.js";
 import { getInfoList } from "../../service/index.js";
-import { info } from "../../state/info.js";
-import { getColor, popNotice } from "../../utils/page.js";
+import { info } from "../../state/index.js";
+import { getColor, popNotice } from "../../utils/index.js";
 
 const PAGE_ID = "info-list";
 

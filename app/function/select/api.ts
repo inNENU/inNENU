@@ -10,7 +10,7 @@ import type {
   StudentAmountResponse,
 } from "./typings.js";
 import { request } from "../../api/index.js";
-import type { AccountInfo } from "../../state/user.js";
+import type { AccountInfo } from "../../state/index.js";
 
 export const login = (options: AccountInfo): Promise<SelectLoginResponse> =>
   request<SelectLoginResponse>("/select/login", {

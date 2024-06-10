@@ -10,14 +10,13 @@ import type {
 import {
   LoginFailType,
   ensurePostSystemLogin,
+  ensureUnderStudyLogin,
+  getPostGradeList,
   getUnderGradeDetail,
   getUnderGradeList,
-  getPostGradeList,
-  ensureUnderStudyLogin,
 } from "../../service/index.js";
-import { info } from "../../state/info.js";
-import { user } from "../../state/user.js";
-import { getColor, popNotice } from "../../utils/page.js";
+import { info, user } from "../../state/index.js";
+import { getColor, popNotice } from "../../utils/index.js";
 
 const { envName } = info;
 

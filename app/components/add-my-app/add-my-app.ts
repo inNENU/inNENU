@@ -1,7 +1,7 @@
 import { get, set } from "@mptool/all";
 
 import { MONTH } from "../../config/index.js";
-import { info } from "../../state/info.js";
+import { info } from "../../state/index.js";
 
 const KEY = "add-miniprogram-hint";
 

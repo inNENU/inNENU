@@ -4,9 +4,8 @@ import { setClipboard, showModal, showToast } from "../../api/index.js";
 import { appCoverPrefix, appName, assets } from "../../config/index.js";
 import type { ActivateEmailOptions } from "../../service/index.js";
 import { applyEmail, ensureMyLogin } from "../../service/index.js";
-import { info } from "../../state/info.js";
-import { user } from "../../state/user.js";
-import { popNotice } from "../../utils/page.js";
+import { info, user } from "../../state/index.js";
+import { popNotice } from "../../utils/index.js";
 
 const { envName } = info;
 

@@ -5,7 +5,7 @@ import { getProcess } from "./process.js";
 import { MY_SERVER } from "./utils.js";
 import type { CommonFailedResponse } from "../../../typings/index.js";
 import { request } from "../../api/index.js";
-import { user } from "../../state/user.js";
+import { user } from "../../state/index.js";
 import { LoginFailType } from "../loginFailTypes.js";
 import { createService, isWebVPNPage } from "../utils.js";
 

@@ -5,7 +5,7 @@ import { showToast } from "../../api/index.js";
 import { HOUR, SITE_ANNOUNCEMENT_LIST_KEY } from "../../config/index.js";
 import type { AnnouncementInfoItem } from "../../service/index.js";
 import { ensureActionLogin, getAnnouncementList } from "../../service/index.js";
-import { user } from "../../state/user.js";
+import { user } from "../../state/index.js";
 import type { WidgetSize, WidgetStatus } from "../utils.js";
 import { FILTERED_SOURCES, getSize } from "../utils.js";
 

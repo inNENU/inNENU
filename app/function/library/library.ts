@@ -1,8 +1,8 @@
 import { $Page } from "@mptool/all";
 
 import { appCoverPrefix } from "../../config/index.js";
-import { info } from "../../state/info.js";
-import { getColor } from "../../utils/page.js";
+import { info } from "../../state/index.js";
+import { getColor } from "../../utils/index.js";
 
 const PAGE_ID = "library";
 const PAGE_TITLE = "图书馆";

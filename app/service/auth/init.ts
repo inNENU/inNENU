@@ -4,7 +4,7 @@ import { authEncrypt } from "./encrypt.js";
 import { AUTH_DOMAIN, AUTH_SERVER, SALT_REGEXP } from "./utils.js";
 import type { CommonFailedResponse } from "../../../typings/response.js";
 import { cookieStore, request } from "../../api/index.js";
-import type { AccountInfo, UserInfo } from "../../state/user.js";
+import type { AccountInfo, UserInfo } from "../../state/index.js";
 import { LoginFailType } from "../loginFailTypes.js";
 import { getMyInfo } from "../my/info.js";
 import { myLoginLocal } from "../my/login.js";

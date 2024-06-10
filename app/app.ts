@@ -2,12 +2,16 @@ import type { TrivialPageInstance } from "@mptool/all";
 import { $App, $Config, wrapFunction } from "@mptool/all";
 
 import { INITIALIZED_KEY } from "./config/index.js";
-import { info } from "./state/info.js";
-import { getGlobalData, initializeApp, startup } from "./utils/app.js";
-import { checkResource } from "./utils/resource.js";
-import { fetchAppSettings } from "./utils/settings.js";
-import type { GlobalData } from "./utils/typings.js";
-import { updateApp } from "./utils/update.js";
+import { info } from "./state/index.js";
+import type { GlobalData } from "./utils/index.js";
+import {
+  checkResource,
+  fetchAppSettings,
+  getGlobalData,
+  initializeApp,
+  startup,
+  updateApp,
+} from "./utils/index.js";
 
 export interface AppOption {
   globalData: GlobalData;

@@ -10,7 +10,7 @@ import {
 } from "./utils.js";
 import type { CommonFailedResponse } from "../../../typings/index.js";
 import { cookieStore, request } from "../../api/index.js";
-import type { AccountInfo } from "../../state/user.js";
+import type { AccountInfo } from "../../state/index.js";
 import { LoginFailType } from "../loginFailTypes.js";
 import { createService, supportRedirect } from "../utils.js";
 

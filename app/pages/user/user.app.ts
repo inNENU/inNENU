@@ -9,10 +9,14 @@ import {
   appName,
   description,
 } from "../../config/index.js";
-import { info } from "../../state/info.js";
-import { user } from "../../state/user.js";
-import { getColor, popNotice, resolvePage, setPage } from "../../utils/page.js";
-import { checkResource } from "../../utils/resource.js";
+import { info, user } from "../../state/index.js";
+import {
+  checkResource,
+  getColor,
+  popNotice,
+  resolvePage,
+  setPage,
+} from "../../utils/index.js";
 
 const { globalData } = getApp<AppOption>();
 

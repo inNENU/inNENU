@@ -3,7 +3,7 @@ import { URLSearchParams } from "@mptool/all";
 import { VPN_DOMAIN, VPN_SERVER } from "./utils.js";
 import type { CommonFailedResponse } from "../../../typings/index.js";
 import { cookieStore, request } from "../../api/index.js";
-import type { AccountInfo } from "../../state/user.js";
+import type { AccountInfo } from "../../state/index.js";
 import type { AuthLoginFailedResponse } from "../auth/login.js";
 import { authLoginLocal } from "../auth/login.js";
 import { LoginFailType } from "../loginFailTypes.js";

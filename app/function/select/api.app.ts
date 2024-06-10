@@ -1,6 +1,6 @@
 import type { SelectLoginResponse } from "./typings.js";
 import { request } from "../../api/index.js";
-import type { AccountInfo } from "../../state/user.js";
+import type { AccountInfo } from "../../state/index.js";
 
 export * from "./info.js";
 export * from "./getAmount.js";

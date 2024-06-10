@@ -1,8 +1,8 @@
 import { logger } from "@mptool/all";
 
 import {
-  checkPostSystemCookiesOnline,
   checkPostSystemCookiesLocal,
+  checkPostSystemCookiesOnline,
 } from "./check.js";
 import {
   POST_SYSTEM_DOMAIN,
@@ -10,7 +10,7 @@ import {
   POST_SYSTEM_HTTP_SERVER,
 } from "./utils.js";
 import { cookieStore, request } from "../../api/index.js";
-import type { AccountInfo } from "../../state/user.js";
+import type { AccountInfo } from "../../state/index.js";
 import type { AuthLoginFailedResponse } from "../auth/index.js";
 import { authLoginLocal } from "../auth/login.js";
 import { handleFailResponse } from "../fail.js";

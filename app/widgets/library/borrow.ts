@@ -5,7 +5,7 @@ import { showModal, showToast } from "../../api/index.js";
 import { BORROW_BOOKS_KEY, DAY, HOUR } from "../../config/index.js";
 import type { BorrowBookData } from "../../service/index.js";
 import { ensureActionLogin, getBorrowBooks } from "../../service/index.js";
-import { user } from "../../state/user.js";
+import { user } from "../../state/index.js";
 
 $Component({
   properties: {

@@ -1,8 +1,7 @@
 import { $Page, get, set } from "@mptool/all";
 
 import { showModal, showToast } from "../../api/index.js";
-import { MINUTE } from "../../config/index.js";
-import { appCoverPrefix, assets } from "../../config/index.js";
+import { MINUTE, appCoverPrefix, assets } from "../../config/index.js";
 import type {
   ActivateBindPhoneOptions,
   ActivatePasswordOptions,
@@ -14,9 +13,8 @@ import {
   idTypes,
   supportRedirect,
 } from "../../service/index.js";
-import { info } from "../../state/info.js";
-import { user } from "../../state/user.js";
-import { getColor, popNotice } from "../../utils/page.js";
+import { info, user } from "../../state/index.js";
+import { getColor, popNotice } from "../../utils/index.js";
 
 const { envName } = info;
 

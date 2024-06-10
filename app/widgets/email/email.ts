@@ -7,11 +7,10 @@ import type { EmailItem } from "../../service/index.js";
 import {
   LoginFailType,
   ensureActionLogin,
-  getRecentEmails,
   getEmailPage,
+  getRecentEmails,
 } from "../../service/index.js";
-import { info } from "../../state/info.js";
-import { user } from "../../state/user.js";
+import { info, user } from "../../state/index.js";
 import type { WidgetStatus } from "../utils.js";
 import { getSize } from "../utils.js";
 

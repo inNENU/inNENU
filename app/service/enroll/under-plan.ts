@@ -1,12 +1,12 @@
 /* eslint-disable @typescript-eslint/naming-convention */
-import { request } from "../../api/index.js";
-import { createService } from "../utils.js";
 import {
   UNDER_ENROLL_MAJOR_CLASS_URL,
   UNDER_ENROLL_MAJOR_TYPE_URL,
   UNDER_ENROLL_PLAN_URL,
   UNDER_ENROLL_SERVER,
 } from "./utils.js";
+import { request } from "../../api/index.js";
+import { createService } from "../utils.js";
 
 export interface UnderEnrollInfoOptions {
   type: "info";

@@ -4,8 +4,8 @@ import { showModal } from "../../api/index.js";
 import { appCoverPrefix } from "../../config/index.js";
 import type { UnderHistoryGradeConfig } from "../../service/index.js";
 import { getUnderHistoryGrade } from "../../service/index.js";
-import { info } from "../../state/info.js";
-import { getColor, popNotice } from "../../utils/page.js";
+import { info } from "../../state/index.js";
+import { getColor, popNotice } from "../../utils/index.js";
 
 const PAGE_ID = "under-history-grade";
 const PAGE_TITLE = "往年分数线";

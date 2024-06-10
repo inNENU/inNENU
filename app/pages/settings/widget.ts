@@ -2,8 +2,8 @@ import { $Page, get, set } from "@mptool/all";
 
 import { confirmAction } from "../../api/index.js";
 import { WIDGET_KEY } from "../../config/index.js";
-import { info } from "../../state/info.js";
-import { getColor, popNotice } from "../../utils/page.js";
+import { info } from "../../state/index.js";
+import { getColor, popNotice } from "../../utils/index.js";
 import type { WidgetInfo } from "../../widgets/config.js";
 import { DEFAULT_WIDGETS, WIDGETS } from "../../widgets/config.js";
 import type { WidgetConfig } from "../../widgets/utils.js";

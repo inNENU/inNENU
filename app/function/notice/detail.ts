@@ -8,9 +8,8 @@ import {
 } from "../../config/index.js";
 import type { NoticeType } from "../../service/index.js";
 import { ensureActionLogin, getNotice } from "../../service/index.js";
-import { info } from "../../state/info.js";
-import { user } from "../../state/user.js";
-import { getColor, popNotice } from "../../utils/page.js";
+import { info, user } from "../../state/index.js";
+import { getColor, popNotice } from "../../utils/index.js";
 import type { StarredNotice } from "../../widgets/star/typings.js";
 
 const PAGE_ID = "notice-detail";

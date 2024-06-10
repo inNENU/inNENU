@@ -1,15 +1,5 @@
-import type { NoticeSettings } from "./settings.js";
+import type { NoticeItem, NoticeSettings } from "./settings.js";
 import { showModal } from "../api/index.js";
-
-/** 通知格式 */
-export interface Notice {
-  /** 标题 */
-  title: string;
-  /** 内容 */
-  content: string;
-  /** 是否每次都通知 */
-  force?: boolean;
-}
 
 /**
  * 弹窗通知检查
@@ -19,7 +9,7 @@ export interface Notice {
 export const updateNotice = (noticeSettings: NoticeSettings): void => {
   Object.entries(noticeSettings).forEach(([pageName, notice]) => {
     const { title, content, force } = notice;
-    const oldNotice = wx.getStorageSync<Notice | undefined>(
+    const oldNotice = wx.getStorageSync<NoticeItem | undefined>(
       `${pageName}-notice`,
     );
 

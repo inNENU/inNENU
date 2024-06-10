@@ -7,9 +7,13 @@ import type {
 } from "../../../typings/index.js";
 import { showModal, showToast } from "../../api/index.js";
 import type { AppOption } from "../../app.js";
-import { info } from "../../state/info.js";
-import { getPrivacyStatus } from "../../utils/agreement.js";
-import { popNotice, resolvePage, setPage } from "../../utils/page.js";
+import { info } from "../../state/index.js";
+import {
+  getPrivacyStatus,
+  popNotice,
+  resolvePage,
+  setPage,
+} from "../../utils/index.js";
 
 const { globalData } = getApp<AppOption>();
 

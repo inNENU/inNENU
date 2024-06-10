@@ -1,12 +1,12 @@
 import { logger } from "@mptool/all";
 
 import {
-  checkUnderStudyCookiesOnline,
   checkUnderStudyCookiesLocal,
+  checkUnderStudyCookiesOnline,
 } from "./check.js";
 import { UNDER_STUDY_SERVER } from "./utils.js";
 import { cookieStore, request } from "../../api/index.js";
-import type { AccountInfo } from "../../state/user.js";
+import type { AccountInfo } from "../../state/index.js";
 import type { AuthLoginFailedResponse } from "../auth/login.js";
 import { authLoginLocal } from "../auth/login.js";
 import { handleFailResponse } from "../fail.js";

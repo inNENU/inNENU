@@ -10,8 +10,7 @@ import { updateApp } from "./update.js";
 import type { VersionInfo } from "../../typings/index.js";
 import { getCurrentRoute, request, showToast } from "../api/index.js";
 import { DEFAULT_CONFIG, INITIALIZED_KEY, server } from "../config/index.js";
-import { info } from "../state/info.js";
-import { setOpenid } from "../state/user.js";
+import { info, setOpenid } from "../state/index.js";
 
 const { env, envName } = info;
 

@@ -5,7 +5,7 @@ import { showToast } from "../../api/index.js";
 import { HOUR, SITE_ACADEMIC_LIST_KEY } from "../../config/index.js";
 import type { AcademicInfoItem } from "../../service/index.js";
 import { ensureActionLogin, getAcademicList } from "../../service/index.js";
-import { user } from "../../state/user.js";
+import { user } from "../../state/index.js";
 import type { WidgetSize, WidgetStatus } from "../utils.js";
 import { getSize } from "../utils.js";
 

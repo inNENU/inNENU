@@ -7,7 +7,7 @@ import {
   agreePrivacy,
   getLicenseStatus,
   getPrivacyStatus,
-} from "../../utils/agreement.js";
+} from "../../utils/index.js";
 
 type ResolvePrivacy = (
   options: { buttonId: string; event: "agree" } | { event: "disagree" },

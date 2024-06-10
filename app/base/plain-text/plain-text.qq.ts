@@ -2,7 +2,7 @@ import type { PropType } from "@mptool/all";
 import { $Component } from "@mptool/all";
 
 import type { TextComponentOptions } from "../../../typings/index.js";
-import { info } from "../../state/info.js";
+import { info } from "../../state/index.js";
 
 $Component({
   properties: {

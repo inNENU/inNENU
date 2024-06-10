@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/naming-convention */
-import { request } from "../api/index.js";
 import { createService } from "./utils.js";
+import { request } from "../api/index.js";
 
 type Time = `${number}${number}:${number}${number}`;
 type Date =

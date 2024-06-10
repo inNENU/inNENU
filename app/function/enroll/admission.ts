@@ -4,8 +4,8 @@ import type { CommonFailedResponse } from "../../../typings/response.js";
 import { showModal } from "../../api/index.js";
 import { appCoverPrefix } from "../../config/index.js";
 import type { UnderAdmissionPostOptions } from "../../service/index.js";
-import { getUnderAdmission, getPostAdmission } from "../../service/index.js";
-import { popNotice } from "../../utils/page.js";
+import { getPostAdmission, getUnderAdmission } from "../../service/index.js";
+import { popNotice } from "../../utils/index.js";
 import { validateIdCard } from "../utils/index.js";
 
 interface InputConfig {

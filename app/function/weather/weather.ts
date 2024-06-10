@@ -9,8 +9,8 @@ import {
 } from "../../config/index.js";
 import type { WeatherAlarm, WeatherData } from "../../service/index.js";
 import { getWeather } from "../../service/index.js";
-import { info } from "../../state/info.js";
-import { getColor } from "../../utils/page.js";
+import { info } from "../../state/index.js";
+import { getColor } from "../../utils/index.js";
 
 const PAGE_TITLE = "东师天气";
 const CANVAS_SELECTOR = ".temperature-canvas";

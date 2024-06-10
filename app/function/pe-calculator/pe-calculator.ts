@@ -2,8 +2,7 @@ import { $Page } from "@mptool/all";
 
 import { showModal } from "../../api/index.js";
 import { appCoverPrefix } from "../../config/index.js";
-import { getResource } from "../../utils/json.js";
-import { popNotice } from "../../utils/page.js";
+import { getResource, popNotice } from "../../utils/index.js";
 
 /** 分数段设置 */
 const gradeLevels = [

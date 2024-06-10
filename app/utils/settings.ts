@@ -5,9 +5,9 @@ import type { GlobalData } from "./typings.js";
 import type { ComponentConfig } from "../../typings/components.js";
 import { request } from "../api/index.js";
 import { server, version } from "../config/index.js";
-import { info } from "../state/info.js";
+import { info } from "../state/index.js";
 
-export interface Notice {
+export interface NoticeItem {
   /** 标题 */
   title: string;
   /** 内容 */
@@ -16,7 +16,7 @@ export interface Notice {
   force?: boolean;
 }
 
-export type NoticeSettings = Record<string, Notice>;
+export type NoticeSettings = Record<string, NoticeItem>;
 
 export type ServiceStatus = "local" | "online";
 

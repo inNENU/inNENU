@@ -2,10 +2,9 @@ import { $Page, get, set } from "@mptool/all";
 
 import { showModal, showToast } from "../../api/index.js";
 import { SECOND, appCoverPrefix, assets } from "../../config/index.js";
-
 import { resetPassword, supportRedirect } from "../../service/index.js";
-import { info } from "../../state/info.js";
-import { getColor, popNotice } from "../../utils/page.js";
+import { info } from "../../state/index.js";
+import { getColor, popNotice } from "../../utils/index.js";
 
 const { envName } = info;
 

@@ -3,8 +3,8 @@ import { $Page } from "@mptool/all";
 import { appCoverPrefix } from "../../config/index.js";
 import type { AcademicInfoItem } from "../../service/index.js";
 import { getAcademicList } from "../../service/index.js";
-import { info } from "../../state/info.js";
-import { getColor, popNotice } from "../../utils/page.js";
+import { info } from "../../state/index.js";
+import { getColor, popNotice } from "../../utils/index.js";
 
 const PAGE_ID = "info-list";
 const PAGE_TITLE = "学术预告";

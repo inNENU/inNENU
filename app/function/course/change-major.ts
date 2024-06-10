@@ -2,8 +2,8 @@ import { $Page, get, set } from "@mptool/all";
 
 import { retryAction, showModal } from "../../api/index.js";
 import {
-  HOUR,
   CHANGE_MAJOR_DATA_KEY,
+  HOUR,
   appCoverPrefix,
 } from "../../config/index.js";
 import type { ChangeMajorPlan } from "../../service/index.js";
@@ -12,9 +12,8 @@ import {
   ensureUnderSystemLogin,
   getUnderChangeMajorPlans,
 } from "../../service/index.js";
-import { info } from "../../state/info.js";
-import { user } from "../../state/user.js";
-import { getColor, popNotice } from "../../utils/page.js";
+import { info, user } from "../../state/index.js";
+import { getColor, popNotice } from "../../utils/index.js";
 
 const { envName } = info;
 const PAGE_ID = "change-major-plan";

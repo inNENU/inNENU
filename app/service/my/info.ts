@@ -3,7 +3,7 @@ import { URLSearchParams } from "@mptool/all";
 import { MY_SERVER } from "./utils.js";
 import type { CommonFailedResponse } from "../../../typings/index.js";
 import { request } from "../../api/index.js";
-import type { UserInfo } from "../../state/user.js";
+import type { UserInfo } from "../../state/index.js";
 import { LoginFailType } from "../loginFailTypes.js";
 import { isWebVPNPage } from "../utils.js";
 

@@ -7,8 +7,8 @@ import {
   service,
 } from "../../config/index.js";
 import { getAnnouncement } from "../../service/index.js";
-import { info } from "../../state/info.js";
-import { getColor, popNotice } from "../../utils/page.js";
+import { info } from "../../state/index.js";
+import { getColor, popNotice } from "../../utils/index.js";
 import type { StarredAnnouncement } from "../../widgets/star/typings.js";
 
 const PAGE_ID = "announcement-detail";

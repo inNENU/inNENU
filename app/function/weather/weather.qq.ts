@@ -10,7 +10,7 @@ import {
 import type { WeatherData } from "../../service/index.js";
 import { getWeather } from "../../service/index.js";
 import type { WeatherAlarm } from "../../service/weather.js";
-import { info } from "../../state/info.js";
+import { info } from "../../state/index.js";
 
 const PAGE_TITLE = "东师天气";
 

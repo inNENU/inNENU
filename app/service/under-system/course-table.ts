@@ -4,7 +4,7 @@ import { UNDER_SYSTEM_SERVER } from "./utils.js";
 import type { CommonFailedResponse } from "../../../typings/response.js";
 import { cookieStore, request } from "../../api/index.js";
 import type { ClassItem, TableItem } from "../../function/course/typings.js";
-import { getResource } from "../../utils/json.js";
+import { getResource } from "../../utils/index.js";
 import { LoginFailType } from "../loginFailTypes.js";
 import { createService, isWebVPNPage } from "../utils.js";
 

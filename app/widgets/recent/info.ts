@@ -2,7 +2,6 @@ import type { PropType } from "@mptool/all";
 import { $Component, get, set } from "@mptool/all";
 
 import { showToast } from "../../api/index.js";
-import {} from "../../config/index.js";
 import {
   HOUR,
   SITE_MEDIA_LIST_KEY,
@@ -12,7 +11,7 @@ import {
 } from "../../config/index.js";
 import type { InfoItem, InfoType } from "../../service/index.js";
 import { ensureActionLogin, getInfoList } from "../../service/index.js";
-import { user } from "../../state/user.js";
+import { user } from "../../state/index.js";
 import type { WidgetSize, WidgetStatus } from "../utils.js";
 import { getSize } from "../utils.js";
 
