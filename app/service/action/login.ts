@@ -5,10 +5,10 @@ import { ACTION_DOMAIN, ACTION_SERVER } from "./utils.js";
 import { cookieStore, request } from "../../api/index.js";
 import type { AccountInfo } from "../../state/user.js";
 import type { AuthLoginFailedResponse } from "../auth/index.js";
-import { authLocalLogin } from "../auth/index.js";
+import { authLoginLocal } from "../auth/index.js";
 import { handleFailResponse } from "../fail.js";
 import { LoginFailType } from "../loginFailTypes.js";
-import { supportRedirect } from "../utils.js";
+import { createService, supportRedirect } from "../utils.js";
 import type { VPNLoginFailedResponse } from "../vpn/index.js";
 import { vpnCASLogin } from "../vpn/index.js";
 
@@ -30,7 +30,7 @@ export const actionLoginLocal = async (
 
   if (!vpnLoginResult.success) return vpnLoginResult;
 
-  const result = await authLocalLogin(options, {
+  const result = await authLoginLocal(options, {
     service: `${ACTION_SERVER}/portal_main/toPortalPage`,
     webVPN: true,
   });
@@ -92,11 +92,11 @@ const hasCookie = (): boolean =>
     .getCookies(ACTION_SERVER)
     .some(({ domain }) => domain === ACTION_DOMAIN);
 
-export const ensureActionLogin = async (
+export const ensureActionLoginLocal = async (
   account: AccountInfo,
   status: "check" | "validate" | "login" = "check",
 ): Promise<AuthLoginFailedResponse | VPNLoginFailedResponse | null> => {
-  if (!supportRedirect) return ensureOnlineActionLogin(account);
+  if (!supportRedirect) return ensureActionLoginOnline(account);
 
   if (status !== "login") {
     if (hasCookie()) {
@@ -113,7 +113,7 @@ export const ensureActionLogin = async (
   return result.success ? null : result;
 };
 
-export const ensureOnlineActionLogin = async (
+export const ensureActionLoginOnline = async (
   account: AccountInfo,
   status: "check" | "validate" | "login" = "check",
 ): Promise<AuthLoginFailedResponse | VPNLoginFailedResponse | null> => {
@@ -131,3 +131,9 @@ export const ensureOnlineActionLogin = async (
 
   return result.success ? null : result;
 };
+
+export const ensureActionLogin = createService(
+  "action-login",
+  ensureActionLoginLocal,
+  ensureActionLoginOnline,
+);

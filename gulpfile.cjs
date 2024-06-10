@@ -134,7 +134,7 @@ const getAssetsJob = (id, { bundle = false, wxFiles = true } = {}) => {
     src(
       [
         "app/**/*.{json,svg,png,webp}",
-        ...(wxFiles ? ["app/**/*.{wxml,wxs}"] : {}),
+        ...(wxFiles ? ["app/**/*.{wxml,wxs}"] : []),
         ...(bundle ? [] : ["app/**/*.{js,map}"]),
       ],
       {

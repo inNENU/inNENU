@@ -35,7 +35,7 @@ export interface NoticeSuccessResponse {
 
 export type NoticeResponse = NoticeSuccessResponse | CommonFailedResponse;
 
-export const getNoticeLocal = async ({
+const getNoticeLocal = async ({
   noticeID,
 }: NoticeOptions): Promise<NoticeResponse> => {
   try {
@@ -97,9 +97,7 @@ export const getNoticeLocal = async ({
   }
 };
 
-export const getNoticeOnline = (
-  options: NoticeOptions,
-): Promise<NoticeResponse> =>
+const getNoticeOnline = (options: NoticeOptions): Promise<NoticeResponse> =>
   request<NoticeResponse>("/action/notice", {
     method: "POST",
     body: options,
