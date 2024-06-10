@@ -1,6 +1,9 @@
 import { logger } from "@mptool/all";
 
-import { checkOnlinePostSystemCookie, checkPostSystemCookie } from "./check.js";
+import {
+  checkPostSystemCookiesOnline,
+  checkPostSystemCookiesLocal,
+} from "./check.js";
 import {
   POST_SYSTEM_DOMAIN,
   POST_SYSTEM_HTTPS_SERVER,
@@ -12,7 +15,7 @@ import type { AuthLoginFailedResponse } from "../auth/index.js";
 import { authLoginLocal } from "../auth/login.js";
 import { handleFailResponse } from "../fail.js";
 import { LoginFailType } from "../loginFailTypes.js";
-import { supportRedirect } from "../utils.js";
+import { createService, supportRedirect } from "../utils.js";
 import type { VPNLoginFailedResponse } from "../vpn/login.js";
 
 export interface PostSystemLoginSuccessResult {
@@ -24,10 +27,10 @@ export type PostSystemLoginResult =
   | AuthLoginFailedResponse
   | VPNLoginFailedResponse;
 
-export const postSystemLogin = async (
+const postSystemLoginLocal = async (
   options: AccountInfo,
 ): Promise<PostSystemLoginResult> => {
-  if (!supportRedirect) return onlinePostSystemLogin(options);
+  if (!supportRedirect) return postSystemLoginOnline(options);
 
   const result = await authLoginLocal(options, {
     service: `${POST_SYSTEM_HTTP_SERVER}/`,
@@ -111,7 +114,7 @@ export type PostSystemLoginResponse =
   | AuthLoginFailedResponse
   | VPNLoginFailedResponse;
 
-export const onlinePostSystemLogin = async (
+const postSystemLoginOnline = async (
   options: AccountInfo,
 ): Promise<PostSystemLoginResponse> => {
   const { data } = await request<PostSystemLoginResponse>(
@@ -131,45 +134,57 @@ export const onlinePostSystemLogin = async (
   return data;
 };
 
-const hasCookie = (): boolean =>
+export const postSystemLogin = createService(
+  "post-system",
+  postSystemLoginLocal,
+  postSystemLoginOnline,
+);
+
+const checkPostSystemCookies = (): boolean =>
   cookieStore
     .getCookies(POST_SYSTEM_HTTPS_SERVER)
     .some(({ domain }) => domain === POST_SYSTEM_DOMAIN);
 
-export const ensurePostSystemLogin = async (
+const ensurePostSystemLoginLocal = async (
   account: AccountInfo,
   status: "check" | "validate" | "login" = "check",
 ): Promise<AuthLoginFailedResponse | VPNLoginFailedResponse | null> => {
   if (status !== "login") {
-    if (hasCookie()) {
+    if (checkPostSystemCookies()) {
       if (status === "check") return null;
 
-      const { valid } = await checkPostSystemCookie();
+      const { valid } = await checkPostSystemCookiesLocal();
 
       if (valid) return null;
     }
   }
 
-  const result = await postSystemLogin(account);
+  const result = await postSystemLoginLocal(account);
 
   return result.success ? null : result;
 };
 
-export const ensureOnlinePostSystemLogin = async (
+const ensurePostSystemLoginOnline = async (
   account: AccountInfo,
   status: "check" | "validate" | "login" = "check",
 ): Promise<AuthLoginFailedResponse | VPNLoginFailedResponse | null> => {
   if (status !== "login") {
-    if (hasCookie()) {
+    if (checkPostSystemCookies()) {
       if (status === "check") return null;
 
-      const { valid } = await checkOnlinePostSystemCookie();
+      const { valid } = await checkPostSystemCookiesOnline();
 
       if (valid) return null;
     }
   }
 
-  const result = await onlinePostSystemLogin(account);
+  const result = await postSystemLoginOnline(account);
 
   return result.success ? null : result;
 };
+
+export const ensurePostSystemLogin = createService(
+  "post-system",
+  ensurePostSystemLoginLocal,
+  ensurePostSystemLoginOnline,
+);

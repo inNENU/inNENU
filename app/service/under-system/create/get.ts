@@ -36,7 +36,7 @@ export type UnderCreateStudentArchiveGetInfoResponse =
   | UnderCreateStudentArchiveGetInfoSuccessResponse
   | (CommonFailedResponse & { type?: LoginFailType.Expired | "created" });
 
-export const getCreateUnderStudentArchiveInfoLocal =
+const getCreateUnderStudentArchiveInfoLocal =
   async (): Promise<UnderCreateStudentArchiveGetInfoResponse> => {
     try {
       const { data: welcomePageContent } = await request<string>(
@@ -201,7 +201,7 @@ export const getCreateUnderStudentArchiveInfoLocal =
     }
   };
 
-export const getCreateUnderStudentArchiveInfoOnline =
+const getCreateUnderStudentArchiveInfoOnline =
   (): Promise<UnderCreateStudentArchiveGetInfoResponse> =>
     onlineUnderStudentArchive<
       Record<never, never>,

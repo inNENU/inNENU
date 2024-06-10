@@ -34,7 +34,7 @@ export type UnderCreateStudentArchiveSubmitInfoResponse =
   | UnderCreateStudentArchiveSubmitInfoSuccessResponse
   | (CommonFailedResponse & { type?: LoginFailType.Expired });
 
-export const submitUnderStudentArchiveInfoLocal = async ({
+const submitUnderStudentArchiveInfoLocal = async ({
   path,
   fields,
 }: UnderCreateStudentArchiveSubmitInfoOptions): Promise<UnderCreateStudentArchiveSubmitInfoResponse> => {
@@ -99,7 +99,7 @@ export const submitUnderStudentArchiveInfoLocal = async ({
   }
 };
 
-export const submitUnderStudentArchiveInfoOnline = (
+const submitUnderStudentArchiveInfoOnline = (
   options: UnderCreateStudentArchiveSubmitInfoOptions,
 ): Promise<UnderCreateStudentArchiveSubmitInfoResponse> =>
   onlineUnderStudentArchive<

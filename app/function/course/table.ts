@@ -2,7 +2,6 @@ import { $Page, get, set } from "@mptool/all";
 
 import type { ClassItem, TableItem } from "./typings.js";
 import { retryAction, showModal } from "../../api/index.js";
-import type { AppOption } from "../../app.js";
 import {
   COURSE_DATA_KEY,
   DAY,
@@ -11,11 +10,9 @@ import {
 } from "../../config/index.js";
 import {
   LoginFailType,
-  ensureOnlinePostSystemLogin,
   ensurePostSystemLogin,
-  getOnlinePostCourseTable,
+  ensureUnderSystemLogin,
   getPostCourseTable,
-  ensureUnderStudyLogin,
   getUnderCourseTable,
 } from "../../service/index.js";
 import { info } from "../../state/info.js";
@@ -31,7 +28,6 @@ import {
   getWeekIndex,
 } from "../../widgets/course/utils.js";
 
-const { useOnlineService } = getApp<AppOption>();
 const { envName } = info;
 
 const PAGE_ID = "course-table";
@@ -213,7 +209,7 @@ $Page(PAGE_ID, {
   async getUnderCourseData(time: string) {
     wx.showLoading({ title: "获取中" });
     try {
-      const err = await ensureUnderStudyLogin(
+      const err = await ensureUnderSystemLogin(
         user.account!,
         this.state.loginMethod,
       );
@@ -258,19 +254,14 @@ $Page(PAGE_ID, {
     wx.showLoading({ title: "获取中" });
 
     try {
-      const err = await (
-        useOnlineService("post-login")
-          ? ensureOnlinePostSystemLogin
-          : ensurePostSystemLogin
-      )(user.account!, this.state.loginMethod);
+      const err = await ensurePostSystemLogin(
+        user.account!,
+        this.state.loginMethod,
+      );
 
       if (err) throw err.msg;
 
-      const result = await (
-        useOnlineService("post-course-table")
-          ? getOnlinePostCourseTable
-          : getPostCourseTable
-      )({ time });
+      const result = await getPostCourseTable({ time });
 
       wx.hideLoading();
       this.state.inited = true;

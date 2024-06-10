@@ -161,7 +161,7 @@ export type UnderGetStudentArchiveResponse =
   | UnderGetStudentArchiveSuccessResponse
   | (CommonFailedResponse & { type?: LoginFailType.Expired });
 
-export const getUnderStudentArchiveLocal =
+const getUnderStudentArchiveLocal =
   async (): Promise<UnderGetStudentArchiveResponse> => {
     const { data: content, status } = await request<string>(
       `${UNDER_STUDENT_ARCHIVE_QUERY_URL}&tktime=${getIETimeStamp()}`,
@@ -193,7 +193,7 @@ export const getUnderStudentArchiveLocal =
     };
   };
 
-export const getUnderStudentArchiveOnline =
+const getUnderStudentArchiveOnline =
   (): Promise<UnderGetStudentArchiveResponse> =>
     request<UnderGetStudentArchiveResponse>("/under-system/student-archive", {
       method: "POST",
@@ -225,7 +225,7 @@ export type UnderRegisterStudentArchiveResponse =
   | UnderRegisterStudentArchiveSuccessResponse
   | (CommonFailedResponse & { type?: LoginFailType.Expired });
 
-export const registerUnderStudentArchiveLocal = async (
+const registerUnderStudentArchiveLocal = async (
   path: string,
 ): Promise<UnderRegisterStudentArchiveResponse> => {
   const url = `${UNDER_SYSTEM_SERVER}${path}`;
@@ -254,7 +254,7 @@ export const registerUnderStudentArchiveLocal = async (
   };
 };
 
-export const registerUnderStudentArchiveOnline = (
+const registerUnderStudentArchiveOnline = (
   path: string,
 ): Promise<UnderRegisterStudentArchiveResponse> =>
   request<UnderRegisterStudentArchiveResponse>(

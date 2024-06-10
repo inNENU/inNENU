@@ -9,7 +9,7 @@ import { LoginFailType } from "../loginFailTypes.js";
 import { getMyInfo } from "../my/info.js";
 import { myLoginLocal } from "../my/login.js";
 import { createService, supportRedirect } from "../utils.js";
-import { vpnLogin } from "../vpn/login.js";
+import { vpnLoginLocal } from "../vpn/login.js";
 
 const LOGIN_URL = `${AUTH_SERVER}/authserver/login`;
 
@@ -207,7 +207,7 @@ const initAuthLocal = async (
 
     if ("type" in loginResult && loginResult.type === LoginFailType.Forbidden) {
       // Activate VPN by login
-      const vpnLoginResult = await vpnLogin({ id, password });
+      const vpnLoginResult = await vpnLoginLocal({ id, password });
 
       if (vpnLoginResult.success)
         loginResult = await myLoginLocal({ id, password });

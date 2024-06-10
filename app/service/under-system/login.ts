@@ -1,8 +1,8 @@
 import { logger } from "@mptool/all";
 
 import {
-  checkOnlineUnderSystemCookie,
-  checkUnderSystemCookie,
+  checkUnderSystemCookiesOnline,
+  checkUnderSystemCookies,
 } from "./check.js";
 import { UNDER_SYSTEM_DOMAIN, UNDER_SYSTEM_SERVER } from "./utils.js";
 import { cookieStore, request } from "../../api/index.js";
@@ -13,7 +13,7 @@ import { handleFailResponse } from "../fail.js";
 import { LoginFailType } from "../loginFailTypes.js";
 import { createService, supportRedirect } from "../utils.js";
 import type { VPNLoginFailedResponse } from "../vpn/index.js";
-import { vpnCASLogin } from "../vpn/login.js";
+import { vpnCASLoginLocal } from "../vpn/login.js";
 
 export interface UnderSystemLoginSuccessResponse {
   success: true;
@@ -29,7 +29,7 @@ export const underSystemLoginLocal = async (
 ): Promise<UnderSystemLoginResponse> => {
   if (!supportRedirect) return underSystemLoginOnline(options);
 
-  const vpnLoginResult = await vpnCASLogin(options);
+  const vpnLoginResult = await vpnCASLoginLocal(options);
 
   if (!vpnLoginResult.success) return vpnLoginResult;
 
@@ -117,7 +117,7 @@ const hasCookie = (): boolean =>
     .getCookies(UNDER_SYSTEM_SERVER)
     .some(({ domain }) => domain === UNDER_SYSTEM_DOMAIN);
 
-export const ensureUnderSystemLoginLocal = async (
+const ensureUnderSystemLoginLocal = async (
   account: AccountInfo,
   status: "check" | "validate" | "login" = "check",
 ): Promise<AuthLoginFailedResponse | VPNLoginFailedResponse | null> => {
@@ -125,7 +125,7 @@ export const ensureUnderSystemLoginLocal = async (
     if (hasCookie()) {
       if (status === "check") return null;
 
-      const { valid } = await checkUnderSystemCookie();
+      const { valid } = await checkUnderSystemCookies();
 
       if (valid) return null;
     }
@@ -136,7 +136,7 @@ export const ensureUnderSystemLoginLocal = async (
   return result.success ? null : result;
 };
 
-export const ensureUnderSystemLoginOnline = async (
+const ensureUnderSystemLoginOnline = async (
   account: AccountInfo,
   status: "check" | "validate" | "login" = "check",
 ): Promise<AuthLoginFailedResponse | VPNLoginFailedResponse | null> => {
@@ -144,7 +144,7 @@ export const ensureUnderSystemLoginOnline = async (
     if (hasCookie()) {
       if (status === "check") return null;
 
-      const { valid } = await checkOnlineUnderSystemCookie();
+      const { valid } = await checkUnderSystemCookiesOnline();
 
       if (valid) return null;
     }

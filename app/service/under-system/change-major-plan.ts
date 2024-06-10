@@ -87,9 +87,7 @@ const getPlans = (content: string): ChangeMajorPlan[] =>
     }),
   );
 
-export const getPlanList = async (
-  content: string,
-): Promise<ChangeMajorPlan[]> => {
+const getPlanList = async (content: string): Promise<ChangeMajorPlan[]> => {
   // We force writing these 2 field to ensure we care getting the default table structure
   const tableFields = tableFieldsRegExp.exec(content)![1];
   const otherFields = String(otherFieldsRegExp.exec(content)?.[1]);

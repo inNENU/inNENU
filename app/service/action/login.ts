@@ -10,7 +10,7 @@ import { handleFailResponse } from "../fail.js";
 import { LoginFailType } from "../loginFailTypes.js";
 import { createService, supportRedirect } from "../utils.js";
 import type { VPNLoginFailedResponse } from "../vpn/index.js";
-import { vpnCASLogin } from "../vpn/index.js";
+import { vpnCASLoginLocal } from "../vpn/index.js";
 
 export interface ActionLoginSuccessResponse {
   success: true;
@@ -26,7 +26,7 @@ export const actionLoginLocal = async (
 ): Promise<ActionLoginResponse> => {
   if (!supportRedirect) return actionLoginOnline(options);
 
-  const vpnLoginResult = await vpnCASLogin(options);
+  const vpnLoginResult = await vpnCASLoginLocal(options);
 
   if (!vpnLoginResult.success) return vpnLoginResult;
 

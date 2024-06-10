@@ -1,7 +1,6 @@
 import { $Page, get, set } from "@mptool/all";
 
 import { retryAction, showModal } from "../../api/index.js";
-import type { AppOption } from "../../app.js";
 import { GRADE_DATA_KEY, HOUR, appCoverPrefix } from "../../config/index.js";
 import type {
   PostGradeResult,
@@ -10,22 +9,16 @@ import type {
 } from "../../service/index.js";
 import {
   LoginFailType,
-  ensureOnlinePostSystemLogin,
-  ensureOnlineUnderStudyLogin,
   ensurePostSystemLogin,
-  ensureUnderStudyLogin,
-  getOnlinePostGradeList,
-  getOnlineUnderGradeDetail,
-  getOnlineUnderGradeList,
+  getUnderGradeDetail,
+  getUnderGradeList,
   getPostGradeList,
-  // getUnderGradeDetail,
-  // getUnderGradeList,
+  ensureUnderStudyLogin,
 } from "../../service/index.js";
 import { info } from "../../state/info.js";
 import { user } from "../../state/user.js";
 import { getColor, popNotice } from "../../utils/page.js";
 
-const { useOnlineService } = getApp<AppOption>();
 const { envName } = info;
 
 const PAGE_ID = "grade";
@@ -191,18 +184,14 @@ $Page(PAGE_ID, {
     wx.showLoading({ title: "获取中" });
 
     try {
-      const err = await (
-        useOnlineService("under-study-login")
-          ? ensureUnderStudyLogin
-          : ensureOnlineUnderStudyLogin
-      )(user.account!, this.state.loginMethod);
+      const err = await ensureUnderStudyLogin(
+        user.account!,
+        this.state.loginMethod,
+      );
 
       if (err) throw err.msg;
 
-      // const result = await (useOnlineService("under-grade-list")
-      //   ? getOnlineUnderGradeList
-      //   : getUnderGradeList)(options);
-      const result = await getOnlineUnderGradeList(options);
+      const result = await getUnderGradeList(options);
 
       wx.hideLoading();
       this.state.inited = true;
@@ -234,19 +223,14 @@ $Page(PAGE_ID, {
     wx.showLoading({ title: "获取中" });
 
     try {
-      const err = await (
-        useOnlineService("post-login")
-          ? ensureOnlinePostSystemLogin
-          : ensurePostSystemLogin
-      )(user.account!, this.state.loginMethod);
+      const err = await ensurePostSystemLogin(
+        user.account!,
+        this.state.loginMethod,
+      );
 
       if (err) throw err.msg;
 
-      return (
-        useOnlineService("post-grade-list")
-          ? getOnlinePostGradeList
-          : getPostGradeList
-      )().then((res) => {
+      return getPostGradeList().then((res) => {
         wx.hideLoading();
         this.state.inited = true;
         if (res.success) {
@@ -524,10 +508,7 @@ $Page(PAGE_ID, {
     const { grades } = this.data;
     const { name, gradeCode, mark } = grades[index] as UnderGradeResult;
 
-    // (useOnlineService("under-grade-detail")
-    //   ? getOnlineUnderGradeDetail
-    //   : getUnderGradeDetail)(gradeCode).then((res) => {
-    getOnlineUnderGradeDetail(gradeCode).then((res) => {
+    getUnderGradeDetail(gradeCode).then((res) => {
       if (res.success)
         showModal(
           `${name}成绩详情`,

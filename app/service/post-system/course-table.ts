@@ -6,7 +6,7 @@ import { cookieStore, request } from "../../api/index.js";
 import type { ClassItem, TableItem } from "../../function/course/typings.js";
 import { getResource } from "../../utils/json.js";
 import { LoginFailType } from "../loginFailTypes.js";
-import { isWebVPNPage } from "../utils.js";
+import { createService, isWebVPNPage } from "../utils.js";
 
 const courseRowRegExp =
   /<tr>\s+<td[^>]*>\s+\d+\s+<\/td>\s+((?:<td[^>]*>[\s\S]+?<\/td>\s*?)+)\s+<\/tr>/g;
@@ -60,7 +60,7 @@ export type PostCourseTableResponse =
   | PostCourseTableSuccessResponse
   | PostCourseTableFailedResponse;
 
-export const getPostCourseTable = async ({
+const getPostCourseTableLocal = async ({
   time,
 }: PostCourseTableOptions): Promise<PostCourseTableResponse> => {
   try {
@@ -114,7 +114,7 @@ export const getPostCourseTable = async ({
   }
 };
 
-export const getOnlinePostCourseTable = (
+const getPostCourseTableOnline = (
   options: PostCourseTableOptions,
 ): Promise<PostCourseTableResponse> =>
   request<PostCourseTableResponse>("/post-system/course-table", {
@@ -126,3 +126,9 @@ export const getOnlinePostCourseTable = (
 
     return data;
   });
+
+export const getPostCourseTable = createService(
+  "post-course-table",
+  getPostCourseTableLocal,
+  getPostCourseTableOnline,
+);

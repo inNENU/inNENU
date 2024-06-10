@@ -4,7 +4,7 @@ import { confirmAction, retryAction, showModal } from "../../api/index.js";
 import { HOUR, STUDENT_ARCHIVE_KEY } from "../../config/index.js";
 import {
   LoginFailType,
-  ensureUnderStudyLogin,
+  ensureUnderSystemLogin,
   getUnderStudentArchive,
   registerUnderStudentArchive,
 } from "../../service/index.js";
@@ -80,7 +80,7 @@ $Page(PAGE_ID, {
     wx.showLoading({ title: "获取中" });
 
     try {
-      const err = await ensureUnderStudyLogin(
+      const err = await ensureUnderSystemLogin(
         user.account!,
         this.state.loginMethod,
       );
@@ -112,7 +112,7 @@ $Page(PAGE_ID, {
     wx.showLoading({ title: "注册中" });
 
     try {
-      const err = await ensureUnderStudyLogin(
+      const err = await ensureUnderSystemLogin(
         user.account!,
         this.state.loginMethod,
       );

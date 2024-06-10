@@ -12,11 +12,11 @@ import type {
 import {
   LoginFailType,
   getCreateUnderStudentArchiveInfo,
-  ensureUnderStudyLogin,
   submitUnderStudentArchiveAddress,
   submitUnderStudentArchiveInfo,
   submitUnderStudentArchiveFamily,
   submitUnderStudentArchiveStudy,
+  ensureUnderSystemLogin,
 } from "../../service/index.js";
 import { info } from "../../state/info.js";
 import { user } from "../../state/user.js";
@@ -206,7 +206,7 @@ $Page(PAGE_ID, {
     wx.showLoading({ title: "获取中" });
 
     try {
-      const err = await ensureUnderStudyLogin(
+      const err = await ensureUnderSystemLogin(
         user.account!,
         this.state.loginMethod,
       );
@@ -311,7 +311,7 @@ $Page(PAGE_ID, {
     wx.showLoading({ title: "提交中" });
 
     try {
-      const err = await ensureUnderStudyLogin(
+      const err = await ensureUnderSystemLogin(
         user.account!,
         this.state.loginMethod,
       );
@@ -396,7 +396,7 @@ $Page(PAGE_ID, {
     wx.showLoading({ title: "提交中" });
 
     try {
-      const err = await ensureUnderStudyLogin(
+      const err = await ensureUnderSystemLogin(
         user.account!,
         this.state.loginMethod,
       );
@@ -441,7 +441,7 @@ $Page(PAGE_ID, {
     wx.showLoading({ title: "提交中" });
 
     try {
-      const err = await ensureUnderStudyLogin(
+      const err = await ensureUnderSystemLogin(
         user.account!,
         this.state.loginMethod,
       );
@@ -481,7 +481,7 @@ $Page(PAGE_ID, {
     wx.showLoading({ title: "提交中" });
 
     try {
-      const err = await ensureUnderStudyLogin(
+      const err = await ensureUnderSystemLogin(
         user.account!,
         this.state.loginMethod,
       );

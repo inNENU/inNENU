@@ -9,7 +9,7 @@ import {
 import type { ExamPlace } from "../../service/index.js";
 import {
   LoginFailType,
-  ensureUnderStudyLogin,
+  ensureUnderSystemLogin,
   getUnderExamPlace,
 } from "../../service/index.js";
 import { info } from "../../state/info.js";
@@ -97,7 +97,7 @@ $Page(PAGE_ID, {
     wx.showLoading({ title: "获取中" });
 
     try {
-      const err = await ensureUnderStudyLogin(
+      const err = await ensureUnderSystemLogin(
         user.account!,
         this.state.loginMethod,
       );

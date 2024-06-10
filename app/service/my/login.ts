@@ -1,6 +1,6 @@
 import { logger } from "@mptool/all";
 
-import { checkMyCookieLocal, checkMyCookieOnline } from "./check.js";
+import { checkMyCookiesLocal, checkMyCookiesOnline } from "./check.js";
 import { MY_DOMAIN, MY_MAIN_PAGE, MY_SERVER } from "./utils.js";
 import { cookieStore, request } from "../../api/index.js";
 import type { AccountInfo } from "../../state/user.js";
@@ -10,7 +10,7 @@ import { handleFailResponse } from "../fail.js";
 import { LoginFailType } from "../loginFailTypes.js";
 import { createService, supportRedirect } from "../utils.js";
 import type { VPNLoginFailedResponse } from "../vpn/index.js";
-import { vpnCASLogin } from "../vpn/login.js";
+import { vpnCASLoginLocal } from "../vpn/login.js";
 
 export interface MyLoginSuccessResponse {
   success: true;
@@ -27,7 +27,7 @@ export const myLoginLocal = async (
 ): Promise<MyLoginResponse> => {
   if (!supportRedirect) return myLoginOnline(options);
 
-  const vpnLoginResponse = await vpnCASLogin(options);
+  const vpnLoginResponse = await vpnCASLoginLocal(options);
 
   if (!vpnLoginResponse.success) return vpnLoginResponse;
 
@@ -108,7 +108,7 @@ const ensureMyLoginLocal = async (
     if (hasCookie()) {
       if (status === "check") return null;
 
-      const { valid } = await checkMyCookieLocal();
+      const { valid } = await checkMyCookiesLocal();
 
       if (valid) return null;
     }
@@ -127,7 +127,7 @@ const ensureMyLoginOnline = async (
     if (hasCookie()) {
       if (status === "check") return null;
 
-      const { valid } = await checkMyCookieOnline();
+      const { valid } = await checkMyCookiesOnline();
 
       if (valid) return null;
     }

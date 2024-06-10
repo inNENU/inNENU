@@ -31,7 +31,7 @@ export type VPNLoginResponse =
   | VPNLoginFailedResponse
   | AuthLoginFailedResponse;
 
-export const vpnLogin = async ({
+export const vpnLoginLocal = async ({
   id,
   password,
 }: AccountInfo): Promise<VPNLoginResponse> => {
@@ -104,7 +104,7 @@ export const vpnLogin = async ({
   };
 };
 
-export const vpnCASLogin = async ({
+export const vpnCASLoginLocal = async ({
   id,
   password,
 }: AccountInfo): Promise<VPNLoginResponse> => {

@@ -1,6 +1,9 @@
 import { logger } from "@mptool/all";
 
-import { checkOnlineUnderStudyCookie, checkUnderStudyCookie } from "./check.js";
+import {
+  checkUnderStudyCookiesOnline,
+  checkUnderStudyCookiesLocal,
+} from "./check.js";
 import { UNDER_STUDY_SERVER } from "./utils.js";
 import { cookieStore, request } from "../../api/index.js";
 import type { AccountInfo } from "../../state/user.js";
@@ -8,7 +11,7 @@ import type { AuthLoginFailedResponse } from "../auth/login.js";
 import { authLoginLocal } from "../auth/login.js";
 import { handleFailResponse } from "../fail.js";
 import { LoginFailType } from "../loginFailTypes.js";
-import { supportRedirect } from "../utils.js";
+import { createService, supportRedirect } from "../utils.js";
 import type { VPNLoginFailedResponse } from "../vpn/login.js";
 
 export interface UnderStudyLoginSuccessResponse {
@@ -21,10 +24,10 @@ export type UnderStudyLoginResponse =
 
 const SSO_LOGIN_URL = `${UNDER_STUDY_SERVER}/new/ssoLogin`;
 
-export const underStudyLogin = async (
+export const underStudyLoginLocal = async (
   options: AccountInfo,
 ): Promise<UnderStudyLoginResponse> => {
-  if (!supportRedirect) return onlineUnderStudyLogin(options);
+  if (!supportRedirect) return underStudyLoginOnline(options);
 
   try {
     const result = await authLoginLocal(options, {
@@ -94,7 +97,7 @@ export const underStudyLogin = async (
   }
 };
 
-export const onlineUnderStudyLogin = async (
+export const underStudyLoginOnline = async (
   options: AccountInfo,
 ): Promise<UnderStudyLoginResponse> => {
   const { data } = await request<UnderStudyLoginResponse>(
@@ -119,28 +122,28 @@ const hasCookie = (): boolean =>
     .getCookies(UNDER_STUDY_SERVER)
     .some(({ domain }) => domain === UNDER_STUDY_SERVER);
 
-export const ensureUnderStudyLogin = async (
+const ensureUnderStudyLoginLocal = async (
   account: AccountInfo,
   status: "check" | "validate" | "login" = "check",
 ): Promise<AuthLoginFailedResponse | VPNLoginFailedResponse | null> => {
-  if (!supportRedirect) return ensureOnlineUnderStudyLogin(account);
+  if (!supportRedirect) return ensureUnderStudyLoginOnline(account);
 
   if (status !== "login") {
     if (hasCookie()) {
       if (status === "check") return null;
 
-      const { valid } = await checkUnderStudyCookie();
+      const { valid } = await checkUnderStudyCookiesLocal();
 
       if (valid) return null;
     }
   }
 
-  const result = await underStudyLogin(account);
+  const result = await underStudyLoginLocal(account);
 
   return result.success ? null : result;
 };
 
-export const ensureOnlineUnderStudyLogin = async (
+const ensureUnderStudyLoginOnline = async (
   account: AccountInfo,
   status: "check" | "validate" | "login" = "check",
 ): Promise<AuthLoginFailedResponse | VPNLoginFailedResponse | null> => {
@@ -148,13 +151,19 @@ export const ensureOnlineUnderStudyLogin = async (
     if (hasCookie()) {
       if (status === "check") return null;
 
-      const { valid } = await checkOnlineUnderStudyCookie();
+      const { valid } = await checkUnderStudyCookiesOnline();
 
       if (valid) return null;
     }
   }
 
-  const result = await onlineUnderStudyLogin(account);
+  const result = await underStudyLoginOnline(account);
 
   return result.success ? null : result;
 };
+
+export const ensureUnderStudyLogin = createService(
+  "under-study",
+  ensureUnderStudyLoginLocal,
+  ensureUnderStudyLoginOnline,
+);

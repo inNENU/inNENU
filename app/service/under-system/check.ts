@@ -2,7 +2,7 @@ import { UNDER_SYSTEM_SERVER } from "./utils.js";
 import type { CookieVerifyResponse } from "../../../typings/index.js";
 import { request } from "../../api/index.js";
 
-export const checkUnderSystemCookie =
+export const checkUnderSystemCookies =
   async (): Promise<CookieVerifyResponse> => {
     try {
       const response = await request<string>(
@@ -43,8 +43,9 @@ export const checkUnderSystemCookie =
     }
   };
 
-export const checkOnlineUnderSystemCookie = (): Promise<CookieVerifyResponse> =>
-  request<CookieVerifyResponse>("/under-system/check", {
-    method: "POST",
-    cookieScope: UNDER_SYSTEM_SERVER,
-  }).then(({ data }) => data);
+export const checkUnderSystemCookiesOnline =
+  (): Promise<CookieVerifyResponse> =>
+    request<CookieVerifyResponse>("/under-system/check", {
+      method: "POST",
+      cookieScope: UNDER_SYSTEM_SERVER,
+    }).then(({ data }) => data);

@@ -1,7 +1,6 @@
 import { $Page, get, set } from "@mptool/all";
 
 import { showModal } from "../../api/index.js";
-import type { AppOption } from "../../app.js";
 import {
   HOUR,
   appCoverPrefix,
@@ -9,16 +8,13 @@ import {
 } from "../../config/index.js";
 import type { UnderSpecialExamResult } from "../../service/index.js";
 import {
-  ensureOnlineUnderStudyLogin,
   ensureUnderStudyLogin,
-  getOnlineUnderSpecialExam,
-  // getUnderSpecialExam,
+  getUnderSpecialExam,
 } from "../../service/index.js";
 import { info } from "../../state/info.js";
 import { user } from "../../state/user.js";
 import { getColor, popNotice } from "../../utils/page.js";
 
-const { useOnlineService } = getApp<AppOption>();
 const { envName } = info;
 
 const PAGE_ID = "special-exam";
@@ -95,18 +91,14 @@ $Page(PAGE_ID, {
     wx.showLoading({ title: "获取中" });
 
     try {
-      const err = await (
-        useOnlineService("under-study-login")
-          ? ensureOnlineUnderStudyLogin
-          : ensureUnderStudyLogin
-      )(user.account!, this.state.loginMethod);
+      const err = await ensureUnderStudyLogin(
+        user.account!,
+        this.state.loginMethod,
+      );
 
       if (err) throw err.msg;
 
-      // const result = await (useOnlineService(PAGE_ID)
-      //   ? getOnlineUnderSpecialExam
-      //   : getUnderSpecialExam)();
-      const result = await getOnlineUnderSpecialExam();
+      const result = await getUnderSpecialExam();
 
       wx.hideLoading();
       this.state.inited = true;

@@ -2,7 +2,7 @@ import { POST_SYSTEM_HTTPS_SERVER } from "./utils.js";
 import type { CookieVerifyResponse } from "../../../typings/index.js";
 import { request } from "../../api/index.js";
 
-export const checkPostSystemCookie =
+export const checkPostSystemCookiesLocal =
   async (): Promise<CookieVerifyResponse> => {
     try {
       const response = await request<string>(
@@ -46,7 +46,7 @@ export const checkPostSystemCookie =
     }
   };
 
-export const checkOnlinePostSystemCookie = (): Promise<CookieVerifyResponse> =>
+export const checkPostSystemCookiesOnline = (): Promise<CookieVerifyResponse> =>
   request<CookieVerifyResponse>("/post-system/check", {
     method: "POST",
     cookieScope: POST_SYSTEM_HTTPS_SERVER,

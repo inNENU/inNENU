@@ -60,7 +60,7 @@ export type UnderCourseTableResponse =
   | UnderCourseTableSuccessResponse
   | UnderCourseTableFailedResponse;
 
-export const getUnderCourseTableLocal = async ({
+const getUnderCourseTableLocal = async ({
   time,
 }: UnderCourseTableOptions): Promise<UnderCourseTableResponse> => {
   try {
@@ -115,7 +115,7 @@ export const getUnderCourseTableLocal = async ({
   }
 };
 
-export const getUnderCourseTableOnline = (
+const getUnderCourseTableOnline = (
   options: UnderCourseTableOptions,
 ): Promise<UnderCourseTableResponse> =>
   request<UnderCourseTableResponse>("/under-system/course-table", {

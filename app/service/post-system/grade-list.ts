@@ -5,7 +5,7 @@ import type { CommonFailedResponse } from "../../../typings/index.js";
 import { request } from "../../api/index.js";
 import type { AuthLoginFailedResponse } from "../auth/index.js";
 import { LoginFailType } from "../loginFailTypes.js";
-import { isWebVPNPage } from "../utils.js";
+import { createService, isWebVPNPage } from "../utils.js";
 
 export interface PostGradeResult {
   /** 修读时间 */
@@ -193,7 +193,7 @@ const getPostGradeLists = async (
   return grades;
 };
 
-export const getPostGradeList = async (): Promise<PostGradeListResponse> => {
+const getPostGradeListLocal = async (): Promise<PostGradeListResponse> => {
   try {
     const { data: content, status } = await request<string>(QUERY_URL, {
       method: "POST",
@@ -232,7 +232,7 @@ export const getPostGradeList = async (): Promise<PostGradeListResponse> => {
   }
 };
 
-export const getOnlinePostGradeList = (): Promise<PostGradeListResponse> =>
+const getPostGradeListOnline = (): Promise<PostGradeListResponse> =>
   request<PostGradeListResponse>("/post-system/grade-list", {
     method: "POST",
     cookieScope: POST_SYSTEM_HTTPS_SERVER,
@@ -241,3 +241,9 @@ export const getOnlinePostGradeList = (): Promise<PostGradeListResponse> =>
 
     return data;
   });
+
+export const getPostGradeList = createService(
+  "post-grade-list",
+  getPostGradeListLocal,
+  getPostGradeListOnline,
+);

@@ -2,7 +2,7 @@ import { UNDER_STUDY_SERVER } from "./utils.js";
 import type { CookieVerifyResponse } from "../../../typings/index.js";
 import { request } from "../../api/index.js";
 
-export const checkUnderStudyCookie =
+export const checkUnderStudyCookiesLocal =
   async (): Promise<CookieVerifyResponse> => {
     try {
       const response = await request<string>(UNDER_STUDY_SERVER, {
@@ -35,7 +35,7 @@ export const checkUnderStudyCookie =
     }
   };
 
-export const checkOnlineUnderStudyCookie = (): Promise<CookieVerifyResponse> =>
+export const checkUnderStudyCookiesOnline = (): Promise<CookieVerifyResponse> =>
   request<CookieVerifyResponse>("/under-study/check", {
     method: "POST",
     cookieScope: UNDER_STUDY_SERVER,
