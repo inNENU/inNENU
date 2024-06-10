@@ -135,7 +135,7 @@ const postSystemLoginOnline = async (
 };
 
 export const postSystemLogin = createService(
-  "post-system",
+  "post-system-login",
   postSystemLoginLocal,
   postSystemLoginOnline,
 );
@@ -184,7 +184,7 @@ const ensurePostSystemLoginOnline = async (
 };
 
 export const ensurePostSystemLogin = createService(
-  "post-system",
+  "post-system-login",
   ensurePostSystemLoginLocal,
   ensurePostSystemLoginOnline,
 );
