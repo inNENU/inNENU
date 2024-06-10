@@ -3,10 +3,15 @@ import { URLSearchParams, encodeBase64 } from "@mptool/all";
 import { AUTH_SERVER } from "./utils.js";
 import type { CommonFailedResponse } from "../../../typings/index.js";
 import { request } from "../../api/index.js";
+import { createService } from "../utils.js";
 
 const RESET_PASSWORD_PAGE_URL = `${AUTH_SERVER}/authserver/getBackPasswordMainPage.do`;
 const RESET_PASSWORD_URL = `${AUTH_SERVER}/authserver/getBackPassword.do`;
 const CAPTCHA_URL = `${AUTH_SERVER}/authserver/captcha.html`;
+
+export interface ResetPasswordCaptchaOptions {
+  type: "captcha";
+}
 
 interface RawFailedData {
   success: false;
@@ -20,7 +25,10 @@ export interface ResetPasswordCaptchaResponse {
   captcha: string;
 }
 
-export const getCaptcha = async (): Promise<ResetPasswordCaptchaResponse> => {
+const getResetPasswordCaptchaLocal = async (
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  _options: ResetPasswordCaptchaOptions,
+): Promise<ResetPasswordCaptchaResponse> => {
   await request<ArrayBuffer>(RESET_PASSWORD_PAGE_URL);
 
   const { data: captchaResponse } = await request<ArrayBuffer>(
@@ -49,26 +57,27 @@ type RawResetPasswordInfoData =
     }
   | RawFailedData;
 
-export interface ResetPasswordInfoOptions {
+export interface ResetPasswordPhoneOptions {
+  type: "verify-phone";
   id: string;
   mobile: string;
   captcha: string;
 }
 
-export interface ResetPasswordInfoSuccessResponse {
+export interface ResetPasswordPhoneSuccessResponse {
   success: true;
   sign: string;
 }
 
-export type ResetPasswordInfoResponse =
-  | ResetPasswordInfoSuccessResponse
+export type ResetPasswordPhoneResponse =
+  | ResetPasswordPhoneSuccessResponse
   | CommonFailedResponse;
 
-export const verifyAccount = async ({
+const verifySecurityPhoneLocal = async ({
   id,
   mobile,
   captcha,
-}: ResetPasswordInfoOptions): Promise<ResetPasswordInfoResponse> => {
+}: ResetPasswordPhoneOptions): Promise<ResetPasswordPhoneResponse> => {
   const { data } = await request<RawResetPasswordInfoData>(RESET_PASSWORD_URL, {
     method: "POST",
     headers: {
@@ -96,6 +105,7 @@ export const verifyAccount = async ({
 };
 
 export interface ResetPasswordSendSMSOptions {
+  type: "send-sms";
   /** 学号 */
   id: string;
   /** 手机号 */
@@ -124,7 +134,7 @@ export type ResetPasswordSendSMSResponse =
   | ResetPasswordSendSMSSuccessResponse
   | CommonFailedResponse;
 
-export const sendSMS = async ({
+const sendResetPasswordSMSLocal = async ({
   id,
   mobile,
   sign,
@@ -159,6 +169,7 @@ export const sendSMS = async ({
 };
 
 export interface ResetPasswordVerifySMSOptions {
+  type: "verify-sms";
   /** 学号 */
   id: string;
   /** 手机号 */
@@ -191,7 +202,7 @@ export type ResetPasswordVerifySMSResponse =
   | ResetPasswordVerifySMSSuccessResponse
   | CommonFailedResponse;
 
-export const verifySMS = async ({
+const verifyResetPasswordSMSCodeLocal = async ({
   id,
   mobile,
   code,
@@ -229,6 +240,7 @@ export const verifySMS = async ({
 };
 
 export interface ResetPasswordSetNewOptions {
+  type: "set";
   /** 学号 */
   id: string;
   /** 手机号 */
@@ -259,7 +271,7 @@ export type ResetPasswordSetNewResponse =
   | ResetPasswordSetNewSuccessResponse
   | CommonFailedResponse;
 
-export const setNewPassword = async ({
+const setNewPasswordLocal = async ({
   id,
   mobile,
   code,
@@ -309,34 +321,47 @@ export const setNewPassword = async ({
 };
 
 export type ResetPasswordOptions =
-  | ResetPasswordInfoOptions
+  | ResetPasswordCaptchaOptions
+  | ResetPasswordPhoneOptions
   | ResetPasswordSendSMSOptions
   | ResetPasswordVerifySMSOptions
   | ResetPasswordSetNewOptions;
 
-export const resetPasswordOnline = async <
-  T extends ResetPasswordOptions | "GET",
->(
-  options: T,
-): Promise<
-  T extends "GET"
+export type ResetPasswordResponse<T extends ResetPasswordOptions> =
+  T extends ResetPasswordCaptchaOptions
     ? ResetPasswordCaptchaResponse
-    :
-        | ResetPasswordInfoResponse
-        | ResetPasswordSendSMSResponse
-        | ResetPasswordVerifySMSResponse
-        | ResetPasswordSetNewResponse
-> =>
-  request<
-    T extends "GET"
-      ? ResetPasswordCaptchaResponse
-      :
-          | ResetPasswordInfoResponse
-          | ResetPasswordSendSMSResponse
-          | ResetPasswordVerifySMSResponse
-          | ResetPasswordSetNewResponse
-  >("/auth/reset", {
-    method: options === "GET" ? "GET" : "POST",
-    ...(options === "GET" ? {} : { body: options }),
+    : T extends ResetPasswordPhoneOptions
+      ? ResetPasswordPhoneResponse
+      : T extends ResetPasswordSendSMSOptions
+        ? ResetPasswordSendSMSResponse
+        : T extends ResetPasswordVerifySMSOptions
+          ? ResetPasswordVerifySMSResponse
+          : ResetPasswordSetNewResponse;
+
+const resetPasswordLocal = async <T extends ResetPasswordOptions>(
+  options: T,
+): Promise<ResetPasswordResponse<T>> =>
+  (options.type === "captcha"
+    ? getResetPasswordCaptchaLocal(options)
+    : options.type === "verify-phone"
+      ? verifySecurityPhoneLocal(options)
+      : options.type === "send-sms"
+        ? sendResetPasswordSMSLocal(options)
+        : options.type === "verify-sms"
+          ? verifyResetPasswordSMSCodeLocal(options)
+          : setNewPasswordLocal(options)) as Promise<ResetPasswordResponse<T>>;
+
+const resetPasswordOnline = async <T extends ResetPasswordOptions>(
+  options: T,
+): Promise<ResetPasswordResponse<T>> =>
+  request<ResetPasswordResponse<T>>("/auth/reset", {
+    method: options.type === "captcha" ? "GET" : "POST",
+    ...(options.type === "captcha" ? {} : { body: options }),
     cookieScope: `${AUTH_SERVER}/authserver/`,
   }).then(({ data }) => data);
+
+export const resetPassword = createService(
+  "reset-password",
+  resetPasswordLocal,
+  resetPasswordOnline,
+);

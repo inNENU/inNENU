@@ -301,15 +301,30 @@ export type ActivateOptions =
 export type ActiveResponse<T extends ActivateOptions> =
   T extends ActivateCaptchaOptions
     ? ActivateCaptchaResponse
-    : T["type"] extends "info"
+    : T extends ActivateInfoOptions
       ? ActivateInfoResponse
-      : T["type"] extends "sms"
+      : T extends ActivatePhoneSmsOptions
         ? ActivatePhoneSmsResponse
-        : T["type"] extends "bind-phone"
+        : T extends ActivateBindPhoneOptions
           ? ActivateBindPhoneResponse
-          : T["type"] extends "replace-phone"
+          : T extends ActivateReplacePhoneOptions
             ? ActivateReplacePhoneResponse
             : ActivatePasswordResponse;
+
+const activeAccountLocal = async <T extends ActivateOptions>(
+  options: T,
+): Promise<ActiveResponse<T>> =>
+  (options.type === "captcha"
+    ? getCaptcha()
+    : options.type === "info"
+      ? checkAccount(options)
+      : options.type === "sms"
+        ? sendSms(options)
+        : options.type === "bind-phone"
+          ? bindPhone(options)
+          : options.type === "replace-phone"
+            ? replacePhone(options)
+            : setPassword(options)) as Promise<ActiveResponse<T>>;
 
 const activateAccountOnline = async <T extends ActivateOptions>(
   options: T,
@@ -324,17 +339,6 @@ export const activateAccount: <T extends ActivateOptions>(
   options: T,
 ) => Promise<ActiveResponse<T>> = createService(
   "activate",
-  <T extends ActivateOptions>(options: T): Promise<ActiveResponse<T>> =>
-    (options.type === "captcha"
-      ? getCaptcha()
-      : options.type === "info"
-        ? checkAccount(options)
-        : options.type === "sms"
-          ? sendSms(options)
-          : options.type === "bind-phone"
-            ? bindPhone(options)
-            : options.type === "replace-phone"
-              ? replacePhone(options)
-              : setPassword(options)) as Promise<ActiveResponse<T>>,
+  activeAccountLocal,
   activateAccountOnline,
 );

@@ -1,26 +1,12 @@
 import { $Page, get, set } from "@mptool/all";
 
 import { showModal, showToast } from "../../api/index.js";
-import type { AppOption } from "../../app.js";
 import { SECOND, appCoverPrefix, assets } from "../../config/index.js";
-import type {
-  ResetPasswordInfoResponse,
-  ResetPasswordSendSMSResponse,
-  ResetPasswordVerifySMSResponse,
-} from "../../service/index.js";
-import {
-  getCaptcha,
-  resetPasswordOnline,
-  sendSMS,
-  setNewPassword,
-  supportRedirect,
-  verifyAccount,
-  verifySMS,
-} from "../../service/index.js";
+
+import { resetPassword, supportRedirect } from "../../service/index.js";
 import { info } from "../../state/info.js";
 import { getColor, popNotice } from "../../utils/page.js";
 
-const { useOnlineService } = getApp<AppOption>();
 const { envName } = info;
 
 const PAGE_ID = "reset";
@@ -105,9 +91,7 @@ ${envName}严格使用官方密码重置服务流程。
   },
 
   getCaptcha() {
-    return (
-      useOnlineService(PAGE_ID) ? resetPasswordOnline("GET") : getCaptcha()
-    ).then(({ captcha }) => {
+    return resetPassword({ type: "captcha" }).then(({ captcha }) => {
       this.setData({ image: captcha });
     });
   },
@@ -123,13 +107,12 @@ ${envName}严格使用官方密码重置服务流程。
 
     wx.showLoading({ title: "正在验证" });
 
-    const data = await (useOnlineService(PAGE_ID)
-      ? (resetPasswordOnline({
-          id,
-          mobile,
-          captcha,
-        }) as Promise<ResetPasswordInfoResponse>)
-      : verifyAccount({ id, mobile, captcha }));
+    const data = await resetPassword({
+      type: "verify-phone",
+      id,
+      mobile,
+      captcha,
+    });
 
     wx.hideLoading();
 
@@ -153,13 +136,7 @@ ${envName}严格使用官方密码重置服务流程。
 
     wx.showLoading({ title: "发送中" });
 
-    const data = await (useOnlineService(PAGE_ID)
-      ? (resetPasswordOnline({
-          id,
-          mobile,
-          sign,
-        }) as Promise<ResetPasswordSendSMSResponse>)
-      : sendSMS({ id, mobile, sign }));
+    const data = await resetPassword({ type: "send-sms", id, mobile, sign });
 
     wx.hideLoading();
 
@@ -176,14 +153,13 @@ ${envName}严格使用官方密码重置服务流程。
 
     wx.showLoading({ title: "验证中" });
 
-    const data = await (useOnlineService(PAGE_ID)
-      ? (resetPasswordOnline({
-          id,
-          mobile,
-          sign,
-          code,
-        }) as Promise<ResetPasswordVerifySMSResponse>)
-      : verifySMS({ id, mobile, sign, code }));
+    const data = await resetPassword({
+      type: "verify-sms",
+      id,
+      mobile,
+      sign,
+      code,
+    });
 
     wx.hideLoading();
 
@@ -233,16 +209,15 @@ ${envName}严格使用官方密码重置服务流程。
 
     wx.showLoading({ title: "重置密码" });
 
-    const data = await (useOnlineService(PAGE_ID)
-      ? (resetPasswordOnline({
-          id,
-          mobile,
-          sign,
-          code,
-          password,
-          salt,
-        }) as Promise<ResetPasswordVerifySMSResponse>)
-      : setNewPassword({ id, mobile, sign, code, password, salt }));
+    const data = await resetPassword({
+      type: "set",
+      id,
+      mobile,
+      sign,
+      code,
+      password,
+      salt,
+    });
 
     wx.hideLoading();
 
