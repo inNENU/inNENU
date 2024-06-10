@@ -1,5 +1,5 @@
 import { downLoad, requestJSON } from "../api/index.js";
-import { assets } from "../config/index.js";
+import { assets, version } from "../config/index.js";
 import { appID, info } from "../state/index.js";
 import { compareVersion } from "../utils/index.js";
 
@@ -16,7 +16,7 @@ export const updateApp = async (): Promise<void> => {
   // 请求配置文件
   const onlineVersion = await requestJSON<string>(`d/config/${appID}/version`);
 
-  if (compareVersion(onlineVersion, info.version) > 0) {
+  if (compareVersion(onlineVersion, version) > 0) {
     if (info.platform === "android")
       wx.showModal({
         title: "发现新版本",
