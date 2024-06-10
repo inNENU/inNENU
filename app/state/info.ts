@@ -44,13 +44,15 @@ const infoState: InfoState = {
   selectable: wx.getStorageSync<boolean>("selectable") || false,
 };
 
-// 更新窗口大小
-wx.onWindowResize(({ size }) => {
-  const { windowHeight, windowWidth } = size;
+// FIXME: App does not support this API
+if (env !== "app")
+  // 更新窗口大小
+  wx.onWindowResize(({ size }) => {
+    const { windowHeight, windowWidth } = size;
 
-  infoState.windowHeight = windowHeight;
-  infoState.windowWidth = windowWidth;
-});
+    infoState.windowHeight = windowHeight;
+    infoState.windowWidth = windowWidth;
+  });
 
 // 监听主题
 wx.onThemeChange?.(({ theme }) => {
