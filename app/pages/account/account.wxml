@@ -91,7 +91,7 @@
         >
       </view>
       <button type="primary" class="save-button primary" catch:tap="save">
-        保存在本地
+        验证并本地保存
       </button>
       <view class="actions">
         <view
