@@ -276,16 +276,22 @@ const activateEmailLocal = async ({
   };
 };
 
-export const applyEmailOnline = async <T>(
+export type ApplyEmailOptions = GetEmailInfoOptions | ActivateEmailOptions;
+
+export type ApplyEmailResponse<T extends ApplyEmailOptions> =
+  T extends ActivateEmailOptions ? ActivateEmailResponse : GetEmailInfoResponse;
+
+const applyEmailLocal = async <T extends ApplyEmailOptions>(
   options: T,
-): Promise<
-  T extends ActivateEmailOptions ? ActivateEmailResponse : GetEmailInfoResponse
-> =>
-  request<
-    T extends ActivateEmailOptions
-      ? ActivateEmailResponse
-      : GetEmailInfoResponse
-  >("/my/email", {
+): Promise<ApplyEmailResponse<T>> =>
+  (options.type === "set"
+    ? activateEmailLocal(options)
+    : getEmailInfoLocal(options)) as Promise<ApplyEmailResponse<T>>;
+
+const applyEmailOnline = async <T extends ApplyEmailOptions>(
+  options: T,
+): Promise<ApplyEmailResponse<T>> =>
+  request<ApplyEmailResponse<T>>("/my/email", {
     method: "POST",
     ...(options ? { body: options } : {}),
     cookieScope: MY_SERVER,
@@ -296,20 +302,7 @@ export const applyEmailOnline = async <T>(
   });
 
 export const applyEmail = createService(
-  "activate-email",
-  async <T extends GetEmailInfoOptions | ActivateEmailOptions>(
-    options: T,
-  ): Promise<
-    T extends ActivateEmailOptions
-      ? ActivateEmailResponse
-      : GetEmailInfoResponse
-  > =>
-    (options.type === "set"
-      ? activateEmailLocal(options)
-      : getEmailInfoLocal(options)) as Promise<
-      T extends ActivateEmailOptions
-        ? ActivateEmailResponse
-        : GetEmailInfoResponse
-    >,
+  "apply-email",
+  applyEmailLocal,
   applyEmailOnline,
 );

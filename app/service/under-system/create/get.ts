@@ -209,7 +209,7 @@ const getCreateUnderStudentArchiveInfoOnline =
     >({}, { type: "get-info" });
 
 export const getCreateUnderStudentArchiveInfo = createService(
-  "create-archive",
+  "create-under-archive",
   getCreateUnderStudentArchiveInfoLocal,
   getCreateUnderStudentArchiveInfoOnline,
 );

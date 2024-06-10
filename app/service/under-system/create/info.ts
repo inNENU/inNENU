@@ -108,7 +108,7 @@ const submitUnderStudentArchiveInfoOnline = (
   >(options, { type: "submit-info" });
 
 export const submitUnderStudentArchiveInfo = createService(
-  "create-archive",
+  "create-under-archive",
   submitUnderStudentArchiveInfoLocal,
   submitUnderStudentArchiveInfoOnline,
 );

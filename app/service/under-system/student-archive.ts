@@ -205,7 +205,7 @@ const getUnderStudentArchiveOnline =
     });
 
 export const getUnderStudentArchive = createService(
-  "view-archive",
+  "view-under-archive",
   getUnderStudentArchiveLocal,
   getUnderStudentArchiveOnline,
 );
