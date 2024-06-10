@@ -351,6 +351,13 @@ const buildQQ = parallel(
   moveQQFiles,
   getConfigJob("qq"),
 );
+const bundleQQ = parallel(
+  buildQss,
+  getAssetsJob("qq", { bundle: true, wxFiles: false }),
+  getMoveScriptJob("qq"),
+  moveQQFiles,
+  getConfigJob("qq"),
+);
 
 /* exports */
 
@@ -369,3 +376,4 @@ exports.buildNenuyouth = buildNenuyouth;
 
 exports.watchQQ = watchQQ;
 exports.buildQQ = buildQQ;
+exports.bundleQQ = bundleQQ;
