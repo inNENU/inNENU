@@ -131,7 +131,6 @@
       "desc": "您的位置信息将用于校园地图导航"
     }
   },
-  "requiredBackgroundModes": ["audio"],
   "usingComponents": {
     "account": "/base/account/account",
     "audio-player": "/base/audio/audio",
@@ -160,6 +159,8 @@
   "themeLocation": "styles/theme.json",
   "sitemapLocation": "sitemap.json",
   "lazyCodeLoading": "requiredComponents",
+  "requiredBackgroundModes": ["audio"],
+  "requiredPrivateInfos": ["getLocation"],
   "singlePage": {
     "navigationBarFit": "float"
   },
@@ -167,5 +168,11 @@
     "firstPageNavigationStyle": "custom"
   },
   "componentFramework": "glass-easel",
-  "enablePassiveEvent": true
+  "enablePassiveEvent": true,
+  "rendererOptions": {
+    "skyline": {
+      "defaultDisplayBlock": true,
+      "defaultContentBox": true
+    }
+  }
 }

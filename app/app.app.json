@@ -119,6 +119,7 @@
     }
   },
   "requiredBackgroundModes": ["audio"],
+  "requiredPrivateInfos": ["getLocation"],
   "usingComponents": {
     "account": "/base/account/account",
     "audio-player": "/base/audio/audio",
@@ -146,5 +147,11 @@
   "sitemapLocation": "sitemap.json",
   "lazyCodeLoading": "requiredComponents",
   "componentFramework": "glass-easel",
-  "enablePassiveEvent": true
+  "enablePassiveEvent": true,
+  "rendererOptions": {
+    "skyline": {
+      "defaultDisplayBlock": true,
+      "defaultContentBox": true
+    }
+  }
 }
