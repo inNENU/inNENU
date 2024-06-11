@@ -1,6 +1,5 @@
 {
   "components": true,
-  "componentFramework": "glass-easel",
   "usingComponents": {
     "error-hint": "/components/error-hint/error-hint",
     "login-hint": "/components/login-hint/login-hint"
