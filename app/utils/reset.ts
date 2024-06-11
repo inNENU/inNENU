@@ -14,7 +14,10 @@ export const resetApp = (): void => {
 
     // 隐藏提示
     wx.hideLoading();
+
+    // 重启小程序
     if (wx.restartMiniProgram)
+      // 重启小程序
       wx.restartMiniProgram({ path: "/pages/main/main" });
     // 提示用户重启
     else

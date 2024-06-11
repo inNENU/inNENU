@@ -1,8 +1,9 @@
 import { $Page } from "@mptool/all";
 
 import { appCoverPrefix } from "../../config/index.js";
+import { reportUserInfo } from "../../service/index.js";
 import { info } from "../../state/index.js";
-import { getPageColor, reportInfo, resetApp } from "../../utils/index.js";
+import { getPageColor, resetApp } from "../../utils/index.js";
 
 const PAGE_ID = "action";
 const PAGE_TITLE = "功能页";
@@ -42,5 +43,5 @@ $Page(PAGE_ID, {
     this.setData({ path: detail.value });
   },
 
-  reportInfo,
+  reportInfo: reportUserInfo,
 });

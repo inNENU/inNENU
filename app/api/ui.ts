@@ -22,7 +22,7 @@ export const showModal = (
     title,
     content,
     showCancel,
-    // Note: This is for QQ
+    // NOTE: For QQ only
     theme: "day",
     success: ({ cancel, confirm }) => {
       if (confirm && confirmFunc) confirmFunc();
@@ -77,7 +77,7 @@ export const retryAction = (
     title,
     content,
     confirmText: "重试",
-    // Note: This is for QQ
+    // NOTE: For QQ only
     theme: "day",
     success: ({ cancel, confirm }) => {
       if (confirm) retryAction();

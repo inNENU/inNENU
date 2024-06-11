@@ -2,9 +2,9 @@
 import type { PageInstance, PageQuery } from "@mptool/all";
 import { logger, readJSON, writeJSON } from "@mptool/all";
 
+import { getScopeData } from "./getScopeData.js";
 import { id2path } from "./id.js";
 import { ensureJson } from "./json.js";
-import { getScopeData } from "./scopeData.js";
 import type {
   ComponentConfig,
   FunctionalListComponentItemConfig,

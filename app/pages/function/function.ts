@@ -3,12 +3,12 @@ import { $Page, get, put, set, take } from "@mptool/all";
 import type { PageStateWithContent } from "../../../typings/index.js";
 import type { App } from "../../app.js";
 import { DAY, appCoverPrefix } from "../../config/index.js";
+import { searchMiniApp } from "../../service/index.js";
 import { getIdentity, info } from "../../state/index.js";
 import {
   checkResource,
   getPageColor,
   resolvePage,
-  search,
   setPage,
   showNotice,
 } from "../../utils/index.js";
@@ -142,7 +142,7 @@ $Page(PAGE_ID, {
    * @param value 输入的搜索词
    */
   async searching({ detail: { value } }: WechatMiniprogram.Input) {
-    const words = await search<string[]>({
+    const words = await searchMiniApp<string[]>({
       scope: "function",
       type: "word",
       word: value,

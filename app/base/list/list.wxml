@@ -45,9 +45,11 @@
           src="{{listItem.icon}}"
         />
         <view class="list-item-detail">
+          <!-- Note: QQ 不支持 user-select -->
           <text
             class="list-item-text"
             decode
+            selectable="{{selectable}}"
             user-select="{{selectable}}"
             space="nbsp"
             >{{listItem.text}}</text

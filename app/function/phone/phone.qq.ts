@@ -1,6 +1,6 @@
 import { $Page } from "@mptool/all";
 
-import { setClipboard, showToast } from "../../api/index.js";
+import { copyContent, showToast } from "../../api/index.js";
 import { appCoverPrefix } from "../../config/index.js";
 import { info } from "../../state/index.js";
 import { ensureJson, getJson, showNotice } from "../../utils/index.js";
@@ -95,7 +95,7 @@ $Page("phone", {
   ) {
     const item = this.getConfig(event);
 
-    setClipboard(this.getNumber(item)).then(() => {
+    copyContent(this.getNumber(item)).then(() => {
       showToast("号码已复制");
     });
   },

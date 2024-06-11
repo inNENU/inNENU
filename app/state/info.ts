@@ -3,6 +3,7 @@ import { assets } from "../config/index.js";
 const systemInfo = wx.getSystemInfoSync();
 
 /** 小程序 appid */
+/*@__PURE__*/
 export const appID = wx.getAccountInfoSync().miniProgram.appId as AppID;
 
 /** 小程序 appid */
@@ -13,9 +14,10 @@ export type AppID =
   | 1109559721;
 
 /** 运行环境 */
-export type Env = "app" | "qq" | "wx" | "web";
+export type Env = "app" | "qq" | "wx";
 
 /** 运行环境 */
+/*@__PURE__*/
 export const env: Env =
   "miniapp" in wx ? "app" : systemInfo.AppPlatform || "wx";
 

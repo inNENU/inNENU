@@ -1,6 +1,6 @@
 import { $Page } from "@mptool/all";
 
-import { setClipboard, showModal, showToast } from "../../api/index.js";
+import { copyContent, showModal, showToast } from "../../api/index.js";
 import { appCoverPrefix } from "../../config/index.js";
 import {
   ensureActionLogin,
@@ -145,7 +145,7 @@ $Page(PAGE_ID, {
 
       if (env === "app") return this.$go(`web?url=${encodeURIComponent(url)}`);
 
-      await setClipboard(url);
+      await copyContent(url);
 
       showModal(
         "复制成功",

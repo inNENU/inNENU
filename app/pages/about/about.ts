@@ -5,7 +5,7 @@ import type {
   PageStateWithContent,
   SwitchListComponentItemConfig,
 } from "../../../typings/index.js";
-import { setClipboard, showToast } from "../../api/index.js";
+import { copyContent, showToast } from "../../api/index.js";
 import { syncAppSettings } from "../../app/index.js";
 import type { App } from "../../app.js";
 import { DAY, appCoverPrefix, appName, version } from "../../config/index.js";
@@ -264,6 +264,6 @@ $Page(PAGE_ID, {
    * 复制 APPID
    */
   copyAppID() {
-    setClipboard(wx.getStorageSync("openid"));
+    copyContent(wx.getStorageSync("openid"));
   },
 });

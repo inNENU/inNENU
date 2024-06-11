@@ -6,9 +6,9 @@ import type {
   WechatConfig,
 } from "../../../typings/index.js";
 import {
+  copyContent,
   request,
   savePhoto,
-  setClipboard,
   showModal,
   showToast,
 } from "../../api/index.js";
@@ -182,7 +182,7 @@ $Page(PAGE_ID, {
   >) {
     const { url } = currentTarget.dataset;
 
-    setClipboard(url).then(() => {
+    copyContent(url).then(() => {
       showModal(
         "无法跳转",
         "小程序不支持跳转微信图文，链接地址已复制至剪切板。请打开浏览器粘贴查看",

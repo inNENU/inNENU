@@ -2,7 +2,8 @@ import type { PropType } from "@mptool/all";
 import { $Component } from "@mptool/all";
 
 import type { PhoneComponentOptions } from "../../../typings/index.js";
-import { addPhoneContact } from "../../api/index.js";
+import { addPhoneContact, copyContent, showToast } from "../../api/index.js";
+import { env } from "../../state/index.js";
 
 $Component({
   properties: {
@@ -27,26 +28,31 @@ $Component({
     addContact(): void {
       const { config } = this.data;
 
-      addPhoneContact({
-        firstName: config.fName,
-        lastName: config.lName,
-        mobilePhoneNumber: config.num,
-        organization: config.org,
-        workPhoneNumber: config.workNum,
-        remark: config.remark,
-        photoFilePath: config.avatar,
-        nickName: config.nick,
-        weChatNumber: config.wechat,
-        addressState: config.province,
-        addressCity: config.city,
-        addressStreet: config.street,
-        addressPostalCode: config.postCode,
-        title: config.title,
-        hostNumber: config.hostNum,
-        email: config.mail,
-        url: config.site,
-        homePhoneNumber: config.homeNum,
-      });
+      if (env === "qq") {
+        copyContent(this.data.config.num).then(() => {
+          showToast("号码已复制");
+        });
+      } else
+        addPhoneContact({
+          firstName: config.fName,
+          lastName: config.lName,
+          mobilePhoneNumber: config.num,
+          organization: config.org,
+          workPhoneNumber: config.workNum,
+          remark: config.remark,
+          photoFilePath: config.avatar,
+          nickName: config.nick,
+          weChatNumber: config.wechat,
+          addressState: config.province,
+          addressCity: config.city,
+          addressStreet: config.street,
+          addressPostalCode: config.postCode,
+          title: config.title,
+          hostNumber: config.hostNum,
+          email: config.mail,
+          url: config.site,
+          homePhoneNumber: config.homeNum,
+        });
     },
 
     toggleInfo(): void {
@@ -54,5 +60,10 @@ $Component({
         showInfo: !this.data.showInfo,
       });
     },
+  },
+
+  // Note: For QQ Only
+  options: {
+    styleIsolation: "shared",
   },
 });

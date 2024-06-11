@@ -2,7 +2,7 @@ import type { PropType } from "@mptool/all";
 import { $Component } from "@mptool/all";
 
 import type { ActionComponentOptions } from "../../../typings/index.js";
-import { setClipboard } from "../../api/index.js";
+import { copyContent } from "../../api/index.js";
 
 $Component({
   properties: {
@@ -22,7 +22,7 @@ $Component({
     copy(): void {
       const { content } = this.data.config;
 
-      setClipboard(content).then(() => {
+      copyContent(content).then(() => {
         console.log(`Copied '${content}'`);
       });
     },

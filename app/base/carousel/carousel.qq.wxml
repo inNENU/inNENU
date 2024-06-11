@@ -10,7 +10,7 @@
     previous-margin="{{config.preMargin || '0px'}}"
     next-margin="{{config.nextMargin || '0px'}}"
     bindchange="change"
-    bindanimationfinish="animation"
+    bindanimationfinish="animationFinish"
   >
     <swiper-item wx:for="{{config.images}}" wx:key="*this">
       <image

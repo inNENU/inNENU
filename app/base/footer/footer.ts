@@ -2,8 +2,9 @@ import type { PropType } from "@mptool/all";
 import { $Component } from "@mptool/all";
 
 import type { FooterComponentOptions } from "../../../typings/index.js";
-import { setClipboard, showModal } from "../../api/index.js";
+import { copyContent, showModal } from "../../api/index.js";
 import { description } from "../../config/index.js";
+import { env } from "../../state/info.js";
 
 $Component({
   properties: {
@@ -26,12 +27,16 @@ $Component({
     >) {
       const url = this.data.config.cite![currentTarget.dataset.index];
 
-      setClipboard(url).then(() => {
-        showModal(
-          "无法直接打开",
-          "小程序无法直接打开网页，链接已复制至剪切板，请打开浏览器粘贴查看。",
-        );
-      });
+      if (env === "app") {
+        wx.miniapp.openUrl({ url });
+      } else {
+        copyContent(url).then(() => {
+          showModal(
+            "无法直接打开",
+            "小程序无法直接打开网页，链接已复制至剪切板，请打开浏览器粘贴查看。",
+          );
+        });
+      }
     },
   },
 });

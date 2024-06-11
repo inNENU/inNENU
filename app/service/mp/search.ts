@@ -1,5 +1,5 @@
-import type { CommonFailedResponse } from "../../typings/response.js";
-import { request, showModal } from "../api/index.js";
+import type { CommonFailedResponse } from "../../../typings/response.js";
+import { request, showModal } from "../../api/index.js";
 
 export type SearchType = "all" | "guide" | "intro" | "function";
 
@@ -32,7 +32,7 @@ export interface SearchData {
  *
  * @returns 匹配的候选词列表
  */
-export const search = <T extends string[] | SearchResult[]>(
+export const searchMiniApp = <T extends string[] | SearchResult[]>(
   data: SearchData,
 ): Promise<T> => {
   // eslint-disable-next-line @typescript-eslint/naming-convention

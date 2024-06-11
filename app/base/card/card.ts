@@ -2,7 +2,8 @@ import type { PropType } from "@mptool/all";
 import { $Component, readFile } from "@mptool/all";
 
 import type { CardComponentOptions } from "../../../typings/index.js";
-import { setClipboard, showModal } from "../../api/index.js";
+import { copyContent, showModal } from "../../api/index.js";
+import { env } from "../../state/index.js";
 
 $Component({
   properties: {
@@ -17,18 +18,49 @@ $Component({
     tap(): void {
       const { config } = this.data;
 
-      if ("options" in config) wx.navigateToMiniProgram(config.options);
-      else if ("path" in config) this.$go(`info?path=${config.path}`);
+      if ("options" in config) {
+        if (env === "wx") {
+          wx.navigateToMiniProgram(config.options);
+        } else if (env === "app") {
+          const { appId, path, envVersion } = config.options;
+
+          if (appId && path)
+            wx.miniapp.launchMiniProgram({
+              userName: appId,
+              path,
+              miniprogramType:
+                envVersion === "develop" ? 1 : envVersion === "trial" ? 2 : 0,
+            });
+          else {
+            showModal("无法打开", "暂不支持打开微信小程序短链");
+          }
+        } else {
+          showModal("无法打开", "暂不支持打开微信小程序");
+        }
+      } else if ("path" in config) this.$go(`info?path=${config.path}`);
       // 页面路径
       else if (!config.url.match(/^https?:\/\//)) this.$go(config.url);
-      // 无法跳转，复制链接到剪切板
-      else
-        setClipboard(config.url).then(() => {
-          showModal(
-            "无法直接打开",
-            "小程序无法直接打开网页，链接已复制至剪切板，请打开浏览器粘贴查看。",
+      // 为链接
+      else {
+        // 打开浏览器或 App
+        if (env === "app") wx.miniapp.openUrl({ url: config.url });
+        // 判断是否是可以跳转的微信图文
+        else if (
+          env === "wx" &&
+          config.url.startsWith("https://mp.weixin.qq.com")
+        )
+          this.$go(
+            `web?url=${encodeURIComponent(config.url)}&title=${config.title}`,
           );
-        });
+        // 无法跳转，复制链接到剪切板
+        else
+          copyContent(config.url).then(() => {
+            showModal(
+              "无法直接打开",
+              "小程序无法直接打开网页，链接已复制至剪切板，请打开浏览器粘贴查看。",
+            );
+          });
+      }
     },
 
     setLogo(value?: string) {

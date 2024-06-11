@@ -1,9 +1,10 @@
 import { $Page, readFile } from "@mptool/all";
 
 import { appCoverPrefix } from "../../config/index.js";
+import type { SearchResult, SearchType } from "../../service/index.js";
+import { searchMiniApp } from "../../service/index.js";
 import { info } from "../../state/index.js";
-import type { SearchResult, SearchType } from "../../utils/index.js";
-import { getPageColor, search, showNotice } from "../../utils/index.js";
+import { getPageColor, showNotice } from "../../utils/index.js";
 
 $Page("search", {
   data: {
@@ -101,7 +102,7 @@ $Page("search", {
   async searching({ detail: { value } }: WechatMiniprogram.Input) {
     this.state.typing = true;
 
-    const words = await search<string[]>({
+    const words = await searchMiniApp<string[]>({
       word: value,
       scope: this.data.type,
       type: "word",
@@ -120,7 +121,7 @@ $Page("search", {
     this.setData({ words: [] });
     wx.showLoading({ title: "搜索中..." });
 
-    const result = await search<SearchResult[]>({
+    const result = await searchMiniApp<SearchResult[]>({
       word: value,
       scope: this.data.type,
       type: "result",

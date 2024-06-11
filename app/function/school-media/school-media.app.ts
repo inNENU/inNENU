@@ -1,8 +1,8 @@
 import { $Page } from "@mptool/all";
 
 import {
+  copyContent,
   savePhoto,
-  setClipboard,
   showModal,
   showToast,
 } from "../../api/index.js";
@@ -75,7 +75,7 @@ $Page(PAGE_ID, {
         .then(() => showToast("二维码已保存至相册"))
         .catch(() => showToast("二维码下载失败"));
     else
-      setClipboard(id.toString()).then(() => {
+      copyContent(id.toString()).then(() => {
         showModal("复制成功", "由于暂无二维码，QQ号已复制至您的剪切板");
       });
   },

@@ -1,4 +1,4 @@
-export const setClipboard = (data = ""): Promise<void> =>
+export const copyContent = (data = ""): Promise<void> =>
   data
     ? new Promise<void>((resolve, reject) => {
         wx.setClipboardData({

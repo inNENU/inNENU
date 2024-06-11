@@ -3,15 +3,16 @@ import { $Component, logger } from "@mptool/all";
 
 import type { PageState } from "../../../typings/index.js";
 import {
+  copyContent,
   request,
   savePhoto,
-  setClipboard,
   showModal,
   showToast,
 } from "../../api/index.js";
 import { appName, server, service } from "../../config/index.js";
+import { reportUserInfo } from "../../service/index.js";
 import { appID } from "../../state/index.js";
-import { path2id, reportInfo } from "../../utils/index.js";
+import { path2id } from "../../utils/index.js";
 
 type ShareConfig = Pick<
   PageState,
@@ -92,13 +93,13 @@ $Component({
       const { title } = this.data.config;
       const content = `${title ? `${appName}查看『${title}』:` : ""}${link}`;
 
-      setClipboard(content).then(() => {
+      copyContent(content).then(() => {
         showToast("链接已复制");
         logger.debug(`Share content is copied: ${content}`);
       });
     },
 
-    reportInfo,
+    reportInfo: reportUserInfo,
   },
 
   observers: {

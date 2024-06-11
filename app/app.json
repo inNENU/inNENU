@@ -163,6 +163,9 @@
   "singlePage": {
     "navigationBarFit": "float"
   },
+  "halfPage": {
+    "firstPageNavigationStyle": "custom"
+  },
   "componentFramework": "glass-easel",
   "enablePassiveEvent": true
 }

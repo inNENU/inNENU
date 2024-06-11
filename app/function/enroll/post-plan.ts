@@ -1,6 +1,6 @@
 import { $Page } from "@mptool/all";
 
-import { setClipboard, showModal, showToast } from "../../api/index.js";
+import { copyContent, showModal, showToast } from "../../api/index.js";
 import { appCoverPrefix } from "../../config/index.js";
 import type {
   PostEnrollSchoolPlan,
@@ -113,6 +113,6 @@ $Page(PAGE_ID, {
     const { site } = currentTarget.dataset;
 
     if (env === "app") wx.miniapp.openUrl({ url: site });
-    else setClipboard(site).then(() => showToast("网址已复制"));
+    else copyContent(site).then(() => showToast("网址已复制"));
   },
 });

@@ -40,4 +40,9 @@ $Component({
       this.$off("theme", this.setTheme);
     },
   },
+
+  // Note: For QQ Only
+  options: {
+    styleIsolation: "shared",
+  },
 });

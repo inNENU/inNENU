@@ -9,11 +9,11 @@ import {
   appName,
   description,
 } from "../../config/index.js";
+import { reportUserInfo } from "../../service/index.js";
 import { info, user } from "../../state/index.js";
 import {
   checkResource,
   getPageColor,
-  reportInfo,
   resolvePage,
   setPage,
   showNotice,
@@ -153,5 +153,5 @@ $Page(PAGE_ID, {
     }
   },
 
-  reportInfo,
+  reportInfo: reportUserInfo,
 });

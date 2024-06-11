@@ -1,6 +1,6 @@
 import { $Page } from "@mptool/all";
 
-import { setClipboard, showModal } from "../../api/index.js";
+import { copyContent, showModal } from "../../api/index.js";
 import { appCoverPrefix } from "../../config/index.js";
 import { info } from "../../state/index.js";
 import { ensureJson, getJson, showNotice } from "../../utils/index.js";
@@ -53,7 +53,7 @@ $Page(PAGE_ID, {
     Record<string, never>,
     { link: string }
   >) {
-    setClipboard(currentTarget.dataset.link).then(() => {
+    copyContent(currentTarget.dataset.link).then(() => {
       showModal(
         "功能受限",
         "受到小程序限制，无法直接打开网页，网址已复制到剪切板",

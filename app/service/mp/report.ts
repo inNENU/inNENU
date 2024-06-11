@@ -1,7 +1,7 @@
-import { request } from "../api/index.js";
-import { user } from "../state/index.js";
+import { request } from "../../api/index.js";
+import { user } from "../../state/index.js";
 
-export const reportInfo = (): Promise<void> =>
+export const reportUserInfo = (): Promise<void> =>
   request<never>("/mp/report", {
     method: "POST",
     body: {

@@ -3,11 +3,12 @@ import { $Component } from "@mptool/all";
 
 import type { AccountComponentOptions } from "../../../typings/index.js";
 import {
+  copyContent,
   savePhoto,
-  setClipboard,
   showModal,
   showToast,
 } from "../../api/index.js";
+import { env } from "../../state/info.js";
 
 $Component({
   properties: {
@@ -24,11 +25,18 @@ $Component({
       const { qq, qqcode = "" } = this.data.config;
 
       if (qqcode)
-        savePhoto(qqcode)
-          .then(() => showToast("二维码已存至相册"))
-          .catch(() => showToast("二维码保存失败"));
+        if (env === "qq")
+          // QQ 可直接长按扫码添加好友
+          wx.previewImage({
+            urls: [qqcode],
+          });
+        // 其他平台需保存至相册
+        else
+          savePhoto(qqcode)
+            .then(() => showToast("二维码已存至相册"))
+            .catch(() => showToast("二维码保存失败"));
       else if (qq)
-        setClipboard(qq.toString()).then(() => {
+        copyContent(qq.toString()).then(() => {
           showModal("复制成功", "由于暂无二维码，QQ号已复制至您的剪切板");
         });
     },
@@ -43,26 +51,36 @@ $Component({
           .then(() => showToast("二维码已存至相册"))
           .catch(() => showToast("二维码保存失败"));
       else if (wxid)
-        wx.previewImage({
-          urls: [`https://open.weixin.qq.com/qr/code?username=${wxid}`],
-        });
+        if (env === "wx")
+          // 微信客户端可打开图片长按扫码
+          wx.previewImage({
+            urls: [`https://open.weixin.qq.com/qr/code?username=${wxid}`],
+          });
+        // 其他平台保存至相册
+        else
+          savePhoto(`https://open.weixin.qq.com/qr/code?username=${wxid}`)
+            .then(() => showToast("二维码已存至相册"))
+            .catch(() => showToast("二维码保存失败"));
     },
 
     openSite(): void {
       const { site } = this.data.config;
 
-      setClipboard(site).then(() => {
-        showModal(
-          "功能受限",
-          "小程序无法直接打开网页，链接已复制至剪切板，请打开浏览器粘贴查看。",
-        );
-      });
+      // app 可直接打开网址
+      if (env === "app") wx.miniapp.openUrl({ url: site! });
+      else
+        copyContent(site).then(() => {
+          showModal(
+            "功能受限",
+            "小程序无法直接打开网页，链接已复制至剪切板，请打开浏览器粘贴查看。",
+          );
+        });
     },
 
     copyEmail(): void {
       const { mail } = this.data.config;
 
-      setClipboard(mail).then(() =>
+      copyContent(mail).then(() =>
         showModal("复制成功", `邮箱地址 ${mail!} 已成功复制至剪切板`),
       );
     },
