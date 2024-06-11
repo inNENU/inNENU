@@ -1,3 +1,4 @@
 {
-  "components": true
+  "components": true,
+  "componentFramework": "glass-easel"
 }
