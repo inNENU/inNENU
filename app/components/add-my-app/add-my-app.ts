@@ -14,8 +14,7 @@ Component({
   },
 
   data: {
-    notAdded: false,
-    display: false,
+    display: true,
   },
 
   lifetimes: {
@@ -28,7 +27,6 @@ Component({
         wx.checkIsAddedToMyMiniProgram({
           success: ({ added }) => {
             this.setData({
-              notAdded: !added,
               display: !added,
             });
           },
@@ -37,7 +35,6 @@ Component({
         wx.isAddedToMyApps({
           success: ({ isAdded }) => {
             this.setData({
-              notAdded: !isAdded,
               display: !isAdded,
             });
           },

@@ -18,7 +18,7 @@ Component({
   methods: {
     setImageLink(isDarkMode: boolean) {
       this.setData({
-        src: `/icon/${getCurrentPages().length === 1 ? "home" : "back"}${isDarkMode ? "-dark" : ""}.svg`,
+        src: `/icon/${getCurrentPages().length === 1 ? "home" : "back"}${isDarkMode ? "-white" : ""}.svg`,
       });
     },
 

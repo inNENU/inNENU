@@ -8,8 +8,6 @@
 }
 
 .arrow {
-  content: " ";
-
   position: absolute;
   right: 42px;
   bottom: 100%;
@@ -41,11 +39,8 @@
   line-height: 2.5;
 }
 
-.close-wrapper {
+.close-icon {
   padding-left: 4px;
-}
-
-.icon-button {
   width: 16px;
   height: 16px;
 }

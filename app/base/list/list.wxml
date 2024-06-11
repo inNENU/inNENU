@@ -1,7 +1,7 @@
 <!-- 列表头部文字 -->
-<view wx:if="{{config.header !== false}}" class="list-component-header"
-  >{{config.header}}</view
->
+<view wx:if="{{config.header !== false}}" class="list-component-header">
+  <text>{{config.header}}</text>
+</view>
 <!-- 列表主体 -->
 <view class="list-component-content">
   <!-- 列表每一项 -->
@@ -28,8 +28,8 @@
           src="{{listItem.icon}}"
         />
         <view class="list-item-detail list-item-access">
-          <view class="list-item-text">{{listItem.text}}</view>
-          <view class="list-item-desc">{{listItem.desc}}</view>
+          <view class="list-item-text"><text>{{listItem.text}}</text></view>
+          <view class="list-item-desc"><text>{{listItem.desc}}</text></view>
         </view>
       </view>
       <!-- 普通文字段落 -->
@@ -54,13 +54,13 @@
             space="nbsp"
             >{{listItem.text}}</text
           >
-          <view class="list-item-desc">{{listItem.desc}}</view>
+          <view class="list-item-desc"><text>{{listItem.desc}}</text></view>
         </view>
       </view>
     </block>
   </block>
 </view>
 <!-- 列表尾部文字 -->
-<view wx:if="{{config.footer}}" class="list-component-footer"
-  >{{config.footer}}</view
->
+<view wx:if="{{config.footer}}" class="list-component-footer">
+  <text>{{config.footer}}</text>
+</view>

@@ -7,7 +7,7 @@
   root-background-color="{{color.bgColor}}"
 />
 <license />
-<scroll-view type="list" scroll-y enable-flex class="{{theme}} grey intro-page">
+<view class="{{theme}} grey guide-page">
   <view
     class="search-navigation-bar"
     style="padding-top:{{statusBarHeight}}px;"
@@ -19,7 +19,7 @@
       <search
         custom-class="search"
         words="{{words}}"
-        placeholder="搜索东师介绍"
+        placeholder="搜索东师指南"
         catch:searching="searching"
         catch:search="search"
       />
@@ -36,9 +36,8 @@
       class="feature-button"
       hover-class="button-hover"
       catch:tap="toggleFeature"
+      >切换样式</view
     >
-      <text>切换样式</text>
-    </view>
   </view>
   <feature-panel
     wx:for="{{items}}"
@@ -63,4 +62,4 @@
       />
     </view>
   </view>
-</scroll-view>
+</view>

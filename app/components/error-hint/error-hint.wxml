@@ -6,7 +6,7 @@
       color="#ff3333"
       size="{{size =='mini' ? 24 : 80}}"
     />
-    <view class="text">{{ hint || '获取失败'}}</view>
+    <view class="text"><text>{{ hint || '获取失败'}}</text></view>
   </view>
   <button
     wx:if="{{!hideRetry}}"
@@ -15,6 +15,6 @@
     size="{{size === 'mini'? 'mini': 'default'}}"
     catch:tap="retry"
   >
-    重试
+    <text>重试</text>
   </button>
 </view>
