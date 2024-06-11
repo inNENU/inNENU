@@ -4,10 +4,12 @@
   <block wx:if="{{config.tag === 'ol'}}">
     <view wx:for="{{config.text}}" wx:key="*this" class="text-list-item">
       <view class="text-marker">{{index + 1}}.</view>
+      <!-- Note: QQ does not support user-select -->
       <text
         class="text-content"
         decode
         space="nbsp"
+        selectable="{{selectable}}"
         user-select="{{selectable}}"
         ><text style="{{config.style || ''}}">{{item}}</text></text
       >
@@ -17,10 +19,12 @@
   <block wx:elif="{{config.tag === 'ul'}}">
     <view wx:for="{{config.text}}" wx:key="*this" class="text-list-item">
       <view class="text-marker">•</view>
+      <!-- Note: QQ does not support user-select -->
       <text
         class="text-content"
         decode
         space="nbsp"
+        selectable="{{selectable}}"
         user-select="{{selectable}}"
         ><text style="{{config.style || ''}}">{{item}}</text></text
       >
@@ -39,6 +43,7 @@
         decode
         space="nbsp"
         style="{{plainText.getStyle(config, selectable)}}"
+        selectable="{{selectable}}"
         user-select="{{selectable}}"
         ><text>{{item}}</text></text
       >
@@ -56,6 +61,7 @@
   <text
     wx:if="{{config.heading !== false}}"
     class="hint-box-title {{config.url ? 'access' : ''}}"
+    selectable="{{selectable}}"
     user-select="{{selectable}}"
     >{{plainText.getTitle(config)}}</text
   >
@@ -66,6 +72,7 @@
   <text
     wx:if="{{config.heading}}"
     class="text-component-header"
+    selectable="{{selectable}}"
     user-select="{{selectable}}"
     >{{config.heading === true ? '' : config.heading}}</text
   >

@@ -42,7 +42,6 @@ $Component({
       this.setPassiveEvent?.({
         touchstart: false,
         touchmove: false,
-        wheel: false,
       });
     },
   },

@@ -16,6 +16,14 @@ $Component({
     current: 0,
   },
 
+  lifetimes: {
+    attached() {
+      this.setPassiveEvent?.({
+        wheel: false,
+      });
+    },
+  },
+
   methods: {
     change(event: WechatMiniprogram.SwiperChange): void {
       this.setData({ current: event.detail.current });

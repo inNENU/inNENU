@@ -83,6 +83,11 @@ $Page("video", {
 
     loadFZSSJW();
     showNotice("video");
+
+    this.setPassiveEvent?.({
+      touchstart: false,
+      touchmove: false,
+    });
   },
 
   onReady() {

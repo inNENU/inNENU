@@ -20,4 +20,9 @@ $Component({
       this.setData({ selectable });
     },
   },
+
+  // Note: for QQ only
+  options: {
+    styleIsolation: "shared",
+  },
 });

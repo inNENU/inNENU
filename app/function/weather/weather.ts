@@ -71,6 +71,11 @@ $Page("weather", {
     }
 
     this.backgroundChange();
+
+    this.setPassiveEvent?.({
+      touchstart: false,
+      touchmove: false,
+    });
   },
 
   onShareAppMessage: () => ({

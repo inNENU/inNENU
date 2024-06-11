@@ -13,6 +13,15 @@ $Component({
     },
   },
 
+  lifetimes: {
+    attached() {
+      this.setPassiveEvent?.({
+        touchstart: false,
+        touchmove: false,
+      });
+    },
+  },
+
   methods: {
     /** 视频缓冲时提示用户等待 */
     wait(): void {
