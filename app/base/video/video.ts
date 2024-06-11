@@ -15,10 +15,12 @@ $Component({
 
   lifetimes: {
     attached() {
-      this.setPassiveEvent?.({
-        touchstart: false,
-        touchmove: false,
-      });
+      // FIXME: Now styline has bugs in setPassiveEvent
+      if (this.renderer !== "skyline")
+        this.setPassiveEvent?.({
+          touchstart: false,
+          touchmove: false,
+        });
     },
   },
 
