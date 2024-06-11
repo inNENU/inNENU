@@ -12,16 +12,18 @@
 
   width: 100%;
   min-height: 30px;
+}
 
+.top-tab-header {
   display: flex;
   flex-wrap: nowrap;
-  flex-direction: row;
-  justify-content: flex-start;
   align-items: center;
+
+  min-width: 100%;
+  padding: 0 4px;
 
   white-space: nowrap;
 
-  padding: 0 4px;
   transition: all 0.3s;
 }
 
@@ -31,9 +33,13 @@
   align-items: center;
   padding: 4px 12px;
   color: var(--grey3);
-  border-bottom: 2px solid var(--bg-color);
 
-  &.active {
+  .top-tab-header-text {
+    padding: 2px 0;
+    border-bottom: 2px solid var(--bg-color);
+  }
+
+  &.active .top-tab-header-text {
     border-color: var(--theme-color);
     color: var(--text-color);
     font-weight: bold;

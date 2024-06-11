@@ -1,6 +1,9 @@
 {
+  "disableScroll": true,
   "navigationBarTitleText": "影约东师",
+  "renderer": "skyline",
   "usingComponents": {
+    "back-button": "/components/back-button/back-button",
     "tab-bar": "/components/top-tab/tab"
   }
 }

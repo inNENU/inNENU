@@ -29,6 +29,7 @@ $Page("video", {
     videoName: "",
     videoList: [] as VideoGroup[],
     src: "",
+    height: 100,
   },
 
   onNavigate() {
@@ -90,10 +91,12 @@ $Page("video", {
     loadFZSSJW();
     showNotice("video");
 
-    this.setPassiveEvent?.({
-      touchstart: false,
-      touchmove: false,
-    });
+    // FIXME: Now styline has bugs in setPassiveEvent
+    if (this.renderer !== "skyline")
+      this.setPassiveEvent?.({
+        touchstart: false,
+        touchmove: false,
+      });
   },
 
   onReady() {
@@ -128,7 +131,7 @@ $Page("video", {
 
   resizeTabList() {
     this.createSelectorQuery()
-      .select(".video-list")
+      .select(".video-list-wrapper")
       .fields({ size: true }, (res) => {
         if (res) this.setData({ height: res.height as number });
       })
