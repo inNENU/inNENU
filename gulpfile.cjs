@@ -185,7 +185,7 @@ const watchAppWXSS = () =>
 const moveAppAssets = getAssetsJob("app");
 const watchAppAssets = () =>
   watch(
-    "app/**/*.{json,svg,png,webp,map}",
+    ["app/**/*.{json,svg,png,webp}", "app/**/*.{wxml,wxs}"],
     { ignoreInitial: false },
     moveAppAssets,
   );
@@ -221,7 +221,7 @@ const watchWechatWXSS = () =>
 const moveWechatAssets = getAssetsJob("wx");
 const watchWechatAssets = () =>
   watch(
-    "app/**/*.{json,svg,png,webp,map}",
+    ["app/**/*.{json,svg,png,webp}", "app/**/*.{wxml,wxs}"],
     { ignoreInitial: false },
     moveWechatAssets,
   );
@@ -262,7 +262,7 @@ const watchNenuyouthWXSS = () =>
 const moveNenuyouthAssets = getAssetsJob("qy");
 const watchNenuyouthAssets = () =>
   watch(
-    "app/**/*.{json,svg,png,webp,map}",
+    ["app/**/*.{json,svg,png,webp}", "app/**/*.{wxml,wxs}"],
     { ignoreInitial: false },
     moveNenuyouthAssets,
   );
@@ -292,7 +292,11 @@ const watchQss = () =>
 
 const moveQQAssets = getAssetsJob("qq", { wxFiles: false });
 const watchQQAssets = () =>
-  watch("app/**/*.{json,svg,png,webp}", { ignoreInitial: false }, moveQQAssets);
+  watch(
+    ["app/**/*.{json,svg,png,webp}", "app/**/*.{wxml,wxs}"],
+    { ignoreInitial: false },
+    moveQQAssets,
+  );
 
 const moveQQFiles = () =>
   src("app/**/*.{wxml,wxs,qml,qs}", {

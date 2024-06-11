@@ -4,7 +4,7 @@ import { $Component } from "@mptool/all";
 import type { FooterComponentOptions } from "../../../typings/index.js";
 import { copyContent, showModal } from "../../api/index.js";
 import { description } from "../../config/index.js";
-import { env } from "../../state/info.js";
+import { env } from "../../state/index.js";
 
 $Component({
   properties: {

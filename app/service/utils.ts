@@ -1,5 +1,5 @@
 import type { App } from "../app.js";
-import { env, info } from "../state";
+import { env, info } from "../state/index.js";
 
 // 获取 SDK 版本
 const [major, minor, patch] = (wx.getAppBaseInfo || wx.getSystemInfoSync)()
