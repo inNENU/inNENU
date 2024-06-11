@@ -1,17 +1,19 @@
 import type { App } from "../app.js";
 import { env, info } from "../state";
 
-// 检测环境是否支持重定向
+// 获取 SDK 版本
 const [major, minor, patch] = (wx.getAppBaseInfo || wx.getSystemInfoSync)()
   .SDKVersion.split(".")
   .map(Number);
 
+/** 是否支持 redirect manual */
 export const supportRedirect =
-  env !== "app" &&
-  info.platform !== "devtools" &&
+  env === "wx" &&
+  ["android", "ios"].includes(info.platform) &&
   (major > 3 || (major === 3 && (minor > 2 || (minor === 2 && patch >= 2))));
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
+/*@__NO_SIDE_EFFECTS__*/
 export const createService = <T extends (...args: any) => any>(
   name: string,
   localService: T,

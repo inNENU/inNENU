@@ -61,8 +61,10 @@ rollup({
   ],
   treeshake: {
     moduleSideEffects: false,
+    manualPureFunctions: ["createService"],
   },
   external: ["@mptool/all", "tslib"],
+  strictDeprecations: true,
 }).then((bundle) =>
   bundle.write({
     dir: resolve(__dirname, "../dist"),
