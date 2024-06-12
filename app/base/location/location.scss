@@ -1,44 +1,43 @@
 .location-component {
   overflow: hidden;
 
-  width: calc(100% - 30px);
   max-width: var(--max-width);
   margin: 8px var(--horizontal-margin);
   border-radius: 8px;
 
   background-color: var(--bg-color-block);
+}
 
-  .map {
-    width: 100%;
-    height: 200px;
-    border-top-left-radius: 8px;
-    border-top-right-radius: 8px;
-  }
+.location-map {
+  width: 100%;
+  height: 200px;
+  border-top-left-radius: 8px;
+  border-top-right-radius: 8px;
+}
 
-  .footer {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 12px 15px;
-  }
+.location-info {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 12px 15px;
+}
 
-  .title {
-    font-size: 18px;
-    line-height: 1.3;
-    text-align: left;
-  }
+.location-title {
+  font-size: 17px;
+  line-height: 1.5;
+  text-align: left;
+}
 
-  .action {
-    display: inline-block;
+.location-action {
+  display: inline-block;
 
-    width: 24px;
-    height: 24px;
-    margin: 0 4px;
-    padding: 4px;
-    border-radius: 50%;
+  width: 24px;
+  height: 24px;
+  margin: 0 4px;
+  padding: 4px;
+  border-radius: 50%;
 
-    background-color: var(--bg-color);
-  }
+  background-color: var(--bg-color);
 
   .icon {
     width: 100%;

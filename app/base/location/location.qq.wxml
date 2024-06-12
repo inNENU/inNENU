@@ -1,19 +1,19 @@
 <wxs src="../../utils/map.wxs" module="helper" />
 <view class="location-component">
   <map
-    class="map"
+    class="location-map"
     id="location"
     markers="{{helper.getMarkers(markers)}}"
     include-points="{{includePoints}}"
     setting="{{helper.getSetting()}}"
-    bindmarkertap="markerTap"
+    bindmarkertap="onMarkerTap"
   />
-  <view class="footer">
-    <view class="title">{{title}}</view>
-    <view class="actions">
+  <view class="location-info">
+    <text class="location-title">{{title}}</text>
+    <view class="location-actions">
       <view
         wx:if="{{hasDetail}}"
-        class="action"
+        class="location-action"
         hover-class="button-hover"
         catch:tap="detail"
       >

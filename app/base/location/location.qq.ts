@@ -82,7 +82,7 @@ $Component({
       }
     },
 
-    markerTap({ detail }: WechatMiniprogram.MarkerTap) {
+    onMarkerTap({ detail }: WechatMiniprogram.MarkerTap) {
       const id = detail.markerId;
       const point = this.data.markers[id];
 

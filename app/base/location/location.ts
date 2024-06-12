@@ -65,23 +65,6 @@ $Component({
   },
 
   methods: {
-    startNavigation({
-      latitude,
-      longitude,
-      name,
-    }: LocationConfig & { id: number }) {
-      this.createSelectorQuery()
-        .select("#location")
-        .context(({ context }) => {
-          (context as WechatMiniprogram.MapContext).openMapApp({
-            latitude,
-            longitude,
-            destination: name || this.data.config.title,
-          });
-        })
-        .exec();
-    },
-
     navigate() {
       const { config, id, markers } = this.data;
 
@@ -102,7 +85,7 @@ $Component({
       }
     },
 
-    markerTap({ detail }: WechatMiniprogram.MarkerTap) {
+    onMarkerTap({ detail }: WechatMiniprogram.MarkerTap) {
       const id = detail.markerId;
       const point = this.data.markers[id];
 
@@ -111,7 +94,7 @@ $Component({
       if (point.path) this.$preload(`location?id=${point.path}`);
     },
 
-    calloutTap({ detail }: WechatMiniprogram.CalloutTap) {
+    onCalloutTap({ detail }: WechatMiniprogram.CalloutTap) {
       const point = this.data.markers[detail.markerId];
       const { navigate } = this.data.config;
 
@@ -119,6 +102,23 @@ $Component({
         this.$go(`location?id=${point.path}&point=${getPoint(point)}`);
       else if (navigate !== false)
         this.startNavigation(this.data.markers[detail.markerId]);
+    },
+
+    startNavigation({
+      latitude,
+      longitude,
+      name,
+    }: LocationConfig & { id: number }) {
+      this.createSelectorQuery()
+        .select("#location")
+        .context(({ context }) => {
+          (context as WechatMiniprogram.MapContext).openMapApp({
+            latitude,
+            longitude,
+            destination: name || this.data.config.title,
+          });
+        })
+        .exec();
     },
   },
 });

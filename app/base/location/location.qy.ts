@@ -86,7 +86,7 @@ $Component({
       }
     },
 
-    markerTap({ detail }: WechatMiniprogram.MarkerTap) {
+    onMarkerTap({ detail }: WechatMiniprogram.MarkerTap) {
       const id = detail.markerId;
       const point = this.data.markers[id];
 
@@ -95,7 +95,7 @@ $Component({
       if (point.path) this.$preload(`location?id=${point.path}`);
     },
 
-    calloutTap({ detail }: WechatMiniprogram.CalloutTap) {
+    onCalloutTap({ detail }: WechatMiniprogram.CalloutTap) {
       const point = this.data.markers[detail.markerId];
       const { navigate } = this.data.config;
 
