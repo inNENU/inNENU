@@ -6,9 +6,11 @@
 >
   <view class="arrow" />
   <view class="add-my-app">
-    {{text}}
-    <view wx:if="{{!notAdded}}" class="close-wrapper" catch:tap="close">
-      <view class="icon-button icon-close" />
-    </view>
+    <text>{{text}}</text>
+    <image
+      class="close-icon"
+      src="/icon/close-{{darkmode ? 'white' : 'black'}}.svg"
+      catch:tap="close"
+    />
   </view>
 </view>

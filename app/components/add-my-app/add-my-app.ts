@@ -14,13 +14,15 @@ Component({
   },
 
   data: {
-    notAdded: false,
-    display: false,
+    display: true,
   },
 
   lifetimes: {
     attached() {
-      this.setData({ statusBarHeight: info.statusBarHeight });
+      const { darkmode, statusBarHeight } = info;
+
+      this.setData({ darkmode, statusBarHeight });
+      wx.onThemeChange?.(this.onThemeChange);
     },
 
     ready() {
@@ -28,7 +30,6 @@ Component({
         wx.checkIsAddedToMyMiniProgram({
           success: ({ added }) => {
             this.setData({
-              notAdded: !added,
               display: !added,
             });
           },
@@ -37,7 +38,6 @@ Component({
         wx.isAddedToMyApps({
           success: ({ isAdded }) => {
             this.setData({
-              notAdded: !isAdded,
               display: !isAdded,
             });
           },
@@ -57,9 +57,17 @@ Component({
         }
       }
     },
+
+    detached() {
+      wx.offThemeChange?.(this.onThemeChange);
+    },
   },
 
   methods: {
+    onThemeChange({ theme }: WechatMiniprogram.OnThemeChangeListenerResult) {
+      this.setData({ darkmode: theme === "dark" });
+    },
+
     addToMyApps() {
       if (wx.applyAddToMyApps) wx.applyAddToMyApps();
       else this.close();
