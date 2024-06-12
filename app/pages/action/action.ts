@@ -19,6 +19,7 @@ $Page(PAGE_ID, {
       darkmode,
       theme,
       color: getPageColor(),
+      canExit: typeof wx.restartMiniProgram === "function",
       ...(action ? { [action]: true } : {}),
     });
   },

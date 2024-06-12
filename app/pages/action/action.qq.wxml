@@ -1,35 +1,86 @@
+<wxs src="./action.wxs" module="action" />
 <view class="{{theme}} action-page">
+  <!-- 跳转输入 -->
+  <view wx:if="{{navigate || all}}" class="input-list-wrapper">
+    <view class="input-list-item">
+      <view class="text"><text>跳转路径</text></view>
+      <input
+        class="input"
+        type="text"
+        adjust-position="{{false}}"
+        value="{{path}}"
+        bindinput="pathInput"
+      />
+      <button
+        class="primary"
+        type="primary"
+        size="mini"
+        data-url="{{path}}"
+        catch:tap="$bindGo"
+      >
+        <text>跳转</text>
+      </button>
+    </view>
+  </view>
+
+  <!-- 黑名单 -->
+  <block wx:if="{{blacklist}}">
+    <icon type="warn" size="96" />
+    <view class="blacklist-title">
+      <text
+        >根据<text
+          class="link"
+          data-url="license?type=license"
+          catch:tap="$bindGo"
+          >《用户协议》</text
+        >中的 1.1、1.4 条款，</text
+      >
+      <text>您已被禁止访问此小程序</text>
+    </view>
+    <view class="blacklist-hint"><text>{{action.blacklistHint}}</text></view>
+  </block>
+
+  <!-- 联系按钮 -->
   <button
-    wx:if="{{all || contact}}"
-    class="primary"
+    wx:if="{{blacklist || contact}}"
+    class="action-button primary"
     type="primary"
-    open-type="contact"
+    open-type="addFriend"
+    open-id="868D7B2F0C609B4285698EAB77A47BA1"
+    catch:tap="reportInfo"
   >
-    联系 Mr.Hope
+    <text>联系 Mr.Hope</text>
   </button>
+
+  <!-- 意见反馈 -->
   <button
-    wx:if="{{all || feedback}}"
-    class="primary"
+    wx:elif="{{all || feedback}}"
+    class="action-button primary"
     type="primary"
     open-type="feedback"
   >
-    意见反馈
+    <text>意见反馈</text>
   </button>
-  <button
-    wx:if="{{all || addGroupApp}}"
-    class="primary"
-    type="primary"
-    open-type="addGroupApp"
-  >
-    添加群应用
-  </button>
-  <block wx:if="{{all || reset}}">
-    <button type="primary" class="primary" catch:tap="resetApp">
-      初始化小程序
+
+  <!-- 重置 -->
+  <block wx:elif="{{all || reset}}">
+    <button class="action-button primary" type="primary" catch:tap="resetApp">
+      <text>重置小程序</text>
     </button>
-    <navigator open-type="exit" target="miniProgram">
-      <button type="primary" class="primary">退出小程序</button>
+    <navigator wx:if="{{!canExit}}" open-type="exit" target="miniProgram">
+      <button class="action-button primary" type="primary">
+        <text>退出小程序</text>
+      </button>
     </navigator>
   </block>
-  <button type="default" catch:tap="home">返回主页</button>
+
+  <!-- 返回 -->
+  <button
+    wx:if="{{!blacklist}}"
+    class="action-button"
+    type="default"
+    catch:tap="$bindBack"
+  >
+    <text>返回</text>
+  </button>
 </view>

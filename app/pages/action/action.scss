@@ -1,31 +1,31 @@
 .action-page {
   display: flex;
   flex-direction: column;
-  align-items: center;
+  align-items: stretch;
   justify-content: center;
 
   input {
     text-align: left;
   }
 
-  .blacklist {
-    margin: 8px 15px;
+  .blacklist-title {
+    padding: 8px 15px;
     color: #f33;
     font-size: 18px;
+
+    .link {
+      color: var(--action-color);
+    }
   }
 
-  .link {
-    color: var(--action-color);
-  }
-
-  .hint {
+  .blacklist-hint {
     margin: 8px 15px;
     color: var(--dark-grey);
     font-size: 14px;
     text-align: left;
   }
 
-  .action {
-    margin: 16px auto;
+  .action-button {
+    margin: 12px auto;
   }
 }

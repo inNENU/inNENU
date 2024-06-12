@@ -7,6 +7,7 @@ const rename = require("gulp-rename");
 const replace = require("gulp-replace");
 const sourcemaps = require("gulp-sourcemaps");
 const typescript = require("gulp-typescript");
+const { get } = require("node:http");
 
 const tsProject = typescript.createProject("tsconfig.json");
 
@@ -190,23 +191,27 @@ const watchAppAssets = () =>
     moveAppAssets,
   );
 
+const moveAppConfig = getConfigJob("app");
+const watchAppConfig = () =>
+  watch("project.config.app.json", { ignoreInitial: false }, moveAppConfig);
+
 const watchApp = parallel(
   watchAppScript,
   watchAppWXSS,
   watchAppAssets,
-  getConfigJob("app"),
+  watchAppConfig,
 );
 const buildApp = parallel(
   buildAppWXSS,
   buildAppScript,
   moveAppAssets,
-  getConfigJob("app"),
+  moveAppConfig,
 );
 const bundleApp = parallel(
   buildAppWXSS,
   getAssetsJob("app", { bundle: true }),
   getMoveScriptJob("app"),
-  getConfigJob("app"),
+  moveAppConfig,
 );
 
 /* Wechat */
@@ -226,23 +231,27 @@ const watchWechatAssets = () =>
     moveWechatAssets,
   );
 
+const moveWechatConfig = getConfigJob("wx");
+const watchWechatConfig = () =>
+  watch("project.config.wx.json", { ignoreInitial: false }, moveWechatConfig);
+
 const watchWechat = parallel(
   watchWechatScript,
   watchWechatWXSS,
   watchWechatAssets,
-  getConfigJob("wx"),
+  watchWechatConfig,
 );
 const buildWechat = parallel(
   buildWechatWXSS,
   buildWechatScript,
   getAssetsJob("wx"),
-  getConfigJob("wx"),
+  moveWechatConfig,
 );
 const bundleWechat = parallel(
   buildWechatWXSS,
   getAssetsJob("wx", { bundle: true }),
   getMoveScriptJob("wx"),
-  getConfigJob("wx"),
+  moveWechatConfig,
 );
 
 /* Nenuyouth, marked as qy */

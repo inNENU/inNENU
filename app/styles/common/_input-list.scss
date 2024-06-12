@@ -41,15 +41,18 @@
   }
 
   .text {
+    text-align: left;
     flex: none;
     padding-right: 16px;
   }
 
   .input {
+    text-align: left;
     flex: 1;
   }
 
   .picker {
+    text-align: left;
     flex: 1;
   }
 }

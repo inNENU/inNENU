@@ -56,16 +56,17 @@
     "wxext14566970e7e9f62": "3.2.5-25"
   },
   "packOptions": {
-    "ignore": [
-      {
-        "value": "bak",
-        "type": "suffix"
-      }
-    ],
+    "ignore": [],
     "include": []
   },
   "watchOptions": {
-    "ignore": ["app/**", "node_modules/**", "server/**"]
+    "ignore": [
+      ".temp/**",
+      "app/**",
+      "node_modules/**",
+      "server/**",
+      "typings/**"
+    ]
   },
   "condition": {
     "miniprogram": {
@@ -190,9 +191,23 @@
           "scene": null
         },
         {
+          "name": "黑名单",
+          "pathName": "pages/action/action",
+          "query": "action=blacklist",
+          "launchMode": "default",
+          "scene": null
+        },
+        {
           "name": "初始化小程序",
           "pathName": "pages/action/action",
           "query": "action=reset",
+          "launchMode": "default",
+          "scene": null
+        },
+        {
+          "name": "跳转列表",
+          "pathName": "pages/action/action",
+          "query": "action=navigate",
           "launchMode": "default",
           "scene": null
         },
