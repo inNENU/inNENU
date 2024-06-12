@@ -109,7 +109,7 @@
     <view class="desc">
       <text>来源: {{ from || '未知' }}</text>
     </view>
-    <button type="primary" class="primary" open-type="contact">
+    <button class="primary" type="primary" open-type="contact">
       反馈给 Mr.Hope
     </button>
   </view>

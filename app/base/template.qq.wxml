@@ -110,8 +110,8 @@
       <text>来源: {{ from || '未知' }}</text>
     </view>
     <button
-      type="primary"
       class="primary"
+      type="primary"
       open-type="addFriend"
       open-id="868D7B2F0C609B4285698EAB77A47BA1"
     >

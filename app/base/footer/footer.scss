@@ -1,12 +1,16 @@
 .footer-component {
   max-width: var(--max-width);
   margin: 12px var(--horizontal-margin) 4px;
-  padding-bottom: env(safe-area-inset-bottom);
+  padding-bottom: 12px;
 
   color: #86868b;
 
   font-size: 12px;
   line-height: 1.3333;
+
+  @supports (padding-bottom: env(safe-area-inset-bottom)) {
+    padding-bottom: max(env(safe-area-inset-bottom), 12px);
+  }
 }
 
 .footer-description {
