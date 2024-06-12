@@ -13,12 +13,12 @@
   <!-- 链接图标 -->
   <image class="link-icon" src="./icon/link.svg" />
   <!-- 待复制网址 -->
-  <view class="link-text"><text>{{content}}</text></view>
+  <text class="link-text">{{content}}</text>
 </view>
 
 <view wx:else class="action-component-wrapper">
   <!-- 待复制文字 -->
-  <view class="action-text"><text>{{content}}</text></view>
+  <text class="action-text">{{content}}</text>
   <!-- 复制按钮 -->
   <view
     class="copy-button"
