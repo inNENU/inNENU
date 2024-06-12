@@ -24,7 +24,6 @@
     class="android-nav-placeholder"
     style="height:{{statusBarHeight + 44}}px;"
   >
-    到头啦~人家被你拉得好痛阿(*´д`*) 不许你再拉人家~╭(╯^╰)╮
   </view>
   <view wx:if="{{nav.desc}}" class="weui-head">
     <view class="weui-head-title">{{nav.title}}</view>

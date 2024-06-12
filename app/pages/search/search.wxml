@@ -20,7 +20,6 @@
   </view>
   <view class="ios-nav-border" style="top:{{statusBarHeight + 44}}px;" />
   <view class="ios-nav-placeholder" style="height:{{statusBarHeight + 44}}px;">
-    <text>到头啦~人家被你拉得好痛阿(*´д`*) 不许你再拉人家~╭(╯^╰)╮</text>
   </view>
 
   <search
