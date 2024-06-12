@@ -27,8 +27,8 @@
     >
       <image class="avatar" src="{{logo}}" />
       <view class="info">
-        <view class="name">{{userName || '未登录'}}</view>
-        <view class="desc">{{desc}}</view>
+        <view class="name"><text>{{userName || '未登录'}}</text></view>
+        <view class="desc"><text>{{desc}}</text></view>
       </view>
     </view>
   </view>

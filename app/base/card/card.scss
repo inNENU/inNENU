@@ -28,10 +28,6 @@
   .title {
     font-weight: 500;
     font-size: 16px;
-
-    @media (min-width: 480px) {
-      font-size: 20px;
-    }
   }
 
   .desc {
@@ -39,11 +35,6 @@
     color: var(--dark-grey);
     font-size: 14px;
     line-height: 1.4;
-
-    @media (min-width: 480px) {
-      margin-top: 10px;
-      font-size: 18px;
-    }
   }
 
   .info {
@@ -57,20 +48,11 @@
   .logo {
     width: 28px;
     height: 28px;
-
-    @media (min-width: 480px) {
-      width: 40px;
-      height: 40px;
-    }
   }
 
   .name {
     margin: 2px auto;
     color: var(--grey);
     font-size: 12px;
-
-    @media (min-width: 480px) {
-      font-size: 16px;
-    }
   }
 }

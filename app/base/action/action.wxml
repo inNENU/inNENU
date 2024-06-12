@@ -1,7 +1,7 @@
 <!-- 标题 -->
-<view wx:if="{{config.header}}" class="action-component-header"
-  >{{config.header}}</view
->
+<view wx:if="{{config.header}}" class="action-component-header">
+  <text>{{config.header}}</text>
+</view>
 
 <view
   wx:if="{{type === 'link'}}"
@@ -13,12 +13,12 @@
   <!-- 链接图标 -->
   <image class="link-icon" src="./icon/link.svg" />
   <!-- 待复制网址 -->
-  <view class="link-text">{{content}}</view>
+  <view class="link-text"><text>{{content}}</text></view>
 </view>
 
 <view wx:else class="action-component-wrapper">
   <!-- 待复制文字 -->
-  <view class="action-text">{{content}}</view>
+  <view class="action-text"><text>{{content}}</text></view>
   <!-- 复制按钮 -->
   <view
     class="copy-button"

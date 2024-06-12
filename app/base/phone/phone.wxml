@@ -1,7 +1,7 @@
 <wxs src="./phone.wxs" module="phone" />
 <view class="phone-component-wrapper">
-  <view class="header"
-    >{{phone.getName(config)}}
+  <view class="header">
+    <text>{{phone.getName(config)}}</text>
     <view
       class="action info-button"
       hover-class="button-hover"
@@ -15,7 +15,7 @@
     <!-- 电话图标 -->
     <image class="phone-icon" mode="widthFix" src="./icon/phone.svg" />
     <!-- 电话号码 -->
-    <view class="number">{{config.num}}</view>
+    <view class="number"><text>{{config.num}}</text></view>
     <!-- 拨打电话按钮 -->
     <view
       class="action"
@@ -38,25 +38,39 @@
 
 <view wx:if="{{showInfo}}" class="phone-mask mask" catch:tap="toggleInfo">
   <view class="phone-popup">
-    <view class="title">{{phone.getName(config)}}</view>
+    <view class="title"><text>{{phone.getName(config)}}</text></view>
     <view class="body">
-      <view wx:if="{{config.num}}">电话: {{config.num}}</view>
-      <view wx:if="{{config.workNum}}">工作电话: {{config.workNum}}</view>
-      <view wx:if="{{config.hostNum}}">公司电话: {{config.hostNum}}</view>
-      <view wx:if="{{config.homeNum}}">住宅电话: {{config.homeNum}}</view>
-      <view wx:if="{{config.site}}">网站: {{config.site}}</view>
-      <view wx:if="{{config.mail}}">电子邮件: {{config.mail}}</view>
-      <view wx:if="{{phone.hasAddress(config)}}"
-        >地址: {{phone.getAddress(config)}}</view
-      >
-      <view wx:if="{{config.postCode}}">邮编: {{config.postCode}}</view>
-      <view wx:if="{{config.org}}">公司: {{config.org}}</view>
-      <view wx:if="{{config.wechat}}">微信号: {{config.wechat}}</view>
-      <view wx:if="{{config.nick}}">昵称: {{config.nick}}</view>
-      <view wx:if="{{config.remark}}">备注: {{config.remark}}</view>
+      <view wx:if="{{config.num}}"><text>电话: {{config.num}}</text></view>
+      <view wx:if="{{config.workNum}}">
+        <text>工作电话: {{config.workNum}}</text>
+      </view>
+      <view wx:if="{{config.hostNum}}">
+        <text>公司电话: {{config.hostNum}}</text>
+      </view>
+      <view wx:if="{{config.homeNum}}">
+        <text>住宅电话: {{config.homeNum}}</text>
+      </view>
+      <view wx:if="{{config.site}}"><text>网站: {{config.site}}</text></view>
+      <view wx:if="{{config.mail}}">
+        <text>电子邮件: {{config.mail}}</text>
+      </view>
+      <view wx:if="{{phone.hasAddress(config)}}">
+        <text>地址: {{phone.getAddress(config)}}</text>
+      </view>
+      <view wx:if="{{config.postCode}}">
+        <text>邮编: {{config.postCode}}</text>
+      </view>
+      <view wx:if="{{config.org}}"><text>公司: {{config.org}}</text></view>
+      <view wx:if="{{config.wechat}}">
+        <text>微信号: {{config.wechat}}</text>
+      </view>
+      <view wx:if="{{config.nick}}"><text>昵称: {{config.nick}}</text></view>
+      <view wx:if="{{config.remark}}">
+        <text>备注: {{config.remark}}</text>
+      </view>
     </view>
-    <view class="button" hover-class="button-hover" catch:tap="toggleInfo"
-      >确定</view
-    >
+    <view class="button" hover-class="button-hover" catch:tap="toggleInfo">
+      <text>确定</text>
+    </view>
   </view>
 </view>

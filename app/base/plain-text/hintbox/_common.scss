@@ -17,10 +17,6 @@
   word-wrap: break-word;
   word-break: break-word;
 
-  @media (min-width: 768px) {
-    font-size: 17px;
-  }
-
   @media (prefers-color-scheme: dark) {
     background-color: var(--hint-box-title-color);
   }

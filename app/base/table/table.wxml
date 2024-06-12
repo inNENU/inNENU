@@ -1,6 +1,8 @@
 <view class="table-component">
   <view class="table">
-    <view wx:if="{{config.caption}}" class="caption">{{config.caption}}</view>
+    <view wx:if="{{config.caption}}" class="caption">
+      <text>{{config.caption}}</text>
+    </view>
     <view class="tr">
       <view wx:for="{{config.header}}" wx:key="*thclass" class="th">
         <text user-select="{{selectable}}">{{item}}</text>
