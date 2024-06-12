@@ -138,7 +138,6 @@
     "grid": "/base/grid/grid",
     "img": "/base/img/img",
     "list": "/base/list/list",
-    "loading": "/base/loading/loading",
     "location": "/base/location/location",
     "navbar": "/base/navbar/navbar",
     "plain-text": "/base/plain-text/plain-text",

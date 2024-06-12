@@ -32,7 +32,6 @@
         <carousel wx:elif="{{item.tag === 'carousel'}}" config="{{item}}" />
         <audio-player wx:elif="{{item.tag === 'audio'}}" config="{{item}}" />
         <video-player wx:elif="{{item.tag === 'video'}}" config="{{item}}" />
-        <loading wx:elif="{{item.tag === 'loading'}}" />
       </block>
     </block>
   </block>
