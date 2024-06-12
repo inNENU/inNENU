@@ -1,17 +1,19 @@
 <view class="card-component" hover-class="button-hover" catch:tap="tap">
   <image
     wx:if="{{config.cover}}"
-    class="cover"
+    class="card-cover"
     src="{{config.cover}}"
     mode="aspectFill"
     lazy-load
   />
-  <view class="detail">
-    <view wx:if="{{base64Logo || config.logo}}" class="info">
-      <image class="logo" src="{{base64Logo || config.logo}}" lazy-load />
-      <view class="name"><text>{{config.name}}</text></view>
+  <view class="card-detail">
+    <view class="card-info">
+      <view class="card-title"><text>{{config.title}}</text></view>
+      <view class="card-description"><text>{{config.desc}}</text></view>
     </view>
-    <view class="title"><text>{{config.title}}</text></view>
-    <view class="desc"><text>{{config.desc}}</text></view>
+    <view wx:if="{{base64Logo || config.logo}}" class="card-reference">
+      <image class="card-logo" src="{{base64Logo || config.logo}}" lazy-load />
+      <view class="card-name"><text>{{config.name}}</text></view>
+    </view>
   </view>
 </view>
