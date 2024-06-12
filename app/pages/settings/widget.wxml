@@ -9,7 +9,7 @@
 />
 <view class="{{theme}} customize-page">
   <navbar nav="{{ { title: '自定义小组件' } }}" />
-  <view class="header">主页小组件</view>
+  <view class="header"><text>主页小组件</text></view>
   <view class="widget-list">
     <view wx:for="{{widgets}}" class="widget-wrapper {{item.size}}">
       <view
@@ -47,7 +47,7 @@
         data-index="{{index}}"
         catch:tap="selectWidget"
       >
-        {{item.name}}
+        <text>{{item.name}}</text>
       </button>
     </view>
     <view class="add-widgets">
@@ -81,10 +81,10 @@
           hover-class="add-widget-hover"
           catch:tap="addWidget"
         >
-          添加小组件
+          <text>添加小组件</text>
         </button>
       </block>
-      <view wx:else class="empty-hint"> 选择一个组件类别 </view>
+      <view wx:else class="empty-hint"><text>选择一个组件类别</text></view>
     </view>
   </view>
 </popup>

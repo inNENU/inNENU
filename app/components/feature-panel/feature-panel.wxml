@@ -4,8 +4,8 @@
   data-url="{{config.url}}"
   catch:tap="$bindGo"
 >
-  <view class="header">{{config.header}}</view>
-  <view wx:if="{{config.desc}}" class="desc">{{config.desc}}</view>
+  <view class="header"><text>{{config.header}}</text></view>
+  <view wx:if="{{config.desc}}" class="desc"><text>{{config.desc}}</text></view>
 </view>
 <view class="features-wrapper {{flat? 'flat': 'icon'}}">
   <view
@@ -19,6 +19,6 @@
   >
     <image wx:if="{{icons[index]}}" class="icon" src="{{icons[index]}}" />
     <image wx:elif="{{item.icon}}" class="icon" src="{{item.icon}}" />
-    <view class="text">{{item.text}}</view>
+    <view class="text"><text>{{item.text}}</text></view>
   </view>
 </view>

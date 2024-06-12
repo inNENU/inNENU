@@ -1,7 +1,7 @@
 <wxs src="../../utils/helper.wxs" module="helper" />
 <view class="borrow-books widget wrapper-class">
   <view class="widget-header">
-    {{header}}
+    <text>{{header}}</text>
     <button
       class="refresh-button"
       type="default"
@@ -28,14 +28,16 @@
           class="loading"
           src="/icon/loading.svg"
         />
-        <view wx:elif="{{books.length === 0}}" class="widget-hint-text"
-          >暂无借阅书籍</view
-        >
+        <view wx:elif="{{books.length === 0}}" class="widget-hint-text">
+          <text>暂无借阅书籍</text>
+        </view>
         <block wx:elif="{{ header === '图书待还' }}">
-          <view class="outdate"
-            >最近到期: {{hasOutDated? '已有图书到期' : recent + '天'}}</view
-          >
-          <view class="info">已借阅: {{books.length}}本</view>
+          <view class="outdate">
+            <text
+              >最近到期: {{hasOutDated? '已有图书到期' : recent + '天'}}</text
+            >
+          </view>
+          <view class="info"><text>已借阅: {{books.length}}本</text></view>
         </block>
         <view wx:else class="list">
           <view
@@ -47,8 +49,10 @@
             hover-stay-time="0"
             catch:tap="viewBookDetail"
           >
-            <view class="name">{{item.name}}</view>
-            <view class="time">{{helper.displayDate(item.dueDate)}}到期</view>
+            <view class="name"><text>{{item.name}}</text></view>
+            <view class="time">
+              <text>{{helper.displayDate(item.dueDate)}}到期</text>
+            </view>
           </view>
         </view>
       </block>

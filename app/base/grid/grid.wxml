@@ -1,7 +1,7 @@
 <!-- 网格头部文字 -->
-<view wx:if="{{config.header !== false}}" class="grid-component-header"
-  >{{config.header}}</view
->
+<view wx:if="{{config.header !== false}}" class="grid-component-header">
+  <text>{{config.header}}</text>
+</view>
 <!-- 网格主体 -->
 <view class="grid-component-wrapper">
   <!-- 每个网格 -->
@@ -19,12 +19,12 @@
     <image wx:if="{{icons[index]}}" class="icon" src="{{icons[index]}}" />
     <image wx:elif="{{gridItem.icon}}" class="icon" src="{{gridItem.icon}}" />
     <!-- 网格文字 -->
-    <view class="text">{{gridItem.text}}</view>
+    <view class="text"><text>{{gridItem.text}}</text></view>
     <!-- 网格英文文字 -->
-    <view class="name">{{gridItem.name}}</view>
+    <view class="name"><text>{{gridItem.name}}</text></view>
   </view>
 </view>
 <!-- 网格尾部文字 -->
-<view wx:if="{{config.footer}}" class="grid-component-footer"
-  >{{config.footer}}</view
->
+<view wx:if="{{config.footer}}" class="grid-component-footer">
+  <text>{{config.footer}}</text>
+</view>

@@ -6,7 +6,7 @@
 >
   <view class="icon-{{firstPage ? 'home' : 'back'}}" />
 </view>
-<view class="header" style="padding-top:{{statusBarHeight + 6}}px;"
-  >{{title}}</view
->
+<view class="header" style="padding-top:{{statusBarHeight + 6}}px;">
+  <text>{{title}}</text>
+</view>
 <view class="placeholder" style="height: {{height}}px" />

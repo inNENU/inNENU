@@ -30,7 +30,7 @@
     class="search-nav-placeholder"
     style="height:{{statusBarHeight + 44}}px;"
   >
-    到头啦~人家被你拉得好痛阿(*´д`*) 不许你再拉人家~╭(╯^╰)╮
+    <text>到头啦~人家被你拉得好痛阿(*´д`*) 不许你再拉人家~╭(╯^╰)╮</text>
   </view>
   <scroll-view scroll-y class="content">
     <template is="components" data="{{content: page.content}}" />
@@ -41,8 +41,9 @@
           hover-class="button-hover"
           data-url="widget-settings"
           catch:tap="$bindGo"
-          >自定义小部件</view
         >
+          <text>自定义小部件</text>
+        </view>
       </view>
       <view wx:if="{{widgets.length}}" class="widgets">
         <template
@@ -51,7 +52,7 @@
           data="{{tag: item.tag, type: item.type}}"
         />
       </view>
-      <view wx:else>暂无小部件</view>
+      <view wx:else><text>暂无小部件</text></view>
     </block>
   </scroll-view>
 </view>

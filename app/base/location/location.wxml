@@ -9,7 +9,7 @@
     catch:callouttap="calloutTap"
   />
   <view class="footer">
-    <view class="title">{{title}}</view>
+    <view class="title"><text>{{title}}</text></view>
     <view class="actions">
       <view
         wx:if="{{hasDetail}}"

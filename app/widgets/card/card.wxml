@@ -1,6 +1,9 @@
 <view class="card widget wrapper-class">
   <view class="widget-header">
-    {{enableBalance? enableQrcode? '校园卡': '校园卡余额': '校园卡二维码'}}
+    <text
+      >{{enableBalance? enableQrcode? '校园卡': '校园卡余额':
+      '校园卡二维码'}}</text
+    >
     <button
       wx:if="{{enableBalance}}"
       class="refresh-button"
@@ -25,7 +28,7 @@
           class="loading"
           src="/icon/loading.svg"
         />
-        <block wx:else>{{balance}}</block>元
+        <text wx:else>{{balance}}</text><text>元</text>
       </view>
       <button
         wx:if="{{enableQrcode}}"
@@ -33,7 +36,7 @@
         size="mini"
         catch:tap="viewQrcode"
       >
-        查看二维码 👉
+        <text>查看二维码 👉</text>
       </button>
     </view>
   </view>

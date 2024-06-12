@@ -1,8 +1,8 @@
 <wxs src="./functional-list.wxs" module="list" />
 <!-- 列表头部注释文字 -->
-<view wx:if="{{config.header !== false}}" class="list-component-header"
-  >{{config.header}}</view
->
+<view wx:if="{{config.header !== false}}" class="list-component-header">
+  <text>{{config.header}}</text>
+</view>
 <!-- 列表主体 -->
 <view class="list-component-content">
   <block wx:for="{{config.items}}" wx:for-item="listItem" wx:key="text">
@@ -40,17 +40,21 @@
             class="list-item-text"
             style="{{(listItem.type === 'button' && listItem.handler) ? 'color: #3478f7;' : ''}}"
           >
-            {{listItem.text}}
+            <text>{{listItem.text}}</text>
           </view>
           <!-- 显示滑块值 -->
-          <view wx:if="{{listItem.type === 'slider'}}" class="list-item-desc"
-            >{{listItem.value}}</view
-          >
+          <view wx:if="{{listItem.type === 'slider'}}" class="list-item-desc">
+            <text>{{listItem.value}}</text>
+          </view>
           <!-- 显示行内选择器值 -->
           <view wx:elif="{{listItem.type === 'picker'}}" class="list-item-desc">
-            <block wx:if="{{listItem.single}}">{{listItem.value}}</block>
+            <block wx:if="{{listItem.single}}">
+              <text>{{listItem.value}}</text>
+            </block>
             <block wx:else>
-              <block wx:for="{{listItem.value}}" wx:key="*this">{{item}}</block>
+              <block wx:for="{{listItem.value}}" wx:key="*this">
+                <text>{{item}}</text>
+              </block>
             </block>
           </view>
         </view>
@@ -84,8 +88,8 @@
           src="{{listItem.icon}}"
         />
         <view class="list-item-detail list-item-access">
-          <view class="list-item-text">{{listItem.text}}</view>
-          <view class="list-item-">{{listItem.desc}}</view>
+          <view class="list-item-text"><text>{{listItem.text}}</text></view>
+          <view class="list-item-"><text>{{listItem.desc}}</text></view>
         </view>
       </navigator>
       <!-- 导航链接 -->
@@ -109,8 +113,8 @@
           src="{{listItem.icon}}"
         />
         <view class="list-item-detail list-item-access">
-          <view class="list-item-text">{{listItem.text}}</view>
-          <view class="list-item-desc">{{listItem.desc}}</view>
+          <view class="list-item-text"><text>{{listItem.text}}</text></view>
+          <view class="list-item-desc"><text>{{listItem.desc}}</text></view>
         </view>
       </view>
       <!-- 非嵌入选择器 -->
@@ -137,9 +141,11 @@
             src="{{listItem.icon}}"
           />
           <view class="list-item-detail">
-            <view class="list-item-text">{{listItem.text}}</view>
+            <view class="list-item-text"><text>{{listItem.text}}</text></view>
             <view wx:if="{{listItem.select}}" class="list-item-desc">
-              <block wx:for="{{listItem.value}}" wx:key="*this">{{item}}</block>
+              <block wx:for="{{listItem.value}}" wx:key="*this">
+                <text>{{item}}</text>
+              </block>
             </view>
           </view>
         </view>
@@ -171,7 +177,7 @@
             space="nbsp"
             >{{listItem.text}}</text
           >
-          <view class="list-item-desc"> {{listItem.desc}} </view>
+          <view class="list-item-desc"><text>{{listItem.desc}}</text></view>
           <switch
             wx:if="{{listItem.type === 'switch'}}"
             class="list-item-switch"
@@ -216,15 +222,16 @@
               wx:for="{{listItem.select}}"
               wx:key="*this"
               class="list-picker-item"
-              >{{item}}</view
             >
+              <text>{{item}}</text>
+            </view>
           </picker-view-column>
           <block wx:else>
             <block wx:for="{{listItem.select}}" wx:key>
               <picker-view-column class="list-picker-column">
-                <view wx:for="{{item}}" wx:key="*this" class="list-picker-item"
-                  >{{item}}</view
-                >
+                <view wx:for="{{item}}" wx:key="*this" class="list-picker-item">
+                  <text>{{item}}</text>
+                </view>
               </picker-view-column>
             </block>
           </block>
@@ -234,6 +241,6 @@
   </block>
 </view>
 <!-- 列表尾部注释文字 -->
-<view wx:if="{{config.footer}}" class="list-component-footer"
-  >{{config.footer}}</view
->
+<view wx:if="{{config.footer}}" class="list-component-footer">
+  <text>{{config.footer}}</text>
+</view>

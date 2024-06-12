@@ -1,6 +1,6 @@
 <view class="email widget {{size}} wrapper-class" catch:tap="openEmail">
   <view class="widget-header">
-    {{header}}
+    <text>{{header}}</text>
     <text wx:if="{{unread}}" class="unread-badge">{{unread}}</text>
     <button class="refresh-button" type="default" size="mini" catch:tap="retry">
       <text class="refresh-button-icon" />
@@ -32,17 +32,17 @@
           data-mid="{{item.mid}}"
           catch:tap="openEmail"
         >
-          <view class="subject">{{item.subject}}</view>
-          <view wx:if="{{size === 'medium'}}" class="time"
-            >{{item.shortDate}}</view
-          >
+          <view class="subject"><text>{{item.subject}}</text></view>
+          <view wx:if="{{size === 'medium'}}" class="time">
+            <text>{{item.shortDate}}</text>
+          </view>
           <view wx:if="{{size === 'large'}}" class="info">
-            <view class="time">时间: {{item.date}}</view>
-            <view class="name">发件人: {{item.name}}</view>
+            <view class="time"><text>时间: {{item.date}}</text></view>
+            <view class="name"><text>发件人: {{item.name}}</text></view>
           </view>
         </view>
       </view>
-      <view wx:else class="widget-hint-text">暂无邮件</view>
+      <view wx:else class="widget-hint-text"><text>暂无邮件</text></view>
     </view>
   </view>
 </view>

@@ -5,9 +5,11 @@
     <!-- 图标 -->
     <image class="logo" src="{{config.logo}}" lazy-load />
     <!-- 名称 -->
-    <view class="name">{{config.name}}</view>
+    <view class="name"><text>{{config.name}}</text></view>
     <!-- 详情 -->
-    <view wx:if="{{config.detail}}" class="detail">{{config.detail}}</view>
+    <view wx:if="{{config.detail}}" class="detail">
+      <text>{{config.detail}}</text>
+    </view>
     <!-- 描述 -->
     <view wx:if="{{config.desc}}" class="desc border-top">{{config.desc}}</view>
 

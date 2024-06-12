@@ -6,13 +6,13 @@
       color="#ffc83d"
       size="{{size =='mini' ? 24 : 80}}"
     />
-    <view class="text">尚未设置统一身份认证信息</view>
+    <view class="text"><text>尚未设置统一身份认证信息</text></view>
   </view>
   <button
     class="login-button"
     size="{{size === 'mini'? 'mini': 'default'}}"
     catch:tap="login"
   >
-    登录账号👉
+    <text>登录账号👉</text>
   </button>
 </view>

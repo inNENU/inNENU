@@ -9,7 +9,7 @@
 <view class="{{theme}} action-page">
   <view wx:if="{{navigate || all}}" class="input-list-wrapper">
     <view class="input-list-item">
-      <view class="text">跳转路径</view>
+      <view class="text"><text>跳转路径</text></view>
       <input
         class="input"
         type="text"
@@ -24,20 +24,22 @@
         data-url="{{path}}"
         catch:tap="$bindGo"
       >
-        跳转
+        <text>跳转</text>
       </button>
     </view>
   </view>
   <block wx:if="{{blacklist}}">
     <icon type="warn" size="128" />
-    <view class="blacklist"
-      >根据<text
-        class="link"
-        data-url="license?type=license"
-        catch:tap="$bindGo"
-        >《用户协议》</text
-      >中的 1.1、1.4 条款，您已被禁止访问此小程序。</view
-    >
+    <view class="blacklist">
+      <text
+        >根据<text
+          class="link"
+          data-url="license?type=license"
+          catch:tap="$bindGo"
+          >《用户协议》</text
+        >中的 1.1、1.4 条款，您已被禁止访问此小程序。</text
+      >
+    </view>
     <view class="hint"><text>{{action.blacklistHint}}</text></view>
   </block>
   <button
@@ -47,7 +49,7 @@
     open-type="contact"
     catch:tap="reportInfo"
   >
-    联系 Mr.Hope
+    <text>联系 Mr.Hope</text>
   </button>
   <button
     wx:elif="{{all || feedback}}"
@@ -55,14 +57,16 @@
     type="primary"
     open-type="feedback"
   >
-    意见反馈
+    <text>意见反馈</text>
   </button>
   <block wx:elif="{{all || reset}}">
     <button class="action primary" type="primary" catch:tap="resetApp">
-      重置小程序
+      <text>重置小程序</text>
     </button>
     <navigator open-type="exit" target="miniProgram">
-      <button class="action primary" type="primary">退出小程序</button>
+      <button class="action primary" type="primary">
+        <text>退出小程序</text>
+      </button>
     </navigator>
   </block>
   <button
@@ -71,6 +75,6 @@
     type="default"
     catch:tap="$bindBack"
   >
-    返回
+    <text>返回</text>
   </button>
 </view>

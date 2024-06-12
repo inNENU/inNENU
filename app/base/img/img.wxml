@@ -20,4 +20,5 @@
   catch:tap="view"
 />
 <!-- 图片解释文字 -->
-<view wx:if="{{config.desc}}" class="desc">▲ {{config.desc}}</view>
+<!-- TODO: Use ::before -->
+<view wx:if="{{config.desc}}" class="desc"><text>▲ {{config.desc}}</text></view>

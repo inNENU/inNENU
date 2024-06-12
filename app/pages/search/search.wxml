@@ -16,11 +16,11 @@
     <view class="icon-{{firstPage ? 'home' : 'back'}}" />
   </view>
   <view class="ios-navigation-bar" style="padding-top:{{statusBarHeight}}px;">
-    <view class="ios-nav-title">搜索</view>
+    <view class="ios-nav-title"><text>搜索</text></view>
   </view>
   <view class="ios-nav-border" style="top:{{statusBarHeight + 44}}px;" />
   <view class="ios-nav-placeholder" style="height:{{statusBarHeight + 44}}px;">
-    到头啦~人家被你拉得好痛阿(*´д`*) 不许你再拉人家~╭(╯^╰)╮
+    <text>到头啦~人家被你拉得好痛阿(*´д`*) 不许你再拉人家~╭(╯^╰)╮</text>
   </view>
 
   <search
@@ -35,26 +35,30 @@
       class="search-type-item {{type === 'all'? 'active': ''}}"
       data-type="all"
       catch:tap="changeSearchType"
-      >全部</view
     >
+      <text>全部</text>
+    </view>
     <view
       class="search-type-item {{type === 'guide'? 'active': ''}}"
       data-type="guide"
       catch:tap="changeSearchType"
-      >指南</view
     >
+      <text>指南</text>
+    </view>
     <view
       class="search-type-item {{type === 'intro'? 'active': ''}}"
       data-type="intro"
       catch:tap="changeSearchType"
-      >介绍</view
     >
+      <text>介绍</text>
+    </view>
     <view
       class="search-type-item {{type === 'function'? 'active': ''}}"
       data-type="function"
       catch:tap="changeSearchType"
-      >功能</view
     >
+      <text>功能</text>
+    </view>
   </view>
   <block wx:if="{{result.length}}">
     <title config="{{ { text: '搜索结果' } }}" />
@@ -66,31 +70,33 @@
         data-url="{{'info?id=' + item.path + '&from=搜索'}}"
         catch:tap="$bindGo"
       >
-        <view class="title">{{item.title}}</view>
+        <view class="title"><text>{{item.title}}</text></view>
         <view class="list">
           <block wx:for="{{item.indexes}}" wx:for-item="config">
-            <view class="title" wx:if="{{config[0] === 'title'}}"
-              >{{config[1]}}</view
-            >
-            <view class="heading" wx:elif="{{config[0] === 'heading'}}"
-              >{{config[1]}}</view
-            >
-            <view class="text" wx:elif="{{config[0] === 'text'}}"
-              >{{config[1].before}}<text class="keyword"
-                >{{config[1].word}}</text
-              >{{config[1].after}}</view
-            >
+            <view class="title" wx:if="{{config[0] === 'title'}}">
+              <text>{{config[1]}}</text>
+            </view>
+            <view class="heading" wx:elif="{{config[0] === 'heading'}}">
+              <text>{{config[1]}}</text>
+            </view>
+            <view class="text" wx:elif="{{config[0] === 'text'}}">
+              <text
+                >{{config[1].before}}<text class="keyword"
+                  >{{config[1].word}}</text
+                >{{config[1].after}}</text
+              >
+            </view>
             <view class="doc" wx:elif="{{config[0] === 'img'}}">
               <image class="icon" src="/base/doc/icon/{{config[1].icon}}.svg" />
-              <view class="text">{{config[1].desc}}</view>
+              <view class="text"><text>{{config[1].desc}}</text></view>
             </view>
             <view class="doc" wx:elif="{{config[0] === 'doc'}}">
               <image class="icon" src="/base/doc/icon/{{config[1].icon}}.svg" />
-              <view class="text">{{config[1].name}}</view>
+              <view class="text"><text>{{config[1].name}}</text></view>
             </view>
             <view class="card" wx:elif="{{config[0] === 'card'}}">
-              <view class="title">{{config[1].title}}</view>
-              <view class="desc">{{config[1].desc}}</view>
+              <view class="title"><text>{{config[1].title}}</text></view>
+              <view class="desc"><text>{{config[1].desc}}</text></view>
             </view>
           </block>
         </view>
@@ -106,11 +112,11 @@
           class="icon"
           src="{{icons[item.icon]}}"
         />
-        <view class="title">{{item.title}}</view>
+        <view class="title"><text>{{item.title}}</text></view>
       </view>
     </block>
   </block>
-  <view wx:else class="empty-hint">没有找到任何结果</view>
+  <view wx:else class="empty-hint"><text>没有找到任何结果</text></view>
 
   <footer />
 

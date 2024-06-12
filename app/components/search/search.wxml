@@ -29,7 +29,9 @@
     </block>
     <text wx:else class="text">{{placeholder}}</text>
   </view>
-  <view hidden="{{!showInput}}" class="cancel" catch:tap="hideInput">取消</view>
+  <view hidden="{{!showInput}}" class="cancel" catch:tap="hideInput">
+    <text>取消</text>
+  </view>
   <view class="word-wrapper" wx:if="{{words.length > 0 && showInput && focus}}">
     <view
       wx:for="{{words}}"
@@ -39,7 +41,7 @@
       data-index="{{index}}"
       catch:tap="select"
     >
-      {{item}}
+      <text>{{item}}</text>
     </view>
   </view>
 </view>

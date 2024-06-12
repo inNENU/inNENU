@@ -4,15 +4,17 @@
   <view class="license-popup">
     <view class="license-header">
       <image class="license-logo" src="{{logo}}" />
-      <view class="license-title">{{appName}}隐私政策提示</view>
+      <view class="license-title"><text>{{appName}}隐私政策提示</text></view>
     </view>
     <view class="license-body">
-      在你使用 {{appName}} 的当前服务前，请仔细阅读<text
-        class="license-link"
-        data-url="license"
-        catch:tap="$bindGo"
-        >《隐私政策》</text
-      >。如果你完全同意我们的<text>《隐私政策》</text>，请点击“同意”开始使用。
+      <text>
+        在你使用 {{appName}} 的当前服务前，请仔细阅读<text
+          class="license-link"
+          data-url="license"
+          catch:tap="$bindGo"
+          >《隐私政策》</text
+        >。如果你完全同意我们的<text>《隐私政策》</text>，请点击“同意”开始使用。</text
+      >
     </view>
     <view class="license-footer">
       <button
@@ -21,7 +23,7 @@
         size="mini"
         catch:tap="refuse"
       >
-        拒绝
+        <text>拒绝</text>
       </button>
       <button
         class="license-button primary"
@@ -32,7 +34,7 @@
         bindagreeprivacyauthorization="accept"
         catch:tap="accept"
       >
-        同意
+        <text>同意</text>
       </button>
     </view>
   </view></view
@@ -41,15 +43,17 @@
   <view class="license-popup">
     <view class="license-header">
       <image class="license-logo" src="{{logo}}" />
-      <view class="license-title">{{appName}}用户协议提示</view>
+      <view class="license-title"><text>{{appName}}用户协议提示</text></view>
     </view>
     <view class="license-body">
-      在你使用 {{appName}} 的当前服务前，请仔细阅读<text
-        class="license-link"
-        data-url="license?type=license"
-        catch:tap="$bindGo"
-        >《用户协议》</text
-      >。如果你完全同意我们的《用户协议》，请点击“同意”开始使用当前服务。
+      <text>
+        在你使用 {{appName}} 的当前服务前，请仔细阅读<text
+          class="license-link"
+          data-url="license?type=license"
+          catch:tap="$bindGo"
+          >《用户协议》</text
+        >。如果你完全同意我们的《用户协议》，请点击“同意”开始使用当前服务。</text
+      >
     </view>
     <view class="license-footer">
       <button
@@ -58,7 +62,7 @@
         size="mini"
         catch:tap="refuse"
       >
-        拒绝
+        <text>拒绝</text>
       </button>
       <button
         class="license-button primary"
@@ -66,11 +70,8 @@
         size="mini"
         catch:tap="accept"
       >
-        同意
+        <text>同意</text>
       </button>
     </view>
   </view>
-</view>
-<view class="license-detail {{theme}}">
-  <template is="components" data="{{content: page.content, theme}}" />
 </view>

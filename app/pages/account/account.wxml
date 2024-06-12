@@ -13,7 +13,7 @@
       <title config="{{ { text: '个人信息' } }}" />
       <list config="{{list}}" />
       <button type="warn" class="delete-button" catch:tap="delete">
-        删除全部信息
+        <text>删除全部信息</text>
       </button>
     </block>
     <block wx:else>

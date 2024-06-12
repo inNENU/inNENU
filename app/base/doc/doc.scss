@@ -16,31 +16,31 @@
   color: var(--text-color);
 
   line-height: 1.2;
+}
 
-  .type-icon {
-    flex: none;
-    width: 32px;
-    height: 32px;
-    margin-right: 15px;
-  }
+.doc-icon {
+  flex: none;
+  width: 32px;
+  height: 32px;
+  margin-right: 15px;
+}
 
-  .name {
-    flex: 1 1 auto;
-    font-size: 17px;
-    text-align: left;
-  }
+.doc-name {
+  flex: 1 1 auto;
+  font-size: 17px;
+  text-align: left;
+}
 
-  .download,
-  .view {
-    flex-shrink: 0;
+.download-button,
+.view-button {
+  flex-shrink: 0;
 
-    overflow: hidden;
+  overflow: hidden;
 
-    width: 26px;
-    height: 26px;
-    margin: 0 4px;
-    border-radius: 13px;
-  }
+  width: 26px;
+  height: 26px;
+  margin: 0 4px;
+  border-radius: 13px;
 
   .icon {
     width: 100%;

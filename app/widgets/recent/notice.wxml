@@ -4,7 +4,7 @@
   catch:tap="$bindGo"
 >
   <view class="widget-header">
-    近期{{ noticeType === 'news'? '新闻' : '通知'}}
+    <text>近期{{ noticeType === 'news'? '新闻' : '通知'}}</text>
     <button
       class="refresh-button"
       type="default"
@@ -38,7 +38,7 @@
           data-notice="{{item}}"
           catch:tap="viewNotice"
         >
-          <view class="title {{size}}">{{item.title}}</view>
+          <view class="title {{size}}"><text>{{item.title}}</text></view>
         </view>
       </block>
     </view>

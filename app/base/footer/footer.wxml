@@ -16,6 +16,8 @@
     >
   </view>
 
-  <view class="content">{{description}}</view>
-  <view class="copyright">Copyright © 2017-{{footer.year}} Mr.Hope</view>
+  <view class="content"><text>{{description}}</text></view>
+  <view class="copyright">
+    <text>Copyright © 2017-{{footer.year}} Mr.Hope</text>
+  </view>
 </view>

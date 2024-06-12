@@ -5,13 +5,13 @@
   catch:tap="view"
 >
   <!-- 文档图标 -->
-  <image class="type-icon" src="./icon/{{config.icon}}.svg" />
+  <image class="doc-icon" src="./icon/{{config.icon}}.svg" />
   <!-- 文档名称 -->
-  <view class="name">{{config.name}}</view>
+  <view class="doc-name"><text>{{config.name}}</text></view>
   <!-- 下载按钮 -->
   <view
     wx:if="{{config.downloadable !== false}}"
-    class="download"
+    class="download-button"
     hover-class="button-hover"
     hover-stay-time="100"
     catch:tap="download"
@@ -20,7 +20,7 @@
   </view>
   <!-- 查看按钮 -->
   <view
-    class="view"
+    class="view-button"
     hover-class="button-hover"
     hover-stay-time="100"
     catch:tap="view"
