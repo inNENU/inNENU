@@ -1,0 +1,47 @@
+.back-button {
+  position: fixed;
+  top: 26px;
+  left: 9px;
+  z-index: 1100;
+
+  width: 46px;
+  height: 31px;
+  border-radius: 18px;
+
+  background-color: rgb(255 255 255 / 50%);
+
+  @media (prefers-color-scheme: dark) {
+    background-color: rgb(0 0 0 / 15%);
+  }
+
+  &::before {
+    content: " ";
+
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 98;
+
+    width: 200%;
+    height: 200%;
+    border: 1px solid rgb(127 127 127 / 20%);
+    border-radius: 36px;
+
+    transform: scale(0.5);
+    transform-origin: 0 0;
+
+    @media (prefers-color-scheme: dark) {
+      border: 1px solid rgb(255 255 255 / 20%);
+    }
+  }
+
+  .icon {
+    width: 24px;
+    height: 24px;
+    margin: 4px auto;
+  }
+}
+
+.back-button-hover {
+  opacity: 0.2;
+}

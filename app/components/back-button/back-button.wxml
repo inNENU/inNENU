@@ -1,0 +1,8 @@
+<view
+  class="back-button"
+  style="top:{{statusBarHeight + 6}}px;"
+  hover-class="back-button-hover"
+  catch:tap="$bindBack"
+>
+  <image class="icon" src="{{src}}" />
+</view>
