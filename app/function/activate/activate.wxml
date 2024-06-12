@@ -19,8 +19,8 @@
         >我已阅读并同意协议
       </view>
       <button
-        type="primary"
         class="license-button primary"
+        type="primary"
         catch:tap="confirmLicense"
       >
         开始激活账号
@@ -36,8 +36,8 @@
         >如忘记密码，可通过绑定手机号找回。</view
       >
       <button
-        type="primary"
         class="confirm-button primary"
+        type="primary"
         data-url="account"
         catch:tap="$bingRedirect"
       >
@@ -102,7 +102,7 @@
             />
           </view>
         </view>
-        <button type="primary" class="verify-button primary" catch:tap="verify">
+        <button class="verify-button primary" type="primary" catch:tap="verify">
           验证信息
         </button>
       </block>
@@ -136,8 +136,8 @@
           </view>
         </view>
         <button
-          type="primary"
           class="verify-button primary"
+          type="primary"
           catch:tap="bindPhone"
         >
           绑定手机
@@ -204,8 +204,8 @@
           </view>
         </view>
         <button
-          type="primary"
           class="verify-button primary"
+          type="primary"
           catch:tap="setPassword"
         >
           设置密码

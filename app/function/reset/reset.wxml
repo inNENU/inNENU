@@ -147,8 +147,8 @@
           </view>
         </view>
         <button
-          type="primary"
           class="verify-button primary"
+          type="primary"
           catch:tap="setPassword"
         >
           重置密码

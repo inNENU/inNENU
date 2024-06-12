@@ -12,7 +12,7 @@
     <block wx:if="{{isSaved}}">
       <title config="{{ { text: '个人信息' } }}" />
       <list config="{{list}}" />
-      <button type="warn" class="delete-button" catch:tap="delete">
+      <button class="delete-button warn" type="warn" catch:tap="delete">
         <text>删除全部信息</text>
       </button>
     </block>

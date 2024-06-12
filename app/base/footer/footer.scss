@@ -1,7 +1,7 @@
 .footer-component {
   max-width: var(--max-width);
-  margin: 12px var(--horizontal-margin) 0;
-  padding-bottom: max(env(safe-area-inset-bottom), 12px);
+  margin: 12px var(--horizontal-margin) 4px;
+  padding-bottom: env(safe-area-inset-bottom);
 
   color: #86868b;
 

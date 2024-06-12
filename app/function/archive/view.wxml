@@ -16,16 +16,16 @@
       </view>
       <button
         wx:elif="{{canRegister}}"
-        type="primary"
         class="primary register-button"
+        type="primary"
         catch:tap="confirmRegister"
       >
         注册本年度学籍
       </button>
       <button
         wx:else
-        type="primary"
         class="primary register-button"
+        type="primary"
         catch:tap="createStudentArchive"
       >
         新生建立学籍

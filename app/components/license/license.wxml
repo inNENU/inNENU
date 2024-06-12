@@ -57,7 +57,7 @@
     </view>
     <view class="license-footer">
       <button
-        class="license-button refuse"
+        class="license-button warn"
         type="warn"
         size="mini"
         catch:tap="refuse"

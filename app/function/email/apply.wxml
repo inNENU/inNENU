@@ -67,7 +67,7 @@
           />
         </view>
       </view>
-      <button type="primary" class="apply-button primary" catch:tap="apply">
+      <button class="apply-button primary" type="primary" catch:tap="apply">
         申请邮箱
       </button>
     </block>

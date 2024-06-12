@@ -92,7 +92,7 @@
         <view class="header"
           >经历 {{studyIndex + 1}}
           <button
-            class="delete-button"
+            class="delete-button warn"
             type="warn"
             size="mini"
             data-index="{{studyIndex}}"
@@ -140,7 +140,7 @@
         <view class="header"
           >经历 {{familyIndex + 1}}
           <button
-            class="delete-button"
+            class="delete-button warn"
             type="warn"
             size="mini"
             data-index="{{familyIndex}}"

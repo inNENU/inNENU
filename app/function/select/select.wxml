@@ -314,7 +314,7 @@
       </button>
       <button
         wx:elif="{{isSelected}}"
-        class="select-button"
+        class="select-button warn"
         type="warn"
         size="mini"
         data-cid="{{cid}}"
