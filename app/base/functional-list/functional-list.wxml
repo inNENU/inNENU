@@ -88,8 +88,8 @@
           src="{{listItem.icon}}"
         />
         <view class="list-item-detail list-item-access">
-          <view class="list-item-text"><text>{{listItem.text}}</text></view>
-          <view class="list-item-"><text>{{listItem.desc}}</text></view>
+          <text class="list-item-text">{{listItem.text}}</text>
+          <text class="list-item-">{{listItem.desc}}</text>
         </view>
       </navigator>
       <!-- 导航链接 -->
@@ -113,8 +113,8 @@
           src="{{listItem.icon}}"
         />
         <view class="list-item-detail list-item-access">
-          <view class="list-item-text"><text>{{listItem.text}}</text></view>
-          <view class="list-item-desc"><text>{{listItem.desc}}</text></view>
+          <text class="list-item-text">{{listItem.text}}</text>
+          <text class="list-item-desc">{{listItem.desc}}</text>
         </view>
       </view>
       <!-- 非嵌入选择器 -->
@@ -141,12 +141,12 @@
             src="{{listItem.icon}}"
           />
           <view class="list-item-detail">
-            <view class="list-item-text"><text>{{listItem.text}}</text></view>
-            <view wx:if="{{listItem.select}}" class="list-item-desc">
+            <text class="list-item-text">{{listItem.text}}</text>
+            <text wx:if="{{listItem.select}}" class="list-item-desc">
               <block wx:for="{{listItem.value}}" wx:key="*this">
                 <text>{{item}}</text>
               </block>
-            </view>
+            </text>
           </view>
         </view>
       </picker>
@@ -177,7 +177,7 @@
             space="nbsp"
             >{{listItem.text}}</text
           >
-          <view class="list-item-desc"><text>{{listItem.desc}}</text></view>
+          <text class="list-item-desc">{{listItem.desc}}</text>
           <switch
             wx:if="{{listItem.type === 'switch'}}"
             class="list-item-switch"
