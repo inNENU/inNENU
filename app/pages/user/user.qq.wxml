@@ -6,7 +6,7 @@
   background-color-bottom="{{color.bgColorBottom}}"
   root-background-color="{{color.bgColor}}"
 />
-<scroll-view type="list" scroll-y enable-flex class="{{theme}} grey user-page">
+<view class="{{theme}} grey">
   <view
     class="left-button"
     style="top:{{statusBarHeight + 6}}px;"
@@ -14,10 +14,7 @@
     data-url="settings"
     catch:tap="$bindGo"
   >
-    <image
-      class="custom-icon"
-      src="/icon/settings{{darkmode? '-white': ''}}.svg"
-    />
+    <view class="icon-setting" />
   </view>
   <view class="account-wrapper" style="padding-top:{{statusBarHeight}}px">
     <view
@@ -45,5 +42,5 @@
   <official-account />
   <template is="components" data="{{content: page.content}}" />
   <footer config="{{footer}}" />
-</scroll-view>
+</view>
 <add-my-app />

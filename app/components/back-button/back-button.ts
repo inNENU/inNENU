@@ -1,6 +1,8 @@
+import { $Component } from "@mptool/all";
+
 import { info } from "../../state/index.js";
 
-Component({
+$Component({
   lifetimes: {
     attached() {
       this.setData({

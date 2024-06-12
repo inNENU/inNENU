@@ -1,6 +1,8 @@
 {
-  "navigationBarTitleText": "我的东师",
+  "disableScroll": true,
   "enablePullDownRefresh": true,
+  "navigationBarTitleText": "我的东师",
+  "renderer": "skyline",
   "usingComponents": {
     "card-widget": "/widgets/card/card",
     "course-widget": "/widgets/course/course",
