@@ -9,7 +9,7 @@
     <!-- 详情 -->
     <view wx:if="{{config.detail}}" class="detail">{{config.detail}}</view>
     <!-- 描述 -->
-    <view wx:if="{{config.desc}}" class="desc bt">{{config.desc}}</view>
+    <view wx:if="{{config.desc}}" class="desc border-top">{{config.desc}}</view>
 
     <view class="action-list">
       <view

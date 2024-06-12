@@ -45,7 +45,7 @@
           <block wx:for="{{category.account}}" wx:key="name">
             <button
               wx:if="{{item.openid}}"
-              class="account-item bb"
+              class="account-item border-bottom"
               hover-class="button-hover"
               plain
               open-type="addFriend"
@@ -55,7 +55,7 @@
             </button>
             <view
               wx:else
-              class="account-item bb"
+              class="account-item border-bottom"
               hover-class="button-hover"
               data-id="{{item.id}}"
               data-qrcode="{{item.qrcode}}"
@@ -69,7 +69,7 @@
           <view
             wx:for="{{category.account}}"
             wx:key="name"
-            class="account-item bb"
+            class="account-item border-bottom"
             hover-class="button-hover"
             hover-stay-time="100"
             data-url="{{'wechat-detail?from=校园媒体&path=' + item.path}}"

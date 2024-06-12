@@ -11,7 +11,11 @@
       wx:for-index="groupIndex"
     >
       <scroll-view scroll-y class="phone-wrapper" slot="page{{groupIndex + 1}}">
-        <view wx:for="{{category.list}}" wx:key="name" class="phone bb">
+        <view
+          wx:for="{{category.list}}"
+          wx:key="name"
+          class="phone border-bottom"
+        >
           <view class="info">
             <view class="name">{{item.name}}</view>
             <view class="num">{{item.num}}</view>

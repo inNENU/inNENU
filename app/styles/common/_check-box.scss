@@ -44,8 +44,9 @@
 
       width: 0.2em;
       height: 0.5em;
-      border: solid var(--white);
       border-width: 0 0.15em 0.15em 0;
+      border-style: solid;
+      border-color: var(--white);
 
       transform: rotate(45deg);
     }
