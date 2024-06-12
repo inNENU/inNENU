@@ -1,4 +1,4 @@
-.status {
+.image-status {
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -8,10 +8,14 @@
   max-width: 517px;
   height: 400rpx;
   margin: 4px auto;
-  border-radius: 16rpx;
+  border-radius: 12px;
 
   background-color: var(--border-color);
   color: var(--grey);
+
+  .error-icon {
+    margin-bottom: 8px;
+  }
 
   .loading-icon {
     width: 60px;
@@ -20,16 +24,16 @@
   }
 }
 
-.img {
+.img-component {
   display: block;
 
   width: calc(100% - 40px);
   max-width: 517px;
   margin: 4px auto;
-  border-radius: 16rpx;
+  border-radius: 12px;
 }
 
-.desc {
+.img-description {
   margin: -2px auto 4px;
   padding: 0 20px;
 

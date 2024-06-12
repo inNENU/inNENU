@@ -1,16 +1,16 @@
 <!-- 加载错误显示 -->
-<view wx:if="{{error}}" class="status">
-  <icon type="warn" size="32" style="margin-bottom: 5px" />
+<view wx:if="{{error}}" class="image-status">
+  <icon class="error-icon" type="warn" size="32" />
   <text>图片加载失败</text>
 </view>
 <!-- 加载中显示 -->
-<view wx:elif="{{!loaded}}" class="status">
+<view wx:elif="{{!loaded}}" class="image-status">
   <image class="loading-icon" src="/icon/loading.svg" lazy-load />
   <text>加载中...</text>
 </view>
 <!-- 图片 -->
 <image
-  class="img"
+  class="img-component"
   style="{{loaded ? '' : 'height: 0px;'}}"
   lazy-load="{{config.lazy !== false}}"
   mode="{{config.imgMode || 'widthFix'}}"
@@ -20,5 +20,6 @@
   catch:tap="view"
 />
 <!-- 图片解释文字 -->
-<!-- TODO: Use ::before -->
-<view wx:if="{{config.desc}}" class="desc"><text>▲ {{config.desc}}</text></view>
+<view wx:if="{{config.desc}}" class="img-description"
+  ><text>{{config.desc}}</text></view
+>
