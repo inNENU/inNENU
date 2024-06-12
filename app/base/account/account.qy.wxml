@@ -1,24 +1,29 @@
-<view class="account">
+<view class="account-component">
   <!-- 高斯模糊背景 -->
-  <image class="background" src="{{config.logo}}" mode="aspectFill" lazy-load />
-  <view class="content">
+  <image
+    class="account-background"
+    src="{{config.logo}}"
+    mode="aspectFill"
+    lazy-load
+  />
+  <view class="account-content">
     <!-- 图标 -->
-    <image class="logo" src="{{config.logo}}" lazy-load />
+    <image class="account-logo" src="{{config.logo}}" lazy-load />
     <!-- 名称 -->
-    <view class="name"><text>{{config.name}}</text></view>
+    <text class="account-name">{{config.name}}</text>
     <!-- 详情 -->
-    <view wx:if="{{config.detail}}" class="detail">
-      <text>{{config.detail}}</text>
-    </view>
+    <text wx:if="{{config.detail}}" class="account-detail">
+      {{config.detail}}
+    </text>
     <!-- 描述 -->
-    <view wx:if="{{config.desc}}" class="desc border-top">
-      <text>{{config.desc}}</text>
-    </view>
+    <text wx:if="{{config.desc}}" class="account-description border-top"
+      >{{config.desc}}</text
+    >
 
-    <view class="action-list">
+    <view class="account-action-list">
       <view
         wx:if="{{config.qq || config.qqcode}}"
-        class="action"
+        class="account-action"
         hover-class="button-hover"
         hover-start-time="0"
         hover-stay-time="0"
@@ -28,7 +33,7 @@
       </view>
       <view
         wx:if="{{config.account}}"
-        class="action"
+        class="account-action"
         hover-class="button-hover"
         hover-stay-time="100"
         data-url="{{'wechat-detail?path=' + config.account}}"
@@ -38,7 +43,7 @@
       </view>
       <view
         wx:elif="{{config.wxid || config.wxcode}}"
-        class="action"
+        class="account-action"
         hover-class="button-hover"
         hover-start-time="0"
         hover-stay-time="0"
@@ -48,7 +53,7 @@
       </view>
       <view
         wx:if="{{config.site}}"
-        class="action"
+        class="account-action"
         hover-class="button-hover"
         hover-start-time="0"
         hover-stay-time="0"
@@ -58,7 +63,7 @@
       </view>
       <view
         wx:if="{{config.mail}}"
-        class="action"
+        class="account-action"
         hover-class="button-hover"
         hover-start-time="0"
         hover-stay-time="0"
@@ -68,7 +73,7 @@
       </view>
       <view
         wx:if="{{config.location}}"
-        class="action"
+        class="account-action"
         hover-class="button-hover"
         catch:tap="navigate"
       >
