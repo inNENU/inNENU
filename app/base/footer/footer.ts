@@ -17,6 +17,14 @@ $Component({
 
   data: { description },
 
+  lifetimes: {
+    attached() {
+      this.setData({
+        copyright: `${description}\nCopyright © 2017-${new Date().getFullYear()} Mr.Hope`,
+      });
+    },
+  },
+
   methods: {
     copyCite({
       currentTarget,

@@ -1,3 +1,0 @@
-var year = getDate().getFullYear();
-
-module.exports = { year: year };
