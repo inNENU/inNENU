@@ -1,5 +1,5 @@
 <view
-  class="doc"
+  class="doc-component"
   hover-class="button-hover"
   hover-stay-time="100"
   catch:tap="view"
@@ -7,7 +7,7 @@
   <!-- 文档图标 -->
   <image class="doc-icon" src="./icon/{{config.icon}}.svg" />
   <!-- 文档名称 -->
-  <view class="doc-name"><text>{{config.name}}</text></view>
+  <text class="doc-name">{{config.name}}</text>
   <!-- 下载按钮 -->
   <view
     wx:if="{{config.downloadable !== false}}"
