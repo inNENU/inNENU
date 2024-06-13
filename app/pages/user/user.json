@@ -1,8 +1,9 @@
 {
-  "navigationBarTitleText": "我的东师",
   "enablePullDownRefresh": true,
+  "navigationBarTitleText": "我的东师",
   "usingComponents": {
     "add-my-app": "/components/add-my-app/add-my-app",
+    "back-button": "/components/back-button/back-button",
     "card-widget": "/widgets/card/card",
     "course-widget": "/widgets/course/course",
     "email-widget": "/widgets/email/email",

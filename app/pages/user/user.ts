@@ -19,9 +19,6 @@ import {
   showNotice,
 } from "../../utils/index.js";
 
-const plugin = requirePlugin("wxacommentplugin") as {
-  openComment: (option: unknown) => void;
-};
 const { globalData } = getApp<App>();
 
 const PAGE_ID = "user";
@@ -118,7 +115,15 @@ $Page(PAGE_ID, {
   },
 
   rate() {
-    plugin.openComment({});
+    (
+      requirePlugin("wxacommentplugin") as {
+        openComment: (option: unknown) => void;
+      }
+    ).openComment({});
+  },
+
+  goToSettings() {
+    this.$go("settings");
   },
 
   setTheme(theme: string): void {
@@ -153,5 +158,5 @@ $Page(PAGE_ID, {
     }
   },
 
-  reportInfo: reportUserInfo,
+  reportUserInfo,
 });
