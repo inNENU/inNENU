@@ -46,11 +46,7 @@
           <view class="course-description">
             <text class="teacher">
               <text class="icon-font icon-teacher" />
-              <text>教师: {{course.teacherName}}</text>
-            </text>
-            <text class="time">
-              <text class="icon-font icon-time" />
-              <text>结课日期: {{course.endDate}}</text>
+              <text>{{course.teacherName}}</text>
             </text>
           </view>
         </view>
@@ -80,7 +76,11 @@
 >
   <view class="total-score">总分: {{totalScore}}</view>
   <view class="scores">
-    <view wx:for="{{commentaryDetail}}" class="score-item border-top">
+    <view
+      wx:for="{{commentaryDetail}}"
+      wx:key="name"
+      class="score-item border-top"
+    >
       <view class="text">{{item.name}}</view>
       <view class="answer">{{item.answer}}</view>
     </view>
@@ -96,6 +96,7 @@
   <view class="scores">
     <view
       wx:for="{{questions}}"
+      wx:key="title"
       wx:for-item="question"
       wx:for-index="questionIndex"
       class="question-item border-top"
@@ -107,7 +108,11 @@
           data-question-index="{{questionIndex}}"
           bindchange="onRadioChange"
         >
-          <view wx:for="{{question.options}}" class="score-option">
+          <view
+            wx:for="{{question.options}}"
+            wx:key="name"
+            class="score-option"
+          >
             <radio value="{{index}}" checked="{{answer[index] === index}}" />
             <text>{{item.text}}</text>
           </view>

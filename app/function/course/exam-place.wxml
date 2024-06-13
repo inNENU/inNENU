@@ -20,10 +20,15 @@
       </button>
     </view>
     <view wx:if="{{data.length}}" class="exam-list">
-      <view wx:for="{{data}}" wx:for-item="category" class="category">
+      <view
+        wx:for="{{data}}"
+        wx:key="name"
+        wx:for-item="category"
+        class="category"
+      >
         <view class="category-header">{{category.name}}</view>
         <block wx:if="{{category.exams.length}}">
-          <view wx:for="{{category.exams}}" class="exam-item">
+          <view wx:for="{{category.exams}}" wx:key="course" class="exam-item">
             <view wx:if="{{item.course}}" class="name"
               >课程名称: {{item.course}}</view
             >
