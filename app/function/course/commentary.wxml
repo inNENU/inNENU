@@ -38,6 +38,7 @@
       </button>
       <view
         wx:for="{{list}}"
+        wx:key="name"
         wx:for-item="course"
         class="course-item border-bottom"
       >
