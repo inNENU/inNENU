@@ -1,0 +1,7 @@
+{
+  "navigationBarTitleText": "课程评价",
+  "usingComponents": {
+    "login-hint": "/components/login-hint/login-hint",
+    "popup": "/components/popup/popup"
+  }
+}

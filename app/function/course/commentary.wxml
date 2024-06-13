@@ -1,0 +1,127 @@
+<page-meta
+  background-text-style="{{darkmode ? 'dark' : 'light'}}"
+  background-color="{{color.bgColor}}"
+  background-color-top="{{color.bgColorTop}}"
+  background-color-bottom="{{color.bgColorBottom}}"
+  root-background-color="{{color.bgColor}}"
+/>
+<view class="{{theme}} course-commentary-wrapper">
+  <navbar nav="{{ { title } }}" />
+  <login-hint wx:if="{{needLogin}}" source="课程评价" />
+  <block wx:else>
+    <view class="course-commentary-actions">
+      <picker
+        class="picker"
+        range="{{timeDisplays}}"
+        value="{{timeIndex}}"
+        bindchange="onTimeChange"
+      >
+        {{(timeDisplays[timeIndex])}}
+      </picker>
+      <button
+        class="refresh-button"
+        type="default"
+        size="mini"
+        catch:tap="refresh"
+      >
+        <text class="refresh-button-icon" />
+      </button>
+    </view>
+    <view wx:if="{{list.length}}" class="course-list">
+      <button
+        wx:if="{{canCommentAll}}"
+        class="primary"
+        type="primary"
+        catch:tap="commentAll"
+      >
+        一键评教
+      </button>
+      <view
+        wx:for="{{list}}"
+        wx:for-item="course"
+        class="course-item border-bottom"
+      >
+        <view class="course-info">
+          <view class="course-header">{{course.name}}</view>
+          <view class="course-description">
+            <text class="teacher">
+              <text class="icon-font icon-teacher" />
+              <text>教师: {{course.teacherName}}</text>
+            </text>
+            <text class="time">
+              <text class="icon-font icon-time" />
+              <text>结课日期: {{course.endDate}}</text>
+            </text>
+          </view>
+        </view>
+        <button
+          class="{{course.commentaryCode? 'default': 'primary'}}"
+          type="{{course.commentaryCode? 'default': 'primary'}}"
+          size="mini"
+          data-commentary-code="{{course.commentaryCode}}"
+          data-course-code="{{course.courseCode}}"
+          data-teacher-code="{{course.teacherCode}}"
+          catch:tap="{{course.commentaryCode? 'viewCourseCommentary': 'startCourseCommentary'}}"
+        >
+          {{course.commentaryCode? '查看评价': '评价'}}
+        </button>
+      </view>
+    </view>
+    <view wx:else class="empty">暂无课程</view>
+    <footer config="{{ { desc } }}" />
+  </block>
+</view>
+
+<popup
+  config="{{ { title: '评价详情', cancel: false } }}"
+  show="{{commentaryDetail.length > 0}}"
+  catch:confirm="closeScoreDetail"
+  catch:close="closeScoreDetail"
+>
+  <view class="total-score">总分: {{totalScore}}</view>
+  <view class="scores">
+    <view wx:for="{{commentaryDetail}}" class="score-item border-top">
+      <view class="text">{{item.name}}</view>
+      <view class="answer">{{item.answer}}</view>
+    </view>
+  </view>
+</popup>
+
+<popup
+  config="{{ { title: '评价课程', cancel: false } }}"
+  show="{{questions.length > 0}}"
+  catch:confirm="submitCourseCommentary"
+  catch:close="closeForm"
+>
+  <view class="scores">
+    <view
+      wx:for="{{questions}}"
+      wx:for-item="question"
+      wx:for-index="questionIndex"
+      class="question-item border-top"
+    >
+      <view class="question-title">{{question.title}}</view>
+      <view class="question-options">
+        <radio-group
+          class="score-selector"
+          data-question-index="{{questionIndex}}"
+          bindchange="onRadioChange"
+        >
+          <view wx:for="{{question.options}}" class="score-option">
+            <radio value="{{index}}" checked="{{answer[index] === index}}" />
+            <text>{{item.text}}</text>
+          </view>
+        </radio-group>
+      </view>
+    </view>
+  </view>
+  <view class="commentary">
+    <view class="title">{{text.title}}</view>
+    <textarea
+      class="commentary-textarea"
+      placeholder="请输入评价"
+      bindinput="onCommentaryInput"
+      value="{{commentary}}"
+    />
+  </view>
+</popup>

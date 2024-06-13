@@ -161,6 +161,12 @@
           "scene": null
         },
         {
+          "name": "黑名单",
+          "pathName": "pages/action/action",
+          "query": "action=blacklist",
+          "scene": null
+        },
+        {
           "name": "初始化小程序",
           "pathName": "pages/action/action",
           "query": "action=reset",
@@ -223,6 +229,12 @@
         {
           "name": "考场查询",
           "pathName": "function/course/exam-place",
+          "query": "",
+          "scene": null
+        },
+        {
+          "name": "课程评价",
+          "pathName": "function/course/commentary",
           "query": "",
           "scene": null
         },

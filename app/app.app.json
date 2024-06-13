@@ -25,6 +25,7 @@
     "function/archive/view",
     "function/calendar/calendar",
     "function/course/change-major",
+    "function/course/commentary",
     "function/course/exam-place",
     "function/grade/special",
     "function/grade/grade",

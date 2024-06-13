@@ -198,6 +198,13 @@
           "scene": null
         },
         {
+          "name": "黑名单",
+          "pathName": "pages/action/action",
+          "query": "action=blacklist",
+          "launchMode": "default",
+          "scene": null
+        },
+        {
           "name": "初始化小程序",
           "pathName": "pages/action/action",
           "query": "action=reset",
@@ -277,6 +284,13 @@
         {
           "name": "考场查询",
           "pathName": "function/course/exam-place",
+          "query": "",
+          "launchMode": "default",
+          "scene": null
+        },
+        {
+          "name": "课程评价",
+          "pathName": "function/course/commentary",
           "query": "",
           "launchMode": "default",
           "scene": null

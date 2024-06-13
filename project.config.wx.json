@@ -282,6 +282,13 @@
           "scene": null
         },
         {
+          "name": "课程评价",
+          "pathName": "function/course/commentary",
+          "query": "",
+          "launchMode": "default",
+          "scene": null
+        },
+        {
           "name": "专项考试",
           "pathName": "function/grade/special",
           "query": "",

@@ -30,6 +30,7 @@
         "archive/view",
         "calendar/calendar",
         "course/change-major",
+        "course/commentary",
         "course/exam-place",
         "course/table",
         "grade/special",
