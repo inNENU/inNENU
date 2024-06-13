@@ -2,7 +2,7 @@
   class="back-button"
   style="top:{{statusBarHeight + 6}}px;"
   hover-class="back-button-hover"
-  catch:tap="$bindBack"
+  catch:tap="onTap"
 >
-  <image class="icon" src="{{src}}" />
+  <image class="icon" src="{{icon || src}}" />
 </view>

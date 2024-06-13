@@ -3,6 +3,11 @@ import { $Component } from "@mptool/all";
 import { info } from "../../state/index.js";
 
 $Component({
+  properties: {
+    icon: String,
+    action: String,
+  },
+
   lifetimes: {
     attached() {
       this.setData({
@@ -26,6 +31,14 @@ $Component({
 
     onThemeChange({ theme }: WechatMiniprogram.OnThemeChangeListenerResult) {
       this.setImageLink(theme === "dark");
+    },
+
+    onTap() {
+      if (this.properties.action) {
+        this.$call(this.properties.action);
+      } else {
+        this.$back();
+      }
     },
   },
 });
