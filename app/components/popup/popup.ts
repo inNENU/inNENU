@@ -1,10 +1,15 @@
+import type { PropType } from "@mptool/all";
 import { $Component } from "@mptool/all";
 
+import type { PopupConfig } from "./typings.js";
 import { getWindowInfo } from "../../api/index.js";
 
 $Component({
   properties: {
-    config: Object,
+    config: {
+      type: Object as PropType<PopupConfig>,
+      required: true,
+    },
     // 是否展示对话框
     show: {
       type: Boolean,
