@@ -328,7 +328,7 @@ $Page(PAGE_ID, {
                 questions,
                 text: text,
                 answers: Array(questions.length).fill(0),
-                commentary: "由 inNENU 一键评教",
+                commentary: "",
               });
 
               if (submitResult.success) {
