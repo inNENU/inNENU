@@ -72,7 +72,12 @@
       {{title.text}} {{sortKey === title.key? ascending? '↓': '↑': ''}}
     </button>
   </view>
-  <view wx:for="{{results}}" wx:key="0" wx:for-item="result" class="grade-item">
+  <view
+    wx:for="{{results}}"
+    wx:key="major"
+    wx:for-item="result"
+    class="grade-item"
+  >
     <view class="header">{{result.major}}</view>
     <view class="info">
       <view><text class="label">专业类别:</text>{{result.majorType}}</view>
