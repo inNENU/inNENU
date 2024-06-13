@@ -12,24 +12,25 @@ export const supportRedirect =
   ["android", "ios"].includes(info.platform) &&
   (major > 3 || (major === 3 && (minor > 2 || (minor === 2 && patch >= 2))));
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
 /*@__NO_SIDE_EFFECTS__*/
-export const createService = <T extends (...args: any) => any>(
-  name: string,
-  localService: T,
-  onlineService: T,
-): T =>
-  ((...args: Parameters<T>): ReturnType<T> => {
-    const { globalData } = getApp<App>();
+export const createService =
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  <T extends (...args: any) => any>(
+    name: string,
+    localService: T,
+    onlineService: T,
+  ): T =>
+    ((...args: Parameters<T>): ReturnType<T> => {
+      const { globalData } = getApp<App>();
 
-    const shouldUseOnlineService =
-      globalData.service[name] === "online" ||
-      globalData.service.forceOnline ||
-      false;
+      const shouldUseOnlineService =
+        globalData.service[name] === "online" ||
+        globalData.service.forceOnline ||
+        false;
 
-    // eslint-disable-next-line @typescript-eslint/no-unsafe-return
-    return (shouldUseOnlineService ? onlineService : localService)(...args);
-  }) as T;
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-return
+      return (shouldUseOnlineService ? onlineService : localService)(...args);
+    }) as T;
 
 export const getIETimeStamp = (): number => {
   const time = new Date().getMilliseconds();

@@ -7,7 +7,6 @@ const rename = require("gulp-rename");
 const replace = require("gulp-replace");
 const sourcemaps = require("gulp-sourcemaps");
 const typescript = require("gulp-typescript");
-const { get } = require("node:http");
 
 const tsProject = typescript.createProject("tsconfig.json");
 
