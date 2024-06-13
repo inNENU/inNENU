@@ -73,16 +73,8 @@ $Page(PAGE_ID, {
     return this.getAcademicList(1);
   },
 
-  prevPage() {
-    return this.getAcademicList(this.data.currentPage - 1);
-  },
-
-  nextPage() {
-    return this.getAcademicList(this.data.currentPage + 1);
-  },
-
-  changePage({ detail }: WechatMiniprogram.PickerChange) {
-    return this.getAcademicList(Number(detail.value) + 1);
+  changePage({ detail }: WechatMiniprogram.CustomEvent<{ current: number }>) {
+    return this.getAcademicList(detail.current);
   },
 
   viewItem({

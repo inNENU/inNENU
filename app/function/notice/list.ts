@@ -111,16 +111,8 @@ $Page(PAGE_ID, {
     return this.getNoticeList(1);
   },
 
-  prevPage() {
-    return this.getNoticeList(this.data.currentPage - 1);
-  },
-
-  nextPage() {
-    return this.getNoticeList(this.data.currentPage + 1);
-  },
-
-  changePage({ detail }: WechatMiniprogram.PickerChange) {
-    return this.getNoticeList(Number(detail.value) + 1);
+  changePage({ detail }: WechatMiniprogram.CustomEvent<{ current: number }>) {
+    return this.getNoticeList(detail.current);
   },
 
   viewNotice({

@@ -87,16 +87,8 @@ $Page(PAGE_ID, {
     return this.getInfoList(1);
   },
 
-  prevPage() {
-    return this.getInfoList(this.data.currentPage - 1);
-  },
-
-  nextPage() {
-    return this.getInfoList(this.data.currentPage + 1);
-  },
-
-  changePage({ detail }: WechatMiniprogram.PickerChange) {
-    return this.getInfoList(Number(detail.value) + 1);
+  changePage({ detail }: WechatMiniprogram.CustomEvent<{ current: number }>) {
+    return this.getInfoList(detail.current);
   },
 
   viewItem({

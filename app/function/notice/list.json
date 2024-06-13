@@ -1,6 +1,7 @@
 {
   "usingComponents": {
     "error-hint": "/components/error-hint/error-hint",
-    "login-hint": "/components/login-hint/login-hint"
+    "login-hint": "/components/login-hint/login-hint",
+    "pagination": "/components/pagination/pagination"
   }
 }

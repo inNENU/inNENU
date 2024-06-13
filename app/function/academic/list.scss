@@ -45,29 +45,3 @@
     margin: 0 2px;
   }
 }
-
-.pagination {
-  display: flex;
-  align-items: center;
-  justify-content: space-evenly;
-  padding-bottom: 12px;
-
-  @supports (padding-bottom: env(safe-area-inset-bottom)) {
-    padding-bottom: max(env(safe-area-inset-bottom), 12px);
-  }
-
-  .prev,
-  .next {
-    margin: 2px 4px;
-    padding: 5px 8px;
-    font-size: 14px;
-    line-height: 1.5;
-  }
-
-  .current {
-    padding: 5px 8px;
-    border-radius: 8px;
-    background-color: var(--bg-color-block);
-    line-height: 1.5;
-  }
-}
