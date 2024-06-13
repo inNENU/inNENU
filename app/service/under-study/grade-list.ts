@@ -177,7 +177,7 @@ const getUnderGradeListLocal = async ({
   time = "",
 }: UnderGradeListOptions): Promise<UnderGradeListResponse> => {
   try {
-    const { data } = await request<RawUnderGradeResult>(QUERY_URL, {
+    const { data, headers } = await request<RawUnderGradeResult>(QUERY_URL, {
       method: "POST",
       headers: {
         Accept: "application/json, text/javascript, */*; q=0.01",
@@ -192,6 +192,12 @@ const getUnderGradeListLocal = async ({
         order: "asc",
       }),
     });
+
+    if (headers.get("content-type")?.includes("text/html")) {
+      console.log(data);
+
+      throw new Error("获取失败");
+    }
 
     if ("code" in data) {
       if (data.message === "尚未登录，请先登录")

@@ -118,7 +118,13 @@ const getUnderGradeDetailLocal = async (
   try {
     const queryUrl = `${UNDER_STUDY_SERVER}/new/student/xskccj/getDetail?cjdm=${gradeCode}`;
 
-    const { data } = await request<RawUnderGradeResult>(queryUrl);
+    const { data, headers } = await request<RawUnderGradeResult>(queryUrl);
+
+    if (headers.get("content-type")?.includes("text/html")) {
+      console.log(data);
+
+      throw new Error("获取失败");
+    }
 
     if (data.code === 0) {
       const gradeDetail = getGradeDetail(
