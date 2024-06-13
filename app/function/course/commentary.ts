@@ -279,6 +279,14 @@ $Page(PAGE_ID, {
     const { questions, text, commentary, answers } = this.data;
     const { params } = this.state;
 
+    if (
+      questions.some((_question, index) => typeof answers[index] !== "number")
+    ) {
+      showModal("提交失败", "请完成所有评分项");
+
+      return;
+    }
+
     const result = await underStudyCourseCommentary({
       type: "submit",
       params,
