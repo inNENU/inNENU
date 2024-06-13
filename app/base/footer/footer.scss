@@ -7,18 +7,16 @@
 
   font-size: 12px;
   line-height: 1.3333;
+  text-align: left;
 
   @supports (padding-bottom: env(safe-area-inset-bottom)) {
     padding-bottom: max(env(safe-area-inset-bottom), 12px);
   }
 }
 
-.footer-description {
-  text-align: left;
-}
-
 .footer-info {
   display: flex;
+  flex-direction: row;
   flex-wrap: wrap;
   justify-content: space-between;
 }

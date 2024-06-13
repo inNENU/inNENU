@@ -2,7 +2,7 @@
   <view wx:if="{{config.desc}}" class="footer-description">
     <text decode>{{config.desc}}</text>
   </view>
-  <view class="info">
+  <view class="footer-info">
     <text wx:if="{{config.author}}" decode>作者: {{config.author}}</text>
     <text wx:if="{{config.time}}" decode>最后更新于: {{config.time}}</text>
   </view>
