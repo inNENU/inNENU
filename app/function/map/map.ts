@@ -93,7 +93,6 @@ $Page(PAGE_ID, {
       area,
       statusBarHeight: info.statusBarHeight,
       tabHeight: info.windowHeight / 2 - 20,
-      firstPage: getCurrentPages().length === 1,
     });
 
     showNotice(PAGE_ID);

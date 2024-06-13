@@ -1,13 +1,6 @@
 <view class="page video-wrapper">
   <!-- 返回按钮 -->
-  <view
-    class="left-button"
-    style="top:{{statusBarHeight + 6}}px;"
-    hover-class="button-hover"
-    catch:tap="$bindBack"
-  >
-    <view class="icon-{{firstPage ? 'home' : 'back'}}" />
-  </view>
+  <back-button />
   <!-- 视频信息 -->
   <view class="video-info">
     <view class="name">{{videoName}}</view>

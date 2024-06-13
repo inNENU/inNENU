@@ -1,7 +1,7 @@
 import { $Page } from "@mptool/all";
 
 import { loadFZSSJW, showToast } from "../../api/index.js";
-import { appCoverPrefix } from "../../config/index.js";
+import { appCoverPrefix, appName } from "../../config/index.js";
 import { info } from "../../state/index.js";
 import { ensureJson, getJson, showNotice } from "../../utils/index.js";
 
@@ -39,12 +39,16 @@ $Page("video", {
     getJson<VideoGroup[]>("function/video/index").then((list) => {
       let groupID = 0;
       let listID = 0;
-      const videoList = list
-        .map((category) => ({
-          title: category.title,
-          list: category.list.filter((item) => !("vid" in item)),
-        }))
-        .filter((item) => item.list.length);
+      const videoList =
+        // @ts-expect-error: The import can be changed by build target
+        appName === "东师青年+"
+          ? list
+          : list
+              .map((category) => ({
+                title: category.title,
+                list: category.list.filter((item) => !("vid" in item)),
+              }))
+              .filter((item) => item.list.length);
 
       if (options.scene) {
         const ids = options.scene.split("-").map((id) => Number(id));
@@ -81,8 +85,6 @@ $Page("video", {
         src: item.src || "",
         vid: item.vid || "",
 
-        firstPage: getCurrentPages().length === 1,
-        statusBarHeight: info.statusBarHeight,
         theme: info.theme,
       });
     });
@@ -90,10 +92,12 @@ $Page("video", {
     loadFZSSJW();
     showNotice("video");
 
-    this.setPassiveEvent?.({
-      touchstart: false,
-      touchmove: false,
-    });
+    // FIXME: Now skyline has bugs in setPassiveEvent
+    if (this.renderer !== "skyline")
+      this.setPassiveEvent?.({
+        touchstart: false,
+        touchmove: false,
+      });
   },
 
   onReady() {

@@ -63,15 +63,7 @@
 
     <!-- 加载页面 -->
     <view wx:elif="{{!page.content}}" class="loading-logo-wrapper">
-      <view
-        class="left-button"
-        style="top: 27.5px"
-        hover-class="button-hover"
-        hover-stay-time="100"
-        catch:tap="$bindBack"
-      >
-        <view class="icon-{{firstPage ? 'home' : 'back'}}" />
-      </view>
+      <back-button />
       <template is="loading" />
     </view>
 

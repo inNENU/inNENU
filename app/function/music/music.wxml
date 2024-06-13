@@ -1,14 +1,7 @@
 <wxs src="./music.wxs" module="music" />
 <image class="backgroud-image" mode="aspectFill" src="{{currentSong.cover}}" />
+<back-button />
 <view class="music-wrapper">
-  <view
-    class="left-button"
-    style="top:{{statusBarHeight + 6}}px;"
-    hover-class="button-hover"
-    catch:tap="$bindBack"
-  >
-    <view class="icon-{{firstPage ? 'home' : 'back'}}" />
-  </view>
   <view class="song-info">
     <view class="name">{{currentSong.title}}</view>
     <view class="author">—— {{currentSong.singer}} ——</view>

@@ -74,7 +74,6 @@ $Page("music", {
       playing: musicState.playing,
       mode: mode || "列表循环",
 
-      statusBarHeight: info.statusBarHeight,
       darkmode,
       indicatorColor: darkmode
         ? "rgba(255, 255, 255, 0.15)"
@@ -82,7 +81,6 @@ $Page("music", {
       indicatorActiveColor: darkmode
         ? "rgba(255, 255, 255, 0.45)"
         : "rgba(0, 0, 0, 0.45)",
-      firstPage: getCurrentPages().length === 1,
     });
 
     getJson<SongDetail[]>("function/music/index").then((songList) => {

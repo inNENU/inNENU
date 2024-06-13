@@ -146,6 +146,7 @@
     "account": "/base/account/account",
     "audio-player": "/base/audio/audio",
     "action": "/base/action/action",
+    "back-button": "/base/back-button/back-button",
     "card": "/base/card/card",
     "carousel": "/base/carousel/carousel",
     "doc": "/base/doc/doc",

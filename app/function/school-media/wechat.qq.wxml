@@ -15,15 +15,9 @@
   height="{{windowHeight}}"
 >
   <block slot="before">
-    <view
-      class="left-button"
-      style="top: {{statusBarHeight + 6}}px;"
-      hover-class="button-hover"
-      catch:tap="$bindBack"
-    >
-      <view class="icon-{{firstPage ? 'home' : 'back'}}" />
-    </view>
+    <back-button />
 
+    <!-- 返回顶部按钮 -->
     <button
       class="scroll-top-button {{showBackToTop? 'show': ''}}"
       catch:tap="scrollTop"
@@ -53,7 +47,7 @@
           >
         </view>
       </view>
-      <view class="wechat-wrapper"> </view>
+      <view class="wechat-wrapper"></view>
     </block>
   </block>
   <recycle-item wx:for="{{recycleList}}" wx:key="id">

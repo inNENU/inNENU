@@ -7,20 +7,7 @@
   root-background-color="{{color.bgColor}}"
 />
 <view class="{{theme}} grey search-wrapper">
-  <view
-    class="left-button"
-    style="top:{{statusBarHeight + 6}}px;"
-    hover-class="button-hover"
-    catch:tap="$bindBack"
-  >
-    <view class="icon-{{firstPage ? 'home' : 'back'}}" />
-  </view>
-  <view class="ios-navigation-bar" style="padding-top:{{statusBarHeight}}px;">
-    <view class="ios-nav-title"><text>搜索</text></view>
-  </view>
-  <view class="ios-nav-border" style="top:{{statusBarHeight + 44}}px;" />
-  <view class="ios-nav-placeholder" style="height:{{statusBarHeight + 44}}px;">
-  </view>
+  <navbar nav="{{ { title: '搜索' } }}" />
 
   <search
     words="{{words}}"

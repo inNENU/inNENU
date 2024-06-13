@@ -13,7 +13,6 @@ $Component({
     attached() {
       this.setData({
         statusBarHeight: info.statusBarHeight,
-        firstPage: getCurrentPages().length === 1,
       });
 
       this.createSelectorQuery()

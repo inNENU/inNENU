@@ -5,9 +5,15 @@ import type {
   WechatArticleItem,
   WechatConfig,
 } from "../../../typings/index.js";
-import { copyContent, request, showModal, showToast } from "../../api/index.js";
+import {
+  copyContent,
+  request,
+  savePhoto,
+  showModal,
+  showToast,
+} from "../../api/index.js";
 import { appCoverPrefix, server } from "../../config/index.js";
-import { info } from "../../state/index.js";
+import { env, info } from "../../state/index.js";
 import { ensureJson, getPageColor, showNotice } from "../../utils/index.js";
 
 const PAGE_ID = "wechat-detail";
@@ -44,9 +50,7 @@ $Page(PAGE_ID, {
 
   onLoad({ path = "" }) {
     this.setData({
-      firstPage: getCurrentPages().length === 1,
       color: getPageColor(true),
-      statusBarHeight: info.statusBarHeight,
     });
 
     this.state.path = path;
@@ -176,22 +180,27 @@ $Page(PAGE_ID, {
   >) {
     const { title, url } = currentTarget.dataset;
 
-    if (this.data.authorized)
+    if (env === "app") wx.miniapp.openUrl({ url });
+    else if (this.data.authorized)
       this.$go(`web?url=${encodeURIComponent(url)}&title=${title}`);
     // 无法跳转，复制链接到剪切板
     else
       copyContent(url).then(() => {
         showModal(
-          "尚未授权",
+          "无法跳转",
           "目前暂不支持跳转到该微信公众号图文，链接地址已复制至剪切板。请打开浏览器粘贴查看",
         );
       });
   },
 
   follow() {
-    const { follow, qrcode } = this.data;
+    const { follow, qrcode, id } = this.data;
 
-    if (follow) this.$go(`web?url=${follow}&title=欢迎关注`);
+    if (env === "app")
+      savePhoto(qrcode || `https://open.weixin.qq.com/qr/code?username=${id}`)
+        .then(() => showToast("二维码已存至相册"))
+        .catch(() => showToast("二维码保存失败"));
+    else if (follow) this.$go(`web?url=${follow}&title=欢迎关注`);
     else wx.previewImage({ urls: [qrcode] });
   },
 
