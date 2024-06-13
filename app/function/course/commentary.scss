@@ -47,10 +47,11 @@
   font-weight: bold;
   line-height: 1.5;
   font-size: 17px;
+  padding-bottom: 8px;
 }
 
 .score-item {
-  margin: 8px 0;
+  padding: 8px 0;
   display: flex;
 
   .text {
@@ -64,7 +65,7 @@
 }
 
 .question-item {
-  margin: 12px 0;
+  padding: 8px 0;
 }
 
 .question-title {
