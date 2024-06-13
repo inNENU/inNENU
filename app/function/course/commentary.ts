@@ -1,6 +1,6 @@
 import { $Page } from "@mptool/all";
 
-import { retryAction, showModal } from "../../api/index.js";
+import { confirmAction, retryAction, showModal } from "../../api/index.js";
 import { appCoverPrefix } from "../../config/index.js";
 import type {
   UnderCourseCommentaryInfo,
@@ -297,45 +297,55 @@ $Page(PAGE_ID, {
     }
   },
 
-  async commentAll() {
-    const { list } = this.data;
+  commentAll() {
+    confirmAction(
+      "一键评教",
+      () => {
+        const { list } = this.data;
 
-    const results = await Promise.all(
-      list.map(async ({ teacherCode, courseCode }) => {
-        const getResult = await underStudyCourseCommentary({
-          type: "get",
-          courseCode,
-          teacherCode,
+        Promise.all(
+          list.map(async ({ teacherCode, courseCode }) => {
+            const getResult = await underStudyCourseCommentary({
+              type: "get",
+              courseCode,
+              teacherCode,
+            });
+
+            if (getResult.success) {
+              const { params, text, questions } = getResult.data;
+
+              const submitResult = await underStudyCourseCommentary({
+                type: "submit",
+                params,
+                questions,
+                text: text,
+                answers: Array(questions.length).fill(0),
+                commentary: "由 inNENU 一键评教",
+              });
+
+              if (submitResult.success) {
+                return true;
+              }
+            }
+
+            return false;
+          }),
+        ).then((results) => {
+          if (results.every(Boolean))
+            showModal("一键评教成功", "已评价所有课程为 100 分。", () => {
+              this.refresh();
+            });
+          else
+            showModal(
+              "一键评教失败",
+              "部分课程评价失败，请尝试手动评价。",
+              () => {
+                this.refresh();
+              },
+            );
         });
-
-        if (getResult.success) {
-          const { params, text, questions } = getResult.data;
-
-          const submitResult = await underStudyCourseCommentary({
-            type: "submit",
-            params,
-            questions,
-            text: text,
-            answers: Array(questions.length).fill(0),
-            commentary: "由 inNENU 一键评教",
-          });
-
-          if (submitResult.success) {
-            return true;
-          }
-        }
-
-        return false;
-      }),
+      },
+      "此操作将一键评价所有未评价的课程为 100 分。",
     );
-
-    if (results.every(Boolean))
-      showModal("一键评教成功", "已评价所有课程为 100 分。", () => {
-        this.refresh();
-      });
-    else
-      showModal("一键评教失败", "部分课程评价失败，请尝试手动评价。", () => {
-        this.refresh();
-      });
   },
 });
