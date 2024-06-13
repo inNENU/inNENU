@@ -16,8 +16,7 @@
 
 .footer-info {
   display: flex;
-  flex-direction: row;
-  flex-wrap: wrap;
+  flex-flow: row wrap;
   justify-content: space-between;
 }
 
@@ -35,9 +34,9 @@
 
 .footer-copyright {
   margin-top: 10px;
-  text-align: center;
 
   font-size: 10px;
   line-height: 1.5;
   letter-spacing: 1px;
+  text-align: center;
 }

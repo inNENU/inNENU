@@ -39,6 +39,7 @@
   line-height: 1.4;
 
   transition: all 0.3s;
+
   transform: translateY(100%);
 }
 
@@ -99,9 +100,10 @@
   flex: 1;
 
   overflow-y: scroll;
-  -webkit-overflow-scrolling: touch;
 
   word-wrap: break-word;
+
+  -webkit-overflow-scrolling: touch;
 
   .text {
     padding-top: 4px;

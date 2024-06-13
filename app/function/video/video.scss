@@ -47,13 +47,14 @@
   flex: 1;
 
   overflow-y: scroll;
-  -webkit-overflow-scrolling: touch;
 
   padding: 10px 0;
   border-top-left-radius: 12px;
   border-top-right-radius: 12px;
 
   box-shadow: 0 -2px 5px rgb(219 218 223 / 95%);
+
+  -webkit-overflow-scrolling: touch;
 
   @media (prefers-color-scheme: dark) {
     box-shadow: 0 -2px 5px rgb(36 37 32 / 95%);

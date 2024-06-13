@@ -5,6 +5,7 @@ rules:
     - true
     - ignoreShorthands:
         - inset
+        - place-content
   media-feature-range-notation:
     - prefix
   no-descending-specificity: null
@@ -14,4 +15,5 @@ rules:
         - icon
         - page
         - picker
+        - scroll-view
   shorthand-property-no-redundant-values: null

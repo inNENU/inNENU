@@ -76,6 +76,7 @@
     opacity: 0.2;
 
     transform: scale(0.7);
+
     animation: cloud-shadow 5s ease-in-out infinite;
   }
 }
@@ -183,6 +184,7 @@
     #a3459b -14px -14px 0 13px;
 
   transform: rotate(40deg);
+
   animation: rainbow 5s ease-in-out infinite;
 }
 
@@ -257,6 +259,7 @@
 
     transform: rotate(-5deg);
     transform-origin: 0 50%;
+
     animation: starry 5s ease-in-out infinite;
   }
 }
@@ -386,6 +389,7 @@
     opacity: 0.3;
 
     transform: scale(0.9);
+
     animation: rainy-rain 0.7s infinite linear;
   }
 }
@@ -436,6 +440,7 @@
 
     transform: rotate(14deg);
     transform-origin: 50% -30px;
+
     animation: stormy-thunder 2s steps(1, end) infinite;
   }
 }
@@ -555,6 +560,7 @@
     opacity: 0.8;
 
     transform: scale(0.8);
+
     animation: snowy-snow 2s infinite linear;
   }
 }
