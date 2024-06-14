@@ -9,6 +9,7 @@ import {
   appName,
   description,
 } from "../../config/index.js";
+import { reportUserInfo } from "../../service/index.js";
 import { info, user } from "../../state/index.js";
 import {
   checkResource,
@@ -113,6 +114,10 @@ $Page(PAGE_ID, {
     this.$off("theme", this.setTheme);
   },
 
+  goToSettings() {
+    this.$go("settings");
+  },
+
   setTheme(theme: string): void {
     this.setData({ color: getPageColor(this.data.page.grey), theme });
   },
@@ -144,4 +149,6 @@ $Page(PAGE_ID, {
       );
     }
   },
+
+  reportUserInfo,
 });
