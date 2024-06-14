@@ -8,7 +8,7 @@ import type {
 import type { App } from "../../app.js";
 import { DAY, appCoverPrefix } from "../../config/index.js";
 import { searchMiniApp } from "../../service/index.js";
-import { getIdentity, info } from "../../state/index.js";
+import { getIdentity, info, menuSpace } from "../../state/index.js";
 import {
   checkResource,
   getJson,
@@ -32,13 +32,11 @@ const defaultData = get<IntroData | undefined>(PAGE_ID);
 $Page(PAGE_ID, {
   data: {
     theme: info.theme,
-
     statusBarHeight: info.statusBarHeight,
+    menuSpace,
 
     /** 候选词 */
     words: [] as string[],
-
-    menuSpace: info.platform === "android" || info.platform === "ios" ? 90 : 10,
 
     /** 页面数据 */
     page: {

@@ -9,7 +9,7 @@ import {
   appName,
 } from "../../config/index.js";
 import { searchMiniApp } from "../../service/index.js";
-import { getIdentity, info } from "../../state/index.js";
+import { getIdentity, info, menuSpace } from "../../state/index.js";
 import {
   checkResource,
   getPageColor,
@@ -39,14 +39,13 @@ $Page(PAGE_ID, {
   data: {
     theme: info.theme,
     statusBarHeight: info.statusBarHeight,
-    id: getIdentity().id,
+    menuSpace,
 
     /** 候选词 */
     words: [] as string[],
 
+    id: getIdentity().id,
     page: defaultPage,
-
-    menuSpace: info.platform === "android" || info.platform === "ios" ? 90 : 10,
   },
 
   onLoad() {

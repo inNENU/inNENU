@@ -27,6 +27,11 @@ export const envName = env === "app" ? "App" : "小程序";
 export const logo =
   env === "qq" ? `${assets}img/inNENU.png` : "/frameset/placeholder.png";
 
+export const platform = systemInfo.platform;
+
+export const menuSpace =
+  (platform === "android" || platform === "ios") && env !== "app" ? 90 : 10;
+
 export interface InfoState extends Omit<WechatMiniprogram.SystemInfo, "theme"> {
   /** 夜间模式 */
   darkmode: boolean;

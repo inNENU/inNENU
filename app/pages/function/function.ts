@@ -4,7 +4,7 @@ import type { PageStateWithContent } from "../../../typings/index.js";
 import type { App } from "../../app.js";
 import { DAY, appCoverPrefix } from "../../config/index.js";
 import { searchMiniApp } from "../../service/index.js";
-import { getIdentity, info } from "../../state/index.js";
+import { getIdentity, info, menuSpace } from "../../state/index.js";
 import {
   checkResource,
   getPageColor,
@@ -33,11 +33,10 @@ $Page(PAGE_ID, {
   data: {
     theme: info.theme,
     statusBarHeight: info.statusBarHeight,
+    menuSpace,
 
     /** 页面数据 */
     page: defaultPage,
-
-    menuSpace: info.platform === "android" || info.platform === "ios" ? 90 : 10,
   },
 
   onPreload() {
