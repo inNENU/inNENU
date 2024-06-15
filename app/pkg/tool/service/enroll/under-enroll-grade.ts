@@ -279,7 +279,7 @@ const getUnderEnrollGradeOnline = async <T extends UnderEnrollGradeOptions>(
   }).then(({ data }) => data);
 
 export const getUnderEnrollGrade = createService(
-  "under-history-grade",
+  "under-enroll-grade",
   getUnderEnrollGradeLocal,
   getUnderEnrollGradeOnline,
 );

@@ -48,7 +48,13 @@
         "pages/weather/weather",
         "pages/website/website",
         "pages/wechat/wechat"
-      ]
+      ],
+      "plugins": {
+        "player": {
+          "version": "latest",
+          "provider": "wxa75efa648b60994b"
+        }
+      }
     },
     {
       "name": "user",

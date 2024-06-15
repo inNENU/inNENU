@@ -152,7 +152,7 @@ $Page(PAGE_ID, {
   },
 
   createStudentArchive() {
-    this.$go("under-create-archive");
+    this.$go("under-archive-create");
   },
 
   handleExpired(content: string) {

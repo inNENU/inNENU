@@ -505,7 +505,7 @@ const underStudyCourseCommentaryOnline = async <
   }).then(({ data }) => data);
 
 export const underStudyCourseCommentary = createService(
-  "under-course-commentary",
+  "under-commentary",
   underStudyCourseCommentaryLocal,
   underStudyCourseCommentaryOnline,
 );
