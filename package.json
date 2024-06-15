@@ -20,10 +20,11 @@
   "scripts": {
     "build:app": "gulp -f gulpfile.cjs buildApp",
     "build:qq": "gulp -f gulpfile.cjs buildQQ",
-    "build:qy": "gulp -f gulpfile.cjs buildNenuyouth",
+    "build:we": "gulp -f gulpfile.cjs buildWeNENU",
     "build:wx": "gulp -f gulpfile.cjs buildWechat",
     "bundle:app": "gulp -f gulpfile.cjs bundleApp && tsx scripts/bundle.ts",
     "bundle:qq": "gulp -f gulpfile.cjs bundleQQ && tsx scripts/bundle.ts",
+    "bundle:we": "gulp -f gulpfile.cjs bundleWeNENU && tsx scripts/bundle.ts",
     "bundle:wx": "gulp -f gulpfile.cjs bundleWechat && tsx scripts/bundle.ts",
     "changelog": "standard-version --skip.bump --skip.commit --skip.tag",
     "clean": "tsx scripts/del.js",

@@ -1,6 +1,5 @@
 import { $Page } from "@mptool/all";
 
-import { size } from "./size.js";
 import type {
   FunctionalListComponentConfig,
   PageStateWithContent,
@@ -8,7 +7,7 @@ import type {
 } from "../../../../../typings/index.js";
 import { confirmAction, showModal } from "../../../../api/index.js";
 import { defaultResources, downloadResource } from "../../../../app/index.js";
-import { version } from "../../../../config/index.js";
+import { size, version } from "../../../../config/index.js";
 import { supportRedirect } from "../../../../service/index.js";
 import { envName, info, updateTheme } from "../../../../state/index.js";
 import {

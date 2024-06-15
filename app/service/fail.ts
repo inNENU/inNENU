@@ -1,8 +1,8 @@
 import type { AuthLoginFailedResponse } from "./auth/index.js";
 import { LoginFailType } from "./loginFailTypes.js";
 import type { CommonFailedResponse } from "../../typings/index.js";
-import { getCurrentRoute, showToast } from "../api/index.js";
-import { logout } from "../utils/index.js";
+import { cookieStore, getCurrentRoute, showToast } from "../api/index.js";
+import { clearUserInfo } from "../state/index.js";
 
 export const handleFailResponse = (
   response: AuthLoginFailedResponse | CommonFailedResponse,
@@ -15,7 +15,8 @@ export const handleFailResponse = (
       LoginFailType.BlackList,
     ].includes(response.type)
   ) {
-    logout();
+    cookieStore.clear();
+    clearUserInfo();
     showToast("需要重新登录");
 
     if (getCurrentRoute() !== "/pkg/user/pages/account/login")

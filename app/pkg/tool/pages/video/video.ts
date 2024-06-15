@@ -40,8 +40,9 @@ $Page("video", {
       let groupID = 0;
       let listID = 0;
       const videoList =
-        // @ts-expect-error: The import can be changed by build target
-        appName === "东师青年+"
+        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+        // @ts-ignore: The import can be changed by build target
+        appName === "weNENU"
           ? list
           : list
               .map((category) => ({

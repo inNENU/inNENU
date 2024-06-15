@@ -188,12 +188,12 @@ $Page(PAGE_ID, {
   },
 
   /**
-   * 输入密码时出发的函数
+   * 接管密码输入
    * 用于判断密码是否正确并启用开发者模式
    *
    * @param event 输入事件
    */
-  password(event: WechatMiniprogram.Input) {
+  onInput(event: WechatMiniprogram.Input) {
     if (event.detail.value.length === 7) {
       // 密码正确
       if (event.detail.value === "5201314") {

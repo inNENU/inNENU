@@ -1,0 +1,23 @@
+{
+  "extends": "./tsconfig.base.json",
+  "compilerOptions": {
+    "allowJs": true,
+    "importHelpers": true,
+    "target": "ESNext",
+    "module": "ESNext",
+    "moduleResolution": "NodeNext",
+    "outDir": "dist",
+    "moduleSuffixes": ["", ".wx", ".qy", ".qq", ".app"],
+    "types": ["miniprogram-api-typings"]
+  },
+  "include": [
+    ".temp/**/*.ts",
+    "app/**/*.ts",
+    "app/**/*.wxs",
+    "scripts/**/*.ts",
+    "typings/**/*.ts",
+    "commitlint.config.ts",
+    "eslint.config.js",
+    "gulpfile.cjs"
+  ]
+}
