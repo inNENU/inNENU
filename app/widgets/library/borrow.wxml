@@ -1,3 +1,4 @@
+<!-- Note: QQ does not support relative paths in wxs src. -->
 <wxs src="../../utils/helper.wxs" module="helper" />
 <view class="borrow-books widget wrapper-class">
   <view class="widget-header">

@@ -12,9 +12,9 @@
     <!-- 名称 -->
     <text class="account-name">{{config.name}}</text>
     <!-- 详情 -->
-    <text wx:if="{{config.detail}}" class="account-detail">
-      {{config.detail}}
-    </text>
+    <text wx:if="{{config.detail}}" class="account-detail"
+      >{{config.detail}}</text
+    >
     <!-- 描述 -->
     <text wx:if="{{config.desc}}" class="account-description border-top"
       >{{config.desc}}</text
@@ -36,7 +36,7 @@
         class="account-action"
         hover-class="button-hover"
         hover-stay-time="100"
-        data-url="{{'wechat-detail?path=' + config.account}}"
+        data-url="{{'wechat?path=' + config.account}}"
         catch:tap="$bindGo"
       >
         <image class="icon" src="/icon/wechat.svg" />

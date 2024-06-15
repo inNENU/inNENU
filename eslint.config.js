@@ -137,7 +137,7 @@ export default config(
   },
 
   {
-    files: ["scripts/**.js", "gulpfile.cjs"],
+    files: ["scripts/**/*.js", "gulpfile.cjs"],
     languageOptions: {
       globals: globals.node,
     },

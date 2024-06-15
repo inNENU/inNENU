@@ -6,7 +6,7 @@ import { addPhoneContact, copyContent, showToast } from "../../api/index.js";
 import { env } from "../../state/index.js";
 
 $Component({
-  properties: {
+  props: {
     /** 电话组件配置 */
     config: {
       type: Object as PropType<PhoneComponentOptions>,

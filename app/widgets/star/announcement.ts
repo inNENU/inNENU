@@ -7,7 +7,7 @@ import type { WidgetSize } from "../utils.js";
 import { getSize } from "../utils.js";
 
 $Component({
-  properties: {
+  props: {
     type: {
       type: String as PropType<"公告收藏 (小)" | "公告收藏" | "公告收藏 (大)">,
       default: "公告收藏",
@@ -57,7 +57,7 @@ $Component({
       const { index } = currentTarget.dataset;
       const { title, url } = announcements[index];
 
-      return this.$go(`announcement-detail?title=${title}&url=${url}`);
+      return this.$go(`official-notice-detail?title=${title}&url=${url}`);
     },
   },
 

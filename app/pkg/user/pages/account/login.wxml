@@ -1,0 +1,118 @@
+<page-meta
+  background-text-style="{{darkmode ? 'dark' : 'light'}}"
+  background-color="{{color.bgColor}}"
+  background-color-top="{{color.bgColorTop}}"
+  background-color-bottom="{{color.bgColorBottom}}"
+  root-background-color="{{color.bgColor}}"
+/>
+<view class="account {{theme}}">
+  <navbar nav="{{nav}}" />
+  <view class="content">
+    <image src="{{logo}}" class="logo" />
+    <block wx:if="{{isSaved}}">
+      <title config="{{ { text: '个人信息' } }}" />
+      <list config="{{list}}" />
+      <button class="delete-button warn" type="warn" catch:tap="delete">
+        <text>删除全部信息</text>
+      </button>
+    </block>
+    <block wx:else>
+      <view class="input-list-wrapper">
+        <view class="input-list-item">
+          <view class="text">学号</view>
+          <input
+            id="id"
+            class="input"
+            type="digit"
+            adjust-position="{{false}}"
+            placeholder="10 位数字"
+            value="{{id}}"
+            bindinput="input"
+          />
+        </view>
+        <view class="input-list-item">
+          <view class="text">密码</view>
+          <input
+            wx:if="{{showPassword}}"
+            id="password"
+            class="input"
+            type="text"
+            adjust-position="{{false}}"
+            placeholder="统一身份认证密码"
+            value="{{password}}"
+            bindinput="input"
+          />
+          <input
+            id="password"
+            wx:else
+            class="input"
+            type="password"
+            adjust-position="{{false}}"
+            placeholder="统一身份认证密码"
+            value="{{password}}"
+            bindinput="input"
+          />
+          <button
+            type="default"
+            class="password-button"
+            catch:tap="togglePassword"
+          >
+            {{showPassword? '隐藏': '显示'}}
+          </button>
+        </view>
+        <view wx:if="{{captchaContent}}" class="input-list-item">
+          <view class="text">验证码</view>
+          <input
+            id="captcha"
+            class="input"
+            type="text"
+            adjust-position="{{false}}"
+            placeholder="验证码"
+            value="{{captcha}}"
+            bindinput="input"
+          />
+          <image
+            class="captcha-image"
+            src="{{captchaContent}}"
+            catch:tap="init"
+          />
+        </view>
+      </view>
+      <view class="license-checkbox">
+        <view
+          class="check-box{{accept? ' checked': ''}}"
+          catch:tap="acceptLicense"
+        ></view
+        >我已阅读并同意<text
+          class="license-text"
+          data-url="license?type=license"
+          catch:tap="$bindGo"
+          >《用户协议》</text
+        >
+      </view>
+      <button type="primary" class="save-button primary" catch:tap="save">
+        验证并本地保存
+      </button>
+      <view class="actions">
+        <view
+          class="activate-button"
+          hover-class="button-hover"
+          data-url="account-activate"
+          catch:tap="$bindGo"
+        >
+          账号激活
+        </view>
+
+        <view
+          class="reset-button"
+          hover-class="button-hover"
+          data-url="account-reset"
+          catch:tap="$bindGo"
+        >
+          忘记密码?
+        </view>
+      </view>
+    </block>
+  </view>
+  <footer config="{{footer}}" />
+</view>

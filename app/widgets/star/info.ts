@@ -8,7 +8,7 @@ import type { WidgetSize } from "../utils.js";
 import { getSize } from "../utils.js";
 
 $Component({
-  properties: {
+  props: {
     type: {
       type: String as PropType<"官网收藏 (小)" | "官网收藏" | "官网收藏 (大)">,
       default: "官网收藏",
@@ -68,7 +68,9 @@ $Component({
       const { index } = currentTarget.dataset;
       const { title, url, type } = infos[index];
 
-      return this.$go(`info-detail?title=${title}&type=${type}&url=${url}`);
+      return this.$go(
+        `official-info-detail?title=${title}&type=${type}&url=${url}`,
+      );
     },
   },
 

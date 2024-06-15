@@ -1,6 +1,6 @@
 <view
   class="recent-info widget {{size}} wrapper-class"
-  data-url="info-list"
+  data-url="official-info-list?type={{infoType}}"
   catch:tap="$bindGo"
 >
   <view class="widget-header">

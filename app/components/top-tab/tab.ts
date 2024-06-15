@@ -1,10 +1,12 @@
+import { $Component } from "@mptool/all";
+
 import { info } from "../../state/index.js";
 
-Component({
-  properties: {
-    navList: { type: Array, value: [] },
+$Component({
+  props: {
+    navList: { type: Array, default: [] },
     /** 是否立即更改还是等动画完成之后再进行更改 */
-    immediate: { type: Boolean, value: true },
+    immediate: { type: Boolean, default: true },
     height: { type: Number, default: 200 },
   },
 
@@ -21,7 +23,7 @@ Component({
     },
 
     change({ detail }: WechatMiniprogram.SwiperChange): void {
-      if (this.properties.immediate) this.setData({ current: detail.current });
+      if (this.data.immediate) this.setData({ current: detail.current });
     },
 
     // 设置指示条动画

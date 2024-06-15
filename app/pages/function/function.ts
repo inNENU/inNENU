@@ -1,12 +1,12 @@
 import { $Page, get, put, set, take } from "@mptool/all";
 
 import type { PageStateWithContent } from "../../../typings/index.js";
+import { checkResource } from "../../app/index.js";
 import type { App } from "../../app.js";
 import { DAY, appCoverPrefix } from "../../config/index.js";
 import { searchMiniApp } from "../../service/index.js";
 import { getIdentity, info, menuSpace } from "../../state/index.js";
 import {
-  checkResource,
   getPageColor,
   resolvePage,
   setPage,
@@ -79,10 +79,7 @@ $Page(PAGE_ID, {
   // eslint-disable-next-line @typescript-eslint/no-empty-function
   onPageScroll() {},
 
-  onShareAppMessage: () => ({
-    title: PAGE_TITLE,
-    path: "/pages/function/function",
-  }),
+  onShareAppMessage: () => ({ title: PAGE_TITLE }),
 
   onShareTimeline: () => ({ title: PAGE_TITLE }),
 

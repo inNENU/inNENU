@@ -22,7 +22,7 @@ interface Mail extends Exclude<EmailItem, "receivedDate"> {
 let loginMethod: "check" | "login" = "check";
 
 $Component({
-  properties: {
+  props: {
     type: {
       type: String as PropType<
         "未读邮件 (小)" | "最近邮件 (小)" | "最近邮件" | "最近邮件 (大)"
@@ -131,7 +131,7 @@ $Component({
     >) {
       const { status } = this.data;
 
-      if (status === "error") return this.$go("email");
+      if (status === "error") return this.$go("email-recent");
 
       const { mid } = currentTarget.dataset;
 

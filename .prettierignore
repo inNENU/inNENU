@@ -1,9 +1,9 @@
 .temp/**
 **/node_modules/**
 
-app/function/music/music.wxs
-app/function/utils/encoder.js
+app/pkg/tool/pages/music/music.wxs
 app/service/auth/encrypt.js
+app/service/auth/encrypt.qq.js
 
 dist/**
 

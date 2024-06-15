@@ -1,16 +1,19 @@
-import { get, set } from "@mptool/all";
+import { $Component, get, set } from "@mptool/all";
 
 import { MONTH } from "../../config/index.js";
 import { info } from "../../state/index.js";
 
 const KEY = "add-miniprogram-hint";
 
-Component({
-  properties: {
+$Component({
+  props: {
     /** 提示文字 */
-    text: { type: String, value: "点击「添加小程序」，下次访问更便捷" },
+    text: {
+      type: String,
+      default: "点击「添加小程序」，下次访问更便捷",
+    },
     /** 关闭延时，单位 ms，默认 5000 */
-    duration: { type: Number, value: 5000 },
+    duration: { type: Number, default: 5000 },
   },
 
   data: {
@@ -53,7 +56,7 @@ Component({
           // 关闭时间
           setTimeout(() => {
             this.setData({ display: false });
-          }, this.properties.duration);
+          }, this.data.duration);
         }
       }
     },

@@ -5,7 +5,7 @@ import type { PopupConfig } from "./typings.js";
 import { getWindowInfo } from "../../api/index.js";
 
 $Component({
-  properties: {
+  props: {
     config: {
       type: Object as PropType<PopupConfig>,
       required: true,

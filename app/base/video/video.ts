@@ -5,7 +5,7 @@ import type { VideoComponentOptions } from "../../../typings/index.js";
 import { showToast } from "../../api/index.js";
 
 $Component({
-  properties: {
+  props: {
     /** 媒体组件配置 */
     config: {
       type: Object as PropType<VideoComponentOptions>,

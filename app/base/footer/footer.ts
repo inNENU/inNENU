@@ -7,7 +7,7 @@ import { description } from "../../config/index.js";
 import { env } from "../../state/index.js";
 
 $Component({
-  properties: {
+  props: {
     /** 页脚配置 */
     config: {
       type: Object as PropType<FooterComponentOptions>,

@@ -30,7 +30,7 @@ interface ActionConfig {
 type LinkData = { error: true } | { error: false; link: string };
 
 $Component({
-  properties: {
+  props: {
     config: {
       type: Object as PropType<ShareConfig>,
       default: { id: "" },

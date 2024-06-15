@@ -14,7 +14,7 @@ import type { AccountInfo } from "../../state/index.js";
 import { LoginFailType } from "../loginFailTypes.js";
 import { createService, supportRedirect } from "../utils.js";
 
-export interface AuthLoginOptions {
+export interface AuthLoginOptions extends AccountInfo {
   service?: string;
   webVPN?: boolean;
 }
@@ -32,10 +32,12 @@ export type AuthLoginResponse =
   | AuthLoginSuccessResponse
   | AuthLoginFailedResponse;
 
-export const authLoginLocal = async (
-  { id, password }: AccountInfo,
-  { service = "", webVPN = false }: AuthLoginOptions = {},
-): Promise<AuthLoginResponse> => {
+const authLoginLocal = async ({
+  id,
+  password,
+  service = "",
+  webVPN = false,
+}: AuthLoginOptions): Promise<AuthLoginResponse> => {
   // only use local login when redirect is supported
   if (!supportRedirect) return authLoginOnline({ id, password });
 
@@ -162,8 +164,7 @@ export const authLoginLocal = async (
         return {
           success: false,
           type: LoginFailType.NeedCaptcha,
-          // TODO: Update
-          msg: "需要验证码，无法自动登录。请访问学校统一身份认证官网手动登录，成功登录后后即可继续自动登录。",
+          msg: "需要验证码，请重新登录",
         };
 
       if (loginResult.includes("不允许使用认证服务来认证您访问的目标应用。"))
@@ -206,13 +207,12 @@ export const authLoginLocal = async (
   };
 };
 
-const authLoginOnline = async ({
-  id,
-  password,
-}: AccountInfo): Promise<AuthLoginResponse> => {
+const authLoginOnline = async (
+  options: AuthLoginOptions,
+): Promise<AuthLoginResponse> => {
   const { data } = await request<AuthLoginResponse>("/auth/login", {
     method: "POST",
-    body: { id, password },
+    body: options,
     cookieScope: AUTH_SERVER,
   });
 

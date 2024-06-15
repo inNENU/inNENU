@@ -1,0 +1,23 @@
+@import "../../../../styles/lib/widgets";
+
+.library {
+  display: flex;
+  flex-direction: column;
+}
+
+.content {
+  flex: 1;
+}
+
+.library-people {
+  overflow: hidden;
+
+  max-width: 517px;
+  margin: 12px 15px;
+  padding: 8px 12px;
+  border-radius: 8px;
+
+  @media (min-width: 630px) {
+    margin: 12px auto;
+  }
+}

@@ -1,0 +1,47 @@
+@import "../../../../styles/lib/icon";
+
+.announcement-wrapper {
+  display: flex;
+  flex-direction: column;
+}
+
+.announcement-list {
+  flex: 1;
+  padding: 6px 0;
+}
+
+.announcement-item {
+  overflow: hidden;
+
+  margin: 8px 15px;
+  padding: 8px;
+  border-radius: 8px;
+
+  background-color: var(--bg-color-block);
+
+  text-align: left;
+}
+
+.button-hover {
+  background-color: var(--bg-hover) !important;
+}
+
+.title {
+  font-size: 16px;
+  line-height: 1.25;
+}
+
+.person {
+  margin-top: 4px;
+  font-size: 15px;
+  line-height: 1.5;
+}
+
+.info {
+  margin-top: 4px;
+  font-size: 14px;
+
+  .icon-font {
+    margin: 0 2px;
+  }
+}

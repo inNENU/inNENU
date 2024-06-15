@@ -1,16 +1,15 @@
+import { compareVersion } from "../app/index.js";
 import type { App } from "../app.js";
 import { env, info } from "../state/index.js";
 
 // 获取 SDK 版本
-const [major, minor, patch] = (wx.getAppBaseInfo || wx.getSystemInfoSync)()
-  .SDKVersion.split(".")
-  .map(Number);
+const { SDKVersion } = (wx.getAppBaseInfo || wx.getSystemInfoSync)();
 
 /** 是否支持 redirect manual */
 export const supportRedirect =
   env === "wx" &&
   ["android", "ios"].includes(info.platform) &&
-  (major > 3 || (major === 3 && (minor > 2 || (minor === 2 && patch >= 2))));
+  compareVersion(SDKVersion, "3.2.2") > 0;
 
 /*@__NO_SIDE_EFFECTS__*/
 export const createService =

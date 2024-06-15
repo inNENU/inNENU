@@ -15,7 +15,7 @@ const checkGroupApp = (): void => {
               if (!isExisted)
                 showModal("尊敬的管理员", "请考虑添加小程序到群应用!", () => {
                   wx.navigateTo({
-                    url: "/pages/action/action?action=addGroupApp",
+                    url: "/pkg/addon/pages/action/action?action=addGroupApp",
                   });
                 });
             },

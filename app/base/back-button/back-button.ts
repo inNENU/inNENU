@@ -3,7 +3,7 @@ import { $Component } from "@mptool/all";
 import { info } from "../../state/index.js";
 
 $Component({
-  properties: {
+  props: {
     icon: String,
     action: String,
   },
@@ -34,8 +34,8 @@ $Component({
     },
 
     onTap() {
-      if (this.properties.action) {
-        this.$call(this.properties.action);
+      if (this.data.action) {
+        this.$call(this.data.action);
       } else {
         this.$back();
       }

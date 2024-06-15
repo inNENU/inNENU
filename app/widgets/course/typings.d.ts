@@ -12,7 +12,7 @@ export type CellData = ClassData[];
 export type RowData = CellData[];
 export type TableData = RowData[];
 
-export interface CourseTableData {
+export interface CourseTableInfo {
   courseData: TableData;
   weeks: number;
   startTime: string;

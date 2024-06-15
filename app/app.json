@@ -6,65 +6,95 @@
     "pages/guide/guide",
     "pages/intro/intro",
     "pages/user/user",
-    "pages/info/info",
-    "pages/search/search",
-    "pages/account/account",
-    "pages/action/action",
-    "pages/web/web",
-    "pages/about/about",
-    "pages/license/license",
-    "pages/privacy/privacy",
-    "pages/settings/settings",
-    "pages/settings/widget"
+    "pages/info/info"
   ],
   "subPackages": [
     {
-      "root": "function",
+      "name": "addon",
+      "root": "pkg/addon",
       "pages": [
-        "academic/detail",
-        "academic/list",
-        "activate/activate",
-        "announcement/detail",
-        "announcement/list",
-        "archive/create",
-        "archive/view",
-        "calendar/calendar",
-        "course/change-major",
-        "course/commentary",
-        "course/exam-place",
-        "course/table",
-        "grade/special",
-        "grade/grade",
-        "email/apply",
-        "email/email",
-        "enroll/admission",
-        "enroll/under-grade",
-        "enroll/post-plan",
-        "enroll/under-plan",
-        "info/detail",
-        "info/list",
-        "library/library",
-        "location/location",
-        "map/map",
-        "music/music",
-        "notice/detail",
-        "notice/list",
-        "pe-calculator/pe-calculator",
-        "phone/phone",
-        "reset/reset",
-        "select/select",
-        "school-media/school-media",
-        "school-media/wechat",
-        "video/video",
-        "weather/weather",
-        "website/website"
+        "pages/about/about",
+        "pages/action/action",
+        "pages/license/license",
+        "pages/privacy/privacy",
+        "pages/search/search",
+        "pages/settings/settings",
+        "pages/settings/widget",
+        "pages/web/web"
+      ]
+    },
+    {
+      "name": "tool",
+      "root": "pkg/tool",
+      "pages": [
+        "pages/admission/admission",
+        "pages/calendar/calendar",
+        "pages/enroll/grade-under",
+        "pages/enroll/plan-grad",
+        "pages/enroll/plan-under",
+        "pages/official/academic-detail",
+        "pages/official/academic-list",
+        "pages/official/info-detail",
+        "pages/official/info-list",
+        "pages/official/notice-detail",
+        "pages/official/notice-list",
+        "pages/map/detail",
+        "pages/map/map",
+        "pages/music/music",
+        "pages/pe-calculator/pe-calculator",
+        "pages/phone/phone",
+        "pages/school-media/school-media",
+        "pages/video/video",
+        "pages/weather/weather",
+        "pages/website/website",
+        "pages/wechat/wechat"
+      ]
+    },
+    {
+      "name": "user",
+      "root": "pkg/user",
+      "pages": [
+        "pages/account/activate",
+        "pages/account/login",
+        "pages/account/reset",
+        "pages/archive/create-under",
+        "pages/archive/view-under",
+        "pages/commentary/under",
+        "pages/grade/grade",
+        "pages/grade/special",
+        "pages/email/apply",
+        "pages/email/recent",
+        "pages/library/library",
+        "pages/notice/detail",
+        "pages/notice/list",
+        "pages/select/select",
+
+        "pages/change-major/change-major",
+        "pages/course-table/course-table",
+        "pages/exam-place/exam-place"
       ]
     }
   ],
   "preloadRule": {
+    "pages/main/main": {
+      "network": "all",
+      "packages": ["addon"]
+    },
+    "pages/guide/guide": {
+      "network": "all",
+      "packages": ["addon"]
+    },
+    "pages/intro/intro": {
+      "network": "all",
+      "packages": ["addon"]
+    },
     "pages/function/function": {
       "network": "all",
-      "packages": ["function"]
+      "packages": ["addon", "tool", "user"]
+    },
+    "pages/user/user": {
+      "network": "all",
+      "packages": ["addon", "user"]
     }
   },
   "plugins": {
@@ -132,6 +162,7 @@
       "desc": "您的位置信息将用于校园地图导航"
     }
   },
+  "requiredBackgroundModes": ["audio"],
   "usingComponents": {
     "account": "/base/account/account",
     "audio-player": "/base/audio/audio",
@@ -160,7 +191,6 @@
   "themeLocation": "styles/theme.json",
   "sitemapLocation": "sitemap.json",
   "lazyCodeLoading": "requiredComponents",
-  "requiredBackgroundModes": ["audio"],
   "requiredPrivateInfos": ["getLocation"],
   "singlePage": {
     "navigationBarFit": "float"

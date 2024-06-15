@@ -1,0 +1,51 @@
+<!-- Note: QQ does not support relative paths in wxs src. -->
+<wxs src="../../../../utils/star-button.wxs" module="starButton" />
+<page-meta
+  background-text-style="{{darkmode ? 'dark': 'light'}}"
+  background-color="{{color.bgColor}}"
+  background-color-top="{{color.bgColorTop}}"
+  background-color-bottom="{{color.bgColorBottom}}"
+  root-background-color="{{color.bgColor}}"
+/>
+<view class="{{theme}} academic-detail">
+  <navbar nav="{{ { title: pageTitle } }}" />
+  <view class="title">{{title}}</view>
+  <error-hint wx:if="{{ status === 'error' }}" catch:retry="getInfo" />
+  <login-hint wx:elif="{{ status === 'login' }}" source="{{pageTitle}}" />
+
+  <!-- 内容 -->
+  <view wx:if="{{content}}" class="content">
+    <!-- 信息 -->
+    <view class="info">
+      <!-- 时间 -->
+      <text class="time">
+        <text class="icon-font icon-time" />
+        <text>{{time}}</text>
+      </text>
+
+      <!-- 访问量 -->
+      <text class="eye">
+        <text class="icon-font icon-eye" />
+        <text>{{pageView}}</text>
+      </text>
+    </view>
+    <rich-text class="rich-media" nodes="{{content}}" space="nbsp" />
+  </view>
+
+  <!-- 星标按钮 -->
+  <view
+    class="star-button"
+    size="mini"
+    catch:touchstart="{{starButton.moveStarButton}}"
+    catch:touchmove="{{starButton.moveStarButton}}"
+    catch:touchend="{{starButton.moveStarButton}}"
+  >
+    <view class="icon {{starred? 'starred': ''}}" />
+  </view>
+
+  <!-- 分享按钮 -->
+  <share wx:if="{{share}}" config="{{share}}" />
+
+  <!-- 页脚 -->
+  <footer />
+</view>

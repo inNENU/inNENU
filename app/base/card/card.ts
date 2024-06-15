@@ -6,7 +6,7 @@ import { copyContent, showModal } from "../../api/index.js";
 import { env } from "../../state/index.js";
 
 $Component({
-  properties: {
+  props: {
     config: {
       type: Object as PropType<CardComponentOptions>,
       required: true,

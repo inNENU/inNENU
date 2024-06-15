@@ -4,7 +4,7 @@ import { server } from "./server.js";
 export const appName = "inNENU";
 export const description = "在东师，就用 inNENU";
 /** 小程序版本 */
-export const version = "6.9.2";
+export const version = "6.9.3";
 
 export const appCoverPrefix = `${server}img/in-NENU`;
 export const imageWaterMark =

@@ -5,7 +5,7 @@ import type { PhoneComponentOptions } from "../../../typings/index.js";
 import { copyContent, showToast } from "../../api/index.js";
 
 $Component({
-  properties: {
+  props: {
     /** 电话组件配置 */
     config: {
       type: Object as PropType<PhoneComponentOptions>,

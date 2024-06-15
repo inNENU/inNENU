@@ -1,5 +1,7 @@
-Component({
-  properties: {
+import { $Component } from "@mptool/all";
+
+$Component({
+  props: {
     size: {
       type: String,
       default: "standard",

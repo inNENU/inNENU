@@ -8,7 +8,7 @@ import { user } from "../../state/index.js";
 import { getSize } from "../utils.js";
 
 $Component({
-  properties: {
+  props: {
     type: {
       type: String as PropType<"校园卡余额 (小)">,
       default: "校园卡余额 (小)",

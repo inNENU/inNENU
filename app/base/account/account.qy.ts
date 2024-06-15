@@ -11,7 +11,7 @@ import {
 import { startNavigation } from "../../utils/index.js";
 
 $Component({
-  properties: {
+  props: {
     /** 介绍组件配置 */
     config: {
       type: Object as PropType<AccountComponentOptions>,
@@ -38,7 +38,7 @@ $Component({
     addWechat(): void {
       const { account, wxid, wxcode } = this.data.config;
 
-      if (account) this.$go(`wechat-detail?path=${account}`);
+      if (account) this.$go(`wechat?path=${account}`);
       else if (wxcode)
         savePhoto(wxcode)
           .then(() => showToast("二维码已存至相册"))

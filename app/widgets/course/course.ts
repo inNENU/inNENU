@@ -1,14 +1,14 @@
 import type { PropType } from "@mptool/all";
 import { $Component, get } from "@mptool/all";
 
-import type { ClassData, CourseTableData, TableData } from "./typings.js";
+import type { ClassData, CourseTableInfo, TableData } from "./typings.js";
 import { getCurrentTimeCode, getWeekIndex } from "./utils.js";
 import { showModal } from "../../api/index.js";
 import { COURSE_DATA_KEY } from "../../config/index.js";
 import { getSize } from "../utils.js";
 
 $Component({
-  properties: {
+  props: {
     type: {
       type: String as PropType<
         "今日课程 (小)" | "下节课程 (小)" | "今日课程" | "课程表 (大)"
@@ -35,7 +35,7 @@ $Component({
   methods: {
     init() {
       const { type } = this.data;
-      const coursesData = get<Record<string, CourseTableData>>(COURSE_DATA_KEY);
+      const coursesData = get<Record<string, CourseTableInfo>>(COURSE_DATA_KEY);
       const time = getCurrentTimeCode();
 
       if (coursesData?.[time]) {

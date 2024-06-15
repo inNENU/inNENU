@@ -88,8 +88,8 @@ export const startup = (globalData: GlobalData): void => {
   registerActions();
   login(({ openid, inBlacklist }) => {
     setOpenid(openid);
-    if (inBlacklist && getCurrentRoute() !== "pages/action/action")
-      wx.reLaunch({ url: "/pages/action/action?action=blacklist" });
+    if (inBlacklist && getCurrentRoute() !== "pkg/addon/pages/action/action")
+      wx.reLaunch({ url: "/pkg/addon/pages/action/action?action=blacklist" });
   });
   platformActions(globalData);
   updateApp();

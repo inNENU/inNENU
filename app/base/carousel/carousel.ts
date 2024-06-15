@@ -4,7 +4,7 @@ import { $Component } from "@mptool/all";
 import type { CarouselComponentOptions } from "../../../typings/index.js";
 
 $Component({
-  properties: {
+  props: {
     config: {
       type: Object as PropType<CarouselComponentOptions>,
       required: true,

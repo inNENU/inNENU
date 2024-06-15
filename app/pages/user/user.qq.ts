@@ -2,6 +2,7 @@ import { $Page, get, put, set, take } from "@mptool/all";
 
 import { footer } from "./info.js";
 import type { PageStateWithContent } from "../../../typings/index.js";
+import { checkResource } from "../../app/index.js";
 import type { App } from "../../app.js";
 import {
   DAY,
@@ -12,7 +13,6 @@ import {
 } from "../../config/index.js";
 import { info, user } from "../../state/index.js";
 import {
-  checkResource,
   getPageColor,
   resolvePage,
   setPage,

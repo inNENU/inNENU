@@ -5,7 +5,7 @@ import type { TableComponentOptions } from "../../../typings/index.js";
 import { info } from "../../state/index.js";
 
 $Component({
-  properties: {
+  props: {
     /** 表格配置 */
     config: {
       type: Object as PropType<TableComponentOptions>,

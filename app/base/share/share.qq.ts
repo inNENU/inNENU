@@ -23,7 +23,7 @@ interface ActionConfig {
 }
 
 $Component({
-  properties: {
+  props: {
     config: {
       type: Object as PropType<ShareConfig>,
       default: { id: "" },

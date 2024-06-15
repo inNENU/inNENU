@@ -18,7 +18,7 @@
       hover-class="button-hover"
       hover-start-time="0"
       hover-stay-time="0"
-      data-url="account"
+      data-url="account-login"
       catch:tap="$bindGo"
     >
       <image class="avatar" src="{{logo}}" />

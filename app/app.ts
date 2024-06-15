@@ -3,6 +3,7 @@ import { $App, $Config, wrapFunction } from "@mptool/all";
 
 import type { GlobalData } from "./app/index.js";
 import {
+  checkResource,
   globalData,
   initializeApp,
   startup,
@@ -11,7 +12,6 @@ import {
 } from "./app/index.js";
 import { INITIALIZED_KEY } from "./config/index.js";
 import { info } from "./state/index.js";
-import { checkResource } from "./utils/index.js";
 
 export interface App {
   globalData: GlobalData;
@@ -19,53 +19,67 @@ export interface App {
 
 $Config({
   home: "/pages/main/main",
-  defaultRoute: "/pages/$name/$name",
-  routes: [
-    [
+
+  getPath: (pageName) => {
+    // handle main package
+    if (
+      ["main", "function", "guide", "intro", "user", "info"].includes(pageName)
+    )
+      return `/pages/${pageName}/${pageName}`;
+
+    // handle addon sub package
+    if (
       [
-        "activate",
+        "about",
+        "action",
+        "license",
+        "privacy",
+        "search",
+        "settings",
+        "web",
+      ].includes(pageName)
+    )
+      return `/pkg/addon/pages/${pageName}/${pageName}`;
+    if (pageName === "widget-settings")
+      return `/pkg/addon/pages/widget/settings`;
+
+    // handle multi-word path in account sub package
+    if (["change-major", "course-table", "exam-place"].includes(pageName))
+      return `/pkg/user/pages/${pageName}/${pageName}`;
+
+    // handle info sub package
+    if (
+      [
         "admission",
         "calendar",
-        "email",
-        "grade",
-        "library",
-        "location",
         "map",
         "music",
         "pe-calculator",
         "phone",
-        "reset",
         "school-media",
-        "select",
         "video",
         "weather",
         "website",
-      ],
-      "/function/$name/$name",
-    ],
-    ["academic-detail", "/function/academic/detail"],
-    ["academic-list", "/function/academic/list"],
-    ["announcement-detail", "/function/announcement/detail"],
-    ["announcement-list", "/function/announcement/list"],
-    ["create-archive", "/function/archive/create"],
-    ["view-archive", "/function/archive/view"],
-    ["change-major-plan", "/function/course/change-major"],
-    ["course-table", "/function/course/table"],
-    ["exam-place", "/function/course/exam-place"],
-    ["special-exam", "/function/grade/special"],
-    ["apply-email", "/function/email/apply"],
-    ["admission", "/function/enroll/admission"],
-    ["post-enroll-plan", "/function/enroll/post-plan"],
-    ["under-course-commentary", "/function/course/commentary"],
-    ["under-enroll-plan", "/function/enroll/under-plan"],
-    ["under-history-grade", "/function/enroll/under-grade"],
-    ["info-detail", "/function/info/detail"],
-    ["info-list", "/function/info/list"],
-    ["notice-detail", "/function/notice/detail"],
-    ["notice-list", "/function/notice/list"],
-    ["wechat-detail", "/function/school-media/wechat"],
-    ["widget-settings", "/pages/settings/widget"],
-  ],
+        "wechat",
+      ].includes(pageName)
+    )
+      return `/pkg/tool/pages/${pageName}/${pageName}`;
+
+    const name = pageName.startsWith("under-")
+      ? pageName.slice(6) + "-under"
+      : pageName.startsWith("grad-")
+        ? pageName.slice(5) + "-grad"
+        : pageName;
+
+    const [, dir, file] = name.includes("-")
+      ? /^([^-]+)-(.*)$/.exec(name)!
+      : [null, name, name];
+
+    if (["enroll", "map", "official"].includes(dir))
+      return `/pkg/tool/pages/${dir}/${file}`;
+
+    return `/pkg/user/pages/${dir}/${file}`;
+  },
 
   injectPage: (_name, options) => {
     options.onThemeChange =

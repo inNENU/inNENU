@@ -8,7 +8,7 @@ import type {
 import { info } from "../../state/index.js";
 
 $Component({
-  properties: {
+  props: {
     /** 普通列表配置 */
     config: {
       type: Object as PropType<ListComponentConfig>,

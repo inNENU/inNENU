@@ -8,7 +8,7 @@ import type { WidgetSize } from "../utils.js";
 import { getSize } from "../utils.js";
 
 $Component({
-  properties: {
+  props: {
     type: {
       type: String as PropType<"通知收藏 (小)" | "通知收藏" | "通知收藏 (大)">,
       default: "通知收藏",

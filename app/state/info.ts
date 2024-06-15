@@ -29,8 +29,7 @@ export const logo =
 
 export const platform = systemInfo.platform;
 
-export const menuSpace =
-  (platform === "android" || platform === "ios") && env !== "app" ? 90 : 10;
+export const menuSpace = platform !== "windows" && env !== "app" ? 90 : 10;
 
 export interface InfoState extends Omit<WechatMiniprogram.SystemInfo, "theme"> {
   /** 夜间模式 */

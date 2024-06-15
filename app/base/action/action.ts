@@ -5,7 +5,7 @@ import type { ActionComponentOptions } from "../../../typings/index.js";
 import { copyContent, showModal } from "../../api/index.js";
 
 $Component({
-  properties: {
+  props: {
     /** 配置 */
     config: {
       type: Object as PropType<ActionComponentOptions>,

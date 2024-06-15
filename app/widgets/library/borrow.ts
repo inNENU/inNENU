@@ -8,7 +8,7 @@ import { ensureActionLogin, getBorrowBooks } from "../../service/index.js";
 import { user } from "../../state/index.js";
 
 $Component({
-  properties: {
+  props: {
     type: {
       type: String as PropType<"借阅书目 (小)" | "图书待还 (小)">,
       default: "借阅书目 (小)",
@@ -47,7 +47,7 @@ $Component({
 
   methods: {
     login() {
-      this.$go("account?update=true");
+      this.$go("account-login?update=true");
     },
 
     async getBooks(status: "check" | "login" | "validate" = "check") {

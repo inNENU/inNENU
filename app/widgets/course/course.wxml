@@ -1,4 +1,5 @@
 <wxs src="./course.wxs" module="course" />
+<!-- Note: QQ does not support relative paths in wxs src. -->
 <wxs src="../../utils/hash.wxs" module="hash" />
 <view
   class="course-widget widget {{size}} wrapper-class"
@@ -100,16 +101,16 @@
               >
                 <block
                   wx:for="{{cell}}"
-                  wx:for-item="classItem"
+                  wx:for-item="CourseTableClassData"
                   wx:for-index="classIndex"
                   wx:key="cid"
                 >
                   <view
-                    class="course-table-course course-item{{hash.getHashIndex(classItem.name)}}"
-                    data-info="{{classItem}}"
+                    class="course-table-course course-item{{hash.getHashIndex(CourseTableClassData.name)}}"
+                    data-info="{{CourseTableClassData}}"
                     catch:tap="showClassInfo"
                   >
-                    <text>{{classItem.name}}</text>
+                    <text>{{CourseTableClassData.name}}</text>
                   </view>
                 </block>
               </view>

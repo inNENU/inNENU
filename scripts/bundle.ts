@@ -2,7 +2,6 @@ import { existsSync, readdirSync, statSync } from "node:fs";
 import { dirname, join, resolve, sep } from "node:path";
 import { fileURLToPath } from "node:url";
 
-import commonjs from "@rollup/plugin-commonjs";
 import { rollup } from "rollup";
 import esbuild from "rollup-plugin-esbuild";
 
@@ -34,11 +33,12 @@ const getInputOptions = (dir: string): [string, string][] => {
 
 const base = getInputOptions("base");
 const components = getInputOptions("components");
-const functionPages = getInputOptions("function").filter(
-  ([name]) => !name.includes("/utils/"),
-);
 const pages = getInputOptions("pages");
 const widgets = getInputOptions("widgets");
+const addonPages = getInputOptions("pkg/addon/pages");
+const toolComponents = getInputOptions("pkg/tool/components");
+const toolPages = getInputOptions("pkg/tool/pages");
+const userPages = getInputOptions("pkg/user/pages");
 
 // repack miniapp
 rollup({
@@ -48,22 +48,27 @@ rollup({
     ...Object.fromEntries(components),
     ...Object.fromEntries(widgets),
     ...Object.fromEntries(pages),
-    ...Object.fromEntries(functionPages),
+    ...Object.fromEntries(addonPages),
+    ...Object.fromEntries(toolComponents),
+    ...Object.fromEntries(toolPages),
+    ...Object.fromEntries(userPages),
   },
 
   plugins: [
-    commonjs(),
     esbuild({
       charset: "utf8",
       target: "es2017",
+      tsconfig: resolve(__dirname, "../tsconfig.build.json"),
       minify: true,
     }),
   ],
   treeshake: {
-    moduleSideEffects: false,
     manualPureFunctions: ["createService"],
+    preset: "smallest",
   },
-  external: ["@mptool/all", "tslib"],
+  external: ["@mptool/all", "miniprogram-recycle-view"],
+  preserveEntrySignatures: false,
+
   strictDeprecations: true,
 }).then((bundle) =>
   bundle.write({
@@ -72,6 +77,13 @@ rollup({
     sourcemap: true,
     chunkFileNames: "[name].js",
     entryFileNames: "[name].js",
+    generatedCode: {
+      arrowFunctions: true,
+      constBindings: true,
+      objectShorthand: true,
+      preset: "es2015",
+    },
+    strict: false,
 
     // this ensures that require files are generated
     manualChunks: (id): string | void => {
@@ -85,7 +97,12 @@ rollup({
         "service",
         "state",
         "utils",
-        "function/utils",
+        "pkg/addon/service",
+        "pkg/addon/utils",
+        "pkg/tool/service",
+        "pkg/tool/utils",
+        "pkg/user/service",
+        "pkg/user/utils",
       ]) {
         if (normalizedId.includes(`/.temp/${name}/index.ts`))
           return `${name}/index`;

@@ -6,7 +6,7 @@ export interface TabDataItem {
   path: string;
   items: (GridComponentItemConfig & {
     under?: string | null;
-    post?: string | null;
+    grad?: string | null;
     benbu?: string | null;
     jingyue?: string | null;
   })[];

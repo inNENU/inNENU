@@ -18,7 +18,7 @@ export const handleFailResponse = (
     logout();
     showToast("需要重新登录");
 
-    if (getCurrentRoute() !== "/pages/account/account")
-      wx.navigateTo({ url: "/pages/account/account?update=true" });
+    if (getCurrentRoute() !== "/pkg/user/pages/account/login")
+      wx.navigateTo({ url: "/pkg/user/pages/account/login?update=true" });
   }
 };

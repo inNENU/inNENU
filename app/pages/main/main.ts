@@ -1,6 +1,7 @@
 import { $Page, get, set } from "@mptool/all";
 
 import type { PageStateWithContent } from "../../../typings/index.js";
+import { checkResource } from "../../app/index.js";
 import type { App } from "../../app.js";
 import {
   DAY,
@@ -11,7 +12,6 @@ import {
 import { searchMiniApp } from "../../service/index.js";
 import { getIdentity, info, menuSpace } from "../../state/index.js";
 import {
-  checkResource,
   getPageColor,
   resolvePage,
   setPage,
@@ -90,7 +90,6 @@ $Page(PAGE_ID, {
 
   onShareAppMessage: () => ({
     title: appName,
-    path: "/pages/main/main",
     imageUrl: `${appCoverPrefix}Share.png`,
   }),
 

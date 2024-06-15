@@ -15,14 +15,11 @@ importers:
   .:
     dependencies:
       '@mptool/all':
-        specifier: 0.6.4
-        version: 0.6.4(miniprogram-api-typings@3.12.2)
+        specifier: 0.7.3
+        version: 0.7.3(miniprogram-api-typings@3.12.2)
       miniprogram-recycle-view:
         specifier: 0.1.5
         version: 0.1.5
-      tslib:
-        specifier: 2.6.3
-        version: 2.6.3
     devDependencies:
       '@commitlint/cli':
         specifier: 19.3.0
@@ -912,8 +909,8 @@ packages:
       markdown-it:
         optional: true
 
-  '@mptool/all@0.6.4':
-    resolution: {integrity: sha512-5buWRjbzyGcUJ5fhya8y2JhU6igNxXIwOrSgNgPrCgCcfEwsCq29c+tHTBEwT5M6sVjknIxCNlkv8IAAoc/n7A==}
+  '@mptool/all@0.7.3':
+    resolution: {integrity: sha512-t4WNEG5FtUSxTuDG+1hGo6ITr/KBYEFvouP+2yJ74/cRMGz1FUAb2FO3Ca0vGLpUwRhZHncpNLfnfCJJsAzXKQ==}
     peerDependencies:
       miniprogram-api-typings: ^3.12.0
 
@@ -5999,7 +5996,7 @@ snapshots:
     optionalDependencies:
       markdown-it: 14.1.0
 
-  '@mptool/all@0.6.4(miniprogram-api-typings@3.12.2)':
+  '@mptool/all@0.7.3(miniprogram-api-typings@3.12.2)':
     dependencies:
       miniprogram-api-typings: 3.12.2
 

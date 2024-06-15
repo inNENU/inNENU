@@ -15,7 +15,7 @@ const getPoint = (point: LocationConfig & { id: number }): string =>
   });
 
 $Component({
-  properties: {
+  props: {
     /** 普通列表配置 */
     config: {
       type: Object as PropType<LocationComponentOptions>,
@@ -78,7 +78,7 @@ $Component({
       if (hasDetail) {
         const point = this.data.markers[id];
 
-        this.$go(`location?id=${point.path!}&point=${getPoint(point)}`);
+        this.$go(`map-detail?id=${point.path!}&point=${getPoint(point)}`);
       }
     },
 
@@ -88,7 +88,7 @@ $Component({
 
       this.setData({ id, title: point.name, hasDetail: Boolean(point.path) });
 
-      if (point.path) this.$preload(`location?id=${point.path}`);
+      if (point.path) this.$preload(`map-detail?id=${point.path}`);
     },
   },
 });

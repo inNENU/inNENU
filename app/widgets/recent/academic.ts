@@ -10,7 +10,7 @@ import type { WidgetSize, WidgetStatus } from "../utils.js";
 import { getSize } from "../utils.js";
 
 $Component({
-  properties: {
+  props: {
     type: {
       type: String as PropType<"通知公告 (小)" | "通知公告" | "通知公告 (大)">,
       default: "通知公告",
@@ -94,7 +94,7 @@ $Component({
     >) {
       const { subject, url } = currentTarget.dataset.info;
 
-      return this.$go(`academic-detail?title=${subject}&url=${url}`);
+      return this.$go(`official-academic-detail?title=${subject}&url=${url}`);
     },
 
     refresh() {

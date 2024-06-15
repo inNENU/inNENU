@@ -1,7 +1,7 @@
 import { $Component } from "@mptool/all";
 
 $Component({
-  properties: {
+  props: {
     /** 当前页面 */
     current: {
       type: Number,

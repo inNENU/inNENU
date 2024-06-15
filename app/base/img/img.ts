@@ -5,7 +5,7 @@ import type { ImageComponentOptions } from "../../../typings/index.js";
 import { imageWaterMark } from "../../config/index.js";
 
 $Component({
-  properties: {
+  props: {
     /** 图片组件配置 */
     config: {
       type: Object as PropType<ImageComponentOptions>,

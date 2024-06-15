@@ -108,397 +108,397 @@
         },
         {
           "name": "账户",
-          "pathName": "pages/account/account",
+          "pathName": "pkg/user/pages/account/account",
           "query": "",
           "scene": null
         },
         {
           "name": "关于",
-          "pathName": "pages/about/about",
+          "pathName": "pkg/addon/pages/about/about",
           "query": "",
           "scene": null
         },
         {
           "name": "小程序设置",
-          "pathName": "pages/settings/settings",
+          "pathName": "pkg/addon/pages/settings/settings",
           "query": "",
           "scene": null
         },
         {
           "name": "小组件设置",
-          "pathName": "pages/settings/widget",
+          "pathName": "pkg/addon/pages/settings/widget",
           "query": "",
           "scene": null
         },
         {
           "name": "搜索",
-          "pathName": "pages/search/search",
+          "pathName": "pkg/addon/pages/search/search",
           "query": "",
           "scene": null
         },
         {
           "name": "指定文字搜索",
-          "pathName": "pages/search/search",
+          "pathName": "pkg/addon/pages/search/search",
           "query": "word=浴池",
           "scene": null
         },
         {
           "name": "隐私协议",
-          "pathName": "pages/privacy/privacy",
+          "pathName": "pkg/addon/pages/privacy/privacy",
           "query": "",
           "scene": null
         },
         {
           "name": "授权公众号文章",
-          "pathName": "pages/web/web",
+          "pathName": "pkg/addon/pages/web/web",
           "query": "url=https%3A%2F%2Fmp.weixin.qq.com%2Fs%2Fem6A95hFPczubpB_lX24-A&title=纳新%20|%20欣欣向“融”，“媒”你不行",
           "scene": null
         },
         {
           "name": "客服",
-          "pathName": "pages/action/action",
+          "pathName": "pkg/addon/pages/action/action",
           "query": "action=contact",
           "scene": null
         },
         {
           "name": "黑名单",
-          "pathName": "pages/action/action",
+          "pathName": "pkg/addon/pages/action/action",
           "query": "action=blacklist",
           "scene": null
         },
         {
           "name": "初始化小程序",
-          "pathName": "pages/action/action",
+          "pathName": "pkg/addon/pages/action/action",
           "query": "action=reset",
           "scene": null
         },
         {
           "name": "学术预告",
-          "pathName": "function/academic/list",
+          "pathName": "pkg/tool/pages/official/academic-list",
           "query": "",
           "scene": null
         },
         {
           "name": "学术预告详情",
-          "pathName": "function/academic/detail",
+          "pathName": "pkg/tool/pages/official/academic-detail",
           "query": "from=学术预告&title=定义欧拉数&url=info/2731/263261.htm",
           "scene": null
         },
         {
           "name": "通知公告",
-          "pathName": "function/announcement/list",
+          "pathName": "pkg/tool/pages/official/announcement-list",
           "query": "",
           "scene": null
         },
         {
           "name": "通知公告详情",
-          "pathName": "function/announcement/detail",
+          "pathName": "pkg/tool/pages/official/announcement-detail",
           "query": "from=通知公告&title=关于举办“数苑大讲堂”学术报告会的通知&url=info/4871/263271.htm",
           "scene": null
         },
         {
           "name": "激活账户",
-          "pathName": "function/activate/activate",
+          "pathName": "pkg/user/pages/account/activate",
           "query": "",
           "scene": null
         },
         {
           "name": "建立学籍",
-          "pathName": "function/archive/create",
+          "pathName": "pkg/user/pages/archive/create-under",
           "query": "",
           "scene": null
         },
         {
           "name": "查看学籍",
-          "pathName": "function/archive/view",
+          "pathName": "pkg/user/pages/archive/view-under",
           "query": "",
           "scene": null
         },
         {
           "name": "校历",
-          "pathName": "function/calendar/calendar",
+          "pathName": "pkg/tool/pages/calendar/calendar",
           "query": "",
           "scene": null
         },
         {
           "name": "转专业计划",
-          "pathName": "function/course/change-major",
+          "pathName": "pkg/user/pages/change-major/change-major",
           "query": "",
           "scene": null
         },
         {
           "name": "考场查询",
-          "pathName": "function/course/exam-place",
+          "pathName": "pkg/user/pages/exam-place/exam-place",
           "query": "",
           "scene": null
         },
         {
           "name": "课程评价",
-          "pathName": "function/course/commentary",
+          "pathName": "pkg/user/pages/commentary/under",
           "query": "",
           "scene": null
         },
         {
           "name": "专项考试",
-          "pathName": "function/grade/special",
+          "pathName": "pkg/user/pages/grade/special",
           "query": "",
           "scene": null
         },
         {
           "name": "课程表",
-          "pathName": "function/course/table",
+          "pathName": "pkg/user/pages/course-table/course-table",
           "query": "",
           "scene": null
         },
         {
           "name": "成绩",
-          "pathName": "function/grade/grade",
+          "pathName": "pkg/user/pages/grade/grade",
           "query": "",
           "scene": null
         },
         {
           "name": "校园邮箱申请",
-          "pathName": "function/email/apply",
+          "pathName": "pkg/user/pages/email/apply",
           "query": "",
           "scene": null
         },
         {
           "name": "校园邮箱",
-          "pathName": "function/email/email",
+          "pathName": "pkg/user/pages/email/recent",
           "query": "",
           "scene": null
         },
         {
           "name": "录取查询",
-          "pathName": "function/enroll/admission",
+          "pathName": "pkg/user/pages/admission/admission",
           "query": "type=search",
           "scene": null
         },
         {
           "name": "历史分数线",
-          "pathName": "function/enroll/under-grade",
+          "pathName": "pkg/user/pages/enroll/grade-under",
           "query": "",
           "scene": null
         },
         {
           "name": "本科招生计划",
-          "pathName": "function/enroll/under-plan",
+          "pathName": "pkg/user/pages/enroll/plan-under",
           "query": "",
           "scene": null
         },
         {
           "name": "研究生招生计划",
-          "pathName": "function/enroll/post-plan",
+          "pathName": "pkg/user/pages/enroll/plan-grad",
           "query": "",
           "scene": null
         },
         {
           "name": "特定学院的研究生招生计划",
-          "pathName": "function/enroll/post-plan",
+          "pathName": "pkg/user/pages/enroll/plan-grad",
           "query": "school=教育学部",
           "scene": null
         },
         {
           "name": "特定学院的研究生推免计划",
-          "pathName": "function/enroll/post-plan",
+          "pathName": "pkg/user/pages/enroll/plan-grad",
           "query": "recommend=true&school=教育学部",
           "scene": null
         },
         {
           "name": "要闻速递",
-          "pathName": "function/info/list",
+          "pathName": "pkg/tool/pages/official/info-list",
           "query": "type=news",
           "scene": null
         },
         {
           "name": "要闻速递详情",
-          "pathName": "function/info/detail",
+          "pathName": "pkg/tool/pages/official/info-detail",
           "query": "from=要闻速递&title=我校承办教育部中外语言交流合作中心“2023东南亚本土中文教师来华研修”项目&type=news&url=info/4881/263281.htm",
           "scene": null
         },
         {
           "name": "媒体师大",
-          "pathName": "function/info/list",
+          "pathName": "pkg/tool/pages/official/info-list",
           "query": "type=media",
           "scene": null
         },
         {
           "name": "媒体师大详情",
-          "pathName": "function/info/detail",
+          "pathName": "pkg/tool/pages/official/info-detail",
           "query": "from=媒体师大&title=《中国教育报》：强化教育科技人才支撑&type=media&url=info/4891/262011.htm",
           "scene": null
         },
         {
           "name": "人文社科",
-          "pathName": "function/info/list",
+          "pathName": "pkg/tool/pages/official/info-list",
           "query": "type=social",
           "scene": null
         },
         {
           "name": "人文社科详情",
-          "pathName": "function/info/detail",
+          "pathName": "pkg/tool/pages/official/info-detail",
           "query": "from=人文社科&title=我校古文字团队加入“古文字青年学者协同创新联盟”&type=social&url=info/2711/260751.htm",
           "scene": null
         },
         {
           "name": "自然科学",
-          "pathName": "function/info/list",
+          "pathName": "pkg/tool/pages/official/info-list",
           "query": "type=science",
           "scene": null
         },
         {
           "name": "自然科学详情",
-          "pathName": "function/info/detail",
+          "pathName": "pkg/tool/pages/official/info-detail",
           "query": "from=自然科学&title=我校科研团队在细胞衰老领域取得重要进展&type=science&url=info/2721/261891.htm",
           "scene": null
         },
         {
           "name": "图书馆",
-          "pathName": "function/library/library",
+          "pathName": "pkg/user/pages/library/library",
           "query": "",
           "scene": null
         },
         {
           "name": "地图地点详情",
-          "pathName": "function/location/location",
+          "pathName": "pkg/tool/pages/map/detail",
           "query": "id=benbu/general/index&point={\"latitude\":43.86188,\"longitude\":125.33137,\"name\":\"自由校区\"}",
           "scene": null
         },
         {
           "name": "地图",
-          "pathName": "function/map/map",
+          "pathName": "pkg/tool/pages/map/map",
           "query": "",
           "scene": null
         },
         {
           "name": "本部地图",
-          "pathName": "function/map/map",
+          "pathName": "pkg/tool/pages/map/map",
           "query": "area=benbu",
           "scene": null
         },
         {
           "name": "净月地图",
-          "pathName": "function/map/map",
+          "pathName": "pkg/tool/pages/map/map",
           "query": "area=jingyue",
           "scene": null
         },
         {
           "name": "播放器",
-          "pathName": "function/music/music",
+          "pathName": "pkg/tool/pages/music/music",
           "query": "",
           "scene": null
         },
         {
           "name": "特定编号歌曲",
-          "pathName": "function/music/music",
+          "pathName": "pkg/tool/pages/music/music",
           "query": "index=17",
           "scene": null
         },
         {
           "name": "特定名称歌曲",
-          "pathName": "function/music/music",
+          "pathName": "pkg/tool/pages/music/music",
           "query": "name=毕业快乐",
           "scene": null
         },
         {
           "name": "内网通知列表",
-          "pathName": "function/notice/list",
+          "pathName": "pkg/user/pages/notice/list",
           "query": "",
           "scene": null
         },
         {
           "name": "内网通知详情",
-          "pathName": "function/notice/detail",
+          "pathName": "pkg/user/pages/notice/detail",
           "query": "id=cc1bdeeb92c44111aba5a5051db0c1f8&title=关于申报2023年研究生创新计划类项目的通知",
           "scene": null
         },
         {
           "name": "内网新闻列表",
-          "pathName": "function/notice/list",
+          "pathName": "pkg/user/pages/notice/list",
           "query": "type=news",
           "scene": null
         },
         {
           "name": "内网新闻详情",
-          "pathName": "function/notice/detail",
+          "pathName": "pkg/user/pages/notice/detail",
           "query": "id=7021130a8af34afca342acb02a0766a9&title=我校三个教师团队被认定为优秀团队&type=news",
           "scene": null
         },
         {
           "name": "体测计算器",
-          "pathName": "function/pe-calculator/pe-calculator",
+          "pathName": "pkg/tool/pages/pe-calculator/pe-calculator",
           "query": "",
           "scene": null
         },
         {
           "name": "师大黄页",
-          "pathName": "function/phone/phone",
+          "pathName": "pkg/tool/pages/phone/phone",
           "query": "",
           "scene": null
         },
         {
           "name": "重置密码",
-          "pathName": "function/reset/reset",
+          "pathName": "pkg/user/pages/account/reset",
           "query": "",
           "scene": null
         },
         {
           "name": "选课",
-          "pathName": "function/select/select",
+          "pathName": "pkg/user/pages/select/select",
           "query": "",
           "scene": null
         },
         {
           "name": "校园媒体",
-          "pathName": "function/school-media/school-media",
+          "pathName": "pkg/tool/pages/school-media/school-media",
           "query": "",
           "scene": null
         },
         {
           "name": "校园 QQ 号",
-          "pathName": "function/school-media/school-media",
+          "pathName": "pkg/tool/pages/school-media/school-media",
           "query": "type=qq",
           "scene": null
         },
         {
           "name": "校园微信公众号",
-          "pathName": "function/school-media/school-media",
+          "pathName": "pkg/tool/pages/school-media/school-media",
           "query": "type=wx",
           "scene": null
         },
         {
           "name": "特定公众号",
-          "pathName": "function/school-media/wechat",
+          "pathName": "pkg/tool/pages/wechat/wechat",
           "query": "path=nenuyouth",
           "scene": null
         },
         {
           "name": "视频假页面渲染",
-          "pathName": "function/video/video",
+          "pathName": "pkg/tool/pages/video/video",
           "query": "",
           "scene": null
         },
         {
           "name": "视频",
-          "pathName": "function/video/video",
+          "pathName": "pkg/tool/pages/video/video",
           "query": "type=video",
           "scene": null
         },
         {
           "name": "特定视频",
-          "pathName": "function/video/video",
+          "pathName": "pkg/tool/pages/video/video",
           "query": "type=video&name=东北师范大学校歌",
           "scene": null
         },
         {
           "name": "天气",
-          "pathName": "function/weather/weather",
+          "pathName": "pkg/tool/pages/weather/weather",
           "query": "",
           "scene": null
         },
         {
           "name": "东师网站",
-          "pathName": "function/website/website",
+          "pathName": "pkg/tool/pages/website/website",
           "query": "",
           "scene": null
         }

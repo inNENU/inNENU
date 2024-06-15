@@ -24,7 +24,7 @@ const getKey = (type: InfoType): string =>
   })[type];
 
 $Component({
-  properties: {
+  props: {
     type: {
       type: String as PropType<
         | "要闻速递 (小)"
@@ -139,7 +139,7 @@ $Component({
       const { title, url } = currentTarget.dataset.info;
 
       return this.$go(
-        `info-detail?title=${title}&type=${noticeType}&url=${url}`,
+        `official-info-detail?title=${title}&type=${noticeType}&url=${url}`,
       );
     },
 

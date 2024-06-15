@@ -13,7 +13,7 @@ const getKey = (type: NoticeType): string =>
   type === "news" ? NEWS_LIST_KEY : NOTICE_LIST_KEY;
 
 $Component({
-  properties: {
+  props: {
     type: {
       type: String as PropType<
         "通知 (小)" | "通知" | "通知 (大)" | "新闻 (小)" | "新闻" | "新闻 (大)"

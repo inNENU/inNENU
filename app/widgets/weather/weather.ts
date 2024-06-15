@@ -7,7 +7,7 @@ import { getWeather } from "../../service/index.js";
 import { getSize } from "../utils.js";
 
 $Component({
-  properties: {
+  props: {
     type: {
       type: String as PropType<
         | "今日天气 (小)"
