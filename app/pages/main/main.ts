@@ -23,17 +23,27 @@ import type { WidgetConfig } from "../../widgets/utils.js";
 const { globalData } = getApp<App>();
 
 const PAGE_ID = "main";
+const PAGE_TITLE = "首页";
 
-const defaultPage = resolvePage(
-  { id: PAGE_ID },
-  get<PageStateWithContent>(PAGE_ID) ||
-    ({
-      title: "首页",
+let defaultPage: PageStateWithContent | null = null;
+
+try {
+  defaultPage = resolvePage(
+    { id: PAGE_ID },
+    get<PageStateWithContent>(`${PAGE_ID}-page-data`),
+  ) as PageStateWithContent | null;
+} catch (err) {
+  console.error(err);
+} finally {
+  if (!defaultPage) {
+    defaultPage = {
+      title: PAGE_TITLE,
       grey: true,
       hidden: true,
-      content: [{ tag: "loading" }],
-    } as PageStateWithContent),
-) as PageStateWithContent;
+      content: [],
+    } as PageStateWithContent;
+  }
+}
 
 $Page(PAGE_ID, {
   data: {

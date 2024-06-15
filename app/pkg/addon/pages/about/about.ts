@@ -64,7 +64,6 @@ $Page(PAGE_ID, {
             { text: "退出开发者模式", type: "button", handler: "debugMode" },
           ],
         },
-        { tag: "loading" },
       ],
     } as PageStateWithContent,
   },

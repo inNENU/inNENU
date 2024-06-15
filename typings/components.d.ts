@@ -13,7 +13,6 @@ import type {
   ImageComponentOptions,
   ListComponentItemOptions,
   ListComponentOptions,
-  LoadingComponentOptions,
   NavigatorListComponentItemOptions,
   PhoneComponentOptions,
   PickerListComponentItemOptions,
@@ -116,7 +115,6 @@ export type ComponentConfig = (
   | GridComponentConfig
   | ImageComponentOptions
   | ListComponentConfig
-  | LoadingComponentOptions
   | PhoneComponentOptions
   | TextComponentConfig
   | TitleComponentOptions

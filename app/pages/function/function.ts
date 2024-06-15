@@ -18,16 +18,25 @@ const { globalData } = getApp<App>();
 const PAGE_ID = "function";
 const PAGE_TITLE = "功能大厅";
 
-const defaultPage = resolvePage(
-  { id: PAGE_ID },
-  get<PageStateWithContent>(PAGE_ID) ||
-    ({
+let defaultPage: PageStateWithContent | null = null;
+
+try {
+  defaultPage = resolvePage(
+    { id: PAGE_ID },
+    get<PageStateWithContent>(`${PAGE_ID}-page-data`),
+  ) as PageStateWithContent | null;
+} catch (err) {
+  console.error(err);
+} finally {
+  if (!defaultPage) {
+    defaultPage = {
       title: PAGE_TITLE,
       grey: true,
       hidden: true,
-      content: [{ tag: "loading" }],
-    } as PageStateWithContent),
-) as PageStateWithContent;
+      content: [],
+    } as PageStateWithContent;
+  }
+}
 
 $Page(PAGE_ID, {
   data: {
