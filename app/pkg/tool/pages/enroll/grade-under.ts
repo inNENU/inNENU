@@ -4,8 +4,8 @@ import { showModal } from "../../../../api/index.js";
 import { appCoverPrefix } from "../../../../config/index.js";
 import { info } from "../../../../state/index.js";
 import { getPageColor, showNotice } from "../../../../utils/index.js";
-import type { UnderHistoryGradeConfig } from "../../service/index.js";
-import { getUnderHistoryGrade } from "../../service/index.js";
+import type { UnderEnrollGradeConfig } from "../../service/index.js";
+import { getUnderEnrollGrade } from "../../service/index.js";
 
 const PAGE_ID = "under-enroll-grade";
 const PAGE_TITLE = "往年分数线";
@@ -34,7 +34,7 @@ $Page(PAGE_ID, {
       title: "历史分数详情",
       cancel: false,
     },
-    results: [] as UnderHistoryGradeConfig[],
+    results: [] as UnderEnrollGradeConfig[],
   },
 
   onLoad() {
@@ -62,7 +62,7 @@ $Page(PAGE_ID, {
   }),
 
   async getHistoryGradeInfo() {
-    const { years, provinces } = await getUnderHistoryGrade({
+    const { years, provinces } = await getUnderEnrollGrade({
       type: "info",
     });
 
@@ -72,7 +72,7 @@ $Page(PAGE_ID, {
   async getPlanType() {
     const { yearIndex, years, provinceIndex, provinces } = this.data;
 
-    const planTypes = await getUnderHistoryGrade({
+    const planTypes = await getUnderEnrollGrade({
       type: "planType",
       year: years[yearIndex - 1],
       province: provinces[provinceIndex - 1],
@@ -98,7 +98,7 @@ $Page(PAGE_ID, {
       planTypes,
     } = this.data;
 
-    const majorTypes = await getUnderHistoryGrade({
+    const majorTypes = await getUnderEnrollGrade({
       type: "majorType",
       year: years[yearIndex - 1],
       province: provinces[provinceIndex - 1],
@@ -127,7 +127,7 @@ $Page(PAGE_ID, {
       majorTypes,
     } = this.data;
 
-    const majorClasses = await getUnderHistoryGrade({
+    const majorClasses = await getUnderEnrollGrade({
       type: "majorClass",
       year: years[yearIndex - 1],
       province: provinces[provinceIndex - 1],
@@ -236,7 +236,7 @@ $Page(PAGE_ID, {
 
     wx.showLoading({ title: "查询中" });
 
-    return getUnderHistoryGrade({
+    return getUnderEnrollGrade({
       type: "query",
       year: years[yearIndex - 1],
       province: provinces[provinceIndex - 1],
@@ -290,7 +290,7 @@ $Page(PAGE_ID, {
   }: WechatMiniprogram.TouchEvent<
     Record<never, never>,
     Record<never, never>,
-    { key: keyof UnderHistoryGradeConfig }
+    { key: keyof UnderEnrollGradeConfig }
   >) {
     const { key } = currentTarget.dataset;
     const { ascending, sortKey, results } = this.data;

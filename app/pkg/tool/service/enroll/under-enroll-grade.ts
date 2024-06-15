@@ -8,11 +8,11 @@ import {
 import { request } from "../../../../api/index.js";
 import { createService } from "../../../../service/index.js";
 
-export interface UnderHistoryGradeInfoOptions {
+export interface UnderEnrollGradeInfoOptions {
   type: "info";
 }
 
-export interface UnderHistoryGradeInfo {
+export interface UnderEnrollGradeInfo {
   years: string[];
   provinces: string[];
 }
@@ -26,7 +26,7 @@ const PROVINCE_REG_EXP =
 
 const OPTION_REG_EXP = /<option value="(.*?)">.*?<\/option>/g;
 
-const getUnderHistoryGradeInfo = async (): Promise<UnderHistoryGradeInfo> => {
+const getUnderEnrollGradeInfo = async (): Promise<UnderEnrollGradeInfo> => {
   const { data: content } = await request<string>(UNDER_HISTORY_GRADE_PAGE_URL);
 
   const yearOptions = YEAR_REG_EXP.exec(content)?.[1];
@@ -49,16 +49,16 @@ const getUnderHistoryGradeInfo = async (): Promise<UnderHistoryGradeInfo> => {
   };
 };
 
-export interface UnderHistoryGradeTypeOptions {
+export interface UnderEnrollGradeTypeOptions {
   type: "planType";
   province: string;
   year: string;
 }
 
-const getUnderHistoryGradeType = async ({
+const getUnderEnrollGradeType = async ({
   year,
   province,
-}: UnderHistoryGradeTypeOptions): Promise<string[]> =>
+}: UnderEnrollGradeTypeOptions): Promise<string[]> =>
   (
     await request<string[]>(UNDER_ENROLL_PLAN_URL, {
       method: "POST",
@@ -69,18 +69,18 @@ const getUnderHistoryGradeType = async ({
     })
   ).data;
 
-export interface UnderHistoryGradeMajorTypeOptions {
+export interface UnderEnrollGradeMajorTypeOptions {
   type: "majorType";
   province: string;
   year: string;
   plan: string;
 }
 
-const getUnderHistoryGradeMajorType = async ({
+const getUnderEnrollGradeMajorType = async ({
   year,
   province,
   plan,
-}: UnderHistoryGradeMajorTypeOptions): Promise<string[]> =>
+}: UnderEnrollGradeMajorTypeOptions): Promise<string[]> =>
   (
     await request<string[]>(UNDER_ENROLL_MAJOR_TYPE_URL, {
       method: "POST",
@@ -91,7 +91,7 @@ const getUnderHistoryGradeMajorType = async ({
     })
   ).data;
 
-export interface UnderHistoryGradeMajorClassOptions {
+export interface UnderEnrollGradeMajorClassOptions {
   type: "majorClass";
   province: string;
   year: string;
@@ -99,12 +99,12 @@ export interface UnderHistoryGradeMajorClassOptions {
   majorType: string;
 }
 
-const getUnderHistoryGradeMajorClass = async ({
+const getUnderEnrollGradeMajorClass = async ({
   year,
   province,
   plan,
   majorType,
-}: UnderHistoryGradeMajorClassOptions): Promise<string[]> =>
+}: UnderEnrollGradeMajorClassOptions): Promise<string[]> =>
   (
     await request<string[]>(UNDER_ENROLL_MAJOR_CLASS_URL, {
       method: "POST",
@@ -121,7 +121,7 @@ const getUnderHistoryGradeMajorClass = async ({
     })
   ).data;
 
-export interface UnderHistoryGradeQueryOptions {
+export interface UnderEnrollGradeQueryOptions {
   type: "query";
   majorClass: string;
   majorType: string;
@@ -130,7 +130,7 @@ export interface UnderHistoryGradeQueryOptions {
   year: string;
 }
 
-export interface RawUnderHistoryGradeConfig {
+export interface RawUnderEnrollGradeConfig {
   /** 专业 */
   major: string;
   /** 专业类别 */
@@ -149,7 +149,7 @@ export interface RawUnderHistoryGradeConfig {
   max_admission_achievement: number;
 }
 
-export interface UnderHistoryGradeConfig {
+export interface UnderEnrollGradeConfig {
   /** 专业 */
   major: string;
   /** 专业类别 */
@@ -168,10 +168,10 @@ export interface UnderHistoryGradeConfig {
 
 const QUERY_URL = `${UNDER_ENROLL_SERVER}/queryScore`;
 
-const getUnderHistoryGrades = async (
-  options: UnderHistoryGradeQueryOptions,
-): Promise<UnderHistoryGradeConfig[]> => {
-  const { data: rawPlans } = await request<RawUnderHistoryGradeConfig[]>(
+const getUnderEnrollGrades = async (
+  options: UnderEnrollGradeQueryOptions,
+): Promise<UnderEnrollGradeConfig[]> => {
+  const { data: rawPlans } = await request<RawUnderEnrollGradeConfig[]>(
     QUERY_URL,
     {
       method: "POST",
@@ -203,83 +203,83 @@ const getUnderHistoryGrades = async (
   );
 };
 
-export interface UnderHistoryGradeInfoSuccessResponse {
+export interface UnderEnrollGradeInfoSuccessResponse {
   success: true;
-  data: UnderHistoryGradeInfo;
+  data: UnderEnrollGradeInfo;
 }
 
-export interface UnderHistoryGradeDetailsSuccessResponse {
+export interface UnderEnrollGradeDetailsSuccessResponse {
   success: true;
   data: string[];
 }
 
-export interface UnderHistoryGradeSuccessResponse {
+export interface UnderEnrollGradeSuccessResponse {
   success: true;
-  data: UnderHistoryGradeConfig[];
+  data: UnderEnrollGradeConfig[];
 }
 
-export type UnderHistoryGradeOptions =
-  | UnderHistoryGradeInfoOptions
-  | UnderHistoryGradeTypeOptions
-  | UnderHistoryGradeMajorClassOptions
-  | UnderHistoryGradeMajorTypeOptions
-  | UnderHistoryGradeQueryOptions;
+export type UnderEnrollGradeOptions =
+  | UnderEnrollGradeInfoOptions
+  | UnderEnrollGradeTypeOptions
+  | UnderEnrollGradeMajorClassOptions
+  | UnderEnrollGradeMajorTypeOptions
+  | UnderEnrollGradeQueryOptions;
 
-export type UnderHistoryGradeResponse =
-  | UnderHistoryGradeInfoSuccessResponse
-  | UnderHistoryGradeDetailsSuccessResponse
-  | UnderHistoryGradeSuccessResponse;
+export type UnderEnrollGradeResponse =
+  | UnderEnrollGradeInfoSuccessResponse
+  | UnderEnrollGradeDetailsSuccessResponse
+  | UnderEnrollGradeSuccessResponse;
 
-const getUnderHistoryGradeLocal = async <T extends UnderHistoryGradeOptions>(
+const getUnderEnrollGradeLocal = async <T extends UnderEnrollGradeOptions>(
   options: T,
 ): Promise<
-  T extends UnderHistoryGradeInfoOptions
-    ? UnderHistoryGradeInfo
-    : T extends UnderHistoryGradeQueryOptions
-      ? UnderHistoryGradeConfig[]
+  T extends UnderEnrollGradeInfoOptions
+    ? UnderEnrollGradeInfo
+    : T extends UnderEnrollGradeQueryOptions
+      ? UnderEnrollGradeConfig[]
       : string[]
 > => {
   const { type } = options;
 
   return (
     type === "info"
-      ? await getUnderHistoryGradeInfo()
+      ? await getUnderEnrollGradeInfo()
       : type === "planType"
-        ? await getUnderHistoryGradeType(options)
+        ? await getUnderEnrollGradeType(options)
         : type === "majorType"
-          ? await getUnderHistoryGradeMajorType(options)
+          ? await getUnderEnrollGradeMajorType(options)
           : type === "majorClass"
-            ? await getUnderHistoryGradeMajorClass(options)
-            : await getUnderHistoryGrades(options)
-  ) as T extends UnderHistoryGradeInfoOptions
-    ? UnderHistoryGradeInfo
-    : T extends UnderHistoryGradeQueryOptions
-      ? UnderHistoryGradeConfig[]
+            ? await getUnderEnrollGradeMajorClass(options)
+            : await getUnderEnrollGrades(options)
+  ) as T extends UnderEnrollGradeInfoOptions
+    ? UnderEnrollGradeInfo
+    : T extends UnderEnrollGradeQueryOptions
+      ? UnderEnrollGradeConfig[]
       : string[];
 };
 
-const getUnderHistoryGradeOnline = async <T extends UnderHistoryGradeOptions>(
+const getUnderEnrollGradeOnline = async <T extends UnderEnrollGradeOptions>(
   options: T,
 ): Promise<
-  T extends UnderHistoryGradeInfoOptions
-    ? UnderHistoryGradeInfo
-    : T extends UnderHistoryGradeQueryOptions
-      ? UnderHistoryGradeConfig[]
+  T extends UnderEnrollGradeInfoOptions
+    ? UnderEnrollGradeInfo
+    : T extends UnderEnrollGradeQueryOptions
+      ? UnderEnrollGradeConfig[]
       : string[]
 > =>
   request<
-    T extends UnderHistoryGradeInfoOptions
-      ? UnderHistoryGradeInfo
-      : T extends UnderHistoryGradeQueryOptions
-        ? UnderHistoryGradeConfig[]
+    T extends UnderEnrollGradeInfoOptions
+      ? UnderEnrollGradeInfo
+      : T extends UnderEnrollGradeQueryOptions
+        ? UnderEnrollGradeConfig[]
         : string[]
   >("/enroll/under-grade", {
     method: "POST",
     body: options,
   }).then(({ data }) => data);
 
-export const getUnderHistoryGrade = createService(
+export const getUnderEnrollGrade = createService(
   "under-history-grade",
-  getUnderHistoryGradeLocal,
-  getUnderHistoryGradeOnline,
+  getUnderEnrollGradeLocal,
+  getUnderEnrollGradeOnline,
 );
