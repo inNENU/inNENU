@@ -109,6 +109,12 @@
       "packages": ["addon", "user"]
     }
   },
+  "plugins": {
+    "routePlan": {
+      "version": "latest",
+      "provider": "wx50b5593e81dd937a"
+    }
+  },
   "window": {
     "navigationBarBackgroundColor": "@navBgColor",
     "navigationBarTextStyle": "@navTextStyle",
