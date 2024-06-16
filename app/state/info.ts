@@ -9,7 +9,7 @@ export const appID = wx.getAccountInfoSync().miniProgram.appId as AppID;
 /** 小程序 appid */
 export type AppID =
   | "wx33acb831ee1831a5"
-  | "wx9ce37d9662499df3"
+  | "wx2550e3fd373b79a8"
   | "wx69e79c3d87753512"
   | 1109559721;
 
