@@ -24,14 +24,14 @@ jobs:
           node-version: 20
           cache: pnpm
 
-      - name: Build Wechat project
+      - name: Build Wechat
         run: pnpm build:wx
 
-      - name: Build QQ project
+      - name: Build QQ
         run: pnpm build:qq
 
-      - name: Build Nenuyouth project (Wechat)
-        run: pnpm build:qy
+      - name: Build weNENU
+        run: pnpm build:we
 
       - name: Build App
         run: pnpm build:app
