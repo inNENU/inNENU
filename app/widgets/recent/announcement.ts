@@ -1,14 +1,9 @@
 import type { PropType } from "@mptool/all";
 import { $Component, get, set } from "@mptool/all";
 
-import { showToast } from "../../api/index.js";
 import { HOUR, SITE_ANNOUNCEMENT_LIST_KEY } from "../../config/index.js";
-import type { OfficialNoticeData } from "../../pkg/tool/service/index.js";
-import {
-  ensureActionLogin,
-  getOfficialNoticeList,
-} from "../../service/index.js";
-import { user } from "../../state/index.js";
+import type { OfficialNoticeInfoItem } from "../../service/index.js";
+import { getOfficialNoticeList } from "../../service/index.js";
 import type { WidgetSize, WidgetStatus } from "../utils.js";
 import { FILTERED_SOURCES, getSize } from "../utils.js";
 
@@ -32,67 +27,42 @@ $Component({
       const size = getSize(type);
 
       this.setData({ size }, () => {
-        const data = get<OfficialNoticeData[]>(SITE_ANNOUNCEMENT_LIST_KEY);
+        const data = get<{ title: string; url: string }[]>(
+          SITE_ANNOUNCEMENT_LIST_KEY,
+        );
 
         if (data)
           this.setData({
             status: "success",
             data: size === "large" ? data : data.slice(0, 5),
           });
-        else this.getOfficialNoticeList("validate");
+        else this.getNoticeList();
       });
     },
   },
 
-  pageLifetimes: {
-    show() {
-      if (user.account) {
-        if (this.data.status === "login") {
-          this.setData({ status: "loading" });
-          this.getOfficialNoticeList("validate");
-        }
-      } else this.setData({ status: "login" });
-    },
-  },
-
   methods: {
-    async getOfficialNoticeList(
-      status: "check" | "login" | "validate" = "check",
-    ) {
+    async getNoticeList() {
       const { size } = this.data;
 
-      if (user.account) {
-        const err = await ensureActionLogin(user.account, status);
+      const result = await getOfficialNoticeList();
 
-        if (err) {
-          showToast(err.msg);
+      if (result.success) {
+        const data = result.data
+          .filter(({ from }) => !FILTERED_SOURCES.includes(from))
+          .map(({ title, url }) => ({
+            title: title.replace(/^关于/g, "").replace(/的通知$/g, ""),
+            url,
+          }));
 
-          return this.setData({ status: "error" });
-        }
-
-        try {
-          const result = await getOfficialNoticeList();
-
-          if (result.success) {
-            const data = result.data
-              .filter(({ from }) => !FILTERED_SOURCES.includes(from))
-              .map(({ title, url }) => ({
-                title: title.replace(/^关于/g, "").replace(/的通知$/g, ""),
-                url,
-              }));
-
-            this.setData({
-              status: "success",
-              data: size === "large" ? data : data.slice(0, 5),
-            });
-            set(SITE_ANNOUNCEMENT_LIST_KEY, data, HOUR);
-          } else {
-            this.setData({ status: "error" });
-          }
-        } catch (err) {
-          this.setData({ status: "error" });
-        }
-      } else this.setData({ status: "login" });
+        this.setData({
+          status: "success",
+          data: size === "large" ? data : data.slice(0, 5),
+        });
+        set(SITE_ANNOUNCEMENT_LIST_KEY, data, HOUR);
+      } else {
+        this.setData({ status: "error" });
+      }
     },
 
     viewInfo({
@@ -100,7 +70,7 @@ $Component({
     }: WechatMiniprogram.TouchEvent<
       Record<string, never>,
       Record<string, never>,
-      { info: OfficialNoticeData }
+      { info: OfficialNoticeInfoItem }
     >) {
       const { title, url } = currentTarget.dataset.info;
 
@@ -109,12 +79,12 @@ $Component({
 
     refresh() {
       this.setData({ status: "loading" });
-      this.getOfficialNoticeList();
+      this.getNoticeList();
     },
 
     retry() {
       this.setData({ status: "loading" });
-      this.getOfficialNoticeList("login");
+      this.getNoticeList();
     },
   },
 

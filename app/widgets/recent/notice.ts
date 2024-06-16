@@ -3,7 +3,7 @@ import { $Component, get, set } from "@mptool/all";
 
 import { showToast } from "../../api/index.js";
 import { HOUR, NEWS_LIST_KEY, NOTICE_LIST_KEY } from "../../config/index.js";
-import type { NoticeItem, NoticeType } from "../../service/index.js";
+import type { NoticeInfo, NoticeType } from "../../service/index.js";
 import { ensureActionLogin, getNoticeList } from "../../service/index.js";
 import { user } from "../../state/index.js";
 import type { WidgetSize, WidgetStatus } from "../utils.js";
@@ -34,22 +34,16 @@ $Component({
       const noticeType = type.includes("新闻") ? "news" : "notice";
       const size = getSize(type);
 
-      this.setData(
-        {
-          noticeType,
-          size,
-        },
-        () => {
-          const data = get<NoticeItem[]>(getKey(noticeType));
+      this.setData({ noticeType, size }, () => {
+        const data = get<NoticeInfo[]>(getKey(noticeType));
 
-          if (data)
-            this.setData({
-              status: "success",
-              data: size === "large" ? data : data.slice(0, 5),
-            });
-          else this.getNoticeList("validate");
-        },
-      );
+        if (data)
+          this.setData({
+            status: "success",
+            data: size === "large" ? data : data.slice(0, 5),
+          });
+        else this.getNoticeList("validate");
+      });
     },
   },
 

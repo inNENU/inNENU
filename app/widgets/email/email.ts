@@ -11,7 +11,7 @@ import {
   getRecentEmails,
 } from "../../service/index.js";
 import { env, user } from "../../state/index.js";
-import type { WidgetStatus } from "../utils.js";
+import type { LoginWidgetStatus } from "../utils.js";
 import { getSize } from "../utils.js";
 
 interface Mail extends Exclude<EmailItem, "receivedDate"> {
@@ -33,7 +33,7 @@ $Component({
 
   data: {
     data: [] as Mail[],
-    status: "loading" as WidgetStatus,
+    status: "loading" as LoginWidgetStatus,
   },
 
   lifetimes: {

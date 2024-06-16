@@ -26,7 +26,6 @@
         size="mini"
         catch:retry="retry"
       />
-      <login-hint wx:elif="{{ status === 'login' }}" size="mini" />
       <block wx:else>
         <view
           wx:for="{{data}}"

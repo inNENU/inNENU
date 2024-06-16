@@ -1,22 +1,17 @@
 import type { PropType } from "@mptool/all";
 import { $Component, get, set } from "@mptool/all";
 
-import { showToast } from "../../api/index.js";
 import { HOUR, SITE_ACADEMIC_LIST_KEY } from "../../config/index.js";
 import type { OfficialAcademicInfoItem } from "../../service/index.js";
-import {
-  ensureActionLogin,
-  getOfficialAcademicList,
-} from "../../service/index.js";
-import { user } from "../../state/index.js";
+import { getOfficialAcademicList } from "../../service/index.js";
 import type { WidgetSize, WidgetStatus } from "../utils.js";
 import { getSize } from "../utils.js";
 
 $Component({
   props: {
     type: {
-      type: String as PropType<"通知公告 (小)" | "通知公告" | "通知公告 (大)">,
-      default: "通知公告",
+      type: String as PropType<"学术预告 (小)" | "学术预告" | "学术预告 (大)">,
+      default: "学术预告",
     },
   },
 
@@ -39,55 +34,28 @@ $Component({
             status: "success",
             data: size === "large" ? data : data.slice(0, 5),
           });
-        else this.getOfficialAcademicList("validate");
+        else this.getOfficialAcademicList();
       });
     },
   },
 
-  pageLifetimes: {
-    show() {
-      if (user.account) {
-        if (this.data.status === "login") {
-          this.setData({ status: "loading" });
-          this.getOfficialAcademicList("validate");
-        }
-      } else this.setData({ status: "login" });
-    },
-  },
-
   methods: {
-    async getOfficialAcademicList(
-      status: "check" | "login" | "validate" = "check",
-    ) {
+    async getOfficialAcademicList() {
       const { size } = this.data;
 
-      if (user.account) {
-        const err = await ensureActionLogin(user.account, status);
+      const result = await getOfficialAcademicList();
 
-        if (err) {
-          showToast(err.msg);
+      if (result.success) {
+        const { data } = result;
 
-          return this.setData({ status: "error" });
-        }
-
-        try {
-          const result = await getOfficialAcademicList();
-
-          if (result.success) {
-            const { data } = result;
-
-            this.setData({
-              status: "success",
-              data: size === "large" ? data : data.slice(0, 5),
-            });
-            set(SITE_ACADEMIC_LIST_KEY, data, HOUR);
-          } else {
-            this.setData({ status: "error" });
-          }
-        } catch (err) {
-          this.setData({ status: "error" });
-        }
-      } else this.setData({ status: "login" });
+        this.setData({
+          status: "success",
+          data: size === "large" ? data : data.slice(0, 5),
+        });
+        set(SITE_ACADEMIC_LIST_KEY, data, HOUR);
+      } else {
+        this.setData({ status: "error" });
+      }
     },
 
     viewInfo({
@@ -109,7 +77,7 @@ $Component({
 
     retry() {
       this.setData({ status: "loading" });
-      this.getOfficialAcademicList("login");
+      this.getOfficialAcademicList();
     },
   },
 

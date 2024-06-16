@@ -1,7 +1,6 @@
 import type { PropType } from "@mptool/all";
 import { $Component, get, set } from "@mptool/all";
 
-import { showToast } from "../../api/index.js";
 import {
   HOUR,
   SITE_MEDIA_LIST_KEY,
@@ -13,8 +12,7 @@ import type {
   OfficialInfoItem,
   OfficialInfoType,
 } from "../../service/index.js";
-import { ensureActionLogin, getOfficialInfoList } from "../../service/index.js";
-import { user } from "../../state/index.js";
+import { getOfficialInfoList } from "../../service/index.js";
 import type { WidgetSize, WidgetStatus } from "../utils.js";
 import { getSize } from "../utils.js";
 
@@ -79,56 +77,31 @@ $Component({
               status: "success",
               data: size === "large" ? data : data.slice(0, 5),
             });
-          else this.getInfoList("validate");
+          else this.getInfoList();
         },
       );
     },
   },
 
-  pageLifetimes: {
-    show() {
-      if (user.account) {
-        if (this.data.status === "login") {
-          this.setData({ status: "loading" });
-          this.getInfoList("validate");
-        }
-      } else this.setData({ status: "login" });
-    },
-  },
-
   methods: {
-    async getInfoList(status: "check" | "login" | "validate" = "check") {
+    async getInfoList() {
       const { infoType, size } = this.data;
 
-      if (user.account) {
-        const err = await ensureActionLogin(user.account, status);
+      const result = await getOfficialInfoList({
+        type: infoType,
+      });
 
-        if (err) {
-          showToast(err.msg);
+      if (result.success) {
+        const data = result.data.map(({ title, url }) => ({ title, url }));
 
-          return this.setData({ status: "error" });
-        }
-
-        try {
-          const result = await getOfficialInfoList({
-            type: infoType,
-          });
-
-          if (result.success) {
-            const data = result.data.map(({ title, url }) => ({ title, url }));
-
-            this.setData({
-              status: "success",
-              data: size === "large" ? data : data.slice(0, 5),
-            });
-            set(getKey(infoType), data, HOUR);
-          } else {
-            this.setData({ status: "error" });
-          }
-        } catch (err) {
-          this.setData({ status: "error" });
-        }
-      } else this.setData({ status: "login" });
+        this.setData({
+          status: "success",
+          data: size === "large" ? data : data.slice(0, 5),
+        });
+        set(getKey(infoType), data, HOUR);
+      } else {
+        this.setData({ status: "error" });
+      }
     },
 
     viewInfo({
@@ -153,7 +126,7 @@ $Component({
 
     retry() {
       this.setData({ status: "loading" });
-      this.getInfoList("login");
+      this.getInfoList();
     },
   },
 

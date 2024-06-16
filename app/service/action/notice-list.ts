@@ -11,6 +11,8 @@ import { LoginFailType, createService } from "../utils/index.js";
 
 const NOTICE_LIST_QUERY_URL = `${ACTION_SERVER}/page/queryList`;
 
+export type NoticeType = "news" | "notice";
+
 export interface NoticeListOptions {
   /**
    * 类型
@@ -85,7 +87,7 @@ const getNoticeListLocal = async ({
   type = "notice",
   size = 20,
   current = 1,
-}: NoticeListOptions): Promise<NoticeListResponse> => {
+}: NoticeListOptions = {}): Promise<NoticeListResponse> => {
   try {
     const {
       data: { data, pageIndex, pageSize, totalCount, totalPage },
@@ -137,7 +139,7 @@ const getNoticeListLocal = async ({
 };
 
 const getNoticeListOnline = (
-  options: NoticeListOptions,
+  options: NoticeListOptions = {},
 ): Promise<NoticeListResponse> =>
   request<NoticeListResponse>("/action/notice-list", {
     method: "POST",
