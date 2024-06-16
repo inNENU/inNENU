@@ -7,10 +7,11 @@ import {
   service,
 } from "../../../../config/index.js";
 import type { NoticeType } from "../../../../service/index.js";
-import { ensureActionLogin, getNotice } from "../../../../service/index.js";
+import { ensureActionLogin } from "../../../../service/index.js";
 import { appID, info, user } from "../../../../state/index.js";
 import { getPageColor, showNotice } from "../../../../utils/index.js";
 import type { StarredNoticeData } from "../../../../widgets/star/typings.js";
+import { getNoticeDetail } from "../../service/index.js";
 
 const PAGE_ID = "notice-detail";
 
@@ -104,14 +105,12 @@ $Page(PAGE_ID, {
         return this.setData({ status: "error" });
       }
 
-      const result = await getNotice({
-        noticeID: id,
-      });
+      const result = await getNoticeDetail(id);
 
       wx.hideLoading();
 
       if (result.success) {
-        const { title, time, pageView, author, from, content } = result;
+        const { title, time, pageView, author, from, content } = result.data;
 
         this.setData({
           status: "success",

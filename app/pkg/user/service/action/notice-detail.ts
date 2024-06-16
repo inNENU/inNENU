@@ -1,15 +1,18 @@
 import type { RichTextNode } from "@mptool/all";
 import { getRichTextNodes } from "@mptool/all";
 
-import { ACTION_SERVER } from "./utils.js";
-import { request } from "../../api/index.js";
-import type { AuthLoginFailedResponse } from "../auth/index.js";
-import { MY_SERVER } from "../my/utils.js";
+import { request } from "../../../../api/index.js";
 import type {
+  AuthLoginFailedResponse,
   CommonFailedResponse,
   CommonSuccessResponse,
-} from "../utils/index.js";
-import { LoginFailType, createService } from "../utils/index.js";
+} from "../../../../service/index.js";
+import {
+  ACTION_SERVER,
+  LoginFailType,
+  MY_SERVER,
+  createService,
+} from "../../../../service/index.js";
 
 const TITLE_REGEXP = /var title = '(.*?)';/;
 const FROM_REGEXP = /var ly = '(.*?)'/;
@@ -34,7 +37,9 @@ export type NoticeSuccessResponse = CommonSuccessResponse<NoticeData>;
 
 export type NoticeResponse = NoticeSuccessResponse | CommonFailedResponse;
 
-const getNoticeLocal = async (noticeID: string): Promise<NoticeResponse> => {
+const getNoticeLocalDetail = async (
+  noticeID: string,
+): Promise<NoticeResponse> => {
   try {
     if (!noticeID) throw new Error("ID is required");
 
@@ -100,7 +105,7 @@ const getNoticeLocal = async (noticeID: string): Promise<NoticeResponse> => {
   }
 };
 
-const getNoticeOnline = (noticeID: string): Promise<NoticeResponse> =>
+const getNoticeOnlineDetail = (noticeID: string): Promise<NoticeResponse> =>
   request<NoticeResponse>("/action/notice-detail", {
     method: "POST",
     body: { noticeID },
@@ -111,8 +116,8 @@ const getNoticeOnline = (noticeID: string): Promise<NoticeResponse> =>
     return data;
   });
 
-export const getNotice = createService(
-  "notice",
-  getNoticeLocal,
-  getNoticeOnline,
+export const getNoticeDetail = createService(
+  "notice-detail",
+  getNoticeLocalDetail,
+  getNoticeOnlineDetail,
 );
