@@ -7,9 +7,9 @@ export interface PromiseQueue<T = void> {
 }
 
 /**
- * 一个队列，在上一个函数执行完毕后执行 `next()`  才会开始执行下一个函数。
+ * 一个队列，支持可控并发和中断
  */
-export const promiseQueue = <T>(
+export const createQueue = <T>(
   promiseList: (() => Promise<void>)[],
   capacity = 1,
 ): PromiseQueue<T> => {
