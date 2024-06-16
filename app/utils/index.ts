@@ -5,4 +5,3 @@ export * from "./id.js";
 export * from "./json.js";
 export * from "./location.js";
 export * from "./page.js";
-export * from "./reset.js";

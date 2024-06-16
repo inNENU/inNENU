@@ -10,12 +10,8 @@ import { defaultResources, downloadResource } from "../../../../app/index.js";
 import { size, version } from "../../../../config/index.js";
 import { supportRedirect } from "../../../../service/index.js";
 import { envName, info, updateTheme } from "../../../../state/index.js";
-import {
-  getPageColor,
-  resetApp,
-  setPage,
-  showNotice,
-} from "../../../../utils/index.js";
+import { getPageColor, setPage, showNotice } from "../../../../utils/index.js";
+import { resetApp } from "../../utils/index.js";
 
 const PAGE_ID = "settings";
 const PAGE_TITLE = `${envName}设置`;
