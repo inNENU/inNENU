@@ -1,12 +1,12 @@
 <view class="error-hint {{size === 'mini'? 'mini' : ''}} wrapper-class">
-  <view class="tip">
+  <view class="error-msg">
     <icon
       class="error-icon"
       type="warn"
       color="#ff3333"
       size="{{size =='mini' ? 24 : 80}}"
     />
-    <view class="text"><text>{{ hint || '获取失败'}}</text></view>
+    <view class="error-text"><text>{{ hint || '获取失败'}}</text></view>
   </view>
   <button
     wx:if="{{!hideRetry}}"

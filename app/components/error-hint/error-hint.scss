@@ -8,23 +8,23 @@
 
   text-align: center;
 
-  .text {
-    margin: 20px 0;
-    font-size: 20px;
-  }
-
   &.mini {
     height: unset;
     margin: 4px 10px;
 
-    .tip {
+    .error-msg {
       display: flex;
       align-items: center;
-
-      .text {
-        margin: 8px 0.25em;
-        font-size: 14px;
-      }
     }
+  }
+}
+
+.error-text {
+  margin: 20px 15px;
+  font-size: 20px;
+
+  .error-hint.mini & {
+    margin: 8px 4px;
+    font-size: 14px;
   }
 }
