@@ -14,6 +14,7 @@ import {
   appName,
   version,
 } from "../../../../config/index.js";
+import { reportUserInfo } from "../../../../service/index.js";
 import { info, updateSelectable } from "../../../../state/index.js";
 import { resolvePage, setPage, showNotice } from "../../../../utils/index.js";
 
@@ -269,4 +270,6 @@ $Page(PAGE_ID, {
   copyAppID() {
     copyContent(wx.getStorageSync("openid"));
   },
+
+  reportInfo: reportUserInfo,
 });

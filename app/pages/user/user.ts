@@ -123,14 +123,6 @@ $Page(PAGE_ID, {
     this.$off("theme", this.setTheme);
   },
 
-  rate() {
-    (
-      requirePlugin("wxacommentplugin") as {
-        openComment: (option: unknown) => void;
-      }
-    ).openComment({});
-  },
-
   goToSettings() {
     this.$go("settings");
   },
@@ -166,6 +158,5 @@ $Page(PAGE_ID, {
       );
     }
   },
-
-  reportUserInfo,
+  reportInfo: reportUserInfo,
 });

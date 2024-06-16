@@ -159,5 +159,5 @@ $Page(PAGE_ID, {
     }
   },
 
-  reportUserInfo,
+  reportInfo: reportUserInfo,
 });

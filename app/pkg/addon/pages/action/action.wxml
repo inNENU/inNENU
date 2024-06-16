@@ -58,6 +58,16 @@
     <text>联系 Mr.Hope</text>
   </button>
 
+  <!-- 评论 -->
+  <button
+    wx:elif="{{all || rate}}"
+    class="action-button primary"
+    type="primary"
+    catch:tap="rateApp"
+  >
+    <text>评价小程序</text>
+  </button>
+
   <!-- 意见反馈 -->
   <button
     wx:elif="{{all || feedback}}"
