@@ -41,7 +41,7 @@ $Config({
     )
       return `/pkg/addon/pages/${pageName}/${pageName}`;
     if (pageName === "widget-settings")
-      return `/pkg/addon/pages/widget/settings`;
+      return `/pkg/addon/pages/settings/widget`;
 
     // handle multi-word path in account sub package
     if (["change-major", "course-table", "exam-place"].includes(pageName))
