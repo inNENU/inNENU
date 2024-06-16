@@ -1,4 +1,3 @@
-export * from "./compareVersion.js";
 export * from "./globalData.js";
 export * from "./initializeApp.js";
 export * from "./platform.js";

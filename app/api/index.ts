@@ -1,3 +1,4 @@
+export * from "./compareVersion.js";
 export * from "./clipboard.js";
 export * from "./document.js";
 export * from "./font.js";

@@ -1,4 +1,4 @@
-import { compareVersion } from "../../app/index.js";
+import { compareVersion } from "../../api/index.js";
 import type { App } from "../../app.js";
 import { env, info } from "../../state/index.js";
 
