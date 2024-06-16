@@ -30,31 +30,40 @@ export type ActionEmailPageResponse =
 const getEmailPageLocal = async (
   mid = "",
 ): Promise<ActionEmailPageResponse> => {
-  const { data: emailPageResult } = await request<RawEmailPageResponse>(
-    mid ? EMAIL_PAGE_URL : EMAIL_URL,
-    {
-      method: "POST",
-      headers: {
-        Accept: "application/json, text/javascript, */*; q=0.01",
+  try {
+    const { data: emailPageResult } = await request<RawEmailPageResponse>(
+      mid ? EMAIL_PAGE_URL : EMAIL_URL,
+      {
+        method: "POST",
+        headers: {
+          Accept: "application/json, text/javascript, */*; q=0.01",
+          "Content-Type": "application/x-www-form-urlencoded; charset=UTF-8",
+        },
+        body: new URLSearchParams({
+          ...(mid ? { domain: "nenu.edu.cn", mid } : {}),
+          // eslint-disable-next-line @typescript-eslint/naming-convention
+          account_name: "",
+        }),
       },
-      body: new URLSearchParams({
-        ...(mid ? { domain: "nenu.edu.cn", mid } : {}),
-        // eslint-disable-next-line @typescript-eslint/naming-convention
-        account_name: "",
-      }),
-    },
-  );
+    );
 
-  if (typeof emailPageResult === "object" && emailPageResult.success)
+    if (typeof emailPageResult !== "object" || !emailPageResult.success)
+      throw new Error("获取邮件页面失败");
+
     return {
       success: true,
       url: emailPageResult.url,
     };
+  } catch (err) {
+    const { message } = err as Error;
 
-  return {
-    success: false,
-    msg: "获取邮件页面失败",
-  };
+    console.error(err);
+
+    return {
+      success: false,
+      msg: message,
+    } as CommonFailedResponse;
+  }
 };
 
 const getEmailPageOnline = async (mid = ""): Promise<ActionEmailPageResponse> =>

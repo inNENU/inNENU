@@ -38,8 +38,8 @@
 
   <pagination
     wx:if="{{status === 'success'}}"
-    current="{{currentPage}}"
-    total="{{totalPage}}"
+    current="{{current}}"
+    total="{{total}}"
     catch:change="changePage"
   />
 </view>

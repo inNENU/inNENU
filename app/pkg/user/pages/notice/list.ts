@@ -2,7 +2,7 @@ import { $Page } from "@mptool/all";
 
 import { showToast } from "../../../../api/index.js";
 import { appCoverPrefix } from "../../../../config/index.js";
-import type { NoticeItem } from "../../../../service/index.js";
+import type { NoticeInfo } from "../../../../service/index.js";
 import { ensureActionLogin, getNoticeList } from "../../../../service/index.js";
 import { info, user } from "../../../../state/index.js";
 import { getPageColor, showNotice } from "../../../../utils/index.js";
@@ -16,9 +16,9 @@ $Page(PAGE_ID, {
     theme: info.theme,
 
     status: "success" as "error" | "login" | "success",
-    notices: [] as NoticeItem[],
-    currentPage: 1,
-    totalPage: 1,
+    notices: [] as NoticeInfo[],
+    current: 1,
+    total: 1,
   },
 
   state: {
@@ -66,7 +66,7 @@ $Page(PAGE_ID, {
     };
   },
 
-  async getNoticeList(page = 1) {
+  async getNoticeList(current = 1) {
     if (user.account) {
       wx.showLoading({ title: "获取中" });
 
@@ -81,8 +81,8 @@ $Page(PAGE_ID, {
       }
 
       const result = await getNoticeList({
-        page,
         type: this.state.type,
+        current,
       });
 
       wx.hideLoading();
@@ -90,12 +90,11 @@ $Page(PAGE_ID, {
 
       if (result.success) {
         this.setData({
+          status: "success",
           scrollTop: 0,
           notices: result.data,
-          page,
-          currentPage: result.pageIndex,
-          totalPage: result.totalPage,
-          status: "success",
+          current: result.current,
+          total: result.total,
         });
         this.state.loginMethod = "check";
       } else {

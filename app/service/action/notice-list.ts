@@ -3,16 +3,39 @@ import { URLSearchParams } from "@mptool/all";
 import { ACTION_SERVER } from "./utils.js";
 import { request } from "../../api/index.js";
 import type { AuthLoginFailedResponse } from "../auth/index.js";
-import type { CommonFailedResponse } from "../utils/index.js";
+import type {
+  CommonFailedResponse,
+  CommonListSuccessResponse,
+} from "../utils/index.js";
 import { LoginFailType, createService } from "../utils/index.js";
 
 const NOTICE_LIST_QUERY_URL = `${ACTION_SERVER}/page/queryList`;
+
+export interface NoticeListOptions {
+  /**
+   * 类型
+   *
+   * @default "notice"
+   */
+  type?: "notice" | "news";
+  /**
+   * 每页尺寸
+   *
+   * @default 20
+   */
+  size?: number;
+  /**
+   * 当前页面
+   *
+   * @default 1
+   */
+  current?: number;
+}
 
 interface RawNoticeItem {
   LLCS: number;
   FBSJ: string;
   KEYWORDS_: string;
-  // eslint-disable-next-line @typescript-eslint/naming-convention
   ID__: string;
   SFZD: string;
   FLAG: string;
@@ -29,18 +52,7 @@ interface RawNoticeListData {
   totalCount: number;
 }
 
-export type NoticeType = "notice" | "news";
-
-export interface NoticeListOptions {
-  /** @default 20 */
-  limit?: number;
-  /** @default 1 */
-  page?: number;
-  /** @default "notice" */
-  type?: NoticeType;
-}
-
-export interface NoticeItem {
+export interface NoticeInfo {
   title: string;
   from: string;
   time: string;
@@ -48,26 +60,21 @@ export interface NoticeItem {
 }
 
 const getNoticeItem = ({
-  // eslint-disable-next-line @typescript-eslint/naming-convention
-  ID__,
-  CJBM,
-  // eslint-disable-next-line @typescript-eslint/naming-convention
-  KEYWORDS_,
-  FBSJ,
-}: RawNoticeItem): NoticeItem => ({
-  title: KEYWORDS_,
-  id: ID__,
-  time: FBSJ,
-  from: CJBM,
+  ID__: id,
+  CJBM: from,
+  KEYWORDS_: title,
+  FBSJ: time,
+}: RawNoticeItem): NoticeInfo => ({
+  id,
+  title,
+  from,
+  time,
 });
 
-export interface NoticeListSuccessResponse {
-  success: true;
-  data: NoticeItem[];
-  pageIndex: number;
-  pageSize: number;
-  totalPage: number;
-  totalCount: number;
+export interface NoticeListSuccessResponse
+  extends CommonListSuccessResponse<NoticeInfo[]> {
+  size: number;
+  count: number;
 }
 
 export type NoticeListResponse =
@@ -75,9 +82,9 @@ export type NoticeListResponse =
   | CommonFailedResponse;
 
 const getNoticeListLocal = async ({
-  limit = 20,
-  page = 1,
   type = "notice",
+  size = 20,
+  current = 1,
 }: NoticeListOptions): Promise<NoticeListResponse> => {
   try {
     const {
@@ -87,13 +94,14 @@ const getNoticeListLocal = async ({
       method: "POST",
       headers: {
         Accept: "application/json, text/javascript, */*; q=0.01",
+        "Content-Type": "application/x-www-form-urlencoded; charset=UTF-8",
       },
       body: new URLSearchParams({
         type,
         _search: "false",
-        nd: new Date().getTime().toString(),
-        limit: limit.toString(),
-        page: page.toString(),
+        nd: Date.now().toString(),
+        limit: size.toString(),
+        page: current.toString(),
       }),
       redirect: "manual",
     });
@@ -109,16 +117,13 @@ const getNoticeListLocal = async ({
       return {
         success: true,
         data: data.map(getNoticeItem),
-        pageIndex,
-        pageSize,
-        totalCount,
-        totalPage,
+        count: totalCount,
+        size: pageSize,
+        current: pageIndex,
+        total: totalPage,
       } as NoticeListSuccessResponse;
 
-    return {
-      success: false,
-      msg: JSON.stringify(data),
-    } as AuthLoginFailedResponse;
+    throw new Error(`获取公告列表失败: ${JSON.stringify(data, null, 2)}`);
   } catch (err) {
     const { message } = err as Error;
 
@@ -127,7 +132,7 @@ const getNoticeListLocal = async ({
     return {
       success: false,
       msg: message,
-    } as AuthLoginFailedResponse;
+    } as CommonFailedResponse;
   }
 };
 

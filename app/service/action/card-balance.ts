@@ -76,7 +76,7 @@ const getCardBalanceLocal = async (): Promise<CardBalanceResponse> => {
     return {
       success: false,
       msg: message,
-    } as AuthLoginFailedResponse;
+    } as CommonFailedResponse;
   }
 };
 
