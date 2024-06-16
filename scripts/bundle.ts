@@ -19,7 +19,8 @@ const getInputOptions = (dir: string): [string, string][] => {
     statSync(resolve(__dirname, "../.temp/", dir, content)).isDirectory(),
   );
   const files = contents.filter(
-    (file) => file.endsWith(".ts") && !file.endsWith(".d.ts"),
+    (file) =>
+      (file.endsWith(".ts") && !file.endsWith(".d.ts")) || file.endsWith(".js"),
   );
 
   return [
@@ -66,7 +67,7 @@ rollup({
     manualPureFunctions: ["createService"],
     preset: "smallest",
   },
-  external: ["@mptool/all", "miniprogram-recycle-view"],
+  external: ["@mptool/all"],
   preserveEntrySignatures: false,
 
   strictDeprecations: true,

@@ -1,5 +1,4 @@
 import { $Page } from "@mptool/all";
-import createRecycleContext = require("miniprogram-recycle-view");
 
 import type {
   WechatArticleItem,
@@ -19,6 +18,7 @@ import {
   getPageColor,
   showNotice,
 } from "../../../../utils/index.js";
+import { createRecycleContext } from "../../components/recycle-view/index.js";
 
 const PAGE_ID = "wechat";
 
@@ -92,8 +92,8 @@ $Page(PAGE_ID, {
           desc,
           logo,
           id,
-          qrcode,
           authorized = false,
+          qrcode = "",
           follow = "",
         } = data;
 

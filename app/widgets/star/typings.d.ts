@@ -3,11 +3,8 @@ import type {
   OfficialInfoData,
   OfficialNoticeData,
 } from "../../pkg/tool/service/index.js";
-import type {
-  NoticeSuccessResponse,
-  NoticeType,
-  OfficialInfoType,
-} from "../../service/index.js";
+import type { NoticeData } from "../../pkg/user/service/index.js";
+import type { NoticeType, OfficialInfoType } from "../../service/index.js";
 
 export interface StarredOfficialAcademicData extends OfficialAcademicData {
   url: string;
@@ -23,8 +20,7 @@ export interface StarredOfficialInfoData extends OfficialInfoData {
   type: OfficialInfoType;
 }
 
-export interface StarredNoticeData
-  extends Omit<NoticeSuccessResponse, "success"> {
+export interface StarredNoticeData extends NoticeData {
   id: string;
   type: NoticeType;
 }

@@ -47,8 +47,7 @@
     }
   },
   "dependencies": {
-    "@mptool/all": "0.7.3",
-    "miniprogram-recycle-view": "0.1.5"
+    "@mptool/all": "0.7.3"
   },
   "devDependencies": {
     "@commitlint/cli": "19.3.0",

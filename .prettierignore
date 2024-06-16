@@ -2,8 +2,8 @@
 **/node_modules/**
 
 app/pkg/tool/pages/music/music.wxs
+app/pkg/tool/components/recycle-view/
 app/service/auth/encrypt.js
-app/service/auth/encrypt.qq.js
 
 dist/**
 

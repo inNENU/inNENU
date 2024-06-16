@@ -38,6 +38,7 @@ interface RawNoticeItem {
   LLCS: number;
   FBSJ: string;
   KEYWORDS_: string;
+  // eslint-disable-next-line @typescript-eslint/naming-convention
   ID__: string;
   SFZD: string;
   FLAG: string;
