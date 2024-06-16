@@ -4,7 +4,10 @@ import { logger } from "@mptool/all";
 import { ACTION_SERVER } from "./utils.js";
 import { request } from "../../api/index.js";
 import type { AuthLoginFailedResponse } from "../auth/index.js";
-import type { CommonFailedResponse } from "../utils/index.js";
+import type {
+  CommonFailedResponse,
+  CommonSuccessResponse,
+} from "../utils/index.js";
 import {
   LoginFailType,
   createService,
@@ -99,10 +102,9 @@ const getBookData = ({
   status: policy.description,
 });
 
-export interface BorrowBooksSuccessResponse {
-  success: true;
-  data: BorrowBookData[];
-}
+export type BorrowBooksSuccessResponse = CommonSuccessResponse<
+  BorrowBookData[]
+>;
 
 export type BorrowBooksResponse =
   | BorrowBooksSuccessResponse

@@ -3,7 +3,10 @@ import { logger } from "@mptool/all";
 import { ACTION_SERVER } from "./utils.js";
 import { request } from "../../api/index.js";
 import type { AuthLoginFailedResponse } from "../auth/index.js";
-import type { CommonFailedResponse } from "../utils/index.js";
+import type {
+  CommonFailedResponse,
+  CommonSuccessResponse,
+} from "../utils/index.js";
 import { LoginFailType, createService } from "../utils/index.js";
 
 const CARD_BALANCE_URL = `${ACTION_SERVER}/soapBasic/postSoap`;
@@ -21,10 +24,7 @@ type RawCardBalanceData =
     }
   | { success: false };
 
-export interface CardBalanceSuccessResponse {
-  success: true;
-  data: number;
-}
+export type CardBalanceSuccessResponse = CommonSuccessResponse<number>;
 
 export type CardBalanceResponse =
   | CardBalanceSuccessResponse

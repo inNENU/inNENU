@@ -2,7 +2,10 @@ import { URLSearchParams, logger } from "@mptool/all";
 
 import { ACTION_SERVER } from "./utils.js";
 import { request } from "../../api/index.js";
-import type { CommonFailedResponse } from "../utils/index.js";
+import type {
+  CommonFailedResponse,
+  CommonSuccessResponse,
+} from "../utils/index.js";
 import { createService } from "../utils/index.js";
 
 const EMAIL_PAGE_URL = `${ACTION_SERVER}/extract/sendRedirect2Email`;
@@ -18,10 +21,7 @@ interface RawEmailPageResponse {
   url: string;
 }
 
-export interface ActionEmailPageSuccessResponse {
-  success: true;
-  url: string;
-}
+export type ActionEmailPageSuccessResponse = CommonSuccessResponse<string>;
 
 export type ActionEmailPageResponse =
   | ActionEmailPageSuccessResponse
@@ -52,7 +52,7 @@ const getEmailPageLocal = async (
 
     return {
       success: true,
-      url: emailPageResult.url,
+      data: emailPageResult.url,
     };
   } catch (err) {
     const { message } = err as Error;

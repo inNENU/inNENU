@@ -5,25 +5,23 @@ import { ACTION_SERVER } from "./utils.js";
 import { request } from "../../api/index.js";
 import type { AuthLoginFailedResponse } from "../auth/index.js";
 import { MY_SERVER } from "../my/utils.js";
-import type { CommonFailedResponse } from "../utils/index.js";
+import type {
+  CommonFailedResponse,
+  CommonSuccessResponse,
+} from "../utils/index.js";
 import { LoginFailType, createService } from "../utils/index.js";
 
-const titleRegExp = /var title = '(.*?)';/;
-const fromRegExp = /var ly = '(.*?)'/;
-const authorRegExp = /var wz = '(.*?)'/;
-const timeRegExp =
+const TITLE_REGEXP = /var title = '(.*?)';/;
+const FROM_REGEXP = /var ly = '(.*?)'/;
+const AUTHOR_REGEXP = /var wz = '(.*?)'/;
+const TIME_REGEXP =
   /<span style="margin: 0 10px;font-size: 13px;color: #787878;font-family: 'Microsoft YaHei';">\s+时间：(.*?)(?:&nbsp;)*?\s+<\/span>/;
-const pageViewRegExp =
+const PAGEVIEW_REGEXP =
   /<span style="margin: 0 10px;font-size: 13px;color: #787878;font-family: 'Microsoft YaHei';">\s+阅览：(\d+)\s+<\/span>/;
-const contentRegExp =
-  /<div class="read" id="WBNR">\s+([\s\S]*?)\s+<\/div>\s+<p id="zrbj"/;
+const CONTENT_REGEXP =
+  /<div class="read" id="WBNR">\s+([^]*?)\s+<\/div>\s+<p id="zrbj"/;
 
-export interface NoticeOptions {
-  noticeID: string;
-}
-
-export interface NoticeSuccessResponse {
-  success: true;
+export interface NoticeData {
   title: string;
   author: string;
   time: string;
@@ -32,15 +30,17 @@ export interface NoticeSuccessResponse {
   content: RichTextNode[];
 }
 
+export type NoticeSuccessResponse = CommonSuccessResponse<NoticeData>;
+
 export type NoticeResponse = NoticeSuccessResponse | CommonFailedResponse;
 
-const getNoticeLocal = async ({
-  noticeID,
-}: NoticeOptions): Promise<NoticeResponse> => {
+const getNoticeLocal = async (noticeID: string): Promise<NoticeResponse> => {
   try {
+    if (!noticeID) throw new Error("ID is required");
+
     const noticeUrl = `${ACTION_SERVER}/page/viewNews?ID=${noticeID}`;
 
-    const { data: responseText, status } = await request<string>(noticeUrl, {
+    const { data: text, status } = await request<string>(noticeUrl, {
       redirect: "manual",
     });
 
@@ -51,15 +51,14 @@ const getNoticeLocal = async ({
         msg: "登录信息已过期，请重新登录",
       } as AuthLoginFailedResponse;
 
-    const title = titleRegExp.exec(responseText)![1];
-    const author = authorRegExp.exec(responseText)![1];
-    const time = timeRegExp.exec(responseText)![1];
-    const from = fromRegExp.exec(responseText)![1];
-    const pageView = pageViewRegExp.exec(responseText)![1];
-    const content = contentRegExp.exec(responseText)![1];
+    const title = TITLE_REGEXP.exec(text)![1];
+    const author = AUTHOR_REGEXP.exec(text)![1];
+    const time = TIME_REGEXP.exec(text)![1];
+    const from = FROM_REGEXP.exec(text)![1];
+    const pageView = PAGEVIEW_REGEXP.exec(text)![1];
+    const content = CONTENT_REGEXP.exec(text)![1];
 
-    return {
-      success: true,
+    const data = {
       title,
       author,
       from,
@@ -83,6 +82,11 @@ const getNoticeLocal = async ({
           img: () => null,
         },
       }),
+    };
+
+    return {
+      success: true,
+      data,
     } as NoticeSuccessResponse;
   } catch (err) {
     const { message } = err as Error;
@@ -96,10 +100,10 @@ const getNoticeLocal = async ({
   }
 };
 
-const getNoticeOnline = (options: NoticeOptions): Promise<NoticeResponse> =>
-  request<NoticeResponse>("/action/notice", {
+const getNoticeOnline = (noticeID: string): Promise<NoticeResponse> =>
+  request<NoticeResponse>("/action/notice-detail", {
     method: "POST",
-    body: options,
+    body: { noticeID },
     cookieScope: ACTION_SERVER,
   }).then(({ data }) => {
     if (!data.success) console.error("获取失败", data.msg);

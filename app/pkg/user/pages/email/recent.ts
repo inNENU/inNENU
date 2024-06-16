@@ -140,11 +140,11 @@ $Page(PAGE_ID, {
     wx.hideLoading();
 
     if (result.success) {
-      const { url } = result;
+      const { data } = result;
 
-      if (env === "app") return this.$go(`web?url=${encodeURIComponent(url)}`);
+      if (env === "app") return this.$go(`web?url=${encodeURIComponent(data)}`);
 
-      await copyContent(url);
+      await copyContent(data);
 
       showModal(
         "复制成功",
