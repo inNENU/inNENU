@@ -1,7 +1,9 @@
 import { UNDER_STUDY_SERVER } from "./utils.js";
-import type { CommonFailedResponse } from "../../../../../typings/index.js";
 import { request } from "../../../../api/index.js";
-import type { AuthLoginFailedResponse } from "../../../../service/index.js";
+import type {
+  AuthLoginFailedResponse,
+  CommonFailedResponse,
+} from "../../../../service/index.js";
 import { LoginFailType, createService } from "../../../../service/index.js";
 
 interface RawUnderGradeDetailItem {

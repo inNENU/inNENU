@@ -6,10 +6,10 @@ import {
   appCoverPrefix,
   service,
 } from "../../../../config/index.js";
-import { getAcademicDetail } from "../../../../service/index.js";
 import { appID, info } from "../../../../state/index.js";
 import { getPageColor, showNotice } from "../../../../utils/index.js";
-import type { StarredAcademic } from "../../../../widgets/star/typings.js";
+import type { StarredOfficialAcademicData } from "../../../../widgets/star/typings.js";
+import { getOfficialAcademicDetail } from "../../service/index.js";
 
 const PAGE_ID = "official-academic-detail";
 
@@ -24,12 +24,12 @@ $Page(PAGE_ID, {
     title: "",
     person: "",
     url: "",
-    info: null as StarredAcademic | null,
+    info: null as StarredOfficialAcademicData | null,
   },
 
   onLoad({ scene = "", title = "", person = "", url = scene }) {
     const starredInfos =
-      get<StarredAcademic[]>(STARRED_ACADEMIC_LIST_KEY) ?? [];
+      get<StarredOfficialAcademicData[]>(STARRED_ACADEMIC_LIST_KEY) ?? [];
 
     this.state = {
       ...this.state,
@@ -97,12 +97,12 @@ $Page(PAGE_ID, {
 
     wx.showLoading({ title: "获取中" });
 
-    const result = await getAcademicDetail(url);
+    const result = await getOfficialAcademicDetail(url);
 
     wx.hideLoading();
 
     if (result.success) {
-      const { title, time, pageView, content } = result;
+      const { title, time, pageView, content } = result.data;
 
       this.setData({
         status: "success",
@@ -136,7 +136,7 @@ $Page(PAGE_ID, {
     if (!info) showToast("内容仍在获取", 1500, "error");
 
     if (starred) {
-      const starredAcademics = get<StarredAcademic[]>(
+      const starredAcademics = get<StarredOfficialAcademicData[]>(
         STARRED_ACADEMIC_LIST_KEY,
       )!;
 
@@ -146,7 +146,7 @@ $Page(PAGE_ID, {
       );
     } else {
       const starredAcademics =
-        get<StarredAcademic[]>(STARRED_ACADEMIC_LIST_KEY) ?? [];
+        get<StarredOfficialAcademicData[]>(STARRED_ACADEMIC_LIST_KEY) ?? [];
 
       set(STARRED_ACADEMIC_LIST_KEY, [...starredAcademics, info!]);
     }

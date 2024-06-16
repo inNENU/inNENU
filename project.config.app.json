@@ -219,14 +219,14 @@
         },
         {
           "name": "通知公告",
-          "pathName": "pkg/tool/pages/official/announcement-list",
+          "pathName": "pkg/tool/pages/official/notice-list",
           "query": "",
           "launchMode": "default",
           "scene": null
         },
         {
           "name": "通知公告详情",
-          "pathName": "pkg/tool/pages/official/announcement-detail",
+          "pathName": "pkg/tool/pages/official/notice-detail",
           "query": "from=通知公告&title=关于举办“数苑大讲堂”学术报告会的通知&url=info/4871/263271.htm",
           "launchMode": "default",
           "scene": null

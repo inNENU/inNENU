@@ -1,8 +1,8 @@
 import type { RichTextNode } from "@mptool/all";
 import { getRichTextNodes } from "@mptool/all";
 
-import type { CommonFailedResponse } from "../../../../../typings/index.js";
 import { request } from "../../../../api/index.js";
+import type { CommonFailedResponse } from "../../../../service/index.js";
 import { createService } from "../../../../service/index.js";
 
 const GRAD_RECOMMEND_PLAN_URL =

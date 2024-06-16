@@ -6,11 +6,11 @@ import {
   appCoverPrefix,
   service,
 } from "../../../../config/index.js";
-import type { InfoType } from "../../../../service/index.js";
-import { getInfo } from "../../../../service/index.js";
+import type { OfficialInfoType } from "../../../../service/index.js";
 import { appID, info } from "../../../../state/index.js";
 import { getPageColor, showNotice } from "../../../../utils/index.js";
-import type { StarredInfo } from "../../../../widgets/star/typings.js";
+import type { StarredOfficialInfoData } from "../../../../widgets/star/typings.js";
+import { getOfficialInfoDetail } from "../../service/index.js";
 import { getOfficialTitle } from "../../utils/index.js";
 
 const PAGE_ID = "official-info-detail";
@@ -25,8 +25,8 @@ $Page(PAGE_ID, {
   state: {
     url: "",
     title: "",
-    type: "news" as InfoType,
-    info: null as StarredInfo | null,
+    type: "news" as OfficialInfoType,
+    info: null as StarredOfficialInfoData | null,
   },
 
   onLoad({
@@ -35,10 +35,11 @@ $Page(PAGE_ID, {
     url = scene.split("@")[0],
     type = scene.split("@")[1] || "news",
   }) {
-    const starredInfos = get<StarredInfo[]>(STARRED_INFO_LIST_KEY) ?? [];
+    const starredInfos =
+      get<StarredOfficialInfoData[]>(STARRED_INFO_LIST_KEY) ?? [];
 
     this.state.title = title;
-    this.state.type = type as InfoType;
+    this.state.type = type as OfficialInfoType;
     this.state.url = url;
 
     if (!url) {
@@ -52,7 +53,7 @@ $Page(PAGE_ID, {
     this.setData({
       color: getPageColor(),
       theme: info.theme,
-      pageTitle: getOfficialTitle(type as InfoType),
+      pageTitle: getOfficialTitle(type as OfficialInfoType),
       title,
       share: {
         title,
@@ -98,11 +99,12 @@ $Page(PAGE_ID, {
   async getInfo() {
     const { type, url } = this.state;
 
-    const result = await getInfo(url);
+    const result = await getOfficialInfoDetail(url);
 
     wx.hideLoading();
     if (result.success) {
-      const { title, time, pageView, author, editor, from, content } = result;
+      const { title, time, pageView, author, editor, from, content } =
+        result.data;
 
       this.setData({
         status: "success",
@@ -139,14 +141,17 @@ $Page(PAGE_ID, {
     if (!info) showToast("内容仍在获取", 1500, "error");
 
     if (starred) {
-      const starredInfos = get<StarredInfo[]>(STARRED_INFO_LIST_KEY)!;
+      const starredInfos = get<StarredOfficialInfoData[]>(
+        STARRED_INFO_LIST_KEY,
+      )!;
 
       set(
         STARRED_INFO_LIST_KEY,
         starredInfos.filter((item) => item.url !== url),
       );
     } else {
-      const starredInfos = get<StarredInfo[]>(STARRED_INFO_LIST_KEY) ?? [];
+      const starredInfos =
+        get<StarredOfficialInfoData[]>(STARRED_INFO_LIST_KEY) ?? [];
 
       set(STARRED_INFO_LIST_KEY, [...starredInfos, info!]);
     }

@@ -1,11 +1,10 @@
 import { logger } from "@mptool/all";
 
 import { ACTION_SERVER } from "./utils.js";
-import type { CommonFailedResponse } from "../../../typings/index.js";
 import { request } from "../../api/index.js";
 import type { AuthLoginFailedResponse } from "../auth/index.js";
-import { LoginFailType } from "../loginFailTypes.js";
-import { createService } from "../utils.js";
+import type { CommonFailedResponse } from "../utils/index.js";
+import { LoginFailType, createService } from "../utils/index.js";
 
 const CARD_BALANCE_URL = `${ACTION_SERVER}/soapBasic/postSoap`;
 const CARD_BALANCE_PARAMS =

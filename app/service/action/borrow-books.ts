@@ -1,12 +1,14 @@
 import { logger } from "@mptool/all";
 
 import { ACTION_SERVER } from "./utils.js";
-import type { CommonFailedResponse } from "../../../typings/index.js";
 import { request } from "../../api/index.js";
 import type { AuthLoginFailedResponse } from "../auth/index.js";
-import { handleFailResponse } from "../fail.js";
-import { LoginFailType } from "../loginFailTypes.js";
-import { createService } from "../utils.js";
+import type { CommonFailedResponse } from "../utils/index.js";
+import {
+  LoginFailType,
+  createService,
+  handleFailResponse,
+} from "../utils/index.js";
 
 const BORROW_BOOKS_URL = `${ACTION_SERVER}/basicInfo/getBookBorrow`;
 

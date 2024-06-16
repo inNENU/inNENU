@@ -3,8 +3,11 @@ import { $Component, get, set } from "@mptool/all";
 
 import { showToast } from "../../api/index.js";
 import { HOUR, SITE_ANNOUNCEMENT_LIST_KEY } from "../../config/index.js";
-import type { AnnouncementInfoItem } from "../../service/index.js";
-import { ensureActionLogin, getAnnouncementList } from "../../service/index.js";
+import type { OfficialNoticeData } from "../../pkg/tool/service/index.js";
+import {
+  ensureActionLogin,
+  getOfficialNoticeList,
+} from "../../service/index.js";
 import { user } from "../../state/index.js";
 import type { WidgetSize, WidgetStatus } from "../utils.js";
 import { FILTERED_SOURCES, getSize } from "../utils.js";
@@ -29,14 +32,14 @@ $Component({
       const size = getSize(type);
 
       this.setData({ size }, () => {
-        const data = get<AnnouncementInfoItem[]>(SITE_ANNOUNCEMENT_LIST_KEY);
+        const data = get<OfficialNoticeData[]>(SITE_ANNOUNCEMENT_LIST_KEY);
 
         if (data)
           this.setData({
             status: "success",
             data: size === "large" ? data : data.slice(0, 5),
           });
-        else this.getAnnouncementList("validate");
+        else this.getOfficialNoticeList("validate");
       });
     },
   },
@@ -46,14 +49,14 @@ $Component({
       if (user.account) {
         if (this.data.status === "login") {
           this.setData({ status: "loading" });
-          this.getAnnouncementList("validate");
+          this.getOfficialNoticeList("validate");
         }
       } else this.setData({ status: "login" });
     },
   },
 
   methods: {
-    async getAnnouncementList(
+    async getOfficialNoticeList(
       status: "check" | "login" | "validate" = "check",
     ) {
       const { size } = this.data;
@@ -68,7 +71,7 @@ $Component({
         }
 
         try {
-          const result = await getAnnouncementList();
+          const result = await getOfficialNoticeList();
 
           if (result.success) {
             const data = result.data
@@ -97,7 +100,7 @@ $Component({
     }: WechatMiniprogram.TouchEvent<
       Record<string, never>,
       Record<string, never>,
-      { info: AnnouncementInfoItem }
+      { info: OfficialNoticeData }
     >) {
       const { title, url } = currentTarget.dataset.info;
 
@@ -106,12 +109,12 @@ $Component({
 
     refresh() {
       this.setData({ status: "loading" });
-      this.getAnnouncementList();
+      this.getOfficialNoticeList();
     },
 
     retry() {
       this.setData({ status: "loading" });
-      this.getAnnouncementList("login");
+      this.getOfficialNoticeList("login");
     },
   },
 

@@ -1,7 +1,7 @@
 import type { PropType } from "@mptool/all";
 import { $Component, get } from "@mptool/all";
 
-import type { StarredInfo } from "./typings.js";
+import type { StarredOfficialInfoData } from "./typings.js";
 import { STARRED_INFO_LIST_KEY } from "../../config/index.js";
 import { user } from "../../state/index.js";
 import type { WidgetSize } from "../utils.js";
@@ -44,7 +44,7 @@ $Component({
   methods: {
     setInfo() {
       const { size } = this.data;
-      const infos = get<StarredInfo[]>(STARRED_INFO_LIST_KEY) || [];
+      const infos = get<StarredOfficialInfoData[]>(STARRED_INFO_LIST_KEY) || [];
 
       this.setData({
         data:
@@ -64,7 +64,7 @@ $Component({
       Record<string, never>,
       { index: number }
     >) {
-      const infos = get<StarredInfo[]>(STARRED_INFO_LIST_KEY) || [];
+      const infos = get<StarredOfficialInfoData[]>(STARRED_INFO_LIST_KEY) || [];
       const { index } = currentTarget.dataset;
       const { title, url, type } = infos[index];
 

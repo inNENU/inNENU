@@ -1,6 +1,6 @@
-import { compareVersion } from "../app/index.js";
-import type { App } from "../app.js";
-import { env, info } from "../state/index.js";
+import { compareVersion } from "../../app/index.js";
+import type { App } from "../../app.js";
+import { env, info } from "../../state/index.js";
 
 // 获取 SDK 版本
 const { SDKVersion } = (wx.getAppBaseInfo || wx.getSystemInfoSync)();

@@ -1,8 +1,8 @@
 import { $Page } from "@mptool/all";
 
 import { appCoverPrefix } from "../../../../config/index.js";
-import type { AnnouncementInfoItem } from "../../../../service/index.js";
-import { getAnnouncementList } from "../../../../service/index.js";
+import type { OfficialNoticeInfoItem } from "../../../../service/index.js";
+import { getOfficialNoticeList } from "../../../../service/index.js";
 import { info } from "../../../../state/index.js";
 import { getPageColor, showNotice } from "../../../../utils/index.js";
 
@@ -16,9 +16,9 @@ $Page(PAGE_ID, {
     theme: info.theme,
 
     status: "success" as "error" | "success",
-    items: [] as AnnouncementInfoItem[],
-    currentPage: 1,
-    totalPage: 1,
+    items: [] as OfficialNoticeInfoItem[],
+    current: 1,
+    total: 1,
   },
 
   onLoad() {
@@ -26,7 +26,7 @@ $Page(PAGE_ID, {
       color: getPageColor(),
       theme: info.theme,
     });
-    this.getAnnouncementList(1);
+    this.getOfficialNoticeList(1);
   },
 
   onShow() {
@@ -50,12 +50,12 @@ $Page(PAGE_ID, {
     };
   },
 
-  async getAnnouncementList(page = 1) {
+  async getOfficialNoticeList(current = 1) {
     wx.showLoading({ title: "获取中" });
 
-    const result = await getAnnouncementList({
-      page,
-      totalPage: this.data.totalPage,
+    const result = await getOfficialNoticeList({
+      current,
+      total: this.data.total,
     });
 
     wx.hideLoading();
@@ -63,9 +63,8 @@ $Page(PAGE_ID, {
     if (result.success) {
       this.setData({
         items: result.data,
-        page,
-        currentPage: result.page,
-        totalPage: result.totalPage,
+        current: result.current,
+        total: result.total,
         status: "success",
       });
       wx.pageScrollTo({ scrollTop: 0 });
@@ -75,11 +74,11 @@ $Page(PAGE_ID, {
   },
 
   retry() {
-    return this.getAnnouncementList(1);
+    return this.getOfficialNoticeList(1);
   },
 
   changePage({ detail }: WechatMiniprogram.CustomEvent<{ current: number }>) {
-    return this.getAnnouncementList(detail.current);
+    return this.getOfficialNoticeList(detail.current);
   },
 
   viewItem({

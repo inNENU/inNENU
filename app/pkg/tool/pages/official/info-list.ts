@@ -1,8 +1,11 @@
 import { $Page } from "@mptool/all";
 
 import { appCoverPrefix } from "../../../../config/index.js";
-import type { InfoItem, InfoType } from "../../../../service/index.js";
-import { getInfoList } from "../../../../service/index.js";
+import type {
+  OfficialInfoItem,
+  OfficialInfoType,
+} from "../../../../service/index.js";
+import { getOfficialInfoList } from "../../../../service/index.js";
 import { info } from "../../../../state/index.js";
 import { getPageColor, showNotice } from "../../../../utils/index.js";
 import { getOfficialTitle } from "../../utils/index.js";
@@ -16,21 +19,21 @@ $Page(PAGE_ID, {
     theme: info.theme,
 
     status: "success" as "error" | "success",
-    items: [] as InfoItem[],
-    currentPage: 1,
-    totalPage: 1,
+    items: [] as OfficialInfoItem[],
+    current: 1,
+    total: 1,
   },
 
   state: {
-    type: "news" as InfoType,
+    type: "news" as OfficialInfoType,
   },
 
   onLoad({ type = "news" }) {
-    this.state.type = type as InfoType;
+    this.state.type = type as OfficialInfoType;
     this.setData({
       color: getPageColor(),
       theme: info.theme,
-      title: getOfficialTitle(type as InfoType),
+      title: getOfficialTitle(type as OfficialInfoType),
     });
     this.getInfoList(1);
   },
@@ -58,13 +61,13 @@ $Page(PAGE_ID, {
     };
   },
 
-  async getInfoList(page = 1) {
+  async getInfoList(current = 1) {
     wx.showLoading({ title: "获取中" });
 
-    const result = await getInfoList({
-      page,
+    const result = await getOfficialInfoList({
       type: this.state.type,
-      totalPage: this.data.totalPage,
+      current,
+      total: this.data.total,
     });
 
     wx.hideLoading();
@@ -72,9 +75,8 @@ $Page(PAGE_ID, {
     if (result.success) {
       this.setData({
         items: result.data,
-        page,
-        currentPage: result.page,
-        totalPage: result.totalPage,
+        current: result.current,
+        total: result.total,
         status: "success",
       });
       wx.pageScrollTo({ scrollTop: 0 });

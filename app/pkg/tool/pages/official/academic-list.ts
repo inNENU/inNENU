@@ -1,8 +1,8 @@
 import { $Page } from "@mptool/all";
 
 import { appCoverPrefix } from "../../../../config/index.js";
-import type { AcademicInfoItem } from "../../../../service/index.js";
-import { getAcademicList } from "../../../../service/index.js";
+import type { OfficialAcademicInfoItem } from "../../../../service/index.js";
+import { getOfficialAcademicList } from "../../../../service/index.js";
 import { info } from "../../../../state/index.js";
 import { getPageColor, showNotice } from "../../../../utils/index.js";
 
@@ -16,9 +16,9 @@ $Page(PAGE_ID, {
     theme: info.theme,
 
     status: "success" as "error" | "success",
-    items: [] as AcademicInfoItem[],
-    currentPage: 1,
-    totalPage: 1,
+    items: [] as OfficialAcademicInfoItem[],
+    current: 1,
+    total: 1,
   },
 
   onLoad() {
@@ -26,7 +26,7 @@ $Page(PAGE_ID, {
       color: getPageColor(),
       theme: info.theme,
     });
-    this.getAcademicList(1);
+    this.getOfficialAcademicList(1);
   },
 
   onShow() {
@@ -42,12 +42,12 @@ $Page(PAGE_ID, {
     imageUrl: `${appCoverPrefix}.jpg`,
   }),
 
-  async getAcademicList(page = 1) {
+  async getOfficialAcademicList(current = 1) {
     wx.showLoading({ title: "获取中" });
 
-    const result = await getAcademicList({
-      page,
-      totalPage: this.data.totalPage,
+    const result = await getOfficialAcademicList({
+      current,
+      total: this.data.total,
     });
 
     wx.hideLoading();
@@ -55,9 +55,8 @@ $Page(PAGE_ID, {
     if (result.success) {
       this.setData({
         items: result.data,
-        page,
-        currentPage: result.page,
-        totalPage: result.totalPage,
+        current: result.current,
+        total: result.total,
         status: "success",
       });
       wx.pageScrollTo({ scrollTop: 0 });
@@ -67,11 +66,11 @@ $Page(PAGE_ID, {
   },
 
   retry() {
-    return this.getAcademicList(1);
+    return this.getOfficialAcademicList(1);
   },
 
   changePage({ detail }: WechatMiniprogram.CustomEvent<{ current: number }>) {
-    return this.getAcademicList(detail.current);
+    return this.getOfficialAcademicList(detail.current);
   },
 
   viewItem({

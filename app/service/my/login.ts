@@ -6,9 +6,12 @@ import { cookieStore, request } from "../../api/index.js";
 import type { AccountInfo } from "../../state/index.js";
 import type { AuthLoginFailedResponse } from "../auth/index.js";
 import { authLogin } from "../auth/login.js";
-import { handleFailResponse } from "../fail.js";
-import { LoginFailType } from "../loginFailTypes.js";
-import { createService, supportRedirect } from "../utils.js";
+import {
+  LoginFailType,
+  createService,
+  handleFailResponse,
+  supportRedirect,
+} from "../utils/index.js";
 import type { VPNLoginFailedResponse } from "../vpn/index.js";
 import { vpnCASLoginLocal } from "../vpn/login.js";
 

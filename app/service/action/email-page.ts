@@ -1,9 +1,9 @@
 import { URLSearchParams, logger } from "@mptool/all";
 
 import { ACTION_SERVER } from "./utils.js";
-import type { CommonFailedResponse } from "../../../typings/index.js";
 import { request } from "../../api/index.js";
-import { createService } from "../utils.js";
+import type { CommonFailedResponse } from "../utils/index.js";
+import { createService } from "../utils/index.js";
 
 const EMAIL_PAGE_URL = `${ACTION_SERVER}/extract/sendRedirect2Email`;
 const EMAIL_URL = `${ACTION_SERVER}/extract/sendRedirect2EmailPage`;

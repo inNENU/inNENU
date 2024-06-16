@@ -1,6 +1,6 @@
-import type { CommonFailedResponse } from "../../../typings/index.js";
 import { request } from "../../api/index.js";
-import { createService } from "../utils.js";
+import type { CommonFailedResponse } from "../utils/index.js";
+import { createService } from "../utils/index.js";
 
 interface LibraryPeopleRawData {
   code: number;

@@ -3,11 +3,10 @@ import { URLSearchParams, logger } from "@mptool/all";
 import { queryMyActions } from "./actions.js";
 import { getProcess } from "./process.js";
 import { MY_SERVER } from "./utils.js";
-import type { CommonFailedResponse } from "../../../typings/index.js";
 import { request } from "../../api/index.js";
 import { user } from "../../state/index.js";
-import { LoginFailType } from "../loginFailTypes.js";
-import { createService, isWebVPNPage } from "../utils.js";
+import type { CommonFailedResponse } from "../utils/index.js";
+import { LoginFailType, createService, isWebVPNPage } from "../utils/index.js";
 
 // Note: This can be inferred from app list
 const APPLY_MAIL_APP_ID = "GRYXSQ";

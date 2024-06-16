@@ -1,8 +1,8 @@
 import { $Page } from "@mptool/all";
 
-import type { CommonFailedResponse } from "../../../../../typings/response.js";
 import { showModal } from "../../../../api/index.js";
 import { appCoverPrefix } from "../../../../config/index.js";
+import type { CommonFailedResponse } from "../../../../service/index.js";
 import { showNotice } from "../../../../utils/index.js";
 import type { UnderAdmissionOptions } from "../../service/index.js";
 import { getGradAdmission, getUnderAdmission } from "../../service/index.js";

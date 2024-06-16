@@ -3,8 +3,11 @@ import { $Component, get, set } from "@mptool/all";
 
 import { showToast } from "../../api/index.js";
 import { HOUR, SITE_ACADEMIC_LIST_KEY } from "../../config/index.js";
-import type { AcademicInfoItem } from "../../service/index.js";
-import { ensureActionLogin, getAcademicList } from "../../service/index.js";
+import type { OfficialAcademicInfoItem } from "../../service/index.js";
+import {
+  ensureActionLogin,
+  getOfficialAcademicList,
+} from "../../service/index.js";
 import { user } from "../../state/index.js";
 import type { WidgetSize, WidgetStatus } from "../utils.js";
 import { getSize } from "../utils.js";
@@ -29,14 +32,14 @@ $Component({
       const size = getSize(type);
 
       this.setData({ size }, () => {
-        const data = get<AcademicInfoItem[]>(SITE_ACADEMIC_LIST_KEY);
+        const data = get<OfficialAcademicInfoItem[]>(SITE_ACADEMIC_LIST_KEY);
 
         if (data)
           this.setData({
             status: "success",
             data: size === "large" ? data : data.slice(0, 5),
           });
-        else this.getAcademicList("validate");
+        else this.getOfficialAcademicList("validate");
       });
     },
   },
@@ -46,14 +49,16 @@ $Component({
       if (user.account) {
         if (this.data.status === "login") {
           this.setData({ status: "loading" });
-          this.getAcademicList("validate");
+          this.getOfficialAcademicList("validate");
         }
       } else this.setData({ status: "login" });
     },
   },
 
   methods: {
-    async getAcademicList(status: "check" | "login" | "validate" = "check") {
+    async getOfficialAcademicList(
+      status: "check" | "login" | "validate" = "check",
+    ) {
       const { size } = this.data;
 
       if (user.account) {
@@ -66,7 +71,7 @@ $Component({
         }
 
         try {
-          const result = await getAcademicList();
+          const result = await getOfficialAcademicList();
 
           if (result.success) {
             const { data } = result;
@@ -90,7 +95,7 @@ $Component({
     }: WechatMiniprogram.TouchEvent<
       Record<string, never>,
       Record<string, never>,
-      { info: AcademicInfoItem }
+      { info: OfficialAcademicInfoItem }
     >) {
       const { subject, url } = currentTarget.dataset.info;
 
@@ -99,12 +104,12 @@ $Component({
 
     refresh() {
       this.setData({ status: "loading" });
-      this.getAcademicList();
+      this.getOfficialAcademicList();
     },
 
     retry() {
       this.setData({ status: "loading" });
-      this.getAcademicList("login");
+      this.getOfficialAcademicList("login");
     },
   },
 

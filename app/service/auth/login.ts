@@ -8,11 +8,14 @@ import {
   WEB_VPN_AUTH_DOMAIN,
   WEB_VPN_AUTH_SERVER,
 } from "./utils.js";
-import type { CommonFailedResponse } from "../../../typings/index.js";
 import { cookieStore, request } from "../../api/index.js";
 import type { AccountInfo } from "../../state/index.js";
-import { LoginFailType } from "../loginFailTypes.js";
-import { createService, supportRedirect } from "../utils.js";
+import type { CommonFailedResponse } from "../utils/index.js";
+import {
+  LoginFailType,
+  createService,
+  supportRedirect,
+} from "../utils/index.js";
 
 export interface AuthLoginOptions extends AccountInfo {
   service?: string;

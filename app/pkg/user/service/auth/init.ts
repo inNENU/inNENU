@@ -1,7 +1,7 @@
 import { URLSearchParams, encodeBase64, logger } from "@mptool/all";
 
-import type { CommonFailedResponse } from "../../../../../typings/response.js";
 import { cookieStore, request } from "../../../../api/index.js";
+import type { CommonFailedResponse } from "../../../../service/index.js";
 import {
   AUTH_DOMAIN,
   AUTH_SERVER,

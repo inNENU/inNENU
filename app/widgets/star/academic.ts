@@ -1,7 +1,7 @@
 import type { PropType } from "@mptool/all";
 import { $Component, get } from "@mptool/all";
 
-import type { StarredAcademic } from "./typings.js";
+import type { StarredOfficialAcademicData } from "./typings.js";
 import { STARRED_ACADEMIC_LIST_KEY } from "../../config/index.js";
 import type { WidgetSize } from "../utils.js";
 import { getSize } from "../utils.js";
@@ -31,7 +31,8 @@ $Component({
   methods: {
     setAnnouncement() {
       this.setData({
-        data: get<StarredAcademic[]>(STARRED_ACADEMIC_LIST_KEY) || [],
+        data:
+          get<StarredOfficialAcademicData[]>(STARRED_ACADEMIC_LIST_KEY) || [],
       });
     },
 
@@ -42,7 +43,8 @@ $Component({
       Record<string, never>,
       { index: number }
     >) {
-      const academics = get<StarredAcademic[]>(STARRED_ACADEMIC_LIST_KEY) || [];
+      const academics =
+        get<StarredOfficialAcademicData[]>(STARRED_ACADEMIC_LIST_KEY) || [];
       const { index } = currentTarget.dataset;
       const { title, url } = academics[index];
 

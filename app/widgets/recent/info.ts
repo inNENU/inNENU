@@ -9,13 +9,16 @@ import {
   SITE_SCIENCE_LIST_KEY,
   SITE_SOCIAL_LIST_KEY,
 } from "../../config/index.js";
-import type { InfoItem, InfoType } from "../../service/index.js";
-import { ensureActionLogin, getInfoList } from "../../service/index.js";
+import type {
+  OfficialInfoItem,
+  OfficialInfoType,
+} from "../../service/index.js";
+import { ensureActionLogin, getOfficialInfoList } from "../../service/index.js";
 import { user } from "../../state/index.js";
 import type { WidgetSize, WidgetStatus } from "../utils.js";
 import { getSize } from "../utils.js";
 
-const getKey = (type: InfoType): string =>
+const getKey = (type: OfficialInfoType): string =>
   ({
     media: SITE_MEDIA_LIST_KEY,
     news: SITE_NEWS_LIST_KEY,
@@ -46,7 +49,7 @@ $Component({
 
   data: {
     size: "medium" as WidgetSize,
-    infoType: "news" as InfoType,
+    infoType: "news" as OfficialInfoType,
     status: "loading" as WidgetStatus,
   },
 
@@ -69,7 +72,7 @@ $Component({
           size,
         },
         () => {
-          const data = get<InfoItem[]>(getKey(infoType));
+          const data = get<OfficialInfoItem[]>(getKey(infoType));
 
           if (data)
             this.setData({
@@ -107,7 +110,7 @@ $Component({
         }
 
         try {
-          const result = await getInfoList({
+          const result = await getOfficialInfoList({
             type: infoType,
           });
 
@@ -133,7 +136,7 @@ $Component({
     }: WechatMiniprogram.TouchEvent<
       Record<string, never>,
       Record<string, never>,
-      { info: InfoItem }
+      { info: OfficialInfoItem }
     >) {
       const { infoType: noticeType } = this.data;
       const { title, url } = currentTarget.dataset.info;

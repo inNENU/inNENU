@@ -1,6 +1,6 @@
 import { UNDER_SYSTEM_SERVER } from "./utils.js";
-import type { CookieVerifyResponse } from "../../../../../typings/index.js";
 import { request } from "../../../../api/index.js";
+import type { CookieVerifyResponse } from "../../../../service/index.js";
 
 export const checkUnderSystemCookies =
   async (): Promise<CookieVerifyResponse> => {

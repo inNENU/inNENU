@@ -1,6 +1,6 @@
 import { GRAD_OLD_SYSTEM_HTTPS_SERVER } from "./utils.js";
-import type { CookieVerifyResponse } from "../../../../../typings/index.js";
 import { request } from "../../../../api/index.js";
+import type { CookieVerifyResponse } from "../../../../service/index.js";
 
 export const checkGradSystemCookiesLocal =
   async (): Promise<CookieVerifyResponse> => {

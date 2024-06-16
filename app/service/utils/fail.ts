@@ -1,8 +1,8 @@
-import type { AuthLoginFailedResponse } from "./auth/index.js";
-import { LoginFailType } from "./loginFailTypes.js";
-import type { CommonFailedResponse } from "../../typings/index.js";
-import { cookieStore, getCurrentRoute, showToast } from "../api/index.js";
-import { clearUserInfo } from "../state/index.js";
+import { LoginFailType } from "./loginFailType.js";
+import type { CommonFailedResponse } from "./response.js";
+import { cookieStore, getCurrentRoute, showToast } from "../../api/index.js";
+import { clearUserInfo } from "../../state/index.js";
+import type { AuthLoginFailedResponse } from "../auth/index.js";
 
 export const handleFailResponse = (
   response: AuthLoginFailedResponse | CommonFailedResponse,

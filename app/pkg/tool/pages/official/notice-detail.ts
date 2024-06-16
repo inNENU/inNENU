@@ -6,10 +6,10 @@ import {
   appCoverPrefix,
   service,
 } from "../../../../config/index.js";
-import { getAnnouncement } from "../../../../service/index.js";
 import { appID, info } from "../../../../state/index.js";
 import { getPageColor, showNotice } from "../../../../utils/index.js";
-import type { StarredAnnouncement } from "../../../../widgets/star/typings.js";
+import type { StarredOfficialNoticeData } from "../../../../widgets/star/typings.js";
+import { getOfficialNoticeDetail } from "../../service/index.js";
 
 const PAGE_ID = "official-notice-detail";
 
@@ -23,12 +23,12 @@ $Page(PAGE_ID, {
   state: {
     url: "",
     title: "",
-    info: null as StarredAnnouncement | null,
+    info: null as StarredOfficialNoticeData | null,
   },
 
   onLoad({ scene = "", title = "", url = scene }) {
     const starredAnnouncements =
-      get<StarredAnnouncement[]>(STARRED_ANNOUNCEMENT_LIST_KEY) ?? [];
+      get<StarredOfficialNoticeData[]>(STARRED_ANNOUNCEMENT_LIST_KEY) ?? [];
 
     this.state.title = title;
     this.state.url = url;
@@ -89,11 +89,11 @@ $Page(PAGE_ID, {
   async getInfo() {
     const { url } = this.state;
 
-    const result = await getAnnouncement(url);
+    const result = await getOfficialNoticeDetail(url);
 
     wx.hideLoading();
     if (result.success) {
-      const { title, time, from, pageView, content } = result;
+      const { title, time, from, pageView, content } = result.data;
 
       this.setData({
         status: "success",
@@ -125,7 +125,7 @@ $Page(PAGE_ID, {
     if (!info) showToast("内容仍在获取", 1500, "error");
 
     if (starred) {
-      const starredAcademics = get<StarredAnnouncement[]>(
+      const starredAcademics = get<StarredOfficialNoticeData[]>(
         STARRED_ANNOUNCEMENT_LIST_KEY,
       )!;
 
@@ -135,7 +135,7 @@ $Page(PAGE_ID, {
       );
     } else {
       const starredAcademics =
-        get<StarredAnnouncement[]>(STARRED_ANNOUNCEMENT_LIST_KEY) ?? [];
+        get<StarredOfficialNoticeData[]>(STARRED_ANNOUNCEMENT_LIST_KEY) ?? [];
 
       set(STARRED_ANNOUNCEMENT_LIST_KEY, [...starredAcademics, info!]);
     }

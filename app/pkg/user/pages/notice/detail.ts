@@ -10,7 +10,7 @@ import type { NoticeType } from "../../../../service/index.js";
 import { ensureActionLogin, getNotice } from "../../../../service/index.js";
 import { appID, info, user } from "../../../../state/index.js";
 import { getPageColor, showNotice } from "../../../../utils/index.js";
-import type { StarredNotice } from "../../../../widgets/star/typings.js";
+import type { StarredNoticeData } from "../../../../widgets/star/typings.js";
 
 const PAGE_ID = "notice-detail";
 
@@ -26,11 +26,12 @@ $Page(PAGE_ID, {
     id: "",
     title: "",
     type: "notice" as NoticeType,
-    notice: null as StarredNotice | null,
+    notice: null as StarredNoticeData | null,
   },
 
   onLoad({ scene = "", title = "", id = scene, type = "notice" }) {
-    const starredNotices = get<StarredNotice[]>(STARRED_NOTICE_LIST_KEY) ?? [];
+    const starredNotices =
+      get<StarredNoticeData[]>(STARRED_NOTICE_LIST_KEY) ?? [];
 
     this.state.type = type as NoticeType;
     this.state.id = id;
@@ -150,7 +151,7 @@ $Page(PAGE_ID, {
     if (!notice) showToast("通知未获取完成", 1500, "error");
 
     if (starred) {
-      const starredNotices = get<StarredNotice[]>(STARRED_NOTICE_LIST_KEY)!;
+      const starredNotices = get<StarredNoticeData[]>(STARRED_NOTICE_LIST_KEY)!;
 
       set(
         STARRED_NOTICE_LIST_KEY,
@@ -158,7 +159,7 @@ $Page(PAGE_ID, {
       );
     } else {
       const starredNotices =
-        get<StarredNotice[]>(STARRED_NOTICE_LIST_KEY) ?? [];
+        get<StarredNoticeData[]>(STARRED_NOTICE_LIST_KEY) ?? [];
 
       set(STARRED_NOTICE_LIST_KEY, [...starredNotices, notice]);
     }

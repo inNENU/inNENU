@@ -1,3 +1,15 @@
+export interface CommonSuccessResponse<T = Record<never, never>> {
+  success: true;
+  data: T;
+}
+
+export interface CommonListSuccessResponse<T = Record<never, never>> {
+  success: true;
+  data: T;
+  current: number;
+  total: number;
+}
+
 export interface CommonFailedResponse {
   success: false;
   msg: string;

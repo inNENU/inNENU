@@ -1,11 +1,10 @@
 import { URLSearchParams } from "@mptool/all";
 
 import { ACTION_SERVER } from "./utils.js";
-import type { CommonFailedResponse } from "../../../typings/index.js";
 import { request } from "../../api/index.js";
 import type { AuthLoginFailedResponse } from "../auth/index.js";
-import { LoginFailType } from "../loginFailTypes.js";
-import { createService } from "../utils.js";
+import type { CommonFailedResponse } from "../utils/index.js";
+import { LoginFailType, createService } from "../utils/index.js";
 
 const NOTICE_LIST_QUERY_URL = `${ACTION_SERVER}/page/queryList`;
 

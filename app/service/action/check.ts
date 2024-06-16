@@ -1,6 +1,6 @@
 import { ACTION_SERVER } from "./utils.js";
-import type { CookieVerifyResponse } from "../../../typings/index.js";
 import { request } from "../../api/index.js";
+import type { CookieVerifyResponse } from "../utils/index.js";
 
 export const checkActionCookiesLocal =
   async (): Promise<CookieVerifyResponse> => {

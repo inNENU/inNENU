@@ -7,8 +7,8 @@ import {
   pathRegExp,
   studyDataRegExp,
 } from "./utils.js";
-import type { CommonFailedResponse } from "../../../../../../typings/index.js";
 import { cookieStore, request } from "../../../../../api/index.js";
+import type { CommonFailedResponse } from "../../../../../service/index.js";
 import {
   LoginFailType,
   createService,

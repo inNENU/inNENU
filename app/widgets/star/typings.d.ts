@@ -1,29 +1,30 @@
 import type {
-  AcademicInfoSuccessResponse,
-  AnnouncementInfoSuccessResponse,
-  InfoType,
-  MainInfoSuccessResponse,
+  OfficialAcademicData,
+  OfficialInfoData,
+  OfficialNoticeData,
+} from "../../pkg/tool/service/index.js";
+import type {
   NoticeSuccessResponse,
   NoticeType,
+  OfficialInfoType,
 } from "../../service/index.js";
 
-export interface StarredAcademic
-  extends Omit<AcademicInfoSuccessResponse, "success"> {
+export interface StarredOfficialAcademicData extends OfficialAcademicData {
   url: string;
   person: string;
 }
 
-export interface StarredAnnouncement
-  extends Omit<AnnouncementInfoSuccessResponse, "success"> {
+export interface StarredOfficialNoticeData extends OfficialNoticeData {
   url: string;
 }
 
-export interface StarredInfo extends Omit<MainInfoSuccessResponse, "success"> {
+export interface StarredOfficialInfoData extends OfficialInfoData {
   url: string;
-  type: InfoType;
+  type: OfficialInfoType;
 }
 
-export interface StarredNotice extends Omit<NoticeSuccessResponse, "success"> {
+export interface StarredNoticeData
+  extends Omit<NoticeSuccessResponse, "success"> {
   id: string;
   type: NoticeType;
 }

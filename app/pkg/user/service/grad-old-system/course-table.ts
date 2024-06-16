@@ -1,8 +1,8 @@
 import { URLSearchParams, logger } from "@mptool/all";
 
 import { GRAD_OLD_SYSTEM_HTTPS_SERVER } from "./utils.js";
-import type { CommonFailedResponse } from "../../../../../typings/index.js";
 import { cookieStore, request } from "../../../../api/index.js";
+import type { CommonFailedResponse } from "../../../../service/index.js";
 import {
   LoginFailType,
   createService,
