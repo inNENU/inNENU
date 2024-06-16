@@ -68,7 +68,10 @@ $Component({
         set(WEATHER_KEY, weather, 5 * MINUTE);
       }
 
-      this.setData({ weather });
+      this.setData({
+        temperature: `${weather.dayForecast[1].minDegree}° - ${weather.dayForecast[1].maxDegree}°`,
+        weather,
+      });
     },
 
     updateIcon() {
