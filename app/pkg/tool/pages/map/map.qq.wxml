@@ -14,14 +14,14 @@
   bindregionchange="regionChange"
 >
   <cover-view
-    class="left-button"
+    class="back-button"
     style="top:{{statusBarHeight + 6}}px;"
     hover-class="button-hover"
     catch:tap="$bindBack"
   >
     <cover-image
       class="icon-back"
-      src="/icon/back{{darkmode ? 'White' : ''}}.png"
+      src="/icon/back-{{darkmode ? 'white' : 'dark'}}.png"
     />
   </cover-view>
 

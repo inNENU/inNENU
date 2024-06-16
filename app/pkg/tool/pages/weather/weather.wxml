@@ -9,14 +9,7 @@
 <license />
 <view class="weather-wrapper grey">
   <view class="wide-left">
-    <view
-      class="left-button"
-      style="top: {{statusBarHeight + 6}}px;"
-      hover-class="button-hover"
-      catch:tap="$bindBack"
-    >
-      <view class="icon-{{firstPage ? 'home' : 'back'}}" />
-    </view>
+    <back-button />
     <view
       class="info-wrapper {{infoClass}}"
       style="padding-top: {{statusBarHeight}}px;"

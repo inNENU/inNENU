@@ -14,7 +14,7 @@
     "inlineSourceMap": false,
     "inlineSources": false,
     "listEmittedFiles": true,
-    "noEmitHelpers": true,
+    "noEmitHelpers": false,
     "noFallthroughCasesInSwitch": true,
     "noImplicitAny": true,
     "noImplicitReturns": true,

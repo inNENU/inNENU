@@ -41,4 +41,6 @@ $Component({
       }
     },
   },
+
+  externalClasses: ["button-class"],
 });

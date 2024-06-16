@@ -5,7 +5,7 @@
     <view
       wx:if="{{nav.action !== false}}"
       class="ios-nav-back-button"
-      hover-class="left-button-hover"
+      hover-class="text-button-hover"
       hover-stay-time="100"
       data-action="{{nav.action}}"
       catch:tap="{{nav.action ? navbar.action : '$bindBack'}}"

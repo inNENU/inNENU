@@ -11,21 +11,14 @@
 <view class="{{theme}} {{page.grey ? 'grey' : ''}}">
   <template wx:if="{{page.error}}" is="error" data="{{ id: page.id }}" />
   <block wx:else>
-    <view
-      class="left-button {{titleDisplay ? 'fade-out' : 'fade-in'}}"
-      style="top:{{statusBarHeight + 6}}px;"
-      hover-class="button-hover"
-      catch:tap="$bindBack"
-    >
-      <view class="icon-{{firstPage ? 'home' : 'back'}}" />
-    </view>
+    <back-button button-class="{{titleDisplay ? 'fade-in' : 'fade-out'}}" />
     <view
       class="nenu-navigation-bar {{borderDisplay ? 'fade-in' : 'fade-out'}}"
       style="background-color: {{page.color}}; padding-top: {{statusBarHeight}}px;"
     >
       <view
         class="ios-nav-back-button"
-        hover-class="left-button-hover"
+        hover-class="text-button-hover"
         style="position: absolute; left: 0"
         plain
         catch:tap="$bindBack"

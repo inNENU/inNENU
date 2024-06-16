@@ -1,5 +1,5 @@
 <view
-  class="back-button"
+  class="back-button button-class"
   style="top:{{statusBarHeight + 6}}px;"
   hover-class="back-button-hover"
   catch:tap="onTap"
