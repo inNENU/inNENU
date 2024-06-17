@@ -118,7 +118,6 @@ const getBorrowBooksLocal = async (): Promise<BorrowBooksResponse> => {
         headers: {
           Accept: "application/json, text/javascript, */*; q=0.01",
         },
-        cookieScope: ACTION_SERVER,
         redirect: "manual",
       },
     );
