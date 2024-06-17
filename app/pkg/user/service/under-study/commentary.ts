@@ -3,7 +3,7 @@ import { URLSearchParams } from "@mptool/all";
 import { UNDER_STUDY_SERVER } from "./utils.js";
 import { request } from "../../../../api/index.js";
 import type { CommonFailedResponse } from "../../../../service/index.js";
-import { LoginFailType, createService } from "../../../../service/index.js";
+import { ActionFailType, createService } from "../../../../service/index.js";
 
 export interface GetUnderCourseCommentaryListOptions {
   type: "list";
@@ -82,9 +82,7 @@ export interface UnderCourseCommentaryListSuccessResponse {
 
 export type UnderCourseCommentaryListResponse =
   | UnderCourseCommentaryListSuccessResponse
-  | (CommonFailedResponse & {
-      type?: LoginFailType.Expired;
-    });
+  | CommonFailedResponse<ActionFailType.Expired>;
 
 export interface GetUnderCourseCommentaryOptions {
   type: "get";
@@ -121,7 +119,7 @@ export interface UnderCourseCommentaryViewSuccessResponse {
 
 export type UnderCourseCommentaryViewResponse =
   | UnderCourseCommentaryViewSuccessResponse
-  | CommonFailedResponse;
+  | CommonFailedResponse<ActionFailType.Expired>;
 
 export interface UnderCourseCommentaryInfo {
   /** 参数 */
@@ -183,7 +181,7 @@ export interface UnderCourseCommentaryGetSuccessResponse {
 
 export type UnderCourseCommentaryGetResponse =
   | UnderCourseCommentaryGetSuccessResponse
-  | CommonFailedResponse;
+  | CommonFailedResponse<ActionFailType.Expired>;
 
 export interface UnderCourseCommentarySubmitSuccessResponse {
   success: true;
@@ -192,7 +190,7 @@ export interface UnderCourseCommentarySubmitSuccessResponse {
 
 export type UnderCourseCommentarySubmitResponse =
   | UnderCourseCommentarySubmitSuccessResponse
-  | CommonFailedResponse;
+  | CommonFailedResponse<ActionFailType.Expired>;
 
 const MAIN_URL = `${UNDER_STUDY_SERVER}/new/student/teapj`;
 const LIST_URL = `${UNDER_STUDY_SERVER}/new/student/teapj/pjDatas`;
@@ -352,7 +350,7 @@ const underStudyCourseCommentaryLocal = async <
       if (headers.get("content-type")?.includes("text/html"))
         return {
           success: false,
-          type: LoginFailType.Expired,
+          type: ActionFailType.Expired,
           msg: "登录过期，请重新登录",
         } as UnderCourseCommentaryResponse<T>;
 
@@ -360,7 +358,7 @@ const underStudyCourseCommentaryLocal = async <
         if (data.message === "尚未登录，请先登录")
           return {
             success: false,
-            type: LoginFailType.Expired,
+            type: ActionFailType.Expired,
             msg: "登录过期，请重新登录",
           } as UnderCourseCommentaryResponse<T>;
 
@@ -459,7 +457,7 @@ const underStudyCourseCommentaryLocal = async <
     if (headers.get("content-type")?.includes("text/html"))
       return {
         success: false,
-        type: LoginFailType.Expired,
+        type: ActionFailType.Expired,
         msg: "登录过期，请重新登录",
       } as UnderCourseCommentaryResponse<T>;
 
@@ -473,7 +471,7 @@ const underStudyCourseCommentaryLocal = async <
     if (data.message === "尚未登录，请先登录")
       return {
         success: false,
-        type: LoginFailType.Expired,
+        type: ActionFailType.Expired,
         msg: "登录过期，请重新登录",
       } as UnderCourseCommentaryResponse<T>;
 

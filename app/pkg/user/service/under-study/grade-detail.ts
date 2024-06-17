@@ -4,7 +4,7 @@ import type {
   AuthLoginFailedResponse,
   CommonFailedResponse,
 } from "../../../../service/index.js";
-import { LoginFailType, createService } from "../../../../service/index.js";
+import { ActionFailType, createService } from "../../../../service/index.js";
 
 interface RawUnderGradeDetailItem {
   /** 总成绩 */
@@ -83,7 +83,7 @@ export interface UnderGradeDetailSuccessResponse {
 export type UnderGradeDetailResponse =
   | UnderGradeDetailSuccessResponse
   | AuthLoginFailedResponse
-  | CommonFailedResponse;
+  | CommonFailedResponse<ActionFailType.Expired>;
 
 const getGradeDetail = ({
   cj1,
@@ -141,7 +141,7 @@ const getUnderGradeDetailLocal = async (
     if (data.message === "尚未登录，请先登录")
       return {
         success: false,
-        type: LoginFailType.Expired,
+        type: ActionFailType.Expired,
         msg: "登录过期，请重新登录",
       };
 

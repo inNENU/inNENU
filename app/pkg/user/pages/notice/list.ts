@@ -2,7 +2,7 @@ import { $Page } from "@mptool/all";
 
 import { showToast } from "../../../../api/index.js";
 import { appCoverPrefix } from "../../../../config/index.js";
-import type { LoginMethod, NoticeInfo } from "../../../../service/index.js";
+import type { NoticeInfo } from "../../../../service/index.js";
 import { ensureActionLogin, getNoticeList } from "../../../../service/index.js";
 import { info, user } from "../../../../state/index.js";
 import { getPageColor, showNotice } from "../../../../utils/index.js";
@@ -22,7 +22,6 @@ $Page(PAGE_ID, {
   },
 
   state: {
-    loginMethod: "validate" as LoginMethod,
     type: "notice" as "notice" | "news",
     inited: false,
   },
@@ -70,12 +69,11 @@ $Page(PAGE_ID, {
     if (user.account) {
       wx.showLoading({ title: "获取中" });
 
-      const err = await ensureActionLogin(user.account, this.state.loginMethod);
+      const err = await ensureActionLogin(user.account);
 
       if (err) {
         wx.hideLoading();
         showToast(err.msg);
-        this.state.loginMethod = "force";
 
         return this.setData({ status: "error" });
       }
@@ -96,10 +94,8 @@ $Page(PAGE_ID, {
           current: result.current,
           total: result.total,
         });
-        this.state.loginMethod = "check";
       } else {
         this.setData({ status: "error" });
-        this.state.loginMethod = "force";
       }
     } else {
       this.setData({ status: "login" });

@@ -8,7 +8,7 @@ import {
   appCoverPrefix,
 } from "../../../../config/index.js";
 import type { LoginMethod } from "../../../../service/index.js";
-import { LoginFailType } from "../../../../service/index.js";
+import { ActionFailType } from "../../../../service/index.js";
 import type {
   CourseTableClassData,
   CourseTableData,
@@ -234,7 +234,7 @@ $Page(PAGE_ID, {
         this.state.coursesData[time] = courseTable;
         this.state.loginMethod = "check";
         set(COURSE_DATA_KEY, this.state.coursesData, 6 * MONTH);
-      } else if (result.type === LoginFailType.Expired) {
+      } else if (result.type === ActionFailType.Expired) {
         this.state.loginMethod = "force";
         retryAction("登录过期", result.msg, () =>
           this.getUnderCourseData(time),
@@ -279,7 +279,7 @@ $Page(PAGE_ID, {
         this.state.coursesData[time] = courseTable;
         this.state.loginMethod = "check";
         set(COURSE_DATA_KEY, this.state.coursesData, 6 * MONTH);
-      } else if (result.type === LoginFailType.Expired) {
+      } else if (result.type === ActionFailType.Expired) {
         this.state.loginMethod = "force";
         retryAction("登录过期", result.msg, () => this.getGradCourseData(time));
       } else {

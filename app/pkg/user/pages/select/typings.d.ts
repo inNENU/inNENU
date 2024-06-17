@@ -1,6 +1,6 @@
 import type {
+  ActionFailType,
   CommonFailedResponse,
-  LoginFailType,
 } from "../../../../service/index.js";
 import type { AccountInfo } from "../../../../state/index.js";
 
@@ -122,9 +122,9 @@ export interface ProcessSuccessResponse {
   msg: string;
 }
 
-export interface ProcessFailedResponse extends CommonFailedResponse {
-  type?: LoginFailType.Expired | "conflict" | "forbidden";
-}
+export type ProcessFailedResponse = CommonFailedResponse<
+  ActionFailType.Expired | ActionFailType.Conflict | ActionFailType.Forbidden
+>;
 
 export type ProcessResponse = ProcessSuccessResponse | ProcessFailedResponse;
 
@@ -165,9 +165,8 @@ export interface SelectSearchSuccessResponse {
   courses: CourseBasicInfo[];
 }
 
-export interface SelectSearchFailedResponse extends CommonFailedResponse {
-  type?: LoginFailType.Expired;
-}
+export type SelectSearchFailedResponse =
+  CommonFailedResponse<ActionFailType.Expired>;
 
 export type SelectSearchResponse =
   | SelectSearchSuccessResponse
@@ -197,9 +196,8 @@ export interface StudentAmountSuccessResponse {
   data: StudentAmountData[];
 }
 
-export interface StudentAmountFailedResponse extends CommonFailedResponse {
-  type?: LoginFailType.Expired;
-}
+export type StudentAmountFailedResponse =
+  CommonFailedResponse<ActionFailType.Expired>;
 
 export type StudentAmountResponse =
   | StudentAmountSuccessResponse

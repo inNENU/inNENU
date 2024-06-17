@@ -1,13 +1,21 @@
-import { URLSearchParams } from "@mptool/all";
+import { URLSearchParams, logger } from "@mptool/all";
 
+import { actionState } from "./login.js";
 import { ACTION_SERVER } from "./utils.js";
 import { request } from "../../api/index.js";
-import type { AuthLoginFailedResponse } from "../auth/index.js";
 import type {
   CommonFailedResponse,
   CommonListSuccessResponse,
 } from "../utils/index.js";
-import { LoginFailType, createService } from "../utils/index.js";
+import {
+  ActionFailType,
+  ExpiredResponse,
+  UnknownResponse,
+  createService,
+  handleFailResponse,
+  isWebVPNPage,
+  supportRedirect,
+} from "../utils/index.js";
 
 const NOTICE_LIST_QUERY_URL = `${ACTION_SERVER}/page/queryList`;
 
@@ -82,7 +90,7 @@ export interface NoticeListSuccessResponse
 
 export type NoticeListResponse =
   | NoticeListSuccessResponse
-  | CommonFailedResponse;
+  | CommonFailedResponse<ActionFailType.Expired | ActionFailType.Unknown>;
 
 const getNoticeListLocal = async ({
   type = "notice",
@@ -109,33 +117,37 @@ const getNoticeListLocal = async ({
       redirect: "manual",
     });
 
-    if (status === 302)
-      return {
-        success: false,
-        type: LoginFailType.Expired,
-        msg: "登录信息已过期，请重新登录",
-      } as AuthLoginFailedResponse;
+    if (
+      status === 302 ||
+      // Note: If the env does not support "redirect: manual", the response will be a 302 redirect to WebVPN login page
+      // In this case, the response.status will be 200 and the response body will be the WebVPN login page
+      (!supportRedirect && isWebVPNPage(data))
+    ) {
+      actionState.method = "login";
 
-    if (data.length)
-      return {
-        success: true,
-        data: data.map(getNoticeItem),
-        count: totalCount,
-        size: pageSize,
-        current: pageIndex,
-        total: totalPage,
-      } as NoticeListSuccessResponse;
+      return ExpiredResponse;
+    }
 
-    throw new Error(`获取公告列表失败: ${JSON.stringify(data, null, 2)}`);
+    if (!data.length)
+      throw new Error(`获取公告列表失败: ${JSON.stringify(data, null, 2)}`);
+
+    actionState.method = "check";
+
+    return {
+      success: true,
+      data: data.map(getNoticeItem),
+      count: totalCount,
+      size: pageSize,
+      current: pageIndex,
+      total: totalPage,
+    };
   } catch (err) {
     const { message } = err as Error;
 
     console.error(err);
+    actionState.method = "login";
 
-    return {
-      success: false,
-      msg: message,
-    } as CommonFailedResponse;
+    return UnknownResponse(message);
   }
 };
 
@@ -146,7 +158,16 @@ const getNoticeListOnline = (
     method: "POST",
     body: options,
     cookieScope: ACTION_SERVER,
-  }).then(({ data }) => data);
+  }).then(({ data }) => {
+    if (!data.success) {
+      logger.error("获取内网通知失败", data);
+
+      if (data.type === ActionFailType.Expired) actionState.method = "login";
+      handleFailResponse(data);
+    }
+
+    return data;
+  });
 
 export const getNoticeList = createService(
   "notice-list",

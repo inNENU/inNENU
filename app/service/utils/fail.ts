@@ -1,19 +1,18 @@
-import { LoginFailType } from "./loginFailType.js";
+import { ActionFailType } from "./actionFailType.js";
 import type { CommonFailedResponse } from "./response.js";
 import { cookieStore, getCurrentRoute, showToast } from "../../api/index.js";
 import { clearUserInfo } from "../../state/index.js";
-import type { AuthLoginFailedResponse } from "../auth/index.js";
 
 export const handleFailResponse = (
-  response: AuthLoginFailedResponse | CommonFailedResponse,
+  response: CommonFailedResponse<ActionFailType>,
 ): void => {
   if (
     "type" in response &&
     [
-      LoginFailType.NeedCaptcha,
-      LoginFailType.WrongPassword,
-      LoginFailType.BlackList,
-    ].includes(response.type)
+      ActionFailType.NeedCaptcha,
+      ActionFailType.WrongPassword,
+      ActionFailType.BlackList,
+    ].includes(response.type!)
   ) {
     cookieStore.clear();
     clearUserInfo();

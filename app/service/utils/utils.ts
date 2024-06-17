@@ -11,6 +11,16 @@ export const supportRedirect =
   ["android", "ios"].includes(info.platform) &&
   compareVersion(SDKVersion, "3.2.2") > 0;
 
+export const isOnlineService = (name: string): boolean => {
+  const { globalData } = getApp<App>();
+
+  return (
+    globalData.service[name] === "online" ||
+    globalData.service.forceOnline ||
+    false
+  );
+};
+
 /*@__NO_SIDE_EFFECTS__*/
 export const createService =
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -20,15 +30,8 @@ export const createService =
     onlineService: T,
   ): T =>
     ((...args: Parameters<T>): ReturnType<T> => {
-      const { globalData } = getApp<App>();
-
-      const shouldUseOnlineService =
-        globalData.service[name] === "online" ||
-        globalData.service.forceOnline ||
-        false;
-
       // eslint-disable-next-line @typescript-eslint/no-unsafe-return
-      return (shouldUseOnlineService ? onlineService : localService)(...args);
+      return (isOnlineService(name) ? onlineService : localService)(...args);
     }) as T;
 
 export const getIETimeStamp = (): number => {
@@ -38,5 +41,6 @@ export const getIETimeStamp = (): number => {
 };
 
 // 小程序会自动解析 302，所以我们需要检查 WebVPN 是否已失效
-export const isWebVPNPage = (content: string): boolean =>
-  content.includes("fuckvpn") || content.includes("东北师范大学 WebVPN");
+export const isWebVPNPage = (content: unknown): boolean =>
+  typeof content === "string" &&
+  (content.includes("fuckvpn") || content.includes("东北师范大学 WebVPN"));

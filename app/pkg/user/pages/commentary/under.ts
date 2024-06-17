@@ -7,7 +7,7 @@ import {
 } from "../../../../api/index.js";
 import { appCoverPrefix } from "../../../../config/index.js";
 import type { LoginMethod } from "../../../../service/index.js";
-import { LoginFailType } from "../../../../service/index.js";
+import { ActionFailType } from "../../../../service/index.js";
 import { envName, info, user } from "../../../../state/index.js";
 import { getPageColor, showNotice } from "../../../../utils/index.js";
 import type {
@@ -165,7 +165,7 @@ $Page(PAGE_ID, {
           ),
         });
         this.state.loginMethod = "check";
-      } else if (result.type === LoginFailType.Expired) {
+      } else if (result.type === ActionFailType.Expired) {
         this.state.loginMethod = "force";
         retryAction("登录过期", result.msg, () =>
           this.getCourseCommentaryList(time),

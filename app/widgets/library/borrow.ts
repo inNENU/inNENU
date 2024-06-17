@@ -3,7 +3,7 @@ import { $Component, get, set } from "@mptool/all";
 
 import { showModal, showToast } from "../../api/index.js";
 import { BORROW_BOOKS_KEY, DAY, HOUR } from "../../config/index.js";
-import type { BorrowBookData, LoginMethod } from "../../service/index.js";
+import type { BorrowBookData } from "../../service/index.js";
 import { ensureActionLogin, getBorrowBooks } from "../../service/index.js";
 import { user } from "../../state/index.js";
 
@@ -17,7 +17,6 @@ $Component({
 
   data: {
     books: [] as BorrowBookData[],
-    loginMethod: "validate" as LoginMethod,
     status: "loading" as "loading" | "error" | "login" | "success",
   },
 
@@ -52,30 +51,22 @@ $Component({
     },
 
     async getBooks() {
-      if (user.account) {
-        const err = await ensureActionLogin(
-          user.account,
-          this.data.loginMethod,
-        );
+      if (!user.account) return this.setData({ status: "login" });
 
-        if (err) {
-          showToast(err.msg);
+      const err = await ensureActionLogin(user.account);
 
-          return this.setData({ loginMethod: "force", status: "error" });
-        }
+      if (err) {
+        showToast(err.msg);
 
-        const result = await getBorrowBooks();
-
-        if (result.success) {
-          set(BORROW_BOOKS_KEY, result.data, 3 * HOUR);
-          this.setBooks(result.data);
-          this.setData({ loginMethod: "check" });
-        } else {
-          this.setData({ status: "error" });
-        }
-      } else {
-        this.setData({ status: "login" });
+        return this.setData({ status: "error" });
       }
+
+      const result = await getBorrowBooks();
+
+      if (!result.success) return this.setData({ status: "error" });
+
+      this.setBooks(result.data);
+      set(BORROW_BOOKS_KEY, result.data, 3 * HOUR);
     },
 
     setBooks(data: BorrowBookData[]) {

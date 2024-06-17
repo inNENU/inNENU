@@ -67,44 +67,32 @@ $Component({
     async getNoticeList() {
       const { noticeType, size } = this.data;
 
-      if (user.account) {
-        const err = await ensureActionLogin(
-          user.account,
-          this.data.loginMethod,
-        );
+      if (!user.account) return this.setData({ status: "login" });
 
-        if (err) {
-          showToast(err.msg);
+      const err = await ensureActionLogin(user.account);
 
-          return this.setData({ loginMethod: "force", status: "error" });
-        }
+      if (err) {
+        showToast(err.msg);
 
-        try {
-          const result = await getNoticeList({
-            type: noticeType,
-          });
+        return this.setData({ status: "error" });
+      }
 
-          if (result.success) {
-            const data = result.data
-              .filter(({ from }) => !FILTERED_SOURCES.includes(from))
-              .map(({ title, id }) => ({
-                title: title.replace(/^关于/g, "").replace(/的通知$/g, ""),
-                id,
-              }));
+      const result = await getNoticeList({ type: noticeType });
 
-            this.setData({
-              loginMethod: "check",
-              status: "success",
-              data: size === "large" ? data : data.slice(0, 5),
-            });
-            set(getKey(noticeType), data, HOUR);
-          } else {
-            this.setData({ status: "error" });
-          }
-        } catch (err) {
-          this.setData({ status: "error" });
-        }
-      } else this.setData({ status: "login" });
+      if (!result.success) return this.setData({ status: "error" });
+
+      const data = result.data
+        .filter(({ from }) => !FILTERED_SOURCES.includes(from))
+        .map(({ title, id }) => ({
+          title: title.replace(/^关于/g, "").replace(/的通知$/g, ""),
+          id,
+        }));
+
+      this.setData({
+        status: "success",
+        data: size === "large" ? data : data.slice(0, 5),
+      });
+      set(getKey(noticeType), data, HOUR);
     },
 
     viewNotice({

@@ -4,7 +4,8 @@ import { UNDER_SYSTEM_SERVER } from "./utils.js";
 import { cookieStore, request } from "../../../../api/index.js";
 import type { CommonFailedResponse } from "../../../../service/index.js";
 import {
-  LoginFailType,
+  ActionFailType,
+  ExpiredResponse,
   createService,
   getIETimeStamp,
   isWebVPNPage,
@@ -163,7 +164,7 @@ export interface UnderGetStudentArchiveSuccessResponse {
 
 export type UnderGetStudentArchiveResponse =
   | UnderGetStudentArchiveSuccessResponse
-  | (CommonFailedResponse & { type?: LoginFailType.Expired });
+  | CommonFailedResponse<ActionFailType.Expired>;
 
 const getUnderStudentArchiveLocal =
   async (): Promise<UnderGetStudentArchiveResponse> => {
@@ -177,7 +178,7 @@ const getUnderStudentArchiveLocal =
 
       return {
         success: false,
-        type: LoginFailType.Expired,
+        type: ActionFailType.Expired,
         msg: "登录已过期，请重新登录",
       };
     }
@@ -227,7 +228,7 @@ export interface UnderRegisterStudentArchiveSuccessResponse {
 
 export type UnderRegisterStudentArchiveResponse =
   | UnderRegisterStudentArchiveSuccessResponse
-  | (CommonFailedResponse & { type?: LoginFailType.Expired });
+  | CommonFailedResponse<ActionFailType.Expired>;
 
 const registerUnderStudentArchiveLocal = async (
   path: string,
@@ -241,11 +242,7 @@ const registerUnderStudentArchiveLocal = async (
   if (status === 302 || isWebVPNPage(content)) {
     cookieStore.clear();
 
-    return {
-      success: false,
-      type: LoginFailType.Expired,
-      msg: "登录已过期，请重新登录",
-    };
+    return ExpiredResponse;
   }
 
   const alert = alertRegExp.exec(content)?.[1] || "注册失败";

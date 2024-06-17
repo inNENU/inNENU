@@ -3,11 +3,11 @@ import { URLSearchParams, logger } from "@mptool/all";
 import { GRAD_OLD_SYSTEM_HTTPS_SERVER } from "./utils.js";
 import { request } from "../../../../api/index.js";
 import type {
-  AuthLoginFailedResponse,
+  ActionFailType,
   CommonFailedResponse,
 } from "../../../../service/index.js";
 import {
-  LoginFailType,
+  ExpiredResponse,
   createService,
   isWebVPNPage,
 } from "../../../../service/index.js";
@@ -46,8 +46,7 @@ export interface GradGradeListSuccessResponse {
 
 export type GradGradeListResponse =
   | GradGradeListSuccessResponse
-  | AuthLoginFailedResponse
-  | CommonFailedResponse;
+  | CommonFailedResponse<ActionFailType.Expired | ActionFailType.Unknown>;
 
 const gradeItemRegExp = /<tr.+?class="smartTr"[^>]*?>([\s\S]*?)<\/tr>/g;
 const jsGradeItemRegExp = /<tr.+?class=\\"smartTr\\"[^>]*?>(.*?)<\/tr>/g;
@@ -213,11 +212,7 @@ const getGradGradeListLocal = async (): Promise<GradGradeListResponse> => {
       isWebVPNPage(content) ||
       content.startsWith("<script languge='javascript'>")
     )
-      return {
-        success: false,
-        msg: "登录已过期，请重新登录",
-        type: LoginFailType.Expired,
-      };
+      return ExpiredResponse;
 
     const gradeList = await getGradGradeLists(content);
 

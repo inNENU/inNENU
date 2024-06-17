@@ -1,17 +1,22 @@
 import type { RichTextNode } from "@mptool/all";
-import { getRichTextNodes } from "@mptool/all";
+import { getRichTextNodes, logger } from "@mptool/all";
 
 import { request } from "../../../../api/index.js";
 import type {
-  AuthLoginFailedResponse,
   CommonFailedResponse,
   CommonSuccessResponse,
 } from "../../../../service/index.js";
 import {
   ACTION_SERVER,
-  LoginFailType,
+  ActionFailType,
+  ExpiredResponse,
   MY_SERVER,
+  UnknownResponse,
+  actionState,
   createService,
+  handleFailResponse,
+  isWebVPNPage,
+  supportRedirect,
 } from "../../../../service/index.js";
 
 const TITLE_REGEXP = /var title = '(.*?)';/;
@@ -33,9 +38,9 @@ export interface NoticeData {
   content: RichTextNode[];
 }
 
-export type NoticeSuccessResponse = CommonSuccessResponse<NoticeData>;
-
-export type NoticeResponse = NoticeSuccessResponse | CommonFailedResponse;
+export type NoticeResponse =
+  | CommonSuccessResponse<NoticeData>
+  | CommonFailedResponse<ActionFailType.Expired | ActionFailType.Unknown>;
 
 const getNoticeLocalDetail = async (
   noticeID: string,
@@ -49,12 +54,16 @@ const getNoticeLocalDetail = async (
       redirect: "manual",
     });
 
-    if (status === 302)
-      return {
-        success: false,
-        type: LoginFailType.Expired,
-        msg: "登录信息已过期，请重新登录",
-      } as AuthLoginFailedResponse;
+    if (
+      status === 302 ||
+      // Note: If the env does not support "redirect: manual", the response will be a 302 redirect to WebVPN login page
+      // In this case, the response.status will be 200 and the response body will be the WebVPN login page
+      (!supportRedirect && isWebVPNPage(text))
+    ) {
+      actionState.method = "login";
+
+      return ExpiredResponse;
+    }
 
     const title = TITLE_REGEXP.exec(text)![1];
     const author = AUTHOR_REGEXP.exec(text)![1];
@@ -89,19 +98,19 @@ const getNoticeLocalDetail = async (
       }),
     };
 
+    actionState.method = "check";
+
     return {
       success: true,
       data,
-    } as NoticeSuccessResponse;
+    };
   } catch (err) {
     const { message } = err as Error;
 
     console.error(err);
+    actionState.method = "login";
 
-    return {
-      success: false,
-      msg: message,
-    } as AuthLoginFailedResponse;
+    return UnknownResponse(message);
   }
 };
 
@@ -111,7 +120,12 @@ const getNoticeOnlineDetail = (noticeID: string): Promise<NoticeResponse> =>
     body: { noticeID },
     cookieScope: ACTION_SERVER,
   }).then(({ data }) => {
-    if (!data.success) console.error("获取失败", data.msg);
+    if (!data.success) {
+      logger.error("获取失败", data.msg);
+
+      if (data.type === ActionFailType.Expired) actionState.method = "login";
+      handleFailResponse(data);
+    }
 
     return data;
   });

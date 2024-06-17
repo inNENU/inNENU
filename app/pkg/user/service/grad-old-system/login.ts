@@ -16,7 +16,7 @@ import type {
   VPNLoginFailedResponse,
 } from "../../../../service/index.js";
 import {
-  LoginFailType,
+  ActionFailType,
   authLogin,
   createService,
   handleFailResponse,
@@ -62,7 +62,7 @@ const gradOldSystemLoginLocal = async (
   if (ticketResponse.status !== 302)
     return {
       success: false,
-      type: LoginFailType.Unknown,
+      type: ActionFailType.Unknown,
       msg: "登录失败",
     };
 
@@ -71,7 +71,7 @@ const gradOldSystemLoginLocal = async (
   if (finalLocation?.includes("http://wafnenu.nenu.edu.cn/offCampus.html"))
     return {
       success: false,
-      type: LoginFailType.Forbidden,
+      type: ActionFailType.Forbidden,
       msg: "此账户无法登录研究生教学服务系统",
     };
 
@@ -107,7 +107,7 @@ const gradOldSystemLoginLocal = async (
 
   return {
     success: false,
-    type: LoginFailType.Unknown,
+    type: ActionFailType.Unknown,
     msg: "登录失败",
   };
 };

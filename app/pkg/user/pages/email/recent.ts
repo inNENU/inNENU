@@ -7,8 +7,8 @@ import {
   showToast,
 } from "../../../../api/index.js";
 import { appCoverPrefix } from "../../../../config/index.js";
-import type { LoginMethod } from "../../../../service/index.js";
 import {
+  ActionFailType,
   ensureActionLogin,
   getEmailPage,
   getRecentEmails,
@@ -40,10 +40,6 @@ $Page(PAGE_ID, {
     status: "success" as "success" | "error" | "login",
   },
 
-  state: {
-    loginMethod: "validate" as LoginMethod,
-  },
-
   onShow() {
     if (user.account) {
       this.setData({ status: "success" });
@@ -73,12 +69,11 @@ $Page(PAGE_ID, {
   async getEmails(): Promise<void> {
     wx.showLoading({ title: "获取邮件" });
 
-    const err = await ensureActionLogin(user.account!, this.state.loginMethod);
+    const err = await ensureActionLogin(user.account!);
 
     if (err) {
       wx.hideLoading();
 
-      this.state.loginMethod = "force";
       this.setData({ status: "error" });
 
       return retryAction("登陆失败", "登录信息已过期", () => this.getEmails());
@@ -90,14 +85,13 @@ $Page(PAGE_ID, {
 
     if (result.success) {
       this.setData({
-        unread: result.unread,
-        recent: result.recent.map(({ receivedDate, ...item }) => ({
+        unread: result.data.unread,
+        recent: result.data.emails.map(({ receivedDate, ...item }) => ({
           date: new Date(receivedDate).toLocaleDateString(),
           ...item,
         })),
       });
-      this.state.loginMethod = "check";
-    } else if (result.type === "not-initialized") {
+    } else if (result.type === ActionFailType.NotInitialized) {
       wx.showModal({
         title: "无法读取",
         content: `\
@@ -120,7 +114,6 @@ $Page(PAGE_ID, {
         "请确认已手动登录邮箱，完成开启手机密保与修改初始密码工作。",
       );
       this.setData({ status: "error" });
-      this.state.loginMethod = "force";
     }
   },
 
@@ -133,16 +126,6 @@ $Page(PAGE_ID, {
   >) {
     wx.showLoading({ title: "加载中" });
 
-    const err = await ensureActionLogin(user.account!, this.state.loginMethod);
-
-    if (err) {
-      wx.hideLoading();
-      showToast(err.msg);
-      this.state.loginMethod = "force";
-
-      return this.setData({ status: "error" });
-    }
-
     const result = await getEmailPage(currentTarget.dataset.mid);
 
     wx.hideLoading();
@@ -150,18 +133,16 @@ $Page(PAGE_ID, {
     if (result.success) {
       const { data } = result;
 
-      if (env === "app") return this.$go(`web?url=${encodeURIComponent(data)}`);
-
-      await copyContent(data);
-
-      showModal(
-        "复制成功",
-        "相关链接已复制到剪切板。受小程序限制，请使用浏览器打开。",
-      );
-      this.state.loginMethod = "check";
+      if (env === "app") this.$go(`web?url=${encodeURIComponent(data)}`);
+      else {
+        await copyContent(data);
+        showModal(
+          "复制成功",
+          "相关链接已复制到剪切板。受小程序限制，请使用浏览器打开。",
+        );
+      }
     } else {
       showToast("加载页面失败");
-      this.state.loginMethod = "force";
     }
   },
 

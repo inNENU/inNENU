@@ -7,7 +7,7 @@ import {
 } from "../../../../api/index.js";
 import { HOUR, STUDENT_ARCHIVE_KEY } from "../../../../config/index.js";
 import type { LoginMethod } from "../../../../service/index.js";
-import { LoginFailType } from "../../../../service/index.js";
+import { ActionFailType } from "../../../../service/index.js";
 import { envName, info, user } from "../../../../state/index.js";
 import { getPageColor, showNotice } from "../../../../utils/index.js";
 import {
@@ -97,7 +97,7 @@ $Page(PAGE_ID, {
 
         this.setData({ stage: "info", ...result.info });
         this.state.loginMethod = "check";
-      } else if (result.type === LoginFailType.Expired) {
+      } else if (result.type === ActionFailType.Expired) {
         this.handleExpired(result.msg);
       } else {
         showModal("获取失败", result.msg);
@@ -131,7 +131,7 @@ $Page(PAGE_ID, {
           }),
         );
         this.state.loginMethod = "check";
-      } else if (result.type === LoginFailType.Expired) {
+      } else if (result.type === ActionFailType.Expired) {
         this.handleExpired(result.msg);
       } else {
         showModal("注册失败", result.msg);

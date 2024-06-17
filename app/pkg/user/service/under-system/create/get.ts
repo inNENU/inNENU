@@ -21,7 +21,8 @@ import {
 import { cookieStore, request } from "../../../../../api/index.js";
 import type { CommonFailedResponse } from "../../../../../service/index.js";
 import {
-  LoginFailType,
+  ActionFailType,
+  ExpiredResponse,
   createService,
   getIETimeStamp,
   isWebVPNPage,
@@ -38,7 +39,7 @@ export interface UnderCreateStudentArchiveGetInfoSuccessResponse {
 
 export type UnderCreateStudentArchiveGetInfoResponse =
   | UnderCreateStudentArchiveGetInfoSuccessResponse
-  | (CommonFailedResponse & { type?: LoginFailType.Expired | "created" });
+  | CommonFailedResponse<ActionFailType.Expired | ActionFailType.Existed>;
 
 const getCreateUnderStudentArchiveInfoLocal =
   async (): Promise<UnderCreateStudentArchiveGetInfoResponse> => {
@@ -51,17 +52,13 @@ const getCreateUnderStudentArchiveInfoLocal =
       if (isWebVPNPage(welcomePageContent)) {
         cookieStore.clear();
 
-        return {
-          success: false,
-          type: LoginFailType.Expired,
-          msg: "登录已过期，请重新登录",
-        };
+        return ExpiredResponse;
       }
 
       if (welcomePageContent.includes("您已经提交了报到"))
         return {
           success: false,
-          type: "created",
+          type: ActionFailType.Existed,
           msg: "学籍已建立",
         };
 
@@ -81,7 +78,7 @@ const getCreateUnderStudentArchiveInfoLocal =
       if (infoContent.includes("不在控制范围内！"))
         return {
           success: false,
-          type: "created",
+          type: ActionFailType.Existed,
           msg: "学籍已建立",
         };
 

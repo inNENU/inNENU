@@ -6,7 +6,7 @@ import {
   appCoverPrefix,
   service,
 } from "../../../../config/index.js";
-import type { LoginMethod, NoticeType } from "../../../../service/index.js";
+import type { NoticeType } from "../../../../service/index.js";
 import { ensureActionLogin } from "../../../../service/index.js";
 import { appID, info, user } from "../../../../state/index.js";
 import { getPageColor, showNotice } from "../../../../utils/index.js";
@@ -23,7 +23,6 @@ $Page(PAGE_ID, {
   },
 
   state: {
-    loginMethod: "validate" as LoginMethod,
     id: "",
     title: "",
     type: "notice" as NoticeType,
@@ -95,12 +94,11 @@ $Page(PAGE_ID, {
     if (user.account) {
       wx.showLoading({ title: "获取中" });
 
-      const err = await ensureActionLogin(user.account, this.state.loginMethod);
+      const err = await ensureActionLogin(user.account);
 
       if (err) {
         wx.hideLoading();
         showToast(err.msg);
-        this.state.loginMethod = "force";
 
         return this.setData({ status: "error" });
       }
@@ -133,10 +131,8 @@ $Page(PAGE_ID, {
           id,
           type,
         };
-        this.state.loginMethod = "check";
       } else {
         this.setData({ status: "error" });
-        this.state.loginMethod = "force";
       }
     } else {
       this.setData({ status: "login" });

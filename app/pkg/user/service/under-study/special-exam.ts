@@ -3,10 +3,10 @@ import { URLSearchParams } from "@mptool/all";
 import { UNDER_STUDY_SERVER } from "./utils.js";
 import { request } from "../../../../api/index.js";
 import type {
-  AuthLoginFailedResponse,
+  ActionFailType,
   CommonFailedResponse,
 } from "../../../../service/index.js";
-import { LoginFailType, createService } from "../../../../service/index.js";
+import { ExpiredResponse, createService } from "../../../../service/index.js";
 
 interface RawUnderSpecialExamItem {
   /** 考试成绩 */
@@ -82,8 +82,7 @@ export interface UnderSpecialExamSuccessResponse {
 
 export type UnderSpecialExamResponse =
   | UnderSpecialExamSuccessResponse
-  | AuthLoginFailedResponse
-  | CommonFailedResponse;
+  | CommonFailedResponse<ActionFailType.Expired | ActionFailType.Unknown>;
 
 const QUERY_URL = `${UNDER_STUDY_SERVER}/new/student/xskjcj/datas`;
 
@@ -115,12 +114,7 @@ const getUnderSpecialExamLocal =
       });
 
       if ("code" in data) {
-        if (data.message === "尚未登录，请先登录")
-          return {
-            success: false,
-            type: LoginFailType.Expired,
-            msg: "登录过期，请重新登录",
-          };
+        if (data.message === "尚未登录，请先登录") return ExpiredResponse;
 
         return {
           success: false,

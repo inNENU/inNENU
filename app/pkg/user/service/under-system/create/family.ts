@@ -5,7 +5,7 @@ import { onlineUnderStudentArchive } from "./utils.js";
 import { cookieStore, request } from "../../../../../api/index.js";
 import type { CommonFailedResponse } from "../../../../../service/index.js";
 import {
-  LoginFailType,
+  ActionFailType,
   createService,
   isWebVPNPage,
 } from "../../../../../service/index.js";
@@ -23,7 +23,7 @@ export interface UnderCreateStudentArchiveSubmitFamilySuccessResponse {
 
 export type UnderCreateStudentArchiveSubmitFamilyResponse =
   | UnderCreateStudentArchiveSubmitFamilySuccessResponse
-  | (CommonFailedResponse & { type?: LoginFailType.Expired });
+  | CommonFailedResponse<ActionFailType.Expired>;
 
 const submitUnderStudentArchiveFamilyLocal = async ({
   path,
@@ -72,7 +72,7 @@ const submitUnderStudentArchiveFamilyLocal = async ({
 
       return {
         success: false,
-        type: LoginFailType.Expired,
+        type: ActionFailType.Expired,
         msg: "登录已过期，请重新登录",
       };
     }

@@ -13,9 +13,12 @@ import {
   totalPagesRegExp,
 } from "./utils.js";
 import { cookieStore, request } from "../../../../api/index.js";
-import type { CommonFailedResponse } from "../../../../service/index.js";
+import type {
+  ActionFailType,
+  CommonFailedResponse,
+} from "../../../../service/index.js";
 import {
-  LoginFailType,
+  ExpiredResponse,
   createService,
   getIETimeStamp,
   isWebVPNPage,
@@ -154,9 +157,8 @@ export interface UnderChangeMajorPlanSuccessResponse {
   plans: ChangeMajorPlan[];
 }
 
-export type UnderChangeMajorPlanFailedResponse = CommonFailedResponse & {
-  type?: LoginFailType.Expired;
-};
+export type UnderChangeMajorPlanFailedResponse =
+  CommonFailedResponse<ActionFailType.Expired>;
 
 export type UnderChangeMajorPlanResponse =
   | UnderChangeMajorPlanSuccessResponse
@@ -172,11 +174,7 @@ const getUnderChangeMajorPlansLocal =
       if (isWebVPNPage(content)) {
         cookieStore.clear();
 
-        return {
-          success: false,
-          type: LoginFailType.Expired,
-          msg: "登录已过期，请重新登录",
-        };
+        return ExpiredResponse;
       }
 
       const header = headerRegExp.exec(content)![1].trim();

@@ -5,8 +5,14 @@ import { getProcess } from "./process.js";
 import { MY_SERVER } from "./utils.js";
 import { request } from "../../api/index.js";
 import { user } from "../../state/index.js";
+import type { AuthLoginFailedResponse } from "../auth/login.js";
 import type { CommonFailedResponse } from "../utils/index.js";
-import { LoginFailType, createService, isWebVPNPage } from "../utils/index.js";
+import {
+  ActionFailType,
+  ExpiredResponse,
+  createService,
+  isWebVPNPage,
+} from "../utils/index.js";
 
 // Note: This can be inferred from app list
 const APPLY_MAIL_APP_ID = "GRYXSQ";
@@ -46,6 +52,7 @@ const getMailInitInfo = async (instanceId: string): Promise<MailInitInfo> => {
 
   return {
     success: false,
+    type: ActionFailType.Unknown,
     msg: "邮箱创建失败，请联系信息化办",
   };
 };
@@ -79,9 +86,14 @@ export type GetEmailSuccessResponse =
   | GetEmailNameResponse
   | GetEmailInfoResponse;
 
-export type GetEmailFailedResponse = CommonFailedResponse;
+export type GetEmailFailedResponse = CommonFailedResponse<
+  ActionFailType.Expired | ActionFailType.Unknown
+>;
 
-export type GetEmailResponse = GetEmailSuccessResponse | GetEmailFailedResponse;
+export type GetEmailResponse =
+  | GetEmailSuccessResponse
+  | AuthLoginFailedResponse
+  | GetEmailFailedResponse;
 
 const getEmailInfoLocal = async (
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -173,9 +185,9 @@ export interface ActivateEmailOptions {
 
 export type ActivateMailSuccessResponse = MailInitSuccessInfo;
 
-export type ActivateMailFailedResponse = CommonFailedResponse & {
-  type?: LoginFailType.Expired;
-};
+export type ActivateMailFailedResponse = CommonFailedResponse<
+  ActionFailType.Expired | ActionFailType.Unknown
+>;
 
 export type ActivateEmailResponse =
   | ActivateMailSuccessResponse
@@ -210,11 +222,7 @@ const activateEmailLocal = async ({
     status === 302 ||
     (typeof checkResult === "string" && isWebVPNPage(checkResult))
   )
-    return {
-      success: false,
-      msg: "请重新登录",
-      type: LoginFailType.Expired,
-    };
+    return ExpiredResponse;
 
   if (typeof checkResult !== "object")
     return {

@@ -2,9 +2,12 @@ import { URLSearchParams, logger } from "@mptool/all";
 
 import { UNDER_SYSTEM_SERVER } from "./utils.js";
 import { cookieStore, request } from "../../../../api/index.js";
-import type { CommonFailedResponse } from "../../../../service/index.js";
+import type {
+  ActionFailType,
+  CommonFailedResponse,
+} from "../../../../service/index.js";
 import {
-  LoginFailType,
+  ExpiredResponse,
   createService,
   isWebVPNPage,
 } from "../../../../service/index.js";
@@ -58,9 +61,8 @@ export interface UnderCourseTableSuccessResponse {
   startTime: string;
 }
 
-export type UnderCourseTableFailedResponse = CommonFailedResponse & {
-  type?: LoginFailType.Expired;
-};
+export type UnderCourseTableFailedResponse =
+  CommonFailedResponse<ActionFailType.Expired>;
 
 export type UnderCourseTableResponse =
   | UnderCourseTableSuccessResponse
@@ -89,11 +91,7 @@ const getUnderCourseTableLocal = async ({
     if (status === 302 || isWebVPNPage(content)) {
       cookieStore.clear();
 
-      return {
-        success: false,
-        type: LoginFailType.Expired,
-        msg: "登录已过期，请重试",
-      };
+      return ExpiredResponse;
     }
 
     if (content.includes("评教未完成，不能查看课表！"))

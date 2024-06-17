@@ -3,9 +3,9 @@ import { $Component, get, set } from "@mptool/all";
 
 import { copyContent, showModal, showToast } from "../../api/index.js";
 import { EMAIL_DATA_KEY, MINUTE } from "../../config/index.js";
-import type { EmailItem, LoginMethod } from "../../service/index.js";
+import type { EmailData } from "../../service/index.js";
 import {
-  LoginFailType,
+  ActionFailType,
   ensureActionLogin,
   getEmailPage,
   getRecentEmails,
@@ -14,7 +14,7 @@ import { env, user } from "../../state/index.js";
 import type { LoginWidgetStatus } from "../utils.js";
 import { getSize } from "../utils.js";
 
-interface Mail extends Exclude<EmailItem, "receivedDate"> {
+interface Mail extends Exclude<EmailData, "receivedDate"> {
   shortDate: string;
   date: string;
 }
@@ -31,7 +31,6 @@ $Component({
 
   data: {
     data: [] as Mail[],
-    loginMethod: "validate" as LoginMethod,
     status: "loading" as LoginWidgetStatus,
   },
 
@@ -81,11 +80,10 @@ $Component({
     async getEmails(): Promise<void> {
       const { type } = this.data;
 
-      const err = await ensureActionLogin(user.account!, this.data.loginMethod);
+      const err = await ensureActionLogin(user.account!);
 
       if (err) {
         return this.setData({
-          loginMethod: "force",
           status: "error",
           errMsg: "登陆失败",
         });
@@ -94,7 +92,8 @@ $Component({
       const result = await getRecentEmails();
 
       if (result.success) {
-        const recent = result.recent.map(({ receivedDate, ...rest }) => {
+        const { unread, emails } = result.data;
+        const recent = emails.map(({ receivedDate, ...rest }) => {
           const date = new Date(receivedDate);
 
           return {
@@ -106,13 +105,13 @@ $Component({
 
         this.setData({
           status: "success",
-          unread: result.unread,
+          unread: unread,
           recent: type.includes("未读")
             ? recent.filter(({ unread }) => unread)
             : recent,
         });
         set(EMAIL_DATA_KEY, recent, 5 * MINUTE);
-      } else if (result.type === LoginFailType.Expired) {
+      } else if (result.type === ActionFailType.Expired) {
         this.setData({ loginMethod: "force" });
 
         return this.getEmails();
@@ -132,14 +131,6 @@ $Component({
 
       const { mid } = currentTarget.dataset;
 
-      const err = await ensureActionLogin(user.account!, this.data.loginMethod);
-
-      if (err) {
-        this.setData({ loginMethod: "force" });
-
-        return showToast(err.msg);
-      }
-
       const result = await getEmailPage(mid);
 
       if (result.success) {
@@ -150,15 +141,13 @@ $Component({
 
         await copyContent(data);
 
-        showModal(
+        return showModal(
           "复制成功",
           "相关链接已复制到剪切板。受小程序限制，请使用浏览器打开。",
         );
-        this.setData({ loginMethod: "check" });
-      } else {
-        showToast("加载页面失败");
-        this.setData({ loginMethod: "force" });
       }
+
+      showToast("加载页面失败");
     },
 
     retry() {

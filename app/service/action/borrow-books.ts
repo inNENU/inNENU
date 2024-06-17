@@ -1,17 +1,21 @@
 /* eslint-disable @typescript-eslint/naming-convention */
 import { logger } from "@mptool/all";
 
+import { actionState } from "./login.js";
 import { ACTION_SERVER } from "./utils.js";
 import { request } from "../../api/index.js";
-import type { AuthLoginFailedResponse } from "../auth/index.js";
 import type {
   CommonFailedResponse,
   CommonSuccessResponse,
 } from "../utils/index.js";
 import {
-  LoginFailType,
+  ActionFailType,
+  ExpiredResponse,
+  UnknownResponse,
   createService,
   handleFailResponse,
+  isWebVPNPage,
+  supportRedirect,
 } from "../utils/index.js";
 
 const BORROW_BOOKS_URL = `${ACTION_SERVER}/basicInfo/getBookBorrow`;
@@ -102,14 +106,9 @@ const getBookData = ({
   status: policy.description,
 });
 
-export type BorrowBooksSuccessResponse = CommonSuccessResponse<
-  BorrowBookData[]
->;
-
 export type BorrowBooksResponse =
-  | BorrowBooksSuccessResponse
-  | AuthLoginFailedResponse
-  | CommonFailedResponse;
+  | CommonSuccessResponse<BorrowBookData[]>
+  | CommonFailedResponse<ActionFailType.Expired | ActionFailType.Unknown>;
 
 const getBorrowBooksLocal = async (): Promise<BorrowBooksResponse> => {
   try {
@@ -124,32 +123,30 @@ const getBorrowBooksLocal = async (): Promise<BorrowBooksResponse> => {
       },
     );
 
-    if (status === 302)
-      return {
-        success: false,
-        type: LoginFailType.Expired,
-        msg: "登录信息已过期，请重新登录",
-      } as AuthLoginFailedResponse;
+    if (
+      status === 302 ||
+      // Note: If the env does not support "redirect: manual", the response will be a 302 redirect to WebVPN login page
+      // In this case, the response.status will be 200 and the response body will be the WebVPN login page
+      (!supportRedirect && isWebVPNPage(data))
+    ) {
+      actionState.method = "login";
 
-    if (data.success)
-      return {
-        success: true,
-        data: data.data.map(getBookData),
-      } as BorrowBooksSuccessResponse;
+      return ExpiredResponse;
+    }
+
+    actionState.method = "check";
 
     return {
       success: true,
-      data: [],
-    } as BorrowBooksSuccessResponse;
+      data: data.success ? data.data.map(getBookData) : [],
+    };
   } catch (err) {
     const { message } = err as Error;
 
     console.error(err);
+    actionState.method = "login";
 
-    return {
-      success: false,
-      msg: message,
-    } as CommonFailedResponse;
+    return UnknownResponse(message);
   }
 };
 
@@ -161,6 +158,7 @@ const getBorrowBooksOnline = (): Promise<BorrowBooksResponse> =>
     if (!data.success) {
       logger.error("获取借阅书籍出错", data);
 
+      if (data.type === ActionFailType.Expired) actionState.method = "login";
       handleFailResponse(data);
     }
 

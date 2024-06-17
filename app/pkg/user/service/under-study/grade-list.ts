@@ -2,8 +2,12 @@ import { URLSearchParams } from "@mptool/all";
 
 import { UNDER_STUDY_SERVER } from "./utils.js";
 import { request } from "../../../../api/index.js";
-import type { AuthLoginFailedResponse } from "../../../../service/index.js";
-import { LoginFailType, createService } from "../../../../service/index.js";
+import type { CommonFailedResponse } from "../../../../service/index.js";
+import {
+  ActionFailType,
+  ExpiredResponse,
+  createService,
+} from "../../../../service/index.js";
 
 export interface UnderGradeListOptions {
   /** 查询时间 */
@@ -131,7 +135,7 @@ export interface UnderGradeListSuccessResponse {
 
 export type UnderGradeListResponse =
   | UnderGradeListSuccessResponse
-  | AuthLoginFailedResponse;
+  | CommonFailedResponse<ActionFailType.Expired | ActionFailType.Unknown>;
 
 const QUERY_URL = `${UNDER_STUDY_SERVER}/new/student/xskccj/kccjDatas`;
 
@@ -199,16 +203,11 @@ const getUnderGradeListLocal = async ({
     }
 
     if ("code" in data) {
-      if (data.message === "尚未登录，请先登录")
-        return {
-          success: false,
-          type: LoginFailType.Expired,
-          msg: "登录过期，请重新登录",
-        };
+      if (data.message === "尚未登录，请先登录") return ExpiredResponse;
 
       return {
         success: false,
-        type: LoginFailType.Unknown,
+        type: ActionFailType.Unknown,
         msg: data.message,
       };
     }
@@ -226,7 +225,7 @@ const getUnderGradeListLocal = async ({
 
     return {
       success: false,
-      type: LoginFailType.Unknown,
+      type: ActionFailType.Unknown,
       msg: message,
     };
   }

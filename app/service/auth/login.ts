@@ -12,7 +12,7 @@ import { cookieStore, request } from "../../api/index.js";
 import type { AccountInfo } from "../../state/index.js";
 import type { CommonFailedResponse } from "../utils/index.js";
 import {
-  LoginFailType,
+  ActionFailType,
   createService,
   supportRedirect,
 } from "../utils/index.js";
@@ -27,9 +27,15 @@ export interface AuthLoginSuccessResponse {
   location: string;
 }
 
-export interface AuthLoginFailedResponse extends CommonFailedResponse {
-  type: Exclude<LoginFailType, LoginFailType.WrongCaptcha>;
-}
+export type AuthLoginFailedResponse = CommonFailedResponse<
+  | ActionFailType.AccountLocked
+  | ActionFailType.BlackList
+  | ActionFailType.EnabledSSO
+  | ActionFailType.Forbidden
+  | ActionFailType.NeedCaptcha
+  | ActionFailType.WrongPassword
+  | ActionFailType.Unknown
+>;
 
 export type AuthLoginResponse =
   | AuthLoginSuccessResponse
@@ -83,7 +89,7 @@ const authLoginLocal = async ({
     )
       return {
         success: false,
-        type: LoginFailType.Forbidden,
+        type: ActionFailType.Forbidden,
         msg: "用户账号没有此服务权限。",
       };
 
@@ -107,7 +113,7 @@ const authLoginLocal = async ({
     if (needCaptcha)
       return {
         success: false,
-        type: LoginFailType.NeedCaptcha,
+        type: ActionFailType.NeedCaptcha,
         msg: "需要验证码，请重新登录",
       };
 
@@ -139,7 +145,7 @@ const authLoginLocal = async ({
       if (loginResult.includes("您提供的用户名或者密码有误"))
         return {
           success: false,
-          type: LoginFailType.WrongPassword,
+          type: ActionFailType.WrongPassword,
           msg: "用户名或密码错误",
         };
 
@@ -148,7 +154,7 @@ const authLoginLocal = async ({
       )
         return {
           success: false,
-          type: LoginFailType.AccountLocked,
+          type: ActionFailType.AccountLocked,
           msg: "该帐号已经被锁定，请使用小程序的“账号激活”功能",
         };
 
@@ -159,21 +165,21 @@ const authLoginLocal = async ({
       )
         return {
           success: false,
-          type: LoginFailType.EnabledSSO,
+          type: ActionFailType.EnabledSSO,
           msg: "您已开启单点登录，请访问学校统一身份认证官网，在个人设置中关闭单点登录后重试。",
         };
 
       if (loginResult.includes("请输入验证码"))
         return {
           success: false,
-          type: LoginFailType.NeedCaptcha,
+          type: ActionFailType.NeedCaptcha,
           msg: "需要验证码，请重新登录",
         };
 
       if (loginResult.includes("不允许使用认证服务来认证您访问的目标应用。"))
         return {
           success: false,
-          type: LoginFailType.Forbidden,
+          type: ActionFailType.Forbidden,
           msg: "用户账号没有此服务权限。",
         };
 
@@ -181,7 +187,7 @@ const authLoginLocal = async ({
 
       return {
         success: false,
-        type: LoginFailType.Unknown,
+        type: ActionFailType.Unknown,
         msg: "未知错误",
       };
     }
@@ -190,7 +196,7 @@ const authLoginLocal = async ({
       if (loginLocation === `${server}/authserver/login`)
         return {
           success: false,
-          type: LoginFailType.WrongPassword,
+          type: ActionFailType.WrongPassword,
           msg: "用户名或密码错误",
         };
 
@@ -205,7 +211,7 @@ const authLoginLocal = async ({
 
   return {
     success: false,
-    type: LoginFailType.Unknown,
+    type: ActionFailType.Unknown,
     msg: "未知错误",
   };
 };

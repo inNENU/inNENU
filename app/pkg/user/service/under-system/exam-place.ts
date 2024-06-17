@@ -13,9 +13,12 @@ import {
   totalPagesRegExp,
 } from "./utils.js";
 import { cookieStore, request } from "../../../../api/index.js";
-import type { CommonFailedResponse } from "../../../../service/index.js";
+import type {
+  ActionFailType,
+  CommonFailedResponse,
+} from "../../../../service/index.js";
 import {
-  LoginFailType,
+  ExpiredResponse,
   createService,
   isWebVPNPage,
 } from "../../../../service/index.js";
@@ -137,12 +140,9 @@ export interface UnderExamPlaceSuccessResponse {
   }[];
 }
 
-export type UnderExamPlaceFailedResponse = CommonFailedResponse & {
-  type?: LoginFailType.Expired;
-};
 export type UnderExamPlaceResponse =
   | UnderExamPlaceSuccessResponse
-  | UnderExamPlaceFailedResponse;
+  | CommonFailedResponse<ActionFailType.Expired>;
 
 const getUnderExamPlaceLocal = async (): Promise<UnderExamPlaceResponse> => {
   try {
@@ -153,11 +153,7 @@ const getUnderExamPlaceLocal = async (): Promise<UnderExamPlaceResponse> => {
     if (status === 302 || isWebVPNPage(content)) {
       cookieStore.clear();
 
-      return {
-        success: false,
-        type: LoginFailType.Expired,
-        msg: "登录已过期，请重新登录",
-      };
+      return ExpiredResponse;
     }
 
     const select = selectRegExp.exec(content)![1].trim();

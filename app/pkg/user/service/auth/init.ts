@@ -5,7 +5,7 @@ import type { CommonFailedResponse } from "../../../../service/index.js";
 import {
   AUTH_DOMAIN,
   AUTH_SERVER,
-  LoginFailType,
+  ActionFailType,
   SALT_REGEXP,
   authEncrypt,
   createService,
@@ -129,9 +129,7 @@ export interface InitAuthSuccessResponse {
   info: UserInfo | null;
 }
 
-export interface InitAuthFailedResponse extends CommonFailedResponse {
-  type: LoginFailType;
-}
+export type InitAuthFailedResponse = CommonFailedResponse<ActionFailType>;
 
 export type InitAuthResponse = InitAuthSuccessResponse | InitAuthFailedResponse;
 
@@ -159,14 +157,14 @@ const initAuthLocal = async (
     if (resultContent.includes("无效的验证码"))
       return {
         success: false,
-        type: LoginFailType.WrongCaptcha,
+        type: ActionFailType.WrongCaptcha,
         msg: "验证码错误",
       };
 
     if (resultContent.includes("您提供的用户名或者密码有误"))
       return {
         success: false,
-        type: LoginFailType.WrongPassword,
+        type: ActionFailType.WrongPassword,
         msg: "用户名或密码错误",
       };
 
@@ -175,7 +173,7 @@ const initAuthLocal = async (
     )
       return {
         success: false,
-        type: LoginFailType.AccountLocked,
+        type: ActionFailType.AccountLocked,
         msg: "该帐号已经被锁定，请使用小程序的“账号激活”功能",
       };
 
@@ -186,14 +184,14 @@ const initAuthLocal = async (
     )
       return {
         success: false,
-        type: LoginFailType.EnabledSSO,
+        type: ActionFailType.EnabledSSO,
         msg: "您已开启单点登录，请访问学校统一身份认证官网，在个人设置中关闭单点登录后重试。",
       };
 
     if (resultContent.includes("请输入验证码"))
       return {
         success: false,
-        type: LoginFailType.NeedCaptcha,
+        type: ActionFailType.NeedCaptcha,
         msg: "需要验证码",
       };
   }
@@ -202,7 +200,7 @@ const initAuthLocal = async (
     if (location === LOGIN_URL)
       return {
         success: false,
-        type: LoginFailType.WrongPassword,
+        type: ActionFailType.WrongPassword,
         msg: "用户名或密码错误",
       };
 
@@ -210,7 +208,10 @@ const initAuthLocal = async (
 
     let loginResult = await myLoginLocal({ id, password });
 
-    if ("type" in loginResult && loginResult.type === LoginFailType.Forbidden) {
+    if (
+      "type" in loginResult &&
+      loginResult.type === ActionFailType.Forbidden
+    ) {
       // Activate VPN by login
       const vpnLoginResult = await vpnLoginLocal({ id, password });
 
@@ -246,7 +247,7 @@ const initAuthLocal = async (
 
   return {
     success: false,
-    type: LoginFailType.Unknown,
+    type: ActionFailType.Unknown,
     msg: "未知错误",
   };
 };

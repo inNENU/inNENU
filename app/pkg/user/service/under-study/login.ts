@@ -12,7 +12,7 @@ import type {
   VPNLoginFailedResponse,
 } from "../../../../service/index.js";
 import {
-  LoginFailType,
+  ActionFailType,
   authLogin,
   createService,
   handleFailResponse,
@@ -62,7 +62,7 @@ export const underStudyLoginLocal = async (
 
       return {
         success: false,
-        type: LoginFailType.Unknown,
+        type: ActionFailType.Unknown,
         msg: "登录失败",
       };
     }
@@ -88,7 +88,7 @@ export const underStudyLoginLocal = async (
 
     return {
       success: false,
-      type: LoginFailType.Unknown,
+      type: ActionFailType.Unknown,
       msg: "登录失败",
     };
   } catch (err) {
@@ -98,7 +98,7 @@ export const underStudyLoginLocal = async (
 
     return {
       success: false,
-      type: LoginFailType.Unknown,
+      type: ActionFailType.Unknown,
       msg: message,
     };
   }

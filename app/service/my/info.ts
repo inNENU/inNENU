@@ -3,8 +3,8 @@ import { URLSearchParams } from "@mptool/all";
 import { MY_SERVER } from "./utils.js";
 import { request } from "../../api/index.js";
 import type { UserInfo } from "../../state/index.js";
-import type { CommonFailedResponse } from "../utils/index.js";
-import { LoginFailType, isWebVPNPage } from "../utils/index.js";
+import type { ActionFailType, CommonFailedResponse } from "../utils/index.js";
+import { ExpiredResponse, isWebVPNPage } from "../utils/index.js";
 
 interface RawInfo {
   success: true;
@@ -64,7 +64,7 @@ export interface MyInfoSuccessResponse {
 
 export type MyInfoResponse =
   | MyInfoSuccessResponse
-  | (CommonFailedResponse & { type?: LoginFailType.Expired });
+  | CommonFailedResponse<ActionFailType.Expired>;
 
 export const getMyInfo = async (): Promise<MyInfoResponse> => {
   try {
@@ -86,11 +86,7 @@ export const getMyInfo = async (): Promise<MyInfoResponse> => {
       status === 302 ||
       (typeof infoResult === "string" && isWebVPNPage(infoResult))
     )
-      return {
-        success: false,
-        msg: "请重新登录",
-        type: LoginFailType.Expired,
-      };
+      return ExpiredResponse;
 
     if (
       infoResult.success &&

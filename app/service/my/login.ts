@@ -8,7 +8,7 @@ import type { AuthLoginFailedResponse } from "../auth/index.js";
 import { authLogin } from "../auth/login.js";
 import type { LoginMethod } from "../utils/index.js";
 import {
-  LoginFailType,
+  ActionFailType,
   createService,
   handleFailResponse,
   supportRedirect,
@@ -59,7 +59,7 @@ export const myLoginLocal = async (
   if (ticketResponse.status !== 302)
     return {
       success: false,
-      type: LoginFailType.Unknown,
+      type: ActionFailType.Unknown,
       msg: "登录失败",
     };
 
@@ -80,7 +80,7 @@ export const myLoginLocal = async (
 
   return {
     success: false,
-    type: LoginFailType.Unknown,
+    type: ActionFailType.Unknown,
     msg: "登录失败",
   };
 };

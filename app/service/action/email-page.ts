@@ -1,12 +1,21 @@
 import { URLSearchParams, logger } from "@mptool/all";
 
+import { actionState } from "./login.js";
 import { ACTION_SERVER } from "./utils.js";
 import { request } from "../../api/index.js";
 import type {
   CommonFailedResponse,
   CommonSuccessResponse,
 } from "../utils/index.js";
-import { createService } from "../utils/index.js";
+import {
+  ActionFailType,
+  ExpiredResponse,
+  UnknownResponse,
+  createService,
+  handleFailResponse,
+  isWebVPNPage,
+  supportRedirect,
+} from "../utils/index.js";
 
 const EMAIL_PAGE_URL = `${ACTION_SERVER}/extract/sendRedirect2Email`;
 const EMAIL_URL = `${ACTION_SERVER}/extract/sendRedirect2EmailPage`;
@@ -21,17 +30,15 @@ interface RawEmailPageResponse {
   url: string;
 }
 
-export type ActionEmailPageSuccessResponse = CommonSuccessResponse<string>;
-
 export type ActionEmailPageResponse =
-  | ActionEmailPageSuccessResponse
-  | CommonFailedResponse;
+  | CommonSuccessResponse<string>
+  | CommonFailedResponse<ActionFailType.Expired | ActionFailType.Unknown>;
 
 const getEmailPageLocal = async (
   mid = "",
 ): Promise<ActionEmailPageResponse> => {
   try {
-    const { data: emailPageResult } = await request<RawEmailPageResponse>(
+    const { data, status } = await request<RawEmailPageResponse>(
       mid ? EMAIL_PAGE_URL : EMAIL_URL,
       {
         method: "POST",
@@ -44,25 +51,36 @@ const getEmailPageLocal = async (
           // eslint-disable-next-line @typescript-eslint/naming-convention
           account_name: "",
         }),
+        redirect: "manual",
       },
     );
 
-    if (typeof emailPageResult !== "object" || !emailPageResult.success)
-      throw new Error("获取邮件页面失败");
+    if (
+      status === 302 ||
+      // Note: If the env does not support "redirect: manual", the response will be a 302 redirect to WebVPN login page
+      // In this case, the response.status will be 200 and the response body will be the WebVPN login page
+      (!supportRedirect && isWebVPNPage(data))
+    ) {
+      actionState.method = "login";
+
+      return ExpiredResponse;
+    }
+
+    if (!data.success) throw new Error("获取邮件页面失败");
+
+    actionState.method = "check";
 
     return {
       success: true,
-      data: emailPageResult.url,
+      data: data.url,
     };
   } catch (err) {
     const { message } = err as Error;
 
     console.error(err);
+    actionState.method = "login";
 
-    return {
-      success: false,
-      msg: message,
-    } as CommonFailedResponse;
+    return UnknownResponse(message);
   }
 };
 
@@ -72,7 +90,12 @@ const getEmailPageOnline = async (mid = ""): Promise<ActionEmailPageResponse> =>
     body: { mid },
     cookieScope: ACTION_SERVER,
   }).then(({ data }) => {
-    if (!data.success) logger.error("获取最近邮件失败", data);
+    if (!data.success) {
+      logger.error("获取最近邮件失败", data);
+
+      if (data.type === ActionFailType.Expired) actionState.method = "login";
+      handleFailResponse(data);
+    }
 
     return data;
   });

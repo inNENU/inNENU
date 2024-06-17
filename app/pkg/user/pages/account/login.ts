@@ -6,7 +6,7 @@ import type {
 } from "../../../../../typings/components.js";
 import { showModal, showToast } from "../../../../api/index.js";
 import { appCoverPrefix } from "../../../../config/index.js";
-import { LoginFailType, supportRedirect } from "../../../../service/index.js";
+import { ActionFailType, supportRedirect } from "../../../../service/index.js";
 import type { UserInfo } from "../../../../state/index.js";
 import {
   envName,
@@ -232,7 +232,7 @@ $Page(PAGE_ID, {
       } else {
         this.init();
 
-        if (result.type === LoginFailType.NeedCaptcha)
+        if (result.type === ActionFailType.NeedCaptcha)
           showModal("登录失败", "需要验证码，请输入验证码");
         else showModal("登录失败", result.msg);
       }
