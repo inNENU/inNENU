@@ -3,7 +3,7 @@ import { $Component, get, set } from "@mptool/all";
 
 import { copyContent, showModal, showToast } from "../../api/index.js";
 import { EMAIL_DATA_KEY, MINUTE } from "../../config/index.js";
-import type { EmailItem } from "../../service/index.js";
+import type { EmailItem, LoginMethod } from "../../service/index.js";
 import {
   LoginFailType,
   ensureActionLogin,
@@ -19,8 +19,6 @@ interface Mail extends Exclude<EmailItem, "receivedDate"> {
   date: string;
 }
 
-let loginMethod: "check" | "login" = "check";
-
 $Component({
   props: {
     type: {
@@ -33,6 +31,7 @@ $Component({
 
   data: {
     data: [] as Mail[],
+    loginMethod: "validate" as LoginMethod,
     status: "loading" as LoginWidgetStatus,
   },
 
@@ -82,16 +81,14 @@ $Component({
     async getEmails(): Promise<void> {
       const { type } = this.data;
 
-      const err = await ensureActionLogin(user.account!, loginMethod);
+      const err = await ensureActionLogin(user.account!, this.data.loginMethod);
 
       if (err) {
-        if (loginMethod === "check") {
-          loginMethod = "login";
-
-          return this.getEmails();
-        }
-
-        return this.setData({ status: "error", errMsg: "登陆失败" });
+        return this.setData({
+          loginMethod: "force",
+          status: "error",
+          errMsg: "登陆失败",
+        });
       }
 
       const result = await getRecentEmails();
@@ -116,7 +113,7 @@ $Component({
         });
         set(EMAIL_DATA_KEY, recent, 5 * MINUTE);
       } else if (result.type === LoginFailType.Expired) {
-        loginMethod = "login";
+        this.setData({ loginMethod: "force" });
 
         return this.getEmails();
       } else this.setData({ status: "error", errMsg: result.msg });
@@ -135,14 +132,12 @@ $Component({
 
       const { mid } = currentTarget.dataset;
 
-      const err = await ensureActionLogin(user.account!, loginMethod);
+      const err = await ensureActionLogin(user.account!, this.data.loginMethod);
 
       if (err) {
-        if (loginMethod === "check") {
-          loginMethod = "login";
+        this.setData({ loginMethod: "force" });
 
-          return showToast(err.msg);
-        }
+        return showToast(err.msg);
       }
 
       const result = await getEmailPage(mid);
@@ -159,10 +154,10 @@ $Component({
           "复制成功",
           "相关链接已复制到剪切板。受小程序限制，请使用浏览器打开。",
         );
-        loginMethod = "check";
+        this.setData({ loginMethod: "check" });
       } else {
         showToast("加载页面失败");
-        loginMethod = "login";
+        this.setData({ loginMethod: "force" });
       }
     },
 

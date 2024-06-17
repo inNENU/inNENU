@@ -2,7 +2,7 @@ import { $Page } from "@mptool/all";
 
 import { showToast } from "../../../../api/index.js";
 import { appCoverPrefix } from "../../../../config/index.js";
-import type { NoticeInfo } from "../../../../service/index.js";
+import type { LoginMethod, NoticeInfo } from "../../../../service/index.js";
 import { ensureActionLogin, getNoticeList } from "../../../../service/index.js";
 import { info, user } from "../../../../state/index.js";
 import { getPageColor, showNotice } from "../../../../utils/index.js";
@@ -22,7 +22,7 @@ $Page(PAGE_ID, {
   },
 
   state: {
-    loginMethod: "validate" as "check" | "login" | "validate",
+    loginMethod: "validate" as LoginMethod,
     type: "notice" as "notice" | "news",
     inited: false,
   },
@@ -75,7 +75,7 @@ $Page(PAGE_ID, {
       if (err) {
         wx.hideLoading();
         showToast(err.msg);
-        this.state.loginMethod = "login";
+        this.state.loginMethod = "force";
 
         return this.setData({ status: "error" });
       }
@@ -99,7 +99,7 @@ $Page(PAGE_ID, {
         this.state.loginMethod = "check";
       } else {
         this.setData({ status: "error" });
-        this.state.loginMethod = "login";
+        this.state.loginMethod = "force";
       }
     } else {
       this.setData({ status: "login" });

@@ -1,7 +1,13 @@
 import { $Page } from "@mptool/all";
 
-import { copyContent, showModal, showToast } from "../../../../api/index.js";
+import {
+  copyContent,
+  retryAction,
+  showModal,
+  showToast,
+} from "../../../../api/index.js";
 import { appCoverPrefix } from "../../../../config/index.js";
+import type { LoginMethod } from "../../../../service/index.js";
 import {
   ensureActionLogin,
   getEmailPage,
@@ -35,7 +41,7 @@ $Page(PAGE_ID, {
   },
 
   state: {
-    loginMethod: "validate" as "check" | "login" | "validate",
+    loginMethod: "validate" as LoginMethod,
   },
 
   onShow() {
@@ -64,20 +70,18 @@ $Page(PAGE_ID, {
     imageUrl: `${appCoverPrefix}.jpg`,
   }),
 
-  async getEmails() {
+  async getEmails(): Promise<void> {
     wx.showLoading({ title: "获取邮件" });
 
     const err = await ensureActionLogin(user.account!, this.state.loginMethod);
 
     if (err) {
       wx.hideLoading();
-      showModal(
-        "获取邮件失败",
-        "请确认已手动登录邮箱，完成开启手机密保与修改初始密码工作。",
-      );
-      this.state.loginMethod = "login";
 
-      return this.setData({ status: "error" });
+      this.state.loginMethod = "force";
+      this.setData({ status: "error" });
+
+      return retryAction("登陆失败", "登录信息已过期", () => this.getEmails());
     }
 
     const result = await getRecentEmails();
@@ -110,9 +114,13 @@ $Page(PAGE_ID, {
       });
       this.setData({ status: "error" });
     } else {
-      showModal("获取失败", result.msg);
+      console.error(result.msg);
+      showModal(
+        "获取邮件失败",
+        "请确认已手动登录邮箱，完成开启手机密保与修改初始密码工作。",
+      );
       this.setData({ status: "error" });
-      this.state.loginMethod = "login";
+      this.state.loginMethod = "force";
     }
   },
 
@@ -130,7 +138,7 @@ $Page(PAGE_ID, {
     if (err) {
       wx.hideLoading();
       showToast(err.msg);
-      this.state.loginMethod = "login";
+      this.state.loginMethod = "force";
 
       return this.setData({ status: "error" });
     }
@@ -153,7 +161,7 @@ $Page(PAGE_ID, {
       this.state.loginMethod = "check";
     } else {
       showToast("加载页面失败");
-      this.state.loginMethod = "login";
+      this.state.loginMethod = "force";
     }
   },
 

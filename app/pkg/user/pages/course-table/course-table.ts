@@ -7,6 +7,7 @@ import {
   MONTH,
   appCoverPrefix,
 } from "../../../../config/index.js";
+import type { LoginMethod } from "../../../../service/index.js";
 import { LoginFailType } from "../../../../service/index.js";
 import type {
   CourseTableClassData,
@@ -119,7 +120,7 @@ $Page(PAGE_ID, {
   },
 
   state: {
-    loginMethod: "validate" as "check" | "login" | "validate",
+    loginMethod: "validate" as LoginMethod,
     coursesData: {} as Record<string, CourseTableInfo>,
     grade: new Date().getFullYear(),
     inited: false,
@@ -234,7 +235,7 @@ $Page(PAGE_ID, {
         this.state.loginMethod = "check";
         set(COURSE_DATA_KEY, this.state.coursesData, 6 * MONTH);
       } else if (result.type === LoginFailType.Expired) {
-        this.state.loginMethod = "login";
+        this.state.loginMethod = "force";
         retryAction("登录过期", result.msg, () =>
           this.getUnderCourseData(time),
         );
@@ -279,7 +280,7 @@ $Page(PAGE_ID, {
         this.state.loginMethod = "check";
         set(COURSE_DATA_KEY, this.state.coursesData, 6 * MONTH);
       } else if (result.type === LoginFailType.Expired) {
-        this.state.loginMethod = "login";
+        this.state.loginMethod = "force";
         retryAction("登录过期", result.msg, () => this.getGradCourseData(time));
       } else {
         showModal("获取失败", result.msg);

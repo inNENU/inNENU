@@ -8,6 +8,7 @@ import { UNDER_STUDY_SERVER } from "./utils.js";
 import { cookieStore, request } from "../../../../api/index.js";
 import type {
   AuthLoginFailedResponse,
+  LoginMethod,
   VPNLoginFailedResponse,
 } from "../../../../service/index.js";
 import {
@@ -123,19 +124,19 @@ export const underStudyLoginOnline = async (
   return data;
 };
 
-const hasCookie = (): boolean =>
+const hasUnderStudyCookies = (): boolean =>
   cookieStore
     .getCookies(UNDER_STUDY_SERVER)
     .some(({ domain }) => domain === UNDER_STUDY_SERVER);
 
 const ensureUnderStudyLoginLocal = async (
   account: AccountInfo,
-  status: "check" | "validate" | "login" = "check",
+  status: LoginMethod,
 ): Promise<AuthLoginFailedResponse | VPNLoginFailedResponse | null> => {
-  if (!supportRedirect) return ensureUnderStudyLoginOnline(account);
+  if (!supportRedirect) return ensureUnderStudyLoginOnline(account, status);
 
-  if (status !== "login") {
-    if (hasCookie()) {
+  if (status !== "force") {
+    if (hasUnderStudyCookies()) {
       if (status === "check") return null;
 
       const { valid } = await checkUnderStudyCookiesLocal();
@@ -151,10 +152,10 @@ const ensureUnderStudyLoginLocal = async (
 
 const ensureUnderStudyLoginOnline = async (
   account: AccountInfo,
-  status: "check" | "validate" | "login" = "check",
+  status: LoginMethod,
 ): Promise<AuthLoginFailedResponse | VPNLoginFailedResponse | null> => {
-  if (status !== "login") {
-    if (hasCookie()) {
+  if (status !== "force") {
+    if (hasUnderStudyCookies()) {
       if (status === "check") return null;
 
       const { valid } = await checkUnderStudyCookiesOnline();

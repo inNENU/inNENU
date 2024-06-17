@@ -6,6 +6,7 @@ import { cookieStore, request } from "../../api/index.js";
 import type { AccountInfo } from "../../state/index.js";
 import type { AuthLoginFailedResponse } from "../auth/index.js";
 import { authLogin } from "../auth/index.js";
+import type { LoginMethod } from "../utils/index.js";
 import {
   LoginFailType,
   createService,
@@ -91,19 +92,19 @@ export const actionLoginOnline = async (
   return data;
 };
 
-const hasCookie = (): boolean =>
+const hasActionCookies = (): boolean =>
   cookieStore
     .getCookies(ACTION_SERVER)
     .some(({ domain }) => domain === ACTION_DOMAIN);
 
 export const ensureActionLoginLocal = async (
   account: AccountInfo,
-  status: "check" | "validate" | "login" = "check",
+  status: LoginMethod,
 ): Promise<AuthLoginFailedResponse | VPNLoginFailedResponse | null> => {
-  if (!supportRedirect) return ensureActionLoginOnline(account);
+  if (!supportRedirect) return ensureActionLoginOnline(account, status);
 
-  if (status !== "login") {
-    if (hasCookie()) {
+  if (status !== "force") {
+    if (hasActionCookies()) {
       if (status === "check") return null;
 
       const { valid } = await checkActionCookiesLocal();
@@ -119,10 +120,10 @@ export const ensureActionLoginLocal = async (
 
 export const ensureActionLoginOnline = async (
   account: AccountInfo,
-  status: "check" | "validate" | "login" = "check",
+  status: LoginMethod,
 ): Promise<AuthLoginFailedResponse | VPNLoginFailedResponse | null> => {
-  if (status !== "login") {
-    if (hasCookie()) {
+  if (status !== "force") {
+    if (hasActionCookies()) {
       if (status === "check") return null;
 
       const { valid } = await checkActionCookiesOnline();

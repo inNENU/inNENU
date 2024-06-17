@@ -2,7 +2,10 @@ import { $Page } from "@mptool/all";
 
 import { copyContent, showModal, showToast } from "../../../../api/index.js";
 import { appCoverPrefix, appName } from "../../../../config/index.js";
-import type { ActivateEmailOptions } from "../../../../service/index.js";
+import type {
+  ActivateEmailOptions,
+  LoginMethod,
+} from "../../../../service/index.js";
 import { applyEmail, ensureMyLogin } from "../../../../service/index.js";
 import { env, envName, info, logo, user } from "../../../../state/index.js";
 import { showNotice } from "../../../../utils/index.js";
@@ -37,7 +40,7 @@ $Page(PAGE_ID, {
   },
 
   state: {
-    loginMethod: "validate" as "check" | "login" | "validate",
+    loginMethod: "validate" as LoginMethod,
     taskId: "",
     instanceId: "",
   },
@@ -109,7 +112,7 @@ $Page(PAGE_ID, {
     if (err) {
       wx.hideLoading();
       showToast(err.msg);
-      this.state.loginMethod = "login";
+      this.state.loginMethod = "force";
 
       return this.setData({ status: "error" });
     }
@@ -138,7 +141,7 @@ $Page(PAGE_ID, {
       });
     }
 
-    this.state.loginMethod = "login";
+    this.state.loginMethod = "force";
 
     return this.setData({ status: "error" });
   },

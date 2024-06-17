@@ -8,6 +8,7 @@ import { UNDER_SYSTEM_DOMAIN, UNDER_SYSTEM_SERVER } from "./utils.js";
 import { cookieStore, request } from "../../../../api/index.js";
 import type {
   AuthLoginFailedResponse,
+  LoginMethod,
   VPNLoginFailedResponse,
 } from "../../../../service/index.js";
 import {
@@ -125,9 +126,9 @@ const hasCookie = (): boolean =>
 
 const ensureUnderSystemLoginLocal = async (
   account: AccountInfo,
-  status: "check" | "validate" | "login" = "check",
+  status: LoginMethod,
 ): Promise<AuthLoginFailedResponse | VPNLoginFailedResponse | null> => {
-  if (status !== "login") {
+  if (status !== "force") {
     if (hasCookie()) {
       if (status === "check") return null;
 
@@ -144,9 +145,9 @@ const ensureUnderSystemLoginLocal = async (
 
 const ensureUnderSystemLoginOnline = async (
   account: AccountInfo,
-  status: "check" | "validate" | "login" = "check",
+  status: LoginMethod,
 ): Promise<AuthLoginFailedResponse | VPNLoginFailedResponse | null> => {
-  if (status !== "login") {
+  if (status !== "force") {
     if (hasCookie()) {
       if (status === "check") return null;
 

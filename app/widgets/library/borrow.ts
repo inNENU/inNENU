@@ -3,7 +3,7 @@ import { $Component, get, set } from "@mptool/all";
 
 import { showModal, showToast } from "../../api/index.js";
 import { BORROW_BOOKS_KEY, DAY, HOUR } from "../../config/index.js";
-import type { BorrowBookData } from "../../service/index.js";
+import type { BorrowBookData, LoginMethod } from "../../service/index.js";
 import { ensureActionLogin, getBorrowBooks } from "../../service/index.js";
 import { user } from "../../state/index.js";
 
@@ -17,6 +17,7 @@ $Component({
 
   data: {
     books: [] as BorrowBookData[],
+    loginMethod: "validate" as LoginMethod,
     status: "loading" as "loading" | "error" | "login" | "success",
   },
 
@@ -26,7 +27,7 @@ $Component({
       const books = get<BorrowBookData[]>(BORROW_BOOKS_KEY);
 
       if (books) this.setBooks(books);
-      else this.getBooks("validate");
+      else this.getBooks();
 
       this.setData({
         header: type.includes("借阅书目") ? "借阅书目" : "图书待还",
@@ -39,7 +40,7 @@ $Component({
       if (user.account) {
         if (this.data.status === "login") {
           this.setData({ status: "loading" });
-          this.getBooks("validate");
+          this.getBooks();
         }
       } else this.setData({ status: "login" });
     },
@@ -50,14 +51,17 @@ $Component({
       this.$go("account-login?update=true");
     },
 
-    async getBooks(status: "check" | "login" | "validate" = "check") {
+    async getBooks() {
       if (user.account) {
-        const err = await ensureActionLogin(user.account, status);
+        const err = await ensureActionLogin(
+          user.account,
+          this.data.loginMethod,
+        );
 
         if (err) {
           showToast(err.msg);
 
-          return this.setData({ status: "error" });
+          return this.setData({ loginMethod: "force", status: "error" });
         }
 
         const result = await getBorrowBooks();
@@ -65,6 +69,7 @@ $Component({
         if (result.success) {
           set(BORROW_BOOKS_KEY, result.data, 3 * HOUR);
           this.setBooks(result.data);
+          this.setData({ loginMethod: "check" });
         } else {
           this.setData({ status: "error" });
         }
@@ -94,7 +99,7 @@ $Component({
 
     retry() {
       this.setData({ status: "loading" });
-      this.getBooks("login");
+      this.getBooks();
     },
 
     showBooks() {

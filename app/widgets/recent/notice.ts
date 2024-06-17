@@ -3,7 +3,11 @@ import { $Component, get, set } from "@mptool/all";
 
 import { showToast } from "../../api/index.js";
 import { HOUR, NEWS_LIST_KEY, NOTICE_LIST_KEY } from "../../config/index.js";
-import type { NoticeInfo, NoticeType } from "../../service/index.js";
+import type {
+  LoginMethod,
+  NoticeInfo,
+  NoticeType,
+} from "../../service/index.js";
 import { ensureActionLogin, getNoticeList } from "../../service/index.js";
 import { user } from "../../state/index.js";
 import type { WidgetSize, WidgetStatus } from "../utils.js";
@@ -26,6 +30,7 @@ $Component({
     size: "medium" as WidgetSize,
     noticeType: "notice" as NoticeType,
     status: "loading" as WidgetStatus,
+    loginMethod: "validate" as LoginMethod,
   },
 
   lifetimes: {
@@ -42,7 +47,7 @@ $Component({
             status: "success",
             data: size === "large" ? data : data.slice(0, 5),
           });
-        else this.getNoticeList("validate");
+        else this.getNoticeList();
       });
     },
   },
@@ -52,23 +57,26 @@ $Component({
       if (user.account) {
         if (this.data.status === "login") {
           this.setData({ status: "loading" });
-          this.getNoticeList("validate");
+          this.getNoticeList();
         }
       } else this.setData({ status: "login" });
     },
   },
 
   methods: {
-    async getNoticeList(status: "check" | "login" | "validate" = "check") {
+    async getNoticeList() {
       const { noticeType, size } = this.data;
 
       if (user.account) {
-        const err = await ensureActionLogin(user.account, status);
+        const err = await ensureActionLogin(
+          user.account,
+          this.data.loginMethod,
+        );
 
         if (err) {
           showToast(err.msg);
 
-          return this.setData({ status: "error" });
+          return this.setData({ loginMethod: "force", status: "error" });
         }
 
         try {
@@ -85,6 +93,7 @@ $Component({
               }));
 
             this.setData({
+              loginMethod: "check",
               status: "success",
               data: size === "large" ? data : data.slice(0, 5),
             });
@@ -120,7 +129,7 @@ $Component({
 
     retry() {
       this.setData({ status: "loading" });
-      this.getNoticeList("login");
+      this.getNoticeList();
     },
   },
 

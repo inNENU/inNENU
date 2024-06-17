@@ -12,6 +12,7 @@ import {
 import { cookieStore, request } from "../../../../api/index.js";
 import type {
   AuthLoginFailedResponse,
+  LoginMethod,
   VPNLoginFailedResponse,
 } from "../../../../service/index.js";
 import {
@@ -153,9 +154,9 @@ const checkGradOldSystemCookies = (): boolean =>
 
 const ensureGradOldSystemLoginLocal = async (
   account: AccountInfo,
-  status: "check" | "validate" | "login" = "check",
+  status: LoginMethod,
 ): Promise<AuthLoginFailedResponse | VPNLoginFailedResponse | null> => {
-  if (status !== "login") {
+  if (status !== "force") {
     if (checkGradOldSystemCookies()) {
       if (status === "check") return null;
 
@@ -172,9 +173,9 @@ const ensureGradOldSystemLoginLocal = async (
 
 const ensureGradOldSystemLoginOnline = async (
   account: AccountInfo,
-  status: "check" | "validate" | "login" = "check",
+  status: LoginMethod,
 ): Promise<AuthLoginFailedResponse | VPNLoginFailedResponse | null> => {
-  if (status !== "login") {
+  if (status !== "force") {
     if (checkGradOldSystemCookies()) {
       if (status === "check") return null;
 

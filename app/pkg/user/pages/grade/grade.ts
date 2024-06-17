@@ -6,6 +6,7 @@ import {
   HOUR,
   appCoverPrefix,
 } from "../../../../config/index.js";
+import type { LoginMethod } from "../../../../service/index.js";
 import { LoginFailType } from "../../../../service/index.js";
 import { envName, info, user } from "../../../../state/index.js";
 import { getPageColor, showNotice } from "../../../../utils/index.js";
@@ -111,7 +112,7 @@ $Page(PAGE_ID, {
   },
 
   state: {
-    loginMethod: "validate" as "check" | "login" | "validate",
+    loginMethod: "validate" as LoginMethod,
     numberValueIndex: [] as number[],
     timeConfig: {} as TimeConfig,
     inited: false,
@@ -204,7 +205,7 @@ $Page(PAGE_ID, {
         if (!options.time) this.setUnderStatistics(result.data);
         this.state.loginMethod = "check";
       } else if (result.type === LoginFailType.Expired) {
-        this.state.loginMethod = "login";
+        this.state.loginMethod = "force";
         retryAction("登录过期", result.msg, () =>
           this.getUnderGradeList(options),
         );
@@ -237,7 +238,7 @@ $Page(PAGE_ID, {
           this.setGradStatistics(res.data);
           this.state.loginMethod = "check";
         } else if ("type" in res && res.type === LoginFailType.Expired) {
-          this.state.loginMethod = "login";
+          this.state.loginMethod = "force";
           retryAction("登录过期", res.msg, () => this.getGradGradeList());
         } else {
           showModal("获取失败", res.msg);

@@ -3,6 +3,7 @@ import { $Component, get, set } from "@mptool/all";
 
 import { showToast } from "../../api/index.js";
 import { CARD_BALANCE_KEY, MINUTE } from "../../config/index.js";
+import type { LoginMethod } from "../../service/index.js";
 import { ensureActionLogin, getCardBalance } from "../../service/index.js";
 import { user } from "../../state/index.js";
 import { getSize } from "../utils.js";
@@ -20,6 +21,7 @@ $Component({
   data: {
     enableBalance: false,
     enableQrcode: false,
+    loginMethod: "validate" as LoginMethod,
     status: "loading" as "loading" | "error" | "login" | "success",
   },
 
@@ -40,7 +42,7 @@ $Component({
 
       if (enableBalance) {
         if (balance) this.setData({ status: "success", balance });
-        else this.getCardBalance("validate");
+        else this.getCardBalance();
       }
     },
   },
@@ -53,20 +55,24 @@ $Component({
         if (status === "login") {
           this.setData({ status: "loading" });
 
-          if (enableBalance) this.getCardBalance("validate");
+          if (enableBalance) this.getCardBalance();
         }
       } else this.setData({ status: "login" });
     },
   },
 
   methods: {
-    async getCardBalance(status: "check" | "login" | "validate" = "check") {
+    async getCardBalance() {
       if (user.account) {
-        const err = await ensureActionLogin(user.account, status);
+        const err = await ensureActionLogin(
+          user.account,
+          this.data.loginMethod,
+        );
 
         if (err) {
           showToast(err.msg);
-          this.setData({ status: "error" });
+
+          this.setData({ loginMethod: "force", status: "error" });
         } else {
           try {
             const result = await getCardBalance();
@@ -75,6 +81,7 @@ $Component({
               set(CARD_BALANCE_KEY, result.data, 5 * MINUTE);
               this.setData({
                 balance: result.data,
+                loginMethod: "check",
                 status: "success",
               });
             } else {
@@ -89,7 +96,7 @@ $Component({
 
     refreshBalance() {
       this.setData({ status: "loading" });
-      this.getCardBalance("login");
+      this.getCardBalance();
     },
 
     viewQrcode() {

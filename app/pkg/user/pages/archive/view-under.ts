@@ -6,6 +6,7 @@ import {
   showModal,
 } from "../../../../api/index.js";
 import { HOUR, STUDENT_ARCHIVE_KEY } from "../../../../config/index.js";
+import type { LoginMethod } from "../../../../service/index.js";
 import { LoginFailType } from "../../../../service/index.js";
 import { envName, info, user } from "../../../../state/index.js";
 import { getPageColor, showNotice } from "../../../../utils/index.js";
@@ -31,7 +32,7 @@ $Page(PAGE_ID, {
   },
 
   state: {
-    loginMethod: "validate" as "check" | "login" | "validate",
+    loginMethod: "validate" as LoginMethod,
     inited: false,
   },
 
@@ -156,7 +157,7 @@ $Page(PAGE_ID, {
   },
 
   handleExpired(content: string) {
-    this.state.loginMethod = "login";
+    this.state.loginMethod = "force";
     retryAction("登录过期", content, () => this.getStudyArchive());
   },
 });

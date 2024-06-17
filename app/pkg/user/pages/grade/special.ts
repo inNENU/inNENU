@@ -6,6 +6,7 @@ import {
   SPECIAL_EXAM_DATA_KEY,
   appCoverPrefix,
 } from "../../../../config/index.js";
+import type { LoginMethod } from "../../../../service/index.js";
 import { envName, info, user } from "../../../../state/index.js";
 import { getPageColor, showNotice } from "../../../../utils/index.js";
 import type { UnderSpecialExamResult } from "../../service/index.js";
@@ -29,7 +30,7 @@ $Page(PAGE_ID, {
   },
 
   state: {
-    loginMethod: "validate" as "check" | "login" | "validate",
+    loginMethod: "validate" as LoginMethod,
     inited: false,
   },
 
