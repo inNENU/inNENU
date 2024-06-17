@@ -24,20 +24,16 @@ $Component({
     attached() {
       const { type } = this.data;
 
-      this.setData({ size: getSize(type) }, () => {
-        this.setNotice();
-      });
+      this.setData({ size: getSize(type) }, () => this.setNotice());
     },
   },
 
   pageLifetimes: {
-    show() {
-      if (user.account) {
-        this.setData({ status: "success" });
-        this.setNotice();
-      } else {
-        this.setData({ status: "login" });
-      }
+    show(): void {
+      if (!user.account) return this.setData({ status: "login" });
+
+      this.setData({ status: "success" });
+      this.setNotice();
     },
   },
 

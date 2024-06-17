@@ -5,7 +5,11 @@ import { cookieStore, request } from "../../api/index.js";
 import type { AccountInfo } from "../../state/index.js";
 import type { AuthLoginFailedResponse } from "../auth/index.js";
 import { authLogin } from "../auth/index.js";
-import type { CookieVerifyResponse, FailResponse } from "../utils/index.js";
+import type {
+  CookieVerifyResponse,
+  FailResponse,
+  LoginMethod,
+} from "../utils/index.js";
 import {
   ActionFailType,
   createService,
@@ -16,9 +20,12 @@ import {
 import type { VPNLoginFailedResponse } from "../vpn/index.js";
 import { vpnCASLoginLocal } from "../vpn/index.js";
 
-export const actionState = {
+export const actionState: {
+  method: LoginMethod;
+  current: Promise<ActionLoginResponse> | null;
+} = {
   method: "validate",
-  current: null as Promise<ActionLoginResponse> | null,
+  current: null,
 };
 
 const isActionLoggedInLocal = async (): Promise<CookieVerifyResponse> => {
@@ -40,7 +47,7 @@ const isActionLoggedInLocal = async (): Promise<CookieVerifyResponse> => {
     // Note: If the env does not support "redirect: manual", the response will be a 302 redirect to WebVPN login page
     // In this case, the response.status will be 200 and the response body will be the WebVPN login page
     if (!supportRedirect && isWebVPNPage(data)) {
-      actionState.method = "login";
+      actionState.method = "force";
 
       return { success: true, valid: false };
     }
@@ -52,7 +59,7 @@ const isActionLoggedInLocal = async (): Promise<CookieVerifyResponse> => {
       valid: data.success,
     };
   } catch (err) {
-    actionState.method = "login";
+    actionState.method = "force";
 
     return {
       success: true,
@@ -66,7 +73,7 @@ const isActionLoggedInOnline = (): Promise<CookieVerifyResponse> =>
     method: "POST",
     cookieScope: ACTION_SERVER,
   }).then(({ data }) => {
-    actionState.method = data.valid ? "check" : "login";
+    actionState.method = data.valid ? "check" : "force";
 
     return data;
   });

@@ -21,11 +21,7 @@
         class="loading"
         src="/icon/loading.svg"
       />
-      <error-hint
-        wx:elif="{{ status === 'error' }}"
-        size="mini"
-        catch:retry="retry"
-      />
+      <error-hint wx:elif="{{ status === 'error' }}" size="mini" hide-retry />
       <block wx:else>
         <view
           wx:for="{{data}}"

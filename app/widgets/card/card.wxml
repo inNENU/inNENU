@@ -9,16 +9,12 @@
       class="refresh-button"
       type="default"
       size="mini"
-      catch:tap="refreshBalance"
+      catch:tap="getCardBalance"
     >
       <text class="refresh-button-icon" />
     </button>
   </view>
-  <error-hint
-    wx:if="{{ status === 'error' }}"
-    size="mini"
-    catch:retry="getCardBalance"
-  />
+  <error-hint wx:if="{{ status === 'error' }}" size="mini" hide-retry />
   <login-hint wx:elif="{{ status === 'login' }}" size="mini" />
   <view wx:else class="widget-body">
     <view class="widget-content">

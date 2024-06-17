@@ -38,19 +38,17 @@ $Component({
       const coursesData = get<Record<string, CourseTableInfo>>(COURSE_DATA_KEY);
       const time = getCurrentTimeCode();
 
-      if (coursesData?.[time]) {
-        const { courseData, weeks, startTime } = coursesData[time];
-        const weekIndex = getWeekIndex(startTime, weeks);
+      if (!coursesData?.[time]) return this.setData({ missing: true });
 
-        if (type.includes("今日课程"))
-          this.setTodayCourses(courseData, weekIndex);
-        else if (type.includes("下节课程"))
-          this.setNextCourse(courseData, weekIndex, weeks);
-        else if (type.includes("课程表"))
-          this.setCourses(courseData, weekIndex);
-      } else {
-        this.setData({ missing: true });
-      }
+      const { courseData, weeks, startTime } = coursesData[time];
+      const weekIndex = getWeekIndex(startTime, weeks);
+
+      if (type.includes("今日课程"))
+        return this.setTodayCourses(courseData, weekIndex);
+      if (type.includes("下节课程"))
+        return this.setNextCourse(courseData, weekIndex, weeks);
+      if (type.includes("课程表"))
+        return this.setCourses(courseData, weekIndex);
     },
 
     setCourses(courseData: TableData, weekIndex: number) {
@@ -116,10 +114,7 @@ $Component({
                   : 0;
       let nextCourses: ClassData[] = [];
 
-      if (!courseData.length)
-        return this.setData({
-          missing: true,
-        });
+      if (!courseData.length) return this.setData({ missing: true });
 
       // eslint-disable-next-line no-constant-condition
       while (true) {

@@ -5,7 +5,6 @@ import { copyContent, showModal, showToast } from "../../api/index.js";
 import { EMAIL_DATA_KEY, MINUTE } from "../../config/index.js";
 import type { EmailData } from "../../service/index.js";
 import {
-  ActionFailType,
   ensureActionLogin,
   getEmailPage,
   getRecentEmails,
@@ -43,35 +42,31 @@ $Component({
         size: getSize(type),
       });
 
-      if (user.account) {
-        const emails = get<Mail[]>(EMAIL_DATA_KEY);
+      if (!user.account) return this.setData({ status: "login" });
 
-        if (emails) {
-          const unreadEmails = emails.filter(({ unread }) => unread);
+      const emails = get<Mail[]>(EMAIL_DATA_KEY);
 
-          this.setData({
-            status: "success",
-            unread: unreadEmails.length,
-            recent: type.includes("未读") ? unreadEmails : emails,
-          });
-        } else {
-          this.getEmails();
-        }
+      if (emails) {
+        const unreadEmails = emails.filter(({ unread }) => unread);
+
+        this.setData({
+          status: "success",
+          unread: unreadEmails.length,
+          recent: type.includes("未读") ? unreadEmails : emails,
+        });
       } else {
-        this.setData({ status: "login" });
+        this.getEmails();
       }
     },
   },
 
   pageLifetimes: {
-    show() {
-      if (user.account) {
-        if (this.data.status === "login") {
-          this.setData({ status: "loading" });
-          this.getEmails();
-        }
-      } else {
-        this.setData({ status: "login" });
+    show(): void {
+      if (!user.account) return this.setData({ status: "login" });
+
+      if (this.data.status === "login") {
+        this.setData({ status: "loading" });
+        this.getEmails();
       }
     },
   },
@@ -79,6 +74,8 @@ $Component({
   methods: {
     async getEmails(): Promise<void> {
       const { type } = this.data;
+
+      this.setData({ status: "loading" });
 
       const err = await ensureActionLogin(user.account!);
 
@@ -90,6 +87,10 @@ $Component({
       }
 
       const result = await getRecentEmails();
+
+      if (!result.success) {
+        return this.setData({ status: "error", errMsg: result.msg });
+      }
 
       if (result.success) {
         const { unread, emails } = result.data;
@@ -111,11 +112,7 @@ $Component({
             : recent,
         });
         set(EMAIL_DATA_KEY, recent, 5 * MINUTE);
-      } else if (result.type === ActionFailType.Expired) {
-        this.setData({ loginMethod: "force" });
-
-        return this.getEmails();
-      } else this.setData({ status: "error", errMsg: result.msg });
+      }
     },
 
     async openEmail({
@@ -148,12 +145,6 @@ $Component({
       }
 
       showToast("加载页面失败");
-    },
-
-    retry() {
-      this.setData({ status: "loading" });
-
-      return this.getEmails();
     },
   },
 

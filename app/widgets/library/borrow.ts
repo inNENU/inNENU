@@ -36,12 +36,12 @@ $Component({
 
   pageLifetimes: {
     show() {
-      if (user.account) {
-        if (this.data.status === "login") {
-          this.setData({ status: "loading" });
-          this.getBooks();
-        }
-      } else this.setData({ status: "login" });
+      if (!user.account) return this.setData({ status: "login" });
+
+      if (this.data.status === "login") {
+        this.setData({ status: "loading" });
+        this.getBooks();
+      }
     },
   },
 
@@ -84,11 +84,6 @@ $Component({
     },
 
     refresh() {
-      this.setData({ status: "loading" });
-      this.getBooks();
-    },
-
-    retry() {
       this.setData({ status: "loading" });
       this.getBooks();
     },

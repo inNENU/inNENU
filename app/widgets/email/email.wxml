@@ -2,7 +2,12 @@
   <view class="widget-header">
     <text>{{header}}</text>
     <text wx:if="{{unread}}" class="unread-badge">{{unread}}</text>
-    <button class="refresh-button" type="default" size="mini" catch:tap="retry">
+    <button
+      class="refresh-button"
+      type="default"
+      size="mini"
+      catch:tap="getEmails"
+    >
       <text class="refresh-button-icon" />
     </button>
   </view>

@@ -85,23 +85,21 @@ $Component({
 
   methods: {
     async getInfoList() {
+      this.setData({ status: "loading" });
+
       const { infoType, size } = this.data;
 
-      const result = await getOfficialInfoList({
-        type: infoType,
+      const result = await getOfficialInfoList({ type: infoType });
+
+      if (!result.success) return this.setData({ status: "error" });
+
+      const data = result.data.map(({ title, url }) => ({ title, url }));
+
+      this.setData({
+        status: "success",
+        data: size === "large" ? data : data.slice(0, 5),
       });
-
-      if (result.success) {
-        const data = result.data.map(({ title, url }) => ({ title, url }));
-
-        this.setData({
-          status: "success",
-          data: size === "large" ? data : data.slice(0, 5),
-        });
-        set(getKey(infoType), data, HOUR);
-      } else {
-        this.setData({ status: "error" });
-      }
+      set(getKey(infoType), data, HOUR);
     },
 
     viewInfo({
@@ -117,16 +115,6 @@ $Component({
       return this.$go(
         `official-info-detail?title=${title}&type=${noticeType}&url=${url}`,
       );
-    },
-
-    refresh() {
-      this.setData({ status: "loading" });
-      this.getInfoList();
-    },
-
-    retry() {
-      this.setData({ status: "loading" });
-      this.getInfoList();
     },
   },
 

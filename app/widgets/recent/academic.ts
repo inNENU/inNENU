@@ -25,17 +25,15 @@ $Component({
       const { type } = this.data;
 
       const size = getSize(type);
+      const data = get<OfficialAcademicInfoItem[]>(SITE_ACADEMIC_LIST_KEY);
 
-      this.setData({ size }, () => {
-        const data = get<OfficialAcademicInfoItem[]>(SITE_ACADEMIC_LIST_KEY);
-
-        if (data)
-          this.setData({
-            status: "success",
-            data: size === "large" ? data : data.slice(0, 5),
-          });
-        else this.getOfficialAcademicList();
-      });
+      this.setData({ size });
+      if (data)
+        this.setData({
+          status: "success",
+          data: size === "large" ? data : data.slice(0, 5),
+        });
+      else this.getOfficialAcademicList();
     },
   },
 
@@ -45,17 +43,15 @@ $Component({
 
       const result = await getOfficialAcademicList();
 
-      if (result.success) {
-        const { data } = result;
+      if (!result.success) return this.setData({ status: "error" });
 
-        this.setData({
-          status: "success",
-          data: size === "large" ? data : data.slice(0, 5),
-        });
-        set(SITE_ACADEMIC_LIST_KEY, data, HOUR);
-      } else {
-        this.setData({ status: "error" });
-      }
+      const { data } = result;
+
+      this.setData({
+        status: "success",
+        data: size === "large" ? data : data.slice(0, 5),
+      });
+      set(SITE_ACADEMIC_LIST_KEY, data, HOUR);
     },
 
     viewInfo({
@@ -71,11 +67,6 @@ $Component({
     },
 
     refresh() {
-      this.setData({ status: "loading" });
-      this.getOfficialAcademicList();
-    },
-
-    retry() {
       this.setData({ status: "loading" });
       this.getOfficialAcademicList();
     },

@@ -4,7 +4,7 @@ import type {
   CommonFailedResponse,
   CommonListSuccessResponse,
 } from "../utils/index.js";
-import { createService } from "../utils/index.js";
+import { ActionFailType, createService } from "../utils/index.js";
 
 const ITEM_REGEXP =
   /data-aos="fade-up">\s*<a href="([^"]+)"[^>]+>\s+<div class="time">\s+<h3>(.*?)\.(.*?)<\/h3>\s*<h6>(.*?)<\/h6>\s*<\/div>\s*<div[^>]*>\s*<h4[^>]*>(.*)<\/h4>\s+<h6>(.*?)<span>/g;
@@ -84,8 +84,9 @@ const getOfficialNoticeListLocal = async ({
 
     return {
       success: false,
+      type: ActionFailType.Unknown,
       msg: message,
-    } as CommonFailedResponse;
+    };
   }
 };
 

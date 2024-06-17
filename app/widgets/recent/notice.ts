@@ -54,12 +54,12 @@ $Component({
 
   pageLifetimes: {
     show() {
-      if (user.account) {
-        if (this.data.status === "login") {
-          this.setData({ status: "loading" });
-          this.getNoticeList();
-        }
-      } else this.setData({ status: "login" });
+      if (!user.account) return this.setData({ status: "login" });
+
+      if (this.data.status === "login") {
+        this.setData({ status: "loading" });
+        this.getNoticeList();
+      }
     },
   },
 
@@ -68,6 +68,8 @@ $Component({
       const { noticeType, size } = this.data;
 
       if (!user.account) return this.setData({ status: "login" });
+
+      this.setData({ status: "loading" });
 
       const err = await ensureActionLogin(user.account);
 
@@ -108,16 +110,6 @@ $Component({
       return this.$go(
         `notice-detail?title=${title}&id=${id}&type=${noticeType}`,
       );
-    },
-
-    refresh() {
-      this.setData({ status: "loading" });
-      this.getNoticeList();
-    },
-
-    retry() {
-      this.setData({ status: "loading" });
-      this.getNoticeList();
     },
   },
 

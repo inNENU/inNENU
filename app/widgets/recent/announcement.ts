@@ -43,26 +43,25 @@ $Component({
 
   methods: {
     async getNoticeList() {
-      const { size } = this.data;
+      this.setData({ status: "loading" });
 
+      const { size } = this.data;
       const result = await getOfficialNoticeList();
 
-      if (result.success) {
-        const data = result.data
-          .filter(({ from }) => !FILTERED_SOURCES.includes(from))
-          .map(({ title, url }) => ({
-            title: title.replace(/^关于/g, "").replace(/的通知$/g, ""),
-            url,
-          }));
+      if (!result.success) return this.setData({ status: "error" });
 
-        this.setData({
-          status: "success",
-          data: size === "large" ? data : data.slice(0, 5),
-        });
-        set(SITE_ANNOUNCEMENT_LIST_KEY, data, HOUR);
-      } else {
-        this.setData({ status: "error" });
-      }
+      const data = result.data
+        .filter(({ from }) => !FILTERED_SOURCES.includes(from))
+        .map(({ title, url }) => ({
+          title: title.replace(/^关于/g, "").replace(/的通知$/g, ""),
+          url,
+        }));
+
+      this.setData({
+        status: "success",
+        data: size === "large" ? data : data.slice(0, 5),
+      });
+      set(SITE_ANNOUNCEMENT_LIST_KEY, data, HOUR);
     },
 
     viewInfo({
@@ -75,16 +74,6 @@ $Component({
       const { title, url } = currentTarget.dataset.info;
 
       return this.$go(`official-notice-detail?title=${title}&url=${url}`);
-    },
-
-    refresh() {
-      this.setData({ status: "loading" });
-      this.getNoticeList();
-    },
-
-    retry() {
-      this.setData({ status: "loading" });
-      this.getNoticeList();
     },
   },
 

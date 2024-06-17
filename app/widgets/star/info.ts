@@ -24,20 +24,16 @@ $Component({
     attached() {
       const { type } = this.data;
 
-      this.setData({ size: getSize(type) }, () => {
-        this.setInfo();
-      });
+      this.setData({ size: getSize(type) }, () => this.setInfo());
     },
   },
 
   pageLifetimes: {
-    show() {
-      if (user.account) {
-        this.setData({ status: "success" });
-        this.setInfo();
-      } else {
-        this.setData({ status: "login" });
-      }
+    show(): void {
+      if (!user.account) return this.setData({ status: "login" });
+
+      this.setData({ status: "success" });
+      this.setInfo();
     },
   },
 
@@ -68,9 +64,7 @@ $Component({
       const { index } = currentTarget.dataset;
       const { title, url, type } = infos[index];
 
-      return this.$go(
-        `official-info-detail?title=${title}&type=${type}&url=${url}`,
-      );
+      this.$go(`official-info-detail?title=${title}&type=${type}&url=${url}`);
     },
   },
 

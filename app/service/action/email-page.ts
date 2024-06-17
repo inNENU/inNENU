@@ -61,7 +61,7 @@ const getEmailPageLocal = async (
       // In this case, the response.status will be 200 and the response body will be the WebVPN login page
       (!supportRedirect && isWebVPNPage(data))
     ) {
-      actionState.method = "login";
+      actionState.method = "force";
 
       return ExpiredResponse;
     }
@@ -78,7 +78,7 @@ const getEmailPageLocal = async (
     const { message } = err as Error;
 
     console.error(err);
-    actionState.method = "login";
+    actionState.method = "force";
 
     return UnknownResponse(message);
   }
@@ -93,7 +93,7 @@ const getEmailPageOnline = async (mid = ""): Promise<ActionEmailPageResponse> =>
     if (!data.success) {
       logger.error("获取最近邮件失败", data);
 
-      if (data.type === ActionFailType.Expired) actionState.method = "login";
+      if (data.type === ActionFailType.Expired) actionState.method = "force";
       handleFailResponse(data);
     }
 

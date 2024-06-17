@@ -41,19 +41,21 @@ $Component({
     show() {
       const { enableBalance, status } = this.data;
 
-      if (user.account) {
-        if (status === "login") {
-          this.setData({ status: "loading" });
+      if (!user.account) return this.setData({ status: "login" });
 
-          if (enableBalance) this.getCardBalance();
-        }
-      } else this.setData({ status: "login" });
+      if (status === "login") {
+        this.setData({ status: "loading" });
+
+        if (enableBalance) this.getCardBalance();
+      }
     },
   },
 
   methods: {
     async getCardBalance() {
       if (!user.account) return this.setData({ status: "login" });
+
+      this.setData({ status: "loading" });
 
       const err = await ensureActionLogin(user.account);
 
@@ -65,17 +67,10 @@ $Component({
 
       const result = await getCardBalance();
 
-      if (result.success) {
-        set(CARD_BALANCE_KEY, result.data, 5 * MINUTE);
-        this.setData({ balance: result.data, status: "success" });
-      } else {
-        this.setData({ status: "error" });
-      }
-    },
+      if (!result.success) return this.setData({ status: "error" });
 
-    refreshBalance() {
-      this.setData({ status: "loading" });
-      this.getCardBalance();
+      this.setData({ balance: result.data, status: "success" });
+      set(CARD_BALANCE_KEY, result.data, 5 * MINUTE);
     },
   },
 
