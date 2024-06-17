@@ -47,7 +47,7 @@
     }
   },
   "dependencies": {
-    "@mptool/all": "0.7.3"
+    "@mptool/all": "0.8.0"
   },
   "devDependencies": {
     "@commitlint/cli": "19.3.0",
