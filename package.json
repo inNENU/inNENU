@@ -56,7 +56,7 @@
     "@rollup/plugin-commonjs": "26.0.1",
     "commitizen": "4.3.0",
     "cpx2": "7.0.1",
-    "cz-git": "1.9.2",
+    "cz-git": "1.9.3",
     "del": "7.1.0",
     "eslint": "8.57.0",
     "eslint-config-mister-hope": "0.1.1",
