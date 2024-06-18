@@ -13,6 +13,7 @@ import type { AccountInfo } from "../../state/index.js";
 import type { CommonFailedResponse } from "../utils/index.js";
 import {
   ActionFailType,
+  UnknownResponse,
   createService,
   supportRedirect,
 } from "../utils/index.js";
@@ -185,11 +186,7 @@ const authLoginLocal = async ({
 
       console.error("Unknown login response: ", loginResult);
 
-      return {
-        success: false,
-        type: ActionFailType.Unknown,
-        msg: "未知错误",
-      };
+      return UnknownResponse("未知错误");
     }
 
     if (loginStatus === 302) {
@@ -209,11 +206,7 @@ const authLoginLocal = async ({
 
   logger.error("Unknown login response: ", loginPageResponse.status);
 
-  return {
-    success: false,
-    type: ActionFailType.Unknown,
-    msg: "未知错误",
-  };
+  return UnknownResponse("未知错误");
 };
 
 const authLoginOnline = async (

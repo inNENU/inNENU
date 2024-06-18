@@ -10,6 +10,7 @@ import type {
 import {
   ActionFailType,
   ExpiredResponse,
+  UnknownResponse,
   createService,
   isWebVPNPage,
   supportRedirect,
@@ -136,6 +137,8 @@ const getRecentEmailsLocal = async (): Promise<ActionRecentMailResponse> => {
 
     if (
       status === 302 ||
+      // Note: On QQ the status code is 404
+      status === 404 ||
       // Note: If the env does not support "redirect: manual", the response will be a 302 redirect to WebVPN login page
       // In this case, the response.status will be 200 and the response body will be the WebVPN login page
       (!supportRedirect && isWebVPNPage(data))
@@ -163,11 +166,7 @@ const getRecentEmailsLocal = async (): Promise<ActionRecentMailResponse> => {
 
     logger.error(err);
 
-    return {
-      success: false,
-      type: ActionFailType.Unknown,
-      msg: message,
-    };
+    return UnknownResponse(message);
   }
 };
 

@@ -12,7 +12,7 @@ import type {
   VPNLoginFailedResponse,
 } from "../../../../service/index.js";
 import {
-  ActionFailType,
+  UnknownResponse,
   authLogin,
   checkAccountStatus,
   createService,
@@ -56,11 +56,7 @@ export const underStudyLoginLocal = async (
     });
 
     if (ticketResponse.status !== 302) {
-      return {
-        success: false,
-        type: ActionFailType.Unknown,
-        msg: "登录失败",
-      };
+      return UnknownResponse("登录失败");
     }
 
     const finalLocation = ticketResponse.headers.get("Location");
@@ -80,21 +76,13 @@ export const underStudyLoginLocal = async (
         };
     }
 
-    return {
-      success: false,
-      type: ActionFailType.Unknown,
-      msg: "登录失败",
-    };
+    return UnknownResponse("登录失败");
   } catch (err) {
     const { message } = err as Error;
 
     logger.error(err);
 
-    return {
-      success: false,
-      type: ActionFailType.Unknown,
-      msg: message,
-    };
+    return UnknownResponse(message);
   }
 };
 

@@ -7,7 +7,7 @@ import type { AccountInfo } from "../../state/index.js";
 import type { AuthLoginFailedResponse } from "../auth/login.js";
 import { authLogin } from "../auth/login.js";
 import type { CommonFailedResponse } from "../utils/index.js";
-import { ActionFailType } from "../utils/index.js";
+import { ActionFailType, UnknownResponse } from "../utils/index.js";
 
 const AUTHENTICITY_TOKEN_REGEXP =
   /<input\s+type="hidden"\s+name="authenticity_token" value="(.*?)" \/>/;
@@ -92,11 +92,7 @@ export const vpnLoginLocal = async ({
 
   console.error("Unknown VPN login response:", loginResponse.data);
 
-  return {
-    success: false,
-    type: ActionFailType.Unknown,
-    msg: "未知错误",
-  };
+  return UnknownResponse("登录失败");
 };
 
 export const vpnCASLoginLocal = async ({
@@ -159,9 +155,5 @@ export const vpnCASLoginLocal = async ({
       msg: "学校 WebVPN 服务崩溃，请稍后重试。",
     };
 
-  return {
-    success: false,
-    type: ActionFailType.Unknown,
-    msg: "未知错误",
-  };
+  return UnknownResponse("登录失败");
 };

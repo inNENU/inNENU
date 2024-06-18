@@ -13,6 +13,7 @@ import type {
 } from "../../../../service/index.js";
 import {
   ActionFailType,
+  UnknownResponse,
   authLogin,
   checkAccountStatus,
   createService,
@@ -59,12 +60,7 @@ export const underSystemLoginLocal = async (
     redirect: "manual",
   });
 
-  if (ticketResponse.status !== 302)
-    return {
-      success: false,
-      type: ActionFailType.Unknown,
-      msg: "登录失败",
-    };
+  if (ticketResponse.status !== 302) return UnknownResponse("登录失败");
 
   const finalLocation = ticketResponse.headers.get("Location");
 
@@ -90,11 +86,7 @@ export const underSystemLoginLocal = async (
     };
   }
 
-  return {
-    success: false,
-    type: ActionFailType.Unknown,
-    msg: "登录失败",
-  };
+  return UnknownResponse("登录失败");
 };
 
 export const underSystemLoginOnline = async (

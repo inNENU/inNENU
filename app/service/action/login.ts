@@ -15,6 +15,7 @@ import type {
 import {
   ActionFailType,
   MissingCredentialResponse,
+  UnknownResponse,
   checkAccountStatus,
   createService,
   isWebVPNPage,
@@ -108,12 +109,7 @@ const actionLoginLocal = async (
     redirect: "manual",
   });
 
-  if (ticketResponse.status !== 302)
-    return {
-      success: false,
-      type: ActionFailType.Unknown,
-      msg: "登录失败",
-    };
+  if (ticketResponse.status !== 302) return UnknownResponse("登录失败");
 
   const finalLocation = ticketResponse.headers.get("Location");
 
@@ -122,11 +118,7 @@ const actionLoginLocal = async (
       success: true,
     };
 
-  return {
-    success: false,
-    type: ActionFailType.Unknown,
-    msg: "登录失败",
-  };
+  return UnknownResponse("登录失败");
 };
 
 const actionLoginOnline = (

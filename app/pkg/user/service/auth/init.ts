@@ -7,6 +7,7 @@ import {
   AUTH_SERVER,
   ActionFailType,
   SALT_REGEXP,
+  UnknownResponse,
   authEncrypt,
   createService,
   getMyInfo,
@@ -87,12 +88,11 @@ const getAuthInitInfoLocal = async (
       },
     } as AuthInitInfoSuccessResponse;
   } catch (err) {
+    const { message } = err as Error;
+
     logger.error(err);
 
-    return {
-      success: false,
-      msg: (err as Error).message,
-    };
+    return UnknownResponse(message);
   }
 };
 
@@ -245,11 +245,7 @@ const initAuthLocal = async (
 
   logger.error("Unknown login response: ", resultContent);
 
-  return {
-    success: false,
-    type: ActionFailType.Unknown,
-    msg: "未知错误",
-  };
+  return UnknownResponse("登录失败");
 };
 
 const initAuthOnline = async (

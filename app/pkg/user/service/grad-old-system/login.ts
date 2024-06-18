@@ -17,6 +17,7 @@ import type {
 } from "../../../../service/index.js";
 import {
   ActionFailType,
+  UnknownResponse,
   authLogin,
   checkAccountStatus,
   createService,
@@ -24,12 +25,8 @@ import {
 } from "../../../../service/index.js";
 import type { AccountInfo } from "../../../../state/index.js";
 
-export interface GradSystemLoginSuccessResult {
-  success: true;
-}
-
 export type GradSystemLoginResult =
-  | GradSystemLoginSuccessResult
+  | GradSystemLoginSuccessResponse
   | AuthLoginFailedResponse
   | VPNLoginFailedResponse;
 
@@ -57,12 +54,7 @@ const gradOldSystemLoginLocal = async (
     redirect: "manual",
   });
 
-  if (ticketResponse.status !== 302)
-    return {
-      success: false,
-      type: ActionFailType.Unknown,
-      msg: "登录失败",
-    };
+  if (ticketResponse.status !== 302) return UnknownResponse("登录失败");
 
   const finalLocation = ticketResponse.headers.get("Location");
 
@@ -98,16 +90,11 @@ const gradOldSystemLoginLocal = async (
 
       return {
         success: true,
-        cookieStore,
-      } as GradSystemLoginSuccessResult;
+      };
     }
   }
 
-  return {
-    success: false,
-    type: ActionFailType.Unknown,
-    msg: "登录失败",
-  };
+  return UnknownResponse("登录失败");
 };
 
 export interface GradSystemLoginSuccessResponse {

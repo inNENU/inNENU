@@ -8,6 +8,7 @@ import type {
 } from "../../../../service/index.js";
 import {
   OFFICIAL_URL,
+  UnknownResponse,
   createService,
   getOfficialPageView,
 } from "../../../../service/index.js";
@@ -99,16 +100,13 @@ const getOfficialInfoDetailLocal = async (
     return {
       success: true,
       data,
-    } as OfficialInfoDetailResponse;
+    };
   } catch (err) {
     const { message } = err as Error;
 
     logger.error(err);
 
-    return {
-      success: false,
-      msg: message,
-    } as CommonFailedResponse;
+    return UnknownResponse(message);
   }
 };
 

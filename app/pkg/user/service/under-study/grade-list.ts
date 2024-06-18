@@ -2,10 +2,13 @@ import { URLSearchParams, logger } from "@mptool/all";
 
 import { UNDER_STUDY_SERVER } from "./utils.js";
 import { request } from "../../../../api/index.js";
-import type { CommonFailedResponse } from "../../../../service/index.js";
-import {
+import type {
   ActionFailType,
+  CommonFailedResponse,
+} from "../../../../service/index.js";
+import {
   ExpiredResponse,
+  UnknownResponse,
   createService,
 } from "../../../../service/index.js";
 
@@ -205,11 +208,7 @@ const getUnderGradeListLocal = async ({
     if ("code" in data) {
       if (data.message === "尚未登录，请先登录") return ExpiredResponse;
 
-      return {
-        success: false,
-        type: ActionFailType.Unknown,
-        msg: data.message,
-      };
+      return UnknownResponse(data.message);
     }
 
     const gradeList = getGradeLists(data.rows);
@@ -223,11 +222,7 @@ const getUnderGradeListLocal = async ({
 
     logger.error(err);
 
-    return {
-      success: false,
-      type: ActionFailType.Unknown,
-      msg: message,
-    };
+    return UnknownResponse(message);
   }
 };
 

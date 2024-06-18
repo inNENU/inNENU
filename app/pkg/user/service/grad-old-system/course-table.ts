@@ -1,13 +1,14 @@
 import { URLSearchParams, logger } from "@mptool/all";
 
 import { GRAD_OLD_SYSTEM_HTTPS_SERVER } from "./utils.js";
-import { cookieStore, request } from "../../../../api/index.js";
+import { request } from "../../../../api/index.js";
 import type {
   ActionFailType,
   CommonFailedResponse,
 } from "../../../../service/index.js";
 import {
   ExpiredResponse,
+  UnknownResponse,
   createService,
   isWebVPNPage,
 } from "../../../../service/index.js";
@@ -61,8 +62,9 @@ export interface GradCourseTableSuccessResponse {
   startTime: string;
 }
 
-export type GradCourseTableFailedResponse =
-  CommonFailedResponse<ActionFailType.Expired>;
+export type GradCourseTableFailedResponse = CommonFailedResponse<
+  ActionFailType.Expired | ActionFailType.Unknown
+>;
 
 export type GradCourseTableResponse =
   | GradCourseTableSuccessResponse
@@ -88,8 +90,6 @@ const getGradCourseTableLocal = async ({
     });
 
     if (status === 302 || isWebVPNPage(content)) {
-      cookieStore.clear();
-
       return ExpiredResponse;
     }
 
@@ -105,16 +105,13 @@ const getGradCourseTableLocal = async ({
       success: true,
       data: tableData,
       startTime: semesterStartTime[time],
-    } as GradCourseTableSuccessResponse;
+    };
   } catch (err) {
     const { message } = err as Error;
 
     logger.error(err);
 
-    return {
-      success: false,
-      msg: message,
-    };
+    return UnknownResponse(message);
   }
 };
 

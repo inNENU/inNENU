@@ -8,7 +8,7 @@ import type { AuthLoginFailedResponse } from "../auth/index.js";
 import { authLogin } from "../auth/login.js";
 import type { LoginMethod } from "../utils/index.js";
 import {
-  ActionFailType,
+  UnknownResponse,
   checkAccountStatus,
   createService,
   supportRedirect,
@@ -56,12 +56,7 @@ export const myLoginLocal = async (
     redirect: "manual",
   });
 
-  if (ticketResponse.status !== 302)
-    return {
-      success: false,
-      type: ActionFailType.Unknown,
-      msg: "登录失败",
-    };
+  if (ticketResponse.status !== 302) return UnknownResponse("登录失败");
 
   const sessionLocation = ticketResponse.headers.get("Location");
 
@@ -78,11 +73,7 @@ export const myLoginLocal = async (
       };
   }
 
-  return {
-    success: false,
-    type: ActionFailType.Unknown,
-    msg: "登录失败",
-  };
+  return UnknownResponse("登录失败");
 };
 
 export const myLoginOnline = async (
