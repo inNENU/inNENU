@@ -18,13 +18,14 @@ const { globalData } = getApp<App>();
 
 const PAGE_ID = "guide";
 const PAGE_TITLE = "东师指南";
+const PAGE_KEY = `${PAGE_ID}-page-data`;
 
 interface GuideData {
   items: (Omit<GridComponentConfig, "tag"> & Record<string, unknown>)[];
   more: (Omit<GridComponentConfig, "tag"> & Record<string, unknown>)[];
 }
 
-const defaultData = get<GuideData | undefined>(PAGE_ID);
+const defaultData = get<GuideData | undefined>(PAGE_KEY);
 
 $Page(PAGE_ID, {
   data: {
@@ -161,7 +162,7 @@ $Page(PAGE_ID, {
         }),
       };
 
-      set(PAGE_ID, guideData, 3 * DAY);
+      set(PAGE_KEY, guideData, 3 * DAY);
 
       this.setData(guideData);
     }

@@ -17,13 +17,14 @@ const { globalData } = getApp<App>();
 
 const PAGE_ID = "function";
 const PAGE_TITLE = "功能大厅";
+const PAGE_KEY = `${PAGE_ID}-page-data`;
 
 let defaultPage: PageStateWithContent | null = null;
 
 try {
   defaultPage = resolvePage(
     { id: PAGE_ID },
-    get<PageStateWithContent>(`${PAGE_ID}-page-data`),
+    get<PageStateWithContent>(PAGE_KEY),
   ) as PageStateWithContent | null;
 } catch (err) {
   console.error(err);
@@ -123,7 +124,7 @@ $Page(PAGE_ID, {
       content: functionPresets[configName],
     };
 
-    set(PAGE_ID, functionPage, 3 * DAY);
+    set(PAGE_KEY, functionPage, 3 * DAY);
 
     return functionPage;
   },

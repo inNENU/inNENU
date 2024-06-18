@@ -23,13 +23,14 @@ const { globalData } = getApp<App>();
 
 const PAGE_ID = "user";
 const PAGE_TITLE = "我的东师";
+const PAGE_KEY = `${PAGE_ID}-page-data`;
 
 let defaultPage: PageStateWithContent | null = null;
 
 try {
   defaultPage = resolvePage(
     { id: PAGE_ID },
-    get<PageStateWithContent>(`${PAGE_ID}-page-data`),
+    get<PageStateWithContent>(PAGE_KEY),
   ) as PageStateWithContent | null;
 } catch (err) {
   console.error(err);
@@ -137,7 +138,7 @@ $Page(PAGE_ID, {
       content: globalData.settings.user,
     };
 
-    set(PAGE_ID, userPage, 3 * DAY);
+    set(PAGE_KEY, userPage, 3 * DAY);
 
     return userPage;
   },

@@ -24,13 +24,14 @@ const { globalData } = getApp<App>();
 
 const PAGE_ID = "main";
 const PAGE_TITLE = "首页";
+const PAGE_KEY = `${PAGE_ID}-page-data`;
 
 let defaultPage: PageStateWithContent | null = null;
 
 try {
   defaultPage = resolvePage(
     { id: PAGE_ID },
-    get<PageStateWithContent>(`${PAGE_ID}-page-data`),
+    get<PageStateWithContent>(PAGE_KEY),
   ) as PageStateWithContent | null;
 } catch (err) {
   console.error(err);
@@ -136,7 +137,7 @@ $Page(PAGE_ID, {
       content: mainPresets[configName],
     };
 
-    set(PAGE_ID, mainPage, 3 * DAY);
+    set(PAGE_KEY, mainPage, 3 * DAY);
 
     return mainPage;
   },
