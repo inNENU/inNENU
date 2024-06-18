@@ -1,5 +1,5 @@
 import type { RichTextNode } from "@mptool/all";
-import { getRichTextNodes } from "@mptool/all";
+import { getRichTextNodes, logger } from "@mptool/all";
 
 import { request } from "../../../../api/index.js";
 import type { CommonFailedResponse } from "../../../../service/index.js";
@@ -100,7 +100,7 @@ const getGradRecommendPlanLocal = async (): Promise<GradRecommendResponse> => {
   } catch (err) {
     const { message } = err as Error;
 
-    console.error(err);
+    logger.error(err);
 
     return {
       success: false,

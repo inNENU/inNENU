@@ -46,7 +46,7 @@ export const underSystemLoginLocal = async (
   });
 
   if (!result.success) {
-    console.error(result.msg);
+    logger.error(result.msg);
 
     return {
       success: false,
@@ -54,8 +54,6 @@ export const underSystemLoginLocal = async (
       msg: result.msg,
     };
   }
-
-  console.log("Login location", result.location);
 
   const ticketResponse = await request<string>(result.location, {
     redirect: "manual",

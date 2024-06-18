@@ -1,4 +1,4 @@
-import { $Page, get, readFile, set } from "@mptool/all";
+import { $Page, get, logger, readFile, set } from "@mptool/all";
 
 import { showModal } from "../../../../api/index.js";
 import {
@@ -93,7 +93,7 @@ $Page("weather", {
   onUnload() {
     /** 移除旋转屏幕与加速度计监听 */
     wx.stopAccelerometer({
-      success: () => console.info("Stopped accelerometer listening"),
+      success: () => logger.debug("Stopped accelerometer listening"),
     });
     this.$off("inited", this.updateIcon);
   },
@@ -240,7 +240,7 @@ $Page("weather", {
 
     wx.startAccelerometer({
       interval: "normal",
-      success: () => console.info("Starts accelerometer listening"),
+      success: () => logger.debug("Starts accelerometer listening"),
     });
 
     wx.onAccelerometerChange(({ x }) => {

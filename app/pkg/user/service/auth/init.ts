@@ -217,7 +217,7 @@ const initAuthLocal = async (
 
       if (vpnLoginResult.success)
         loginResult = await myLoginLocal({ id, password });
-      else console.error("VPN login failed", vpnLoginResult);
+      else logger.error("VPN login failed", vpnLoginResult);
     }
 
     // 获得信息
@@ -226,7 +226,7 @@ const initAuthLocal = async (
 
       if (studentInfo.success) info = studentInfo.data;
 
-      console.log(`${id} 登录信息:\n`, JSON.stringify(info, null, 2));
+      logger.debug(`${id} 登录信息:\n`, JSON.stringify(info, null, 2));
     }
 
     // TODO: Add blacklist
@@ -243,7 +243,7 @@ const initAuthLocal = async (
     };
   }
 
-  console.error("Unknown login response: ", resultContent);
+  logger.error("Unknown login response: ", resultContent);
 
   return {
     success: false,

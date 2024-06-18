@@ -1,4 +1,4 @@
-import { URLSearchParams } from "@mptool/all";
+import { URLSearchParams, logger } from "@mptool/all";
 
 import { UNDER_STUDY_SERVER } from "./utils.js";
 import { request } from "../../../../api/index.js";
@@ -482,7 +482,7 @@ const underStudyCourseCommentaryLocal = async <
   } catch (err) {
     const { message } = err as Error;
 
-    console.error(err);
+    logger.error(err);
 
     return {
       success: false,

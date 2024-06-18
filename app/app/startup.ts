@@ -1,3 +1,5 @@
+import { logger } from "@mptool/all";
+
 import type { GlobalData } from "./globalData.js";
 import { platformActions } from "./platform.js";
 import { updateApp } from "./update.js";
@@ -22,7 +24,7 @@ const registerActions = (): void => {
 
   // 设置内存不足警告
   wx.onMemoryWarning((res) => {
-    console.warn("Memory warning received.");
+    logger.warn("Memory warning received.");
     wx.reportEvent?.("memory_warning", {
       level: res?.level || 0,
     });

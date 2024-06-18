@@ -1,4 +1,4 @@
-import { URLSearchParams } from "@mptool/all";
+import { URLSearchParams, logger } from "@mptool/all";
 
 import { UNDER_STUDY_SERVER } from "./utils.js";
 import { request } from "../../../../api/index.js";
@@ -197,7 +197,7 @@ const getUnderGradeListLocal = async ({
     });
 
     if (headers.get("content-type")?.includes("text/html")) {
-      console.log(data);
+      logger.debug(data);
 
       throw new Error("获取失败");
     }
@@ -221,7 +221,7 @@ const getUnderGradeListLocal = async ({
   } catch (err) {
     const { message } = err as Error;
 
-    console.error(err);
+    logger.error(err);
 
     return {
       success: false,

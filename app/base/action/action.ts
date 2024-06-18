@@ -1,5 +1,5 @@
 import type { PropType } from "@mptool/all";
-import { $Component } from "@mptool/all";
+import { $Component, logger } from "@mptool/all";
 
 import type { ActionComponentOptions } from "../../../typings/index.js";
 import { copyContent, showModal } from "../../api/index.js";
@@ -23,7 +23,7 @@ $Component({
       const { content } = this.data.config;
 
       copyContent(content).then(() => {
-        console.log(`Copied '${content}'`);
+        logger.debug(`Copied '${content}'`);
       });
     },
 
@@ -35,7 +35,7 @@ $Component({
           "功能受限",
           "小程序无法直接打开网页，链接已复制至剪切板，请打开浏览器粘贴查看。",
         );
-        console.log(`Copied '${content}'`);
+        logger.debug(`Copied '${content}'`);
       });
     },
   },

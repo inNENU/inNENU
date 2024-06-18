@@ -207,7 +207,7 @@ const authLoginLocal = async ({
     }
   }
 
-  console.error("Unknown login response: ", loginPageResponse.status);
+  logger.error("Unknown login response: ", loginPageResponse.status);
 
   return {
     success: false,

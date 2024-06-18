@@ -1,5 +1,5 @@
 import type { RichTextNode } from "@mptool/all";
-import { getRichTextNodes } from "@mptool/all";
+import { getRichTextNodes, logger } from "@mptool/all";
 
 import { request } from "../../../../api/index.js";
 import type {
@@ -94,7 +94,7 @@ const getOfficialNoticeDetailLocal = async (
   } catch (err) {
     const { message } = err as Error;
 
-    console.error(err);
+    logger.error(err);
 
     return {
       success: false,

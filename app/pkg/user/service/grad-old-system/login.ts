@@ -44,7 +44,7 @@ const gradOldSystemLoginLocal = async (
   });
 
   if (!result.success) {
-    console.error(result.msg);
+    logger.error(result.msg);
 
     return {
       success: false,
@@ -52,8 +52,6 @@ const gradOldSystemLoginLocal = async (
       msg: result.msg,
     };
   }
-
-  console.log("Login location", result.location);
 
   const ticketResponse = await request<string>(result.location, {
     redirect: "manual",

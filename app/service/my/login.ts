@@ -42,7 +42,7 @@ export const myLoginLocal = async (
   });
 
   if (!result.success) {
-    console.error(result.msg);
+    logger.error(result.msg);
 
     return {
       success: false,

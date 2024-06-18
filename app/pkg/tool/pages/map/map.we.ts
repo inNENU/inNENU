@@ -79,7 +79,7 @@ $Page(PAGE_ID, {
   context: {} as WechatMiniprogram.MapContext,
 
   onNavigate() {
-    console.info("Navigating to Map");
+    console.debug("Navigating to Map");
     ensureJson("function/map/marker/benbu");
     ensureJson("function/map/marker/jingyue");
   },

@@ -42,7 +42,7 @@ export const underStudyLoginLocal = async (
     });
 
     if (!result.success) {
-      console.error(result.msg);
+      logger.error(result.msg);
 
       return {
         success: false,
@@ -51,15 +51,11 @@ export const underStudyLoginLocal = async (
       };
     }
 
-    console.log("Login location", result.location);
-
     const ticketResponse = await request<string>(result.location, {
       redirect: "manual",
     });
 
     if (ticketResponse.status !== 302) {
-      console.log("ticket response", ticketResponse.data);
-
       return {
         success: false,
         type: ActionFailType.Unknown,
@@ -68,8 +64,6 @@ export const underStudyLoginLocal = async (
     }
 
     const finalLocation = ticketResponse.headers.get("Location");
-
-    console.log("location: ", finalLocation);
 
     if (finalLocation === SSO_LOGIN_URL) {
       const ssoResponse = await request<string>(SSO_LOGIN_URL, {
@@ -94,7 +88,7 @@ export const underStudyLoginLocal = async (
   } catch (err) {
     const { message } = err as Error;
 
-    console.error(err);
+    logger.error(err);
 
     return {
       success: false,

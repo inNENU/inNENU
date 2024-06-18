@@ -161,13 +161,13 @@ const getRecentEmailsLocal = async (): Promise<ActionRecentMailResponse> => {
   } catch (err) {
     const { message } = err as Error;
 
-    console.error(err);
+    logger.error(err);
 
     return {
       success: false,
       type: ActionFailType.Unknown,
       msg: message,
-    } as CommonFailedResponse;
+    };
   }
 };
 

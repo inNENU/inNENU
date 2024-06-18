@@ -106,8 +106,6 @@ const getPlanList = async (content: string): Promise<ChangeMajorPlan[]> => {
 
   const plans = shouldRefetch ? [] : getPlans(content);
 
-  console.log("Total pages:", totalPages);
-
   if (totalPages === 1 && !shouldRefetch) return plans;
 
   const field = String(fieldRegExp.exec(content)?.[1]);
@@ -189,7 +187,7 @@ const getUnderChangeMajorPlansLocal =
     } catch (err) {
       const { message } = err as Error;
 
-      console.error(err);
+      logger.error(err);
 
       return {
         success: false,

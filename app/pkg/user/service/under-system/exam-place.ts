@@ -85,8 +85,6 @@ export const getExamList = async (value: string): Promise<ExamPlace[]> => {
 
   const exams = shouldRefetch ? [] : getExamPlaces(content);
 
-  console.log("Total pages:", totalPages);
-
   if (totalPages === 1 && !shouldRefetch) return exams;
 
   const field = String(fieldRegExp.exec(content)?.[1]);
@@ -176,7 +174,7 @@ const getUnderExamPlaceLocal = async (): Promise<UnderExamPlaceResponse> => {
   } catch (err) {
     const { message } = err as Error;
 
-    console.error(err);
+    logger.error(err);
 
     return {
       success: false,

@@ -1,3 +1,5 @@
+import { logger } from "@mptool/all";
+
 import { OFFICIAL_URL, getOfficialPageView } from "./utils.js";
 import { request } from "../../api/index.js";
 import type {
@@ -80,7 +82,7 @@ const getOfficialNoticeListLocal = async ({
   } catch (err) {
     const { message } = err as Error;
 
-    console.error(err);
+    logger.error(err);
 
     return {
       success: false,

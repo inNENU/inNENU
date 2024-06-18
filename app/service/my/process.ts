@@ -1,4 +1,4 @@
-import { URLSearchParams } from "@mptool/all";
+import { URLSearchParams, logger } from "@mptool/all";
 
 import { MY_SERVER } from "./utils.js";
 import { request } from "../../api/index.js";
@@ -65,7 +65,7 @@ export const getProcess = async (
       msg: "获取流程信息失败",
     };
   } catch (err) {
-    console.error(err);
+    logger.error(err);
 
     return {
       success: false,

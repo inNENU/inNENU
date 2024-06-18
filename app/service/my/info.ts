@@ -1,4 +1,4 @@
-import { URLSearchParams } from "@mptool/all";
+import { URLSearchParams, logger } from "@mptool/all";
 
 import { MY_SERVER } from "./utils.js";
 import { request } from "../../api/index.js";
@@ -184,7 +184,7 @@ export const getMyInfo = async (): Promise<MyInfoResponse> => {
       msg: "获取人员信息失败",
     };
   } catch (err) {
-    console.error(err);
+    logger.error(err);
 
     return {
       success: false,

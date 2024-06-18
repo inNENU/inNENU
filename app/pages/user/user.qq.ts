@@ -1,4 +1,4 @@
-import { $Page, get, put, set, take } from "@mptool/all";
+import { $Page, get, logger, put, set, take } from "@mptool/all";
 
 import { footer } from "./info.js";
 import type { PageStateWithContent } from "../../../typings/index.js";
@@ -33,7 +33,7 @@ try {
     get<PageStateWithContent>(PAGE_KEY),
   ) as PageStateWithContent | null;
 } catch (err) {
-  console.error(err);
+  logger.error(err);
 } finally {
   if (!defaultPage) {
     defaultPage = {
@@ -66,7 +66,7 @@ $Page(PAGE_ID, {
 
     if (data) put(PAGE_ID, resolvePage({ id: PAGE_ID }, data));
 
-    console.debug(`User page loading time: ${Date.now() - info.startupTime}ms`);
+    logger.debug(`User page loading time: ${Date.now() - info.startupTime}ms`);
   },
 
   onLoad() {

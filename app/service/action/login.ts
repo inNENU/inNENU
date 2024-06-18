@@ -95,7 +95,7 @@ const actionLoginLocal = async (
   });
 
   if (!result.success) {
-    console.error(result.msg);
+    logger.error(result.msg);
 
     return {
       success: false,
@@ -161,8 +161,6 @@ export const withActionLogin =
     | Awaited<ReturnType<T>>
   > => {
     if (!user.account) return MissingCredentialResponse;
-
-    console.warn(cookieStore.getCookies(ACTION_SERVER));
 
     // check whether cookies exist and avoid re-login if the login state is not expired
     if (hasActionCookies()) {

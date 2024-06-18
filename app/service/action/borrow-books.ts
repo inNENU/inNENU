@@ -136,7 +136,7 @@ const getBorrowBooksLocal = async (): Promise<BorrowBooksResponse> => {
   } catch (err) {
     const { message } = err as Error;
 
-    console.error(err);
+    logger.error(err);
 
     return UnknownResponse(message);
   }

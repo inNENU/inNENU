@@ -1,4 +1,4 @@
-import { $Page, get, set } from "@mptool/all";
+import { $Page, get, logger, set } from "@mptool/all";
 
 import type { PageStateWithContent } from "../../../typings/index.js";
 import { checkResource } from "../../app/index.js";
@@ -34,7 +34,7 @@ try {
     get<PageStateWithContent>(PAGE_KEY),
   ) as PageStateWithContent | null;
 } catch (err) {
-  console.error(err);
+  logger.error(err);
 } finally {
   if (!defaultPage) {
     defaultPage = {

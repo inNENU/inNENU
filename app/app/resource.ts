@@ -188,7 +188,7 @@ export const checkResource = (): Promise<void> => {
         }
       })
       .catch((err) => {
-        console.error("Resource check failed: ", err);
+        logger.warn("Resource check failed: ", err);
         showToast("服务器出现问题");
       });
 

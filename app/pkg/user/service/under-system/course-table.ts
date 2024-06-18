@@ -110,7 +110,7 @@ const getUnderCourseTableLocal = async ({
   } catch (err) {
     const { message } = err as Error;
 
-    console.error(err);
+    logger.error(err);
 
     return {
       success: false,

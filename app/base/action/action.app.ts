@@ -1,5 +1,5 @@
 import type { PropType } from "@mptool/all";
-import { $Component } from "@mptool/all";
+import { $Component, logger } from "@mptool/all";
 
 import type { ActionComponentOptions } from "../../../typings/index.js";
 import { copyContent } from "../../api/index.js";
@@ -22,9 +22,7 @@ $Component({
     copy(): void {
       const { content } = this.data.config;
 
-      copyContent(content).then(() => {
-        console.log(`Copied '${content}'`);
-      });
+      copyContent(content).then(() => logger.debug(`Copied '${content}'`));
     },
 
     link(): void {

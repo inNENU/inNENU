@@ -1,3 +1,5 @@
+import { logger } from "@mptool/all";
+
 import { UNDER_SYSTEM_SERVER } from "./utils.js";
 import { request } from "../../../../api/index.js";
 import type { CookieVerifyResponse } from "../../../../service/index.js";
@@ -32,7 +34,7 @@ export const checkUnderSystemCookies =
         valid: false,
       };
     } catch (err) {
-      console.error(err);
+      logger.error(err);
 
       return {
         success: true,

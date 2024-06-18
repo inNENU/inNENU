@@ -1,3 +1,5 @@
+import { logger } from "@mptool/all";
+
 export const rateApp = (): void => {
   (
     requirePlugin("wxacommentplugin") as {
@@ -8,10 +10,10 @@ export const rateApp = (): void => {
     }
   ).openComment({
     success: (res) => {
-      console.log("plugin.openComment success", res);
+      logger.debug("plugin.openComment success", res);
     },
     fail: (res) => {
-      console.log("plugin.openComment fail", res);
+      logger.warn("plugin.openComment fail", res);
     },
   });
 };

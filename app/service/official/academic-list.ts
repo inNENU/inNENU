@@ -1,3 +1,5 @@
+import { logger } from "@mptool/all";
+
 import { OFFICIAL_URL, getOfficialPageView } from "./utils.js";
 import { request } from "../../api/index.js";
 import type {
@@ -74,16 +76,16 @@ const getOfficialAcademicListLocal = async ({
       data,
       current,
       total: totalPageState,
-    } as OfficialAcademicListResponse;
+    };
   } catch (err) {
     const { message } = err as Error;
 
-    console.error(err);
+    logger.error(err);
 
     return {
       success: false,
       msg: message,
-    } as CommonFailedResponse;
+    };
   }
 };
 

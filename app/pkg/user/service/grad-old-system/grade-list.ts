@@ -150,8 +150,6 @@ const getGradGradeLists = async (
 
   const grades = shouldRefetch ? [] : getGradGrades(content);
 
-  console.log("Total pages:", totalPages);
-
   if (totalPages === 1 && !shouldRefetch) return grades;
 
   const field = String(fieldRegExp.exec(content)?.[1]);
@@ -223,7 +221,7 @@ const getGradGradeListLocal = async (): Promise<GradGradeListResponse> => {
   } catch (err) {
     const { message } = err as Error;
 
-    console.error(err);
+    logger.error(err);
 
     return {
       success: false,
