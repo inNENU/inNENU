@@ -14,8 +14,8 @@ import type {
 import {
   ActionFailType,
   authLogin,
+  checkAccountStatus,
   createService,
-  handleFailResponse,
   supportRedirect,
   vpnCASLoginLocal,
 } from "../../../../service/index.js";
@@ -113,7 +113,7 @@ export const underSystemLoginOnline = async (
 
   if (!data.success) {
     logger.error("登录失败", data);
-    handleFailResponse(data);
+    checkAccountStatus(data);
   }
 
   return data;

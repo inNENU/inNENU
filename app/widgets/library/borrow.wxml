@@ -18,7 +18,12 @@
       catch:tap="{{header === '图书待还'? 'showBooks': ''}}"
     >
       <login-hint wx:if="{{ status === 'login' }}" size="mini" />
-      <error-hint wx:elif="{{ status === 'error' }}" size="mini" hide-retry />
+      <error-hint
+        wx:elif="{{ status === 'error' }}"
+        hint="{{errMsg}}"
+        size="mini"
+        hide-retry
+      />
       <block wx:else>
         <image
           wx:if="{{status === 'loading'}}"

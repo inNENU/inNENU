@@ -1,18 +1,17 @@
 import { logger } from "@mptool/all";
 
-import { actionState } from "./login.js";
+import { withActionLogin } from "./login.js";
 import { ACTION_SERVER } from "./utils.js";
 import { request } from "../../api/index.js";
 import type {
+  ActionFailType,
   CommonFailedResponse,
   CommonSuccessResponse,
 } from "../utils/index.js";
 import {
-  ActionFailType,
   ExpiredResponse,
   UnknownResponse,
   createService,
-  handleFailResponse,
   isWebVPNPage,
   supportRedirect,
 } from "../utils/index.js";
@@ -56,16 +55,11 @@ const getCardBalanceLocal = async (): Promise<CardBalanceResponse> => {
       // Note: If the env does not support "redirect: manual", the response will be a 302 redirect to WebVPN login page
       // In this case, the response.status will be 200 and the response body will be the WebVPN login page
       (!supportRedirect && isWebVPNPage(data))
-    ) {
-      actionState.method = "force";
-
+    )
       return ExpiredResponse;
-    }
 
     if (data.success) {
       const balanceList = data.demo.items.item;
-
-      actionState.method = "check";
 
       return {
         success: true,
@@ -80,30 +74,21 @@ const getCardBalanceLocal = async (): Promise<CardBalanceResponse> => {
     const { message } = err as Error;
 
     console.error(err);
-    actionState.method = "force";
 
     return UnknownResponse(message);
   }
 };
 
-const getCardBalanceOnline = async (): Promise<CardBalanceResponse> => {
-  const data = await request<CardBalanceResponse>("/action/card-balance", {
+const getCardBalanceOnline = async (): Promise<CardBalanceResponse> =>
+  request<CardBalanceResponse>("/action/card-balance", {
     method: "POST",
     cookieScope: ACTION_SERVER,
-  }).then(({ data }) => data);
+  }).then(({ data }) => {
+    if (!data.success) logger.error("获取校园卡余额出错", data);
 
-  if (!data.success) {
-    logger.error("获取校园卡余额出错", data);
+    return data;
+  });
 
-    if (data.type === ActionFailType.Expired) actionState.method = "force";
-    handleFailResponse(data);
-  }
-
-  return data;
-};
-
-export const getCardBalance = createService(
-  "card-balance",
-  getCardBalanceLocal,
-  getCardBalanceOnline,
+export const getCardBalance = withActionLogin(
+  createService("card-balance", getCardBalanceLocal, getCardBalanceOnline),
 );

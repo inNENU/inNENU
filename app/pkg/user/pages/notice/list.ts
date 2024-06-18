@@ -3,7 +3,7 @@ import { $Page } from "@mptool/all";
 import { showToast } from "../../../../api/index.js";
 import { appCoverPrefix } from "../../../../config/index.js";
 import type { NoticeInfo } from "../../../../service/index.js";
-import { ensureActionLogin, getNoticeList } from "../../../../service/index.js";
+import { getNoticeList } from "../../../../service/index.js";
 import { info, user } from "../../../../state/index.js";
 import { getPageColor, showNotice } from "../../../../utils/index.js";
 
@@ -66,39 +66,29 @@ $Page(PAGE_ID, {
   },
 
   async getNoticeList(current = 1) {
-    if (user.account) {
-      wx.showLoading({ title: "获取中" });
+    if (!user.account) return this.setData({ status: "login" });
 
-      const err = await ensureActionLogin(user.account);
+    wx.showLoading({ title: "获取中" });
 
-      if (err) {
-        wx.hideLoading();
-        showToast(err.msg);
+    const result = await getNoticeList({
+      type: this.state.type,
+      current,
+    });
 
-        return this.setData({ status: "error" });
-      }
+    wx.hideLoading();
+    this.state.inited = true;
 
-      const result = await getNoticeList({
-        type: this.state.type,
-        current,
+    if (result.success) {
+      this.setData({
+        status: "success",
+        scrollTop: 0,
+        notices: result.data,
+        current: result.current,
+        total: result.total,
       });
-
-      wx.hideLoading();
-      this.state.inited = true;
-
-      if (result.success) {
-        this.setData({
-          status: "success",
-          scrollTop: 0,
-          notices: result.data,
-          current: result.current,
-          total: result.total,
-        });
-      } else {
-        this.setData({ status: "error" });
-      }
     } else {
-      this.setData({ status: "login" });
+      showToast(result.msg);
+      this.setData({ status: "error" });
     }
   },
 

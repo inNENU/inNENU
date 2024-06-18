@@ -3,32 +3,30 @@ import { logger } from "@mptool/all";
 import { ACTION_DOMAIN, ACTION_SERVER } from "./utils.js";
 import { cookieStore, request } from "../../api/index.js";
 import type { AccountInfo } from "../../state/index.js";
+import { user } from "../../state/index.js";
 import type { AuthLoginFailedResponse } from "../auth/index.js";
 import { authLogin } from "../auth/index.js";
 import type {
+  CommonFailedResponse,
   CookieVerifyResponse,
   FailResponse,
   LoginMethod,
 } from "../utils/index.js";
 import {
   ActionFailType,
+  MissingCredentialResponse,
+  checkAccountStatus,
   createService,
-  handleFailResponse,
   isWebVPNPage,
   supportRedirect,
 } from "../utils/index.js";
 import type { VPNLoginFailedResponse } from "../vpn/index.js";
 import { vpnCASLoginLocal } from "../vpn/index.js";
 
-export const actionState: {
-  method: LoginMethod;
-  current: Promise<ActionLoginResponse> | null;
-} = {
-  method: "validate",
-  current: null,
-};
+let currentLogin: Promise<ActionLoginResponse> | null = null;
+let loginMethod: LoginMethod = "validate";
 
-const isActionLoggedInLocal = async (): Promise<CookieVerifyResponse> => {
+const isActionLoggedInLocal = async (): Promise<boolean> => {
   try {
     const { data, status } = await request<{ success: boolean }>(
       `${ACTION_SERVER}/page/getidentity`,
@@ -41,42 +39,27 @@ const isActionLoggedInLocal = async (): Promise<CookieVerifyResponse> => {
       },
     );
 
-    // must no be valid if the status is not 200
-    if (status !== 200) throw -1;
-
-    // Note: If the env does not support "redirect: manual", the response will be a 302 redirect to WebVPN login page
-    // In this case, the response.status will be 200 and the response body will be the WebVPN login page
-    if (!supportRedirect && isWebVPNPage(data)) {
-      actionState.method = "force";
-
-      return { success: true, valid: false };
+    if (
+      // must no be valid if the status is not 200
+      status !== 200 ||
+      // Note: If the env does not support "redirect: manual", the response will be a 302 redirect to WebVPN login page
+      // In this case, the response.status will be 200 and the response body will be the WebVPN login page
+      (!supportRedirect && isWebVPNPage(data))
+    ) {
+      return false;
     }
 
-    actionState.method = "check";
-
-    return {
-      success: true,
-      valid: data.success,
-    };
+    return data.success;
   } catch (err) {
-    actionState.method = "force";
-
-    return {
-      success: true,
-      valid: false,
-    };
+    return false;
   }
 };
 
-const isActionLoggedInOnline = (): Promise<CookieVerifyResponse> =>
+const isActionLoggedInOnline = (): Promise<boolean> =>
   request<CookieVerifyResponse>("/action/check", {
     method: "POST",
     cookieScope: ACTION_SERVER,
-  }).then(({ data }) => {
-    actionState.method = data.valid ? "check" : "force";
-
-    return data;
-  });
+  }).then(({ data }) => data.valid);
 
 const isActionLoggedIn = createService(
   "action-check",
@@ -94,7 +77,7 @@ export type ActionLoginResponse =
   | VPNLoginFailedResponse;
 
 /**
- * @requires "redirect: manual"
+ * @requires "redirect:manual"
  */
 const actionLoginLocal = async (
   options: AccountInfo,
@@ -146,22 +129,14 @@ const actionLoginLocal = async (
   };
 };
 
-const actionLoginOnline = async (
+const actionLoginOnline = (
   options: AccountInfo,
-): Promise<ActionLoginResponse> => {
-  const { data } = await request<ActionLoginResponse>("/action/login", {
+): Promise<ActionLoginResponse> =>
+  request<ActionLoginResponse>("/action/login", {
     method: "POST",
     body: options,
     cookieScope: ACTION_SERVER,
-  });
-
-  if (!data.success) {
-    logger.error("登录失败", data.msg);
-    handleFailResponse(data);
-  }
-
-  return data;
-};
+  }).then(({ data }) => data);
 
 const actionLogin = createService(
   "action-login",
@@ -174,22 +149,68 @@ const hasActionCookies = (): boolean =>
     .getCookies(ACTION_SERVER)
     .some(({ domain }) => domain === ACTION_DOMAIN);
 
-export const ensureActionLogin = async (
-  account: AccountInfo,
-): Promise<FailResponse<ActionLoginResponse> | null> => {
-  if (actionState.method !== "force") {
+export const withActionLogin =
+  <R extends { success: boolean }, T extends (...args: any[]) => Promise<R>>(
+    serviceHandler: T,
+  ) =>
+  async (
+    ...args: Parameters<T>
+  ): Promise<
+    | CommonFailedResponse<ActionFailType.MissingCredential>
+    | FailResponse<ActionLoginResponse>
+    | Awaited<ReturnType<T>>
+  > => {
+    if (!user.account) return MissingCredentialResponse;
+
+    // check whether cookies exist and avoid re-login if the login state is not expired
     if (hasActionCookies()) {
-      if (actionState.method === "check") return null;
+      let response: Awaited<ReturnType<T>> | null = null;
 
-      const { valid } = await isActionLoggedIn();
+      // assuming login state is valid if cookies exist
+      if (loginMethod === "check") {
+        response = (await serviceHandler(...args)) as Awaited<ReturnType<T>>;
+      }
 
-      if (valid) return null;
+      // validate login state with actual API
+      if (loginMethod === "validate") {
+        if (await isActionLoggedIn()) {
+          response = (await serviceHandler(...args)) as Awaited<ReturnType<T>>;
+        }
+      }
+
+      if (response) {
+        // check if action is successful
+        if (response?.success) {
+          loginMethod = "check";
+
+          return response;
+        }
+
+        // validate login state next time to ensure the login state is correct
+        // @ts-expect-error: Response untyped
+        if (response.type !== ActionFailType.Expired) {
+          loginMethod = "validate";
+
+          return response;
+        }
+      }
     }
-  }
 
-  const result = await (actionState.current ??= actionLogin(account));
+    // ensure only one login action is running
+    const response = await (currentLogin ??= actionLogin(user.account));
 
-  actionState.current = null;
+    // clear the current login promise after log in
+    currentLogin = null;
 
-  return result.success ? null : result;
-};
+    // successfully logged in
+    if (response.success) {
+      loginMethod = "check";
+
+      return (await serviceHandler(...args)) as Awaited<ReturnType<T>>;
+    }
+
+    logger.error("Action login failed", response);
+    checkAccountStatus(response);
+
+    return response;
+  };

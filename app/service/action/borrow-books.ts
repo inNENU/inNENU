@@ -1,19 +1,18 @@
 /* eslint-disable @typescript-eslint/naming-convention */
 import { logger } from "@mptool/all";
 
-import { actionState } from "./login.js";
+import { withActionLogin } from "./login.js";
 import { ACTION_SERVER } from "./utils.js";
 import { request } from "../../api/index.js";
 import type {
+  ActionFailType,
   CommonFailedResponse,
   CommonSuccessResponse,
 } from "../utils/index.js";
 import {
-  ActionFailType,
   ExpiredResponse,
   UnknownResponse,
   createService,
-  handleFailResponse,
   isWebVPNPage,
   supportRedirect,
 } from "../utils/index.js";
@@ -127,13 +126,8 @@ const getBorrowBooksLocal = async (): Promise<BorrowBooksResponse> => {
       // Note: If the env does not support "redirect: manual", the response will be a 302 redirect to WebVPN login page
       // In this case, the response.status will be 200 and the response body will be the WebVPN login page
       (!supportRedirect && isWebVPNPage(data))
-    ) {
-      actionState.method = "force";
-
+    )
       return ExpiredResponse;
-    }
-
-    actionState.method = "check";
 
     return {
       success: true,
@@ -143,7 +137,6 @@ const getBorrowBooksLocal = async (): Promise<BorrowBooksResponse> => {
     const { message } = err as Error;
 
     console.error(err);
-    actionState.method = "force";
 
     return UnknownResponse(message);
   }
@@ -154,18 +147,11 @@ const getBorrowBooksOnline = (): Promise<BorrowBooksResponse> =>
     method: "POST",
     cookieScope: ACTION_SERVER,
   }).then(({ data }) => {
-    if (!data.success) {
-      logger.error("获取借阅书籍出错", data);
-
-      if (data.type === ActionFailType.Expired) actionState.method = "force";
-      handleFailResponse(data);
-    }
+    if (!data.success) logger.error("获取借阅书籍出错", data);
 
     return data;
   });
 
-export const getBorrowBooks = createService(
-  "borrow-books",
-  getBorrowBooksLocal,
-  getBorrowBooksOnline,
+export const getBorrowBooks = withActionLogin(
+  createService("borrow-books", getBorrowBooksLocal, getBorrowBooksOnline),
 );

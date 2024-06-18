@@ -3,20 +3,19 @@ import { getRichTextNodes, logger } from "@mptool/all";
 
 import { request } from "../../../../api/index.js";
 import type {
+  ActionFailType,
   CommonFailedResponse,
   CommonSuccessResponse,
 } from "../../../../service/index.js";
 import {
   ACTION_SERVER,
-  ActionFailType,
   ExpiredResponse,
   MY_SERVER,
   UnknownResponse,
-  actionState,
   createService,
-  handleFailResponse,
   isWebVPNPage,
   supportRedirect,
+  withActionLogin,
 } from "../../../../service/index.js";
 
 const TITLE_REGEXP = /var title = '(.*?)';/;
@@ -59,11 +58,8 @@ const getNoticeLocalDetail = async (
       // Note: If the env does not support "redirect: manual", the response will be a 302 redirect to WebVPN login page
       // In this case, the response.status will be 200 and the response body will be the WebVPN login page
       (!supportRedirect && isWebVPNPage(text))
-    ) {
-      actionState.method = "login";
-
+    )
       return ExpiredResponse;
-    }
 
     const title = TITLE_REGEXP.exec(text)![1];
     const author = AUTHOR_REGEXP.exec(text)![1];
@@ -98,8 +94,6 @@ const getNoticeLocalDetail = async (
       }),
     };
 
-    actionState.method = "check";
-
     return {
       success: true,
       data,
@@ -108,7 +102,6 @@ const getNoticeLocalDetail = async (
     const { message } = err as Error;
 
     console.error(err);
-    actionState.method = "login";
 
     return UnknownResponse(message);
   }
@@ -120,18 +113,11 @@ const getNoticeOnlineDetail = (noticeID: string): Promise<NoticeResponse> =>
     body: { noticeID },
     cookieScope: ACTION_SERVER,
   }).then(({ data }) => {
-    if (!data.success) {
-      logger.error("获取失败", data.msg);
-
-      if (data.type === ActionFailType.Expired) actionState.method = "login";
-      handleFailResponse(data);
-    }
+    if (!data.success) logger.error("获取失败", data.msg);
 
     return data;
   });
 
-export const getNoticeDetail = createService(
-  "notice-detail",
-  getNoticeLocalDetail,
-  getNoticeOnlineDetail,
+export const getNoticeDetail = withActionLogin(
+  createService("notice-detail", getNoticeLocalDetail, getNoticeOnlineDetail),
 );

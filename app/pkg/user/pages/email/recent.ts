@@ -1,15 +1,9 @@
 import { $Page } from "@mptool/all";
 
-import {
-  copyContent,
-  retryAction,
-  showModal,
-  showToast,
-} from "../../../../api/index.js";
+import { copyContent, showModal, showToast } from "../../../../api/index.js";
 import { appCoverPrefix } from "../../../../config/index.js";
 import {
   ActionFailType,
-  ensureActionLogin,
   getEmailPage,
   getRecentEmails,
 } from "../../../../service/index.js";
@@ -68,16 +62,6 @@ $Page(PAGE_ID, {
 
   async getEmails(): Promise<void> {
     wx.showLoading({ title: "获取邮件" });
-
-    const err = await ensureActionLogin(user.account!);
-
-    if (err) {
-      wx.hideLoading();
-
-      this.setData({ status: "error" });
-
-      return retryAction("登陆失败", "登录信息已过期", () => this.getEmails());
-    }
 
     const result = await getRecentEmails();
 
@@ -144,9 +128,5 @@ $Page(PAGE_ID, {
     } else {
       showToast("加载页面失败");
     }
-  },
-
-  retry() {
-    return this.getEmails();
   },
 });

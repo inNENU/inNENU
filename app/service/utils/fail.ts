@@ -3,7 +3,7 @@ import type { CommonFailedResponse } from "./response.js";
 import { cookieStore, getCurrentRoute, showToast } from "../../api/index.js";
 import { clearUserInfo } from "../../state/index.js";
 
-export const handleFailResponse = (
+export const checkAccountStatus = (
   response: CommonFailedResponse<ActionFailType>,
 ): void => {
   if (

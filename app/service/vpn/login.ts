@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/naming-convention */
 import { URLSearchParams } from "@mptool/all";
 
 import { VPN_DOMAIN, VPN_SERVER } from "./utils.js";
@@ -42,15 +43,10 @@ export const vpnLoginLocal = async ({
     method: "POST",
     body: new URLSearchParams({
       utf8: "✓",
-      // eslint-disable-next-line @typescript-eslint/naming-convention
       authenticity_token: authenticityToken,
-      // eslint-disable-next-line @typescript-eslint/naming-convention
       "user[login]": id.toString(),
-      // eslint-disable-next-line @typescript-eslint/naming-convention
       "user[password]": password,
-      // eslint-disable-next-line @typescript-eslint/naming-convention
       "user[dymatice_code]": "unknown",
-      // eslint-disable-next-line @typescript-eslint/naming-convention
       "user[otp_with_capcha]": "false",
       commit: "登录 Login",
     }),
@@ -110,11 +106,11 @@ export const vpnCASLoginLocal = async ({
   // clear VPN cookies
   cookieStore.clear(VPN_DOMAIN);
 
-  const casResponse = await request<string>(CAS_LOGIN_URL, {
+  const { status } = await request<string>(CAS_LOGIN_URL, {
     redirect: "manual",
   });
 
-  if (casResponse.status === 302) {
+  if (status === 302) {
     const authResult = await authLogin({
       id,
       password,
@@ -156,7 +152,7 @@ export const vpnCASLoginLocal = async ({
     }
   }
 
-  if (casResponse.status === 500)
+  if (status === 500)
     return {
       success: false,
       type: ActionFailType.Unknown,

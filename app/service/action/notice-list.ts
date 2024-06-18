@@ -1,18 +1,17 @@
 import { URLSearchParams, logger } from "@mptool/all";
 
-import { actionState } from "./login.js";
+import { withActionLogin } from "./login.js";
 import { ACTION_SERVER } from "./utils.js";
 import { request } from "../../api/index.js";
 import type {
+  ActionFailType,
   CommonFailedResponse,
   CommonListSuccessResponse,
 } from "../utils/index.js";
 import {
-  ActionFailType,
   ExpiredResponse,
   UnknownResponse,
   createService,
-  handleFailResponse,
   isWebVPNPage,
   supportRedirect,
 } from "../utils/index.js";
@@ -123,15 +122,11 @@ const getNoticeListLocal = async ({
       // In this case, the response.status will be 200 and the response body will be the WebVPN login page
       (!supportRedirect && isWebVPNPage(data))
     ) {
-      actionState.method = "force";
-
       return ExpiredResponse;
     }
 
     if (!data.length)
       throw new Error(`获取公告列表失败: ${JSON.stringify(data, null, 2)}`);
-
-    actionState.method = "check";
 
     return {
       success: true,
@@ -145,7 +140,6 @@ const getNoticeListLocal = async ({
     const { message } = err as Error;
 
     console.error(err);
-    actionState.method = "force";
 
     return UnknownResponse(message);
   }
@@ -159,18 +153,11 @@ const getNoticeListOnline = (
     body: options,
     cookieScope: ACTION_SERVER,
   }).then(({ data }) => {
-    if (!data.success) {
-      logger.error("获取内网通知失败", data);
-
-      if (data.type === ActionFailType.Expired) actionState.method = "force";
-      handleFailResponse(data);
-    }
+    if (!data.success) logger.error("获取内网通知失败", data);
 
     return data;
   });
 
-export const getNoticeList = createService(
-  "notice-list",
-  getNoticeListLocal,
-  getNoticeListOnline,
+export const getNoticeList = withActionLogin(
+  createService("notice-list", getNoticeListLocal, getNoticeListOnline),
 );

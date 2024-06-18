@@ -1,14 +1,13 @@
 import type { PropType } from "@mptool/all";
 import { $Component, get, set } from "@mptool/all";
 
-import { showToast } from "../../api/index.js";
 import { HOUR, NEWS_LIST_KEY, NOTICE_LIST_KEY } from "../../config/index.js";
 import type {
   LoginMethod,
   NoticeInfo,
   NoticeType,
 } from "../../service/index.js";
-import { ensureActionLogin, getNoticeList } from "../../service/index.js";
+import { getNoticeList } from "../../service/index.js";
 import { user } from "../../state/index.js";
 import type { WidgetSize, WidgetStatus } from "../utils.js";
 import { FILTERED_SOURCES, getSize } from "../utils.js";
@@ -71,17 +70,10 @@ $Component({
 
       this.setData({ status: "loading" });
 
-      const err = await ensureActionLogin(user.account);
-
-      if (err) {
-        showToast(err.msg);
-
-        return this.setData({ status: "error" });
-      }
-
       const result = await getNoticeList({ type: noticeType });
 
-      if (!result.success) return this.setData({ status: "error" });
+      if (!result.success)
+        return this.setData({ status: "error", errMsg: result.msg });
 
       const data = result.data
         .filter(({ from }) => !FILTERED_SOURCES.includes(from))

@@ -1,6 +1,6 @@
 import { URLSearchParams, logger } from "@mptool/all";
 
-import { actionState } from "./login.js";
+import { withActionLogin } from "./login.js";
 import { ACTION_SERVER } from "./utils.js";
 import { request } from "../../api/index.js";
 import type {
@@ -11,7 +11,6 @@ import {
   ActionFailType,
   ExpiredResponse,
   createService,
-  handleFailResponse,
   isWebVPNPage,
   supportRedirect,
 } from "../utils/index.js";
@@ -141,12 +140,8 @@ const getRecentEmailsLocal = async (): Promise<ActionRecentMailResponse> => {
       // In this case, the response.status will be 200 and the response body will be the WebVPN login page
       (!supportRedirect && isWebVPNPage(data))
     ) {
-      actionState.method = "force";
-
       return ExpiredResponse;
     }
-
-    actionState.method = "check";
 
     if ("success" in data && data.success && data.emailList.con) {
       return {
@@ -167,7 +162,6 @@ const getRecentEmailsLocal = async (): Promise<ActionRecentMailResponse> => {
     const { message } = err as Error;
 
     console.error(err);
-    actionState.method = "force";
 
     return {
       success: false,
@@ -182,18 +176,11 @@ const getRecentEmailsOnline = async (): Promise<ActionRecentMailResponse> =>
     method: "POST",
     cookieScope: ACTION_SERVER,
   }).then(({ data }) => {
-    if (!data.success) {
-      logger.error("获取最近邮件失败", data);
-
-      if (data.type === ActionFailType.Expired) actionState.method = "force";
-      handleFailResponse(data);
-    }
+    if (!data.success) logger.error("获取最近邮件失败", data);
 
     return data;
   });
 
-export const getRecentEmails = createService(
-  "recent-email",
-  getRecentEmailsLocal,
-  getRecentEmailsOnline,
+export const getRecentEmails = withActionLogin(
+  createService("recent-email", getRecentEmailsLocal, getRecentEmailsOnline),
 );

@@ -22,15 +22,17 @@ export interface CommonFailedResponse<
 
 export type FailResponse<T> = T extends { success: false } ? T : never;
 
-export interface CookieVerifySuccessResponse {
+export interface CookieVerifyResponse {
   success: true;
   valid: boolean;
 }
 
-export type CookieVerifyResponse =
-  | CookieVerifySuccessResponse
-  // make valid key exists
-  | (CommonFailedResponse & { valid?: undefined });
+export const MissingCredentialResponse: CommonFailedResponse<ActionFailType.MissingCredential> =
+  {
+    success: false,
+    type: ActionFailType.MissingCredential,
+    msg: "缺少用户凭据",
+  };
 
 export const ExpiredResponse: CommonFailedResponse<ActionFailType.Expired> = {
   success: false,

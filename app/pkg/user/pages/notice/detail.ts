@@ -7,7 +7,6 @@ import {
   service,
 } from "../../../../config/index.js";
 import type { NoticeType } from "../../../../service/index.js";
-import { ensureActionLogin } from "../../../../service/index.js";
 import { appID, info, user } from "../../../../state/index.js";
 import { getPageColor, showNotice } from "../../../../utils/index.js";
 import type { StarredNoticeData } from "../../../../widgets/star/typings.js";
@@ -38,7 +37,7 @@ $Page(PAGE_ID, {
 
     if (id) this.getNotice();
     else
-      showModal("无法获取", "请提供 ID", () => {
+      showModal("无法获取", "请提供公告 ID", () => {
         this.$back();
       });
 
@@ -91,52 +90,40 @@ $Page(PAGE_ID, {
   async getNotice() {
     const { id, type } = this.state;
 
-    if (user.account) {
-      wx.showLoading({ title: "获取中" });
+    if (!user.account) return this.setData({ status: "login" });
 
-      const err = await ensureActionLogin(user.account);
+    wx.showLoading({ title: "获取中" });
 
-      if (err) {
-        wx.hideLoading();
-        showToast(err.msg);
+    const result = await getNoticeDetail(id);
 
-        return this.setData({ status: "error" });
-      }
+    wx.hideLoading();
 
-      const result = await getNoticeDetail(id);
+    if (!result.success)
+      return this.setData({ status: "error", errMsg: result.msg });
 
-      wx.hideLoading();
+    const { title, time, pageView, author, from, content } = result.data;
 
-      if (result.success) {
-        const { title, time, pageView, author, from, content } = result.data;
-
-        this.setData({
-          status: "success",
-          title,
-          // eslint-disable-next-line @typescript-eslint/naming-convention
-          "share.title": title,
-          time,
-          pageView,
-          author,
-          from,
-          content,
-        });
-        this.state.notice = {
-          title,
-          time,
-          pageView,
-          author,
-          from,
-          content,
-          id,
-          type,
-        };
-      } else {
-        this.setData({ status: "error" });
-      }
-    } else {
-      this.setData({ status: "login" });
-    }
+    this.setData({
+      status: "success",
+      title,
+      // eslint-disable-next-line @typescript-eslint/naming-convention
+      "share.title": title,
+      time,
+      pageView,
+      author,
+      from,
+      content,
+    });
+    this.state.notice = {
+      title,
+      time,
+      pageView,
+      author,
+      from,
+      content,
+      id,
+      type,
+    };
   },
 
   toggleStar() {

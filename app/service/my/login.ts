@@ -9,8 +9,8 @@ import { authLogin } from "../auth/login.js";
 import type { LoginMethod } from "../utils/index.js";
 import {
   ActionFailType,
+  checkAccountStatus,
   createService,
-  handleFailResponse,
   supportRedirect,
 } from "../utils/index.js";
 import type { VPNLoginFailedResponse } from "../vpn/index.js";
@@ -96,7 +96,7 @@ export const myLoginOnline = async (
 
   if (!data.success) {
     logger.error("登录失败", data.msg);
-    handleFailResponse(data);
+    checkAccountStatus(data);
   }
 
   return data;

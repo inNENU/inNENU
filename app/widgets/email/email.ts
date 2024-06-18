@@ -4,11 +4,7 @@ import { $Component, get, set } from "@mptool/all";
 import { copyContent, showModal, showToast } from "../../api/index.js";
 import { EMAIL_DATA_KEY, MINUTE } from "../../config/index.js";
 import type { EmailData } from "../../service/index.js";
-import {
-  ensureActionLogin,
-  getEmailPage,
-  getRecentEmails,
-} from "../../service/index.js";
+import { getEmailPage, getRecentEmails } from "../../service/index.js";
 import { env, user } from "../../state/index.js";
 import type { LoginWidgetStatus } from "../utils.js";
 import { getSize } from "../utils.js";
@@ -76,15 +72,6 @@ $Component({
       const { type } = this.data;
 
       this.setData({ status: "loading" });
-
-      const err = await ensureActionLogin(user.account!);
-
-      if (err) {
-        return this.setData({
-          status: "error",
-          errMsg: "登陆失败",
-        });
-      }
 
       const result = await getRecentEmails();
 

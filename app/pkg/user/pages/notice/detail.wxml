@@ -10,7 +10,11 @@
 <view class="{{theme}} notice-detail">
   <navbar nav="{{ { title: pageTitle } }}" />
   <view class="title">{{title}}</view>
-  <error-hint wx:if="{{ status === 'error' }}" catch:retry="getNotice" />
+  <error-hint
+    wx:if="{{ status === 'error' }}"
+    hint="{{errMsg}}"
+    catch:retry="getNotice"
+  />
   <login-hint wx:elif="{{ status === 'login' }}" source="{{pageTitle}}" />
   <view class="content">
     <block wx:if="{{content}}">

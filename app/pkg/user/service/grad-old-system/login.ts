@@ -18,8 +18,8 @@ import type {
 import {
   ActionFailType,
   authLogin,
+  checkAccountStatus,
   createService,
-  handleFailResponse,
   supportRedirect,
 } from "../../../../service/index.js";
 import type { AccountInfo } from "../../../../state/index.js";
@@ -135,7 +135,7 @@ const gradOldSystemLoginOnline = async (
 
   if (!data.success) {
     logger.error("登录失败", data);
-    handleFailResponse(data);
+    checkAccountStatus(data);
   }
 
   return data;

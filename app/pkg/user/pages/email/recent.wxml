@@ -8,7 +8,7 @@
 <view class="{{theme}} email">
   <navbar nav="{{nav}}" />
   <view class="content">
-    <error-hint wx:if="{{status === 'error'}}" catch:retry="retry" />
+    <error-hint wx:if="{{status === 'error'}}" catch:retry="getEmails" />
     <login-hint wx:elif="{{status === 'login'}}" source="校园邮箱" />
     <block wx:else>
       <view class="recent-title"

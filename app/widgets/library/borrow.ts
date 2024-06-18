@@ -1,10 +1,10 @@
 import type { PropType } from "@mptool/all";
 import { $Component, get, set } from "@mptool/all";
 
-import { showModal, showToast } from "../../api/index.js";
+import { showModal } from "../../api/index.js";
 import { BORROW_BOOKS_KEY, DAY, HOUR } from "../../config/index.js";
 import type { BorrowBookData } from "../../service/index.js";
-import { ensureActionLogin, getBorrowBooks } from "../../service/index.js";
+import { getBorrowBooks } from "../../service/index.js";
 import { user } from "../../state/index.js";
 
 $Component({
@@ -53,17 +53,10 @@ $Component({
     async getBooks() {
       if (!user.account) return this.setData({ status: "login" });
 
-      const err = await ensureActionLogin(user.account);
-
-      if (err) {
-        showToast(err.msg);
-
-        return this.setData({ status: "error" });
-      }
-
       const result = await getBorrowBooks();
 
-      if (!result.success) return this.setData({ status: "error" });
+      if (!result.success)
+        return this.setData({ status: "error", errMsg: result.msg });
 
       this.setBooks(result.data);
       set(BORROW_BOOKS_KEY, result.data, 3 * HOUR);
