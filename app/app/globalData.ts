@@ -25,7 +25,5 @@ export const globalData: GlobalData = {
     id: "",
   },
   settings: null,
-  service: wx.getStorageSync<ServiceSettings>("service") || {
-    forceOnline: false,
-  },
+  service: wx.getStorageSync<ServiceSettings>("service") || {},
 };
