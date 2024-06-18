@@ -32,13 +32,11 @@ export const checkUnderSystemCookies =
         valid: false,
       };
     } catch (err) {
-      const { message } = err as Error;
-
       console.error(err);
 
       return {
-        success: false,
-        msg: message,
+        success: true,
+        valid: false,
       };
     }
   };

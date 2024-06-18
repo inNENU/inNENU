@@ -147,7 +147,7 @@ const actionLogin = createService(
 const hasActionCookies = (): boolean =>
   cookieStore
     .getCookies(ACTION_SERVER)
-    .some(({ domain }) => domain === ACTION_DOMAIN);
+    .some(({ domain }) => domain.startsWith(ACTION_DOMAIN));
 
 export const withActionLogin =
   <R extends { success: boolean }, T extends (...args: any[]) => Promise<R>>(
@@ -161,6 +161,8 @@ export const withActionLogin =
     | Awaited<ReturnType<T>>
   > => {
     if (!user.account) return MissingCredentialResponse;
+
+    console.warn(cookieStore.getCookies(ACTION_SERVER));
 
     // check whether cookies exist and avoid re-login if the login state is not expired
     if (hasActionCookies()) {
