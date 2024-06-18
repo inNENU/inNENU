@@ -94,7 +94,9 @@ export const myLoginOnline = async (
 };
 
 const hasMyCookies = (): boolean =>
-  cookieStore.getCookies(MY_SERVER).some(({ domain }) => domain === MY_DOMAIN);
+  cookieStore
+    .getCookies(MY_SERVER)
+    .some(({ domain }) => domain.endsWith(MY_DOMAIN));
 
 const ensureMyLoginLocal = async (
   account: AccountInfo,

@@ -112,7 +112,7 @@ export const underSystemLoginOnline = async (
 const hasCookie = (): boolean =>
   cookieStore
     .getCookies(UNDER_SYSTEM_SERVER)
-    .some(({ domain }) => domain === UNDER_SYSTEM_DOMAIN);
+    .some(({ domain }) => domain.endsWith(UNDER_SYSTEM_DOMAIN));
 
 const ensureUnderSystemLoginLocal = async (
   account: AccountInfo,

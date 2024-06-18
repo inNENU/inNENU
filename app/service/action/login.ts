@@ -139,7 +139,7 @@ const actionLogin = createService(
 const hasActionCookies = (): boolean =>
   cookieStore
     .getCookies(ACTION_SERVER)
-    .some(({ domain }) => domain.startsWith(ACTION_DOMAIN));
+    .some(({ domain }) => domain.endsWith(ACTION_DOMAIN));
 
 export const withActionLogin =
   <R extends { success: boolean }, T extends (...args: any[]) => Promise<R>>(

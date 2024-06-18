@@ -109,7 +109,7 @@ export const underStudyLoginOnline = async (
 const hasUnderStudyCookies = (): boolean =>
   cookieStore
     .getCookies(UNDER_STUDY_SERVER)
-    .some(({ domain }) => domain === UNDER_STUDY_SERVER);
+    .some(({ domain }) => domain.endsWith(UNDER_STUDY_SERVER));
 
 const ensureUnderStudyLoginLocal = async (
   account: AccountInfo,

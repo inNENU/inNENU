@@ -135,7 +135,7 @@ export const gradOldSystemLogin = createService(
 const checkGradOldSystemCookies = (): boolean =>
   cookieStore
     .getCookies(GRAD_OLD_SYSTEM_HTTPS_SERVER)
-    .some(({ domain }) => domain === GRAD_OLD_SYSTEM_DOMAIN);
+    .some(({ domain }) => domain.endsWith(GRAD_OLD_SYSTEM_DOMAIN));
 
 const ensureGradOldSystemLoginLocal = async (
   account: AccountInfo,
