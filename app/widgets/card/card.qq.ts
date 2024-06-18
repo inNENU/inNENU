@@ -28,7 +28,6 @@ $Component({
       this.setData({
         header: type.includes("未读") ? "未读邮件" : "近期邮件",
         size: getSize(type),
-        enableBalance: true,
       });
 
       if (balance) this.setData({ status: "success", balance });
