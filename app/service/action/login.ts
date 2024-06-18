@@ -180,7 +180,7 @@ export const withActionLogin =
 
       if (response) {
         // check if action is successful
-        if (response?.success) {
+        if (response.success) {
           loginMethod = "check";
 
           return response;
@@ -210,6 +210,7 @@ export const withActionLogin =
     }
 
     logger.error("Action login failed", response);
+    loginMethod = "force";
     checkAccountStatus(response);
 
     return response;
