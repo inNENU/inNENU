@@ -8,10 +8,11 @@ import {
   DAY,
   appCoverPrefix,
   appName,
+  assets,
   description,
 } from "../../config/index.js";
 import { reportUserInfo } from "../../service/index.js";
-import { info, user } from "../../state/index.js";
+import { env, info, user } from "../../state/index.js";
 import {
   getPageColor,
   resolvePage,
@@ -51,7 +52,8 @@ $Page(PAGE_ID, {
 
     userName: appName,
 
-    logo: "/frameset/placeholder.png",
+    logo:
+      env === "qq" ? `${assets}img/inNENU.png` : "/frameset/placeholder.png",
     footer: {
       author: "",
       desc: footer,
@@ -159,5 +161,11 @@ $Page(PAGE_ID, {
       );
     }
   },
+
   reportInfo: reportUserInfo,
+
+  // NOTE: For QQ Only
+  addToDesktop() {
+    wx.saveAppToDesktop();
+  },
 });
