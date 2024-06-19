@@ -110,7 +110,7 @@ export const vpnCASLoginLocal = async ({
     const authResult = await authLogin({
       id,
       password,
-      service: `${VPN_SERVER}/users/auth/cas/callback?url=${encodeURIComponent(
+      service: `${CAS_LOGIN_URL}/callback?url=${encodeURIComponent(
         `${VPN_SERVER}/users/sign_in`,
       )}`,
     });

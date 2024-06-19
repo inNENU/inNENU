@@ -98,11 +98,7 @@ const actionLoginLocal = async (
   if (!result.success) {
     logger.error(result.msg);
 
-    return {
-      success: false,
-      type: result.type,
-      msg: result.msg,
-    };
+    return result;
   }
 
   const ticketResponse = await request<string>(result.location, {

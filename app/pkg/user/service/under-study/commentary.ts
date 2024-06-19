@@ -1,5 +1,6 @@
 import { URLSearchParams, logger } from "@mptool/all";
 
+import { withUnderStudyLogin } from "./login.js";
 import { UNDER_STUDY_SERVER } from "./utils.js";
 import { request } from "../../../../api/index.js";
 import type { CommonFailedResponse } from "../../../../service/index.js";
@@ -502,8 +503,12 @@ const underStudyCourseCommentaryOnline = async <
     cookieScope: UNDER_STUDY_SERVER,
   }).then(({ data }) => data);
 
-export const underStudyCourseCommentary = createService(
-  "under-commentary",
-  underStudyCourseCommentaryLocal,
-  underStudyCourseCommentaryOnline,
-);
+export const underStudyCourseCommentary = withUnderStudyLogin(
+  createService(
+    "under-commentary",
+    underStudyCourseCommentaryLocal,
+    underStudyCourseCommentaryOnline,
+  ),
+) as <T extends UnderCourseCommentaryOptions>(
+  options: T,
+) => Promise<UnderCourseCommentaryResponse<T>>;

@@ -1,13 +1,11 @@
 import { $Page, get, set } from "@mptool/all";
 
-import { retryAction, showModal } from "../../../../api/index.js";
+import { showModal } from "../../../../api/index.js";
 import {
   GRADE_DATA_KEY,
   HOUR,
   appCoverPrefix,
 } from "../../../../config/index.js";
-import type { LoginMethod } from "../../../../service/index.js";
-import { ActionFailType } from "../../../../service/index.js";
 import { envName, info, user } from "../../../../state/index.js";
 import { getPageColor, showNotice } from "../../../../utils/index.js";
 import type {
@@ -16,8 +14,6 @@ import type {
   UnderGradeResult,
 } from "../../service/index.js";
 import {
-  ensureGradOldSystemLogin,
-  ensureUnderStudyLogin,
   getGradGradeList,
   getUnderGradeDetail,
   getUnderGradeList,
@@ -112,7 +108,6 @@ $Page(PAGE_ID, {
   },
 
   state: {
-    loginMethod: "validate" as LoginMethod,
     numberValueIndex: [] as number[],
     timeConfig: {} as TimeConfig,
     inited: false,
@@ -182,72 +177,35 @@ $Page(PAGE_ID, {
   async getUnderGradeList(options: UnderGradeListOptions = {}) {
     wx.showLoading({ title: "获取中" });
 
-    try {
-      const err = await ensureUnderStudyLogin(
-        user.account!,
-        this.state.loginMethod,
-      );
+    const result = await getUnderGradeList(options);
 
-      if (err) throw err.msg;
+    wx.hideLoading();
+    this.state.inited = true;
 
-      const result = await getUnderGradeList(options);
+    if (!result.success) return showModal("获取失败", result.msg);
 
-      wx.hideLoading();
-      this.state.inited = true;
-
-      if (result.success) {
-        set(
-          `${GRADE_DATA_KEY}${options.time ? `-${options.time}` : ""}`,
-          result.data,
-          3 * HOUR,
-        );
-        this.setGradeData(result.data);
-        if (!options.time) this.setUnderStatistics(result.data);
-        this.state.loginMethod = "check";
-      } else if (result.type === ActionFailType.Expired) {
-        this.state.loginMethod = "force";
-        retryAction("登录过期", result.msg, () =>
-          this.getUnderGradeList(options),
-        );
-      } else {
-        showModal("获取失败", result.msg);
-      }
-    } catch (msg) {
-      wx.hideLoading();
-      showModal("获取失败", msg as string);
-    }
+    set(
+      `${GRADE_DATA_KEY}${options.time ? `-${options.time}` : ""}`,
+      result.data,
+      3 * HOUR,
+    );
+    this.setGradeData(result.data);
+    if (!options.time) this.setUnderStatistics(result.data);
   },
 
   async getGradGradeList() {
     wx.showLoading({ title: "获取中" });
 
-    try {
-      const err = await ensureGradOldSystemLogin(
-        user.account!,
-        this.state.loginMethod,
-      );
+    const result = await getGradGradeList();
 
-      if (err) throw err.msg;
+    wx.hideLoading();
+    this.state.inited = true;
 
-      return getGradGradeList().then((res) => {
-        wx.hideLoading();
-        this.state.inited = true;
-        if (res.success) {
-          set(`${GRADE_DATA_KEY}`, res.data, 3 * HOUR);
-          this.setGradeData(res.data);
-          this.setGradStatistics(res.data);
-          this.state.loginMethod = "check";
-        } else if ("type" in res && res.type === ActionFailType.Expired) {
-          this.state.loginMethod = "force";
-          retryAction("登录过期", res.msg, () => this.getGradGradeList());
-        } else {
-          showModal("获取失败", res.msg);
-        }
-      });
-    } catch (msg) {
-      wx.hideLoading();
-      showModal("获取失败", msg as string);
-    }
+    if (!result.success) return showModal("获取失败", result.msg);
+
+    set(`${GRADE_DATA_KEY}`, result.data, 3 * HOUR);
+    this.setGradeData(result.data);
+    this.setGradStatistics(result.data);
   },
 
   setGradeData(grades: UnderGradeResult[] | GradGradeResult[]) {

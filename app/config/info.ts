@@ -1,5 +1,8 @@
 import { server } from "./server.js";
 
+// @ts-expect-error: DEBUG is not standard
+wx.env.DEBUG = true;
+
 /** 小程序名称 */
 export const appName = "inNENU";
 export const description = "在东师，就用 inNENU";

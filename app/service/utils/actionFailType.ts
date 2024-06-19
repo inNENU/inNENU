@@ -1,6 +1,10 @@
 export const enum ActionFailType {
   /** 缺少登录凭据 */
   MissingCredential = "missing-credential",
+  /** 缺少必要参数 */
+  MissingArg = "missing-arg",
+  /** 非法参数 */
+  InvalidArg = "invalid-arg",
   /** 未初始化 */
   NotInitialized = "not-initialized",
 
@@ -33,9 +37,14 @@ export const enum ActionFailType {
   /** 已存在 */
   Existed = "existed",
 
-  /** 未知错误 */
-  Unknown = "unknown",
-
+  /** 系统错误 */
+  Error = "error",
   /** 系统关闭 */
   Closed = "closed",
+
+  /** 未完成评教 */
+  MissingCommentary = "missing-commentary",
+
+  /** 未知错误 */
+  Unknown = "unknown",
 }

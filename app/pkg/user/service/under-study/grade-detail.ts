@@ -1,5 +1,6 @@
 import { logger } from "@mptool/all";
 
+import { withUnderStudyLogin } from "./login.js";
 import { UNDER_STUDY_SERVER } from "./utils.js";
 import { request } from "../../../../api/index.js";
 import type {
@@ -172,8 +173,10 @@ const getUnderGradeDetailOnline = async (
     cookieScope: UNDER_STUDY_SERVER,
   }).then(({ data }) => data);
 
-export const getUnderGradeDetail = createService(
-  "under-grade-detail",
-  getUnderGradeDetailLocal,
-  getUnderGradeDetailOnline,
+export const getUnderGradeDetail = withUnderStudyLogin(
+  createService(
+    "under-grade-detail",
+    getUnderGradeDetailLocal,
+    getUnderGradeDetailOnline,
+  ),
 );

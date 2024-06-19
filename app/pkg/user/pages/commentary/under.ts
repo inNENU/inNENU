@@ -1,13 +1,7 @@
 import { $Page } from "@mptool/all";
 
-import {
-  confirmAction,
-  retryAction,
-  showModal,
-} from "../../../../api/index.js";
+import { confirmAction, showModal } from "../../../../api/index.js";
 import { appCoverPrefix } from "../../../../config/index.js";
-import type { LoginMethod } from "../../../../service/index.js";
-import { ActionFailType } from "../../../../service/index.js";
 import { envName, info, user } from "../../../../state/index.js";
 import { getPageColor, showNotice } from "../../../../utils/index.js";
 import type {
@@ -15,10 +9,7 @@ import type {
   UnderCourseCommentaryItem,
   UnderCourseCommentaryScoreItem,
 } from "../../service/index.js";
-import {
-  ensureUnderStudyLogin,
-  underStudyCourseCommentary,
-} from "../../service/index.js";
+import { underStudyCourseCommentary } from "../../service/index.js";
 
 const PAGE_ID = "under-commentary";
 const PAGE_TITLE = "课程评价";
@@ -78,7 +69,6 @@ $Page(PAGE_ID, {
   },
 
   state: {
-    loginMethod: "validate" as LoginMethod,
     inited: false,
     params: {} as Record<string, string>,
   },
@@ -141,42 +131,22 @@ $Page(PAGE_ID, {
   async getCourseCommentaryList(time: string) {
     wx.showLoading({ title: "获取中" });
 
-    try {
-      const err = await ensureUnderStudyLogin(
-        user.account!,
-        this.state.loginMethod,
-      );
+    const result = await underStudyCourseCommentary({
+      type: "list",
+      time,
+    });
 
-      if (err) throw err.msg;
+    wx.hideLoading();
+    this.state.inited = true;
 
-      const result = await underStudyCourseCommentary({
-        type: "list",
-        time,
-      });
-
-      wx.hideLoading();
-      this.state.inited = true;
-
-      if (result.success) {
-        this.setData({
-          list: result.data,
-          canCommentAll: result.data.some(
-            ({ commentaryCode }) => !commentaryCode,
-          ),
-        });
-        this.state.loginMethod = "check";
-      } else if (result.type === ActionFailType.Expired) {
-        this.state.loginMethod = "force";
-        retryAction("登录过期", result.msg, () =>
-          this.getCourseCommentaryList(time),
-        );
-      } else {
-        showModal("获取失败", result.msg);
-      }
-    } catch (msg) {
-      wx.hideLoading();
-      showModal("获取失败", msg as string);
+    if (!result.success) {
+      return showModal("获取失败", result.msg);
     }
+
+    this.setData({
+      list: result.data,
+      canCommentAll: result.data.some(({ commentaryCode }) => !commentaryCode),
+    });
   },
 
   onTimeChange({ detail }: WechatMiniprogram.PickerChange) {

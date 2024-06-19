@@ -6,14 +6,10 @@ import {
   SPECIAL_EXAM_DATA_KEY,
   appCoverPrefix,
 } from "../../../../config/index.js";
-import type { LoginMethod } from "../../../../service/index.js";
 import { envName, info, user } from "../../../../state/index.js";
 import { getPageColor, showNotice } from "../../../../utils/index.js";
 import type { UnderSpecialExamResult } from "../../service/index.js";
-import {
-  ensureUnderStudyLogin,
-  getUnderSpecialExam,
-} from "../../service/index.js";
+import { getUnderSpecialExam } from "../../service/index.js";
 
 const PAGE_ID = "grade-special";
 const PAGE_TITLE = "专项考试成绩";
@@ -30,7 +26,6 @@ $Page(PAGE_ID, {
   },
 
   state: {
-    loginMethod: "validate" as LoginMethod,
     inited: false,
   },
 
@@ -85,34 +80,19 @@ $Page(PAGE_ID, {
   async getSpecialExamScore() {
     wx.showLoading({ title: "获取中" });
 
-    try {
-      const err = await ensureUnderStudyLogin(
-        user.account!,
-        this.state.loginMethod,
-      );
+    const result = await getUnderSpecialExam();
 
-      if (err) throw err.msg;
+    wx.hideLoading();
+    this.state.inited = true;
 
-      const result = await getUnderSpecialExam();
+    if (!result.success) return showModal("获取失败", result.msg);
 
-      wx.hideLoading();
-      this.state.inited = true;
+    set(SPECIAL_EXAM_DATA_KEY, result.data, 3 * HOUR);
 
-      if (result.success) {
-        set(SPECIAL_EXAM_DATA_KEY, result.data, 3 * HOUR);
-
-        this.setData({
-          data: result.data.sort(
-            (a, b) => new Date(b.time).getTime() - new Date(a.time).getTime(),
-          ),
-        });
-        this.state.loginMethod = "check";
-      } else {
-        showModal("获取失败", result.msg);
-      }
-    } catch (msg) {
-      wx.hideLoading();
-      showModal("获取失败", msg as string);
-    }
+    this.setData({
+      data: result.data.sort(
+        (a, b) => new Date(b.time).getTime() - new Date(a.time).getTime(),
+      ),
+    });
   },
 });
