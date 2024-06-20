@@ -1,6 +1,6 @@
 import { logger } from "@mptool/all";
 
-import { UNDER_STUDY_SERVER } from "./utils.js";
+import { UNDER_STUDY_DOMAIN, UNDER_STUDY_SERVER } from "./utils.js";
 import { cookieStore, request } from "../../../../api/index.js";
 import type {
   ActionFailType,
@@ -131,7 +131,7 @@ const underStudyLogin = createService(
 const hasUnderStudyCookies = (): boolean =>
   cookieStore
     .getCookies(UNDER_STUDY_SERVER)
-    .some(({ domain }) => domain.endsWith(UNDER_STUDY_SERVER));
+    .some(({ domain }) => domain.endsWith(UNDER_STUDY_DOMAIN));
 
 export const withUnderStudyLogin =
   <R extends { success: boolean }, T extends (...args: any[]) => Promise<R>>(
