@@ -58,7 +58,7 @@ export const getClasses = (
 
       teacher: teaxms,
       place: jxcdmcs,
-      className: jxbmc,
+      className: jxbmc.split(",").join(" "),
       time: zcxqjc,
       capacity: pkrs,
       current: Number(jxbrs),

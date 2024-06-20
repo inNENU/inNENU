@@ -130,8 +130,7 @@
             <view class="display">
               <text class="label">课程类别:</text>
               <text class="value"
-                >{{under.getPickerDisplay(types, courseTypeIndex,
-                'name')}}</text
+                >{{under.getPickerDisplay(types, typeIndex, 'name')}}</text
               >
             </view>
           </picker>
@@ -224,7 +223,22 @@
       <view slot="page3" class="actions-container">
         <view class="action-title">当前板块</view>
         <view class="category-action">
-          <template is="allowed-category" data="{{ ...category }}" />
+          <view class="title border-bottom"
+            >{{category.term}} - {{category.name}}</view
+          >
+          <block wx:if="{{category.canSelect}}">
+            <view class="description">
+              <text class="icon-font icon-time" />
+              {{category.startTime}} - {{category.endTime}}
+            </view>
+            <view class="info">
+              阶段: {{category.stage}} 允许退选: {{category.canRemove? '是':
+              '否'}}
+            </view>
+          </block>
+          <view wx:else class="description">
+            <text decode space="nbsp">{{category.description}}</text>
+          </view>
           <button
             class="action-button primary"
             type="primary"
@@ -262,14 +276,31 @@
         data-category="{{category}}"
         catch:tap="selectCategory"
       >
-        <template is="allowed-category" data="{{ ...category }}" />
+        <view class="title">{{category.term}} - {{category.name}}</view>
+
+        <view class="description">
+          <text class="icon-font icon-time" />
+          {{category.startTime}} - {{category.endTime}}
+        </view>
+        <view class="info">
+          阶段: {{category.stage}} 允许退选: {{category.canRemove? '是': '否'}}
+        </view>
       </view>
 
       <view wx:if="{{disallowed.length}}" class="category-title">不可选择</view>
-      <view wx:for="{{disallowed}}" class="category-item">
-        <view class="title border-bottom">{{item.term}} - {{item.name}}</view>
+      <view
+        wx:for="{{disallowed}}"
+        wx:for-item="category"
+        class="category-item"
+        hover-class="button-hover"
+        data-category="{{category}}"
+        catch:tap="selectCategory"
+      >
+        <view class="title border-bottom"
+          >{{category.term}} - {{category.name}}</view
+        >
         <view class="description">
-          <text decode space="nbsp">{{item.description}}</text>
+          <text decode space="nbsp">{{category.description}}</text>
         </view>
       </view>
     </view>
@@ -316,7 +347,7 @@
       />
     </view>
   </view>
-  <view wx:else class="empty-result">暂无同名课程</view>
+  <view wx:else class="empty-result">暂无其他班级</view>
 </popup>
 
 <!-- 班级列表 -->
@@ -349,17 +380,6 @@
   </view>
   <view wx:else class="empty-result">暂无符合条件课程</view>
 </popup>
-
-<template name="allowed-category">
-  <view class="title border-bottom">{{term}} - {{name}}</view>
-  <view class="description">
-    <text class="icon-font icon-time" />
-    {{startTime}} - {{endTime}}
-  </view>
-  <view class="info">
-    阶段: {{stage}} 允许退选: {{canRemove? '是': '否'}}
-  </view>
-</template>
 
 <template name="course-item">
   <view class="course-item" data-id="{{id}}" catch:tap="loadClasses">
@@ -415,7 +435,10 @@
   </view>
   <view class="info">
     <text class="teacher"><text class="icon" />{{teacher}}</text>
-    <text class="capacity"><text class="icon" />{{current}}/{{capacity}}</text>
+    <text class="capacity"
+      ><text class="icon" />{{current === null? '-':
+      current}}/{{capacity}}</text
+    >
     <text class="time"><text class="icon" />{{time}}</text>
     <text class="place"><text class="icon" />{{place}}</text>
     <text class="point"><text class="icon" />{{point}}</text>
@@ -427,9 +450,12 @@
     <!-- <text class="exam-time"
         >考试时间: {{(examTime, courseTable.weeks)}}</text
       > -->
-    <text class="office">开课单位: {{office}}</text>
-    <text wx:if="{{className}}" class="class-name"
-      >授课对象/班级: {{className}}</text
-    >
+    <view class="office">开课单位: {{office}}</view>
+    <block wx:if="{{className}}">
+      <view wx:if="{{category.isPublic}}" class="class-name"
+        >班级: <text>{{className}}</text></view
+      >
+      <view wx:else class="target"><text>授课对象: {{className}}</text></view>
+    </block>
   </view>
 </template>

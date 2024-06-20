@@ -14,19 +14,13 @@ export interface SelectOptionConfig {
   name: string;
 }
 
-export interface UnderSelectInfo {
+export interface UnderSelectBaseInfo {
   /** 学期 */
   term: string;
   /** 选课名称 */
   name: string;
-  /** 是否可退选 */
-  canCancel: boolean;
-  /** 选课阶段 */
-  stage: string;
-  /** 开始时间 */
-  startTime: string;
-  /** 结束时间 */
-  endTime: string;
+  /** 是否可以选课 */
+  canSelect: boolean;
 
   /** 可用年级 */
   grades: number[];
@@ -46,6 +40,27 @@ export interface UnderSelectInfo {
   /** 当前年级 */
   currentGrade: number;
 }
+
+export interface UnderSelectAllowedInfo extends UnderSelectBaseInfo {
+  canSelect: true;
+
+  /** 是否可退选 */
+  canCancel: boolean;
+  /** 选课阶段 */
+  stage: string;
+  /** 开始时间 */
+  startTime: string;
+  /** 结束时间 */
+  endTime: string;
+}
+
+export interface UnderSelectDisallowedInfo extends UnderSelectBaseInfo {
+  canSelect: false;
+}
+
+export type UnderSelectInfo =
+  | UnderSelectAllowedInfo
+  | UnderSelectDisallowedInfo;
 
 export type UnderSelectInfoResponse =
   | CommonSuccessResponse<UnderSelectInfo>
@@ -71,13 +86,21 @@ const MAJOR_ITEM_REGEXP =
   /<option value='(\d+?)' (?:selected)?>\d+-(.*?)<\/option>/g;
 const CURRENT_MAJOR_REGEXP =
   /<option value='(\d{6,7})' selected>\d+-(.*?)<\/option>/g;
-const INFO_REGEXP =
-  /<span id="title">(.*?)学期&nbsp;&nbsp;(.*?)&nbsp;&nbsp;<span.*?>(.*?)<\/span><\/span>\s+?<br>\s+?<span id="sub-title">\s+?<div id="text">现在是(.*?)时间\s+（(\d\d:\d\d:\d\d)--(\d\d:\d\d:\d\d)）/;
+const INFO_TITLE_REGEXP =
+  /<span id="title">(.*?)学期&nbsp;&nbsp;(.*?)&nbsp;&nbsp;(?:<span.*?>(.*?)<\/span>)?<\/span>/;
+const ALLOWED_INFO_REGEXP =
+  /<span id="sub-title">\s+?<div id="text">现在是(.*?)时间\s+（(\d\d:\d\d:\d\d)--(\d\d:\d\d:\d\d)）<\/span>/;
 
 const getSelectInfo = (content: string): UnderSelectInfo => {
-  const [, term, name, canCancelText, stage, startTime, endTime] =
-    content.match(INFO_REGEXP)!;
+  const [, term, name, canCancelText = ""] = content.match(INFO_TITLE_REGEXP)!;
 
+  const canSelect = !content.includes("现在不是选课时间");
+
+  const currentArea = name.includes("本部")
+    ? "本部"
+    : name.includes("净月")
+      ? "净月"
+      : "";
   const currentGrade = Number(content.match(CURRENT_GRADE_REGEXP)![1]);
   const currentMajor = content.match(CURRENT_MAJOR_REGEXP)![1];
 
@@ -122,27 +145,37 @@ const getSelectInfo = (content: string): UnderSelectInfo => {
     }),
   );
 
-  return {
+  const state = {
     term,
     name,
-    canCancel: canCancelText === "可退选",
-    stage,
-    startTime,
-    endTime,
-
+    canSelect,
     grades,
     majors,
     areas,
     offices,
     types,
 
-    currentArea: name.includes("本部")
-      ? "本部"
-      : name.includes("净月")
-        ? "净月"
-        : "",
+    currentArea,
     currentGrade,
     currentMajor,
+  };
+
+  if (canSelect) {
+    const [, stage, startTime, endTime] = content.match(ALLOWED_INFO_REGEXP)!;
+
+    return {
+      canCancel: canCancelText === "可退选",
+      stage,
+      startTime,
+      endTime,
+
+      ...state,
+    };
+  }
+
+  return {
+    ...state,
+    canSelect,
   };
 };
 

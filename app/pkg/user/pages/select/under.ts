@@ -95,7 +95,7 @@ $Page(PAGE_ID, {
 
     // ===== 班级信息 =====
     classesPopupConfig: {
-      title: "课程列表",
+      title: "班级列表",
       confirm: "刷新人数",
       cancel: false,
     },
@@ -120,12 +120,10 @@ $Page(PAGE_ID, {
     currentGrade: 0,
     currentMajor: "",
 
-    currentClassId: "",
+    currentCourseId: "",
+    // TODO: Support this
     currentCredit: 0,
-    classesResult: [] as ClassData[],
 
-    /** 相关课程 */
-    relatedClasses: [] as ClassData[],
     /** 是否强制选课 */
     isForceSelecting: false,
   },
@@ -279,9 +277,6 @@ $Page(PAGE_ID, {
       currentArea,
       currentGrade,
       currentMajor,
-
-      // courseTable,
-      // courses,
     } = result.data;
 
     this.state = {
@@ -289,13 +284,9 @@ $Page(PAGE_ID, {
       currentArea,
       currentGrade,
       currentMajor,
-
-      // courses,
     };
 
     this.setData({
-      // courseTable,
-
       offices,
       types,
       grades,
@@ -393,10 +384,9 @@ $Page(PAGE_ID, {
   }: WechatMiniprogram.TouchEvent<
     Record<never, never>,
     Record<never, never>,
-    { id: string }
+    { id?: string }
   >) {
-    const { id } = currentTarget.dataset;
-    const { currentClassId } = this.state;
+    const courseId = currentTarget.dataset.id || this.state.currentCourseId;
     const { category, selectedClasses, sortKeys, sortKeyIndex, ascending } =
       this.data;
 
@@ -404,7 +394,7 @@ $Page(PAGE_ID, {
 
     const result = await getUnderCourseClasses({
       link: category!.link,
-      courseId: id || currentClassId,
+      courseId,
     });
 
     wx.hideLoading();
@@ -422,8 +412,7 @@ $Page(PAGE_ID, {
         selectedIndex === -1 || selectedIndex === index ? "action" : "replace",
     }));
 
-    this.state.currentClassId = id;
-    this.state.classesResult = classesResult;
+    this.state.currentCourseId = courseId;
 
     this.setData({
       classesResult: classesResult.sort(
@@ -457,8 +446,6 @@ $Page(PAGE_ID, {
   },
 
   closeClassesPopup() {
-    this.state.currentClassId = "";
-    this.state.classesResult = [];
     this.setData({ classesResult: [], showClasses: false });
   },
 
@@ -497,8 +484,6 @@ $Page(PAGE_ID, {
         isSelected: false,
         state: "replace",
       }));
-
-    this.state.currentClassId = classId;
 
     this.setData({
       classData: {
