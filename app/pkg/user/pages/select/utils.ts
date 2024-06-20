@@ -1,7 +1,7 @@
-import type { CourseInfo } from "./typings.js";
 import { showModal } from "../../../../api/index.js";
+import type { UnderSelectClassInfo } from "../../service/index.js";
 
-const CONFIRM_KEY = "select-replace-confirmed";
+const CONFIRM_KEY = "under-select-replace-confirm";
 
 export const confirmReplace = (): Promise<boolean> =>
   new Promise((resolve) => {
@@ -39,29 +39,34 @@ export const confirmReplace = (): Promise<boolean> =>
     );
   });
 
-export interface FullCourseInfo extends CourseInfo {
-  amount: number;
+export interface ClassData extends UnderSelectClassInfo {
+  state?: "action" | "replace" | "none";
   isSelected: boolean;
 }
 
-export type SortKey = "className" | "teacher" | "amount" | "spare" | "capacity";
+export type SortKey =
+  | "className"
+  | "teacher"
+  | "current"
+  | "spare"
+  | "capacity";
 
 export const courseSorter =
   (
     sortKey: SortKey,
     ascending: boolean,
-  ): ((courseA: FullCourseInfo, courseB: FullCourseInfo) => number) =>
+  ): ((courseA: ClassData, courseB: ClassData) => number) =>
   (courseA, courseB) => {
     if (courseA.isSelected) return -1;
     if (courseB.isSelected) return 1;
 
     const aVal =
       sortKey === "spare"
-        ? courseA.capacity - courseA.amount
+        ? courseA.capacity - courseA.current
         : courseA[sortKey];
     const bVal =
       sortKey === "spare"
-        ? courseB.capacity - courseB.amount
+        ? courseB.capacity - courseB.current
         : courseB[sortKey];
 
     if (typeof aVal === "number")

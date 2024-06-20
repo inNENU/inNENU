@@ -1,0 +1,10 @@
+{
+  "navigationBarTitleText": "选课系统",
+  "usingComponents": {
+    "error-hint": "/components/error-hint/error-hint",
+    "login-hint": "/components/login-hint/login-hint",
+    "header": "/components/header/header",
+    "popup": "/components/popup/popup",
+    "tab-bar": "/components/top-tab/tab"
+  }
+}

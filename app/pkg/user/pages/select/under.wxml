@@ -1,0 +1,435 @@
+<wxs src="./under.wxs" module="under" />
+<!-- Note: QQ does not support relative paths in wxs src. -->
+<wxs src="../../../../widgets/course/course.wxs" module="courseTable" />
+<wxs src="../../../../utils/hash.wxs" module="hash" />
+<page-meta
+  background-text-style="{{darkmode ? 'dark' : 'light'}}"
+  background-color="{{color.bgColor}}"
+  background-color-top="{{color.bgColorTop}}"
+  background-color-bottom="{{color.bgColorBottom}}"
+  root-background-color="{{color.bgColor}}"
+/>
+<license />
+<view class="{{theme}} select-wrapper">
+  <header title="本科选课系统" />
+  <error-hint
+    wx:if="{{status === 'error'}}"
+    hint="{{errMsg}}"
+    catch:retry="reload"
+  />
+  <login-hint wx:elif="{{status === 'login'}}" source="选课系统" />
+  <view wx:elif="{{status === 'success'}}" class="select-container">
+    <tab-bar
+      wx:if="{{category}}"
+      nav-list="{{under.tabBars}}"
+      height="{{height - 20}}"
+    >
+      <view slot="page1">
+        <icon type="info" size="40" />
+        <view>支持中...</view>
+        <view>可在更多信息中操作已选课程...</view>
+
+        <!-- TODO: 添加课程表 -->
+        <!-- <view class="course-table">
+          <view class="course-table-header">
+            <view class="course-row-header" />
+            <view
+              wx:for="{{courseTable.weeks}}"
+              wx:key="*this"
+              class="course-table-header-item"
+            >
+              {{item}}
+            </view>
+          </view>
+          <view class="course-table-body">
+            <view
+              class="course-table-row"
+              wx:for="{{courseTable}}"
+              wx:for-item="row"
+              wx:for-index="rowIndex"
+            >
+              <view class="course-row-header">
+                {{courseTable.times[rowIndex]}}
+              </view>
+              <view
+                class="course-table-item"
+                wx:for="{{row}}"
+                wx:for-item="cell"
+                wx:for-index="columnIndex"
+              >
+                <view
+                  wx:for="{{cell}}"
+                  wx:for-item="item"
+                  wx:key="cid"
+                  class="course-table-course course-item{{hash.getHashIndex(item.name)}}"
+                  data-cid="{{item.cid}}"
+                  catch:tap="showCourseInfo"
+                >
+                  {{item.name}}
+                </view>
+              </view>
+            </view>
+          </view>
+        </view> -->
+      </view>
+      <view slot="page2">
+        <view class="search-container">
+          <view class="header">筛选课程</view>
+          <!-- Note: QQ does not support catch:input -->
+          <input
+            class="input"
+            type="text"
+            value="{{course}}"
+            placeholder="课程名称"
+            data-key="course"
+            bindinput="onInput"
+          />
+          <!-- Note: QQ does not support catch:input -->
+          <input
+            class="input"
+            type="text"
+            value="{{teacher}}"
+            placeholder="教师名称"
+            data-key="teacher"
+            bindinput="onInput"
+          />
+          <!-- Note: QQ does not support catch:input -->
+          <input
+            class="input"
+            type="text"
+            value="{{place}}"
+            placeholder="上课地点"
+            data-key="place"
+            bindinput="onInput"
+          />
+          <!-- Note: QQ does not support catch:change -->
+          <picker
+            class="picker"
+            header-text="选择年级"
+            range="{{under.getRange(grades)}}"
+            value="{{gradeIndex}}"
+            data-key="gradeIndex"
+            bindchange="onPickerChange"
+          >
+            <view class="display">
+              <text class="label">年级:</text>
+              <text class="value"
+                >{{under.getPickerDisplay(grades, gradeIndex)}}</text
+              >
+            </view>
+          </picker>
+          <!-- Note: QQ does not support catch:change -->
+          <picker
+            class="picker"
+            header-text="课程类别"
+            range="{{under.getRange(types, 'name')}}"
+            value="{{courseTypeIndex}}"
+            data-key="courseTypeIndex"
+            bindchange="onPickerChange"
+          >
+            <view class="display">
+              <text class="label">课程类别:</text>
+              <text class="value"
+                >{{under.getPickerDisplay(types, courseTypeIndex,
+                'name')}}</text
+              >
+            </view>
+          </picker>
+          <!-- TODO: 添加课程分类 -->
+          <!-- Note: QQ does not support catch:change -->
+          <!-- TODO: 置顶用户专业 -->
+          <picker
+            class="picker"
+            header-text="授课专业"
+            range="{{under.getRange(majors, 'name')}}"
+            value="{{majorIndex}}"
+            data-key="majorIndex"
+            bindchange="onPickerChange"
+          >
+            <view class="display">
+              <text class="label">专业:</text>
+              <text class="value"
+                >{{under.getPickerDisplay(majors, majorIndex, 'name')}}</text
+              >
+            </view>
+          </picker>
+
+          <!-- Note: QQ does not support catch:change -->
+          <picker
+            class="picker"
+            header-text="开课单位"
+            range="{{under.getRange(offices, 'name')}}"
+            value="{{officeIndex}}"
+            data-key="officeIndex"
+            bindchange="onPickerChange"
+          >
+            <view class="display">
+              <text class="label">开课单位:</text>
+              <text class="value"
+                >{{under.getPickerDisplay(offices, officeIndex, 'name')}}</text
+              >
+            </view>
+          </picker>
+
+          <!-- Note: QQ does not support catch:change -->
+          <picker
+            class="picker"
+            header-text="星期"
+            range="{{under.getRange(courseTable.weeks)}}"
+            value="{{weekIndex}}"
+            data-key="weekIndex"
+            bindchange="onPickerChange"
+          >
+            <view class="display">
+              <text class="label">星期:</text>
+              <text class="value"
+                >{{under.getPickerDisplay(courseTable.weeks, weekIndex)}}</text
+              >
+            </view>
+          </picker>
+
+          <!-- Note: QQ does not support catch:change -->
+          <!-- FIXME: Support classIndex -->
+          <!-- <picker
+            class="picker"
+            header-text="节次"
+            range="{{under.getRange(courseTable.times)}}"
+            value="{{classIndex}}"
+            data-key="classIndex"
+            bindchange="onPickerChange"
+          >
+            <view class="display">
+              <text class="label">节次:</text>
+              <text class="value"
+                >{{under.getPickerDisplay(courseTable.times, classIndex)}}</text
+              >
+            </view>
+          </picker> -->
+
+          <button
+            class="search-button primary"
+            type="primary"
+            catch:tap="searchCourses"
+          >
+            搜索
+          </button>
+        </view>
+        <view class="course-header">筛选结果</view>
+        <view class="course-list">
+          <block wx:for="{{searchResult}}" wx:key="id" data-id="{{item.id}}">
+            <template is="course-item" data="{{...item}}" />
+          </block>
+        </view>
+      </view>
+      <view slot="page3" class="actions-container">
+        <view class="action-title">当前板块</view>
+        <view class="category-action">
+          <template is="allowed-category" data="{{ ...category }}" />
+          <button
+            class="action-button primary"
+            type="primary"
+            catch:tap="resetCategory"
+          >
+            更换板块
+          </button>
+        </view>
+        <view class="action-title">已选课程</view>
+        <view wx:if="{{selectedClasses.length}}" class="selected-class-list">
+          <view
+            wx:for="{{selectedClasses}}"
+            wx:key="classId"
+            class="class-item selected-class"
+            data-class-id="{{item.classId}}"
+            catch:tap="showClassInfo"
+          >
+            <template is="class-item" data="{{...item}}" />
+          </view>
+        </view>
+        <view wx:else class="empty-result">暂无已选课程</view>
+      </view>
+    </tab-bar>
+
+    <!-- 选课入口 -->
+    <view wx:else class="category-wrapper">
+      <view class="category-main-title">选课入口</view>
+
+      <view wx:if="{{allowed.length}}" class="category-title">可选择</view>
+      <view
+        wx:for="{{allowed}}"
+        wx:for-item="category"
+        class="category-item"
+        hover-class="button-hover"
+        data-category="{{category}}"
+        catch:tap="selectCategory"
+      >
+        <template is="allowed-category" data="{{ ...category }}" />
+      </view>
+
+      <view wx:if="{{disallowed.length}}" class="category-title">不可选择</view>
+      <view wx:for="{{disallowed}}" class="category-item">
+        <view class="title border-bottom">{{item.term}} - {{item.name}}</view>
+        <view class="description">
+          <text decode space="nbsp">{{item.description}}</text>
+        </view>
+      </view>
+    </view>
+  </view>
+</view>
+
+<!-- 课程详情 -->
+<popup
+  config="{{classDataPopupConfig}}"
+  show="{{classData !== null}}"
+  padding-inline="15"
+  catch:confirm="refreshInfoAmount"
+  catch:close="closeCourseDataPopup"
+>
+  <view class="course-info-header">当前课程</view>
+  <view class="class-item current-class">
+    <template is="class-item" data="{{...classData}}" />
+  </view>
+  <view class="related-class-header">相关课程</view>
+  <view wx:if="{{relatedClasses.length}}" class="info-sorter">
+    <picker
+      range="{{under.sorterNames}}"
+      value="{{sortKeyIndex}}"
+      bindchange="changeRelatedSorter"
+    >
+      排序: {{under.sorterNames[sortKeyIndex]}}
+    </picker>
+    <view class="actions">
+      <button size="mini" catch:tap="changeRelatedSorting">
+        {{ ascending? "升序": "降序" }}
+      </button>
+    </view>
+  </view>
+
+  <view wx:if="{{relatedClasses.length}}" class="related-class-list">
+    <view
+      wx:for="{{relatedClasses}}"
+      wx:key="classId"
+      class="class-item related-class"
+    >
+      <template
+        is="class-item"
+        data="{{...item, oldClassId: classData.classId}}"
+      />
+    </view>
+  </view>
+  <view wx:else class="empty-result">暂无同名课程</view>
+</popup>
+
+<!-- 班级列表 -->
+<popup
+  config="{{classesPopupConfig}}"
+  show="{{showClasses}}"
+  padding-inline="15"
+  body-class="class-detail-popup-body"
+  catch:confirm="loadClasses"
+  catch:close="closeClassesPopup"
+>
+  <view class="details-sorter">
+    <picker
+      range="{{under.sorterNames}}"
+      value="{{sortKeyIndex}}"
+      bindchange="changeClassesSorter"
+    >
+      排序: {{under.sorterNames[sortKeyIndex]}}
+    </picker>
+    <view class="actions">
+      <button size="mini" catch:tap="changeClassesSorting">
+        {{ ascending? "升序": "降序" }}
+      </button>
+    </view>
+  </view>
+  <view wx:if="{{classesResult.length}}" class="class-list">
+    <view wx:for="{{classesResult}}" wx:key="classId" class="class-item">
+      <template is="class-item" data="{{...item}}" />
+    </view>
+  </view>
+  <view wx:else class="empty-result">暂无符合条件课程</view>
+</popup>
+
+<template name="allowed-category">
+  <view class="title border-bottom">{{term}} - {{name}}</view>
+  <view class="description">
+    <text class="icon-font icon-time" />
+    {{startTime}} - {{endTime}}
+  </view>
+  <view class="info">
+    阶段: {{stage}} 允许退选: {{canRemove? '是': '否'}}
+  </view>
+</template>
+
+<template name="course-item">
+  <view class="course-item" data-id="{{id}}" catch:tap="loadClasses">
+    <view class="name">{{name}}</view>
+    <view class="info">
+      <text class="type">{{type}} - {{category}}</text>
+      <text class="office">{{office}}</text>
+    </view>
+  </view>
+</template>
+
+<template name="class-item">
+  <view class="name">
+    <button
+      wx:if="{{state === 'replace'}}"
+      class="select-button primary"
+      type="primary"
+      size="mini"
+      data-id="{{id}}"
+      data-name="{{name}}"
+      data-class-id="{{classId}}"
+      data-old-class-id="{{oldClassId}}"
+      catch:tap="replaceCourse"
+    >
+      替换为此课程
+    </button>
+    <block wx:elif="{{state === 'action'}}">
+      <button
+        wx:if="{{isSelected}}"
+        class="select-button warn"
+        type="warn"
+        size="mini"
+        data-name="{{name}}"
+        data-class-id="{{classId}}"
+        catch:tap="unselectCourse"
+      >
+        退选
+      </button>
+      <button
+        wx:else
+        class="select-button primary"
+        type="primary"
+        size="mini"
+        data-name="{{name}}"
+        data-class-id="{{classId}}"
+        catch:longpress="forceSelectCourse"
+        catch:tap="selectCourse"
+      >
+        选课
+      </button>
+    </block>
+    {{name}}
+  </view>
+  <view class="info">
+    <text class="teacher"><text class="icon" />{{teacher}}</text>
+    <text class="capacity"><text class="icon" />{{current}}/{{capacity}}</text>
+    <text class="time"><text class="icon" />{{time}}</text>
+    <text class="place"><text class="icon" />{{place}}</text>
+    <text class="point"><text class="icon" />{{point}}</text>
+  </view>
+  <view class="details">
+    <!-- FIXME: 支持单双周与整周提示 -->
+    <!-- <text class="week"><text class="icon" />{{week}}</text> -->
+    <!-- <text class="week-type">周次: {{weekType}}</text> -->
+    <!-- <text class="exam-time"
+        >考试时间: {{(examTime, courseTable.weeks)}}</text
+      > -->
+    <text class="office">开课单位: {{office}}</text>
+    <text wx:if="{{className}}" class="class-name"
+      >授课对象/班级: {{className}}</text
+    >
+  </view>
+</template>

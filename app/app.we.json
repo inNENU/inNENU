@@ -79,7 +79,7 @@
         "pages/library/library",
         "pages/notice/detail",
         "pages/notice/list",
-        "pages/select/select",
+        "pages/select/under",
 
         "pages/change-major/change-major",
         "pages/course-table/course-table",

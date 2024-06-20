@@ -1,0 +1,40 @@
+.actions-container {
+  text-align: left;
+
+  .action-title {
+    font-size: 17px;
+    font-weight: bold;
+    padding: 8px 25px 4px;
+  }
+
+  .action-button {
+    max-width: var(--max-width);
+    font-size: 16px;
+    margin: 8px auto;
+  }
+}
+
+.category-action {
+  margin: 0 15px;
+  padding: 8px 12px;
+  line-height: 1.25;
+
+  .title {
+    font-size: 16px;
+  }
+
+  .description {
+    font-size: 14px;
+  }
+
+  .info {
+    font-size: 14px;
+    padding: 4px 0;
+  }
+}
+
+.selected-class.class-item {
+  margin: 8px 15px;
+  border-radius: 8px;
+  background: var(--bg-color-block);
+}

@@ -444,7 +444,7 @@
         },
         {
           "name": "选课",
-          "pathName": "pkg/user/pages/select/select",
+          "pathName": "pkg/user/pages/select/under",
           "query": "",
           "scene": null
         },

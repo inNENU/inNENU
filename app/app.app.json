@@ -52,7 +52,7 @@
     "pkg/user/pages/library/library",
     "pkg/user/pages/notice/detail",
     "pkg/user/pages/notice/list",
-    "pkg/user/pages/select/select",
+    "pkg/user/pages/select/under",
 
     "pkg/user/pages/change-major/change-major",
     "pkg/user/pages/course-table/course-table",

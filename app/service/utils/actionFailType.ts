@@ -44,6 +44,8 @@ export const enum ActionFailType {
 
   /** 未完成评教 */
   MissingCommentary = "missing-commentary",
+  /** 人数已满 */
+  Full = "full",
 
   /** 未知错误 */
   Unknown = "unknown",

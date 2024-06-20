@@ -1,5 +1,5 @@
 module.exports = {
-  titles: ["已选课程", "课程列表", "个人信息"],
+  tabBars: ["课程表", "课程列表", "更多信息"],
   sorterNames: ["名称", "教师", "空余量", "已选人数", "容量"],
 
   getRange: function (values, key) {
@@ -30,23 +30,6 @@ module.exports = {
           return weeks[time[0] - 1] + time.substring(1) + "节";
         })
         .join(" ");
-    }
-
-    return "";
-  },
-
-  getExamTime: function (time, weeks) {
-    if (time) {
-      var temp = time.split("-");
-
-      return (
-        "第" +
-        temp[0] +
-        "周" +
-        weeks[temp[1][0] - 1] +
-        temp[1].substring(1) +
-        "节"
-      );
     }
 
     return "";

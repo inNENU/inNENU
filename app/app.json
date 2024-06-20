@@ -73,7 +73,7 @@
         "pages/library/library",
         "pages/notice/detail",
         "pages/notice/list",
-        "pages/select/select",
+        "pages/select/under",
 
         "pages/change-major/change-major",
         "pages/course-table/course-table",
@@ -82,26 +82,14 @@
     }
   ],
   "preloadRule": {
-    "pages/main/main": {
-      "network": "all",
-      "packages": ["addon"]
-    },
-    "pages/guide/guide": {
-      "network": "all",
-      "packages": ["addon"]
-    },
-    "pages/intro/intro": {
-      "network": "all",
-      "packages": ["addon"]
-    },
+    "pages/main/main": { "network": "all", "packages": ["addon"] },
+    "pages/guide/guide": { "network": "all", "packages": ["addon"] },
+    "pages/intro/intro": { "network": "all", "packages": ["addon"] },
     "pages/function/function": {
       "network": "all",
       "packages": ["addon", "tool", "user"]
     },
-    "pages/user/user": {
-      "network": "all",
-      "packages": ["addon", "user"]
-    }
+    "pages/user/user": { "network": "all", "packages": ["addon", "user"] }
   },
   "window": {
     "navigationBarBackgroundColor": "@navBgColor",
@@ -158,9 +146,7 @@
   "frameset": true,
   "resizable": true,
   "permission": {
-    "scope.userLocation": {
-      "desc": "您的位置信息将用于校园地图导航"
-    }
+    "scope.userLocation": { "desc": "您的位置信息将用于校园地图导航" }
   },
   "requiredBackgroundModes": ["audio"],
   "usingComponents": {
@@ -192,18 +178,11 @@
   "sitemapLocation": "sitemap.json",
   "lazyCodeLoading": "requiredComponents",
   "requiredPrivateInfos": ["getLocation"],
-  "singlePage": {
-    "navigationBarFit": "float"
-  },
-  "halfPage": {
-    "firstPageNavigationStyle": "custom"
-  },
+  "singlePage": { "navigationBarFit": "float" },
+  "halfPage": { "firstPageNavigationStyle": "custom" },
   "componentFramework": "glass-easel",
   "enablePassiveEvent": true,
   "rendererOptions": {
-    "skyline": {
-      "defaultDisplayBlock": true,
-      "defaultContentBox": true
-    }
+    "skyline": { "defaultDisplayBlock": true, "defaultContentBox": true }
   }
 }

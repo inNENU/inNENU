@@ -1,9 +1,0 @@
-{
-  "navigationBarTitleText": "选课系统",
-  "usingComponents": {
-    "popup": "/components/popup/popup",
-    "tab-bar": "/components/top-tab/tab",
-    "error-hint": "/components/error-hint/error-hint",
-    "login-hint": "/components/login-hint/login-hint"
-  }
-}
