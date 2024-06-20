@@ -136,7 +136,6 @@
           </picker>
           <!-- TODO: 添加课程分类 -->
           <!-- Note: QQ does not support catch:change -->
-          <!-- TODO: 置顶用户专业 -->
           <picker
             class="picker"
             header-text="授课专业"

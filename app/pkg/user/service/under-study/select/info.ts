@@ -145,12 +145,16 @@ const getSelectInfo = (content: string): UnderSelectInfo => {
     }),
   );
 
+  const currentMajorConfig = majors.find(
+    (major) => major.value === currentMajor,
+  )!;
+
   const state = {
     term,
     name,
     canSelect,
     grades,
-    majors,
+    majors: [currentMajorConfig, ...majors],
     areas,
     offices,
     types,
