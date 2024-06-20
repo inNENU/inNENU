@@ -63,7 +63,7 @@ $Page(PAGE_ID, {
 
       if (!this.state.inited || this.data.needLogin) {
         if (info.typeId !== "bks")
-          return showModal("不支持的功能", "考场查询仅支持本科生", () => {
+          return showModal("暂不支持", "考场查询仅支持本科生", () => {
             this.$back();
           });
 

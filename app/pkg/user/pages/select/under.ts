@@ -11,7 +11,7 @@ import type {
   FailResponse,
 } from "../../../../service/index.js";
 import { ActionFailType } from "../../../../service/index.js";
-import { info, user } from "../../../../state/index.js";
+import { envName, info, user } from "../../../../state/index.js";
 import { getPageColor, showNotice } from "../../../../utils/index.js";
 import type {
   SelectOptionConfig,
@@ -131,21 +131,33 @@ $Page(PAGE_ID, {
   },
 
   onLoad() {
-    const { account } = user;
-
     this.setData({
       color: getPageColor(),
       theme: info.theme,
     });
-
-    if (account) {
-      this.loadCategories();
-    } else {
-      this.setData({ status: "login" });
-    }
   },
 
   onShow() {
+    const { account, info } = user;
+
+    if (!account) {
+      this.setData({ status: "login" });
+    } else if (!info) {
+      return showModal(
+        "个人信息缺失",
+        `${envName}本地暂无个人信息，请重新登录`,
+        () => {
+          this.$go("account-login?update=true");
+        },
+      );
+    } else if (info.typeId !== "bks") {
+      return showModal("暂不支持", "当前为本科选课系统", () => {
+        this.$back();
+      });
+    } else {
+      this.loadCategories();
+    }
+
     showNotice(PAGE_ID);
   },
 
