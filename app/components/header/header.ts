@@ -16,7 +16,7 @@ $Component({
       });
 
       this.createSelectorQuery()
-        .select(".header")
+        .select(".header-component")
         .boundingClientRect(({ height }) => {
           this.setData({ height });
         })
