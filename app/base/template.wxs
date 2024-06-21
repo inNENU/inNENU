@@ -1,9 +1,5 @@
 module.exports = {
-  isText: function (tag) {
-    return tag === "text" || tag === "p" || tag === "ul" || tag === "ol";
-  },
-
-  getNavConfig: function (page) {
+  getNavbarConfig: function (page) {
     return {
       title: page.title,
       desc: page.desc,
@@ -13,7 +9,7 @@ module.exports = {
     };
   },
 
-  getErrorNavConfig: function (page) {
+  getErrorNavbarConfig: function (page) {
     return {
       title: page.title || "页面出错",
       desc: page.desc,

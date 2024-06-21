@@ -1,37 +1,99 @@
 <wxs src="./template.wxs" module="template" />
 
+<template name="title-component">
+  <title config="{{config}}" />
+</template>
+
+<template name="text-component">
+  <plain-text config="{{config}}" />
+</template>
+
+<template name="p-component">
+  <plain-text config="{{config}}" />
+</template>
+
+<template name="ul-component">
+  <plain-text config="{{config}}" />
+</template>
+
+<template name="ol-component">
+  <plain-text config="{{config}}" />
+</template>
+
+<template name="ol-component">
+  <plain-text config="{{config}}" />
+</template>
+
+<template name="img-component">
+  <img config="{{config}}" images="{{images}}" />
+</template>
+
+<template name="list-component">
+  <list config="{{config}}" />
+</template>
+
+<template name="grid-component">
+  <grid config="{{config}}" />
+</template>
+
+<template name="doc-component">
+  <doc config="{{config}}" />
+</template>
+
+<template name="phone-component">
+  <phone config="{{config}}" />
+</template>
+
+<template name="account-component">
+  <account config="{{config}}" />
+</template>
+
+<template name="card-component">
+  <card config="{{config}}" />
+</template>
+
+<template name="action-component">
+  <action config="{{config}}" />
+</template>
+
+<template name="table-component">
+  <table config="{{config}}" />
+</template>
+
+<template name="functional-list-component">
+  <functional-list
+    config="{{config}}"
+    ref="list{{index}}"
+    binding="$"
+    catch:change="list"
+  />
+</template>
+
+<template name="location-component">
+  <location config="{{config}}" />
+</template>
+
+<template name="carousel-component">
+  <carousel config="{{config}}" />
+</template>
+
+<template name="audio-player-component">
+  <audio-player config="{{config}}" />
+</template>
+
+<template name="video-player-component">
+  <video-player config="{{config}}" />
+</template>
+
 <!-- components -->
 <template name="components">
   <block wx:if="{{content && content.length}}">
-    <block wx:for="{{content}}" wx:key="id">
+    <block wx:for="{{content}}" wx:key="id" wx:for-item="config">
       <block wx:if="{{!item.hidden}}">
-        <plain-text wx:if="{{template.isText(item.tag)}}" config="{{item}}" />
-        <title wx:elif="{{item.tag === 'title'}}" config="{{item}}" />
-        <img
-          wx:elif="{{item.tag === 'img'}}"
-          config="{{item}}"
-          images="{{images}}"
+        <template
+          is="{{config.tag}}-component"
+          data="{{config, images, index}}"
         />
-        <list wx:elif="{{item.tag === 'list'}}" config="{{item}}" />
-        <footer wx:elif="{{item.tag === 'footer'}}" config="{{item}}" />
-        <grid wx:elif="{{item.tag === 'grid'}}" config="{{item}}" />
-        <doc wx:elif="{{item.tag === 'doc'}}" config="{{item}}" />
-        <phone wx:elif="{{item.tag === 'phone'}}" config="{{item}}" />
-        <account wx:elif="{{item.tag === 'account'}}" config="{{item}}" />
-        <card wx:elif="{{item.tag === 'card'}}" config="{{item}}" />
-        <action wx:elif="{{item.tag === 'action'}}" config="{{item}}" />
-        <table wx:elif="{{item.tag === 'table'}}" config="{{item}}" />
-        <functional-list
-          wx:elif="{{item.tag === 'functional-list'}}"
-          config="{{item}}"
-          ref="list{{index}}"
-          binding="$"
-          catch:change="list"
-        />
-        <location wx:elif="{{item.tag === 'location'}}" config="{{item}}" />
-        <carousel wx:elif="{{item.tag === 'carousel'}}" config="{{item}}" />
-        <audio-player wx:elif="{{item.tag === 'audio'}}" config="{{item}}" />
-        <video-player wx:elif="{{item.tag === 'video'}}" config="{{item}}" />
       </block>
     </block>
   </block>
@@ -57,7 +119,7 @@
   >
     <!-- 错误显示 -->
     <block wx:if="{{page.error}}">
-      <navbar nav="{{template.getErrorNavConfig(page)}}" />
+      <navbar nav="{{template.getErrorNavbarConfig(page)}}" />
       <template is="error" data="{{ id: page.id, from: page.from }}" />
     </block>
 
@@ -69,7 +131,7 @@
 
     <block wx:else>
       <!-- 导航栏 -->
-      <navbar nav="{{template.getNavConfig(page)}}" />
+      <navbar nav="{{template.getNavbarConfig(page)}}" />
 
       <view wx:if="{{page.outdated}}" class="outdated-banner"
         >页面内容缺少必要校对，可能已过时。Mr.Hope 会尽快校对并更新本内容!</view
@@ -80,7 +142,6 @@
         is="components"
         data="{{ content: page.content || [], images: page.images || [] }}"
       />
-      <!-- <share config="{{template.getShareConfig(page)}}" /> -->
       <footer
         wx:if="{{page.footer !== false}}"
         config="{{template.getFooterConfig(page)}}"
