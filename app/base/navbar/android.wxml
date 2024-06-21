@@ -1,7 +1,7 @@
 <wxs src="./navbar.wxs" module="navbar" />
 
 <!-- android导航栏 -->
-<template name="androidNav">
+<template name="android-navbar">
   <view
     class="android-navigation-bar {{shadow ? 'shadow' : ''}}"
     style="padding-top: {{statusBarHeight}}px;"

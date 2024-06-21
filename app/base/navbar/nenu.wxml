@@ -1,5 +1,5 @@
 <wxs src="./navbar.wxs" module="navbar" />
-<template name="nenuNav">
+<template name="nenu-navbar">
   <block wx:if="{{nav.action === undefined}}">
     <back-button button-class="{{borderDisplay ? 'fade-in' : 'fade-out'}}" />
     <view

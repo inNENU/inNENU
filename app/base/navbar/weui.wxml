@@ -1,6 +1,6 @@
 <wxs src="./navbar.wxs" module="navbar" />
 <!-- weui导航栏 -->
-<template name="weuiNav">
+<template name="weui-navbar">
   <view
     class="weui-navigation-bar {{shadow ? 'androidNavShadow' : ''}}"
     style="padding-top: {{statusBarHeight}}px;"

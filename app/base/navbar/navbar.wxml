@@ -4,6 +4,6 @@
 <import src="./weui.wxml" />
 <template
   wx:if="{{!nav.hidden && theme}}"
-  is="{{theme}}Nav"
+  is="{{theme}}-navbar"
   data="{{nav, firstPage, statusBarHeight, titleDisplay, borderDisplay, shadow}}"
 />
