@@ -236,7 +236,17 @@
         </view>
       </view>
       <view slot="page3" class="actions-container">
-        <view class="action-title">当前板块</view>
+        <view class="action-title">
+          <button
+            class="action-button-mini primary"
+            size="mini"
+            type="primary"
+            catch:tap="resetCategory"
+          >
+            更换板块
+          </button>
+          当前板块</view
+        >
         <view class="category-action">
           <view class="title border-bottom"
             >{{category.term}} - {{category.name}}</view
@@ -254,13 +264,6 @@
           <view wx:else class="description">
             <text decode space="nbsp">{{category.description}}</text>
           </view>
-          <button
-            class="action-button primary"
-            type="primary"
-            catch:tap="resetCategory"
-          >
-            更换板块
-          </button>
         </view>
         <view class="action-title">已选课程</view>
         <view wx:if="{{selectedClasses.length}}" class="selected-class-list">
@@ -466,11 +469,11 @@
         >考试时间: {{(examTime, courseTable.weeks)}}</text
       > -->
     <view class="office">开课单位: {{office}}</view>
-    <block wx:if="{{className}}">
-      <view wx:if="{{category.isPublic}}" class="class-name"
-        >班级: <text>{{className}}</text></view
-      >
-      <view wx:else class="target"><text>授课对象: {{className}}</text></view>
-    </block>
+    <view wx:if="{{className}}" class="class-name"
+      >班级: <text>{{className}}</text></view
+    >
+    <view wx:if="{{target}}" class="target"
+      ><text>授课对象: {{target}}</text></view
+    >
   </view>
 </template>
