@@ -32,6 +32,8 @@ export interface UnderSelectBaseInfo {
   offices: SelectOptionConfig[];
   /** 可用课程类别 */
   types: SelectOptionConfig[];
+  /** 可用课程分类 */
+  categories: SelectOptionConfig[];
 
   /** 当前校区 */
   currentArea: string;
@@ -136,7 +138,7 @@ const getSelectInfo = (content: string): UnderSelectInfo => {
     name,
   }));
 
-  const majorText = content.match(MAJORS_REGEXP)![1];
+  const majorText = content.match(MAJORS_REGEXP)![2];
 
   const majors = Array.from(majorText.matchAll(MAJOR_ITEM_REGEXP)).map(
     ([, value, name]) => ({
@@ -146,7 +148,7 @@ const getSelectInfo = (content: string): UnderSelectInfo => {
   );
 
   const currentMajorConfig = majors.find(
-    (major) => major.value === currentMajor,
+    (major) => major.name === currentMajor,
   )!;
 
   const state = {
@@ -158,6 +160,28 @@ const getSelectInfo = (content: string): UnderSelectInfo => {
     areas,
     offices,
     types,
+    categories: [
+      { name: "专业系列课", value: "3" },
+      { name: "思想政治教育", value: "4" },
+      { name: "共通教育课程（必修）", value: "5" },
+      { name: "学科教育课程（必修）", value: "9" },
+      { name: "教育实践课程", value: "10" },
+      { name: "学科基础课", value: "11" },
+      { name: "数学与逻辑", value: "15" },
+      { name: "人文与艺术", value: "16" },
+      { name: "体育与国防教育", value: "22" },
+      { name: "交流表达与信息素养", value: "24" },
+      { name: "发展方向课", value: "25" },
+      { name: "专业教育系列课程", value: "31" },
+      { name: "共通教育及学科教育选修课程", value: "32" },
+      { name: "实践与毕业论文", value: "33" },
+      { name: "学院自设通识课", value: "34" },
+      { name: "思想政治与社会科学", value: "35" },
+      { name: "社会与行为科学", value: "39" },
+      { name: "专业主干课", value: "41" },
+      { name: "综合实践课程", value: "42" },
+      { name: "自然科学", value: "45" },
+    ],
 
     currentArea,
     currentGrade,

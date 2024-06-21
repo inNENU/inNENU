@@ -67,6 +67,7 @@ $Page(PAGE_ID, {
     // ----- 选项 -----
     offices: [] as SelectOptionConfig[],
     types: [] as SelectOptionConfig[],
+    categories: [] as SelectOptionConfig[],
     majors: [] as SelectOptionConfig[],
     grades: [] as number[],
 
@@ -76,6 +77,7 @@ $Page(PAGE_ID, {
     place: "",
     classIndex: 0,
     typeIndex: 0,
+    categoryIndex: 0,
     officeIndex: 0,
     gradeIndex: 0,
     majorIndex: 0,
@@ -270,6 +272,7 @@ $Page(PAGE_ID, {
 
     const {
       offices,
+      categories,
       types,
       majors,
       grades,
@@ -288,11 +291,15 @@ $Page(PAGE_ID, {
 
     this.setData({
       offices,
+      categories,
       types,
       grades,
 
       gradeIndex: grades.findIndex((item) => item === currentGrade) + 1,
       majorIndex: majors.findIndex((item) => item.name === currentMajor) + 1,
+      officeIndex: 0,
+      categoryIndex: 0,
+      typeIndex: 0,
       majors,
     });
 
@@ -331,6 +338,7 @@ $Page(PAGE_ID, {
     const {
       category,
 
+      categories,
       types,
       offices,
       grades,
@@ -341,6 +349,7 @@ $Page(PAGE_ID, {
       place,
 
       classIndex,
+      categoryIndex,
       typeIndex,
       officeIndex,
       gradeIndex,
@@ -353,6 +362,7 @@ $Page(PAGE_ID, {
     if (teacher) options.teacher = teacher;
     if (place) options.place = place;
     if (weekIndex) options.week = weekIndex.toString();
+    if (categoryIndex) options.category = categories[categoryIndex - 1].name;
     if (typeIndex) options.type = types[typeIndex - 1].value;
     if (officeIndex) options.office = offices[officeIndex - 1].value;
     if (gradeIndex) options.grade = grades[gradeIndex - 1];

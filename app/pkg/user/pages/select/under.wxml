@@ -134,7 +134,23 @@
               >
             </view>
           </picker>
-          <!-- TODO: 添加课程分类 -->
+          <!-- Note: QQ does not support catch:change -->
+          <picker
+            class="picker"
+            header-text="课程分类"
+            range="{{under.getRange(categories, 'name')}}"
+            value="{{categoryIndex}}"
+            data-key="categoryIndex"
+            bindchange="onPickerChange"
+          >
+            <view class="display">
+              <text class="label">课程分类:</text>
+              <text class="value"
+                >{{under.getPickerDisplay(categories, categoryIndex,
+                'name')}}</text
+              >
+            </view>
+          </picker>
           <!-- Note: QQ does not support catch:change -->
           <picker
             class="picker"
