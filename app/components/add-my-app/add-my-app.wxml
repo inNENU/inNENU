@@ -9,7 +9,7 @@
     <text>{{text}}</text>
     <image
       class="close-icon"
-      src="/icon/close{{darkmode? '-white': ''}}.svg"
+      src="/icon/close-{{darkmode ? 'white' : 'black'}}.svg"
       catch:tap="close"
     />
   </view>

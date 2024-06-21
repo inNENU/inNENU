@@ -16,7 +16,7 @@ const DOC_ICONS = ["doc", "ppt", "xls", "pdf"];
 const IMAGE_ICONS = ["jpg", "png", "gif"];
 
 $Component({
-  properties: {
+  props: {
     /** 配置 */
     config: {
       type: Object as PropType<DocComponentOptions>,

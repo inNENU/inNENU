@@ -47,7 +47,6 @@
     z-index: 2;
 
     overflow-y: scroll;
-    -webkit-overflow-scrolling: touch;
 
     max-height: 60vh;
     border-bottom-right-radius: 8px;
@@ -55,6 +54,8 @@
 
     background-color: var(--bg-color-block);
     box-shadow: 1px 1px 4px var(--card-shadow);
+
+    -webkit-overflow-scrolling: touch;
   }
 
   .word {

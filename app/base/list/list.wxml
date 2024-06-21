@@ -28,8 +28,8 @@
           src="{{listItem.icon}}"
         />
         <view class="list-item-detail list-item-access">
-          <view class="list-item-text"><text>{{listItem.text}}</text></view>
-          <view class="list-item-desc"><text>{{listItem.desc}}</text></view>
+          <text class="list-item-text">{{listItem.text}}</text>
+          <text class="list-item-desc">{{listItem.desc}}</text>
         </view>
       </view>
       <!-- 普通文字段落 -->
@@ -54,7 +54,7 @@
             space="nbsp"
             >{{listItem.text}}</text
           >
-          <view class="list-item-desc"><text>{{listItem.desc}}</text></view>
+          <text class="list-item-desc">{{listItem.desc}}</text>
         </view>
       </view>
     </block>

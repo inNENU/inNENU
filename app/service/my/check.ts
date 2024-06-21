@@ -1,6 +1,6 @@
 import { MY_SERVER } from "./utils.js";
-import type { CookieVerifyResponse } from "../../../typings/index.js";
 import { request } from "../../api/index.js";
+import type { CookieVerifyResponse } from "../utils/index.js";
 
 export const checkMyCookiesLocal = async (): Promise<CookieVerifyResponse> => {
   const { data: identityResult } = await request<{ success: boolean } | string>(

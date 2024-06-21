@@ -3,7 +3,7 @@ import { $Component } from "@mptool/all";
 import { info } from "../../state/index.js";
 
 $Component({
-  properties: {
+  props: {
     title: {
       type: String,
     },

@@ -1,14 +1,14 @@
 import type { PropType } from "@mptool/all";
 import { $Component, get } from "@mptool/all";
 
-import type { StarredNotice } from "./typings.js";
+import type { StarredNoticeData } from "./typings.js";
 import { STARRED_NOTICE_LIST_KEY } from "../../config/index.js";
 import { user } from "../../state/index.js";
 import type { WidgetSize } from "../utils.js";
 import { getSize } from "../utils.js";
 
 $Component({
-  properties: {
+  props: {
     type: {
       type: String as PropType<"通知收藏 (小)" | "通知收藏" | "通知收藏 (大)">,
       default: "通知收藏",
@@ -24,27 +24,23 @@ $Component({
     attached() {
       const { type } = this.data;
 
-      this.setData({ size: getSize(type) }, () => {
-        this.setNotice();
-      });
+      this.setData({ size: getSize(type) }, () => this.setNotice());
     },
   },
 
   pageLifetimes: {
-    show() {
-      if (user.account) {
-        this.setData({ status: "success" });
-        this.setNotice();
-      } else {
-        this.setData({ status: "login" });
-      }
+    show(): void {
+      if (!user.account) return this.setData({ status: "login" });
+
+      this.setData({ status: "success" });
+      this.setNotice();
     },
   },
 
   methods: {
     setNotice() {
       const { size } = this.data;
-      const notices = get<StarredNotice[]>(STARRED_NOTICE_LIST_KEY) || [];
+      const notices = get<StarredNoticeData[]>(STARRED_NOTICE_LIST_KEY) || [];
 
       this.setData({
         data:
@@ -64,7 +60,7 @@ $Component({
       Record<string, never>,
       { index: number }
     >) {
-      const notices = get<StarredNotice[]>(STARRED_NOTICE_LIST_KEY) || [];
+      const notices = get<StarredNoticeData[]>(STARRED_NOTICE_LIST_KEY) || [];
       const { index } = currentTarget.dataset;
       const { title, id, type } = notices[index];
 

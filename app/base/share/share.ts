@@ -30,7 +30,7 @@ interface ActionConfig {
 type LinkData = { error: true } | { error: false; link: string };
 
 $Component({
-  properties: {
+  props: {
     config: {
       type: Object as PropType<ShareConfig>,
       default: { id: "" },
@@ -39,7 +39,7 @@ $Component({
 
   lifetimes: {
     attached() {
-      // FIXME: Now styline has bugs in setPassiveEvent
+      // FIXME: Now skyline has bugs in setPassiveEvent
       if (this.renderer !== "skyline")
         this.setPassiveEvent?.({
           touchstart: false,

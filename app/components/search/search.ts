@@ -2,7 +2,7 @@ import type { PropType } from "@mptool/all";
 import { $Component } from "@mptool/all";
 
 $Component({
-  properties: {
+  props: {
     words: {
       type: Array as PropType<string[]>,
       default: [],

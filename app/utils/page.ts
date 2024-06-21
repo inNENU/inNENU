@@ -236,7 +236,7 @@ export const resolvePage = (
   setGlobal = true,
 ): PageState | null => {
   // 控制台输出参数
-  logger.info("Navigating to: ", options);
+  logger.info("Handling page:", options);
 
   let pageData = null;
 

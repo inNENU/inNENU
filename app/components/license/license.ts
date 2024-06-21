@@ -16,7 +16,7 @@ type ResolvePrivacy = (
 let resolvePrivacy: ResolvePrivacy | null = null;
 
 $Component({
-  properties: {
+  props: {
     type: {
       type: String as PropType<"license" | "privacy">,
       default: "privacy",
@@ -31,7 +31,7 @@ $Component({
 
   lifetimes: {
     async attached() {
-      const { type } = this.properties;
+      const { type } = this.data;
 
       if (type === "privacy") {
         if (typeof wx.onNeedPrivacyAuthorization === "function") {
@@ -52,7 +52,7 @@ $Component({
 
   methods: {
     accept() {
-      const { type } = this.properties;
+      const { type } = this.data;
 
       if (type === "privacy") {
         if (resolvePrivacy) {
@@ -69,7 +69,7 @@ $Component({
     },
 
     refuse() {
-      const { type } = this.properties;
+      const { type } = this.data;
 
       if (type === "privacy" && resolvePrivacy)
         resolvePrivacy({ event: "disagree" });

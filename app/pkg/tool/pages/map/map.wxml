@@ -1,0 +1,128 @@
+<wxs src="/utils/map.wxs" module="helper" />
+<wxs src="./map.wxs" module="tool" />
+<license />
+<map
+  id="map"
+  longitude="{{map.longitude}}"
+  latitude="{{map.latitude}}"
+  scale="{{map.scale}}"
+  markers="{{helper.getMarkers(marker[currentCategory])}}"
+  setting="{{helper.getSetting(showSatellite)}}"
+  catch:markertap="markerTap"
+  catch:callouttap="markerTap"
+  catch:updated="update"
+  catch:regionchange="regionChange"
+/>
+<back-button />
+<view
+  class="area-switch"
+  style="top:{{statusBarHeight + 6}}px;"
+  catch:tap="changeArea"
+>
+  <view class="item {{area === 'benbu' ? 'active' : ''}}">本部</view>
+  <view class="item {{area === 'jingyue' ? 'active' : ''}}">净月</view>
+</view>
+<view
+  class="satellite-button"
+  hover-class="button-hover"
+  hover-stay-time="100"
+  catch:tap="changeSatellite"
+>
+  <image class="icon" src="./icon/satellite.svg" />
+</view>
+<view
+  class="filter-button"
+  hover-class="button-hover"
+  hover-stay-time="100"
+  catch:tap="{{tool.toggleFilter}}"
+>
+  <image class="icon" src="./icon/filter.svg" />
+</view>
+<view class="select-wrapper">
+  <view
+    wx:for="{{category}}"
+    wx:key="path"
+    class="item item{{index + (currentCategory === item.path ? ' active' : '')}} animation-slide-top"
+    hover-class="button-hover"
+    data-index="{{index}}"
+    catch:tap="select"
+  >
+    {{item.name}}
+  </view>
+</view>
+<view class="navigate-button" catch:tap="toggleNavigatePopup">
+  <image class="icon" src="./icon/navigate.svg" />
+</view>
+<view class="location-button" catch:tap="toggleLocationPopup">
+  <image class="icon" src="./icon/details.svg" />
+</view>
+<view class="scale-buttons">
+  <view
+    class="item"
+    hover-class="button-hover"
+    data-action="zoom-out"
+    catch:tap="scale"
+  >
+    <image src="./icon/zoom-out.svg" />
+  </view>
+  <view
+    class="item"
+    hover-class="button-hover"
+    data-action="zoom-in"
+    catch:tap="scale"
+  >
+    <image src="./icon/zoom-in.svg" />
+  </view>
+</view>
+<view
+  class="locate-button"
+  hover-class="button-hover"
+  catch:tap="moveToLocation"
+>
+  <image class="icon" src="./icon/locate.svg" />
+</view>
+<popup
+  config="{{navigatePopup}}"
+  show="{{showNavigate}}"
+  catch:close="toggleNavigatePopup"
+>
+  <tab-bar nav-list="{{tool.getTitle(category)}}" height="{{tabHeight || 300}}">
+    <block
+      wx:for="{{category}}"
+      wx:key="name"
+      wx:for-item="categoryItem"
+      wx:for-index="groupIndex"
+    >
+      <view
+        slot="page{{groupIndex + 1}}"
+        wx:for="{{marker[categoryItem.path]}}"
+        wx:key="name"
+        wx:for-item="markerItem"
+        class="navigate"
+        hover-class="button-hover"
+        data-id="{{markerItem.id}}"
+        catch:tap="navigate"
+      >
+        <view class="name">{{markerItem.name}}</view>
+        <view class="desc">{{markerItem.detail}}</view>
+      </view>
+    </block>
+  </tab-bar>
+</popup>
+<popup
+  config="{{locationPopup}}"
+  show="{{showLocation}}"
+  catch:close="toggleLocationPopup"
+>
+  <view
+    wx:for="{{marker[currentCategory]}}"
+    wx:key="id"
+    class="location"
+    hover-class="button-hover"
+    data-id="{{item.id}}"
+    catch:tap="openLocation"
+  >
+    <view class="name">{{item.name}}</view>
+    <view class="desc">{{item.detail}}</view>
+  </view>
+</popup>

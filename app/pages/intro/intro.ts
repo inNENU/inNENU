@@ -5,40 +5,35 @@ import type {
   GridComponentItemConfig,
   ListComponentItemConfig,
 } from "../../../typings/index.js";
+import { checkResource } from "../../app/index.js";
 import type { App } from "../../app.js";
 import { DAY, appCoverPrefix } from "../../config/index.js";
 import { searchMiniApp } from "../../service/index.js";
-import { getIdentity, info } from "../../state/index.js";
-import {
-  checkResource,
-  getJson,
-  getPageColor,
-  showNotice,
-} from "../../utils/index.js";
+import { getIdentity, info, menuSpace } from "../../state/index.js";
+import { getJson, getPageColor, showNotice } from "../../utils/index.js";
 import type { TabData } from "../typings.js";
 
 const { globalData } = getApp<App>();
 
 const PAGE_ID = "intro";
 const PAGE_TITLE = "东师介绍";
+const PAGE_KEY = `${PAGE_ID}-page-data`;
 
 interface IntroData {
   items: (Omit<GridComponentConfig, "tag"> & Record<string, unknown>)[];
   more: (Omit<GridComponentConfig, "tag"> & Record<string, unknown>)[];
 }
 
-const defaultData = get<IntroData | undefined>(PAGE_ID);
+const defaultData = get<IntroData | undefined>(PAGE_KEY);
 
 $Page(PAGE_ID, {
   data: {
     theme: info.theme,
-
     statusBarHeight: info.statusBarHeight,
+    menuSpace,
 
     /** 候选词 */
     words: [] as string[],
-
-    menuSpace: info.platform === "android" || info.platform === "ios" ? 90 : 10,
 
     /** 页面数据 */
     page: {
@@ -76,7 +71,7 @@ $Page(PAGE_ID, {
   // eslint-disable-next-line @typescript-eslint/no-empty-function
   onPageScroll() {},
 
-  onShareAppMessage: () => ({ title: PAGE_TITLE, path: "/pages/intro/intro" }),
+  onShareAppMessage: () => ({ title: PAGE_TITLE }),
 
   onShareTimeline: () => ({ title: PAGE_TITLE }),
 
@@ -116,9 +111,9 @@ $Page(PAGE_ID, {
               if (type === "under" && "under" in item) {
                 if (item.under === null) return null;
                 item.url = `info?from=${PAGE_TITLE}&id=${item.under}`;
-              } else if (type === "post" && "post" in item) {
-                if (item.post === null) return null;
-                item.url = `info?from=${PAGE_TITLE}&id=${item.post}`;
+              } else if (type === "grad" && "grad" in item) {
+                if (item.grad === null) return null;
+                item.url = `info?from=${PAGE_TITLE}&id=${item.grad}`;
               } else if (location === "benbu" && "benbu" in item) {
                 if (item.benbu === null) return null;
                 item.url = `info?from=${PAGE_TITLE}&id=${item.benbu}`;
@@ -145,9 +140,9 @@ $Page(PAGE_ID, {
                 if (type === "under" && "under" in item) {
                   if (item.under === null) return null;
                   item.url = `info?from=${PAGE_TITLE}&id=${item.under}`;
-                } else if (type === "post" && "post" in item) {
-                  if (item.post === null) return null;
-                  item.url = `info?from=${PAGE_TITLE}&id=${item.post}`;
+                } else if (type === "grad" && "grad" in item) {
+                  if (item.grad === null) return null;
+                  item.url = `info?from=${PAGE_TITLE}&id=${item.grad}`;
                 } else if (item.path)
                   item.url = `info?from=${PAGE_TITLE}&id=${item.path}`;
 
@@ -166,7 +161,7 @@ $Page(PAGE_ID, {
         }),
       };
 
-      set(PAGE_ID, introData, 3 * DAY);
+      set(PAGE_KEY, introData, 3 * DAY);
 
       this.setData(introData);
     }

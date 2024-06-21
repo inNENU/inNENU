@@ -1,13 +1,45 @@
-import { URLSearchParams } from "@mptool/all";
+import { URLSearchParams, logger } from "@mptool/all";
 
+import { withActionLogin } from "./login.js";
 import { ACTION_SERVER } from "./utils.js";
-import type { CommonFailedResponse } from "../../../typings/index.js";
 import { request } from "../../api/index.js";
-import type { AuthLoginFailedResponse } from "../auth/index.js";
-import { LoginFailType } from "../loginFailTypes.js";
-import { createService } from "../utils.js";
+import type {
+  ActionFailType,
+  CommonFailedResponse,
+  CommonListSuccessResponse,
+} from "../utils/index.js";
+import {
+  ExpiredResponse,
+  UnknownResponse,
+  createService,
+  isWebVPNPage,
+  supportRedirect,
+} from "../utils/index.js";
 
 const NOTICE_LIST_QUERY_URL = `${ACTION_SERVER}/page/queryList`;
+
+export type NoticeType = "news" | "notice";
+
+export interface NoticeListOptions {
+  /**
+   * 类型
+   *
+   * @default "notice"
+   */
+  type?: "notice" | "news";
+  /**
+   * 每页尺寸
+   *
+   * @default 20
+   */
+  size?: number;
+  /**
+   * 当前页面
+   *
+   * @default 1
+   */
+  current?: number;
+}
 
 interface RawNoticeItem {
   LLCS: number;
@@ -30,18 +62,7 @@ interface RawNoticeListData {
   totalCount: number;
 }
 
-export type NoticeType = "notice" | "news";
-
-export interface NoticeListOptions {
-  /** @default 20 */
-  limit?: number;
-  /** @default 1 */
-  page?: number;
-  /** @default "notice" */
-  type?: NoticeType;
-}
-
-export interface NoticeItem {
+export interface NoticeInfo {
   title: string;
   from: string;
   time: string;
@@ -49,37 +70,32 @@ export interface NoticeItem {
 }
 
 const getNoticeItem = ({
-  // eslint-disable-next-line @typescript-eslint/naming-convention
-  ID__,
-  CJBM,
-  // eslint-disable-next-line @typescript-eslint/naming-convention
-  KEYWORDS_,
-  FBSJ,
-}: RawNoticeItem): NoticeItem => ({
-  title: KEYWORDS_,
-  id: ID__,
-  time: FBSJ,
-  from: CJBM,
+  ID__: id,
+  CJBM: from,
+  KEYWORDS_: title,
+  FBSJ: time,
+}: RawNoticeItem): NoticeInfo => ({
+  id,
+  title,
+  from,
+  time,
 });
 
-export interface NoticeListSuccessResponse {
-  success: true;
-  data: NoticeItem[];
-  pageIndex: number;
-  pageSize: number;
-  totalPage: number;
-  totalCount: number;
+export interface NoticeListSuccessResponse
+  extends CommonListSuccessResponse<NoticeInfo[]> {
+  size: number;
+  count: number;
 }
 
 export type NoticeListResponse =
   | NoticeListSuccessResponse
-  | CommonFailedResponse;
+  | CommonFailedResponse<ActionFailType.Expired | ActionFailType.Unknown>;
 
 const getNoticeListLocal = async ({
-  limit = 20,
-  page = 1,
   type = "notice",
-}: NoticeListOptions): Promise<NoticeListResponse> => {
+  size = 20,
+  current = 1,
+}: NoticeListOptions = {}): Promise<NoticeListResponse> => {
   try {
     const {
       data: { data, pageIndex, pageSize, totalCount, totalPage },
@@ -88,61 +104,62 @@ const getNoticeListLocal = async ({
       method: "POST",
       headers: {
         Accept: "application/json, text/javascript, */*; q=0.01",
+        "Content-Type": "application/x-www-form-urlencoded; charset=UTF-8",
       },
       body: new URLSearchParams({
         type,
         _search: "false",
-        nd: new Date().getTime().toString(),
-        limit: limit.toString(),
-        page: page.toString(),
+        nd: Date.now().toString(),
+        limit: size.toString(),
+        page: current.toString(),
       }),
       redirect: "manual",
     });
 
-    if (status === 302)
-      return {
-        success: false,
-        type: LoginFailType.Expired,
-        msg: "登录信息已过期，请重新登录",
-      } as AuthLoginFailedResponse;
+    if (
+      status === 302 ||
+      // Note: On QQ the status code is 404
+      status === 404 ||
+      // Note: If the env does not support "redirect: manual", the response will be a 302 redirect to WebVPN login page
+      // In this case, the response.status will be 200 and the response body will be the WebVPN login page
+      (!supportRedirect && isWebVPNPage(data))
+    ) {
+      return ExpiredResponse;
+    }
 
-    if (data.length)
-      return {
-        success: true,
-        data: data.map(getNoticeItem),
-        pageIndex,
-        pageSize,
-        totalCount,
-        totalPage,
-      } as NoticeListSuccessResponse;
+    if (!data.length)
+      throw new Error(`获取公告列表失败: ${JSON.stringify(data, null, 2)}`);
 
     return {
-      success: false,
-      msg: JSON.stringify(data),
-    } as AuthLoginFailedResponse;
+      success: true,
+      data: data.map(getNoticeItem),
+      count: totalCount,
+      size: pageSize,
+      current: pageIndex,
+      total: totalPage,
+    };
   } catch (err) {
     const { message } = err as Error;
 
-    console.error(err);
+    logger.error(err);
 
-    return {
-      success: false,
-      msg: message,
-    } as AuthLoginFailedResponse;
+    return UnknownResponse(message);
   }
 };
 
 const getNoticeListOnline = (
-  options: NoticeListOptions,
+  options: NoticeListOptions = {},
 ): Promise<NoticeListResponse> =>
   request<NoticeListResponse>("/action/notice-list", {
     method: "POST",
     body: options,
     cookieScope: ACTION_SERVER,
-  }).then(({ data }) => data);
+  }).then(({ data }) => {
+    if (!data.success) logger.error("获取内网通知失败", data);
 
-export const getNoticeList = createService(
-  "notice-list",
-  getNoticeListLocal,
-  getNoticeListOnline,
+    return data;
+  });
+
+export const getNoticeList = withActionLogin(
+  createService("notice-list", getNoticeListLocal, getNoticeListOnline),
 );

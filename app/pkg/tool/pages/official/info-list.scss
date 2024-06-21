@@ -1,0 +1,63 @@
+@import "../../../../styles/lib/icon";
+
+.info-wrapper {
+  display: flex;
+  flex-direction: column;
+}
+
+.info-list {
+  flex: 1;
+  padding: 6px 0;
+}
+
+.info-item {
+  overflow: hidden;
+  margin: 8px 15px;
+  border-radius: 8px;
+  background-color: var(--bg-color-block);
+}
+
+.button-hover {
+  background-color: var(--bg-hover) !important;
+}
+
+.cover {
+  position: relative;
+  width: 100%;
+  height: 0;
+  padding-top: 50%;
+
+  image {
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+
+    width: unset;
+    height: unset;
+  }
+}
+
+.detail {
+  padding: 8px;
+  text-align: left;
+}
+
+.title {
+  font-size: 17px;
+  line-height: 1.25;
+}
+
+.info {
+  margin-top: 4px;
+  font-size: 14px;
+
+  .icon-font {
+    margin: 0 2px;
+  }
+}
+
+.description {
+  font-size: 13px;
+}

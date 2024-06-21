@@ -1,10 +1,10 @@
-import { URLSearchParams } from "@mptool/all";
+import { URLSearchParams, logger } from "@mptool/all";
 
 import { MY_SERVER } from "./utils.js";
-import type { CommonFailedResponse } from "../../../typings/index.js";
 import { request } from "../../api/index.js";
 import type { AuthLoginFailedResponse } from "../auth/index.js";
-import { LoginFailType } from "../loginFailTypes.js";
+import type { ActionFailType, CommonFailedResponse } from "../utils/index.js";
+import { ExpiredResponse } from "../utils/index.js";
 
 interface RawProcessResult {
   success: boolean;
@@ -30,7 +30,7 @@ export interface MyProcessSuccessResult {
 export type MyProcessResult =
   | MyProcessSuccessResult
   | AuthLoginFailedResponse
-  | CommonFailedResponse;
+  | CommonFailedResponse<ActionFailType.Expired>;
 
 export const getProcess = async (
   processId: string,
@@ -47,12 +47,7 @@ export const getProcess = async (
       redirect: "manual",
     });
 
-    if (status === 302)
-      return {
-        success: false,
-        type: LoginFailType.Expired,
-        msg: "登录信息已过期，请重新登录",
-      };
+    if (status === 302) return ExpiredResponse;
 
     if (typeof data === "object")
       return {
@@ -70,7 +65,7 @@ export const getProcess = async (
       msg: "获取流程信息失败",
     };
   } catch (err) {
-    console.error(err);
+    logger.error(err);
 
     return {
       success: false,

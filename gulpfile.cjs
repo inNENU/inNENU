@@ -190,23 +190,27 @@ const watchAppAssets = () =>
     moveAppAssets,
   );
 
+const moveAppConfig = getConfigJob("app");
+const watchAppConfig = () =>
+  watch("project.config.app.json", { ignoreInitial: false }, moveAppConfig);
+
 const watchApp = parallel(
   watchAppScript,
   watchAppWXSS,
   watchAppAssets,
-  getConfigJob("app"),
+  watchAppConfig,
 );
 const buildApp = parallel(
   buildAppWXSS,
   buildAppScript,
   moveAppAssets,
-  getConfigJob("app"),
+  moveAppConfig,
 );
 const bundleApp = parallel(
   buildAppWXSS,
   getAssetsJob("app", { bundle: true }),
   getMoveScriptJob("app"),
-  getConfigJob("app"),
+  moveAppConfig,
 );
 
 /* Wechat */
@@ -226,58 +230,68 @@ const watchWechatAssets = () =>
     moveWechatAssets,
   );
 
+const moveWechatConfig = getConfigJob("wx");
+const watchWechatConfig = () =>
+  watch("project.config.wx.json", { ignoreInitial: false }, moveWechatConfig);
+
 const watchWechat = parallel(
   watchWechatScript,
   watchWechatWXSS,
   watchWechatAssets,
-  getConfigJob("wx"),
+  watchWechatConfig,
 );
 const buildWechat = parallel(
   buildWechatWXSS,
   buildWechatScript,
   getAssetsJob("wx"),
-  getConfigJob("wx"),
+  moveWechatConfig,
 );
 const bundleWechat = parallel(
   buildWechatWXSS,
   getAssetsJob("wx", { bundle: true }),
   getMoveScriptJob("wx"),
-  getConfigJob("wx"),
+  moveWechatConfig,
 );
 
-/* Nenuyouth, marked as qy */
+/* weNENU, marked as we */
 
-const buildNenuyouthScript = getScriptJob("qy");
-const watchNenuyouthScript = () =>
-  watch(
-    "{app,typings}/**/*.ts",
-    { ignoreInitial: false },
-    buildNenuyouthScript,
-  );
+const buildWeNENUScript = getScriptJob("we");
+const watchWeNENUScript = () =>
+  watch("{app,typings}/**/*.ts", { ignoreInitial: false }, buildWeNENUScript);
 
-const buildNenuyouthWXSS = getStyleJob("qy");
-const watchNenuyouthWXSS = () =>
-  watch("app/**/*.scss", { ignoreInitial: false }, buildNenuyouthWXSS);
+const buildWeNENUWXSS = getStyleJob("we");
+const watchWeNENUWXSS = () =>
+  watch("app/**/*.scss", { ignoreInitial: false }, buildWeNENUWXSS);
 
-const moveNenuyouthAssets = getAssetsJob("qy");
-const watchNenuyouthAssets = () =>
+const moveWeNENUAssets = getAssetsJob("we");
+const watchWeNENUAssets = () =>
   watch(
     ["app/**/*.{json,svg,png,webp}", "app/**/*.{wxml,wxs}"],
     { ignoreInitial: false },
-    moveNenuyouthAssets,
+    moveWeNENUAssets,
   );
 
-const watchNenuyouth = parallel(
-  watchNenuyouthScript,
-  watchNenuyouthWXSS,
-  watchNenuyouthAssets,
-  getConfigJob("qy"),
+const moveWeNENUConfig = getConfigJob("we");
+const watchWeNENUConfig = () =>
+  watch("project.config.we.json", { ignoreInitial: false }, moveWeNENUConfig);
+
+const watchWeNENU = parallel(
+  watchWeNENUScript,
+  watchWeNENUWXSS,
+  watchWeNENUAssets,
+  watchWeNENUConfig,
 );
-const buildNenuyouth = parallel(
-  buildNenuyouthWXSS,
-  buildNenuyouthScript,
-  moveNenuyouthAssets,
-  getConfigJob("qy"),
+const buildWeNENU = parallel(
+  buildWeNENUWXSS,
+  buildWeNENUScript,
+  moveWeNENUAssets,
+  moveWeNENUConfig,
+);
+const bundleWeNENU = parallel(
+  buildWeNENUWXSS,
+  getAssetsJob("we", { bundle: true }),
+  getMoveScriptJob("we"),
+  moveWeNENUConfig,
 );
 
 /* QQ */
@@ -341,26 +355,30 @@ const moveQQFiles = () =>
 const watchQQFiles = () =>
   watch("app/**/*.{wxml,wxs,qml,qs}", { ignoreInitial: false }, moveQQFiles);
 
+const moveQQConfig = getConfigJob("qq");
+const watchQQConfig = () =>
+  watch("project.config.qq.json", { ignoreInitial: false }, moveQQConfig);
+
 const watchQQ = parallel(
   watchQQScript,
   watchQss,
   watchQQAssets,
   watchQQFiles,
-  getConfigJob("qq"),
+  watchQQConfig,
 );
 const buildQQ = parallel(
   buildQss,
   buildQQScript,
   moveQQAssets,
   moveQQFiles,
-  getConfigJob("qq"),
+  moveQQConfig,
 );
 const bundleQQ = parallel(
   buildQss,
   getAssetsJob("qq", { bundle: true, wxFiles: false }),
   getMoveScriptJob("qq"),
   moveQQFiles,
-  getConfigJob("qq"),
+  moveQQConfig,
 );
 
 /* exports */
@@ -375,8 +393,9 @@ exports.watchWechat = watchWechat;
 exports.buildWechat = buildWechat;
 exports.bundleWechat = bundleWechat;
 
-exports.watchNenuyouth = watchNenuyouth;
-exports.buildNenuyouth = buildNenuyouth;
+exports.watchWeNENU = watchWeNENU;
+exports.buildWeNENU = buildWeNENU;
+exports.bundleWeNENU = bundleWeNENU;
 
 exports.watchQQ = watchQQ;
 exports.buildQQ = buildQQ;

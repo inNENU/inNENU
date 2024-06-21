@@ -5,10 +5,14 @@ import { MY_DOMAIN, MY_MAIN_PAGE, MY_SERVER } from "./utils.js";
 import { cookieStore, request } from "../../api/index.js";
 import type { AccountInfo } from "../../state/index.js";
 import type { AuthLoginFailedResponse } from "../auth/index.js";
-import { authLoginLocal } from "../auth/login.js";
-import { handleFailResponse } from "../fail.js";
-import { LoginFailType } from "../loginFailTypes.js";
-import { createService, supportRedirect } from "../utils.js";
+import { authLogin } from "../auth/login.js";
+import type { LoginMethod } from "../utils/index.js";
+import {
+  UnknownResponse,
+  checkAccountStatus,
+  createService,
+  supportRedirect,
+} from "../utils/index.js";
 import type { VPNLoginFailedResponse } from "../vpn/index.js";
 import { vpnCASLoginLocal } from "../vpn/login.js";
 
@@ -31,13 +35,14 @@ export const myLoginLocal = async (
 
   if (!vpnLoginResponse.success) return vpnLoginResponse;
 
-  const result = await authLoginLocal(options, {
+  const result = await authLogin({
+    ...options,
     service: MY_MAIN_PAGE,
     webVPN: true,
   });
 
   if (!result.success) {
-    console.error(result.msg);
+    logger.error(result.msg);
 
     return {
       success: false,
@@ -51,12 +56,7 @@ export const myLoginLocal = async (
     redirect: "manual",
   });
 
-  if (ticketResponse.status !== 302)
-    return {
-      success: false,
-      type: LoginFailType.Unknown,
-      msg: "登录失败",
-    };
+  if (ticketResponse.status !== 302) return UnknownResponse("登录失败");
 
   const sessionLocation = ticketResponse.headers.get("Location");
 
@@ -73,11 +73,7 @@ export const myLoginLocal = async (
       };
   }
 
-  return {
-    success: false,
-    type: LoginFailType.Unknown,
-    msg: "登录失败",
-  };
+  return UnknownResponse("登录失败");
 };
 
 export const myLoginOnline = async (
@@ -91,21 +87,23 @@ export const myLoginOnline = async (
 
   if (!data.success) {
     logger.error("登录失败", data.msg);
-    handleFailResponse(data);
+    checkAccountStatus(data);
   }
 
   return data;
 };
 
-const hasCookie = (): boolean =>
-  cookieStore.getCookies(MY_SERVER).some(({ domain }) => domain === MY_DOMAIN);
+const hasMyCookies = (): boolean =>
+  cookieStore
+    .getCookies(MY_SERVER)
+    .some(({ domain }) => domain.endsWith(MY_DOMAIN));
 
 const ensureMyLoginLocal = async (
   account: AccountInfo,
-  status: "check" | "validate" | "login" = "check",
+  status: LoginMethod,
 ): Promise<AuthLoginFailedResponse | VPNLoginFailedResponse | null> => {
-  if (status !== "login") {
-    if (hasCookie()) {
+  if (status !== "force") {
+    if (hasMyCookies()) {
       if (status === "check") return null;
 
       const { valid } = await checkMyCookiesLocal();
@@ -121,10 +119,10 @@ const ensureMyLoginLocal = async (
 
 const ensureMyLoginOnline = async (
   account: AccountInfo,
-  status: "check" | "validate" | "login" = "check",
+  status: LoginMethod,
 ): Promise<AuthLoginFailedResponse | VPNLoginFailedResponse | null> => {
-  if (status !== "login") {
-    if (hasCookie()) {
+  if (status !== "force") {
+    if (hasMyCookies()) {
       if (status === "check") return null;
 
       const { valid } = await checkMyCookiesOnline();

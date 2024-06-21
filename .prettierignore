@@ -1,8 +1,8 @@
 .temp/**
 **/node_modules/**
 
-app/function/music/music.wxs
-app/function/utils/encoder.js
+app/pkg/tool/pages/music/music.wxs
+app/pkg/tool/components/recycle-view/
 app/service/auth/encrypt.js
 
 dist/**

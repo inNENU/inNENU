@@ -2,7 +2,7 @@ import type { PropType } from "@mptool/all";
 import { $Component } from "@mptool/all";
 
 $Component({
-  properties: {
+  props: {
     size: {
       type: String as PropType<"mini" | "standard">,
       default: "standard",
@@ -14,7 +14,7 @@ $Component({
     login() {
       const { source } = this.data;
 
-      this.$go(`account?${source ? `from=${source}&` : ""}update=true`);
+      this.$go(`account-login?${source ? `from=${source}&` : ""}update=true`);
     },
   },
 

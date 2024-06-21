@@ -4,12 +4,12 @@
   catch:tap="$bindGo"
 >
   <view class="widget-header">
-    近期{{ noticeType === 'news'? '新闻' : '通知'}}
+    <text>近期{{ noticeType === 'news'? '新闻' : '通知'}}</text>
     <button
       class="refresh-button"
       type="default"
       size="mini"
-      catch:tap="refresh"
+      catch:tap="getNoticeList"
     >
       <text class="refresh-button-icon" />
     </button>
@@ -23,8 +23,9 @@
       />
       <error-hint
         wx:elif="{{ status === 'error' }}"
+        hint="{{errMsg}}"
         size="mini"
-        catch:retry="retry"
+        hide-retry
       />
       <login-hint wx:elif="{{ status === 'login' }}" size="mini" />
       <block wx:else>
@@ -38,7 +39,7 @@
           data-notice="{{item}}"
           catch:tap="viewNotice"
         >
-          <view class="title {{size}}">{{item.title}}</view>
+          <view class="title {{size}}"><text>{{item.title}}</text></view>
         </view>
       </block>
     </view>

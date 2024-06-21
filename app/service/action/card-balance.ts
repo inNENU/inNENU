@@ -1,11 +1,20 @@
 import { logger } from "@mptool/all";
 
+import { withActionLogin } from "./login.js";
 import { ACTION_SERVER } from "./utils.js";
-import type { CommonFailedResponse } from "../../../typings/index.js";
 import { request } from "../../api/index.js";
-import type { AuthLoginFailedResponse } from "../auth/index.js";
-import { LoginFailType } from "../loginFailTypes.js";
-import { createService } from "../utils.js";
+import type {
+  ActionFailType,
+  CommonFailedResponse,
+  CommonSuccessResponse,
+} from "../utils/index.js";
+import {
+  ExpiredResponse,
+  UnknownResponse,
+  createService,
+  isWebVPNPage,
+  supportRedirect,
+} from "../utils/index.js";
 
 const CARD_BALANCE_URL = `${ACTION_SERVER}/soapBasic/postSoap`;
 const CARD_BALANCE_PARAMS =
@@ -22,15 +31,9 @@ type RawCardBalanceData =
     }
   | { success: false };
 
-export interface CardBalanceSuccessResponse {
-  success: true;
-  data: number;
-}
-
 export type CardBalanceResponse =
-  | CardBalanceSuccessResponse
-  | AuthLoginFailedResponse
-  | CommonFailedResponse;
+  | CommonSuccessResponse<number>
+  | CommonFailedResponse<ActionFailType.Expired | ActionFailType.Unknown>;
 
 const getCardBalanceLocal = async (): Promise<CardBalanceResponse> => {
   try {
@@ -47,12 +50,15 @@ const getCardBalanceLocal = async (): Promise<CardBalanceResponse> => {
       },
     );
 
-    if (status === 302)
-      return {
-        success: false,
-        type: LoginFailType.Expired,
-        msg: "登录信息已过期，请重新登录",
-      } as AuthLoginFailedResponse;
+    if (
+      status === 302 ||
+      // Note: On QQ the status code is 404
+      status === 404 ||
+      // Note: If the env does not support "redirect: manual", the response will be a 302 redirect to WebVPN login page
+      // In this case, the response.status will be 200 and the response body will be the WebVPN login page
+      (!supportRedirect && isWebVPNPage(data))
+    )
+      return ExpiredResponse;
 
     if (data.success) {
       const balanceList = data.demo.items.item;
@@ -62,38 +68,29 @@ const getCardBalanceLocal = async (): Promise<CardBalanceResponse> => {
         data: balanceList[0]?.kye.match(/\d+/)
           ? Number(balanceList[0].kye) / 100
           : 0,
-      } as CardBalanceSuccessResponse;
+      };
     }
 
-    return {
-      success: false,
-      msg: JSON.stringify(data),
-    } as AuthLoginFailedResponse;
+    throw JSON.stringify(data);
   } catch (err) {
     const { message } = err as Error;
 
-    console.error(err);
+    logger.error(err);
 
-    return {
-      success: false,
-      msg: message,
-    } as AuthLoginFailedResponse;
+    return UnknownResponse(message);
   }
 };
 
-const getCardBalanceOnline = async (): Promise<CardBalanceResponse> => {
-  const data = await request<CardBalanceResponse>("/action/card-balance", {
+const getCardBalanceOnline = async (): Promise<CardBalanceResponse> =>
+  request<CardBalanceResponse>("/action/card-balance", {
     method: "POST",
     cookieScope: ACTION_SERVER,
-  }).then(({ data }) => data);
+  }).then(({ data }) => {
+    if (!data.success) logger.error("获取校园卡余额出错", data);
 
-  if (!data.success) logger.error("获取校园卡余额出错", data);
+    return data;
+  });
 
-  return data;
-};
-
-export const getCardBalance = createService(
-  "card-balance",
-  getCardBalanceLocal,
-  getCardBalanceOnline,
+export const getCardBalance = withActionLogin(
+  createService("card-balance", getCardBalanceLocal, getCardBalanceOnline),
 );

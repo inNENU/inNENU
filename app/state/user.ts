@@ -87,7 +87,7 @@ export const setOpenid = (openid: string | null): void => {
 
 export interface Identify {
   id: string;
-  type: "under" | "post" | null;
+  type: "under" | "grad" | null;
   location: "benbu" | "jingyue" | null;
 }
 
@@ -103,7 +103,7 @@ export const getIdentity = (): Identify => {
 
   return {
     id: grade.toString(),
-    type: typeId === "bks" ? "under" : typeId === "yjs" ? "post" : null,
+    type: typeId === "bks" ? "under" : typeId === "yjs" ? "grad" : null,
     location: location === "unknown" ? null : location,
   };
 };

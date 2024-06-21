@@ -17,7 +17,7 @@ interface ListDetail<T = FunctionalListComponentItemOptions> {
 }
 
 $Component({
-  properties: {
+  props: {
     /** 配置 */
     config: {
       type: Object as PropType<FunctionalListComponentConfig>,

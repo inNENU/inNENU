@@ -1,0 +1,6 @@
+{
+  "usingComponents": {
+    "error-hint": "/components/error-hint/error-hint",
+    "pagination": "/components/pagination/pagination"
+  }
+}

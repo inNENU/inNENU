@@ -1,14 +1,14 @@
 import type { PropType } from "@mptool/all";
 import { $Component, get } from "@mptool/all";
 
-import type { StarredInfo } from "./typings.js";
+import type { StarredOfficialInfoData } from "./typings.js";
 import { STARRED_INFO_LIST_KEY } from "../../config/index.js";
 import { user } from "../../state/index.js";
 import type { WidgetSize } from "../utils.js";
 import { getSize } from "../utils.js";
 
 $Component({
-  properties: {
+  props: {
     type: {
       type: String as PropType<"官网收藏 (小)" | "官网收藏" | "官网收藏 (大)">,
       default: "官网收藏",
@@ -24,27 +24,23 @@ $Component({
     attached() {
       const { type } = this.data;
 
-      this.setData({ size: getSize(type) }, () => {
-        this.setInfo();
-      });
+      this.setData({ size: getSize(type) }, () => this.setInfo());
     },
   },
 
   pageLifetimes: {
-    show() {
-      if (user.account) {
-        this.setData({ status: "success" });
-        this.setInfo();
-      } else {
-        this.setData({ status: "login" });
-      }
+    show(): void {
+      if (!user.account) return this.setData({ status: "login" });
+
+      this.setData({ status: "success" });
+      this.setInfo();
     },
   },
 
   methods: {
     setInfo() {
       const { size } = this.data;
-      const infos = get<StarredInfo[]>(STARRED_INFO_LIST_KEY) || [];
+      const infos = get<StarredOfficialInfoData[]>(STARRED_INFO_LIST_KEY) || [];
 
       this.setData({
         data:
@@ -64,11 +60,11 @@ $Component({
       Record<string, never>,
       { index: number }
     >) {
-      const infos = get<StarredInfo[]>(STARRED_INFO_LIST_KEY) || [];
+      const infos = get<StarredOfficialInfoData[]>(STARRED_INFO_LIST_KEY) || [];
       const { index } = currentTarget.dataset;
       const { title, url, type } = infos[index];
 
-      return this.$go(`info-detail?title=${title}&type=${type}&url=${url}`);
+      this.$go(`official-info-detail?title=${title}&type=${type}&url=${url}`);
     },
   },
 

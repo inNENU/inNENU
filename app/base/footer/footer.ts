@@ -7,7 +7,7 @@ import { description } from "../../config/index.js";
 import { env } from "../../state/index.js";
 
 $Component({
-  properties: {
+  props: {
     /** 页脚配置 */
     config: {
       type: Object as PropType<FooterComponentOptions>,
@@ -16,6 +16,14 @@ $Component({
   },
 
   data: { description },
+
+  lifetimes: {
+    attached() {
+      this.setData({
+        copyright: `${description}\nCopyright © 2017-${new Date().getFullYear()} Mr.Hope`,
+      });
+    },
+  },
 
   methods: {
     copyCite({

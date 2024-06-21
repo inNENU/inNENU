@@ -1,14 +1,14 @@
 import type { PropType } from "@mptool/all";
 import { $Component, get } from "@mptool/all";
 
-import type { ClassData, CourseTableData, TableData } from "./typings.js";
+import type { ClassData, CourseTableInfo, TableData } from "./typings.js";
 import { getCurrentTimeCode, getWeekIndex } from "./utils.js";
 import { showModal } from "../../api/index.js";
 import { COURSE_DATA_KEY } from "../../config/index.js";
 import { getSize } from "../utils.js";
 
 $Component({
-  properties: {
+  props: {
     type: {
       type: String as PropType<
         "今日课程 (小)" | "下节课程 (小)" | "今日课程" | "课程表 (大)"
@@ -35,22 +35,20 @@ $Component({
   methods: {
     init() {
       const { type } = this.data;
-      const coursesData = get<Record<string, CourseTableData>>(COURSE_DATA_KEY);
+      const coursesData = get<Record<string, CourseTableInfo>>(COURSE_DATA_KEY);
       const time = getCurrentTimeCode();
 
-      if (coursesData?.[time]) {
-        const { courseData, weeks, startTime } = coursesData[time];
-        const weekIndex = getWeekIndex(startTime, weeks);
+      if (!coursesData?.[time]) return this.setData({ missing: true });
 
-        if (type.includes("今日课程"))
-          this.setTodayCourses(courseData, weekIndex);
-        else if (type.includes("下节课程"))
-          this.setNextCourse(courseData, weekIndex, weeks);
-        else if (type.includes("课程表"))
-          this.setCourses(courseData, weekIndex);
-      } else {
-        this.setData({ missing: true });
-      }
+      const { courseData, weeks, startTime } = coursesData[time];
+      const weekIndex = getWeekIndex(startTime, weeks);
+
+      if (type.includes("今日课程"))
+        return this.setTodayCourses(courseData, weekIndex);
+      if (type.includes("下节课程"))
+        return this.setNextCourse(courseData, weekIndex, weeks);
+      if (type.includes("课程表"))
+        return this.setCourses(courseData, weekIndex);
     },
 
     setCourses(courseData: TableData, weekIndex: number) {
@@ -116,10 +114,7 @@ $Component({
                   : 0;
       let nextCourses: ClassData[] = [];
 
-      if (!courseData.length)
-        return this.setData({
-          missing: true,
-        });
+      if (!courseData.length) return this.setData({ missing: true });
 
       // eslint-disable-next-line no-constant-condition
       while (true) {

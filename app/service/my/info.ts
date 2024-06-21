@@ -1,11 +1,10 @@
-import { URLSearchParams } from "@mptool/all";
+import { URLSearchParams, logger } from "@mptool/all";
 
 import { MY_SERVER } from "./utils.js";
-import type { CommonFailedResponse } from "../../../typings/index.js";
 import { request } from "../../api/index.js";
 import type { UserInfo } from "../../state/index.js";
-import { LoginFailType } from "../loginFailTypes.js";
-import { isWebVPNPage } from "../utils.js";
+import type { ActionFailType, CommonFailedResponse } from "../utils/index.js";
+import { ExpiredResponse, isWebVPNPage } from "../utils/index.js";
 
 interface RawInfo {
   success: true;
@@ -65,7 +64,7 @@ export interface MyInfoSuccessResponse {
 
 export type MyInfoResponse =
   | MyInfoSuccessResponse
-  | (CommonFailedResponse & { type?: LoginFailType.Expired });
+  | CommonFailedResponse<ActionFailType.Expired>;
 
 export const getMyInfo = async (): Promise<MyInfoResponse> => {
   try {
@@ -87,11 +86,7 @@ export const getMyInfo = async (): Promise<MyInfoResponse> => {
       status === 302 ||
       (typeof infoResult === "string" && isWebVPNPage(infoResult))
     )
-      return {
-        success: false,
-        msg: "请重新登录",
-        type: LoginFailType.Expired,
-      };
+      return ExpiredResponse;
 
     if (
       infoResult.success &&
@@ -121,7 +116,7 @@ export const getMyInfo = async (): Promise<MyInfoResponse> => {
         birth: personInfo.csrq,
       };
 
-      // fix post birth
+      // fix grad birth
       if (/[A-Z]/.test(personInfo.csrq)) {
         const [day, month, year] = personInfo.csrq.split("-");
 
@@ -189,7 +184,7 @@ export const getMyInfo = async (): Promise<MyInfoResponse> => {
       msg: "获取人员信息失败",
     };
   } catch (err) {
-    console.error(err);
+    logger.error(err);
 
     return {
       success: false,

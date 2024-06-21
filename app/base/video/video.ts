@@ -5,7 +5,7 @@ import type { VideoComponentOptions } from "../../../typings/index.js";
 import { showToast } from "../../api/index.js";
 
 $Component({
-  properties: {
+  props: {
     /** 媒体组件配置 */
     config: {
       type: Object as PropType<VideoComponentOptions>,
@@ -15,7 +15,7 @@ $Component({
 
   lifetimes: {
     attached() {
-      // FIXME: Now styline has bugs in setPassiveEvent
+      // FIXME: Now skyline has bugs in setPassiveEvent
       if (this.renderer !== "skyline")
         this.setPassiveEvent?.({
           touchstart: false,

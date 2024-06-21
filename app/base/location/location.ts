@@ -15,7 +15,7 @@ const getPoint = (point: LocationConfig & { id: number }): string =>
   });
 
 $Component({
-  properties: {
+  props: {
     /** 普通列表配置 */
     config: {
       type: Object as PropType<LocationComponentOptions>,
@@ -65,23 +65,6 @@ $Component({
   },
 
   methods: {
-    startNavigation({
-      latitude,
-      longitude,
-      name,
-    }: LocationConfig & { id: number }) {
-      this.createSelectorQuery()
-        .select("#location")
-        .context(({ context }) => {
-          (context as WechatMiniprogram.MapContext).openMapApp({
-            latitude,
-            longitude,
-            destination: name || this.data.config.title,
-          });
-        })
-        .exec();
-    },
-
     navigate() {
       const { config, id, markers } = this.data;
 
@@ -98,27 +81,44 @@ $Component({
       if (hasDetail) {
         const point = this.data.markers[id];
 
-        this.$go(`location?id=${point.path!}&point=${getPoint(point)}`);
+        this.$go(`map-detail?id=${point.path!}&point=${getPoint(point)}`);
       }
     },
 
-    markerTap({ detail }: WechatMiniprogram.MarkerTap) {
+    onMarkerTap({ detail }: WechatMiniprogram.MarkerTap) {
       const id = detail.markerId;
       const point = this.data.markers[id];
 
       this.setData({ id, title: point.name, hasDetail: Boolean(point.path) });
 
-      if (point.path) this.$preload(`location?id=${point.path}`);
+      if (point.path) this.$preload(`map-detail?id=${point.path}`);
     },
 
-    calloutTap({ detail }: WechatMiniprogram.CalloutTap) {
+    onCalloutTap({ detail }: WechatMiniprogram.CalloutTap) {
       const point = this.data.markers[detail.markerId];
       const { navigate } = this.data.config;
 
       if (point.path)
-        this.$go(`location?id=${point.path}&point=${getPoint(point)}`);
+        this.$go(`map-detail?id=${point.path}&point=${getPoint(point)}`);
       else if (navigate !== false)
         this.startNavigation(this.data.markers[detail.markerId]);
+    },
+
+    startNavigation({
+      latitude,
+      longitude,
+      name,
+    }: LocationConfig & { id: number }) {
+      this.createSelectorQuery()
+        .select("#location")
+        .context(({ context }) => {
+          (context as WechatMiniprogram.MapContext).openMapApp({
+            latitude,
+            longitude,
+            destination: name || this.data.config.title,
+          });
+        })
+        .exec();
     },
   },
 });

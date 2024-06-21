@@ -1,14 +1,24 @@
 import { URLSearchParams, logger } from "@mptool/all";
 
+import { withActionLogin } from "./login.js";
 import { ACTION_SERVER } from "./utils.js";
-import type { CommonFailedResponse } from "../../../typings/index.js";
 import { request } from "../../api/index.js";
-import { LoginFailType } from "../loginFailTypes.js";
-import { createService, isWebVPNPage } from "../utils.js";
+import type {
+  CommonFailedResponse,
+  CommonSuccessResponse,
+} from "../utils/index.js";
+import {
+  ActionFailType,
+  ExpiredResponse,
+  UnknownResponse,
+  createService,
+  isWebVPNPage,
+  supportRedirect,
+} from "../utils/index.js";
 
 const EMAIL_INFO_URL = `${ACTION_SERVER}/extract/getEmailInfo`;
 
-interface RawEmailItem {
+interface RawEmailData {
   /** 发件人 */
   from: string;
   /** 邮件ID */
@@ -44,7 +54,7 @@ interface RawRecentMailSuccessResponse {
     con: {
       /** 总数 */
       total: number;
-      var: RawEmailItem[];
+      var: RawEmailData[];
     };
   };
 }
@@ -62,7 +72,7 @@ type RawRecentMailResponse =
   | RawRecentMailSuccessResponse
   | RawRecentMailFailedResponse;
 
-export interface EmailItem {
+export interface EmailData {
   /** 邮件主题 */
   subject: string;
   /** 接收日期 */
@@ -77,72 +87,87 @@ export interface EmailItem {
   unread: boolean;
 }
 
-export interface ActionRecentMailSuccessResponse {
-  success: true;
+const getEmailData = ({
+  subject,
+  receivedDate,
+  from,
+  id,
+  flags,
+}: RawEmailData): EmailData => ({
+  subject,
+  receivedDate,
+  name: /"(.*)"/.exec(from)?.[1] ?? from,
+  email: /<(.*)>/.exec(from)?.[1] ?? from,
+  mid: id,
+  unread: !flags.read,
+});
+
+export interface ActionRecentMailData {
   /** 未读数 */
   unread: number;
   /** 近期邮件 */
-  recent: EmailItem[];
-}
-
-export interface ActionRecentMailFailedResponse extends CommonFailedResponse {
-  type?: LoginFailType.Expired | "not-initialized";
+  emails: EmailData[];
 }
 
 export type ActionRecentMailResponse =
-  | ActionRecentMailSuccessResponse
-  | ActionRecentMailFailedResponse;
+  | CommonSuccessResponse<ActionRecentMailData>
+  | CommonFailedResponse<
+      | ActionFailType.Expired
+      | ActionFailType.NotInitialized
+      | ActionFailType.Unknown
+    >;
 
 const getRecentEmailsLocal = async (): Promise<ActionRecentMailResponse> => {
-  const { data: checkResult } = await request<RawRecentMailResponse | string>(
-    EMAIL_INFO_URL,
-    {
-      method: "POST",
-      headers: {
-        Accept: "application/json, text/javascript, */*; q=0.01",
+  try {
+    const { data, status } = await request<RawRecentMailResponse>(
+      EMAIL_INFO_URL,
+      {
+        method: "POST",
+        headers: {
+          Accept: "application/json, text/javascript, */*; q=0.01",
+        },
+        body: new URLSearchParams({
+          domain: "nenu.edu.cn",
+          type: "1",
+          format: "json",
+        }),
+        redirect: "manual",
       },
-      body: new URLSearchParams({
-        domain: "nenu.edu.cn",
-        type: "1",
-        format: "json",
-      }),
-      cookieScope: EMAIL_INFO_URL,
-    },
-  );
+    );
 
-  if (typeof checkResult === "string" && isWebVPNPage(checkResult))
+    if (
+      status === 302 ||
+      // Note: On QQ the status code is 404
+      status === 404 ||
+      // Note: If the env does not support "redirect: manual", the response will be a 302 redirect to WebVPN login page
+      // In this case, the response.status will be 200 and the response body will be the WebVPN login page
+      (!supportRedirect && isWebVPNPage(data))
+    ) {
+      return ExpiredResponse;
+    }
+
+    if ("success" in data && data.success && data.emailList.con) {
+      return {
+        success: true,
+        data: {
+          unread: Number(data.count),
+          emails: data.emailList.con.var.map(getEmailData),
+        },
+      };
+    }
+
     return {
       success: false,
-      type: LoginFailType.Expired,
-      msg: "登录已过期，请重新登录",
+      type: ActionFailType.NotInitialized,
+      msg: "用户无邮箱或未初始化邮箱",
     };
+  } catch (err) {
+    const { message } = err as Error;
 
-  if (
-    typeof checkResult === "object" &&
-    "success" in checkResult &&
-    checkResult.success &&
-    checkResult.emailList.con
-  )
-    return {
-      success: true,
-      unread: Number(checkResult.count),
-      recent: checkResult.emailList.con.var.map(
-        ({ subject, receivedDate, from, id, flags }) => ({
-          subject,
-          receivedDate,
-          name: /"(.*)"/.exec(from)?.[1] ?? from,
-          email: /<(.*)>/.exec(from)?.[1] ?? from,
-          mid: id,
-          unread: !flags.read,
-        }),
-      ),
-    };
+    logger.error(err);
 
-  return {
-    success: false,
-    type: "not-initialized",
-    msg: "用户无邮箱或未初始化邮箱",
-  };
+    return UnknownResponse(message);
+  }
 };
 
 const getRecentEmailsOnline = async (): Promise<ActionRecentMailResponse> =>
@@ -155,8 +180,6 @@ const getRecentEmailsOnline = async (): Promise<ActionRecentMailResponse> =>
     return data;
   });
 
-export const getRecentEmails = createService(
-  "recent-email",
-  getRecentEmailsLocal,
-  getRecentEmailsOnline,
+export const getRecentEmails = withActionLogin(
+  createService("recent-email", getRecentEmailsLocal, getRecentEmailsOnline),
 );

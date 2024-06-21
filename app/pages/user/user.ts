@@ -1,18 +1,19 @@
-import { $Page, get, put, set, take } from "@mptool/all";
+import { $Page, get, logger, put, set, take } from "@mptool/all";
 
 import { footer } from "./info.js";
 import type { PageStateWithContent } from "../../../typings/index.js";
+import { checkResource } from "../../app/index.js";
 import type { App } from "../../app.js";
 import {
   DAY,
   appCoverPrefix,
   appName,
+  assets,
   description,
 } from "../../config/index.js";
 import { reportUserInfo } from "../../service/index.js";
-import { info, user } from "../../state/index.js";
+import { env, info, user } from "../../state/index.js";
 import {
-  checkResource,
   getPageColor,
   resolvePage,
   setPage,
@@ -23,17 +24,27 @@ const { globalData } = getApp<App>();
 
 const PAGE_ID = "user";
 const PAGE_TITLE = "我的东师";
+const PAGE_KEY = `${PAGE_ID}-page-data`;
 
-const defaultPage = resolvePage(
-  { id: PAGE_ID },
-  get<PageStateWithContent>(PAGE_ID) ||
-    ({
+let defaultPage: PageStateWithContent | null = null;
+
+try {
+  defaultPage = resolvePage(
+    { id: PAGE_ID },
+    get<PageStateWithContent>(PAGE_KEY),
+  ) as PageStateWithContent | null;
+} catch (err) {
+  logger.error(err);
+} finally {
+  if (!defaultPage) {
+    defaultPage = {
       title: PAGE_TITLE,
       grey: true,
       hidden: true,
-      content: [{ tag: "loading" }],
-    } as PageStateWithContent),
-) as PageStateWithContent;
+      content: [],
+    } as PageStateWithContent;
+  }
+}
 
 $Page(PAGE_ID, {
   data: {
@@ -41,7 +52,8 @@ $Page(PAGE_ID, {
 
     userName: appName,
 
-    logo: "/frameset/placeholder.png",
+    logo:
+      env === "qq" ? `${assets}img/inNENU.png` : "/frameset/placeholder.png",
     footer: {
       author: "",
       desc: footer,
@@ -56,7 +68,7 @@ $Page(PAGE_ID, {
 
     if (data) put(PAGE_ID, resolvePage({ id: PAGE_ID }, data));
 
-    console.debug(`User page loading time: ${Date.now() - info.startupTime}ms`);
+    logger.debug(`User page loading time: ${Date.now() - info.startupTime}ms`);
   },
 
   onLoad() {
@@ -114,12 +126,8 @@ $Page(PAGE_ID, {
     this.$off("theme", this.setTheme);
   },
 
-  rate() {
-    (
-      requirePlugin("wxacommentplugin") as {
-        openComment: (option: unknown) => void;
-      }
-    ).openComment({});
+  goToSettings() {
+    this.$go("settings");
   },
 
   setTheme(theme: string): void {
@@ -136,7 +144,7 @@ $Page(PAGE_ID, {
       content: globalData.settings.user,
     };
 
-    set(PAGE_ID, userPage, 3 * DAY);
+    set(PAGE_KEY, userPage, 3 * DAY);
 
     return userPage;
   },
@@ -154,5 +162,10 @@ $Page(PAGE_ID, {
     }
   },
 
-  reportUserInfo,
+  reportInfo: reportUserInfo,
+
+  // NOTE: For QQ Only
+  addToDesktop() {
+    wx.saveAppToDesktop();
+  },
 });

@@ -1,25 +1,25 @@
 <view class="card widget wrapper-class">
   <view class="widget-header">
-    {{enableBalance? enableQrcode? '校园卡': '校园卡余额': '校园卡二维码'}}
+    校园卡余额
     <button
-      wx:if="{{enableBalance}}"
       class="refresh-button"
       type="default"
       size="mini"
-      catch:tap="refreshBalance"
+      catch:tap="getCardBalance"
     >
       <text class="refresh-button-icon" />
     </button>
   </view>
   <error-hint
     wx:if="{{ status === 'error' }}"
+    hint="{{errMsg}}"
     size="mini"
-    catch:retry="getCardBalance"
+    hide-retry
   />
   <login-hint wx:elif="{{ status === 'login' }}" size="mini" />
   <view wx:else class="widget-body">
     <view class="widget-content">
-      <view wx:if="{{enableBalance}}" class="money">
+      <view class="money">
         <image
           wx:if="{{status === 'loading'}}"
           class="loading"

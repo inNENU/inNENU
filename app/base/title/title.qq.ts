@@ -5,7 +5,7 @@ import type { TitleComponentOptions } from "../../../typings/index.js";
 import { info } from "../../state/index.js";
 
 $Component({
-  properties: {
+  props: {
     /** 段落配置 */
     config: {
       type: Object as PropType<TitleComponentOptions>,

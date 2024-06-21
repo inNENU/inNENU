@@ -1,4 +1,5 @@
 export type WidgetSize = "small" | "medium" | "large";
+export type LoginWidgetStatus = "loading" | "error" | "login" | "success";
 export type WidgetStatus = "loading" | "error" | "login" | "success";
 
 export interface WidgetConfig {

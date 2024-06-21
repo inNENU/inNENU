@@ -1,0 +1,221 @@
+{
+  "entryPagePath": "pages/main/main",
+  "pages": [
+    "pages/main/main",
+    "pages/function/function",
+    "pages/guide/guide",
+    "pages/intro/intro",
+    "pages/user/user",
+    "pages/info/info"
+  ],
+  "subPackages": [
+    {
+      "name": "addon",
+      "root": "pkg/addon",
+      "pages": [
+        "pages/about/about",
+        "pages/action/action",
+        "pages/license/license",
+        "pages/privacy/privacy",
+        "pages/search/search",
+        "pages/settings/settings",
+        "pages/settings/widget",
+        "pages/web/web"
+      ],
+      "plugins": {
+        "wxacommentplugin": {
+          "version": "latest",
+          "provider": "wx82e6ae1175f264fa"
+        }
+      }
+    },
+    {
+      "name": "tool",
+      "root": "pkg/tool",
+      "pages": [
+        "pages/admission/admission",
+        "pages/calendar/calendar",
+        "pages/enroll/grade-under",
+        "pages/enroll/plan-grad",
+        "pages/enroll/plan-under",
+        "pages/official/academic-detail",
+        "pages/official/academic-list",
+        "pages/official/info-detail",
+        "pages/official/info-list",
+        "pages/official/notice-detail",
+        "pages/official/notice-list",
+        "pages/map/detail",
+        "pages/map/map",
+        "pages/music/music",
+        "pages/pe-calculator/pe-calculator",
+        "pages/phone/phone",
+        "pages/school-media/school-media",
+        "pages/video/video",
+        "pages/weather/weather",
+        "pages/website/website",
+        "pages/wechat/wechat"
+      ],
+      "plugins": {
+        "player": {
+          "version": "latest",
+          "provider": "wxa75efa648b60994b"
+        }
+      }
+    },
+    {
+      "name": "user",
+      "root": "pkg/user",
+      "pages": [
+        "pages/account/activate",
+        "pages/account/login",
+        "pages/account/reset",
+        "pages/archive/create-under",
+        "pages/archive/view-under",
+        "pages/commentary/under",
+        "pages/grade/grade",
+        "pages/grade/special",
+        "pages/email/apply",
+        "pages/email/recent",
+        "pages/library/library",
+        "pages/notice/detail",
+        "pages/notice/list",
+        "pages/select/under",
+
+        "pages/change-major/change-major",
+        "pages/course-table/course-table",
+        "pages/exam-place/exam-place"
+      ]
+    }
+  ],
+  "preloadRule": {
+    "pages/main/main": {
+      "network": "all",
+      "packages": ["addon"]
+    },
+    "pages/guide/guide": {
+      "network": "all",
+      "packages": ["addon"]
+    },
+    "pages/intro/intro": {
+      "network": "all",
+      "packages": ["addon"]
+    },
+    "pages/function/function": {
+      "network": "all",
+      "packages": ["addon", "tool", "user"]
+    },
+    "pages/user/user": {
+      "network": "all",
+      "packages": ["addon", "user"]
+    }
+  },
+  "plugins": {
+    "routePlan": {
+      "version": "latest",
+      "provider": "wx50b5593e81dd937a"
+    }
+  },
+  "window": {
+    "navigationBarBackgroundColor": "@navBgColor",
+    "navigationBarTextStyle": "@navTextStyle",
+    "navigationBarTitleText": "weNENU",
+    "navigationStyle": "custom",
+    "backgroundColor": "@bgColor",
+    "backgroundTextStyle": "@bgTxtStyle",
+    "backgroundColorTop": "@bgColorTop",
+    "backgroundColorBottom": "@bgColorBottom",
+    "pageOrientation": "portrait"
+  },
+  "tabBar": {
+    "custom": false,
+    "color": "@tabColor",
+    "selectedColor": "#2ecc71",
+    "borderStyle": "@tabBorderStyle",
+    "backgroundColor": "@tabBgColor",
+    "position": "bottom",
+    "list": [
+      {
+        "pagePath": "pages/main/main",
+        "text": "首页",
+        "iconPath": "@homeIcon",
+        "selectedIconPath": "icon/tab/home.png"
+      },
+      {
+        "pagePath": "pages/intro/intro",
+        "text": "东师介绍",
+        "iconPath": "@introIcon",
+        "selectedIconPath": "icon/tab/intro.png"
+      },
+      {
+        "pagePath": "pages/guide/guide",
+        "text": "东师指南",
+        "iconPath": "@guideIcon",
+        "selectedIconPath": "icon/tab/guide.png"
+      },
+      {
+        "pagePath": "pages/function/function",
+        "text": "功能大厅",
+        "iconPath": "@functionIcon",
+        "selectedIconPath": "icon/tab/function.png"
+      },
+      {
+        "pagePath": "pages/user/user",
+        "text": "我的东师",
+        "iconPath": "@userIcon",
+        "selectedIconPath": "icon/tab/user.png"
+      }
+    ]
+  },
+  "debug": false,
+  "frameset": true,
+  "resizable": true,
+  "permission": {
+    "scope.userLocation": {
+      "desc": "您的位置信息将用于校园地图导航"
+    }
+  },
+  "requiredBackgroundModes": ["audio"],
+  "usingComponents": {
+    "account": "/base/account/account",
+    "audio-player": "/base/audio/audio",
+    "action": "/base/action/action",
+    "back-button": "/base/back-button/back-button",
+    "card": "/base/card/card",
+    "carousel": "/base/carousel/carousel",
+    "doc": "/base/doc/doc",
+    "functional-list": "/base/functional-list/functional-list",
+    "footer": "/base/footer/footer",
+    "grid": "/base/grid/grid",
+    "img": "/base/img/img",
+    "list": "/base/list/list",
+    "location": "/base/location/location",
+    "navbar": "/base/navbar/navbar",
+    "plain-text": "/base/plain-text/plain-text",
+    "phone": "/base/phone/phone",
+    "share": "/base/share/share",
+    "table": "/base/table/table",
+    "title": "/base/title/title",
+    "video-player": "/base/video/video",
+    "license": "/components/license/license"
+  },
+  "style": "v2",
+  "darkmode": true,
+  "themeLocation": "styles/theme.json",
+  "sitemapLocation": "sitemap.json",
+  "lazyCodeLoading": "requiredComponents",
+  "requiredPrivateInfos": ["getLocation"],
+  "singlePage": {
+    "navigationBarFit": "float"
+  },
+  "halfPage": {
+    "firstPageNavigationStyle": "custom"
+  },
+  "componentFramework": "glass-easel",
+  "enablePassiveEvent": true,
+  "rendererOptions": {
+    "skyline": {
+      "defaultDisplayBlock": true,
+      "defaultContentBox": true
+    }
+  }
+}

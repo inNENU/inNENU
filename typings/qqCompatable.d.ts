@@ -130,17 +130,36 @@ declare namespace WechatMiniprogram {
   }
 
   interface Wx {
-    /** 在手机桌面上添加该小程序的快捷启动图标。 */
+    /**
+     * @kind qq
+     * 手机桌面上添加该小程序的快捷启动图标。
+     */
     saveAppToDesktop(option?: SaveAppToDesktopOption): void;
 
-    /** 获取群相关信息 */
+    /**
+     * @kind qq
+     *
+     * 获取群相关信息
+     */
     getGroupInfo(option?: GetGroupInfoOption): void;
 
-    /** 获取当前小程序是否添加了群应用 */
+    /**
+     * @kind qq
+     *
+     * 获取当前小程序是否添加了群应用
+     */
     getGroupAppStatus(option?: GetGroupAppStatusOption): void;
-    /** 查询用户是否已经将本小程序添加到下拉页面中“我的小程序”当中 */
+    /**
+     * @kind qq
+     *
+     * 查询用户是否已经将本小程序添加到下拉页面中“我的小程序”当中
+     */
     isAddedToMyApps(option?: IsAddedToMyAppsOption): void;
-    /** 查询用户是否已经将本小程序添加到下拉页面中“我的小程序”当中 */
+    /**
+     * @kind qq
+     *
+     * 申请用户将本小程序添加到下拉页面中“我的小程序”当中
+     */
     applyAddToMyApps(option?: ApplyAddToMyAppsOption): void;
   }
 }

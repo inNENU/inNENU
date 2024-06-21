@@ -24,8 +24,10 @@
       style="padding-left:{{paddingInline}}px;padding-right:{{paddingInline}}px; "
     >
       <slot>
-        <view class="text">{{config.text}}</view>
-        <view wx:if="{{config.desc}}" class="desc">{{config.desc}}</view>
+        <view class="text"><text>{{config.text}}</text></view>
+        <view wx:if="{{config.desc}}" class="desc">
+          <text>{{config.desc}}</text>
+        </view>
       </slot>
     </view>
     <view
@@ -38,10 +40,10 @@
         type="default"
         catch:tap="cancel"
       >
-        {{config.cancel || '取消'}}
+        <text>{{config.cancel || '取消'}}</text>
       </button>
       <button class="button primary" type="primary" catch:tap="confirm">
-        {{config.confirm || '确认'}}
+        <text>{{config.confirm || '确认'}}</text>
       </button>
     </view>
   </view>

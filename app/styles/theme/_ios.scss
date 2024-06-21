@@ -14,6 +14,10 @@
   text-align: center;
 }
 
+scroll-view.ios {
+  height: 100%;
+}
+
 .ios.grey {
   background-color: var(--bg-color-grey);
 }

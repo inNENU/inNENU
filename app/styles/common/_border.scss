@@ -1,12 +1,12 @@
 /* 上下边框 */
-.bt,
-.bb,
-.btb {
+.border-top,
+.border-bottom,
+.border-block {
   position: relative;
 }
 
-.bt,
-.btb {
+.border-top,
+.border-block {
   &::before {
     top: 0;
     border-top: 1px solid var(--border-color);
@@ -14,8 +14,8 @@
   }
 }
 
-.bb,
-.btb {
+.border-bottom,
+.border-block {
   &::after {
     bottom: 0;
     border-bottom: 1px solid var(--border-color);
@@ -23,10 +23,10 @@
   }
 }
 
-.bt::before,
-.bb::after,
-.btb::before,
-.btb::after {
+.border-top::before,
+.border-bottom::after,
+.border-block::before,
+.border-block::after {
   content: " ";
 
   position: absolute;

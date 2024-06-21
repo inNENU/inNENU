@@ -1,11 +1,11 @@
 import type { PropType } from "@mptool/all";
-import { $Component } from "@mptool/all";
+import { $Component, logger } from "@mptool/all";
 
 import type { ImageComponentOptions } from "../../../typings/index.js";
 import { imageWaterMark } from "../../config/index.js";
 
 $Component({
-  properties: {
+  props: {
     /** 图片组件配置 */
     config: {
       type: Object as PropType<ImageComponentOptions>,
@@ -31,7 +31,7 @@ $Component({
 
       this.setData({ error: true });
 
-      console.warn(`${src}图片加载失败`);
+      logger.warn(`图片加载失败`, src);
       wx.reportEvent?.("resource_load_failed", {
         // eslint-disable-next-line @typescript-eslint/naming-convention
         broken_url: src,

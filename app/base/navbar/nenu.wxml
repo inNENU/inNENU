@@ -1,21 +1,14 @@
 <wxs src="./navbar.wxs" module="navbar" />
 <template name="nenuNav">
   <block wx:if="{{nav.action === undefined}}">
-    <view
-      class="left-button {{borderDisplay ? 'fade-in' : 'fade-out'}}"
-      style="top:{{statusBarHeight + 6}}px;"
-      hover-class="button-hover"
-      catch:tap="$bindBack"
-    >
-      <view class="icon-{{firstPage ? 'home' : 'back'}}" />
-    </view>
+    <back-button button-class="{{borderDisplay ? 'fade-in' : 'fade-out'}}" />
     <view
       class="nenu-navigation-bar {{titleDisplay ? 'fade-out' : 'fade-in'}}"
       style="background-color: {{color}}; padding-top: {{statusBarHeight}}px;"
     >
       <view
         class="ios-nav-back-button"
-        hover-class="left-button-hover"
+        hover-class="text-button-hover"
         style="position: absolute; left: 0"
         catch:tap="$bindBack"
       >
@@ -35,7 +28,7 @@
       <view
         wx:if="{{nav.action !== false}}"
         class="ios-nav-back-button"
-        hover-class="left-button-hover"
+        hover-class="text-button-hover"
         style="position: absolute; left: 0"
         data-action="{{nav.action}}"
         catch:tap="{{navbar.action}}"

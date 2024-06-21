@@ -4,9 +4,9 @@
   grid-auto-rows: minmax(160px, auto);
   grid-auto-columns: 160px;
   gap: 8px;
-  align-items: center;
+  align-content: space-evenly;
   align-items: stretch;
-  place-content: space-evenly space-evenly;
+  justify-content: space-evenly;
 
   margin: 16px;
 }

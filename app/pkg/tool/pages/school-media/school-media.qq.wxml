@@ -1,0 +1,85 @@
+<wxs module="utils" src="./school-media.wxs" />
+<template name="account">
+  <image class="logo" src="{{logo}}" />
+  <view class="detail">
+    <view class="name">{{name}}</view>
+    <view class="desc">{{desc}}</view>
+  </view>
+</template>
+<page-meta
+  background-text-style="{{darkmode ? 'dark' : 'light'}}"
+  background-color="{{color.bgColor}}"
+  background-color-top="{{color.bgColorTop}}"
+  background-color-bottom="{{color.bgColorBottom}}"
+  root-background-color="{{color.bgColor}}"
+/>
+<view class="ios">
+  <header title="{{title}}" />
+  <view class="switch">
+    <view
+      class="item {{type === 'qq' ? 'active' : ''}}"
+      data-type="qq"
+      catch:tap="switch"
+      >QQ</view
+    >
+    <view
+      class="item {{type === 'wx' ? 'active' : ''}}"
+      data-type="wx"
+      catch:tap="switch"
+      >微信</view
+    >
+  </view>
+  <tab-bar nav-list="{{utils.getName(config)}}" height="{{height || 300}}">
+    <block
+      wx:for="{{config}}"
+      wx:key="name"
+      wx:for-item="category"
+      wx:for-index="groupIndex"
+    >
+      <scroll-view
+        scroll-y
+        class="account-wrapper"
+        slot="page{{groupIndex + 1}}"
+      >
+        <block wx:if="{{type === 'qq'}}">
+          <block wx:for="{{category.account}}" wx:key="name">
+            <button
+              wx:if="{{item.openid}}"
+              class="account-item border-bottom"
+              hover-class="button-hover"
+              plain
+              open-type="addFriend"
+              open-id="{{item.openid}}"
+            >
+              <template is="account" data="{{...item}}" />
+            </button>
+            <view
+              wx:else
+              class="account-item border-bottom"
+              hover-class="button-hover"
+              data-id="{{item.id}}"
+              data-qrcode="{{item.qrcode}}"
+              catch:tap="detail"
+            >
+              <template is="account" data="{{...item}}" />
+            </view>
+          </block>
+        </block>
+        <block wx:elif="{{type === 'wx'}}">
+          <view
+            wx:for="{{category.account}}"
+            wx:key="name"
+            class="account-item border-bottom"
+            hover-class="button-hover"
+            hover-stay-time="100"
+            data-url="{{'wechat?from=校园媒体&path=' + item.path}}"
+            catch:tap="$bindGo"
+          >
+            <template is="account" data="{{...item}}" />
+          </view>
+        </block>
+      </scroll-view>
+    </block>
+  </tab-bar>
+  <footer config="{{footer}}" />
+</view>

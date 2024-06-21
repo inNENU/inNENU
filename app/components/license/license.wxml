@@ -57,12 +57,12 @@
     </view>
     <view class="license-footer">
       <button
-        class="license-button refuse"
+        class="license-button warn"
         type="warn"
         size="mini"
         catch:tap="refuse"
       >
-        <text> 拒绝</text>
+        拒绝
       </button>
       <button
         class="license-button primary"
@@ -70,7 +70,7 @@
         size="mini"
         catch:tap="accept"
       >
-        <text> 同意</text>
+        同意
       </button>
     </view>
   </view>

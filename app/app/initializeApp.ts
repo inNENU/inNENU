@@ -1,10 +1,10 @@
 /* eslint-disable max-lines */
 import { emitter, logger, writeJSON } from "@mptool/all";
 
+import { defaultResources, downloadResource } from "./resource.js";
 import type { VersionInfo } from "../../typings/index.js";
 import { request } from "../api/index.js";
 import { DEFAULT_CONFIG, INITIALIZED_KEY, server } from "../config/index.js";
-import { defaultResources, downloadResource } from "../utils/index.js";
 
 /** 初始化小程序 */
 export const initializeApp = (): void => {
@@ -56,7 +56,7 @@ export const initializeApp = (): void => {
       );
     })
     .then((data) => {
-      console.log("Version info", data);
+      console.debug("Version info", data);
       writeJSON("resource-version", data.version);
       // 成功初始化
       wx.setStorageSync(INITIALIZED_KEY, true);

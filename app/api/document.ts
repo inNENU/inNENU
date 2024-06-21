@@ -1,3 +1,5 @@
+import { logger } from "@mptool/all";
+
 import { downLoad } from "./net.js";
 import { showModal, showToast } from "./ui.js";
 
@@ -8,10 +10,10 @@ export const openDocument = (url: string): void => {
         filePath,
         showMenu: true,
         success: () => {
-          console.log(`Open document ${filePath} success`);
+          logger.debug(`Open document ${filePath} success`);
         },
         fail: ({ errMsg }) => {
-          console.log(`Open document ${filePath} failed: ${errMsg}`);
+          logger.warn(`Open document ${filePath} failed: ${errMsg}`);
         },
       });
     })
@@ -40,10 +42,10 @@ export const saveDocument = (
           filePath,
           success: () => {
             showModal("文件已保存", "文件已保存至“微信收藏”");
-            console.log(`Add document ${url} to favorites success`);
+            logger.debug("成功添加至收藏", url);
           },
           fail: ({ errMsg }) => {
-            console.log(`Add document ${url} to favorites failed: ${errMsg}`);
+            logger.warn(url, "添加至收藏失败", errMsg);
           },
         });
       })

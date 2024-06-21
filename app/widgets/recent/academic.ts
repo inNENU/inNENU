@@ -1,19 +1,17 @@
 import type { PropType } from "@mptool/all";
 import { $Component, get, set } from "@mptool/all";
 
-import { showToast } from "../../api/index.js";
 import { HOUR, SITE_ACADEMIC_LIST_KEY } from "../../config/index.js";
-import type { AcademicInfoItem } from "../../service/index.js";
-import { ensureActionLogin, getAcademicList } from "../../service/index.js";
-import { user } from "../../state/index.js";
+import type { OfficialAcademicInfoItem } from "../../service/index.js";
+import { getOfficialAcademicList } from "../../service/index.js";
 import type { WidgetSize, WidgetStatus } from "../utils.js";
 import { getSize } from "../utils.js";
 
 $Component({
-  properties: {
+  props: {
     type: {
-      type: String as PropType<"通知公告 (小)" | "通知公告" | "通知公告 (大)">,
-      default: "通知公告",
+      type: String as PropType<"学术预告 (小)" | "学术预告" | "学术预告 (大)">,
+      default: "学术预告",
     },
   },
 
@@ -27,62 +25,33 @@ $Component({
       const { type } = this.data;
 
       const size = getSize(type);
+      const data = get<OfficialAcademicInfoItem[]>(SITE_ACADEMIC_LIST_KEY);
 
-      this.setData({ size }, () => {
-        const data = get<AcademicInfoItem[]>(SITE_ACADEMIC_LIST_KEY);
-
-        if (data)
-          this.setData({
-            status: "success",
-            data: size === "large" ? data : data.slice(0, 5),
-          });
-        else this.getAcademicList("validate");
-      });
-    },
-  },
-
-  pageLifetimes: {
-    show() {
-      if (user.account) {
-        if (this.data.status === "login") {
-          this.setData({ status: "loading" });
-          this.getAcademicList("validate");
-        }
-      } else this.setData({ status: "login" });
+      this.setData({ size });
+      if (data)
+        this.setData({
+          status: "success",
+          data: size === "large" ? data : data.slice(0, 5),
+        });
+      else this.getOfficialAcademicList();
     },
   },
 
   methods: {
-    async getAcademicList(status: "check" | "login" | "validate" = "check") {
+    async getOfficialAcademicList() {
       const { size } = this.data;
 
-      if (user.account) {
-        const err = await ensureActionLogin(user.account, status);
+      const result = await getOfficialAcademicList();
 
-        if (err) {
-          showToast(err.msg);
+      if (!result.success) return this.setData({ status: "error" });
 
-          return this.setData({ status: "error" });
-        }
+      const { data } = result;
 
-        try {
-          const result = await getAcademicList();
-
-          if (result.success) {
-            const { data } = result;
-
-            this.setData({
-              status: "success",
-              data: size === "large" ? data : data.slice(0, 5),
-            });
-            set(SITE_ACADEMIC_LIST_KEY, data, HOUR);
-          } else {
-            this.setData({ status: "error" });
-          }
-        } catch (err) {
-          this.setData({ status: "error" });
-        }
-      } else this.setData({ status: "login" });
+      this.setData({
+        status: "success",
+        data: size === "large" ? data : data.slice(0, 5),
+      });
+      set(SITE_ACADEMIC_LIST_KEY, data, HOUR);
     },
 
     viewInfo({
@@ -90,21 +59,16 @@ $Component({
     }: WechatMiniprogram.TouchEvent<
       Record<string, never>,
       Record<string, never>,
-      { info: AcademicInfoItem }
+      { info: OfficialAcademicInfoItem }
     >) {
       const { subject, url } = currentTarget.dataset.info;
 
-      return this.$go(`academic-detail?title=${subject}&url=${url}`);
+      return this.$go(`official-academic-detail?title=${subject}&url=${url}`);
     },
 
     refresh() {
       this.setData({ status: "loading" });
-      this.getAcademicList();
-    },
-
-    retry() {
-      this.setData({ status: "loading" });
-      this.getAcademicList("login");
+      this.getOfficialAcademicList();
     },
   },
 

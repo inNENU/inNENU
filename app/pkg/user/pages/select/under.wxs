@@ -1,0 +1,37 @@
+module.exports = {
+  tabBars: ["课程表", "课程列表", "更多信息"],
+  sorterNames: ["名称", "教师", "空余量", "已选人数", "容量"],
+
+  getRange: function (values, key) {
+    var result = values.map(function (item) {
+      return key ? item[key] : item;
+    });
+
+    result.unshift("全部");
+
+    return result;
+  },
+
+  getPickerDisplay: function (values, index, key) {
+    if (index === 0) {
+      return "全部";
+    }
+
+    var value = values[index - 1];
+
+    return key ? value[key] : value;
+  },
+
+  getTime: function (times, weeks) {
+    if (times) {
+      return times
+        .split(",")
+        .map(function (time) {
+          return weeks[time[0] - 1] + time.substring(1) + "节";
+        })
+        .join(" ");
+    }
+
+    return "";
+  },
+};

@@ -1,12 +1,12 @@
-import { $Page, get, put, set, take } from "@mptool/all";
+import { $Page, get, logger, put, set, take } from "@mptool/all";
 
 import type { PageStateWithContent } from "../../../typings/index.js";
+import { checkResource } from "../../app/index.js";
 import type { App } from "../../app.js";
 import { DAY, appCoverPrefix } from "../../config/index.js";
 import { searchMiniApp } from "../../service/index.js";
-import { getIdentity, info } from "../../state/index.js";
+import { getIdentity, info, menuSpace } from "../../state/index.js";
 import {
-  checkResource,
   getPageColor,
   resolvePage,
   setPage,
@@ -17,27 +17,36 @@ const { globalData } = getApp<App>();
 
 const PAGE_ID = "function";
 const PAGE_TITLE = "功能大厅";
+const PAGE_KEY = `${PAGE_ID}-page-data`;
 
-const defaultPage = resolvePage(
-  { id: PAGE_ID },
-  get<PageStateWithContent>(PAGE_ID) ||
-    ({
+let defaultPage: PageStateWithContent | null = null;
+
+try {
+  defaultPage = resolvePage(
+    { id: PAGE_ID },
+    get<PageStateWithContent>(PAGE_KEY),
+  ) as PageStateWithContent | null;
+} catch (err) {
+  logger.error(err);
+} finally {
+  if (!defaultPage) {
+    defaultPage = {
       title: PAGE_TITLE,
       grey: true,
       hidden: true,
-      content: [{ tag: "loading" }],
-    } as PageStateWithContent),
-) as PageStateWithContent;
+      content: [],
+    } as PageStateWithContent;
+  }
+}
 
 $Page(PAGE_ID, {
   data: {
     theme: info.theme,
     statusBarHeight: info.statusBarHeight,
+    menuSpace,
 
     /** 页面数据 */
     page: defaultPage,
-
-    menuSpace: info.platform === "android" || info.platform === "ios" ? 90 : 10,
   },
 
   onPreload() {
@@ -45,7 +54,7 @@ $Page(PAGE_ID, {
 
     if (data) put(PAGE_ID, resolvePage({ id: PAGE_ID }, data));
 
-    console.debug(
+    logger.debug(
       `Function page loading time: ${Date.now() - info.startupTime}ms`,
     );
   },
@@ -80,10 +89,7 @@ $Page(PAGE_ID, {
   // eslint-disable-next-line @typescript-eslint/no-empty-function
   onPageScroll() {},
 
-  onShareAppMessage: () => ({
-    title: PAGE_TITLE,
-    path: "/pages/function/function",
-  }),
+  onShareAppMessage: () => ({ title: PAGE_TITLE }),
 
   onShareTimeline: () => ({ title: PAGE_TITLE }),
 
@@ -118,7 +124,7 @@ $Page(PAGE_ID, {
       content: functionPresets[configName],
     };
 
-    set(PAGE_ID, functionPage, 3 * DAY);
+    set(PAGE_KEY, functionPage, 3 * DAY);
 
     return functionPage;
   },

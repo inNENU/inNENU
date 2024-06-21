@@ -13,33 +13,27 @@ page {
 
 .button-hover {
   background-color: var(--bg-hover) !important;
-  color: inherit;
-  opacity: 0.7 !important;
+}
+
+.text-button-hover {
+  opacity: 0.2;
 }
 
 button {
   background-color: var(--bg-color-block);
 
-  &.primary {
-    background-color: var(--theme-color);
+  &.plain {
+    background-color: var(--bg-color-block) !important ;
+    color: inherit !important;
   }
 
-  &[type="primary"].primary {
-    background-color: var(--theme-color);
+  &.primary {
+    background-color: var(--theme-color) !important;
   }
 
   &.warn {
-    background-color: var(--bg-color-block);
-    color: #fa5151;
-  }
-
-  &[type="warn"].warn {
-    background-color: var(--bg-color-block);
-    color: #fa5151;
-  }
-
-  &[type="plain"] {
-    color: inherit;
+    background-color: var(--bg-color-block) !important ;
+    color: #fa5151 !important;
   }
 }
 

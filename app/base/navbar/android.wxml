@@ -10,7 +10,7 @@
     <view
       wx:if="{{nav.action !== false}}"
       class="android-nav-back-button"
-      hover-class="left-button-hover"
+      hover-class="text-button-hover"
       hover-stay-time="100"
       data-action="{{nav.action}}"
       catch:tap="{{nav.action ? navbar.action : '$bindBack'}}"
@@ -25,6 +25,5 @@
     class="android-nav-placeholder"
     style="height:{{statusBarHeight + 44}}px;"
   >
-    到头啦~人家被你拉得好痛阿(*´д`*) 不许你再拉人家~╭(╯^╰)╮
   </view>
 </template>

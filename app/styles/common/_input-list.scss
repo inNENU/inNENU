@@ -43,13 +43,16 @@
   .text {
     flex: none;
     padding-right: 16px;
+    text-align: left;
   }
 
   .input {
     flex: 1;
+    text-align: left;
   }
 
   .picker {
     flex: 1;
+    text-align: left;
   }
 }

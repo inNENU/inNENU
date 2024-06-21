@@ -1,4 +1,4 @@
-import { remove } from "@mptool/all";
+import { logger, remove } from "@mptool/all";
 
 import { cookieStore } from "../api/index.js";
 import {
@@ -40,7 +40,7 @@ export const login = (callback: (result: LoginInfo) => void): void => {
         mpLogin(code).then(callback);
       },
       fail: ({ errMsg }) => {
-        console.error(`Login failed: ${errMsg}`);
+        logger.error(`Login failed: ${errMsg}`);
       },
     });
   }

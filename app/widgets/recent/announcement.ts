@@ -1,16 +1,14 @@
 import type { PropType } from "@mptool/all";
 import { $Component, get, set } from "@mptool/all";
 
-import { showToast } from "../../api/index.js";
 import { HOUR, SITE_ANNOUNCEMENT_LIST_KEY } from "../../config/index.js";
-import type { AnnouncementInfoItem } from "../../service/index.js";
-import { ensureActionLogin, getAnnouncementList } from "../../service/index.js";
-import { user } from "../../state/index.js";
+import type { OfficialNoticeInfoItem } from "../../service/index.js";
+import { getOfficialNoticeList } from "../../service/index.js";
 import type { WidgetSize, WidgetStatus } from "../utils.js";
 import { FILTERED_SOURCES, getSize } from "../utils.js";
 
 $Component({
-  properties: {
+  props: {
     type: {
       type: String as PropType<"通知公告 (小)" | "通知公告" | "通知公告 (大)">,
       default: "通知公告",
@@ -29,67 +27,41 @@ $Component({
       const size = getSize(type);
 
       this.setData({ size }, () => {
-        const data = get<AnnouncementInfoItem[]>(SITE_ANNOUNCEMENT_LIST_KEY);
+        const data = get<{ title: string; url: string }[]>(
+          SITE_ANNOUNCEMENT_LIST_KEY,
+        );
 
         if (data)
           this.setData({
             status: "success",
             data: size === "large" ? data : data.slice(0, 5),
           });
-        else this.getAnnouncementList("validate");
+        else this.getNoticeList();
       });
     },
   },
 
-  pageLifetimes: {
-    show() {
-      if (user.account) {
-        if (this.data.status === "login") {
-          this.setData({ status: "loading" });
-          this.getAnnouncementList("validate");
-        }
-      } else this.setData({ status: "login" });
-    },
-  },
-
   methods: {
-    async getAnnouncementList(
-      status: "check" | "login" | "validate" = "check",
-    ) {
+    async getNoticeList() {
+      this.setData({ status: "loading" });
+
       const { size } = this.data;
+      const result = await getOfficialNoticeList();
 
-      if (user.account) {
-        const err = await ensureActionLogin(user.account, status);
+      if (!result.success) return this.setData({ status: "error" });
 
-        if (err) {
-          showToast(err.msg);
+      const data = result.data
+        .filter(({ from }) => !FILTERED_SOURCES.includes(from))
+        .map(({ title, url }) => ({
+          title: title.replace(/^关于/g, "").replace(/的通知$/g, ""),
+          url,
+        }));
 
-          return this.setData({ status: "error" });
-        }
-
-        try {
-          const result = await getAnnouncementList();
-
-          if (result.success) {
-            const data = result.data
-              .filter(({ from }) => !FILTERED_SOURCES.includes(from))
-              .map(({ title, url }) => ({
-                title: title.replace(/^关于/g, "").replace(/的通知$/g, ""),
-                url,
-              }));
-
-            this.setData({
-              status: "success",
-              data: size === "large" ? data : data.slice(0, 5),
-            });
-            set(SITE_ANNOUNCEMENT_LIST_KEY, data, HOUR);
-          } else {
-            this.setData({ status: "error" });
-          }
-        } catch (err) {
-          this.setData({ status: "error" });
-        }
-      } else this.setData({ status: "login" });
+      this.setData({
+        status: "success",
+        data: size === "large" ? data : data.slice(0, 5),
+      });
+      set(SITE_ANNOUNCEMENT_LIST_KEY, data, HOUR);
     },
 
     viewInfo({
@@ -97,21 +69,11 @@ $Component({
     }: WechatMiniprogram.TouchEvent<
       Record<string, never>,
       Record<string, never>,
-      { info: AnnouncementInfoItem }
+      { info: OfficialNoticeInfoItem }
     >) {
       const { title, url } = currentTarget.dataset.info;
 
-      return this.$go(`announcement-detail?title=${title}&url=${url}`);
-    },
-
-    refresh() {
-      this.setData({ status: "loading" });
-      this.getAnnouncementList();
-    },
-
-    retry() {
-      this.setData({ status: "loading" });
-      this.getAnnouncementList("login");
+      return this.$go(`official-notice-detail?title=${title}&url=${url}`);
     },
   },
 

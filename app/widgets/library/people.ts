@@ -1,8 +1,8 @@
-import { logger } from "@mptool/all";
+import { $Component, logger } from "@mptool/all";
 
 import { getLibraryPeople } from "../../service/index.js";
 
-Component({
+$Component({
   lifetimes: {
     attached() {
       getLibraryPeople().then((result) => {

@@ -1,0 +1,27 @@
+<wxs src="./pagination.wxs" module="panigation" />
+
+<!-- 分页组件 -->
+<view class="pagination">
+  <button
+    class="prev-button"
+    size="mini"
+    disabled="{{current === 1}}"
+    catch:tap="prevPage"
+  >
+    上一页
+  </button>
+  <picker
+    class="page-picker"
+    range="{{panigation.getRanges(total)}}"
+    bindchange="changePage"
+    >第 {{current}} 页</picker
+  >
+  <button
+    class="next-button"
+    size="mini"
+    disabled="{{current === total}}"
+    catch:tap="nextPage"
+  >
+    下一页
+  </button>
+</view>

@@ -2,7 +2,7 @@ import { URLSearchParams } from "@mptool/all";
 
 import { MY_SERVER } from "./utils.js";
 import { request } from "../../api/index.js";
-import { isWebVPNPage } from "../utils.js";
+import { isWebVPNPage } from "../utils/index.js";
 
 const GET_APPLY_DATA_URL = `${MY_SERVER}/AnalysisForPerson/loadMyApplyData`;
 

@@ -1,6 +1,7 @@
-import { $Page, get, set } from "@mptool/all";
+import { $Page, get, logger, set } from "@mptool/all";
 
 import type { PageStateWithContent } from "../../../typings/index.js";
+import { checkResource } from "../../app/index.js";
 import type { App } from "../../app.js";
 import {
   DAY,
@@ -9,9 +10,8 @@ import {
   appName,
 } from "../../config/index.js";
 import { searchMiniApp } from "../../service/index.js";
-import { getIdentity, info } from "../../state/index.js";
+import { getIdentity, info, menuSpace } from "../../state/index.js";
 import {
-  checkResource,
   getPageColor,
   resolvePage,
   setPage,
@@ -23,30 +23,40 @@ import type { WidgetConfig } from "../../widgets/utils.js";
 const { globalData } = getApp<App>();
 
 const PAGE_ID = "main";
+const PAGE_TITLE = "首页";
+const PAGE_KEY = `${PAGE_ID}-page-data`;
 
-const defaultPage = resolvePage(
-  { id: PAGE_ID },
-  get<PageStateWithContent>(PAGE_ID) ||
-    ({
-      title: "首页",
+let defaultPage: PageStateWithContent | null = null;
+
+try {
+  defaultPage = resolvePage(
+    { id: PAGE_ID },
+    get<PageStateWithContent>(PAGE_KEY),
+  ) as PageStateWithContent | null;
+} catch (err) {
+  logger.error(err);
+} finally {
+  if (!defaultPage) {
+    defaultPage = {
+      title: PAGE_TITLE,
       grey: true,
       hidden: true,
-      content: [{ tag: "loading" }],
-    } as PageStateWithContent),
-) as PageStateWithContent;
+      content: [],
+    } as PageStateWithContent;
+  }
+}
 
 $Page(PAGE_ID, {
   data: {
     theme: info.theme,
     statusBarHeight: info.statusBarHeight,
-    id: getIdentity().id,
+    menuSpace,
 
     /** 候选词 */
     words: [] as string[],
 
+    id: getIdentity().id,
     page: defaultPage,
-
-    menuSpace: info.platform === "android" || info.platform === "ios" ? 90 : 10,
   },
 
   onLoad() {
@@ -91,7 +101,6 @@ $Page(PAGE_ID, {
 
   onShareAppMessage: () => ({
     title: appName,
-    path: "/pages/main/main",
     imageUrl: `${appCoverPrefix}Share.png`,
   }),
 
@@ -128,7 +137,7 @@ $Page(PAGE_ID, {
       content: mainPresets[configName],
     };
 
-    set(PAGE_ID, mainPage, 3 * DAY);
+    set(PAGE_KEY, mainPage, 3 * DAY);
 
     return mainPage;
   },

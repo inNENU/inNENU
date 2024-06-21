@@ -1,14 +1,13 @@
 import type { PropType } from "@mptool/all";
 import { $Component, get, set } from "@mptool/all";
 
-import { showToast } from "../../api/index.js";
 import { CARD_BALANCE_KEY, MINUTE } from "../../config/index.js";
-import { ensureActionLogin, getCardBalance } from "../../service/index.js";
+import { getCardBalance } from "../../service/index.js";
 import { user } from "../../state/index.js";
 import { getSize } from "../utils.js";
 
 $Component({
-  properties: {
+  props: {
     type: {
       type: String as PropType<
         "校园卡 (小)" | "校园卡余额 (小)" | "校园卡二维码 (小)"
@@ -40,7 +39,7 @@ $Component({
 
       if (enableBalance) {
         if (balance) this.setData({ status: "success", balance });
-        else this.getCardBalance("validate");
+        else this.getCardBalance();
       }
     },
   },
@@ -49,47 +48,29 @@ $Component({
     show() {
       const { enableBalance, status } = this.data;
 
-      if (user.account) {
-        if (status === "login") {
-          this.setData({ status: "loading" });
+      if (!user.account) return this.setData({ status: "login" });
 
-          if (enableBalance) this.getCardBalance("validate");
-        }
-      } else this.setData({ status: "login" });
+      if (status === "login") {
+        this.setData({ status: "loading" });
+
+        if (enableBalance) this.getCardBalance();
+      }
     },
   },
 
   methods: {
-    async getCardBalance(status: "check" | "login" | "validate" = "check") {
-      if (user.account) {
-        const err = await ensureActionLogin(user.account, status);
+    async getCardBalance() {
+      if (!user.account) return this.setData({ status: "login" });
 
-        if (err) {
-          showToast(err.msg);
-          this.setData({ status: "error" });
-        } else {
-          try {
-            const result = await getCardBalance();
-
-            if (result.success) {
-              set(CARD_BALANCE_KEY, result.data, 5 * MINUTE);
-              this.setData({
-                balance: result.data,
-                status: "success",
-              });
-            } else {
-              this.setData({ status: "error" });
-            }
-          } catch (err) {
-            this.setData({ status: "error" });
-          }
-        }
-      } else this.setData({ status: "login" });
-    },
-
-    refreshBalance() {
       this.setData({ status: "loading" });
-      this.getCardBalance("login");
+
+      const result = await getCardBalance();
+
+      if (!result.success)
+        return this.setData({ status: "error", errMsg: result.msg });
+
+      this.setData({ balance: result.data, status: "success" });
+      set(CARD_BALANCE_KEY, result.data, 5 * MINUTE);
     },
 
     viewQrcode() {

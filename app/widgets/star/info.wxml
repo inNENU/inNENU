@@ -1,5 +1,5 @@
 <view class="starred-info widget {{size}} wrapper-class">
-  <view class="widget-header">官网收藏</view>
+  <view class="widget-header"><text>官网收藏</text></view>
   <view class="widget-body">
     <view class="widget-content">
       <login-hint wx:if="{{ status === 'login' }}" size="mini" />
@@ -14,10 +14,10 @@
           data-index="{{index}}"
           catch:tap="viewInfo"
         >
-          <view class="title {{size}}">{{item.title}}</view>
+          <view class="title {{size}}"><text>{{item.title}}</text></view>
         </view>
       </view>
-      <view wx:else class="widget-hint-text">暂无收藏</view>
+      <view wx:else class="widget-hint-text"><text>暂无收藏</text></view>
     </view>
   </view>
 </view>

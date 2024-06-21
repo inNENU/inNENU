@@ -3,26 +3,19 @@ import { $Component, get, set } from "@mptool/all";
 
 import { copyContent, showModal, showToast } from "../../api/index.js";
 import { EMAIL_DATA_KEY, MINUTE } from "../../config/index.js";
-import type { EmailItem } from "../../service/index.js";
-import {
-  LoginFailType,
-  ensureActionLogin,
-  getEmailPage,
-  getRecentEmails,
-} from "../../service/index.js";
+import type { EmailData } from "../../service/index.js";
+import { getEmailPage, getRecentEmails } from "../../service/index.js";
 import { env, user } from "../../state/index.js";
-import type { WidgetStatus } from "../utils.js";
+import type { LoginWidgetStatus } from "../utils.js";
 import { getSize } from "../utils.js";
 
-interface Mail extends Exclude<EmailItem, "receivedDate"> {
+interface Mail extends Exclude<EmailData, "receivedDate"> {
   shortDate: string;
   date: string;
 }
 
-let loginMethod: "check" | "login" = "check";
-
 $Component({
-  properties: {
+  props: {
     type: {
       type: String as PropType<
         "未读邮件 (小)" | "最近邮件 (小)" | "最近邮件" | "最近邮件 (大)"
@@ -33,7 +26,7 @@ $Component({
 
   data: {
     data: [] as Mail[],
-    status: "loading" as WidgetStatus,
+    status: "loading" as LoginWidgetStatus,
   },
 
   lifetimes: {
@@ -45,35 +38,31 @@ $Component({
         size: getSize(type),
       });
 
-      if (user.account) {
-        const emails = get<Mail[]>(EMAIL_DATA_KEY);
+      if (!user.account) return this.setData({ status: "login" });
 
-        if (emails) {
-          const unreadEmails = emails.filter(({ unread }) => unread);
+      const emails = get<Mail[]>(EMAIL_DATA_KEY);
 
-          this.setData({
-            status: "success",
-            unread: unreadEmails.length,
-            recent: type.includes("未读") ? unreadEmails : emails,
-          });
-        } else {
-          this.getEmails();
-        }
+      if (emails) {
+        const unreadEmails = emails.filter(({ unread }) => unread);
+
+        this.setData({
+          status: "success",
+          unread: unreadEmails.length,
+          recent: type.includes("未读") ? unreadEmails : emails,
+        });
       } else {
-        this.setData({ status: "login" });
+        this.getEmails();
       }
     },
   },
 
   pageLifetimes: {
-    show() {
-      if (user.account) {
-        if (this.data.status === "login") {
-          this.setData({ status: "loading" });
-          this.getEmails();
-        }
-      } else {
-        this.setData({ status: "login" });
+    show(): void {
+      if (!user.account) return this.setData({ status: "login" });
+
+      if (this.data.status === "login") {
+        this.setData({ status: "loading" });
+        this.getEmails();
       }
     },
   },
@@ -82,22 +71,17 @@ $Component({
     async getEmails(): Promise<void> {
       const { type } = this.data;
 
-      const err = await ensureActionLogin(user.account!, loginMethod);
-
-      if (err) {
-        if (loginMethod === "check") {
-          loginMethod = "login";
-
-          return this.getEmails();
-        }
-
-        return this.setData({ status: "error", errMsg: "登陆失败" });
-      }
+      this.setData({ status: "loading" });
 
       const result = await getRecentEmails();
 
+      if (!result.success) {
+        return this.setData({ status: "error", errMsg: result.msg });
+      }
+
       if (result.success) {
-        const recent = result.recent.map(({ receivedDate, ...rest }) => {
+        const { unread, emails } = result.data;
+        const recent = emails.map(({ receivedDate, ...rest }) => {
           const date = new Date(receivedDate);
 
           return {
@@ -109,17 +93,13 @@ $Component({
 
         this.setData({
           status: "success",
-          unread: result.unread,
+          unread: unread,
           recent: type.includes("未读")
             ? recent.filter(({ unread }) => unread)
             : recent,
         });
         set(EMAIL_DATA_KEY, recent, 5 * MINUTE);
-      } else if (result.type === LoginFailType.Expired) {
-        loginMethod = "login";
-
-        return this.getEmails();
-      } else this.setData({ status: "error", errMsg: result.msg });
+      }
     },
 
     async openEmail({
@@ -131,45 +111,27 @@ $Component({
     >) {
       const { status } = this.data;
 
-      if (status === "error") return this.$go("email");
+      if (status === "error") return this.$go("email-recent");
 
       const { mid } = currentTarget.dataset;
-
-      const err = await ensureActionLogin(user.account!, loginMethod);
-
-      if (err) {
-        if (loginMethod === "check") {
-          loginMethod = "login";
-
-          return showToast(err.msg);
-        }
-      }
 
       const result = await getEmailPage(mid);
 
       if (result.success) {
-        const { url } = result;
+        const { data } = result;
 
         if (env === "app")
-          return this.$go(`web?url=${encodeURIComponent(url)}`);
+          return this.$go(`web?url=${encodeURIComponent(data)}`);
 
-        await copyContent(url);
+        await copyContent(data);
 
-        showModal(
+        return showModal(
           "复制成功",
           "相关链接已复制到剪切板。受小程序限制，请使用浏览器打开。",
         );
-        loginMethod = "check";
-      } else {
-        showToast("加载页面失败");
-        loginMethod = "login";
       }
-    },
 
-    retry() {
-      this.setData({ status: "loading" });
-
-      return this.getEmails();
+      showToast("加载页面失败");
     },
   },
 

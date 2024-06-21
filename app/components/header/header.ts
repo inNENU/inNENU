@@ -3,7 +3,7 @@ import { $Component } from "@mptool/all";
 import { info } from "../../state/index.js";
 
 $Component({
-  properties: {
+  props: {
     title: {
       type: String,
     },
@@ -13,11 +13,10 @@ $Component({
     attached() {
       this.setData({
         statusBarHeight: info.statusBarHeight,
-        firstPage: getCurrentPages().length === 1,
       });
 
       this.createSelectorQuery()
-        .select(".header")
+        .select(".header-component")
         .boundingClientRect(({ height }) => {
           this.setData({ height });
         })

@@ -3,7 +3,7 @@ import { $Component } from "@mptool/all";
 import { getWindowInfo } from "../../api/index.js";
 
 $Component({
-  properties: {
+  props: {
     config: Object,
     // 是否展示对话框
     show: {

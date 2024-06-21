@@ -1,0 +1,26 @@
+<import src="/base/template.wxml" />
+<page-meta
+  background-text-style="{{darkmode ? 'dark' : 'light'}}"
+  background-color="{{color.bgColor}}"
+  background-color-top="{{color.bgColorTop}}"
+  background-color-bottom="{{color.bgColorBottom}}"
+  root-background-color="{{color.bgColor}}"
+/>
+<license />
+<template is="page" data="{{page, theme}}" />
+<view
+  class="password-mask {{debug ? 'fade-in' : 'fade-out'}}"
+  style="top: {{debug ? 0 : '100%'}};"
+  catch:tap="cancelInput"
+/>
+<view wx:if="{{debug}}" class="password">
+  <view class="hint"><text>请输入密码:</text></view>
+  <!-- Note: QQ 不支持 catch:input -->
+  <input
+    type="number"
+    password
+    value="{{value}}"
+    focus="{{focus}}"
+    bindinput="onInput"
+  />
+</view>

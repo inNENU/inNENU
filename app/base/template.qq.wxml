@@ -32,7 +32,6 @@
         <carousel wx:elif="{{item.tag === 'carousel'}}" config="{{item}}" />
         <audio-player wx:elif="{{item.tag === 'audio'}}" config="{{item}}" />
         <video-player wx:elif="{{item.tag === 'video'}}" config="{{item}}" />
-        <loading wx:elif="{{item.tag === 'loading'}}" />
       </block>
     </block>
   </block>
@@ -64,15 +63,7 @@
 
     <!-- 加载页面 -->
     <view wx:elif="{{!page.content}}" class="loading-logo-wrapper">
-      <view
-        class="left-button"
-        style="top: 27.5px"
-        hover-class="button-hover"
-        hover-stay-time="100"
-        catch:tap="$bindBack"
-      >
-        <view class="icon-{{firstPage ? 'home' : 'back'}}" />
-      </view>
+      <back-button />
       <template is="loading" />
     </view>
 
@@ -111,8 +102,8 @@
       <text>来源: {{ from || '未知' }}</text>
     </view>
     <button
-      type="primary"
       class="primary"
+      type="primary"
       open-type="addFriend"
       open-id="868D7B2F0C609B4285698EAB77A47BA1"
     >

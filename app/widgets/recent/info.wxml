@@ -1,15 +1,15 @@
 <view
   class="recent-info widget {{size}} wrapper-class"
-  data-url="info-list"
+  data-url="official-info-list?type={{infoType}}"
   catch:tap="$bindGo"
 >
   <view class="widget-header">
-    {{header}}
+    <text>{{header}}</text>
     <button
       class="refresh-button"
       type="default"
       size="mini"
-      catch:tap="refresh"
+      catch:tap="getInfoList"
     >
       <text class="refresh-button-icon" />
     </button>
@@ -21,12 +21,7 @@
         class="loading"
         src="/icon/loading.svg"
       />
-      <error-hint
-        wx:elif="{{ status === 'error' }}"
-        size="mini"
-        catch:retry="retry"
-      />
-      <login-hint wx:elif="{{ status === 'login' }}" size="mini" />
+      <error-hint wx:elif="{{ status === 'error' }}" size="mini" hide-retry />
       <block wx:else>
         <view
           wx:for="{{data}}"
@@ -38,7 +33,7 @@
           data-info="{{item}}"
           catch:tap="viewInfo"
         >
-          <view class="title {{size}}">{{item.title}}</view>
+          <view class="title {{size}}"><text>{{item.title}}</text></view>
         </view>
       </block>
     </view>

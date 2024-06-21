@@ -1,0 +1,103 @@
+.page.video-wrapper {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+
+  height: 90vh;
+  padding-top: 10vh;
+}
+
+.video-info {
+  padding: 15px;
+  color: var(--dark-grey);
+  font-family:
+    FZSSJW,
+    -apple-system-font,
+    "PingFang SC",
+    "Helvetica Neue",
+    Helvetica,
+    STHeiti,
+    Tahoma,
+    Simsun,
+    sans-serif !important;
+  text-align: center;
+
+  .name {
+    margin-bottom: 10px;
+    font-weight: 500;
+    font-size: 28px;
+  }
+
+  .author {
+    font-size: 16px;
+  }
+}
+
+.video-player {
+  flex: auto 0 0;
+  width: 92%;
+  margin: 20px 4%;
+  max-height: 400rpx;
+  border-radius: 16rpx;
+}
+
+.video-list-wrapper {
+  width: 100%;
+  flex: 1;
+  padding: 12px 0;
+  border-top-left-radius: 12px;
+  border-top-right-radius: 12px;
+
+  box-shadow: 0 -2px 5px rgb(219 218 223 / 95%);
+
+  -webkit-overflow-scrolling: touch;
+
+  @media (prefers-color-scheme: dark) {
+    box-shadow: 0 -2px 5px rgb(36 37 32 / 95%);
+  }
+}
+
+.video-list {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  justify-content: flex-start;
+}
+
+.video-item {
+  width: 100%;
+  padding: 8px 15px;
+  text-align: left;
+
+  &.active {
+    .video-name,
+    .video-author {
+      color: #3478f7;
+    }
+  }
+}
+
+.video-name {
+  color: #333;
+  font-size: 16px;
+  font-family:
+    FZSSJW,
+    -apple-system-font,
+    "PingFang SC",
+    "Helvetica Neue",
+    Helvetica,
+    STHeiti,
+    Tahoma,
+    Simsun,
+    sans-serif !important;
+
+  @media (prefers-color-scheme: dark) {
+    color: #ccc;
+  }
+}
+
+.video-author {
+  color: #888;
+  font-size: 13px;
+}

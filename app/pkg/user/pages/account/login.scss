@@ -1,0 +1,93 @@
+.account {
+  display: flex;
+  flex-direction: column;
+}
+
+.content {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  align-items: stretch;
+  justify-content: center;
+}
+
+.logo {
+  width: 96px;
+  height: 96px;
+  margin: 24px auto;
+}
+
+.input-list-wrapper {
+  max-width: var(--max-width);
+  margin: 0 var(--horizontal-margin);
+}
+
+.input-list-item {
+  .password-button {
+    flex-shrink: 0;
+
+    width: 44px;
+    padding: 4px 8px;
+
+    color: var(--text-color);
+
+    font-weight: normal;
+    font-size: 12px;
+    line-height: 1.5;
+    text-align: center;
+  }
+
+  .captcha-image {
+    width: 80px;
+    height: 32px;
+  }
+}
+
+.license-checkbox {
+  display: flex;
+  align-items: center;
+
+  max-width: var(--max-width);
+  margin: 0 var(--horizontal-margin);
+  padding: 4px 8px;
+
+  color: #888;
+
+  font-size: 14px;
+  text-align: left;
+
+  .license-text {
+    color: var(--action-color);
+  }
+}
+
+.delete-button {
+  min-width: 240px;
+  margin: 16px auto 8px;
+}
+
+.save-button {
+  min-width: 240px;
+  margin: 16px auto 8px;
+}
+
+.actions {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  max-width: var(--max-width);
+  margin: 8px var(--horizontal-margin);
+}
+
+.activate-button,
+.reset-button {
+  padding: 4px 8px;
+  border-radius: 4px;
+  color: var(--grey3);
+  font-size: 14px;
+}
+
+.list-component-content .desc {
+  max-width: unset !important;
+}

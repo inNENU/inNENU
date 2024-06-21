@@ -8,13 +8,17 @@ import {
   WEB_VPN_AUTH_DOMAIN,
   WEB_VPN_AUTH_SERVER,
 } from "./utils.js";
-import type { CommonFailedResponse } from "../../../typings/index.js";
 import { cookieStore, request } from "../../api/index.js";
 import type { AccountInfo } from "../../state/index.js";
-import { LoginFailType } from "../loginFailTypes.js";
-import { createService, supportRedirect } from "../utils.js";
+import type { CommonFailedResponse } from "../utils/index.js";
+import {
+  ActionFailType,
+  UnknownResponse,
+  createService,
+  supportRedirect,
+} from "../utils/index.js";
 
-export interface AuthLoginOptions {
+export interface AuthLoginOptions extends AccountInfo {
   service?: string;
   webVPN?: boolean;
 }
@@ -24,18 +28,26 @@ export interface AuthLoginSuccessResponse {
   location: string;
 }
 
-export interface AuthLoginFailedResponse extends CommonFailedResponse {
-  type: Exclude<LoginFailType, LoginFailType.WrongCaptcha>;
-}
+export type AuthLoginFailedResponse = CommonFailedResponse<
+  | ActionFailType.AccountLocked
+  | ActionFailType.BlackList
+  | ActionFailType.EnabledSSO
+  | ActionFailType.Forbidden
+  | ActionFailType.NeedCaptcha
+  | ActionFailType.WrongPassword
+  | ActionFailType.Unknown
+>;
 
 export type AuthLoginResponse =
   | AuthLoginSuccessResponse
   | AuthLoginFailedResponse;
 
-export const authLoginLocal = async (
-  { id, password }: AccountInfo,
-  { service = "", webVPN = false }: AuthLoginOptions = {},
-): Promise<AuthLoginResponse> => {
+const authLoginLocal = async ({
+  id,
+  password,
+  service = "",
+  webVPN = false,
+}: AuthLoginOptions): Promise<AuthLoginResponse> => {
   // only use local login when redirect is supported
   if (!supportRedirect) return authLoginOnline({ id, password });
 
@@ -78,7 +90,7 @@ export const authLoginLocal = async (
     )
       return {
         success: false,
-        type: LoginFailType.Forbidden,
+        type: ActionFailType.Forbidden,
         msg: "用户账号没有此服务权限。",
       };
 
@@ -102,7 +114,7 @@ export const authLoginLocal = async (
     if (needCaptcha)
       return {
         success: false,
-        type: LoginFailType.NeedCaptcha,
+        type: ActionFailType.NeedCaptcha,
         msg: "需要验证码，请重新登录",
       };
 
@@ -134,7 +146,7 @@ export const authLoginLocal = async (
       if (loginResult.includes("您提供的用户名或者密码有误"))
         return {
           success: false,
-          type: LoginFailType.WrongPassword,
+          type: ActionFailType.WrongPassword,
           msg: "用户名或密码错误",
         };
 
@@ -143,7 +155,7 @@ export const authLoginLocal = async (
       )
         return {
           success: false,
-          type: LoginFailType.AccountLocked,
+          type: ActionFailType.AccountLocked,
           msg: "该帐号已经被锁定，请使用小程序的“账号激活”功能",
         };
 
@@ -154,39 +166,34 @@ export const authLoginLocal = async (
       )
         return {
           success: false,
-          type: LoginFailType.EnabledSSO,
+          type: ActionFailType.EnabledSSO,
           msg: "您已开启单点登录，请访问学校统一身份认证官网，在个人设置中关闭单点登录后重试。",
         };
 
       if (loginResult.includes("请输入验证码"))
         return {
           success: false,
-          type: LoginFailType.NeedCaptcha,
-          // TODO: Update
-          msg: "需要验证码，无法自动登录。请访问学校统一身份认证官网手动登录，成功登录后后即可继续自动登录。",
+          type: ActionFailType.NeedCaptcha,
+          msg: "需要验证码，请重新登录",
         };
 
       if (loginResult.includes("不允许使用认证服务来认证您访问的目标应用。"))
         return {
           success: false,
-          type: LoginFailType.Forbidden,
+          type: ActionFailType.Forbidden,
           msg: "用户账号没有此服务权限。",
         };
 
       console.error("Unknown login response: ", loginResult);
 
-      return {
-        success: false,
-        type: LoginFailType.Unknown,
-        msg: "未知错误",
-      };
+      return UnknownResponse("未知错误");
     }
 
     if (loginStatus === 302) {
       if (loginLocation === `${server}/authserver/login`)
         return {
           success: false,
-          type: LoginFailType.WrongPassword,
+          type: ActionFailType.WrongPassword,
           msg: "用户名或密码错误",
         };
 
@@ -197,22 +204,17 @@ export const authLoginLocal = async (
     }
   }
 
-  console.error("Unknown login response: ", loginPageResponse.status);
+  logger.error("Unknown login response: ", loginPageResponse.status);
 
-  return {
-    success: false,
-    type: LoginFailType.Unknown,
-    msg: "未知错误",
-  };
+  return UnknownResponse("未知错误");
 };
 
-const authLoginOnline = async ({
-  id,
-  password,
-}: AccountInfo): Promise<AuthLoginResponse> => {
+const authLoginOnline = async (
+  options: AuthLoginOptions,
+): Promise<AuthLoginResponse> => {
   const { data } = await request<AuthLoginResponse>("/auth/login", {
     method: "POST",
-    body: { id, password },
+    body: options,
     cookieScope: AUTH_SERVER,
   });
 

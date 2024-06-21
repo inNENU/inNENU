@@ -1,14 +1,14 @@
 import type { PropType } from "@mptool/all";
 import { $Component, get, set } from "@mptool/all";
 
-import { showModal, showToast } from "../../api/index.js";
+import { showModal } from "../../api/index.js";
 import { BORROW_BOOKS_KEY, DAY, HOUR } from "../../config/index.js";
 import type { BorrowBookData } from "../../service/index.js";
-import { ensureActionLogin, getBorrowBooks } from "../../service/index.js";
+import { getBorrowBooks } from "../../service/index.js";
 import { user } from "../../state/index.js";
 
 $Component({
-  properties: {
+  props: {
     type: {
       type: String as PropType<"借阅书目 (小)" | "图书待还 (小)">,
       default: "借阅书目 (小)",
@@ -26,7 +26,7 @@ $Component({
       const books = get<BorrowBookData[]>(BORROW_BOOKS_KEY);
 
       if (books) this.setBooks(books);
-      else this.getBooks("validate");
+      else this.getBooks();
 
       this.setData({
         header: type.includes("借阅书目") ? "借阅书目" : "图书待还",
@@ -36,41 +36,30 @@ $Component({
 
   pageLifetimes: {
     show() {
-      if (user.account) {
-        if (this.data.status === "login") {
-          this.setData({ status: "loading" });
-          this.getBooks("validate");
-        }
-      } else this.setData({ status: "login" });
+      if (!user.account) return this.setData({ status: "login" });
+
+      if (this.data.status === "login") {
+        this.setData({ status: "loading" });
+        this.getBooks();
+      }
     },
   },
 
   methods: {
     login() {
-      this.$go("account?update=true");
+      this.$go("account-login?update=true");
     },
 
-    async getBooks(status: "check" | "login" | "validate" = "check") {
-      if (user.account) {
-        const err = await ensureActionLogin(user.account, status);
+    async getBooks() {
+      if (!user.account) return this.setData({ status: "login" });
 
-        if (err) {
-          showToast(err.msg);
+      const result = await getBorrowBooks();
 
-          return this.setData({ status: "error" });
-        }
+      if (!result.success)
+        return this.setData({ status: "error", errMsg: result.msg });
 
-        const result = await getBorrowBooks();
-
-        if (result.success) {
-          set(BORROW_BOOKS_KEY, result.data, 3 * HOUR);
-          this.setBooks(result.data);
-        } else {
-          this.setData({ status: "error" });
-        }
-      } else {
-        this.setData({ status: "login" });
-      }
+      this.setBooks(result.data);
+      set(BORROW_BOOKS_KEY, result.data, 3 * HOUR);
     },
 
     setBooks(data: BorrowBookData[]) {
@@ -90,11 +79,6 @@ $Component({
     refresh() {
       this.setData({ status: "loading" });
       this.getBooks();
-    },
-
-    retry() {
-      this.setData({ status: "loading" });
-      this.getBooks("login");
     },
 
     showBooks() {

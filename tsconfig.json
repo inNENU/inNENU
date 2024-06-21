@@ -6,7 +6,7 @@
     "module": "CommonJS",
     "moduleResolution": "Node10",
     "outDir": "dist",
-    "moduleSuffixes": ["", ".wx", ".qy", ".qq"],
+    "moduleSuffixes": ["", ".wx", ".qy", ".qq", ".app"],
     "types": ["miniprogram-api-typings"]
   },
   "include": [

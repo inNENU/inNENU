@@ -4,7 +4,7 @@ import { defaultScroller, pageScrollMixin } from "../../mixins/index.js";
 import { info } from "../../state/index.js";
 
 $Component({
-  properties: {
+  props: {
     nav: Object,
   },
 

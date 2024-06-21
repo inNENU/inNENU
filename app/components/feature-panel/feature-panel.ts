@@ -7,7 +7,7 @@ import type {
 } from "../../../typings/index.js";
 
 $Component({
-  properties: {
+  props: {
     /** 网格组件配置 */
     config: {
       type: Object as PropType<GridComponentOptions>,

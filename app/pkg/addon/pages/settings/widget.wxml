@@ -1,0 +1,90 @@
+<import src="/widgets/template.wxml" />
+<page-meta
+  background-text-style="{{darkmode ? 'dark' : 'light'}}"
+  background-color="{{color.bgColor}}"
+  background-color-top="{{color.bgColorTop}}"
+  background-color-bottom="{{color.bgColorBottom}}"
+  root-background-color="{{color.bgColor}}"
+  page-style="{{style}}"
+/>
+<view class="{{theme}} customize-page">
+  <navbar nav="{{ { title } }}" />
+  <view class="header"><text>主页小组件</text></view>
+  <view class="widget-list">
+    <view wx:for="{{widgets}}" class="widget-wrapper {{item.size}}">
+      <view
+        class="remove-button bg-gradual-red"
+        hover-class="button-hover"
+        data-index="{{index}}"
+        catch:tap="removeWidget"
+      />
+      <template is="widget" data="{{tag: item.tag, type: item.type}}" />
+    </view>
+    <view class="widget-wrapper small add">
+      <view class="add-button" hover-class="button-hover" catch:tap="showPopup">
+        <image class="add-icon" src="/icon/add.svg" />
+        <text>新增组件</text>
+      </view>
+    </view>
+  </view>
+</view>
+
+<popup
+  config="{{addPopup}}"
+  show="{{display}}"
+  padding-inline="8"
+  catch:cancel="close"
+  catch:close="close"
+>
+  <view class="add-widget-wrapper">
+    <view class="category-list">
+      <button
+        wx:for="{{WIDGETS}}"
+        wx:key="name"
+        class="category {{current.name === item.name? 'activate': ''}}"
+        hover-class="button-hover"
+        size="mini"
+        data-index="{{index}}"
+        catch:tap="selectWidget"
+      >
+        <text>{{item.name}}</text>
+      </button>
+    </view>
+    <view class="add-widgets">
+      <block wx:if="{{current}}">
+        <swiper
+          indicator-dots="{{current.types.length > 1}}"
+          current="{{swiperIndex}}"
+          indicator-color="{{indicatorColor}}"
+          indicator-active-color="{{indicatorActiveColor}}"
+          class="widgets-display"
+          bindchange="swiperChange"
+        >
+          <swiper-item
+            wx:for="{{current.types}}"
+            wx:key="*this"
+            class="widget-display"
+            skip-hidden-item-layout
+          >
+            <view
+              wx:if="{{swiperIndex === index || swiperIndex === index + 1 || swiperIndex === index - 1}}"
+              class="widgets"
+              capture-catch:tap="capture"
+            >
+              <template is="widget" data="{{ tag: current.tag, type: item }}" />
+            </view>
+            <view class="widget-name">{{item}}</view>
+          </swiper-item>
+        </swiper>
+        <button
+          class="add-widget-button"
+          hover-class="add-widget-hover"
+          catch:tap="addWidget"
+        >
+          <text>添加小组件</text>
+        </button>
+      </block>
+      <view wx:else class="empty-hint"><text>选择一个组件类别</text></view>
+    </view>
+  </view>
+</popup>
