@@ -1,4 +1,22 @@
-.android-navigation-bar {
+.android-navbar-spacer {
+  width: 100%;
+  height: 69px;
+
+  background-color: #f8f8f8;
+  color: #d9d9d9;
+
+  font-size: 8px;
+
+  @media (prefers-color-scheme: dark) {
+    background-color: #000;
+
+    .grey & {
+      background-color: #10110b;
+    }
+  }
+}
+
+.android-navbar {
   position: fixed;
   z-index: 1000;
 
@@ -31,29 +49,7 @@
   }
 }
 
-.android-nav-placeholder {
-  position: relative;
-
-  width: 100%;
-  height: 69px;
-
-  background-color: #f8f8f8;
-  color: #d9d9d9;
-
-  font-size: 8px;
-
-  @media (prefers-color-scheme: dark) {
-    background-color: #000;
-  }
-
-  .grey & {
-    @media (prefers-color-scheme: dark) {
-      background-color: #10110b;
-    }
-  }
-}
-
-.android-title-text {
+.android-navbar-title {
   position: absolute;
   z-index: 100;
 
@@ -64,7 +60,7 @@
   line-height: 1;
 }
 
-.android-nav-back-button {
+.android-navbar-back-button {
   position: absolute;
   left: 0;
   z-index: 101;
@@ -96,6 +92,7 @@
 }
 
 .android-back-text {
+  display: block;
   overflow: hidden;
   font-size: 14px;
   text-overflow: ellipsis;

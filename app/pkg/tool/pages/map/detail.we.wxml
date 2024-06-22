@@ -13,22 +13,22 @@
   <block wx:else>
     <back-button button-class="{{titleDisplay ? 'fade-in' : 'fade-out'}}" />
     <view
-      class="nenu-navigation-bar {{borderDisplay ? 'fade-in' : 'fade-out'}}"
+      class="nenu-navbar {{borderDisplay ? 'fade-in' : 'fade-out'}}"
       style="background-color: {{page.color}}; padding-top: {{statusBarHeight}}px;"
     >
       <view
-        class="ios-nav-back-button"
+        class="ios-navbar-back-button"
         hover-class="text-button-hover"
         style="position: absolute; left: 0"
         plain
         catch:tap="$bindBack"
       >
         <view class="ios-back-arrow" style="border-color: #fff" />
-        <text class="ios-nav-text" style="color: #fff"
+        <text class="ios-back-text" style="color: #fff"
           >{{firstPage ? '主页' : '返回'}}</text
         >
       </view>
-      <view class="nenu-nav-title">{{page.title}} </view>
+      <view class="nenu-navbar-title">{{page.title}} </view>
     </view>
     <carousel
       wx:if="{{page.photo}}"

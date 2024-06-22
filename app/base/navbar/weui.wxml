@@ -2,32 +2,31 @@
 <!-- weui导航栏 -->
 <template name="weui-navbar">
   <view
-    class="weui-navigation-bar {{shadow ? 'androidNavShadow' : ''}}"
-    style="padding-top: {{statusBarHeight}}px;"
+    class="android-navbar-spacer"
+    style="height:{{statusBarHeight + 44}}px;"
+  />
+  <view
+    class="weui-navbar {{shadow ? 'shadow' : ''}}"
+    style="padding-top:{{statusBarHeight}}px"
   >
-    <view class="android-title-text">{{nav.title}}</view>
+    <view class="android-navbar-title"><text>{{nav.title}}</text></view>
     <view
       wx:if="{{nav.action !== false}}"
-      class="button android-nav-back-button"
+      class="android-navbar-back-button"
       hover-class="text-button-hover"
       hover-stay-time="100"
       data-action="{{nav.action}}"
       catch:tap="{{nav.action ? navbar.action : '$bindBack'}}"
     >
-      <view wx:if="{{!nav.action}}" class="weui-navigation-bar-backbutton" />
-      <view class="android-back-text"
-        >{{firstPage ? '主页' : (nav.from || '返回')}}</view
+      <view wx:if="{{!nav.action}}" class="weui-navbar-back-button" />
+      <text class="android-back-text"
+        >{{firstPage ? '主页' : (nav.from || '返回')}}</text
       >
     </view>
   </view>
-  <view
-    class="android-nav-placeholder"
-    style="height:{{statusBarHeight + 44}}px;"
-  >
-  </view>
-  <view wx:if="{{nav.desc}}" class="weui-head">
-    <view class="weui-head-title">{{nav.title}}</view>
-    <view wx:if="{{nav.desc}}" class="weui-head-desc">
+  <view wx:if="{{nav.desc}}" class="weui-header">
+    <view class="weui-header-title"><text>{{nav.title}}</text></view>
+    <view wx:if="{{nav.desc}}" class="weui-header-desc">
       <text decode>{{nav.desc}}</text>
     </view>
   </view>

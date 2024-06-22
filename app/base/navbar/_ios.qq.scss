@@ -1,6 +1,6 @@
 /* ios Head */
 
-.ios-navigation-bar {
+.ios-navbar {
   position: fixed;
   top: 0;
   z-index: 1000;
@@ -19,7 +19,7 @@
   text-align: center;
 }
 
-.ios-nav-placeholder {
+.ios-navbar-spacer {
   width: 100%;
   height: 44px;
 
@@ -30,7 +30,7 @@
   text-align: center;
 }
 
-.ios-nav-back-button {
+.ios-navbar-back-button {
   position: absolute;
   left: 0;
   z-index: 510;
@@ -59,7 +59,7 @@
   transform: matrix(0.71, 0.71, -0.71, 0.71, 0, 0);
 }
 
-.ios-nav-text {
+.ios-back-text {
   z-index: 101;
 
   overflow: hidden;
@@ -71,7 +71,7 @@
   white-space: nowrap;
 }
 
-.ios-nav-title {
+.ios-navbar-title {
   position: absolute;
   z-index: 100;
 
@@ -85,7 +85,7 @@
   white-space: nowrap;
 }
 
-.ios-nav-border {
+.ios-navbar-border {
   position: fixed;
   top: 64px;
   z-index: 1001;
@@ -94,7 +94,7 @@
   height: 0;
 }
 
-.ios-head {
+.ios-navbar-header {
   position: relative;
 
   padding: 3px 15px;
@@ -106,8 +106,8 @@
   text-align: left;
 }
 
-.ios-nav-border::after,
-.ios-head::after {
+.ios-navbar-border::after,
+.ios-navbar-header::after {
   content: " ";
 
   position: absolute;

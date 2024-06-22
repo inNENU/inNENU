@@ -3,39 +3,39 @@
   <block wx:if="{{nav.action === undefined}}">
     <back-button button-class="{{borderDisplay ? 'fade-in' : 'fade-out'}}" />
     <view
-      class="nenu-navigation-bar {{titleDisplay ? 'fade-out' : 'fade-in'}}"
-      style="background-color: {{color}}; padding-top: {{statusBarHeight}}px;"
+      class="nenu-navbar {{titleDisplay ? 'fade-out' : 'fade-in'}}"
+      style="background-color:{{color}};padding-top:{{statusBarHeight}}px"
     >
       <view
-        class="ios-nav-back-button"
+        class="ios-navbar-back-button"
         hover-class="text-button-hover"
         style="position: absolute; left: 0"
         catch:tap="$bindBack"
       >
         <view class="ios-back-arrow" style="border-color: #fff" />
-        <view class="ios-nav-text" style="color: #fff">
+        <text class="ios-back-text" style="color: #fff">
           {{firstPage ? '主页' : (nav.from || '返回')}}
-        </view>
+        </text>
       </view>
-      <view class="nenu-nav-title">{{nav.title}}</view>
+      <view class="nenu-navbar-title"><text>{{nav.title}}</text></view>
     </view>
   </block>
   <block wx:else>
     <view
-      class="nenu-navigation-bar"
+      class="nenu-navbar"
       style="{{nav.color ? 'background-color:' + nav.color + '; ' : ''}}padding-top: {{statusBarHeight}}px;"
     >
       <view
         wx:if="{{nav.action !== false}}"
-        class="ios-nav-back-button"
+        class="ios-navbar-back-button"
         hover-class="text-button-hover"
         style="position: absolute; left: 0"
         data-action="{{nav.action}}"
         catch:tap="{{navbar.action}}"
       >
-        <text class="ios-nav-text" style="color: #fff">{{nav.from}}</text>
+        <text class="ios-back-text" style="color: #fff">{{nav.from}}</text>
       </view>
-      <view class="nenu-nav-title">{{nav.title}}</view>
+      <view class="nenu-navbar-title"><text>{{nav.title}}</text></view>
     </view>
   </block>
   <view style="width:100%;height:{{statusBarHeight + 44}}px;" />

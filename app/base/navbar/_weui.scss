@@ -1,4 +1,4 @@
-.weui-navigation-bar {
+.weui-navbar {
   position: fixed;
   z-index: 1000;
 
@@ -14,16 +14,22 @@
 
   @media (prefers-color-scheme: dark) {
     background-color: #000;
+
+    .grey & {
+      background-color: #10110b;
+    }
   }
 
-  .grey & {
+  &.shadow {
+    box-shadow: 0 0 4px 1.5px rgb(208 208 208 / 8000%);
+
     @media (prefers-color-scheme: dark) {
-      background-color: #10110b;
+      box-shadow: 0 0 4px 1.5px rgb(47 47 47 / 8000%);
     }
   }
 }
 
-.weui-navigation-bar-backbutton {
+.weui-navbar-back-button {
   display: inline-block;
   vertical-align: middle;
 
@@ -43,17 +49,17 @@
   }
 }
 
-.weui-head {
+.weui-header {
   padding: 25px 40px;
 }
 
-.weui-head-title {
+.weui-header-title {
   font-weight: 400;
   font-size: 20px;
   text-align: left;
 }
 
-.weui-head-desc {
+.weui-header-desc {
   margin-top: 5px;
   color: #888;
   font-size: 14px;
