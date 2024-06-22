@@ -1,0 +1,21 @@
+page {
+  --text-color: #000;
+  --bg-color: #fff;
+  --bg-color-grey: #f3f3f8;
+  --bg-color-block: #f3f3f8;
+  --border-color: #cccccf;
+  --grey: #888;
+  --grey3: #333;
+  --grey4: #444;
+  --dark-grey: #666;
+  --light-grey: #999;
+  --arrow-color: #c5c5c7;
+  --bg-hover: rgb(0 0 0 / 10%);
+  --card-shadow: rgb(191 192 195 / 15%);
+  --action-color: #3478f7;
+  --theme-color: #41c88a;
+}
+
+.grey {
+  --bg-color-block: #fff;
+}

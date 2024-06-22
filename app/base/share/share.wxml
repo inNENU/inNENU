@@ -17,7 +17,7 @@
   <view class="mask" />
   <!-- 分享按钮列表 -->
   <view class="share-menu">
-    <scroll-view scroll-x enable-flex class="action-list">
+    <scroll-view type="list" scroll-x enable-flex class="action-list">
       <block wx:for="{{actions}}" wx:key="text">
         <view wx:if="{{!item.hidden}}" class="action">
           <button
