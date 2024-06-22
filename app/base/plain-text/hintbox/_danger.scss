@@ -1,14 +1,7 @@
 @use "../../../styles/lib/svg";
-@use "icons";
 
 .hint-box-component.danger {
   --hint-box-border-color: #e13238;
   --hint-box-bg-color: #ffebec;
   --hint-box-title-color: #4b1113;
-
-  .hint-box-title {
-    &::before {
-      @include svg.background-svg(icons.$danger-icon);
-    }
-  }
 }

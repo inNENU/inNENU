@@ -1,14 +1,5 @@
-@use "../../../styles/lib/svg";
-@use "icons";
-
 .hint-box-component.info {
   --hint-box-border-color: #4cb3d4;
   --hint-box-bg-color: #eef9fd;
   --hint-box-title-color: #193c47;
-
-  .hint-box-title {
-    &::before {
-      @include svg.background-svg(icons.$info-icon);
-    }
-  }
 }

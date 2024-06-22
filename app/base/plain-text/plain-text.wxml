@@ -58,13 +58,15 @@
   data-url="{{config.url}}"
   catch:tap="$bindGo"
 >
-  <text
+  <view
     wx:if="{{config.heading !== false}}"
     class="hint-box-title {{config.url ? 'access' : ''}}"
     selectable="{{selectable}}"
     user-select="{{selectable}}"
-    >{{plainText.getTitle(config)}}</text
   >
+    <image class="hint-box-icon" src="./hintbox/{{config.type}}.svg" />
+    <text>{{plainText.getTitle(config)}}</text>
+  </view>
   <template is="text" data="{{config, selectable}}" />
 </view>
 <!-- 段落标题 -->
