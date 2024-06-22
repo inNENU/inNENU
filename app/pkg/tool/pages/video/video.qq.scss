@@ -1,10 +1,11 @@
-.page.video-wrapper {
+.video-page {
   display: flex;
   flex-direction: column;
   justify-content: space-between;
 
   height: 90vh;
   padding-top: 10vh;
+
   background-color: var(--bg-color);
 }
 

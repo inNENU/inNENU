@@ -1,5 +1,4 @@
-.guide-page {
-  height: 100vh;
+.intro-page {
   padding-bottom: 15px;
 }
 
@@ -43,22 +42,21 @@
       display: inline-block;
       vertical-align: baseline;
 
-      width: 16px;
-      height: 16px;
+      width: 24px;
+      height: 24px;
       margin-left: 10px;
-      padding: 4px;
       border-radius: 50%;
 
-      background-color: rgb(0 0 0 / 10%);
+      background-color: rgb(127 127 127 / 15%);
 
       &::before {
         content: " ";
 
         position: absolute;
         top: calc(50% - 2px);
-        left: 12.5%;
+        left: 15%;
 
-        width: 75%;
+        width: 70%;
         height: 4px;
 
         background-color: var(--text-color);
@@ -68,11 +66,11 @@
         content: " ";
 
         position: absolute;
-        top: 12.5%;
+        top: 15%;
         left: calc(50% - 2px);
 
         width: 4px;
-        height: 75%;
+        height: 70%;
 
         background-color: var(--text-color);
       }

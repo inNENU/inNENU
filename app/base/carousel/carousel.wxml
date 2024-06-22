@@ -1,15 +1,15 @@
 <view class="carousel">
   <!-- Note: QQ 不支持 catch:change 和 catch:animationfinish -->
   <swiper
-    class="{{config.class || ('item' + (config.fill ? '' : ' card'))}}"
+    class="{{config.class || ('images' + (config.fill ? '' : ' card'))}}"
     style="{{config.style}}"
     autoplay="{{config.autoplay !== false}}"
     interval="{{config.interval || '5000'}}"
     duration="{{config.duration || '500'}}"
     circular="{{config.circular !== false}}"
     vertical="{{config.vertical}}"
-    previous-margin="{{config.preMargin || '0px'}}"
-    next-margin="{{config.nextMargin || '0px'}}"
+    indicator-type="expand"
+    indicator-alignment="{{[0, 0.9]}}"
     bindchange="change"
     bindanimationfinish="animationFinish"
   >
@@ -23,7 +23,7 @@
     </swiper-item>
   </swiper>
 
-  <view
+  <!-- <view
     wx:if="{{config.indicatorDots !== false && config.images.length > 1}}"
     class="carousel-dots{{(config.fill ? '': ' card')}}"
   >
@@ -33,5 +33,5 @@
       class="dot {{index === current ? 'active' : ''}}"
       style="background-color: {{config.dotColor || '#fff'}}"
     />
-  </view>
+  </view> -->
 </view>
