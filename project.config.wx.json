@@ -129,7 +129,7 @@
         },
         {
           "name": "账户",
-          "pathName": "pkg/user/pages/account/account",
+          "pathName": "pkg/user/pages/account/login",
           "query": "",
           "launchMode": "default",
           "scene": null
