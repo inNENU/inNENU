@@ -215,7 +215,9 @@
   "rendererOptions": {
     "skyline": {
       "defaultDisplayBlock": true,
-      "defaultContentBox": true
+      "defaultContentBox": true,
+      "disableABTest": true,
+      "sdkVersionBegin": "3.2.0"
     }
   }
 }

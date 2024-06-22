@@ -183,6 +183,11 @@
   "componentFramework": "glass-easel",
   "enablePassiveEvent": true,
   "rendererOptions": {
-    "skyline": { "defaultDisplayBlock": true, "defaultContentBox": true }
+    "skyline": {
+      "defaultDisplayBlock": true,
+      "defaultContentBox": true,
+      "disableABTest": true,
+      "sdkVersionBegin": "3.2.0"
+    }
   }
 }
