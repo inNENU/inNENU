@@ -35,7 +35,7 @@
       "pages": [
         "pages/admission/admission",
         "pages/calendar/calendar",
-        "pages/enroll/grade-under",
+        "pages/enroll/score-under",
         "pages/enroll/plan-grad",
         "pages/enroll/plan-under",
         "pages/official/academic-detail",

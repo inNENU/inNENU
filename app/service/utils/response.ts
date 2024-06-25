@@ -40,6 +40,22 @@ export const ExpiredResponse: CommonFailedResponse<ActionFailType.Expired> = {
   msg: "登录信息已过期，请重新登录",
 };
 
+export const InvalidArgResponse = (
+  name = "",
+): CommonFailedResponse<ActionFailType.InvalidArg> => ({
+  success: false,
+  type: ActionFailType.InvalidArg,
+  msg: `${name}参数非法`,
+});
+
+export const MissingArgResponse = (
+  name = "必要",
+): CommonFailedResponse<ActionFailType.MissingArg> => ({
+  success: false,
+  type: ActionFailType.MissingArg,
+  msg: `缺少${name}参数`,
+});
+
 export const UnknownResponse = (
   msg: string,
 ): CommonFailedResponse<ActionFailType.Unknown> => ({

@@ -10,13 +10,6 @@
   <header title="招生计划" />
   <view class="selector">
     <picker
-      range="{{utils.getRange(years)}}"
-      value="{{yearIndex}}"
-      bindchange="yearChange"
-    >
-      年份: {{utils.getDisplay(years, yearIndex)}}
-    </picker>
-    <picker
       range="{{utils.getRange(provinces)}}"
       value="{{provinceIndex}}"
       bindchange="provinceChange"
@@ -24,12 +17,11 @@
       省份: {{utils.getDisplay(provinces, provinceIndex)}}
     </picker>
     <picker
-      wx:if="{{planTypes.length > 0}}"
-      range="{{utils.getRange(planTypes)}}"
-      value="{{planTypeIndex}}"
-      bindchange="planTypeChange"
+      range="{{utils.getRange(years)}}"
+      value="{{yearIndex}}"
+      bindchange="yearChange"
     >
-      计划性质: {{utils.getDisplay(planTypes, planTypeIndex)}}
+      年份: {{utils.getDisplay(years, yearIndex)}}
     </picker>
     <picker
       wx:if="{{majorTypes.length > 0}}"
@@ -37,15 +29,15 @@
       value="{{majorTypeIndex}}"
       bindchange="majorTypeChange"
     >
-      专业类别: {{utils.getDisplay(majorTypes, majorTypeIndex)}}
+      类型: {{utils.getDisplay(majorTypes, majorTypeIndex)}}
     </picker>
     <picker
-      wx:if="{{majorClasses.length > 0}}"
-      range="{{utils.getRange(majorClasses)}}"
-      value="{{majorClassIndex}}"
-      bindchange="majorClassChange"
+      wx:if="{{classTypes.length > 0}}"
+      range="{{utils.getRange(classTypes)}}"
+      value="{{classTypeIndex}}"
+      bindchange="classTypeChange"
     >
-      科类: {{utils.getDisplay(majorClasses, majorClassIndex)}}
+      科类: {{utils.getDisplay(classTypes, classTypeIndex)}}
     </picker>
 
     <button type="primary" class="primary" catch:tap="getPlan">查询</button>
@@ -62,12 +54,9 @@
   <view wx:for="{{results}}" wx:key="major" class="plan-item">
     <view class="header">{{item.major}}: {{item.count}}人</view>
     <view class="info">
-      <view><text class="label">专业属性:</text>{{item.majorType}}</view>
+      <view><text class="label">专业属性:</text>{{item.majorAttr}}</view>
       <view><text class="label">学制:</text>{{item.years}}</view>
-      <view
-        ><text class="label">学费:</text>{{item.fee == '0'? '免费':
-        item.fee}}</view
-      >
+      <view><text class="label">学费:</text>{{item.fee}}</view>
     </view>
   </view>
 </popup>

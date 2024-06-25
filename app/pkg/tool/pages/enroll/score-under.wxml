@@ -10,13 +10,6 @@
   <header title="历史分数线" />
   <view class="selector">
     <picker
-      range="{{utils.getRange(years)}}"
-      value="{{yearIndex}}"
-      bindchange="yearChange"
-    >
-      年份: {{utils.getDisplay(years, yearIndex)}}
-    </picker>
-    <picker
       range="{{utils.getRange(provinces)}}"
       value="{{provinceIndex}}"
       bindchange="provinceChange"
@@ -24,12 +17,11 @@
       省份: {{utils.getDisplay(provinces, provinceIndex)}}
     </picker>
     <picker
-      wx:if="{{planTypes.length > 0}}"
-      range="{{utils.getRange(planTypes)}}"
-      value="{{planTypeIndex}}"
-      bindchange="planTypeChange"
+      range="{{utils.getRange(years)}}"
+      value="{{yearIndex}}"
+      bindchange="yearChange"
     >
-      计划性质: {{utils.getDisplay(planTypes, planTypeIndex)}}
+      年份: {{utils.getDisplay(years, yearIndex)}}
     </picker>
     <picker
       wx:if="{{majorTypes.length > 0}}"
@@ -37,15 +29,15 @@
       value="{{majorTypeIndex}}"
       bindchange="majorTypeChange"
     >
-      专业类别: {{utils.getDisplay(majorTypes, majorTypeIndex)}}
+      类型: {{utils.getDisplay(majorTypes, majorTypeIndex)}}
     </picker>
     <picker
-      wx:if="{{majorClasses.length > 0}}"
-      range="{{utils.getRange(majorClasses)}}"
-      value="{{majorClassIndex}}"
-      bindchange="majorClassChange"
+      wx:if="{{classTypes.length > 0}}"
+      range="{{utils.getRange(classTypes)}}"
+      value="{{classTypeIndex}}"
+      bindchange="classTypeChange"
     >
-      科类: {{utils.getDisplay(majorClasses, majorClassIndex)}}
+      科类: {{utils.getDisplay(classTypes, classTypeIndex)}}
     </picker>
 
     <button type="primary" class="primary" catch:tap="getScore">查询</button>
@@ -80,25 +72,13 @@
   >
     <view class="header">{{result.major}}</view>
     <view class="info">
-      <view><text class="label">专业类别:</text>{{result.majorType}}</view>
+      <view><text class="label">专业类型:</text>{{result.majorAttr}}</view>
       <view wx:if="{{result.baseline}}"
-        ><text class="label">重点线:</text>{{result.baseline}}</view
+        ><text class="label">录取控制线:</text>{{result.baseline}}</view
       >
-      <view wx:if="{{result.minMajorScore}}"
-        ><text class="label">专业录取线:</text>{{result.minMajorScore}}</view
-      >
-      <view wx:if="{{result.minCulturalScore}}"
-        ><text class="label">最低文化成绩:</text
-        >{{result.minCulturalScore}}</view
-      >
-      <view wx:if="{{result.minAdmissionScore}}"
-        ><text class="label">最低录取成绩:</text
-        >{{result.minAdmissionScore}}</view
-      >
-      <view wx:if="{{result.maxAdmissionScore}}"
-        ><text class="label">最高录取成绩:</text
-        >{{result.maxAdmissionScore}}</view
-      >
+      <view><text class="label">最低分: </text>{{result.minScore}}</view>
+      <view><text class="label">最高分: </text>{{result.maxScore}}</view>
+      <view><text class="label">平均分: </text>{{result.averageScore}}</view>
     </view>
   </view>
 </popup>

@@ -1,148 +1,117 @@
-/* eslint-disable @typescript-eslint/naming-convention */
-import {
-  UNDER_ENROLL_MAJOR_CLASS_URL,
-  UNDER_ENROLL_MAJOR_TYPE_URL,
-  UNDER_ENROLL_PLAN_URL,
-  UNDER_ENROLL_SERVER,
-} from "./utils.js";
-import { request } from "../../../../api/index.js";
-import { createService } from "../../../../service/index.js";
+import { logger } from "@mptool/all";
 
-export interface UnderEnrollInfoOptions {
+import { UNDER_ENROLL_INFO_URL, UNDER_ENROLL_SERVER } from "./utils.js";
+import { request } from "../../../../api/index.js";
+import type {
+  ActionFailType,
+  CommonFailedResponse,
+  CommonSuccessResponse,
+} from "../../../../service/index.js";
+import {
+  MissingArgResponse,
+  UnknownResponse,
+  createService,
+} from "../../../../service/index.js";
+
+export interface UnderEnrollPlanInfoOptions {
   type: "info";
 }
 
-export interface UnderEnrollInfo {
-  years: string[];
-  provinces: string[];
-}
-
-const UNDER_ENROLL_PAGE_URL = `${UNDER_ENROLL_SERVER}/col_000018_000171.html`;
-
-const YEAR_REG_EXP =
-  /<select class="custom-select year" id="inputGroupSelect01">\s*?<option selected>请选择<\/option>\s*((?:<option value=".*">.*<\/option>\s*?)+)<\/select>/;
-const PROVINCE_REG_EXP =
-  /<select class="custom-select province" id="inputGroupSelect01"[^>]*>\s*?<option selected>请选择<\/option>\s*((?:<option value=".*">.*<\/option>\s*?)+)<\/select>/;
-
-const OPTION_REG_EXP = /<option value="(.*?)">.*?<\/option>/g;
-
-const getUnderEnrollInfo = async (): Promise<UnderEnrollInfo> => {
-  const { data: content } = await request<string>(UNDER_ENROLL_PAGE_URL);
-
-  const yearOptions = YEAR_REG_EXP.exec(content)?.[1];
-  const provinceOptions = PROVINCE_REG_EXP.exec(content)?.[1];
-
-  if (!yearOptions || !provinceOptions) {
-    throw new Error("获取省份和年份信息失败");
-  }
-
-  const years = Array.from(yearOptions.matchAll(OPTION_REG_EXP)).map(
-    ([, value]) => value,
-  );
-  const provinces = Array.from(provinceOptions.matchAll(OPTION_REG_EXP)).map(
-    ([, value]) => value,
-  );
-
-  return {
-    years,
-    provinces,
-  };
-};
-
-export interface UnderEnrollPlanTypeOptions {
-  type: "planType";
-  province: string;
-  year: string;
-}
-
-const getUnderEnrollPlanType = async ({
-  year,
-  province,
-}: UnderEnrollPlanTypeOptions): Promise<string[]> =>
-  (
-    await request<string[]>(UNDER_ENROLL_PLAN_URL, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: { typename: "plan", year, province },
-    })
-  ).data;
-
-export interface UnderEnrollMajorTypeOptions {
-  type: "majorType";
-  province: string;
-  year: string;
-  plan: string;
-}
-
-const getUnderEnrollMajorType = async ({
-  year,
-  province,
-  plan,
-}: UnderEnrollMajorTypeOptions): Promise<string[]> =>
-  (
-    await request<string[]>(UNDER_ENROLL_MAJOR_TYPE_URL, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({ typename: "plan", year, province, plan }),
-    })
-  ).data;
-
-export interface UnderEnrollMajorClassOptions {
-  type: "majorClass";
-  province: string;
-  year: string;
-  plan: string;
-  majorType: string;
-}
-
-const getUnderEnrollMajorClass = async ({
-  year,
-  province,
-  plan,
-  majorType,
-}: UnderEnrollMajorClassOptions): Promise<string[]> =>
-  (
-    await request<string[]>(UNDER_ENROLL_MAJOR_CLASS_URL, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        typename: "plan",
-        year,
-        province,
-        plan,
-        major_type: majorType,
-      }),
-    })
-  ).data;
-
 export interface UnderEnrollPlanQueryOptions {
   type: "query";
-  majorClass: string;
-  majorType: string;
-  plan: string;
+  /** 省份 */
   province: string;
+  /** 年份 */
+  year: string;
+  /**类型 */
+  classType: string;
+  /** 专业类型 */
+  majorType: string;
+}
+
+export type UnderEnrollPlanOptions =
+  | UnderEnrollPlanInfoOptions
+  | UnderEnrollPlanQueryOptions;
+
+interface RawUnderEnrollPlanOptionConfig {
+  // eslint-disable-next-line @typescript-eslint/naming-convention
+  major_type: string;
+  type: string;
   year: string;
 }
 
-export interface RawUnderEnrollPlanConfig {
+type RawUnderEnrollPlanOptionInfo = Record<
+  /* province */ string,
+  RawUnderEnrollPlanOptionConfig[]
+>;
+
+export type UnderEnrollPlanOptionInfo = Record<
+  /* province */ string,
+  Record<
+    /* year */ string,
+    Record</* type */ string, /* major type */ string[]>
+  >
+>;
+
+export type UnderEnrollPlanInfoSuccessResponse =
+  CommonSuccessResponse<UnderEnrollPlanOptionInfo>;
+
+export type UnderEnrollPlanInfoResponse =
+  | UnderEnrollPlanInfoSuccessResponse
+  | CommonFailedResponse;
+
+const getUnderEnrollInfo =
+  async (): Promise<UnderEnrollPlanInfoSuccessResponse> => {
+    // NOTE: year=2024 does not take any effect
+    const { data } = await request<RawUnderEnrollPlanOptionInfo>(
+      `${UNDER_ENROLL_INFO_URL}?which=plan`,
+    );
+
+    return {
+      success: true,
+      data: Object.fromEntries(
+        Object.entries(data).map(([province, configs]) => {
+          const result: Record<string, Record<string, string[]>> = {};
+
+          // eslint-disable-next-line @typescript-eslint/naming-convention
+          configs.forEach(({ major_type, type, year }) => {
+            ((result[year] ??= {})[type] ??= []).push(major_type);
+          });
+
+          return [province, result];
+        }),
+      ),
+    };
+  };
+
+interface RawUnderEnrollPlanConfig {
+  // eslint-disable-next-line @typescript-eslint/naming-convention
+  edu_cost: string;
+  // eslint-disable-next-line @typescript-eslint/naming-convention
+  edu_len: string;
+  // eslint-disable-next-line @typescript-eslint/naming-convention
   major: string;
+  // eslint-disable-next-line @typescript-eslint/naming-convention
   major_attr: string;
-  admission_num: string;
-  admission_len: string;
-  admission_cost: string;
+  // eslint-disable-next-line @typescript-eslint/naming-convention
+  major_type: string;
+  number: string;
+  province: string;
+  type: string;
+  memo: { String: ""; Valid: false };
+}
+
+interface RawUnderEnrollPlanResult {
+  message: "Success";
+  year: string;
+  plans: RawUnderEnrollPlanConfig[];
 }
 
 export interface UnderEnrollPlanConfig {
   /** 专业 */
   major: string;
-  /** 专业类别 */
-  majorType: string;
+  /** 专业属性 */
+  majorAttr: string;
   /** 招生计划 */
   count: string;
   /** 学制 */
@@ -151,102 +120,96 @@ export interface UnderEnrollPlanConfig {
   fee: string;
 }
 
-const getUnderEnrollPlans = async (
-  options: UnderEnrollPlanQueryOptions,
-): Promise<UnderEnrollPlanConfig[]> => {
-  const { data: rawPlans } = await request<RawUnderEnrollPlanConfig[]>(
-    `${UNDER_ENROLL_SERVER}/queryPlan`,
+type UnderEnrollPlanQuerySuccessResponse = CommonSuccessResponse<
+  UnderEnrollPlanConfig[]
+>;
+
+type UnderEnrollPlanQueryResponse =
+  | UnderEnrollPlanQuerySuccessResponse
+  | CommonFailedResponse<ActionFailType.MissingArg | ActionFailType.Unknown>;
+
+const UNDER_ENROLL_PLAN_URL = `${UNDER_ENROLL_SERVER}/api/user/queryPlan`;
+
+const queryUnderEnrollPlan = async ({
+  province,
+  year,
+  classType,
+  majorType,
+}: UnderEnrollPlanQueryOptions): Promise<UnderEnrollPlanQueryResponse> => {
+  if (!province) return MissingArgResponse("province");
+
+  if (!year) return MissingArgResponse("year");
+
+  if (!classType) return MissingArgResponse("classType");
+
+  if (!majorType) return MissingArgResponse("majorType");
+
+  const { data } = await request<RawUnderEnrollPlanResult>(
+    UNDER_ENROLL_PLAN_URL,
     {
       method: "POST",
       headers: {
-        "Content-Type": "application/json",
+        "Content-Type": "application/json; charset=utf-8",
       },
-      body: JSON.stringify(options),
+      body: JSON.stringify({
+        province,
+        year,
+        // eslint-disable-next-line @typescript-eslint/naming-convention
+        major_type: classType,
+        type: majorType,
+      }),
     },
   );
 
-  return rawPlans.map(
-    ({ major, major_attr, admission_num, admission_len, admission_cost }) => ({
-      major,
-      majorType: major_attr,
-      count: admission_num,
-      years: admission_len,
-      fee: admission_cost,
-    }),
-  );
+  return {
+    success: true,
+    data: data.plans.map(
+      ({
+        major,
+        major_attr: majorAttr,
+        number,
+        edu_len: years,
+        edu_cost: fee,
+      }) => ({
+        major,
+        majorAttr,
+        count: number,
+        years,
+        fee,
+      }),
+    ),
+  };
 };
 
-export interface UnderEnrollInfoSuccessResponse {
-  success: true;
-  data: UnderEnrollInfo;
-}
-
-export interface UnderEnrollDetailsSuccessResponse {
-  success: true;
-  data: string[];
-}
-
-export interface UnderEnrollPlanSuccessResponse {
-  success: true;
-  data: UnderEnrollPlanConfig[];
-}
-
-export type UnderEnrollPlanOptions =
-  | UnderEnrollInfoOptions
-  | UnderEnrollPlanTypeOptions
-  | UnderEnrollMajorClassOptions
-  | UnderEnrollMajorTypeOptions
-  | UnderEnrollPlanQueryOptions;
-
-export type UnderEnrollPlanResponse =
-  | UnderEnrollInfoSuccessResponse
-  | UnderEnrollDetailsSuccessResponse
-  | UnderEnrollPlanSuccessResponse;
+export type UnderEnrollPlanResponse<T extends UnderEnrollPlanOptions> =
+  T extends UnderEnrollPlanInfoOptions
+    ? UnderEnrollPlanInfoResponse
+    : UnderEnrollPlanQueryResponse;
 
 const getUnderEnrollPlanLocal = async <T extends UnderEnrollPlanOptions>(
   options: T,
-): Promise<
-  T extends UnderEnrollInfoOptions
-    ? UnderEnrollInfo
-    : T extends UnderEnrollPlanQueryOptions
-      ? UnderEnrollPlanConfig[]
-      : string[]
-> => {
-  const { type } = options;
+): Promise<UnderEnrollPlanResponse<T>> => {
+  try {
+    const { type } = options;
 
-  return (
-    type === "info"
-      ? await getUnderEnrollInfo()
-      : type === "planType"
-        ? await getUnderEnrollPlanType(options)
-        : type === "majorType"
-          ? await getUnderEnrollMajorType(options)
-          : type === "majorClass"
-            ? await getUnderEnrollMajorClass(options)
-            : await getUnderEnrollPlans(options)
-  ) as T extends UnderEnrollInfoOptions
-    ? UnderEnrollInfo
-    : T extends UnderEnrollPlanQueryOptions
-      ? UnderEnrollPlanConfig[]
-      : string[];
+    return (
+      type === "info"
+        ? await getUnderEnrollInfo()
+        : await queryUnderEnrollPlan(options)
+    ) as UnderEnrollPlanResponse<T>;
+  } catch (err) {
+    const { message } = err as Error;
+
+    logger.error(err);
+
+    return UnknownResponse(message);
+  }
 };
 
 const getUnderEnrollPlanOnline = async <T extends UnderEnrollPlanOptions>(
   options: T,
-): Promise<
-  T extends UnderEnrollInfoOptions
-    ? UnderEnrollInfo
-    : T extends UnderEnrollPlanQueryOptions
-      ? UnderEnrollPlanConfig[]
-      : string[]
-> =>
-  request<
-    T extends UnderEnrollInfoOptions
-      ? UnderEnrollInfo
-      : T extends UnderEnrollPlanQueryOptions
-        ? UnderEnrollPlanConfig[]
-        : string[]
-  >("/enroll/under-plan", {
+): Promise<UnderEnrollPlanResponse<T>> =>
+  request<UnderEnrollPlanResponse<T>>("/enroll/under-plan", {
     method: "POST",
     body: options,
   }).then(({ data }) => data);

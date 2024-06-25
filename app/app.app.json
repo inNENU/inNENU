@@ -19,7 +19,7 @@
 
     "pkg/tool/pages/admission/admission",
     "pkg/tool/pages/calendar/calendar",
-    "pkg/tool/pages/enroll/grade-under",
+    "pkg/tool/pages/enroll/score-under",
     "pkg/tool/pages/enroll/plan-grad",
     "pkg/tool/pages/enroll/plan-under",
     "pkg/tool/pages/official/academic-detail",

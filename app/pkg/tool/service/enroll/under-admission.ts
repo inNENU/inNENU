@@ -1,4 +1,4 @@
-import { UNDER_ENROLL_SERVER } from "./utils.js";
+import { OLD_UNDER_ENROLL_SERVER } from "./utils.js";
 import { request } from "../../../../api/index.js";
 import type { CommonFailedResponse } from "../../../../service/index.js";
 import { createService } from "../../../../service/index.js";
@@ -39,7 +39,7 @@ const getUnderAdmissionLocal = async ({
   name,
 }: UnderAdmissionOptions): Promise<UnderAdmissionResponse> => {
   const { data: result, status } = await request<RawEnrollResult>(
-    `${UNDER_ENROLL_SERVER}/query`,
+    `${OLD_UNDER_ENROLL_SERVER}/query`,
     {
       method: "POST",
       body: {

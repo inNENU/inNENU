@@ -5,13 +5,13 @@ import { appCoverPrefix } from "../../../../config/index.js";
 import { info } from "../../../../state/index.js";
 import { getPageColor, showNotice } from "../../../../utils/index.js";
 import type {
-  UnderEnrollPlanConfig,
-  UnderEnrollPlanOptionInfo,
+  UnderHistoryScoreConfig,
+  UnderHistoryScoreOptionInfo,
 } from "../../service/index.js";
-import { getUnderEnrollPlan } from "../../service/index.js";
+import { getUnderHistoryScore } from "../../service/index.js";
 
-const PAGE_ID = "under-enroll-plan";
-const PAGE_TITLE = "本科招生计划";
+const PAGE_ID = "under-enroll-score";
+const PAGE_TITLE = "往年分数线";
 
 $Page(PAGE_ID, {
   data: {
@@ -27,15 +27,19 @@ $Page(PAGE_ID, {
     majorTypeIndex: 0,
     classTypeIndex: 0,
 
+    titles: [] as { text: string; key: string }[],
+    sortKey: "",
+    ascending: false,
+
     popupConfig: {
-      title: "招生计划详情",
+      title: "历史分数详情",
       cancel: false,
     },
-    results: [] as UnderEnrollPlanConfig[],
+    results: [] as UnderHistoryScoreConfig[],
   },
 
   state: {
-    options: {} as UnderEnrollPlanOptionInfo,
+    options: {} as UnderHistoryScoreOptionInfo,
     yearOptions: {} as Record<string, Record<string, string[]>>,
     planOptions: {} as Record<string, string[]>,
   },
@@ -45,7 +49,7 @@ $Page(PAGE_ID, {
       color: getPageColor(),
       theme: info.theme,
     });
-    this.getPlanInfo();
+    this.getHistoryScoreInfo();
   },
 
   onShow() {
@@ -64,8 +68,8 @@ $Page(PAGE_ID, {
     imageUrl: `${appCoverPrefix}.jpg`,
   }),
 
-  async getPlanInfo() {
-    const result = await getUnderEnrollPlan({
+  async getHistoryScoreInfo() {
+    const result = await getUnderHistoryScore({
       type: "info",
     });
 
@@ -229,7 +233,7 @@ $Page(PAGE_ID, {
     return this.setData({ classTypes: [], classTypeIndex: 0 });
   },
 
-  getPlan() {
+  getScore() {
     const {
       provinces,
       provinceIndex,
@@ -254,7 +258,7 @@ $Page(PAGE_ID, {
 
     wx.showLoading({ title: "查询中" });
 
-    return getUnderEnrollPlan({
+    return getUnderHistoryScore({
       type: "query",
       year: years[yearIndex - 1],
       province: provinces[provinceIndex - 1],
@@ -262,12 +266,75 @@ $Page(PAGE_ID, {
       classType: classTypes[classTypeIndex - 1],
     }).then((result) => {
       wx.hideLoading();
+
       if (result.success) {
-        this.setData({ results: result.data });
+        const titles = [
+          {
+            text: "专业",
+            key: "major",
+          },
+          {
+            text: "专业类别",
+            key: "majorType",
+          },
+          {
+            text: "录取控制线",
+            key: "baseline",
+          },
+          {
+            text: "最低分",
+            key: "minScore",
+          },
+          {
+            text: "最高分",
+            key: "maxScore",
+          },
+          {
+            text: "平均分",
+            key: "averageScore",
+          },
+        ];
+
+        this.setData({ titles, sortKey: "", results: result.data });
+        this.sortResults({
+          // @ts-expect-error: Fake event
+          currentTarget: { dataset: { key: titles[0].key } },
+        });
       } else {
         showModal("查询失败", result.msg);
       }
     });
+  },
+
+  sortResults({
+    currentTarget,
+  }: WechatMiniprogram.TouchEvent<
+    Record<never, never>,
+    Record<never, never>,
+    { key: keyof UnderHistoryScoreConfig }
+  >) {
+    const { key } = currentTarget.dataset;
+    const { ascending, sortKey, results } = this.data;
+
+    if (key === sortKey) {
+      this.setData({
+        ascending: !ascending,
+        results: results.reverse(),
+      });
+    } else {
+      this.setData({
+        sortKey: key,
+        results: results.sort((itemA, itemB) =>
+          key === "major" || key === "majorAttr"
+            ? ascending
+              ? itemA[key].localeCompare(itemB[key])
+              : itemB[key].localeCompare(itemA[key])
+            : ascending
+              ? Number(itemB[key]) - Number(itemA[key])
+              : Number(itemA[key]) - Number(itemB[key]),
+        ),
+      });
+    }
   },
 
   close() {
