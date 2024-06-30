@@ -20,10 +20,6 @@
   <plain-text config="{{config}}" />
 </template>
 
-<template name="ol-component">
-  <plain-text config="{{config}}" />
-</template>
-
 <template name="img-component">
   <img config="{{config}}" images="{{images}}" />
 </template>
