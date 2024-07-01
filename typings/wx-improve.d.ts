@@ -75,28 +75,3 @@ declare namespace WechatMiniprogram {
       }
   >;
 }
-
-declare namespace WechatMiniprogram.Component {
-  // FIXME: https://github.com/wechat-miniprogram/api-typings/issues/306
-  interface PassiveEventOptions {
-    touchstart: boolean;
-    touchmove: boolean;
-    wheel: boolean;
-  }
-
-  interface InstanceProperties {
-    renderer?: "webview" | "skyline";
-  }
-}
-
-declare namespace WechatMiniprogram.Page {
-  interface PassiveEventOptions {
-    touchstart: boolean;
-    touchmove: boolean;
-    wheel: boolean;
-  }
-
-  interface InstanceProperties {
-    renderer?: "webview" | "skyline";
-  }
-}
