@@ -185,6 +185,8 @@ $Page(PAGE_ID, {
     const { title, url } = currentTarget.dataset;
 
     if (env === "app") wx.miniapp.openUrl({ url });
+    else if (wx.openOfficialAccountArticle)
+      wx.openOfficialAccountArticle({ url });
     else if (this.data.authorized)
       this.$go(`web?url=${encodeURIComponent(url)}&title=${title}`);
     // 无法跳转，复制链接到剪切板
