@@ -2,10 +2,6 @@
 <!-- weui导航栏 -->
 <template name="weui-navbar">
   <view
-    class="android-navbar-spacer"
-    style="height:{{statusBarHeight + 44}}px;"
-  />
-  <view
     class="weui-navbar {{shadow ? 'shadow' : ''}}"
     style="padding-top:{{statusBarHeight}}px"
   >
@@ -24,6 +20,10 @@
       >
     </view>
   </view>
+  <view
+    class="android-navbar-spacer"
+    style="height:{{statusBarHeight + 44}}px;"
+  />
   <view wx:if="{{nav.desc}}" class="weui-header">
     <view class="weui-header-title"><text>{{nav.title}}</text></view>
     <view wx:if="{{nav.desc}}" class="weui-header-desc">

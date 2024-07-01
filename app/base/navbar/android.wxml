@@ -3,10 +3,6 @@
 <!-- android导航栏 -->
 <template name="android-navbar">
   <view
-    class="android-navbar-spacer"
-    style="height:{{statusBarHeight + 44}}px"
-  />
-  <view
     class="android-navbar {{shadow ? 'shadow' : ''}}"
     style="padding-top:{{statusBarHeight}}px"
   >
@@ -25,4 +21,8 @@
       >
     </view>
   </view>
+  <view
+    class="android-navbar-spacer"
+    style="height:{{statusBarHeight + 44}}px"
+  />
 </template>
