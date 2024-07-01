@@ -116,6 +116,8 @@ $Page("music", {
         manager.title = currentSong.title;
         manager.singer = currentSong.singer;
         manager.coverImgUrl = currentSong.cover;
+        manager.referrerPath = "/pkg/tool/pages/music/music";
+        manager.audioType = "music";
       }
 
       this.initLyric();
