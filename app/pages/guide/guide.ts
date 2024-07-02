@@ -2,7 +2,6 @@ import { $Page, get, set } from "@mptool/all";
 
 import type {
   GridComponentConfig,
-  GridComponentItemConfig,
   ListComponentItemConfig,
   PageStateWithContent,
 } from "../../../typings/index.js";
@@ -11,8 +10,13 @@ import type { App } from "../../app.js";
 import { DAY, appCoverPrefix } from "../../config/index.js";
 import { searchMiniApp } from "../../service/index.js";
 import { getIdentity, info, menuSpace } from "../../state/index.js";
-import { getJson, getPageColor, showNotice } from "../../utils/index.js";
-import type { TabData } from "../typings.js";
+import type { EntranceConfig } from "../../utils/index.js";
+import {
+  getJson,
+  getPageColor,
+  getTabData,
+  showNotice,
+} from "../../utils/index.js";
 
 const { globalData } = getApp<App>();
 
@@ -91,9 +95,9 @@ $Page(PAGE_ID, {
 
   async setPage(): Promise<void> {
     if (globalData.settings) {
-      const data = await getJson<TabData>("function/data/tab");
+      const data = await getJson<EntranceConfig>("function/data/tab");
 
-      const { id, location, type } = getIdentity();
+      const { id } = getIdentity();
 
       const { "guide-page": guidePageConfig } = globalData.settings;
 
@@ -107,26 +111,7 @@ $Page(PAGE_ID, {
         return {
           header: record.name,
           path: record.path,
-          items: record.items
-            .map((item) => {
-              if (type === "under" && "under" in item) {
-                if (item.under === null) return null;
-                item.url = `info?from=${PAGE_TITLE}&id=${item.under}`;
-              } else if (type === "grad" && "grad" in item) {
-                if (item.grad === null) return null;
-                item.url = `info?from=${PAGE_TITLE}&id=${item.grad}`;
-              } else if (location === "benbu" && "benbu" in item) {
-                if (item.benbu === null) return null;
-                item.url = `info?from=${PAGE_TITLE}&id=${item.benbu}`;
-              } else if (location === "jingyue" && "jingyue" in item) {
-                if (item.jingyue === null) return null;
-                item.url = `info?from=${PAGE_TITLE}&id=${item.jingyue}`;
-              } else if (item.path)
-                item.url = `info?from=${PAGE_TITLE}&id=${item.path}`;
-
-              return item;
-            })
-            .filter((item): item is GridComponentItemConfig => item !== null),
+          items: getTabData(record.items, PAGE_TITLE),
         };
       });
 
@@ -136,20 +121,7 @@ $Page(PAGE_ID, {
 
           return {
             header: record.name,
-            items: record.items
-              .map((item) => {
-                if (type === "under" && "under" in item) {
-                  if (item.under === null) return null;
-                  item.url = `info?from=${PAGE_TITLE}&id=${item.under}`;
-                } else if (type === "grad" && "grad" in item) {
-                  if (item.grad === null) return null;
-                  item.url = `info?from=${PAGE_TITLE}&id=${item.grad}`;
-                } else if (item.path)
-                  item.url = `info?from=${PAGE_TITLE}&id=${item.path}`;
-
-                return item;
-              })
-              .filter((item): item is GridComponentItemConfig => item !== null),
+            items: getTabData(record.items, PAGE_TITLE),
           };
         }),
         more,
