@@ -45,22 +45,15 @@ $Page(PAGE_ID, {
         });
       })
       .catch(() => {
-        showModal(
-          "获取失败",
-          "校历信息获取失败，请稍后重试。如果该情况持续发生，请反馈给开发者",
-          () => {
-            this.$back();
-          },
-        );
+        showModal("获取失败", "校历信息获取失败，请稍后重试。", () => {
+          this.$back();
+        });
       });
   },
 
   onShow() {
     showNotice(PAGE_ID);
   },
-
-  // eslint-disable-next-line @typescript-eslint/no-empty-function
-  onPageScroll() {},
 
   onShareAppMessage: () => ({ title: PAGE_TITLE }),
 

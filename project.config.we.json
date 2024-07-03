@@ -275,6 +275,13 @@
           "scene": null
         },
         {
+          "name": "校史",
+          "pathName": "pkg/tool/pages/calendar/history",
+          "query": "",
+          "launchMode": "default",
+          "scene": null
+        },
+        {
           "name": "转专业计划",
           "pathName": "pkg/user/pages/change-major/change-major",
           "query": "",

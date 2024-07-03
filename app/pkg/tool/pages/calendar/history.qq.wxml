@@ -1,0 +1,14 @@
+<page-meta
+  background-text-style="{{darkmode ? 'dark' : 'light'}}"
+  background-color="{{color.bgColor}}"
+  background-color-top="{{color.bgColorTop}}"
+  background-color-bottom="{{color.bgColorBottom}}"
+  root-background-color="{{color.bgColor}}"
+/>
+<view class="{{theme}} calendar-page">
+  <header title="校史沿革" />
+  <view class="calendar-wrapper">
+    <time-line config="{{calendar}}" />
+  </view>
+  <footer />
+</view>

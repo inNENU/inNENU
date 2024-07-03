@@ -75,7 +75,7 @@ $Config({
       ? /^([^-]+)-(.*)$/.exec(name)!
       : [null, name, name];
 
-    if (["enroll", "map", "official"].includes(dir))
+    if (["calendar", "enroll", "map", "official"].includes(dir))
       return `/pkg/tool/pages/${dir}/${file}`;
 
     return `/pkg/user/pages/${dir}/${file}`;
