@@ -1,0 +1,6 @@
+{
+  "navigationBarTitleText": "本科人才培养计划",
+  "usingComponents": {
+    "header": "/components/header/header"
+  }
+}
