@@ -8,9 +8,14 @@ import { ensureJson, getJson, showNotice } from "../../../../utils/index.js";
 const PAGE_ID = "website";
 const PAGE_TITLE = "东师网站";
 
+interface WebsiteConfig {
+  name: string;
+  website: { name: string; desc: string; link: string }[];
+}
+
 $Page(PAGE_ID, {
   data: {
-    config: [] as unknown[],
+    config: [] as WebsiteConfig[],
   },
 
   onNavigate() {
@@ -18,8 +23,9 @@ $Page(PAGE_ID, {
   },
 
   onLoad() {
-    getJson<unknown[]>("function/website/index").then((config) => {
+    getJson<WebsiteConfig[]>("function/website/index").then((config) => {
       this.setData({
+        titles: config.map((item) => item.name),
         config,
         height: info.windowHeight - info.statusBarHeight - 160,
       });

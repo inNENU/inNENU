@@ -1,9 +1,8 @@
-<wxs src="./website.wxs" module="website" />
 <license />
 <view class="ios">
   <header title="东师网站" />
   <view style="height: 15px" />
-  <tab-bar nav-list="{{website.getName(config)}}" height="{{height || 300}}">
+  <tab-bar nav-list="{{titles}}" height="{{height || 300}}">
     <block
       wx:for="{{config}}"
       wx:key="name"
@@ -24,7 +23,6 @@
           catch:tap="copy"
         >
           <view class="name">{{item.name}}</view>
-          <view class="desc">{{item.desc}}</view>
           <view class="link">{{item.link}}</view>
         </view>
       </scroll-view>

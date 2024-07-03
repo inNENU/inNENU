@@ -1,7 +1,0 @@
-module.exports = {
-  getName: function (config) {
-    return config.map(function (item) {
-      return item.name;
-    });
-  },
-};

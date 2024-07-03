@@ -22,7 +22,7 @@
     <tab-bar
       wx:if="{{category}}"
       nav-list="{{under.tabBars}}"
-      height="{{height - 20}}"
+      height="{{height? height - 20: 300}}"
     >
       <view slot="page1">
         <icon type="info" size="40" />
