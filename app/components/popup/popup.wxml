@@ -1,26 +1,30 @@
-<view class="popup-wrapper{{show ? ' show' : ''}}">
-  <view class="mask" catch:tap="closeDialog" />
-  <view class="popup" style="padding-bottom: {{paddingBottom}}px;">
-    <view class="popup-header">
-      <view class="popup-header-button">
-        <!-- 关闭按钮 -->
-        <view class="icon-button icon-close" catch:tap="closeDialog" />
-      </view>
-      <view class="popup-header-title">
-        <text class="title">{{config.title}}</text>
-        <text class="subtitle">{{config.subtitle}}</text>
-      </view>
-      <view class="popup-header-button">
-        <!-- 更多按钮 -->
-        <view
-          wx:if="{{config.more}}"
-          class="icon-button icon-more"
-          catch:tap="more"
-        />
-      </view>
+<view
+  class="popup{{show ? ' show' : ''}}"
+  style="padding-bottom: {{paddingBottom}}px;"
+>
+  <view class="popup-header">
+    <view class="popup-header-button" catch:tap="closeDialog">
+      <!-- 关闭按钮 -->
+      <image
+        class="popup-header-icon"
+        src="/icon/close-{{darkmode? 'white': 'black'}}.svg"
+      />
     </view>
+    <view class="popup-header-title">
+      <text class="title">{{config.title}}</text>
+      <text class="subtitle">{{config.subtitle}}</text>
+    </view>
+    <view wx:if="{{config.more}}" class="popup-header-button" catch:tap="more">
+      <!-- 更多按钮 -->
+      <image
+        class="popup-header-icon"
+        src="/icon/more-{{darkmode? 'white': 'black'}}.svg"
+      />
+    </view>
+  </view>
+  <scroll-view type="list" scroll-y class="popup-body {{renderer}}">
     <view
-      class="popup-body body-class"
+      class="popup-content content-class"
       style="padding-left:{{paddingInline}}px;padding-right:{{paddingInline}}px; "
     >
       <slot>
@@ -36,15 +40,16 @@
     >
       <button
         wx:if="{{config.cancel !== false}}"
-        class="button"
+        class="popup-button"
         type="default"
         catch:tap="cancel"
       >
         <text>{{config.cancel || '取消'}}</text>
       </button>
-      <button class="button primary" type="primary" catch:tap="confirm">
+      <button class="popup-button primary" type="primary" catch:tap="confirm">
         <text>{{config.confirm || '确认'}}</text>
       </button>
     </view>
-  </view>
+  </scroll-view>
 </view>
+<view class="mask{{show ? ' show' : ''}}" catch:tap="closeDialog" />

@@ -1,8 +1,8 @@
 @use "../../styles/common/mask";
 @import "../../styles/lib/icon";
 
-.popup-wrapper {
-  position: absolute;
+.popup,
+.mask {
   opacity: 0;
   visibility: hidden;
   transition: all 0.3s;
@@ -10,10 +10,6 @@
   &.show {
     opacity: 1;
     visibility: visible;
-
-    .popup {
-      transform: translateY(0);
-    }
   }
 }
 
@@ -23,10 +19,6 @@
   bottom: 0;
   left: 0;
   z-index: 5000;
-
-  display: flex;
-  flex-direction: column;
-  align-items: stretch;
 
   overflow: hidden;
 
@@ -41,6 +33,10 @@
   transition: all 0.3s;
 
   transform: translateY(100%);
+
+  &.show {
+    transform: translateY(0);
+  }
 }
 
 .popup-header {
@@ -48,29 +44,29 @@
   flex: 0;
   align-items: center;
 
-  min-height: 8em;
   padding: 0 24px;
 
-  font-size: 8px;
-
-  .icon-button {
-    position: absolute;
-    top: 50%;
-    transform: translateY(-50%);
-  }
+  min-height: 64px;
 }
 
 .popup-header-button {
-  position: relative;
+  width: 24px;
+  height: 24px;
+}
 
-  + .popup-header-title {
-    padding: 0 40px;
-    text-align: center;
-  }
+.popup-header-icon {
+  width: 24px;
+  height: 24px;
 }
 
 .popup-header-title {
   flex: 1;
+  padding: 0 32px;
+  text-align: center;
+
+  &:last-child {
+    padding-right: 56px;
+  }
 
   .title {
     display: block;
@@ -83,14 +79,6 @@
     display: block;
     color: var(--grey);
     font-size: 10px;
-  }
-
-  + .popup-header-button {
-    left: auto;
-
-    .icon-button {
-      right: 0;
-    }
   }
 }
 
@@ -126,12 +114,11 @@
 .popup-footer {
   padding: 24px 24px 0;
   text-align: center;
+}
 
-  .button:nth-last-child(n + 2),
-  .button:nth-last-child(n + 2) + .button {
-    display: inline-block;
-    vertical-align: top;
-    width: 120px;
-    margin: 0 8px;
-  }
+.popup-button {
+  display: inline-block;
+  vertical-align: top;
+  width: 120px;
+  margin: 0 8px;
 }

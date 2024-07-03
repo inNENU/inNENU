@@ -1,0 +1,53 @@
+<view
+  class="popup{{show ? ' show' : ''}}"
+  style="padding-bottom: {{paddingBottom}}px;"
+>
+  <view class="popup-header">
+    <view class="popup-header-button" catch:tap="closeDialog">
+      <!-- 关闭按钮 -->
+      <image
+        class="popup-header-icon"
+        src="/icon/close-{{darkmode? 'white': 'black'}}.svg"
+      />
+    </view>
+    <view class="popup-header-title">
+      <text class="title">{{config.title}}</text>
+      <text class="subtitle">{{config.subtitle}}</text>
+    </view>
+    <view wx:if="{{config.more}}" class="popup-header-button" catch:tap="more">
+      <!-- 更多按钮 -->
+      <image
+        class="popup-header-icon"
+        src="/icon/more-{{darkmode? 'white': 'black'}}.svg"
+      />
+    </view>
+  </view>
+  <view
+    class="popup-content content-class"
+    style="padding-left:{{paddingInline}}px;padding-right:{{paddingInline}}px; "
+  >
+    <slot>
+      <view class="text"><text>{{config.text}}</text></view>
+      <view wx:if="{{config.desc}}" class="desc">
+        <text>{{config.desc}}</text>
+      </view>
+    </slot>
+  </view>
+  <view
+    wx:if="{{config.confirm !== false || config.cancel !== false}}"
+    class="popup-footer"
+  >
+    <button
+      wx:if="{{config.cancel !== false}}"
+      class="popup-button"
+      type="default"
+      catch:tap="cancel"
+    >
+      <text>{{config.cancel || '取消'}}</text>
+    </button>
+    <button class="popup-button primary" type="primary" catch:tap="confirm">
+      <text>{{config.confirm || '确认'}}</text>
+    </button>
+  </view>
+</view>
+<view class="mask{{show ? ' show' : ''}}" catch:tap="closeDialog" />

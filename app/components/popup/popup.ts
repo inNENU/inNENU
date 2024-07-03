@@ -3,6 +3,7 @@ import { $Component } from "@mptool/all";
 
 import type { PopupConfig } from "./typings.js";
 import { getWindowInfo } from "../../api/index.js";
+import { info } from "../../state/index.js";
 
 $Component({
   props: {
@@ -23,6 +24,7 @@ $Component({
 
   lifetimes: {
     attached() {
+      this.setData({ renderer: this.renderer, darkmode: info.darkmode });
       this.updateLayout();
     },
   },
@@ -59,5 +61,5 @@ $Component({
     },
   },
 
-  externalClasses: ["body-class"],
+  externalClasses: ["content-class"],
 });

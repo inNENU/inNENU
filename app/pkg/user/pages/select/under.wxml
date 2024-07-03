@@ -373,7 +373,7 @@
   config="{{classesPopupConfig}}"
   show="{{showClasses}}"
   padding-inline="15"
-  body-class="class-detail-popup-body"
+  content-class="class-detail-popup-body"
   catch:confirm="loadClasses"
   catch:close="closeClassesPopup"
 >

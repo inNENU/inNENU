@@ -1,6 +1,7 @@
 import { $Component } from "@mptool/all";
 
 import { getWindowInfo } from "../../api/index.js";
+import { info } from "../../state/index.js";
 
 $Component({
   props: {
@@ -18,6 +19,7 @@ $Component({
 
   lifetimes: {
     attached() {
+      this.setData({ darkmode: info.darkmode });
       this.updateLayout();
     },
   },
@@ -57,7 +59,7 @@ $Component({
     },
   },
 
-  externalClasses: ["body-class"],
+  externalClasses: ["content-class"],
 
   options: {
     styleIsolation: "apply-shared",
