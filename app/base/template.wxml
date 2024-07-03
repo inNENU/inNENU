@@ -108,8 +108,12 @@
 
 <!-- page with navigation bar -->
 <template name="page">
-  <view
+  <scroll-view
     wx:if="{{page}}"
+    type="list"
+    scroll-y
+    enable-back-to-top
+    enable-flex
     wx:scope-data="{{...page.scopeData}}"
     class="{{theme}} {{page.grey ? 'grey' : ''}}"
   >
@@ -144,7 +148,7 @@
         config="{{template.getFooterConfig(page)}}"
       />
     </block>
-  </view>
+  </scroll-view>
 </template>
 
 <!-- 错误文字 -->

@@ -1,6 +1,6 @@
 <view class="top-tab-wrapper">
   <scroll-view
-    class="top-tab-head"
+    class="top-tab-header-wrapper"
     scroll-x
     scroll-into-view="tab-bar{{activeTab}}"
     scroll-with-animation
@@ -14,7 +14,7 @@
         data-index="{{index}}"
         catch:tap="changeTab"
       >
-        <view class="text">{{item}}</view>
+        <view class="top-tab-header-text">{{item}}</view>
       </view>
     </view>
   </scroll-view>

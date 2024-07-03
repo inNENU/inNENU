@@ -11,7 +11,7 @@
   action="goToSettings"
   binding="$"
 />
-<view class="{{theme}} grey user-page">
+<scroll-view type="list" scroll-y class="{{theme}} grey user-page">
   <view class="account-wrapper" style="padding-top:{{statusBarHeight}}px">
     <view
       class="account"
@@ -37,4 +37,4 @@
   </view>
   <template is="components" data="{{content: page.content}}" />
   <footer config="{{footer}}" />
-</view>
+</scroll-view>

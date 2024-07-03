@@ -1,10 +1,9 @@
-.guide-page {
-  height: 100vh;
-  padding-bottom: 16px;
+.intro-page {
+  padding-bottom: 15px;
 }
 
 .feature-button-wrapper {
-  margin: 4px 16px;
+  margin: 4px 15px;
   text-align: right;
 }
 
@@ -16,8 +15,8 @@
 }
 
 .more {
-  margin: 16px;
-  border-radius: 16px;
+  margin: 15px;
+  border-radius: 15px;
 
   background-color: var(--bg-color-block);
 
@@ -30,7 +29,7 @@
     align-items: center;
     justify-content: center;
 
-    padding: 12px 16px;
+    padding: 10px 15px;
 
     font-weight: 600;
     font-size: 18px;
@@ -43,22 +42,21 @@
       display: inline-block;
       vertical-align: baseline;
 
-      width: 16px;
-      height: 16px;
+      width: 24px;
+      height: 24px;
       margin-left: 10px;
-      padding: 4px;
       border-radius: 50%;
 
-      background-color: rgb(0 0 0 / 10%);
+      background-color: rgb(127 127 127 / 15%);
 
       &::before {
         content: " ";
 
         position: absolute;
         top: calc(50% - 2px);
-        left: 12.5%;
+        left: 15%;
 
-        width: 75%;
+        width: 70%;
         height: 4px;
 
         background-color: var(--text-color);
@@ -68,11 +66,11 @@
         content: " ";
 
         position: absolute;
-        top: 12.5%;
+        top: 15%;
         left: calc(50% - 2px);
 
         width: 4px;
-        height: 75%;
+        height: 70%;
 
         background-color: var(--text-color);
       }
@@ -94,7 +92,7 @@
   }
 
   &.show {
-    margin: 16px 0;
+    margin: 15px 0;
     background-color: transparent;
 
     .more-title {

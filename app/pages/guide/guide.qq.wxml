@@ -7,7 +7,7 @@
   root-background-color="{{color.bgColor}}"
 />
 <license />
-<scroll-view type="list" scroll-y class="{{theme}} grey guide-page">
+<view class="{{theme}} grey guide-page">
   <view
     class="search-navigation-bar"
     style="padding-top:{{statusBarHeight}}px;"
@@ -35,9 +35,8 @@
       class="feature-button"
       hover-class="button-hover"
       catch:tap="toggleFeature"
+      >切换样式</view
     >
-      <text>切换样式</text>
-    </view>
   </view>
   <feature-panel
     wx:for="{{items}}"
@@ -62,4 +61,4 @@
       />
     </view>
   </view>
-</scroll-view>
+</view>
