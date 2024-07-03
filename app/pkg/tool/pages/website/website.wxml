@@ -1,29 +1,29 @@
 <license />
-<view class="ios">
+<view class="{{theme}} website-page">
   <header title="东师网站" />
-  <view style="height: 15px" />
-  <tab-bar nav-list="{{titles}}" height="{{height || 300}}">
+  <view style="height: 16px" />
+  <tab-bar
+    class="website-wrapper"
+    nav-list="{{titles}}"
+    height="{{height || 300}}"
+  >
     <block
       wx:for="{{config}}"
       wx:key="name"
       wx:for-item="category"
       wx:for-index="groupIndex"
     >
-      <scroll-view
-        scroll-y
-        class="website-wrapper"
-        slot="page{{groupIndex + 1}}"
-      >
+      <scroll-view scroll-y class="website-list" slot="page{{groupIndex + 1}}">
         <view
           wx:for="{{category.website}}"
           wx:key="name"
-          class="website border-bottom"
+          class="website-item border-bottom"
           hover-class="button-hover"
           data-link="{{item.link}}"
           catch:tap="copy"
         >
-          <view class="name">{{item.name}}</view>
-          <view class="link">{{item.link}}</view>
+          <view class="website-name">{{item.name}}</view>
+          <view class="website-link">{{item.link}}</view>
         </view>
       </scroll-view>
     </block>

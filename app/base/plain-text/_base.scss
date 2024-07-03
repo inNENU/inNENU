@@ -4,7 +4,7 @@
   max-width: var(--max-width);
   min-height: 13px;
   margin: 0 var(--paragraph-horizontal-margin);
-  padding: 12px 15px 4px;
+  padding: 12px 16px 4px;
 
   color: var(--text-color);
 
@@ -14,7 +14,7 @@
 
   .grey & {
     min-height: unset;
-    padding: 21px 15px 5px;
+    padding: 21px 16px 5px;
 
     color: var(--dark-grey);
 
@@ -26,7 +26,7 @@
 .text-component {
   max-width: var(--max-width);
   margin: 0 var(--paragraph-horizontal-margin);
-  padding: 0 15px;
+  padding: 0 16px;
 
   font-size: 16px;
   line-height: 1.6;
@@ -39,7 +39,7 @@
 
     overflow: hidden;
 
-    padding: 10px 15px;
+    padding: 10px 16px;
     border-radius: 8px;
 
     background-color: var(--bg-color-block);

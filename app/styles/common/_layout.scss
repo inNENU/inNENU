@@ -1,15 +1,15 @@
 page {
-  --max-width: 517px;
-  --horizontal-margin: 15px;
+  --max-width: 520px;
+  --horizontal-margin: 16px;
   --paragraph-horizontal-margin: auto;
 
-  @media (min-width: 547px) {
+  @media (min-width: 552px) {
     --horizontal-margin: auto;
   }
 
   .grey {
     --max-width: initial;
-    --horizontal-margin: 15px;
-    --paragraph-horizontal-margin: 15px;
+    --horizontal-margin: 16px;
+    --paragraph-horizontal-margin: 16px;
   }
 }

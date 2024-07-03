@@ -16,7 +16,7 @@
   text-align: left;
 
   .grey & {
-    padding: 21px 15px 5px;
+    padding: 21px 16px 5px;
     color: var(--dark-grey);
     font-weight: 400;
     font-size: 13px;
@@ -45,7 +45,7 @@
 
   // for button
   margin: 0 !important;
-  padding: 0 15px;
+  padding: 0 16px;
   border: none !important;
   border-radius: 0;
 
@@ -66,7 +66,7 @@
     position: absolute;
     right: 0;
     bottom: 0;
-    left: 15px;
+    left: 16px;
 
     height: 1px;
     border-bottom: 1px solid var(--border-color);
@@ -131,7 +131,7 @@
 
 .list-item-access {
   position: relative;
-  padding-right: 15px;
+  padding-right: 16px;
 
   &::after {
     content: " ";
@@ -156,8 +156,8 @@
 .list-component-footer {
   max-width: var(--max-width);
   min-height: 16px;
-  margin: 0 15px;
-  padding: 5px 15px 0;
+  margin: 0 16px;
+  padding: 5px 16px 0;
 
   color: var(--dark-grey);
 

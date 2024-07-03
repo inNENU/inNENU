@@ -2,7 +2,7 @@
 
 <view class="ios">
   <header title="{{title}}" />
-  <view style="height: 15px" />
+  <view style="height: 16px" />
   <tab-bar nav-list="{{phone.getName(config)}}" height="{{height || 300}}">
     <block
       wx:for="{{config}}"

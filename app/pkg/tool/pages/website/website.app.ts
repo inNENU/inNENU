@@ -13,6 +13,8 @@ interface WebsiteConfig {
 $Page("website", {
   data: {
     config: [] as WebsiteConfig[],
+    theme: info.theme,
+    titles: [] as string[],
   },
 
   onNavigate() {
@@ -25,6 +27,7 @@ $Page("website", {
         titles: config.map((item) => item.name),
         config,
         height: info.windowHeight - info.statusBarHeight - 160,
+        theme: info.theme,
       });
     });
 

@@ -9,7 +9,7 @@
 }
 
 .title {
-  margin: 6px 15px;
+  margin: 6px 16px;
   font-weight: bold;
   font-size: 20px;
   line-height: 1.25;
@@ -27,8 +27,8 @@
 .content {
   flex: 1;
 
-  width: calc(100% - 30px);
-  margin: 8px 15px;
+  width: calc(100% - 32px);
+  margin: 8px 16px;
 
   font-size: 15px;
   text-align: justify;
@@ -40,7 +40,7 @@
 
   .img {
     width: 92%;
-    max-width: 517px;
+    max-width: 520px;
     margin: 16px auto;
     border-radius: 16px;
   }

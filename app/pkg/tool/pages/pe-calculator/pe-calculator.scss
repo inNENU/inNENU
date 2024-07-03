@@ -52,7 +52,7 @@
 
   .unit {
     flex: none;
-    padding-left: 15px;
+    padding-left: 16px;
     color: var(--grey4);
   }
 }
@@ -68,7 +68,7 @@
 .score-list {
   position: relative;
 
-  margin: 15px 0;
+  margin: 16px 0;
   border-radius: 8px;
 
   background-color: var(--bg-color-block);
@@ -80,7 +80,7 @@
   .item {
     position: relative;
     display: flex;
-    padding: 6px 15px;
+    padding: 6px 16px;
 
     &::before {
       content: " ";

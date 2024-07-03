@@ -1,9 +1,9 @@
 .phone-component-wrapper {
   overflow: hidden;
 
-  max-width: calc(var(--max-width) - 30px);
+  max-width: calc(var(--max-width) - 32px);
   margin: 2px var(--horizontal-margin);
-  padding: 4px 15px;
+  padding: 4px 16px;
   border-radius: 8px;
 
   background-color: var(--bg-color-block);
@@ -35,7 +35,7 @@
     vertical-align: baseline;
     width: 24px;
     height: 24px;
-    margin-right: 15px;
+    margin-right: 16px;
   }
 
   .info {

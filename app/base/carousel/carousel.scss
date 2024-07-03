@@ -15,10 +15,10 @@
     &.card .image {
       overflow: hidden;
 
-      width: calc(100% - 30px);
+      width: calc(100% - 32px);
       height: 360rpx;
-      margin: 8px 15px;
-      border-radius: 16rpx;
+      margin: 8px 16px;
+      border-radius: 8px;
     }
   }
 }
