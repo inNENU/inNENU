@@ -1,5 +1,7 @@
 {
-  "navigationBarTitleText": "校历详情",
+  "disableScroll": true,
+  "navigationBarTitleText": "东师校历",
+  "renderer": "skyline",
   "usingComponents": {
     "header": "/components/header/header",
     "popup": "/components/popup/popup",

@@ -1,3 +1,12 @@
+.calendar-page {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: stretch;
+
+  height: 100vh;
+}
+
 .desc {
   margin: 12px 20px;
   color: var(--grey);
@@ -6,5 +15,10 @@
 }
 
 .calendar-wrapper {
+  box-sizing: border-box;
+  width: 100%;
   padding: 10px 16px;
+  flex: 1;
+  // for webview renderer only
+  overflow-y: scroll;
 }
