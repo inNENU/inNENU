@@ -1,5 +1,7 @@
 {
+  "disableScroll": true,
   "navigationBarTitleText": "往年分数",
+  "renderer": "skyline",
   "usingComponents": {
     "header": "/components/header/header",
     "popup": "/components/popup/popup"

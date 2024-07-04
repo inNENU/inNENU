@@ -14,14 +14,14 @@
       value="{{provinceIndex}}"
       bindchange="provinceChange"
     >
-      省份: {{utils.getDisplay(provinces, provinceIndex)}}
+      <text>省份: {{utils.getDisplay(provinces, provinceIndex)}}</text>
     </picker>
     <picker
       range="{{utils.getRange(years)}}"
       value="{{yearIndex}}"
       bindchange="yearChange"
     >
-      年份: {{utils.getDisplay(years, yearIndex)}}
+      <text>年份: {{utils.getDisplay(years, yearIndex)}}</text>
     </picker>
     <picker
       wx:if="{{majorTypes.length > 0}}"
@@ -29,7 +29,7 @@
       value="{{majorTypeIndex}}"
       bindchange="majorTypeChange"
     >
-      类型: {{utils.getDisplay(majorTypes, majorTypeIndex)}}
+      <text>类型: {{utils.getDisplay(majorTypes, majorTypeIndex)}}</text>
     </picker>
     <picker
       wx:if="{{classTypes.length > 0}}"
@@ -37,10 +37,12 @@
       value="{{classTypeIndex}}"
       bindchange="classTypeChange"
     >
-      科类: {{utils.getDisplay(classTypes, classTypeIndex)}}
+      <text>科类: {{utils.getDisplay(classTypes, classTypeIndex)}}</text>
     </picker>
 
-    <button type="primary" class="primary" catch:tap="getScore">查询</button>
+    <button type="primary" class="primary" catch:tap="getScore">
+      <text>查询</text>
+    </button>
   </view>
   <footer />
 </view>
@@ -53,6 +55,7 @@
 >
   <view class="filter">
     <button
+      class="filter-button {{sortKey === title.key? 'primary': ''}}"
       wx:for="{{titles}}"
       wx:key="*this"
       wx:for-item="title"
@@ -61,7 +64,9 @@
       data-key="{{title.key}}"
       catch:tap="sortResults"
     >
-      {{title.text}} {{sortKey === title.key? ascending? '↓': '↑': ''}}
+      <text
+        >{{title.text}} {{sortKey === title.key? ascending? '↓': '↑': ''}}</text
+      >
     </button>
   </view>
   <view
@@ -72,7 +77,7 @@
   >
     <view class="header">{{result.major}}</view>
     <view class="info">
-      <text> <text class="label">专业类型:</text>{{result.majorAttr}}</text>
+      <text><text class="label">专业类型:</text>{{result.majorAttr}}</text>
       <text wx:if="{{result.baseline}}"
         ><text class="label">录取控制线:</text>{{result.baseline}}</text
       >

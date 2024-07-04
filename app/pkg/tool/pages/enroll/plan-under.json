@@ -1,5 +1,7 @@
 {
+  "disableScroll": true,
   "navigationBarTitleText": "招生计划",
+  "renderer": "skyline",
   "usingComponents": {
     "header": "/components/header/header",
     "popup": "/components/popup/popup"

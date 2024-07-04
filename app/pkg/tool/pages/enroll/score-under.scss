@@ -11,10 +11,11 @@ picker {
 
 .filter {
   margin: 8px 0;
+}
 
-  button {
-    margin: 0 4px;
-  }
+.filter-button {
+  display: inline-block;
+  margin: 0 4px;
 }
 
 .grade-item {

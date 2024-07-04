@@ -14,14 +14,14 @@
       value="{{provinceIndex}}"
       bindchange="provinceChange"
     >
-      省份: {{utils.getDisplay(provinces, provinceIndex)}}
+      <text>省份: {{utils.getDisplay(provinces, provinceIndex)}}</text>
     </picker>
     <picker
       range="{{utils.getRange(years)}}"
       value="{{yearIndex}}"
       bindchange="yearChange"
     >
-      年份: {{utils.getDisplay(years, yearIndex)}}
+      <text>年份: {{utils.getDisplay(years, yearIndex)}}</text>
     </picker>
     <picker
       wx:if="{{majorTypes.length > 0}}"
@@ -29,7 +29,7 @@
       value="{{majorTypeIndex}}"
       bindchange="majorTypeChange"
     >
-      类型: {{utils.getDisplay(majorTypes, majorTypeIndex)}}
+      <text>类型: {{utils.getDisplay(majorTypes, majorTypeIndex)}}</text>
     </picker>
     <picker
       wx:if="{{classTypes.length > 0}}"
@@ -37,10 +37,12 @@
       value="{{classTypeIndex}}"
       bindchange="classTypeChange"
     >
-      科类: {{utils.getDisplay(classTypes, classTypeIndex)}}
+      <text>科类: {{utils.getDisplay(classTypes, classTypeIndex)}}</text>
     </picker>
 
-    <button type="primary" class="primary" catch:tap="getPlan">查询</button>
+    <button type="primary" class="primary" catch:tap="getPlan">
+      <text>查询</text>
+    </button>
   </view>
   <footer />
 </view>
@@ -51,12 +53,20 @@
   catch:confirm="close"
   catch:close="close"
 >
-  <view wx:for="{{results}}" wx:key="major" class="plan-item">
-    <view class="header">{{item.major}}: {{item.count}}人</view>
+  <view wx:for="{{results}}" wx:key="major" class="plan-item border-bottom">
+    <view class="header"><text>{{item.major}}: {{item.count}}人</text></view>
     <view class="info">
-      <view><text class="label">专业属性:</text>{{item.majorAttr}}</view>
-      <view><text class="label">学制:</text>{{item.years}}</view>
-      <view><text class="label">学费:</text>{{item.fee}}</view>
+      <view
+        ><text
+          ><text class="label">专业属性:</text>{{item.majorAttr}}</text
+        ></view
+      >
+      <view
+        ><text><text class="label">学制:</text>{{item.years}}</text></view
+      >
+      <view
+        ><text><text class="label">学费:</text>{{item.fee}}</text></view
+      >
     </view>
   </view>
 </popup>
