@@ -50,7 +50,7 @@
             <text>专业代码: {{major.code}}</text>
             <text wx:if="{{major.type}}">专业类型: {{major.type}}</text>
           </view>
-          <rich-text class="rich-media" nodes="{{major.content}}" />
+          <rich-text class="rich-text" nodes="{{major.content}}" />
         </view>
       </view>
     </view>

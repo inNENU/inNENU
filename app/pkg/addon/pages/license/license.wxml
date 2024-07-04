@@ -8,7 +8,7 @@
 <view class="{{theme}}">
   <navbar nav="{{ { title, from } }}" />
   <view class="license">
-    <rich-text class="rich-media" nodes="{{nodes}}" space="nbsp" />
+    <rich-text class="rich-text" nodes="{{nodes}}" space="nbsp" />
   </view>
   <footer />
 </view>

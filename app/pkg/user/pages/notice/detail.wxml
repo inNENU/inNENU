@@ -36,7 +36,7 @@
           <text>{{author}}</text>
         </text>
       </view>
-      <rich-text class="rich-media" nodes="{{content}}" space="nbsp" />
+      <rich-text class="rich-text" nodes="{{content}}" space="nbsp" />
     </block>
   </view>
   <view
