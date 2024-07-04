@@ -19,10 +19,7 @@ $Component({
   lifetimes: {
     attached() {
       // FIXME: Now skyline has bugs in setPassiveEvent
-      if (this.renderer !== "skyline")
-        this.setPassiveEvent?.({
-          wheel: false,
-        });
+      if (this.renderer !== "skyline") this.setPassiveEvent?.({ wheel: false });
     },
   },
 
