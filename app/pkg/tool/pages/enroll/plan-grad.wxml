@@ -6,40 +6,51 @@
   background-color-bottom="{{color.bgColorBottom}}"
   root-background-color="{{color.bgColor}}"
 />
-<view class="grad-enroll-plan {{theme}}">
+<view class="{{theme}} grad-enroll-plan">
   <navbar nav="{{ { title } }}" />
   <view class="filter">
-    筛选:
+    <text>筛选:</text>
+    <!-- NOTE: QQ 不支持 bind:change -->
     <picker
       range="{{schools}}"
       value="{{schoolIndex}}"
       bindchange="onSchoolChange"
     >
-      学院: {{schools[schoolIndex]}}
+      <text>学院: {{schools[schoolIndex]}}</text>
     </picker>
   </view>
   <view class="content">
-    <view class="list">
-      <view wx:for="{{plans}}" wx:for-item="plan" wx:key="name" class="school">
+    <view class="school-list">
+      <view
+        wx:for="{{plans}}"
+        wx:for-item="school"
+        wx:key="name"
+        class="school-item"
+      >
         <view class="school-name">
+          <text>{{school.name}}</text>
           <view
             class="site-button"
-            data-site="{{plan.site}}"
+            data-site="{{school.site}}"
             catch:tap="openSite"
           >
             <image class="site-icon" src="/base/account/icon/web.svg" />
           </view>
-          {{plan.name}}
         </view>
 
-        <phone config="{{gradPlan.getPhoneConfig(plan)}}" />
-        <view wx:for="{{plan.majors}}" wx:key="name" class="major">
-          <view class="name">{{item.major}}</view>
-          <view class="info">
-            <text>专业代码: {{item.code}}</text>
-            <text wx:if="{{item.type}}">专业类型: {{item.type}}</text>
+        <phone config="{{gradPlan.getPhoneConfig(school)}}" />
+        <view
+          wx:for="{{school.majors}}"
+          wx:for-item="major"
+          wx:key="name"
+          class="major-item"
+        >
+          <view class="major-name">{{major.name}}</view>
+          <view class="major-info">
+            <text>专业代码: {{major.code}}</text>
+            <text wx:if="{{major.type}}">专业类型: {{major.type}}</text>
           </view>
-          <rich-text class="rich-media" nodes="{{item.content}}" />
+          <rich-text class="rich-media" nodes="{{major.content}}" />
         </view>
       </view>
     </view>

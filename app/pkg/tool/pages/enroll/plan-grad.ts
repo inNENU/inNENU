@@ -24,7 +24,7 @@ $Page(PAGE_ID, {
     this.setData({
       color: getPageColor(),
       theme: info.theme,
-      title: recommend ? "研究生推免计划" : "研究生招生计划",
+      title: `研究生${recommend ? "推免" : "招生"}计划`,
     });
     this.getPlan(Boolean(recommend), school);
   },

@@ -13,7 +13,7 @@ const schoolInfoRegExp =
 const TABLE_HEADER = `<tr><th>招生专业</th><th>研究方向</th><th>学习方式</th><th>招生类型</th><th>拟接收人数</th><th>备注</th></tr>`;
 
 export interface GradRecommendPlanInfo {
-  major: string;
+  name: string;
   code: string;
   content: RichTextNode[];
 }
@@ -82,7 +82,7 @@ const getGradRecommendPlanLocal = async (): Promise<GradRecommendResponse> => {
               ).map(([, line]) => line.replace(/<\/?center>/g, ""));
 
               return {
-                major: majorName,
+                name: majorName,
                 code,
                 content: await getRichTextNodes(
                   `<table>${TABLE_HEADER}${lines.join("\n")}</table>`,

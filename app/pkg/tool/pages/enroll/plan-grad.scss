@@ -1,8 +1,3 @@
-.filter {
-  padding: 4px 16px;
-  text-align: left;
-}
-
 picker {
   display: inline-block;
 
@@ -13,14 +8,23 @@ picker {
   background-color: var(--bg-color-block);
 }
 
-.school {
+.filter {
+  padding: 4px 16px;
+  text-align: left;
+}
+
+.school-item {
   margin: 8px 0;
   text-align: left;
 }
 
-.site-button {
-  float: right;
+.school-name {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
 
+.site-button {
   width: 16px;
   height: 16px;
   padding: 8px;
@@ -30,9 +34,8 @@ picker {
 }
 
 .site-icon {
-  vertical-align: top;
-  width: 16px;
-  height: 16px;
+  width: 100%;
+  height: 100%;
 }
 
 .school-name {
@@ -42,16 +45,23 @@ picker {
   line-height: 1.5;
 }
 
-.major {
+.major-item {
   margin: 4px 16px;
   border-bottom: 1px solid var(--border-color);
 }
 
-.name {
+.major-name {
   font-size: 17px;
   line-height: 1.5;
 }
 
-.info {
+.major-info {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 14px;
+}
+
+.rich-media {
   font-size: 14px;
 }
