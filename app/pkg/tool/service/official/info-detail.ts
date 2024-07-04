@@ -76,15 +76,27 @@ const getOfficialInfoDetailLocal = async (
       pageView: await getOfficialPageView(id, owner),
       content: await getRichTextNodes(content, {
         transform: {
-          img: (node) => {
-            const src = node.attrs?.src;
-
-            if (src) {
-              if (src.includes("/fileTypeImages/")) return null;
-
-              if (src.startsWith("/"))
-                node.attrs!.src = `${OFFICIAL_URL}${src}`;
+          // trim text node in p
+          p: (node) => {
+            if (
+              node.children?.length === 1 &&
+              node.children[0].type === "text"
+            ) {
+              node.children[0].text = node.children[0].text.trim();
             }
+
+            return node;
+          },
+          img: (node) => {
+            const { src = "" } = (node.attrs ??= {});
+
+            if (src.includes("/fileTypeImages/")) return null;
+
+            if (src.startsWith("/")) node.attrs.src = `${OFFICIAL_URL}${src}`;
+
+            delete node.attrs.width;
+            delete node.attrs.height;
+            delete node.attrs.style;
 
             return node;
           },
