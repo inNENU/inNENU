@@ -121,18 +121,22 @@ $Page(PAGE_ID, {
     } = this.data;
 
     if (provinceIndex !== 0) {
-      this.state.yearOptions = this.state.options[provinces[provinceIndex - 1]];
-
+      const province = provinces[provinceIndex - 1];
+      const yearOptions = this.state.options[province];
+      const years = Object.keys(yearOptions);
       const oldYear = oldYears[oldYearIndex - 1];
-      const years = Object.keys(this.state.yearOptions);
       const yearIndex = years.indexOf(oldYear);
 
+      this.state.yearOptions = yearOptions;
+
+      // restore the previous selection
       if (yearIndex !== -1) {
         this.setData({ years, yearIndex });
 
         return this.setMajorTypeOptions();
       }
 
+      // if there is only one year, select it
       if (years.length === 1) {
         this.setData({ years, yearIndex: 1 });
 
@@ -141,6 +145,7 @@ $Page(PAGE_ID, {
 
       return this.setData({
         years,
+        yearIndex: 0,
         majorTypes: [],
         majorTypeIndex: 0,
         classTypes: [],
@@ -167,19 +172,23 @@ $Page(PAGE_ID, {
     } = this.data;
 
     if (yearIndex !== 0) {
-      this.state.planOptions = this.state.yearOptions[years[yearIndex - 1]];
-
+      const year = years[yearIndex - 1];
+      const planOptions = this.state.yearOptions[year];
       const oldMajorType = oldMajorTypes[oldMajorTypeIndex - 1];
-      const majorTypes = Object.keys(this.state.planOptions);
+      const majorTypes = Object.keys(planOptions);
       const majorTypeIndex = majorTypes.indexOf(oldMajorType);
 
+      this.state.planOptions = planOptions;
+
+      // restore the previous selection
       if (majorTypes.indexOf(oldMajorType) !== -1) {
         this.setData({ majorTypes, majorTypeIndex });
 
         return this.setClassTypeOptions();
       }
 
-      if (years.length === 1) {
+      // if there is only one major type, select it
+      if (majorTypes.length === 1) {
         this.setData({ majorTypes, majorTypeIndex: 1 });
 
         return this.setClassTypeOptions();
@@ -215,10 +224,12 @@ $Page(PAGE_ID, {
       const oldClassType = oldClassTypes[oldClassTypeIndex - 1];
       const classTypeIndex = classTypes.indexOf(oldClassType);
 
+      // restore the previous selection
       if (classTypeIndex !== -1) {
         return this.setData({ classTypes, classTypeIndex });
       }
 
+      // if there is only one class type, select it
       if (classTypes.length === 1) {
         return this.setData({ classTypes, classTypeIndex: 1 });
       }
