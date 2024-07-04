@@ -18,13 +18,11 @@ picker {
 }
 
 .grade-item {
-  margin: 8px 0;
-  padding: 4px;
-  border-bottom: 1px solid var(--border-color);
+  padding: 4px 0;
   text-align: left;
 
-  &:last-child {
-    border-bottom: none;
+  &:last-child::after {
+    display: none;
   }
 
   .header {
@@ -33,6 +31,9 @@ picker {
   }
 
   .info {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
     font-size: 14px;
   }
 

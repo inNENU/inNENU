@@ -68,17 +68,19 @@
     wx:for="{{results}}"
     wx:key="major"
     wx:for-item="result"
-    class="grade-item"
+    class="grade-item border-bottom"
   >
     <view class="header">{{result.major}}</view>
     <view class="info">
-      <view><text class="label">专业类型:</text>{{result.majorAttr}}</view>
-      <view wx:if="{{result.baseline}}"
-        ><text class="label">录取控制线:</text>{{result.baseline}}</view
+      <text> <text class="label">专业类型:</text>{{result.majorAttr}}</text>
+      <text wx:if="{{result.baseline}}"
+        ><text class="label">录取控制线:</text>{{result.baseline}}</text
       >
-      <view><text class="label">最低分: </text>{{result.minScore}}</view>
-      <view><text class="label">最高分: </text>{{result.maxScore}}</view>
-      <view><text class="label">平均分: </text>{{result.averageScore}}</view>
+    </view>
+    <view class="info">
+      <text><text class="label">最高分: </text>{{result.maxScore}}</text>
+      <text><text class="label">平均分: </text>{{result.averageScore}}</text>
+      <text><text class="label">最低分: </text>{{result.minScore}}</text>
     </view>
   </view>
 </popup>
