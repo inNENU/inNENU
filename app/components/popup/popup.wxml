@@ -27,12 +27,7 @@
       class="popup-content content-class"
       style="padding-left:{{paddingInline}}px;padding-right:{{paddingInline}}px; "
     >
-      <slot>
-        <view class="text"><text>{{config.text}}</text></view>
-        <view wx:if="{{config.desc}}" class="desc">
-          <text>{{config.desc}}</text>
-        </view>
-      </slot>
+      <slot />
     </view>
     <view
       wx:if="{{config.confirm !== false || config.cancel !== false}}"
