@@ -3,7 +3,7 @@
   "name": "inNENU",
   "version": "6.10.4",
   "mini-android": {
-    "sdkVersion": "1.3.18",
+    "sdkVersion": "1.3.23",
     "toolkitVersion": "0.7.3",
     "useExtendedSdk": {
       "media": true,
@@ -35,14 +35,15 @@
     },
     "privateDescriptions": {
       "ACCESS_COARSE_LOCATION": "您的位置将用于地图显示",
-      "ACCESS_FINE_LOCATION": "您的位置将用于校园地图导航",
-      "READ_CONTACTS": "此权限用于添加联系人到您的通讯录"
+      "ACCESS_FINE_LOCATION": "此权限用于校园地图导航",
+      "READ_CONTACTS": "此权限用于添加联系人到您的通讯录",
+      "WRITE_EXTERNAL_STORAGE": "此权限用于保存图片到您的相册"
     },
     "map": {
       "qmapAPIKey": "NLVBZ-PGJRQ-T7K5F-GQ54N-GIXDH-FCBC4"
     },
     "usePluginSdk": {
-      "map": "1.2.1"
+      "map": "1.2.2"
     },
     "schemes": {
       "scheme": "innenu"
@@ -50,7 +51,7 @@
     "appMenuEnable": true
   },
   "mini-ios": {
-    "sdkVersion": "1.3.27",
+    "sdkVersion": "1.3.34",
     "toolkitVersion": "0.0.9",
     "useExtendedSdk": {
       "WeAppOpenFuns": false,
