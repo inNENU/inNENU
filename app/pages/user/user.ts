@@ -164,6 +164,13 @@ $Page(PAGE_ID, {
 
   reportInfo: reportUserInfo,
 
+  // Note: For Wechat only
+  openChannel() {
+    wx.openChannelsUserProfile({
+      finderUserName: "sphQlMRqDF84Orm",
+    });
+  },
+
   // NOTE: For QQ Only
   addToDesktop() {
     wx.saveAppToDesktop();
