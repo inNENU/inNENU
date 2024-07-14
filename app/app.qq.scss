@@ -1,6 +1,6 @@
 /* css引入 */
-@use "styles/palette/index.qq";
-@use "styles/common/index.qq";
+@use "styles/palette/index.qq" as *;
+@use "styles/common/index.qq" as *;
 @use "styles/theme";
 @import "styles/lib/animation";
 @import "styles/lib/icon";
