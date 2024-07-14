@@ -10,7 +10,7 @@ import {
   appName,
 } from "../../config/index.js";
 import { searchMiniApp } from "../../service/index.js";
-import { getIdentity, info, menuSpace } from "../../state/index.js";
+import { envName, getIdentity, info, menuSpace } from "../../state/index.js";
 import {
   getPageColor,
   resolvePage,
@@ -51,6 +51,7 @@ $Page(PAGE_ID, {
     theme: info.theme,
     statusBarHeight: info.statusBarHeight,
     menuSpace,
+    envName,
 
     /** 候选词 */
     words: [] as string[],
