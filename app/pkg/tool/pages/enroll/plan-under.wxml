@@ -25,6 +25,7 @@
       <text>年份: {{utils.getDisplay(years, yearIndex)}}</text>
     </picker>
     <picker
+      wx:if="{{majorTypes.length > 0}}"
       range="{{utils.getRange(majorTypes)}}"
       value="{{majorTypeIndex}}"
       bindchange="majorTypeChange"
