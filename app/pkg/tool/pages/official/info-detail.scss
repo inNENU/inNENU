@@ -16,19 +16,30 @@
 }
 
 .info {
-  margin: 4px 0;
+  margin-bottom: 8px;
   font-size: 14px;
+}
 
-  .icon-font {
-    margin: 0 2px;
-  }
+.views,
+.from,
+.author,
+.time {
+  display: block;
+  margin: 0 4px;
+}
+
+.info-icon {
+  position: relative;
+  bottom: -1.75px;
+  width: 14px;
+  height: 14px;
 }
 
 .content {
   flex: 1;
 
   width: calc(100% - 32px);
-  margin: 8px 16px;
+  margin: 0 16px;
 
   font-size: 15px;
   text-align: justify;

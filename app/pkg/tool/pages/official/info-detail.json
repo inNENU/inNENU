@@ -1,4 +1,6 @@
 {
+  "disableScroll": true,
+  "renderer": "skyline",
   "usingComponents": {
     "error-hint": "/components/error-hint/error-hint"
   }

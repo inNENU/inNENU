@@ -4,10 +4,6 @@
   text-align: justify;
   word-break: break-all;
 
-  @media (min-width: 480px) {
-    font-size: 16px;
-  }
-
   .h1 {
     margin-top: 12px;
     margin-bottom: 6px;
@@ -28,6 +24,7 @@
 
   .p {
     line-height: 1.5;
+    // NOTE: Skyline does not support text-indent
     text-indent: 1.5em;
   }
 

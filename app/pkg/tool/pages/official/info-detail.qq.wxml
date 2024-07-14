@@ -7,32 +7,32 @@
   background-color-bottom="{{color.bgColorBottom}}"
   root-background-color="{{color.bgColor}}"
 />
-<view class="{{theme}} {{renderer}} info-detail">
+<view class="{{theme}} info-detail">
   <navbar nav="{{ { title: pageTitle } }}" />
   <view class="title">{{title}}</view>
   <error-hint wx:if="{{ status === 'error' }}" catch:retry="getInfo" />
   <login-hint wx:elif="{{ status === 'login' }}" source="{{pageTitle}}" />
-  <scroll-view wx:if="{{content}}" type="list" scroll-y class="content">
-    <span class="info">
-      <span class="time">
+  <view wx:if="{{content}}" class="content">
+    <view class="info">
+      <view class="time">
         <image class="info-icon" src="/icon/time-grey.svg" />
         <text>{{time}}</text>
-      </span>
-      <span class="views">
+      </view>
+      <view class="eye">
         <image class="info-icon" src="/icon/eye-grey.svg" />
         <text>{{pageView}}</text>
-      </span>
-      <span wx:if="{{from}}" class="from">
+      </view>
+      <view wx:if="{{from}}" class="teacher">
         <image class="info-icon" src="/icon/teacher-grey.svg" />
         <text>{{from}}</text>
-      </span>
-      <span wx:if="{{author || editor}}" class="author">
+      </view>
+      <view wx:if="{{author || editor}}" class="author">
         <image class="info-icon" src="/icon/author-grey.svg" />
         <text>{{author || editor}}</text>
-      </span>
-    </span>
+      </view>
+    </view>
     <rich-text class="rich-text" nodes="{{content}}" space="nbsp" />
-  </scroll-view>
+  </view>
   <view
     class="star-button"
     size="mini"

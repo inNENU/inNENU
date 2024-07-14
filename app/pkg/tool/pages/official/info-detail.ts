@@ -61,6 +61,7 @@ $Page(PAGE_ID, {
         qrcode: `${service}mp/qrcode?appID=${appID}&page=pkg/tool/pages/official/info-detail&scene=${url}@${type}`,
       },
       starred: starredInfos.some((item) => item.url === url),
+      renderer: this.renderer,
     });
   },
 
