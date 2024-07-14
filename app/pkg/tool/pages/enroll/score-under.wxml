@@ -17,6 +17,7 @@
       <text>省份: {{utils.getDisplay(provinces, provinceIndex)}}</text>
     </picker>
     <picker
+      wx:if="{{years.length > 0}}"
       range="{{utils.getRange(years)}}"
       value="{{yearIndex}}"
       bindchange="yearChange"
