@@ -85,7 +85,7 @@
 <template name="components">
   <block wx:if="{{content && content.length}}">
     <block wx:for="{{content}}" wx:key="id" wx:for-item="config">
-      <block wx:if="{{!item.hidden}}">
+      <block wx:if="{{!config.hidden}}">
         <template
           is="{{config.tag}}-component"
           data="{{config, images, index}}"

@@ -34,18 +34,17 @@ type PageInstanceWithPage = PageInstance<
  * @param page 页面内容
  */
 const setListItemState = (
-  listElement: (
+  listElement:
     | FunctionalListComponentItemConfig
     | GridComponentItemConfig
-    | ListComponentItemConfig
-  ) & { hidden?: boolean },
+    | ListComponentItemConfig,
   title = "返回",
 ):
-  | ((
+  | (
       | FunctionalListComponentItemConfig
       | GridComponentItemConfig
       | ListComponentItemConfig
-    ) & { hidden?: boolean })
+    )
   | null => {
   if (
     "env" in listElement &&
@@ -106,46 +105,41 @@ export const setComponentState = (
   images: string[] = [],
   title = "返回",
 ): ComponentConfig[] =>
-  components.map((component) => {
-    const { tag } = component;
+  components
+    .map((component) => {
+      const { tag } = component;
 
-    // 设置隐藏
-    if ("env" in component) component.hidden = !component.env?.includes(env);
+      // 设置隐藏
+      if ("env" in component && !component.env?.includes(env)) return null;
 
-    if (tag === "img") {
-      const { src, res, watermark } = component;
+      if (tag === "img") {
+        const { src, res, watermark } = component;
 
-      images.push(`${res || src}${watermark ? imageWaterMark : ""}`);
-    }
+        images.push(`${res || src}${watermark ? imageWaterMark : ""}`);
+      }
 
-    if (
-      "path" in component &&
-      (tag === "p" || tag === "ol" || tag === "ul" || tag === "text")
-    )
-      component.url = `info?from=${title || "返回"}&id=${component.path!}`;
+      if (
+        "path" in component &&
+        (tag === "p" || tag === "ol" || tag === "ul" || tag === "text")
+      )
+        component.url = `info?from=${title || "返回"}&id=${component.path!}`;
 
-    // 设置 list 组件
-    if (
-      "items" in component &&
-      (tag === "list" || tag === "grid" || tag === "functional-list")
-    )
-      component.items = component.items
-        .map(
-          (
-            listElement: (
-              | FunctionalListComponentItemConfig
-              | GridComponentItemConfig
-              | ListComponentItemConfig
-            ) & { hidden?: boolean },
-          ) => setListItemState(listElement, title),
-        )
-        .filter((listElement) => listElement !== null) as
-        | FunctionalListComponentItemConfig[]
-        | GridComponentItemConfig[]
-        | ListComponentItemConfig[];
+      // 设置 list 组件
+      if (tag === "list" || tag === "grid" || tag === "functional-list")
+        component.items = component.items
+          .map(
+            (
+              listElement:
+                | FunctionalListComponentItemConfig
+                | GridComponentItemConfig
+                | ListComponentItemConfig,
+            ) => setListItemState(listElement, title),
+          )
+          .filter((listElement) => listElement !== null);
 
-    return component;
-  });
+      return component;
+    })
+    .filter((component) => component !== null);
 
 /**
  * 获得界面数据，生成正确的界面数据
@@ -165,7 +159,11 @@ const setPageState = (
   page.from = option.from || "返回";
 
   if (page.content) {
-    setComponentState(page.content, (page.images ??= []), page.title);
+    page.content = setComponentState(
+      page.content,
+      (page.images ??= []),
+      page.title,
+    );
     page.scopeData = getScopeData(page as PageStateWithContent);
   }
 
