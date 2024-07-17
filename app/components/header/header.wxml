@@ -1,5 +1,8 @@
 <back-button />
-<view class="header-component" style="padding-top:{{statusBarHeight + 6}}px;">
+<view
+  class="header-component {{title.length > 7 ? 'small': ''}}"
+  style="padding-top:{{statusBarHeight + 6}}px;"
+>
   <text>{{title}}</text>
 </view>
 <view
