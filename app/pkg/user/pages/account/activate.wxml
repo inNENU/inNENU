@@ -8,208 +8,220 @@
 <view class="activate {{theme}}">
   <navbar nav="{{nav}}" />
   <view class="content">
-    <block wx:if="{{stage === 'license'}}">
-      <view class="license-title">东北师范大学统一身份认证系统隐私政策</view>
-      <rich-text class="license" nodes="{{license}}" />
-      <view class="license-checkbox">
-        <view
-          class="check-box{{accept? ' checked': ''}}"
-          catch:tap="acceptLicense"
-        ></view
-        >我已阅读并同意协议
-      </view>
-      <button
-        class="license-button primary"
-        type="primary"
-        catch:tap="confirmLicense"
-      >
-        开始激活账号
-      </button>
-    </block>
-    <block wx:elif="{{stage === 'success'}}">
-      <icon type="success" size="120" />
-      <view class="activate-title">激活成功</view>
-      <view class="activate-description"
-        >您的统一身份认证账号已完成激活，请牢记密码 {{password}}。</view
-      >
-      <view class="activate-description"
-        >如忘记密码，可通过绑定手机号找回。</view
-      >
-      <button
-        class="confirm-button primary"
-        type="primary"
-        data-url="account-login"
-        catch:tap="$bingRedirect"
-      >
-        登录账号
-      </button>
-    </block>
-    <block wx:else>
-      <image src="{{logo}}" class="logo" />
-      <block wx:if="{{stage === 'info'}}">
-        <view class="activate-title">步骤 1/3: 验证信息</view>
-
-        <view class="input-list-wrapper">
-          <view class="input-list-item">
-            <view class="text">姓名</view>
-            <input id="name" class="input" value="{{name}}" bindinput="input" />
-          </view>
-          <view class="input-list-item">
-            <view class="text">学号</view>
-            <input
-              id="schoolID"
-              class="input"
-              type="digit"
-              placeholder="录取通知书证书编号"
-              value="{{schoolID}}"
-              bindinput="input"
-            />
-          </view>
-          <view class="input-list-item">
-            <view class="text">证件类型</view>
-            <picker
-              id="idTypeIndex"
-              class="picker"
-              range="{{idTypes}}"
-              value="{{idTypeIndex}}"
-              bindchange="input"
-            >
-              {{idTypes[idTypeIndex]}}
-            </picker>
-          </view>
-          <view class="input-list-item">
-            <view class="text">证件号</view>
-            <input
-              id="id"
-              class="input"
-              type="idcard"
-              value="{{id}}"
-              bindinput="input"
-            />
-          </view>
-          <view class="input-list-item">
-            <view class="text">验证码</view>
-            <input
-              id="captcha"
-              class="input"
-              value="{{captcha}}"
-              bindinput="input"
-            />
-            <image
-              class="captcha-image"
-              src="{{image}}"
-              catch:tap="getCaptcha"
-            />
-          </view>
-        </view>
-        <button class="verify-button primary" type="primary" catch:tap="verify">
-          验证信息
-        </button>
-      </block>
-      <block wx:elif="{{stage === 'phone'}}">
-        <view class="activate-title">步骤 2/3: 绑定手机</view>
-
-        <view class="input-list-wrapper">
-          <view class="input-list-item">
-            <view class="text">手机号</view>
-            <input
-              id="mobile"
-              class="input"
-              type="digit"
-              placeholder="这是账户将绑定的手机号"
-              value="{{mobile}}"
-              bindinput="input"
-            />
-          </view>
-          <view class="input-list-item">
-            <view class="text">验证码</view>
-            <input
-              id="smsCode"
-              class="input"
-              type="digit"
-              value="{{smsCode}}"
-              bindinput="input"
-            />
-            <button type="default" class="sms-button" catch:tap="sendSMS">
-              发送验证码
-            </button>
-          </view>
+    <error-hint
+      wx:if="{{status === 'error'}}"
+      hint="{{errMsg}}"
+      catch:retry="init"
+    />
+    <block wx:if="{{stage === 'success'}}">
+      <block wx:if="{{stage === 'license'}}">
+        <view class="license-title">东北师范大学统一身份认证系统隐私政策</view>
+        <rich-text class="license" nodes="{{license}}" />
+        <view class="license-checkbox">
+          <view
+            class="check-box{{accept? ' checked': ''}}"
+            catch:tap="acceptLicense"
+          ></view
+          >我已阅读并同意协议
         </view>
         <button
-          class="verify-button primary"
+          class="license-button primary"
           type="primary"
-          catch:tap="bindPhone"
+          catch:tap="confirmLicense"
         >
-          绑定手机
+          开始激活账号
         </button>
       </block>
-      <block wx:elif="{{stage=== 'password'}}">
-        <view class="activate-title">步骤 3/3: 设置密码</view>
+      <block wx:elif="{{stage === 'success'}}">
+        <icon type="success" size="120" />
+        <view class="activate-title">激活成功</view>
         <view class="activate-description"
-          >密码至少包含大写字母、小写字母、数字、符号中的三项。</view
+          >您的统一身份认证账号已完成激活，请牢记密码 {{password}}。</view
         >
-
-        <view class="input-list-wrapper">
-          <view class="input-list-item">
-            <view class="text">密码</view>
-            <input
-              wx:if="{{showPassword}}"
-              id="password"
-              class="input"
-              type="text"
-              value="{{password}}"
-              bindinput="input"
-            />
-            <input
-              id="password"
-              wx:else
-              class="input"
-              type="password"
-              value="{{password}}"
-              bindinput="input"
-            />
-            <button
-              type="default"
-              class="password-button"
-              catch:tap="togglePassword"
-            >
-              {{showPassword? '隐藏': '显示'}}
-            </button>
-          </view>
-          <view class="input-list-item">
-            <view class="text">确认密码</view>
-            <input
-              wx:if="{{showConfirmPassword}}"
-              id="confirmPassword"
-              class="input"
-              type="text"
-              value="{{confirmPassword}}"
-              bindinput="input"
-            />
-            <input
-              id="confirmPassword"
-              wx:else
-              class="input"
-              type="password"
-              value="{{confirmPassword}}"
-              bindinput="input"
-            />
-            <button
-              type="default"
-              class="password-button"
-              catch:tap="toggleConfirmPassword"
-            >
-              {{showConfirmPassword? '隐藏': '显示'}}
-            </button>
-          </view>
-        </view>
+        <view class="activate-description"
+          >如忘记密码，可通过绑定手机号找回。</view
+        >
         <button
-          class="verify-button primary"
+          class="confirm-button primary"
           type="primary"
-          catch:tap="setPassword"
+          data-url="account-login"
+          catch:tap="$bingRedirect"
         >
-          设置密码
+          登录账号
         </button>
+      </block>
+      <block wx:else>
+        <image src="{{logo}}" class="logo" />
+        <block wx:if="{{stage === 'info'}}">
+          <view class="activate-title">步骤 1/3: 验证信息</view>
+
+          <view class="input-list-wrapper">
+            <view class="input-list-item">
+              <view class="text">姓名</view>
+              <input
+                id="name"
+                class="input"
+                value="{{name}}"
+                bindinput="input"
+              />
+            </view>
+            <view class="input-list-item">
+              <view class="text">学号</view>
+              <input
+                id="schoolID"
+                class="input"
+                type="digit"
+                placeholder="录取通知书证书编号"
+                value="{{schoolID}}"
+                bindinput="input"
+              />
+            </view>
+            <view class="input-list-item">
+              <view class="text">证件类型</view>
+              <picker
+                id="idTypeIndex"
+                class="picker"
+                range="{{idTypes}}"
+                value="{{idTypeIndex}}"
+                bindchange="input"
+              >
+                {{idTypes[idTypeIndex]}}
+              </picker>
+            </view>
+            <view class="input-list-item">
+              <view class="text">证件号</view>
+              <input
+                id="id"
+                class="input"
+                type="idcard"
+                value="{{id}}"
+                bindinput="input"
+              />
+            </view>
+            <view class="input-list-item">
+              <view class="text">验证码</view>
+              <input
+                id="captcha"
+                class="input"
+                value="{{captcha}}"
+                bindinput="input"
+              />
+              <image class="captcha-image" src="{{image}}" catch:tap="init" />
+            </view>
+          </view>
+          <button
+            class="verify-button primary"
+            type="primary"
+            catch:tap="verify"
+          >
+            验证信息
+          </button>
+        </block>
+        <block wx:elif="{{stage === 'phone'}}">
+          <view class="activate-title">步骤 2/3: 绑定手机</view>
+
+          <view class="input-list-wrapper">
+            <view class="input-list-item">
+              <view class="text">手机号</view>
+              <input
+                id="mobile"
+                class="input"
+                type="digit"
+                placeholder="这是账户将绑定的手机号"
+                value="{{mobile}}"
+                bindinput="input"
+              />
+            </view>
+            <view class="input-list-item">
+              <view class="text">验证码</view>
+              <input
+                id="smsCode"
+                class="input"
+                type="digit"
+                value="{{smsCode}}"
+                bindinput="input"
+              />
+              <button type="default" class="sms-button" catch:tap="sendSMS">
+                发送验证码
+              </button>
+            </view>
+          </view>
+          <button
+            class="verify-button primary"
+            type="primary"
+            catch:tap="bindPhone"
+          >
+            绑定手机
+          </button>
+        </block>
+        <block wx:elif="{{stage=== 'password'}}">
+          <view class="activate-title">步骤 3/3: 设置密码</view>
+          <view class="activate-description"
+            >密码至少包含大写字母、小写字母、数字、符号中的三项。</view
+          >
+
+          <view class="input-list-wrapper">
+            <view class="input-list-item">
+              <view class="text">密码</view>
+              <input
+                wx:if="{{showPassword}}"
+                id="password"
+                class="input"
+                type="text"
+                value="{{password}}"
+                bindinput="input"
+              />
+              <input
+                id="password"
+                wx:else
+                class="input"
+                type="password"
+                value="{{password}}"
+                bindinput="input"
+              />
+              <button
+                type="default"
+                class="password-button"
+                catch:tap="togglePassword"
+              >
+                {{showPassword? '隐藏': '显示'}}
+              </button>
+            </view>
+            <view class="input-list-item">
+              <view class="text">确认密码</view>
+              <input
+                wx:if="{{showConfirmPassword}}"
+                id="confirmPassword"
+                class="input"
+                type="text"
+                value="{{confirmPassword}}"
+                bindinput="input"
+              />
+              <input
+                id="confirmPassword"
+                wx:else
+                class="input"
+                type="password"
+                value="{{confirmPassword}}"
+                bindinput="input"
+              />
+              <button
+                type="default"
+                class="password-button"
+                catch:tap="toggleConfirmPassword"
+              >
+                {{showConfirmPassword? '隐藏': '显示'}}
+              </button>
+            </view>
+          </view>
+          <button
+            class="verify-button primary"
+            type="primary"
+            catch:tap="setPassword"
+          >
+            设置密码
+          </button>
+        </block>
       </block>
     </block>
   </view>

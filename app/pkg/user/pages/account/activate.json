@@ -1,3 +1,6 @@
 {
-  "navigationBarTitleText": "账号激活"
+  "navigationBarTitleText": "账号激活",
+  "usingComponents": {
+    "error-hint": "/components/error-hint/error-hint"
+  }
 }

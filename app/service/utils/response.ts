@@ -40,6 +40,13 @@ export const ExpiredResponse: CommonFailedResponse<ActionFailType.Expired> = {
   msg: "登录信息已过期，请重新登录",
 };
 
+export const RestrictedResponse: CommonFailedResponse<ActionFailType.Restricted> =
+  {
+    success: false,
+    type: ActionFailType.Restricted,
+    msg: "当前时段系统已关闭，请稍后重试",
+  };
+
 export const InvalidArgResponse = (
   name = "",
 ): CommonFailedResponse<ActionFailType.InvalidArg> => ({

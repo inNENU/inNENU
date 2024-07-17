@@ -30,6 +30,8 @@ export const enum ActionFailType {
   /** 登陆过期 */
   Expired = "expired",
 
+  /** 直接访问受限，需要 webVPN */
+  Restricted = "restricted",
   /** 无权限 */
   Forbidden = "forbidden",
   /** 冲突 */

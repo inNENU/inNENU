@@ -2,7 +2,7 @@ import { $Page, get, set } from "@mptool/all";
 
 import { showModal, showToast } from "../../../../api/index.js";
 import { MINUTE, appCoverPrefix } from "../../../../config/index.js";
-import { supportRedirect } from "../../../../service/index.js";
+import { ActionFailType, supportRedirect } from "../../../../service/index.js";
 import { envName, info, logo, user } from "../../../../state/index.js";
 import { getPageColor, showNotice } from "../../../../utils/index.js";
 import type {
@@ -11,7 +11,7 @@ import type {
   ActivatePhoneSmsOptions,
   ActivateReplacePhoneOptions,
 } from "../../service/index.js";
-import { activateAccount, idTypes } from "../../service/index.js";
+import { ID_TYPES, activateAccount } from "../../service/index.js";
 
 const ACTIVATE_SMS_KEY = "activate-sms-code";
 const PAGE_ID = "account-activate";
@@ -41,13 +41,14 @@ ${envName}严格使用官方激活流程。
 `,
     },
 
+    status: "loading" as "loading" | "success" | "error",
     stage: "license" as "license" | "info" | "phone" | "password" | "success",
 
     accept: false,
 
     name: "",
     schoolID: "",
-    idTypes,
+    idTypes: ID_TYPES,
     idTypeIndex: 0,
     id: "",
     captcha: "",
@@ -70,7 +71,7 @@ ${envName}严格使用官方激活流程。
       showModal("无需激活", "当前已登录统一身份认证账户", () => {
         this.$back();
       });
-    else this.getCaptcha();
+    else this.init();
 
     this.setData({ color: getPageColor() });
   },
@@ -101,10 +102,23 @@ ${envName}严格使用官方激活流程。
     this.setData({ [id]: value });
   },
 
-  getCaptcha() {
-    return activateAccount({ type: "captcha" }).then(({ license, image }) => {
-      this.setData({ license, image });
-    });
+  async init() {
+    wx.showLoading({ title: "加载中" });
+
+    const result = await activateAccount({ type: "init" });
+
+    wx.hideLoading();
+
+    if (!result.success) {
+      return this.setData({
+        status: "error",
+        errMsg: result.msg,
+      });
+    }
+
+    const { license, image } = result;
+
+    this.setData({ status: "success", license, image });
   },
 
   acceptLicense() {
@@ -127,7 +141,7 @@ ${envName}严格使用官方激活流程。
     if (!captcha) return showModal("信息缺失", "请输入验证码");
 
     const options = {
-      type: "info",
+      type: "valid",
       name,
       id,
       idType: idTypes[idTypeIndex],
@@ -149,7 +163,7 @@ ${envName}严格使用官方激活流程。
 
     showModal("信息有误", data.msg);
 
-    return this.getCaptcha();
+    return this.init();
   },
 
   async sendSMS() {
@@ -198,7 +212,7 @@ ${envName}严格使用官方激活流程。
     wx.hideLoading();
 
     if (data.success) this.setData({ stage: "password" });
-    else if (data.type === "conflict")
+    else if (data.type === ActionFailType.Conflict)
       showModal(
         "手机号冲突",
         `${data.msg}是否绑定该手机号？`,
