@@ -1,6 +1,6 @@
 <license />
 <view class="{{theme}} website-page">
-  <header title="东师网站" />
+  <header title="{{title}}" />
   <view style="height: 16px" />
   <tab-bar
     class="website-wrapper"

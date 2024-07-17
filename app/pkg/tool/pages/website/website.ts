@@ -15,6 +15,7 @@ interface WebsiteConfig {
 
 $Page(PAGE_ID, {
   data: {
+    title: PAGE_TITLE,
     config: [] as WebsiteConfig[],
     theme: info.theme,
     titles: [] as string[],

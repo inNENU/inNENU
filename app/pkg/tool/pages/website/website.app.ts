@@ -12,6 +12,7 @@ interface WebsiteConfig {
 
 $Page("website", {
   data: {
+    title: "东师网站",
     config: [] as WebsiteConfig[],
     theme: info.theme,
     titles: [] as string[],
