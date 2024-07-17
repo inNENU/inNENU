@@ -34,7 +34,9 @@ import { createQueue } from "../../utils/index.js";
 
 type ForceSelectResponse =
   | CommonSuccessResponse<string>
-  | CommonFailedResponse<ActionFailType.MissingCredential>
+  | CommonFailedResponse<
+      ActionFailType.MissingCredential | ActionFailType.Restricted
+    >
   | AuthLoginFailedResponse
   | FailResponse<UnderSelectProcessResponse>;
 

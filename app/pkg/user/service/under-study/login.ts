@@ -12,6 +12,7 @@ import type {
 } from "../../../../service/index.js";
 import {
   MissingCredentialResponse,
+  RestrictedResponse,
   UnknownResponse,
   authLogin,
   checkAccountStatus,
@@ -61,7 +62,8 @@ export interface UnderStudyLoginSuccessResponse {
 
 export type UnderStudyLoginResponse =
   | UnderStudyLoginSuccessResponse
-  | AuthLoginFailedResponse;
+  | AuthLoginFailedResponse
+  | CommonFailedResponse<ActionFailType.Restricted>;
 
 const SSO_LOGIN_URL = `${UNDER_STUDY_SERVER}/new/ssoLogin`;
 
@@ -88,9 +90,8 @@ export const underStudyLoginLocal = async (
     redirect: "manual",
   });
 
-  if (ticketResponse.status !== 302) {
-    return UnknownResponse("登录失败");
-  }
+  if (ticketResponse.status === 405) return RestrictedResponse;
+  if (ticketResponse.status !== 302) return UnknownResponse("登录失败");
 
   const finalLocation = ticketResponse.headers.get("Location");
 
