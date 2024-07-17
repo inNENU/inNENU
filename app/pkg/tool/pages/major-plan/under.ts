@@ -6,7 +6,7 @@ import { showNotice } from "../../../../utils/index.js";
 import { getUnderMajorPlan } from "../../service/index.js";
 
 const PAGE_ID = "under-major-plan";
-const PAGE_TITLE = "本科人才培养计划";
+const PAGE_TITLE = "本科人才培养方案";
 
 $Page(PAGE_ID, {
   data: {
