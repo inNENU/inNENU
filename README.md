@@ -21,6 +21,7 @@ https://authserver.nenu.edu.cn;
 https://bkjx.nenu.edu.cn;
 https://bkzsw.nenu.edu.cn;
 https://dsyjs.nenu.edu.cn;
+https://gkcx.nenu.edu.cn;
 https://math127.nenu.edu.cn;
 https://www.library.nenu.edu.cn;
 https://www.nenu.edu.cn;
