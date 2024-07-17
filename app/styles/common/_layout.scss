@@ -6,10 +6,10 @@ page {
   @media (min-width: 552px) {
     --horizontal-margin: auto;
   }
+}
 
-  .grey {
-    --max-width: initial;
-    --horizontal-margin: 16px;
-    --paragraph-horizontal-margin: 16px;
-  }
+.grey {
+  --max-width: initial;
+  --horizontal-margin: 16px;
+  --paragraph-horizontal-margin: 16px;
 }

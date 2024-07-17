@@ -47,6 +47,9 @@ $Config({
     if (["change-major", "course-table", "exam-place"].includes(pageName))
       return `/pkg/user/pages/${pageName}/${pageName}`;
 
+    if (pageName === "under-major-plan")
+      return "/pkg/tool/pages/major-plan/under";
+
     // handle info sub package
     if (
       [

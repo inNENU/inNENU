@@ -39,6 +39,7 @@
         "pages/official/info-list",
         "pages/official/notice-detail",
         "pages/official/notice-list",
+        "pages/major-plan/under",
         "pages/map/detail",
         "pages/map/map",
         "pages/music/music",

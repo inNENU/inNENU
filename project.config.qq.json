@@ -365,6 +365,13 @@
           "scene": null
         },
         {
+          "name": "本科人才培养计划",
+          "pathName": "pkg/tool/pages/major-plan/under",
+          "query": "",
+          "launchMode": "default",
+          "scene": null
+        },
+        {
           "name": "地图地点详情",
           "pathName": "pkg/tool/pages/map/detail",
           "query": "id=benbu/general/index&point={\"latitude\":43.86188,\"longitude\":125.33137,\"name\":\"自由校区\"}",

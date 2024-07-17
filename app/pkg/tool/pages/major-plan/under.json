@@ -1,0 +1,8 @@
+{
+  "disableScroll": true,
+  "navigationBarTitleText": "本科人才培养计划",
+  "renderer": "skyline",
+  "usingComponents": {
+    "header": "/components/header/header"
+  }
+}

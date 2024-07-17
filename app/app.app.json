@@ -29,6 +29,7 @@
     "pkg/tool/pages/official/info-list",
     "pkg/tool/pages/official/notice-detail",
     "pkg/tool/pages/official/notice-list",
+    "pkg/tool/pages/major-plan/under",
     "pkg/tool/pages/map/detail",
     "pkg/tool/pages/map/map",
     "pkg/tool/pages/music/music",
