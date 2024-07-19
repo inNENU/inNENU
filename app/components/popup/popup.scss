@@ -86,12 +86,9 @@
 
 .popup-body {
   position: relative;
-
   flex: 1;
-
-  word-wrap: break-word;
-
   max-height: 75vh;
+  word-wrap: break-word;
 
   &.skyline {
     height: 75vh;
@@ -121,12 +118,13 @@
 }
 
 .popup-button {
-  background-color: var(--bg-color-block);
-
   display: inline-block;
   vertical-align: top;
+
   width: 120px;
   margin: 0 8px;
+
+  background-color: var(--bg-color-block);
 
   &.primary {
     background-color: var(--theme-color) !important;

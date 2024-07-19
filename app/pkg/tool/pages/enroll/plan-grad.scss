@@ -20,8 +20,14 @@ picker {
 
 .school-name {
   display: flex;
-  justify-content: space-between;
   align-items: center;
+  justify-content: space-between;
+
+  margin: 8px 16px 4px;
+
+  font-weight: 500;
+  font-size: 22px;
+  line-height: 1.5;
 }
 
 .site-button {
@@ -38,13 +44,6 @@ picker {
   height: 100%;
 }
 
-.school-name {
-  margin: 8px 16px 4px;
-  font-weight: 500;
-  font-size: 22px;
-  line-height: 1.5;
-}
-
 .major-item {
   margin: 4px 16px;
   border-bottom: 1px solid var(--border-color);
@@ -57,8 +56,8 @@ picker {
 
 .major-info {
   display: flex;
-  justify-content: space-between;
   align-items: center;
+  justify-content: space-between;
   font-size: 14px;
 }
 

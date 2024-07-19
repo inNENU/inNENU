@@ -6,6 +6,7 @@
 
 .category-main-title {
   margin: 24px auto 4px;
+
   font-weight: bold;
   font-size: 18px;
   line-height: 1.5;
@@ -22,14 +23,16 @@
 .category-item {
   margin: 8px 15px;
   padding: 8px 12px;
-  background-color: var(--bg-color-block);
   border-radius: 8px;
+
+  background-color: var(--bg-color-block);
+
   line-height: 1.25;
 
   .title {
-    font-size: 16px;
-    font-weight: bold;
     padding-bottom: 4px;
+    font-weight: bold;
+    font-size: 16px;
   }
 
   .description {

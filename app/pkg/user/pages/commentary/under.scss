@@ -21,11 +21,13 @@
 }
 
 .course-item {
-  margin: 8px 16px;
-  text-align: left;
   display: flex;
   flex-direction: row;
   align-items: center;
+
+  margin: 8px 16px;
+
+  text-align: left;
 }
 
 .course-header {
@@ -44,19 +46,19 @@
 }
 
 .total-score {
-  font-weight: bold;
-  line-height: 1.5;
-  font-size: 17px;
   padding-bottom: 8px;
+  font-weight: bold;
+  font-size: 17px;
+  line-height: 1.5;
 }
 
 .score-item {
-  padding: 8px 0;
   display: flex;
+  padding: 8px 0;
 
   .text {
-    font-size: 14px;
     flex: 1;
+    font-size: 14px;
   }
 
   .answer {
@@ -69,8 +71,8 @@
 }
 
 .question-title {
-  line-height: 1.5;
   margin-bottom: 4px;
+  line-height: 1.5;
 }
 
 .score-selector {
@@ -93,10 +95,9 @@
 .commentary-textarea {
   box-sizing: border-box;
   width: 100%;
+  height: 6rem;
   margin: 8px 0;
   padding: 8px;
-
   border: 1px solid var(--border-color);
   border-radius: 8px;
-  height: 6rem;
 }

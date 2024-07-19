@@ -2,15 +2,15 @@
   text-align: left;
 
   .action-title {
-    font-size: 17px;
-    font-weight: bold;
     padding: 8px 25px 4px;
+    font-weight: bold;
+    font-size: 17px;
   }
 
   .action-button {
     max-width: var(--max-width);
-    font-size: 16px;
     margin: 8px auto;
+    font-size: 16px;
   }
 
   .action-button-mini {
@@ -32,8 +32,8 @@
   }
 
   .info {
-    font-size: 14px;
     padding: 4px 0;
+    font-size: 14px;
   }
 }
 

@@ -1,6 +1,6 @@
 {
   "name": "innenu",
-  "version": "6.0.0",
+  "version": "6.10.4",
   "private": true,
   "homepage": "https://innenu.com",
   "bugs": {
@@ -47,7 +47,7 @@
     }
   },
   "dependencies": {
-    "@mptool/all": "0.8.2"
+    "@mptool/all": "0.8.3"
   },
   "devDependencies": {
     "@commitlint/cli": "19.3.0",
@@ -56,7 +56,7 @@
     "@rollup/plugin-commonjs": "26.0.1",
     "commitizen": "4.3.0",
     "cpx2": "7.0.1",
-    "cz-git": "1.9.3",
+    "cz-git": "1.9.4",
     "del": "7.1.0",
     "eslint": "8.57.0",
     "eslint-config-mister-hope": "0.1.1",
@@ -65,20 +65,20 @@
     "gulp-replace": "1.1.4",
     "gulp-sourcemaps": "3.0.0",
     "gulp-typescript": "6.0.0-alpha.1",
-    "husky": "9.0.11",
+    "husky": "9.1.1",
     "miniprogram-api-typings": "3.12.2",
     "nano-staged": "0.8.0",
     "postcss": "8.4.39",
-    "prettier": "3.3.2",
-    "rollup": "4.18.0",
+    "prettier": "3.3.3",
+    "rollup": "4.18.1",
     "rollup-plugin-esbuild": "6.1.1",
     "standard-version": "9.5.0",
-    "stylelint": "16.6.1",
+    "stylelint": "16.7.0",
     "stylelint-config-hope": "7.0.2",
-    "tsx": "4.16.0",
-    "typescript": "5.5.2"
+    "tsx": "4.16.2",
+    "typescript": "5.5.3"
   },
-  "packageManager": "pnpm@9.4.0",
+  "packageManager": "pnpm@9.5.0",
   "prettier": {
     "overrides": [
       {
