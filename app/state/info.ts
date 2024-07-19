@@ -29,7 +29,10 @@ export const logo =
 
 export const platform = systemInfo.platform;
 
-export const menuSpace = platform !== "windows" && env !== "app" ? 90 : 10;
+export const menuSpace =
+  platform !== "windows" && env !== "app"
+    ? (wx.getMenuButtonBoundingClientRect?.().width ?? 80)
+    : 0;
 
 export interface InfoState extends Omit<WechatMiniprogram.SystemInfo, "theme"> {
   /** 夜间模式 */

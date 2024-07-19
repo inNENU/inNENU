@@ -13,10 +13,7 @@
     class="search-navigation-bar"
     style="padding-top:{{statusBarHeight}}px;"
   >
-    <view
-      class="search-wrapper"
-      style="width: calc(100% - {{menuSpace + 10}}px)"
-    >
+    <view class="search-wrapper" style="width: calc(100% - {{menuSpace}}px)">
       <search
         custom-class="search"
         words="{{words}}"
