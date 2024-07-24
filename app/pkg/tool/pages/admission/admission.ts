@@ -1,11 +1,10 @@
 import { $Page } from "@mptool/all";
 
-import { showModal } from "../../../../api/index.js";
 import { appCoverPrefix } from "../../../../config/index.js";
 import type { CommonFailedResponse } from "../../../../service/index.js";
 import { showNotice } from "../../../../utils/index.js";
 import type { UnderAdmissionOptions } from "../../service/index.js";
-import { getGradAdmission, getUnderAdmission } from "../../service/index.js";
+import { getUnderAdmission } from "../../service/index.js";
 import { validateIdCard } from "../../utils/index.js";
 
 interface InputConfig {
@@ -27,17 +26,15 @@ const INPUT_CONFIG = [
 ] as InputConfig[];
 
 const PAGE_ID = "admission";
-const PAGE_TITLE = "录取查询";
+const PAGE_TITLE = "高考录取查询";
 
 $Page(PAGE_ID, {
   data: {
     type: "debug",
-
-    /** 层次选择器 */
-    level: "本科生",
+    title: PAGE_TITLE,
 
     /** 输入列表 */
-    input: [] as InputConfig[],
+    input: INPUT_CONFIG,
 
     detail: null as { title: string; content: string } | null,
 
@@ -54,28 +51,18 @@ $Page(PAGE_ID, {
   },
 
   state: {
-    /** 表单信息 */
-    info: [] as string[],
-
     /** 输入信息 */
-    input: {} as Record<string, string>,
+    input: {} as UnderAdmissionOptions,
   },
 
   onLoad({ type = "debug" }) {
-    const level =
-      wx.getStorageSync<"本科生" | "研究生" | undefined>("level") || "本科生";
-    const info = wx.getStorageSync<Record<string, string> | undefined>(
+    const info = wx.getStorageSync<UnderAdmissionOptions | undefined>(
       "admission-info",
     );
 
-    this.setData({
-      type,
-      level,
-    });
-
-    this.getInfo(level);
-
     if (info) this.state.input = info;
+
+    this.setData({ type });
 
     // 设置通知
     showNotice(PAGE_ID);
@@ -87,7 +74,7 @@ $Page(PAGE_ID, {
   onShareAppMessage(): WechatMiniprogram.Page.ICustomShareContent {
     return {
       title: PAGE_TITLE,
-      path: `/pkg/user/pages/admission/admission?type=${this.data.type}`,
+      path: `/pkg/tool/pages/admission/admission?type=${this.data.type}`,
     };
   },
 
@@ -101,23 +88,6 @@ $Page(PAGE_ID, {
       imageUrl: `${appCoverPrefix}.jpg`,
       query: `type=${this.data.type}`,
     };
-  },
-
-  /** 层次切换 */
-  levelChange({
-    currentTarget,
-  }: WechatMiniprogram.TouchEvent<
-    Record<never, never>,
-    Record<never, never>,
-    { level: "本科生" | "研究生" }
-  >) {
-    const { level } = currentTarget.dataset;
-
-    if (level !== this.data.level) {
-      this.setData({ level });
-      wx.setStorageSync("level", level);
-      this.getInfo(level);
-    }
   },
 
   /** 输入框聚焦 */
@@ -144,48 +114,12 @@ $Page(PAGE_ID, {
 
   /** 输入成绩 */
   input({ currentTarget, detail }: WechatMiniprogram.Input) {
-    this.state.input[currentTarget.id] = detail.value;
+    this.state.input[currentTarget.id as keyof UnderAdmissionOptions] =
+      detail.value;
   },
 
   blur() {
     this.setData({ isTyping: false });
-  },
-
-  getInfo(level: string) {
-    wx.showLoading({ title: "获取中" });
-    if (level === "本科生") {
-      const info = ["name", "id", "testId"];
-
-      this.state.info = info;
-
-      this.setData(
-        {
-          input: info.map(
-            (item) => INPUT_CONFIG.find(({ id }) => id === item)!,
-          ),
-          notice: "",
-        },
-        () => {
-          wx.hideLoading();
-        },
-      );
-    } else {
-      const info = ["name", "id"];
-
-      this.state.info = info;
-      this.setData(
-        {
-          input: info.map(
-            (item) => INPUT_CONFIG.find(({ id }) => id === item)!,
-          ),
-          notice: "考生姓名只需输入前三个汉字",
-          detail: null,
-        },
-        () => {
-          wx.hideLoading();
-        },
-      );
-    }
   },
 
   tip(title: string) {
@@ -196,39 +130,24 @@ $Page(PAGE_ID, {
     });
   },
 
-  search() {
-    const { info, input } = this.state;
+  async search() {
+    const { input } = this.state;
 
-    if (info.includes("name") && !input.name) return this.tip("未填写姓名");
+    if (!input.name) return this.tip("未填写姓名");
 
-    if (info.includes("id") && !validateIdCard(input.id))
-      return this.tip("证件号不合法");
+    if (!validateIdCard(input.id)) return this.tip("证件号不合法");
 
-    if (info.includes("testId") && !input.testId)
-      return this.tip("未填写准考证号");
+    if (!input.testId) return this.tip("未填写准考证号");
 
     wx.setStorageSync("admission-info", input);
 
-    if (this.data.level === "本科生")
-      getUnderAdmission(input as unknown as UnderAdmissionOptions).then(
-        (response) => {
-          this.setData({ result: response });
-        },
-      );
-    else
-      getGradAdmission({ name: input.name, id: input.id }).then((response) => {
-        this.setData({ result: response });
-      });
-  },
+    wx.showLoading({ title: "查询中" });
 
-  showDetail() {
-    const { detail } = this.data;
+    const result = await getUnderAdmission(input);
 
-    if (detail) {
-      const { title, content } = detail;
+    wx.hideLoading();
 
-      showModal(title, content);
-    }
+    this.setData({ result });
   },
 
   closePopup() {

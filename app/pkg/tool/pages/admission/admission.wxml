@@ -6,23 +6,7 @@
   class="ios grey"
   style="{{isTyping ? 'padding-bottom:' + keyboardHeight + 'px;' : ''}}"
 >
-  <header title="录取查询" />
-  <view class="switch">
-    <view
-      class="item {{level === '本科生' ? 'active' : ''}}"
-      data-level="本科生"
-      catch:tap="levelChange"
-    >
-      本科生
-    </view>
-    <view
-      class="item {{level === '研究生' ? 'active' : ''}}"
-      data-level="研究生"
-      catch:tap="levelChange"
-    >
-      研究生
-    </view>
-  </view>
+  <header title="{{title}}" />
   <view class="input-list-wrapper">
     <view wx:for="{{input}}" wx:key="id" class="input-list-item">
       <view class="text">{{item.text}}</view>
@@ -41,20 +25,6 @@
   <button type="primary" class="search-button primary" catch:tap="search">
     查询
   </button>
-  <view
-    wx:if="{{notice}}"
-    class="notice"
-    hover-class="{{detail? 'button-hover': ''}}"
-    hover-start-time="0"
-    hover-stay-time="0"
-    catch:tap="showDetail"
-  >
-    <view class="title">
-      说明
-      <view wx:if="{{detail}}" class="detail-button">详情 ></view>
-    </view>
-    {{notice}}
-  </view>
   <plain-text config="{{admission.hint}}"></plain-text>
   <footer />
 </view>
