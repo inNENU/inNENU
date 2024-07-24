@@ -37,7 +37,7 @@ export const getTabData = (
   const { location, type } = getIdentity();
 
   return items
-    .map(({ under, grad, benbu, jingyue, path, ...rest }) => {
+    .map(({ under, grad, benbu, jingyue, path, url, ...rest }) => {
       if (
         (type === "under" && under === false) ||
         (type === "grad" && grad === false) ||
@@ -46,20 +46,21 @@ export const getTabData = (
       )
         return null;
 
-      const id =
-        type === "under" && under
-          ? under
-          : type === "grad" && grad
-            ? grad
-            : location === "benbu" && benbu
-              ? benbu
-              : location === "jingyue" && jingyue
-                ? jingyue
-                : path;
-
       return {
         ...rest,
-        url: `info?id=${id}&from=${title}`,
+        url:
+          url ??
+          `info?id=${
+            type === "under" && under
+              ? under
+              : type === "grad" && grad
+                ? grad
+                : location === "benbu" && benbu
+                  ? benbu
+                  : location === "jingyue" && jingyue
+                    ? jingyue
+                    : path
+          }&from=${title}`,
       };
     })
     .filter((item) => item !== null);
