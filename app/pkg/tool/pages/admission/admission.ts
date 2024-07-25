@@ -1,9 +1,11 @@
 import { $Page } from "@mptool/all";
 
 import { appCoverPrefix } from "../../../../config/index.js";
-import type { CommonFailedResponse } from "../../../../service/index.js";
 import { showNotice } from "../../../../utils/index.js";
-import type { UnderAdmissionOptions } from "../../service/index.js";
+import type {
+  UnderAdmissionOptions,
+  UnderAdmissionResponse,
+} from "../../service/index.js";
 import { getUnderAdmission } from "../../service/index.js";
 import { validateIdCard } from "../../utils/index.js";
 
@@ -12,11 +14,6 @@ interface InputConfig {
   text: string;
   placeholder: string;
   type: string;
-}
-
-interface AdmissionResponse {
-  success: true;
-  info: { text: string; value: string }[];
 }
 
 const INPUT_CONFIG = [
@@ -42,7 +39,7 @@ $Page(PAGE_ID, {
     popupConfig: { title: "查询结果", cancel: false },
 
     /**  查询结果 */
-    result: null as AdmissionResponse | CommonFailedResponse | null,
+    result: null as UnderAdmissionResponse | null,
 
     /** 是否正在输入 */
     isTyping: false,

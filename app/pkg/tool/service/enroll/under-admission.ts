@@ -1,7 +1,12 @@
-import { OLD_UNDER_ENROLL_SERVER } from "./utils.js";
 import { request } from "../../../../api/index.js";
 import type { CommonFailedResponse } from "../../../../service/index.js";
-import { createService } from "../../../../service/index.js";
+import {
+  ActionFailType,
+  UnknownResponse,
+  createService,
+} from "../../../../service/index.js";
+
+const QUERY_URL = "https://gkcx.nenu.edu.cn/api/user/admissionQuery";
 
 export interface UnderAdmissionOptions {
   name: string;
@@ -10,16 +15,23 @@ export interface UnderAdmissionOptions {
 }
 
 interface RawEnrollSuccessResult {
-  name: string;
-  institute: string;
-  major: string;
-  mailCode: string;
-  hasMailed: string;
-  admissionMethod: string;
+  student: {
+    name: string;
+    department: string;
+    major: string;
+    // eslint-disable-next-line @typescript-eslint/naming-convention
+    mail_code?: {
+      String: string;
+      Valid: true;
+    };
+    // eslint-disable-next-line @typescript-eslint/naming-convention
+    is_mailed: string;
+  };
 }
 
 interface RawEnrollFailedResult {
-  code: -1;
+  message: string;
+  student: null;
 }
 
 type RawEnrollResult = RawEnrollSuccessResult | RawEnrollFailedResult;
@@ -31,38 +43,42 @@ export interface UnderAdmissionSuccessResponse {
 
 export type UnderAdmissionResponse =
   | UnderAdmissionSuccessResponse
-  | CommonFailedResponse;
+  | CommonFailedResponse<ActionFailType.Closed | ActionFailType.Unknown>;
 
 const getUnderAdmissionLocal = async ({
   testId,
   id,
   name,
 }: UnderAdmissionOptions): Promise<UnderAdmissionResponse> => {
-  const { data: result, status } = await request<RawEnrollResult>(
-    `${OLD_UNDER_ENROLL_SERVER}/query`,
-    {
-      method: "POST",
-      body: {
-        name,
-        idCode: id,
-        stuCode: testId,
-      },
+  const { status, data } = await request<RawEnrollResult>(QUERY_URL, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
     },
-  );
+    body: JSON.stringify({
+      name,
+      // eslint-disable-next-line @typescript-eslint/naming-convention
+      id_code: id,
+      // eslint-disable-next-line @typescript-eslint/naming-convention
+      student_code: testId,
+    }),
+  });
 
   if (status !== 200)
     return {
       success: false,
+      type: ActionFailType.Closed,
       msg: "查询通道已关闭",
     };
 
-  if ("code" in result)
-    return {
-      success: false,
-      msg: "查询失败",
-    };
+  if (data.student === null) return UnknownResponse(data.message);
 
-  const { institute, major, mailCode, hasMailed, admissionMethod } = result;
+  const {
+    department,
+    major,
+    mail_code: mailCode,
+    is_mailed: hasMailed,
+  } = data.student;
 
   const info = [
     {
@@ -74,20 +90,16 @@ const getUnderAdmissionLocal = async ({
       value: testId,
     },
     {
-      text: "招生方式",
-      value: admissionMethod,
-    },
-    {
       text: "录取专业",
       value: major,
     },
     {
       text: "所在学院",
-      value: institute,
+      value: department,
     },
     {
       text: "录取通知书单号",
-      value: mailCode,
+      value: hasMailed ? (mailCode?.String ?? "暂无") : "暂无",
     },
     {
       text: "是否已寄出",
