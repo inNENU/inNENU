@@ -47,7 +47,7 @@ ${envName}严格使用官方激活流程。
     accept: false,
 
     name: "",
-    schoolID: "",
+    schoolId: "",
     idTypes: ID_TYPES,
     idTypeIndex: 0,
     id: "",
@@ -64,6 +64,7 @@ ${envName}严格使用官方激活流程。
 
   state: {
     activationId: "",
+    captchaId: "",
   },
 
   onLoad() {
@@ -116,9 +117,11 @@ ${envName}严格使用官方激活流程。
       });
     }
 
-    const { license, image } = result;
+    const { license, captcha, captchaId } = result;
 
-    this.setData({ status: "success", license, image });
+    this.state.captchaId = captchaId;
+
+    this.setData({ status: "success", captchaImage: captcha, license });
   },
 
   acceptLicense() {
@@ -131,12 +134,12 @@ ${envName}严格使用官方激活流程。
   },
 
   async verify() {
-    const { name, id, idTypeIndex, idTypes, schoolID, captcha } = this.data;
+    const { name, id, idTypeIndex, schoolId, captcha } = this.data;
 
     if (!name) return showModal("信息缺失", "请输入姓名");
     if (!id) return showModal("信息缺失", "请输入证件号");
-    if (!schoolID) return showModal("信息缺失", "请输入学号");
-    if (!/\d{10}/.test(schoolID))
+    if (!schoolId) return showModal("信息缺失", "请输入学号");
+    if (!/\d{10}/.test(schoolId))
       return showModal("信息有误", "学号应为10位数字");
     if (!captcha) return showModal("信息缺失", "请输入验证码");
 
@@ -144,24 +147,25 @@ ${envName}严格使用官方激活流程。
       type: "valid",
       name,
       id,
-      idType: idTypes[idTypeIndex],
-      schoolID,
+      idType: idTypeIndex,
+      schoolId,
       captcha,
+      captchaId: this.state.captchaId,
     } as const;
 
     wx.showLoading({ title: "正在验证" });
 
-    const data = await activateAccount(options);
+    const result = await activateAccount(options);
 
     wx.hideLoading();
 
-    if (data.success) {
-      this.state.activationId = data.activationId;
+    if (result.success) {
+      this.state.activationId = result.activationId;
 
       return this.setData({ stage: "phone" });
     }
 
-    showModal("信息有误", data.msg);
+    showModal("信息有误", result.msg);
 
     return this.init();
   },

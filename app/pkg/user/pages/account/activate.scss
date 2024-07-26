@@ -24,27 +24,15 @@
   height: 50vh;
   padding: 8px 16px;
 
-  font-size: 14px;
   line-height: 1.5;
   text-align: left;
 
-  .h2 {
-    margin: 8px 0 4px;
-    font-size: 18px;
+  .ol {
+    padding: 1rem;
 
     &:first-child {
       margin-top: 0;
     }
-  }
-
-  .h3 {
-    margin: 8px 0 4px;
-    font-size: 16px;
-  }
-
-  .author {
-    margin-top: 16px;
-    text-align: right;
   }
 }
 
