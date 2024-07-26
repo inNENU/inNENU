@@ -2,6 +2,7 @@ import { URLSearchParams, logger } from "@mptool/all";
 
 import { authEncrypt } from "./encrypt.js";
 import {
+  AUTH_COOKIE_SCOPE,
   AUTH_DOMAIN,
   AUTH_SERVER,
   SALT_REGEXP,
@@ -14,6 +15,7 @@ import type { CommonFailedResponse } from "../utils/index.js";
 import {
   ActionFailType,
   UnknownResponse,
+  WrongPasswordResponse,
   createService,
   supportRedirect,
 } from "../utils/index.js";
@@ -33,7 +35,9 @@ export type AuthLoginFailedResponse = CommonFailedResponse<
   | ActionFailType.BlackList
   | ActionFailType.EnabledSSO
   | ActionFailType.Forbidden
+  | ActionFailType.Expired
   | ActionFailType.NeedCaptcha
+  | ActionFailType.NeedReAuth
   | ActionFailType.WrongPassword
   | ActionFailType.Unknown
 >;
@@ -45,48 +49,61 @@ export type AuthLoginResponse =
 const authLoginLocal = async ({
   id,
   password,
+  authToken,
   service = "",
   webVPN = false,
 }: AuthLoginOptions): Promise<AuthLoginResponse> => {
   // only use local login when redirect is supported
-  if (!supportRedirect) return authLoginOnline({ id, password });
-
-  const domain = webVPN ? WEB_VPN_AUTH_DOMAIN : AUTH_DOMAIN;
-  const server = webVPN ? WEB_VPN_AUTH_SERVER : AUTH_SERVER;
+  if (!supportRedirect) return authLoginOnline({ id, password, authToken });
 
   // TODO: Add black list
   // if (isInBlackList(id))
   //   return {
   //     success: false,
-  //     type: LoginFailType.BlackList,
+  //     type: ActionFailType.BlackList,
   //     msg: BLACKLIST_HINT[Math.floor(Math.random() * BLACKLIST_HINT.length)],
   //   };
+
+  const domain = webVPN ? WEB_VPN_AUTH_DOMAIN : AUTH_DOMAIN;
+  const server = webVPN ? WEB_VPN_AUTH_SERVER : AUTH_SERVER;
 
   // clear auth cookies
   cookieStore.clear(domain);
 
-  const loginUrl = `${server}/authserver/login${
+  const url = `${server}/authserver/login${
     service ? `?service=${encodeURIComponent(service)}` : ""
   }`;
 
-  const loginPageResponse = await request<string>(loginUrl, {
+  const {
+    data: loginPageContent,
+    headers: loginPageHeaders,
+    status: loginPageStatus,
+  } = await request<string>(url, {
     redirect: "manual",
   });
 
-  const location = loginPageResponse.headers.get("Location");
+  const location = loginPageHeaders.get("Location");
 
-  if (loginPageResponse.status === 302)
+  if (loginPageStatus === 302) {
+    if (
+      location?.startsWith(`${server}/authserver/reAuthCheck/reAuthSubmit.do`)
+    )
+      return {
+        success: false,
+        type: ActionFailType.NeedReAuth,
+        msg: "需要二次认证，请重新登录",
+      };
+
     return {
       success: true,
       location: location!,
     };
+  }
 
-  if (loginPageResponse.status === 200) {
-    const content = loginPageResponse.data;
-
+  if (loginPageStatus === 200) {
     if (
-      content.includes("不允许使用认证服务来认证您访问的目标应用。") ||
-      content.includes("不允许访问")
+      loginPageContent.includes("不允许使用认证服务来认证您访问的目标应用。") ||
+      loginPageContent.includes("不允许访问")
     )
       return {
         success: false,
@@ -94,12 +111,10 @@ const authLoginLocal = async ({
         msg: "用户账号没有此服务权限。",
       };
 
-    const salt = SALT_REGEXP.exec(content)![1];
-    const lt = content.match(/name="lt" value="(.*?)"/)![1];
-    const dllt = content.match(/name="dllt" value="(.*?)"/)![1];
-    const execution = content.match(/name="execution" value="(.*?)"/)![1];
-    const _eventId = content.match(/name="_eventId" value="(.*?)"/)![1];
-    const rmShown = content.match(/name="rmShown" value="(.*?)"/)![1];
+    const salt = SALT_REGEXP.exec(loginPageContent)![1];
+    const execution = loginPageContent.match(
+      /name="execution" value="(.*?)"/,
+    )![1];
 
     cookieStore.set({
       name: "org.springframework.web.servlet.i18n.CookieLocaleResolver.LOCALE",
@@ -107,9 +122,10 @@ const authLoginLocal = async ({
       domain,
     });
 
-    const { data: needCaptcha } = await request<boolean>(
-      `${server}/authserver/needCaptcha.html?username=${id}&pwdEncrypt2=pwdEncryptSalt&_=${Date.now()}`,
-    );
+    const checkCaptchaLink = `${server}/authserver/checkNeedCaptcha.htl?username=${id}&_=${Date.now()}`;
+
+    const { data } = await request<{ isNeed: boolean }>(checkCaptchaLink);
+    const needCaptcha = data.isNeed;
 
     if (needCaptcha)
       return {
@@ -119,39 +135,39 @@ const authLoginLocal = async ({
       };
 
     const {
-      data: loginResult,
+      data: loginContent,
       headers: loginHeaders,
       status: loginStatus,
-    } = await request<string>(loginUrl, {
+    } = await request<string>(url, {
       method: "POST",
       body: new URLSearchParams({
         username: id.toString(),
         password: authEncrypt(password, salt),
-        lt,
-        dllt,
+        lt: "",
+        cllt: "usernameLogin",
+        dllt: "generalLogin",
         execution,
-        _eventId,
-        rmShown,
-        rememberMe: "on",
+        _eventId: "submit",
+        rememberMe: "true",
       }),
       redirect: "manual",
     });
 
-    const loginLocation = loginHeaders.get("Location");
+    const location = loginHeaders.get("Location");
 
-    console.log(`Request location:`, loginLocation);
-    console.log("Login cookies:", cookieStore.getCookiesMap(server));
-
-    if (loginStatus === 200) {
-      if (loginResult.includes("您提供的用户名或者密码有误"))
+    if (loginStatus === 401) {
+      if (loginContent.includes("您提供的用户名或者密码有误"))
+        return WrongPasswordResponse;
+    } else if (loginStatus === 200) {
+      if (loginContent.includes("会话已失效，请刷新页面再登录"))
         return {
           success: false,
-          type: ActionFailType.WrongPassword,
-          msg: "用户名或密码错误",
+          type: ActionFailType.Expired,
+          msg: "会话已过期，请重新登陆",
         };
 
       if (
-        loginResult.includes("该帐号已经被锁定，请点击&ldquo;账号激活&rdquo;")
+        loginContent.includes("该帐号已经被锁定，请点击&ldquo;账号激活&rdquo;")
       )
         return {
           success: false,
@@ -160,7 +176,7 @@ const authLoginLocal = async ({
         };
 
       if (
-        loginResult.includes(
+        loginContent.includes(
           "当前存在其他用户使用同一帐号登录，是否注销其他使用同一帐号的用户。",
         )
       )
@@ -170,41 +186,37 @@ const authLoginLocal = async ({
           msg: "您已开启单点登录，请访问学校统一身份认证官网，在个人设置中关闭单点登录后重试。",
         };
 
-      if (loginResult.includes("请输入验证码"))
+      if (loginContent.includes("<span>请输入验证码</span>"))
         return {
           success: false,
           type: ActionFailType.NeedCaptcha,
-          msg: "需要验证码，请重新登录",
+          msg: "需要验证码，请重新登录。",
         };
 
-      if (loginResult.includes("不允许使用认证服务来认证您访问的目标应用。"))
+      if (loginContent.includes("不允许使用认证服务来认证您访问的目标应用。"))
         return {
           success: false,
           type: ActionFailType.Forbidden,
           msg: "用户账号没有此服务权限。",
         };
 
-      console.error("Unknown login response: ", loginResult);
+      console.error("Unknown login response: ", loginContent);
 
       return UnknownResponse("未知错误");
     }
 
     if (loginStatus === 302) {
-      if (loginLocation === `${server}/authserver/login`)
-        return {
-          success: false,
-          type: ActionFailType.WrongPassword,
-          msg: "用户名或密码错误",
-        };
+      if (location?.startsWith(`${server}/authserver/login`))
+        return WrongPasswordResponse;
 
       return {
         success: true,
-        location: loginLocation!,
+        location: location!,
       };
     }
   }
 
-  logger.error("Unknown login response: ", loginPageResponse.status);
+  logger.error("Unknown login response: ", loginPageStatus);
 
   return UnknownResponse("未知错误");
 };
@@ -215,7 +227,7 @@ const authLoginOnline = async (
   const { data } = await request<AuthLoginResponse>("/auth/login", {
     method: "POST",
     body: options,
-    cookieScope: AUTH_SERVER,
+    cookieScope: AUTH_COOKIE_SCOPE,
   });
 
   if (!data.success)

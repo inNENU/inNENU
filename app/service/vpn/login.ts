@@ -98,6 +98,7 @@ export const vpnLoginLocal = async ({
 export const vpnCASLoginLocal = async ({
   id,
   password,
+  authToken,
 }: AccountInfo): Promise<VPNLoginResponse> => {
   // clear VPN cookies
   cookieStore.clear(VPN_DOMAIN);
@@ -110,6 +111,7 @@ export const vpnCASLoginLocal = async ({
     const authResult = await authLogin({
       id,
       password,
+      authToken,
       service: `${CAS_LOGIN_URL}/callback?url=${encodeURIComponent(
         `${VPN_SERVER}/users/sign_in`,
       )}`,

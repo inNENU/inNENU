@@ -27,6 +27,12 @@ export interface CookieVerifyResponse {
   valid: boolean;
 }
 
+export const ExpiredResponse: CommonFailedResponse<ActionFailType.Expired> = {
+  success: false,
+  type: ActionFailType.Expired,
+  msg: "登录信息已过期，请重新登录",
+};
+
 export const MissingCredentialResponse: CommonFailedResponse<ActionFailType.MissingCredential> =
   {
     success: false,
@@ -34,17 +40,18 @@ export const MissingCredentialResponse: CommonFailedResponse<ActionFailType.Miss
     msg: "缺少用户凭据",
   };
 
-export const ExpiredResponse: CommonFailedResponse<ActionFailType.Expired> = {
-  success: false,
-  type: ActionFailType.Expired,
-  msg: "登录信息已过期，请重新登录",
-};
-
 export const RestrictedResponse: CommonFailedResponse<ActionFailType.Restricted> =
   {
     success: false,
     type: ActionFailType.Restricted,
     msg: "当前时段系统已关闭，请稍后重试",
+  };
+
+export const WrongPasswordResponse: CommonFailedResponse<ActionFailType.WrongPassword> =
+  {
+    success: false,
+    type: ActionFailType.WrongPassword,
+    msg: "用户名或密码错误",
   };
 
 export const InvalidArgResponse = (

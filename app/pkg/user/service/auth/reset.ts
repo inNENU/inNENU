@@ -2,7 +2,11 @@ import { URLSearchParams, encodeBase64 } from "@mptool/all";
 
 import { request } from "../../../../api/index.js";
 import type { CommonFailedResponse } from "../../../../service/index.js";
-import { AUTH_SERVER, createService } from "../../../../service/index.js";
+import {
+  AUTH_COOKIE_SCOPE,
+  AUTH_SERVER,
+  createService,
+} from "../../../../service/index.js";
 
 const RESET_PASSWORD_PAGE_URL = `${AUTH_SERVER}/authserver/getBackPasswordMainPage.do`;
 const RESET_PASSWORD_URL = `${AUTH_SERVER}/authserver/getBackPassword.do`;
@@ -356,7 +360,7 @@ const resetPasswordOnline = async <T extends ResetPasswordOptions>(
   request<ResetPasswordResponse<T>>("/auth/reset", {
     method: options.type === "captcha" ? "GET" : "POST",
     ...(options.type === "captcha" ? {} : { body: options }),
-    cookieScope: `${AUTH_SERVER}/authserver/`,
+    cookieScope: AUTH_COOKIE_SCOPE,
   }).then(({ data }) => data);
 
 export const resetPassword = createService(

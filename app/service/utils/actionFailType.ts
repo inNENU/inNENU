@@ -17,6 +17,8 @@ export const enum ActionFailType {
   AccountLocked = "locked",
   /** 验证码 */
   NeedCaptcha = "need-captcha",
+  /** 需要二次认证 */
+  NeedReAuth = "need-re-auth",
 
   /** 验证码错误 */
   WrongCaptcha = "wrong-captcha",

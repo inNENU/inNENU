@@ -60,23 +60,6 @@
             {{showPassword? '隐藏': '显示'}}
           </button>
         </view>
-        <view wx:if="{{captchaContent}}" class="input-list-item">
-          <view class="text">验证码</view>
-          <input
-            id="captcha"
-            class="input"
-            type="text"
-            adjust-position="{{false}}"
-            placeholder="验证码"
-            value="{{captcha}}"
-            bindinput="input"
-          />
-          <image
-            class="captcha-image"
-            src="{{captchaContent}}"
-            catch:tap="init"
-          />
-        </view>
       </view>
       <view class="license-checkbox">
         <view
@@ -115,4 +98,58 @@
     </block>
   </view>
   <footer config="{{footer}}" />
+</view>
+<view wx:if="{{captchaBg || showReAuth}}" class="login-mask mask">
+  <view class="login-popup">
+    <block wx:if="{{captchaBg}}">
+      <view class="login-popup-title">请滑动滑块完成验证</view>
+      <view class="login-popup-content">
+        <image
+          class="captcha-slider-image"
+          src="{{captchaSlider}}"
+          style="width:{{sliderWidth / 2}}px;top:{{offsetY}}px;left:{{distance}}px"
+        />
+        <image class="captcha-bg" src="{{captchaBg}}" />
+        <view class="slider-track">
+          <view
+            class="slider-button"
+            style="left:{{distance}}px"
+            catch:touchstart="onSliderMove"
+            catch:touchmove="onSliderMove"
+            catch:touchend="onSliderMove"
+          >
+            <image
+              class="slider-icon"
+              src="/base/back-button/icon/back-{{darkmode? 'white': 'black'}}.svg"
+            />
+          </view>
+        </view>
+      </view>
+    </block>
+
+    <block wx:if="{{showReAuth}}">
+      <view class="login-popup-title">短信验证码</view>
+      <input
+        id="smsCode"
+        class="re-auth-input"
+        type="digit"
+        adjust-position="{{false}}"
+        value="{{smsCode}}"
+        bindinput="input"
+      />
+      <view class="re-auth-footer">
+        <button class="verify-button" size="mini" catch:tap="cancelReAuth">
+          取消
+        </button>
+        <button
+          type="primary"
+          class="verify-button primary"
+          size="mini"
+          catch:tap="verifyReAuth"
+        >
+          提交
+        </button>
+      </view>
+    </block>
+  </view>
 </view>

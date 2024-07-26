@@ -4,7 +4,7 @@ import type {
   ListComponentConfig,
   ListComponentItemConfig,
 } from "../../../../../typings/components.js";
-import { showModal, showToast } from "../../../../api/index.js";
+import { retryAction, showModal, showToast } from "../../../../api/index.js";
 import { appCoverPrefix } from "../../../../config/index.js";
 import { ActionFailType, supportRedirect } from "../../../../service/index.js";
 import type { UserInfo } from "../../../../state/index.js";
@@ -20,7 +20,15 @@ import {
   logout,
   showNotice,
 } from "../../../../utils/index.js";
-import { getAuthInitInfo, initAuth } from "../../service/index.js";
+import type { AuthCaptchaInfo } from "../../service/index.js";
+import {
+  getAuthCaptcha,
+  getAuthInitInfo,
+  initAuth,
+  sendReAuthSMS,
+  verifyAuthCaptcha,
+  verifyReAuthCaptcha,
+} from "../../service/index.js";
 
 const PAGE_ID = "account-login";
 const PAGE_TITLE = "统一身份认证信息";
@@ -43,33 +51,18 @@ ${
 全部个人信息将在卸载${envName}一并删除。
 `;
 
-const getDisplay = ({
+const getListItems = ({
   name,
   grade,
   id,
   org = "未知",
   major = "未知",
 }: UserInfo): ListComponentItemConfig[] => [
-  {
-    text: "姓名",
-    desc: name,
-  },
-  {
-    text: "学号",
-    desc: id.toString(),
-  },
-  {
-    text: "年级",
-    desc: grade.toString(),
-  },
-  {
-    text: "学院",
-    desc: org,
-  },
-  {
-    text: "专业",
-    desc: major,
-  },
+  { text: "姓名", desc: name },
+  { text: "学号", desc: id.toString() },
+  { text: "年级", desc: grade.toString() },
+  { text: "学院", desc: org },
+  { text: "专业", desc: major },
 ];
 
 $Page(PAGE_ID, {
@@ -95,16 +88,23 @@ $Page(PAGE_ID, {
 
     id: "",
     password: "",
-    captcha: "",
+
+    distance: 0,
+    sliderWidth: 45,
+
+    smsCode: "",
+
     isSaved: false,
     showPassword: false,
-    captchaContent: null as string | null,
+    showReAuth: false,
     accept: false,
   },
 
   state: {
+    authToken: "",
     shouldNavigateBack: false,
     initOptions: {} as { params: Record<string, string>; salt: string },
+    touchPosition: 0,
   },
 
   onLoad({ from = "返回", update }) {
@@ -120,7 +120,7 @@ $Page(PAGE_ID, {
     if (info)
       this.setData({
         // eslint-disable-next-line @typescript-eslint/naming-convention
-        "list.items": getDisplay(info),
+        "list.items": getListItems(info),
       });
 
     if (update) this.state.shouldNavigateBack = true;
@@ -155,7 +155,7 @@ $Page(PAGE_ID, {
     const { value } = detail;
 
     this.setData({ [id]: value }, () => {
-      if (id === "id" && value.length === 10) this.init();
+      if (id === "id" && value.length === 10) this.getInitInfo();
     });
   },
 
@@ -163,19 +163,87 @@ $Page(PAGE_ID, {
     this.setData({ showPassword: !this.data.showPassword });
   },
 
-  async init() {
+  onSliderMove({ currentTarget, type, touches }: WechatMiniprogram.Touch) {
+    switch (type) {
+      case "touchstart":
+        this.state.touchPosition = touches[0].pageX - currentTarget.offsetLeft;
+        break;
+      case "touchmove": {
+        const distance = touches[0].pageX - this.state.touchPosition;
+
+        this.setData({
+          distance: Math.max(
+            0,
+            Math.min(distance, 295 - this.data.sliderWidth / 2),
+          ),
+        });
+        break;
+      }
+      case "touchend": {
+        // reset state
+        this.state.touchPosition = 0;
+        // verify captcha
+        this.verifyCaptcha();
+      }
+    }
+  },
+
+  setCaptchaInfo({ slider, bg, sliderWidth, offsetY }: AuthCaptchaInfo) {
+    this.setData({
+      captchaBg: bg,
+      captchaSlider: slider,
+      sliderOffsetY: offsetY,
+      sliderWidth,
+    });
+  },
+
+  async getInitInfo() {
     const { id } = this.data;
 
     if (id.length !== 10) return;
 
-    return getAuthInitInfo(id).then((result) => {
-      if (!result.success) return showModal("登录失败", result.msg);
+    const result = await getAuthInitInfo(id);
 
-      const { captcha, params, salt } = result;
+    if (!result.success) return showModal("登录失败", result.msg);
 
-      this.setData({ captchaContent: captcha });
-      this.state.initOptions = { params, salt };
-    });
+    const { params, salt, needCaptcha, captcha } = result;
+
+    this.state.initOptions = { params, salt };
+
+    if (needCaptcha) {
+      if (!captcha.success)
+        return retryAction("获取账号信息失败", "未成功获取验证码", () => {
+          this.getAuthCaptcha();
+        });
+
+      return this.setCaptchaInfo(captcha.data);
+    }
+  },
+
+  async getAuthCaptcha() {
+    const captcha = await getAuthCaptcha(this.data.id);
+
+    if (!captcha.success)
+      return showModal("获取失败", "拼图验证码获取失败", () => {
+        this.getAuthCaptcha();
+      });
+
+    return this.setCaptchaInfo(captcha.data);
+  },
+
+  async verifyCaptcha() {
+    const result = await verifyAuthCaptcha(this.data.distance);
+
+    // clear captcha
+    this.setData({ captchaBg: "", distance: 0 });
+
+    if (!result.success) {
+      retryAction("校验失败", "请正确拼合图像。", () => {
+        this.getAuthCaptcha();
+      });
+    }
+
+    this.save();
   },
 
   acceptLicense() {
@@ -183,64 +251,88 @@ $Page(PAGE_ID, {
   },
 
   async save() {
-    const { id, password, captcha, accept } = this.data;
+    const { id, password, accept } = this.data;
+    const { authToken } = this.state;
 
-    if (!id || !password) {
-      wx.showToast({ title: "请输入完整信息", icon: "error" });
+    if (!id || !password)
+      return wx.showToast({ title: "请输入完整信息", icon: "error" });
 
-      return;
-    }
-
-    if (!accept) {
-      wx.showToast({ title: "请同意用户协议", icon: "error" });
-
-      return;
-    }
+    if (!accept)
+      return wx.showToast({ title: "请同意用户协议", icon: "error" });
 
     wx.showLoading({ title: "验证中" });
 
     // 设置协议版本
     wx.setStorageSync("license", (await getLicenseStatus()).version);
 
-    try {
-      const result = await initAuth({
-        ...this.state.initOptions,
-        id: Number(id),
-        password,
-        captcha,
-        openid: user.openid!,
+    const result = await initAuth({
+      ...this.state.initOptions,
+      id: Number(id),
+      password,
+      authToken,
+      openid: user.openid!,
+    });
+
+    wx.hideLoading();
+
+    if (result.success) {
+      if (!result.info)
+        return showModal(
+          "登录失败",
+          "账号密码校验成功，但未能成功获取账号信息。",
+        );
+
+      showModal("登录成功", "您已成功登录");
+
+      setUserInfo({ id: Number(id), password, authToken }, result.info);
+
+      if (this.state.shouldNavigateBack) return this.$back();
+
+      return this.setData({
+        isSaved: true,
+        // eslint-disable-next-line @typescript-eslint/naming-convention
+        "list.items": getListItems(result.info),
       });
-
-      wx.hideLoading();
-
-      if (result.success) {
-        if (result.info) {
-          showModal("登录成功", "您已成功登录");
-
-          this.setData({
-            isSaved: true,
-            // eslint-disable-next-line @typescript-eslint/naming-convention
-            "list.items": getDisplay(result.info),
-          });
-
-          setUserInfo({ id: Number(id), password }, result.info);
-
-          if (this.state.shouldNavigateBack) this.$back();
-        } else {
-          showModal("登录失败", "账号密码校验成功，但个人信息获取失败。");
-        }
-      } else {
-        this.init();
-
-        if (result.type === ActionFailType.NeedCaptcha)
-          showModal("登录失败", "需要验证码，请输入验证码");
-        else showModal("登录失败", result.msg);
-      }
-    } catch (err) {
-      console.error(err);
-      wx.hideLoading();
-      showToast("验证失败");
     }
+
+    if (result.type === ActionFailType.NeedReAuth) return this.startReAuth();
+
+    showModal("登录失败", result.msg);
+
+    return this.getInitInfo();
+  },
+
+  async startReAuth() {
+    const result = await sendReAuthSMS(this.data.id);
+
+    if (!result.success) return showModal("发送失败", result.msg);
+
+    showModal("需要二次验证", "验证码已发送，请注意查收。");
+
+    return this.setData({ showReAuth: true });
+  },
+
+  async verifyReAuth() {
+    const { smsCode } = this.data;
+
+    if (!smsCode) return showToast("请输入验证码");
+
+    const result = await verifyReAuthCaptcha(smsCode);
+
+    this.setData({ smsCode: "" });
+
+    if (!result.success) {
+      return showModal("验证失败", result.msg);
+    }
+
+    this.setData({ showReAuth: false });
+    this.state.authToken = result.authToken;
+
+    return this.save();
+  },
+
+  cancelReAuth() {
+    this.setData({ showReAuth: false, smsCode: "" });
   },
 
   delete() {

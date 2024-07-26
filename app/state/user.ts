@@ -11,6 +11,7 @@ export interface AccountInfo {
   id: number;
   /** 密码 */
   password: string;
+  authToken: string;
 }
 
 export interface UserInfo {
