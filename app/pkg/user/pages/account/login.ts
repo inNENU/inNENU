@@ -221,14 +221,14 @@ $Page(PAGE_ID, {
   },
 
   async getAuthCaptcha() {
-    const captcha = await getAuthCaptcha(this.data.id);
+    const result = await getAuthCaptcha(this.data.id);
 
-    if (!captcha.success)
+    if (!result.success)
       return showModal("获取失败", "拼图验证码获取失败", () => {
         this.getAuthCaptcha();
       });
 
-    return this.setCaptchaInfo(captcha.data);
+    return this.setCaptchaInfo(result.data);
   },
 
   async verifyCaptcha() {
@@ -238,12 +238,12 @@ $Page(PAGE_ID, {
     this.setData({ captchaBg: "", distance: 0 });
 
     if (!result.success) {
-      retryAction("校验失败", "请正确拼合图像。", () => {
+      retryAction("验证失败", "请正确拼合图像。", () => {
         this.getAuthCaptcha();
       });
     }
 
-    this.save();
+    return showModal("验证成功", "请继续登录");
   },
 
   acceptLicense() {
@@ -305,11 +305,22 @@ $Page(PAGE_ID, {
   async startReAuth() {
     const result = await sendReAuthSMS(this.data.id);
 
-    if (!result.success) return showModal("发送失败", result.msg);
+    if (result.success) {
+      showModal("需要二次验证", "短信验证码已发送，请注意查收。");
 
-    showModal("需要二次验证", "验证码已发送，请注意查收。");
+      return this.setData({ showReAuth: true });
+    }
 
-    return this.setData({ showReAuth: true });
+    if (result.type === ActionFailType.TooFrequent) {
+      showModal(
+        "已发送验证码",
+        `两分钟内已下发过短信验证码，重新发送需等待 ${result.codeTime} 秒。`,
+      );
+
+      return this.setData({ showReAuth: true });
+    }
+
+    return showModal("发送失败", result.msg);
   },
 
   async verifyReAuth() {

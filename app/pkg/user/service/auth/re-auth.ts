@@ -2,13 +2,11 @@ import { URLSearchParams } from "@mptool/all";
 
 import { RE_AUTH_URL } from "./utils.js";
 import { cookieStore, request } from "../../../../api/index.js";
-import type {
-  ActionFailType,
-  CommonFailedResponse,
-} from "../../../../service/index.js";
+import type { CommonFailedResponse } from "../../../../service/index.js";
 import {
   AUTH_COOKIE_SCOPE,
   AUTH_SERVER,
+  ActionFailType,
   UnknownResponse,
   createService,
 } from "../../../../service/index.js";
@@ -22,14 +20,21 @@ interface RawReAuthSMSSuccessResponse {
   codeTime: number;
 }
 
-interface RawReAuthSMSFailResponse {
+interface RawReAuthSMSFrequentResponse {
   res: "code_time_fail";
+  codeTime: number;
+  returnMessage: string;
+}
+
+interface RawReAuthSMSFailResponse {
+  res: string;
   codeTime: number;
   returnMessage: string;
 }
 
 type RawReAuthSMSResponse =
   | RawReAuthSMSSuccessResponse
+  | RawReAuthSMSFrequentResponse
   | RawReAuthSMSFailResponse;
 
 interface ReAuthSMSSuccessResponse {
@@ -39,6 +44,7 @@ interface ReAuthSMSSuccessResponse {
 
 export type ReAuthSMSResponse =
   | ReAuthSMSSuccessResponse
+  | (CommonFailedResponse<ActionFailType.TooFrequent> & { codeTime: number })
   | CommonFailedResponse<ActionFailType.Unknown>;
 
 export const sendReAuthSMSLocal = async (
@@ -53,6 +59,14 @@ export const sendReAuthSMSLocal = async (
       authCodeTypeName: "reAuthDynamicCodeType",
     }),
   });
+
+  if (data.res === "code_time_fail")
+    return {
+      success: false,
+      type: ActionFailType.TooFrequent,
+      msg: data.returnMessage,
+      codeTime: data.codeTime,
+    };
 
   if (data.res !== "success") return UnknownResponse(data.returnMessage);
 
