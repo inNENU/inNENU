@@ -198,7 +198,7 @@ const getUnderChangeMajorPlansLocal =
 
 const getUnderChangeMajorPlansOnline =
   (): Promise<UnderChangeMajorPlanResponse> =>
-    request<UnderChangeMajorPlanResponse>("/under-system/change-major", {
+    request<UnderChangeMajorPlanResponse>("/under-system/change-major-plan", {
       method: "POST",
       cookieScope: UNDER_SYSTEM_SERVER,
     }).then(({ data }) => {
