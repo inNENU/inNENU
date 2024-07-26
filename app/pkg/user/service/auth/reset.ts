@@ -1,5 +1,7 @@
-import { URLSearchParams, encodeBase64 } from "@mptool/all";
+import { URLSearchParams } from "@mptool/all";
 
+import type { ResetCaptchaResponse } from "./reset-captcha.js";
+import { getResetCaptcha } from "./reset-captcha.js";
 import { request } from "../../../../api/index.js";
 import type { CommonFailedResponse } from "../../../../service/index.js";
 import {
@@ -8,9 +10,7 @@ import {
   createService,
 } from "../../../../service/index.js";
 
-const RESET_PASSWORD_PAGE_URL = `${AUTH_SERVER}/authserver/getBackPasswordMainPage.do`;
 const RESET_PASSWORD_URL = `${AUTH_SERVER}/authserver/getBackPassword.do`;
-const CAPTCHA_URL = `${AUTH_SERVER}/authserver/captcha.html`;
 
 export interface ResetPasswordCaptchaOptions {
   type: "captcha";
@@ -22,30 +22,6 @@ interface RawFailedData {
   code: number;
   message: string;
 }
-
-export interface ResetPasswordCaptchaResponse {
-  success: true;
-  captcha: string;
-}
-
-const getResetPasswordCaptchaLocal = async (
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  _options: ResetPasswordCaptchaOptions,
-): Promise<ResetPasswordCaptchaResponse> => {
-  await request<ArrayBuffer>(RESET_PASSWORD_PAGE_URL);
-
-  const { data: captchaResponse } = await request<ArrayBuffer>(
-    `${CAPTCHA_URL}?ts=${new Date().getMilliseconds()}`,
-    { responseType: "arraybuffer" },
-  );
-
-  const base64Image = `data:image/jpeg;base64,${encodeBase64(captchaResponse)}`;
-
-  return {
-    success: true,
-    captcha: base64Image,
-  };
-};
 
 type RawResetPasswordInfoData =
   | {
@@ -60,11 +36,58 @@ type RawResetPasswordInfoData =
     }
   | RawFailedData;
 
+export interface ResetPasswordIdOptions {
+  type: "verify-id";
+  id: string;
+  captcha: string;
+  captchaId: string;
+}
+
+export interface ResetPasswordIdSuccessResponse {
+  success: true;
+  sign: string;
+}
+
+export type ResetPasswordIdResponse =
+  | ResetPasswordPhoneSuccessResponse
+  | CommonFailedResponse;
+
+const verifySecurityIdLocal = async ({
+  id,
+  captcha,
+  captchaId,
+}: ResetPasswordIdOptions): Promise<ResetPasswordIdResponse> => {
+  const { data } = await request<RawResetPasswordInfoData>(RESET_PASSWORD_URL, {
+    method: "POST",
+    headers: {
+      Accept: "application/json, text/javascript, */*; q=0.01",
+    },
+    body: new URLSearchParams({
+      userId: id,
+      captchaId,
+      captcha,
+      type: "mobile",
+      step: "1",
+    }),
+  });
+
+  if (data.success)
+    return {
+      success: true,
+      sign: data.data.sign,
+    };
+
+  return {
+    success: false,
+    msg: data.message,
+  };
+};
+
 export interface ResetPasswordPhoneOptions {
   type: "verify-phone";
   id: string;
-  mobile: string;
   captcha: string;
+  captchaId: string;
 }
 
 export interface ResetPasswordPhoneSuccessResponse {
@@ -78,8 +101,8 @@ export type ResetPasswordPhoneResponse =
 
 const verifySecurityPhoneLocal = async ({
   id,
-  mobile,
   captcha,
+  captchaId,
 }: ResetPasswordPhoneOptions): Promise<ResetPasswordPhoneResponse> => {
   const { data } = await request<RawResetPasswordInfoData>(RESET_PASSWORD_URL, {
     method: "POST",
@@ -88,7 +111,7 @@ const verifySecurityPhoneLocal = async ({
     },
     body: new URLSearchParams({
       userId: id,
-      mobile,
+      captchaId,
       captcha,
       type: "mobile",
       step: "1",
@@ -325,6 +348,7 @@ const setNewPasswordLocal = async ({
 
 export type ResetPasswordOptions =
   | ResetPasswordCaptchaOptions
+  | ResetPasswordIdOptions
   | ResetPasswordPhoneOptions
   | ResetPasswordSendSMSOptions
   | ResetPasswordVerifySMSOptions
@@ -332,32 +356,38 @@ export type ResetPasswordOptions =
 
 export type ResetPasswordResponse<T extends ResetPasswordOptions> =
   T extends ResetPasswordCaptchaOptions
-    ? ResetPasswordCaptchaResponse
-    : T extends ResetPasswordPhoneOptions
-      ? ResetPasswordPhoneResponse
-      : T extends ResetPasswordSendSMSOptions
-        ? ResetPasswordSendSMSResponse
-        : T extends ResetPasswordVerifySMSOptions
-          ? ResetPasswordVerifySMSResponse
-          : ResetPasswordSetNewResponse;
+    ? ResetCaptchaResponse
+    : T extends ResetPasswordIdOptions
+      ? ResetPasswordIdResponse
+      : T extends ResetPasswordPhoneOptions
+        ? ResetPasswordPhoneResponse
+        : T extends ResetPasswordSendSMSOptions
+          ? ResetPasswordSendSMSResponse
+          : T extends ResetPasswordVerifySMSOptions
+            ? ResetPasswordVerifySMSResponse
+            : ResetPasswordSetNewResponse;
 
 const resetPasswordLocal = async <T extends ResetPasswordOptions>(
   options: T,
 ): Promise<ResetPasswordResponse<T>> =>
   (options.type === "captcha"
-    ? getResetPasswordCaptchaLocal(options)
-    : options.type === "verify-phone"
-      ? verifySecurityPhoneLocal(options)
-      : options.type === "send-sms"
-        ? sendResetPasswordSMSLocal(options)
-        : options.type === "verify-sms"
-          ? verifyResetPasswordSMSCodeLocal(options)
-          : setNewPasswordLocal(options)) as Promise<ResetPasswordResponse<T>>;
+    ? getResetCaptcha()
+    : options.type === "verify-id"
+      ? verifySecurityIdLocal(options)
+      : options.type === "verify-phone"
+        ? verifySecurityPhoneLocal(options)
+        : options.type === "send-sms"
+          ? sendResetPasswordSMSLocal(options)
+          : options.type === "verify-sms"
+            ? verifyResetPasswordSMSCodeLocal(options)
+            : setNewPasswordLocal(options)) as Promise<
+    ResetPasswordResponse<T>
+  >;
 
 const resetPasswordOnline = async <T extends ResetPasswordOptions>(
   options: T,
 ): Promise<ResetPasswordResponse<T>> =>
-  request<ResetPasswordResponse<T>>("/auth/reset", {
+  request<ResetPasswordResponse<T>>("/auth/reset-password", {
     method: options.type === "captcha" ? "GET" : "POST",
     ...(options.type === "captcha" ? {} : { body: options }),
     cookieScope: AUTH_COOKIE_SCOPE,

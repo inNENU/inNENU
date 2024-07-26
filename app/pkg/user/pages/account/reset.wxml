@@ -39,6 +39,28 @@
             />
           </view>
           <view class="input-list-item">
+            <view class="text">验证码</view>
+            <input
+              id="captcha"
+              class="input"
+              value="{{captcha}}"
+              bindinput="input"
+            />
+            <image
+              class="captcha-image"
+              src="{{captchaImage}}"
+              catch:tap="getCaptcha"
+            />
+          </view>
+        </view>
+        <button type="primary" class="verify-button primary" catch:tap="verify">
+          验证信息
+        </button>
+      </block>
+      <block wx:elif="{{stage === 'phone'}}">
+        <view class="reset-title">步骤 2/3: 验证密保手机</view>
+        <view class="input-list-wrapper">
+          <view class="input-list-item">
             <view class="text">密保手机</view>
             <input
               id="mobile"
@@ -59,20 +81,12 @@
             />
             <image
               class="captcha-image"
-              src="{{image}}"
+              src="{{captchaImage}}"
               catch:tap="getCaptcha"
             />
           </view>
-        </view>
-        <button type="primary" class="verify-button primary" catch:tap="verify">
-          验证信息
-        </button>
-      </block>
-      <block wx:elif="{{stage === 'phone'}}">
-        <view class="reset-title">步骤 2/3: 验证密保手机</view>
-        <view class="input-list-wrapper">
           <view class="input-list-item">
-            <view class="text">验证码</view>
+            <view class="text">短信验证码</view>
             <input id="code" class="input" value="{{code}}" bindinput="input" />
             <button type="default" class="sms-button" catch:tap="sendSMS">
               发送验证码

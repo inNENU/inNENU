@@ -48,8 +48,9 @@ ${envName}严格使用官方密码重置服务流程。
   },
 
   state: {
-    sign: "",
+    captchaId: "",
     salt: "",
+    sign: "",
   },
 
   onLoad() {
@@ -84,28 +85,31 @@ ${envName}严格使用官方密码重置服务流程。
     this.setData({ [id]: value });
   },
 
-  getCaptcha() {
-    return resetPassword({ type: "captcha" }).then(({ captcha }) => {
-      this.setData({ image: captcha });
-    });
+  async getCaptcha() {
+    const result = await resetPassword({ type: "captcha" });
+
+    if (!result.success) return showModal("获取验证码失败", result.msg);
+
+    this.state.captchaId = result.data.captchaId;
+    this.setData({ captchaImage: result.data.captcha });
   },
 
   async verify() {
-    const { id, mobile, captcha } = this.data;
+    const { id, captcha } = this.data;
 
     if (!id) return showModal("信息缺失", "请输入学号");
     if (id.length !== 10) return showModal("信息错误", "学号应为 10 位数字");
-    if (!/1\d{10}/.test(mobile))
-      return showModal("信息错误", "请输入正确的手机号");
+    // if (!/1\d{10}/.test(mobile))
+    //   return showModal("信息错误", "请输入正确的手机号");
     if (!captcha) return showModal("信息缺失", "请输入验证码");
 
     wx.showLoading({ title: "正在验证" });
 
     const data = await resetPassword({
-      type: "verify-phone",
+      type: "verify-id",
       id,
-      mobile,
       captcha,
+      captchaId: this.state.captchaId,
     });
 
     wx.hideLoading();
