@@ -1,7 +1,7 @@
 import { URLSearchParams, logger } from "@mptool/all";
 
 import type { AuthCaptchaResponse } from "./captcha.js";
-import { getAuthCaptcha } from "./captcha.js";
+import { getAuthCaptchaLocal } from "./captcha.js";
 import { AUTH_LOGIN_URL, RE_AUTH_URL } from "./utils.js";
 import { cookieStore, request } from "../../../../api/index.js";
 import type { CommonFailedResponse } from "../../../../service/index.js";
@@ -57,7 +57,7 @@ const getAuthInitInfoLocal = async (
     const { data } = await request<{ isNeed: boolean }>(checkCaptchaLink);
     const needCaptcha = data.isNeed;
 
-    const captchaResponse = needCaptcha ? await getAuthCaptcha(id) : null;
+    const captchaResponse = needCaptcha ? await getAuthCaptchaLocal(id) : null;
 
     return {
       success: true,

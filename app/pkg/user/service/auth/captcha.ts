@@ -35,7 +35,7 @@ export type AuthCaptchaResponse =
   | AuthCaptchaSuccessResponse
   | CommonFailedResponse<ActionFailType.Unknown>;
 
-const getAuthCaptchaLocal = async (
+export const getAuthCaptchaLocal = async (
   id: string,
 ): Promise<AuthCaptchaResponse> => {
   const {
@@ -63,7 +63,7 @@ const getAuthCaptchaLocal = async (
 };
 
 const getAuthCaptchaOnline = async (id: string): Promise<AuthCaptchaResponse> =>
-  request<AuthCaptchaResponse>(`/auth/captcha?id=${id}`, {
+  request<AuthCaptchaResponse>(`/auth/auth-captcha?id=${id}`, {
     cookieScope: AUTH_COOKIE_SCOPE,
   }).then(({ data }) => data);
 
@@ -107,7 +107,7 @@ const verifyAuthCaptchaLocal = async (
 const verifyAuthCaptchaOnline = async (
   distance: number,
 ): Promise<{ success: boolean }> =>
-  request<{ success: boolean }>(`/auth/captcha`, {
+  request<{ success: boolean }>(`/auth/auth-captcha`, {
     method: "POST",
     body: { width: "295", distance },
     cookieScope: AUTH_COOKIE_SCOPE,
