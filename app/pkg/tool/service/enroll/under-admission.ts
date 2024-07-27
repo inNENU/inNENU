@@ -50,7 +50,7 @@ const getUnderAdmissionLocal = async ({
   id,
   name,
 }: UnderAdmissionOptions): Promise<UnderAdmissionResponse> => {
-  const { status, data } = await request<RawEnrollResult>(QUERY_URL, {
+  const { data, headers } = await request<RawEnrollResult>(QUERY_URL, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
@@ -64,7 +64,7 @@ const getUnderAdmissionLocal = async ({
     }),
   });
 
-  if (status !== 200)
+  if (!headers.get("content-type")?.includes("application/json"))
     return {
       success: false,
       type: ActionFailType.Closed,
