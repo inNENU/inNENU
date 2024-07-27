@@ -35,8 +35,12 @@ const getTimes = (grade: number): { times: string[]; current: string } => {
   };
 };
 
-const getDisplayTime = (time: string): string =>
-  `${time.substring(0, 4)}年${time.substring(4) === "01" ? "秋季" : "春季"}`;
+const getDisplayTime = (time: string): string => {
+  const year = Number(time.substring(0, 4));
+  const isFirstTerm = time.substring(4) === "01";
+
+  return `${isFirstTerm ? year : year + 1}年${isFirstTerm ? "秋季" : "春季"}`;
+};
 
 $Page(PAGE_ID, {
   data: {
