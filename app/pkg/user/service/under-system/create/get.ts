@@ -55,7 +55,12 @@ const getCreateUnderStudentArchiveInfoLocal =
         return ExpiredResponse;
       }
 
-      if (welcomePageContent.includes("您已经提交了报到"))
+      if (
+        welcomePageContent.includes("您已经提交了报到") ||
+        /<input type="button" class="button" value="查看学籍信息"\s+onclick/.test(
+          welcomePageContent,
+        )
+      )
         return {
           success: false,
           type: ActionFailType.Existed,
