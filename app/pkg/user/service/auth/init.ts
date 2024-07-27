@@ -2,7 +2,12 @@ import { URLSearchParams, logger } from "@mptool/all";
 
 import type { AuthCaptchaResponse } from "./captcha.js";
 import { getAuthCaptchaLocal } from "./captcha.js";
-import { AUTH_LOGIN_URL, RE_AUTH_URL } from "./utils.js";
+import {
+  AUTH_LOGIN_URL,
+  IMPROVE_INFO_URL,
+  RE_AUTH_URL,
+  UPDATE_INFO_URL,
+} from "./utils.js";
 import { cookieStore, request } from "../../../../api/index.js";
 import type { CommonFailedResponse } from "../../../../service/index.js";
 import {
@@ -201,16 +206,20 @@ const initAuthLocal = async (
   if (loginStatus === 302) {
     if (location?.startsWith(AUTH_LOGIN_URL)) return WrongPasswordResponse;
 
-    if (
-      location?.startsWith(
-        `${AUTH_SERVER}/authserver/improveInfo/improveUserInfo.do`,
-      )
-    )
+    if (location?.startsWith(IMPROVE_INFO_URL)) {
+      const { data } = await request<{ errMsg: string }>(UPDATE_INFO_URL, {
+        method: "POST",
+        headers: {
+          Accept: "application/json, text/javascript, */*; q=0.01",
+        },
+      });
+
       return {
         success: false,
         type: ActionFailType.WeekPassword,
-        msg: "密码太弱，请先前往统一身份认证官网手动修改密码",
+        msg: data.errMsg ?? "密码太弱，请手动修改密码",
       };
+    }
 
     if (location?.startsWith(RE_AUTH_URL))
       return {
