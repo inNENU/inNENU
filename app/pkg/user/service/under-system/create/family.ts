@@ -77,7 +77,7 @@ const submitUnderStudentArchiveFamilyLocal = async ({
       };
     }
 
-    if (content.includes("你已完成报到工作。"))
+    if (content.includes("您已完成报到工作。"))
       return {
         success: true,
       };

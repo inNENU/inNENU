@@ -8,12 +8,12 @@
     </view>
     <view class="license-body">
       <text>
-        在你使用 {{appName}} 的当前服务前，请仔细阅读<text
+        在您使用 {{appName}} 的当前服务前，请仔细阅读<text
           class="license-link"
           data-url="license"
           catch:tap="$bindGo"
           >《隐私政策》</text
-        >。如果你完全同意我们的<text>《隐私政策》</text>，请点击“同意”开始使用。</text
+        >。如果您完全同意我们的<text>《隐私政策》</text>，请点击“同意”开始使用。</text
       >
     </view>
     <view class="license-footer">
@@ -47,12 +47,12 @@
     </view>
     <view class="license-body">
       <text>
-        在你使用 {{appName}} 的当前服务前，请仔细阅读<text
+        在您使用 {{appName}} 的当前服务前，请仔细阅读<text
           class="license-link"
           data-url="license?type=license"
           catch:tap="$bindGo"
           >《用户协议》</text
-        >。如果你完全同意我们的《用户协议》，请点击“同意”开始使用当前服务。</text
+        >。如果您完全同意我们的《用户协议》，请点击“同意”开始使用当前服务。</text
       >
     </view>
     <view class="license-footer">
