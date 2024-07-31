@@ -52,7 +52,7 @@ ${envName}严格使用官方激活流程。
     name: "",
     schoolId: "",
     idTypes: ID_TYPES,
-    idTypeIndex: 0,
+    idTypeIndex: "0",
     id: "",
     captcha: "",
 
@@ -152,7 +152,7 @@ ${envName}严格使用官方激活流程。
       type: "validate-info",
       name,
       id,
-      idType: idTypeIndex,
+      idType: Number(idTypeIndex),
       schoolId,
       captcha,
       captchaId: this.state.captchaId,

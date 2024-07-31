@@ -44,7 +44,7 @@
         class="confirm-button primary"
         type="primary"
         data-url="account-login"
-        catch:tap="$bingRedirect"
+        catch:tap="$bindRedirect"
       >
         登录账号
       </button>
@@ -87,7 +87,7 @@
             <input
               id="id"
               class="input"
-              type="{{idTypeIndex === 0? 'idcard': 'text'}}"
+              type="{{idTypeIndex === '0'? 'idcard': 'text'}}"
               value="{{id}}"
               bindinput="input"
             />
