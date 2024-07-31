@@ -16,7 +16,6 @@ https://service.innenu.com;
 
 https://wis.qq.com;
 
-https://activate.nenu.edu.cn;
 https://authserver.nenu.edu.cn;
 https://bkjx.nenu.edu.cn;
 https://bkzsw.nenu.edu.cn;
@@ -42,4 +41,5 @@ https://innenu.com
 https://mp.innenu.com
 https://service.innenu.com
 https://open.weixin.qq.com
+https://www.nenu.edu.cn
 ```

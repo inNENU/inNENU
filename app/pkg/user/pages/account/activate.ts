@@ -5,17 +5,20 @@ import { MINUTE, appCoverPrefix } from "../../../../config/index.js";
 import { ActionFailType, supportRedirect } from "../../../../service/index.js";
 import { envName, info, logo, user } from "../../../../state/index.js";
 import { getPageColor, showNotice } from "../../../../utils/index.js";
-import type {
-  ActivateBindPhoneOptions,
-  ActivatePasswordOptions,
-  ActivatePhoneSmsOptions,
-  ActivateReplacePhoneOptions,
-} from "../../service/index.js";
-import { ID_TYPES, activateAccount } from "../../service/index.js";
+import type {} from "../../service/index.js";
+import { activateAccount } from "../../service/index.js";
 
 const ACTIVATE_SMS_KEY = "activate-sms-code";
 const PAGE_ID = "account-activate";
 const PAGE_TITLE = "账号激活";
+
+const ID_TYPES = [
+  "身份证",
+  "护照",
+  "港澳居民来往内地通行证",
+  "旅行证据",
+  "其他",
+] as const;
 
 $Page(PAGE_ID, {
   data: {
@@ -63,7 +66,7 @@ ${envName}严格使用官方激活流程。
   },
 
   state: {
-    activationId: "",
+    sign: "",
     captchaId: "",
   },
 
@@ -106,7 +109,7 @@ ${envName}严格使用官方激活流程。
   async init() {
     wx.showLoading({ title: "加载中" });
 
-    const result = await activateAccount({ type: "init" });
+    const result = await activateAccount({ type: "get-info" });
 
     wx.hideLoading();
 
@@ -117,7 +120,7 @@ ${envName}严格使用官方激活流程。
       });
     }
 
-    const { license, captcha, captchaId } = result;
+    const { license, captcha, captchaId } = result.data;
 
     this.state.captchaId = captchaId;
 
@@ -143,26 +146,40 @@ ${envName}严格使用官方激活流程。
       return showModal("信息有误", "学号应为10位数字");
     if (!captcha) return showModal("信息缺失", "请输入验证码");
 
-    const options = {
-      type: "valid",
+    wx.showLoading({ title: "正在验证" });
+
+    const result = await activateAccount({
+      type: "validate-info",
       name,
       id,
       idType: idTypeIndex,
       schoolId,
       captcha,
       captchaId: this.state.captchaId,
-    } as const;
-
-    wx.showLoading({ title: "正在验证" });
-
-    const result = await activateAccount(options);
+    });
 
     wx.hideLoading();
 
     if (result.success) {
-      this.state.activationId = result.activationId;
+      const { captcha, captchaId, sign } = result.data;
 
-      return this.setData({ stage: "phone" });
+      this.state.captchaId = captchaId;
+      this.state.sign = sign;
+
+      return this.setData({
+        stage: "phone",
+        captcha: "",
+        captchaImage: captcha,
+      });
+    }
+
+    if (result.type === ActionFailType.WrongCaptcha) {
+      const { captcha, captchaId } = result.data;
+
+      this.setData({ captcha: "", captchaImage: captcha });
+      this.state.captchaId = captchaId;
+
+      return showModal("验证码错误", "请重新输入验证码");
     }
 
     showModal("信息有误", result.msg);
@@ -171,9 +188,12 @@ ${envName}严格使用官方激活流程。
   },
 
   async sendSMS() {
-    if (get(ACTIVATE_SMS_KEY)) return showModal("验证码已发送", "请勿重复发送");
+    const { mobile, captcha } = this.data;
+    const { captchaId, sign } = this.state;
 
-    const { mobile } = this.data;
+    if (!captcha) return showModal("无法发送", "请先输入验证码");
+
+    if (get(ACTIVATE_SMS_KEY)) return showModal("验证码已发送", "请勿重复发送");
 
     if (!/1\d{10}/.test(mobile)) {
       showModal("手机号码有误", "请输入正确的手机号");
@@ -181,63 +201,56 @@ ${envName}严格使用官方激活流程。
       return;
     }
 
-    const options: ActivatePhoneSmsOptions = {
-      type: "sms",
-      mobile,
-      activationId: this.state.activationId,
-    };
-
     wx.showLoading({ title: "发送中" });
 
-    const data = await activateAccount(options);
+    const result = await activateAccount({
+      type: "send-sms",
+      mobile,
+      sign,
+      captcha,
+      captchaId,
+    });
 
     wx.hideLoading();
 
-    if (data.success) {
-      showToast("发送成功", 1000, "success");
-      set(ACTIVATE_SMS_KEY, true, 10 * MINUTE);
-    } else showModal("验证码发送失败", data.msg);
+    if (!result.success) {
+      if (result.type === ActionFailType.WrongCaptcha) {
+        const { captchaId, captcha } = result.data;
+
+        this.setData({ captcha: "", captchaImage: captcha });
+        this.state.captchaId = captchaId;
+
+        return showToast("验证码不正确");
+      }
+
+      return showModal("验证码发送失败", result.msg);
+    }
+
+    showToast("发送成功", 1000, "success");
+    set(ACTIVATE_SMS_KEY, true, 2 * MINUTE);
+    this.state.sign = result.data.sign;
+
+    return;
   },
 
   async bindPhone() {
-    const { mobile, smsCode } = this.data;
-
-    const options: ActivateBindPhoneOptions = {
-      type: "bind-phone",
-      mobile,
-      activationId: this.state.activationId,
-      code: smsCode,
-    };
+    const { smsCode } = this.data;
 
     wx.showLoading({ title: "绑定中" });
 
-    const data = await activateAccount(options);
+    const result = await activateAccount({
+      type: "validate-sms",
+      sign: this.state.sign,
+      code: smsCode,
+    });
 
     wx.hideLoading();
 
-    if (data.success) this.setData({ stage: "password" });
-    else if (data.type === ActionFailType.Conflict)
-      showModal(
-        "手机号冲突",
-        `${data.msg}是否绑定该手机号？`,
-        () => {
-          const options: ActivateReplacePhoneOptions = {
-            type: "replace-phone",
-            mobile,
-            activationId: this.state.activationId,
-            code: smsCode,
-          };
+    if (!result.success) return showModal("绑定失败", result.msg);
 
-          activateAccount(options).then((data) => {
-            if (data.success) this.setData({ stage: "password" });
-            else showModal("替换失败", data.msg);
-          });
-        },
-        () => {
-          // do nothing
-        },
-      );
-    else showModal("绑定失败", data.msg);
+    this.state.sign = result.data.sign;
+
+    this.setData({ stage: "password" });
   },
 
   togglePassword() {
@@ -274,17 +287,28 @@ ${envName}严格使用官方激活流程。
 
     wx.showLoading({ title: "设置密码" });
 
-    const options: ActivatePasswordOptions = {
-      type: "password",
+    const checkResult = await activateAccount({
+      type: "check-password",
       password,
-      activationId: this.state.activationId,
-    };
+      sign: this.state.sign,
+    });
 
-    const data = await activateAccount(options);
+    if (!checkResult.success) {
+      wx.hideLoading();
+
+      return showModal("密码不合规", checkResult.msg);
+    }
+
+    const setResult = await activateAccount({
+      type: "set-password",
+      password,
+      sign: this.state.sign,
+    });
 
     wx.hideLoading();
 
-    if (data.success) this.setData({ stage: "success" });
-    else showModal("设置密码失败", data.msg);
+    if (!setResult.success) return showModal("密码设置失败", setResult.msg);
+
+    this.setData({ stage: "success" });
   },
 });

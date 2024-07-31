@@ -87,7 +87,7 @@
             <input
               id="id"
               class="input"
-              type="idcard"
+              type="{{idTypeIndex === 0? 'idcard': 'text'}}"
               value="{{id}}"
               bindinput="input"
             />
@@ -129,6 +129,20 @@
           <view class="input-list-item">
             <view class="text">验证码</view>
             <input
+              id="captcha"
+              class="input"
+              value="{{captcha}}"
+              bindinput="input"
+            />
+            <image
+              class="captcha-image"
+              src="{{captchaImage}}"
+              catch:tap="init"
+            />
+          </view>
+          <view class="input-list-item">
+            <view class="text">短信验证码</view>
+            <input
               id="smsCode"
               class="input"
               type="digit"
@@ -151,7 +165,8 @@
       <block wx:elif="{{stage=== 'password'}}">
         <view class="activate-title">步骤 3/3: 设置密码</view>
         <view class="activate-description"
-          >密码至少包含大写字母、小写字母、数字、符号中的三项。</view
+          >密码长度至少 8
+          位，至少包含大写字母、小写字母、数字、符号中的三项，并且不得包含简单密码、非键盘字符、账号、手机号、身份证、相同或连续三位数字/字母</view
         >
 
         <view class="input-list-wrapper">
