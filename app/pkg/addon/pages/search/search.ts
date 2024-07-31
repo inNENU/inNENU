@@ -24,7 +24,7 @@ $Page("search", {
     /** 是否正在输入 */
     typing: false,
     /** 搜索框中的内容 */
-    value: "",
+    query: "",
   },
 
   onLoad(options) {
@@ -48,25 +48,31 @@ $Page("search", {
   },
 
   onShareAppMessage(): WechatMiniprogram.Page.ICustomShareContent {
+    const { query } = this.state;
+
     return {
-      title: "搜索",
-      path: `/pkg/addon/pages/search/search?type=${this.data.type}&word=${this.state.value}`,
+      title: `搜索${query ? `: ${query}` : ""}`,
+      path: `/pkg/addon/pages/search/search?type=${this.data.type}&word=${query}`,
       imageUrl: `${appCoverPrefix}Share.png`,
     };
   },
 
   onShareTimeline(): WechatMiniprogram.Page.ICustomTimelineContent {
+    const { query } = this.state;
+
     return {
-      title: "搜索",
-      query: `type=${this.data.type}&word=${this.state.value}`,
+      title: `搜索${query ? `: ${query}` : ""}`,
+      query: `type=${this.data.type}&word=${query}`,
     };
   },
 
   onAddToFavorites(): WechatMiniprogram.Page.IAddToFavoritesContent {
+    const { query } = this.state;
+
     return {
-      title: "搜索",
+      title: `搜索${query ? `: ${query}` : ""}`,
       imageUrl: `${appCoverPrefix}.jpg`,
-      query: `type=${this.data.type}&word=${this.state.value}`,
+      query: `type=${this.data.type}&word=${query}`,
     };
   },
 
@@ -77,13 +83,10 @@ $Page("search", {
     Record<never, never>,
     { type: SearchType }
   >) {
-    const { value } = this.state;
+    const { query } = this.state;
 
     this.setData({ type: currentTarget.dataset.type });
-    if (value)
-      this.search({
-        detail: { value },
-      });
+    if (query) this.search({ detail: { value: query } });
   },
 
   scrollTop() {
@@ -131,7 +134,7 @@ $Page("search", {
           .map((item) => [item.icon!, readFile(`icon/${item.icon!}`) || ""]),
       ),
     });
-    this.state.value = value;
+    this.state.query = value;
     wx.hideLoading();
   },
 });
