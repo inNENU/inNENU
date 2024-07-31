@@ -8,7 +8,7 @@ import {
   showModal,
   showToast,
 } from "../../api/index.js";
-import { env } from "../../state/info.js";
+import { env } from "../../state/index.js";
 
 $Component({
   props: {
