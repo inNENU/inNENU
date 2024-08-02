@@ -38,9 +38,12 @@ $Page("info", {
   onPageScroll() {},
 
   onShareAppMessage(): WechatMiniprogram.Page.ICustomShareContent {
+    const { title, id } = this.data.page;
+
     return {
-      title: this.data.page.title,
-      path: `/pages/info/info?path=${this.data.page.id}`,
+      title,
+      path: `/pages/info/info?path=${id}`,
+      generalWebpageUrl: `https://innenu.com/${id}.html`,
     };
   },
 

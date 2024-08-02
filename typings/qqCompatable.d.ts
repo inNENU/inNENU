@@ -162,4 +162,11 @@ declare namespace WechatMiniprogram {
      */
     applyAddToMyApps(option?: ApplyAddToMyAppsOption): void;
   }
+
+  namespace Page {
+    interface ICustomShareContent {
+      /** PC QQ、低版本手机 QQ 无法执行小程序时打开的H5页面 */
+      generalWebpageUrl?: string;
+    }
+  }
 }
