@@ -134,7 +134,7 @@ $Page(PAGE_ID, {
       const pageData = this.loadPage();
 
       if (pageData) setPage({ ctx: this, option: { id: PAGE_ID } }, pageData);
-    } catch (err) {
+    } catch {
       setPage(
         { ctx: this, option: { id: PAGE_ID } },
         get(PAGE_ID) || this.data.page,

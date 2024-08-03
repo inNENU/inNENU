@@ -79,66 +79,64 @@ $Page(PAGE_ID, {
   async getStudyArchive() {
     wx.showLoading({ title: "获取中" });
 
-    try {
-      const err = await ensureUnderSystemLogin(
-        user.account!,
-        this.state.loginMethod,
-      );
+    const err = await ensureUnderSystemLogin(
+      user.account!,
+      this.state.loginMethod,
+    );
 
-      if (err) throw err.msg;
-
-      const result = await getUnderStudentArchive();
-
+    if (err) {
       wx.hideLoading();
-      this.state.inited = true;
 
-      if (result.success) {
-        set(STUDENT_ARCHIVE_KEY, result, 3 * HOUR);
+      return showModal("获取失败", err.msg);
+    }
 
-        this.setData({ stage: "info", ...result.info });
-        this.state.loginMethod = "check";
-      } else if (result.type === ActionFailType.Expired) {
-        this.handleExpired(result.msg);
-      } else {
-        showModal("获取失败", result.msg);
-      }
-    } catch (msg) {
-      wx.hideLoading();
-      showModal("获取失败", msg as string);
+    const result = await getUnderStudentArchive();
+
+    wx.hideLoading();
+    this.state.inited = true;
+
+    if (result.success) {
+      set(STUDENT_ARCHIVE_KEY, result, 3 * HOUR);
+
+      this.setData({ stage: "info", ...result.info });
+      this.state.loginMethod = "check";
+    } else if (result.type === ActionFailType.Expired) {
+      this.handleExpired(result.msg);
+    } else {
+      showModal("获取失败", result.msg);
     }
   },
 
   async registerStudentArchive() {
     wx.showLoading({ title: "注册中" });
 
-    try {
-      const err = await ensureUnderSystemLogin(
-        user.account!,
-        this.state.loginMethod,
+    const err = await ensureUnderSystemLogin(
+      user.account!,
+      this.state.loginMethod,
+    );
+
+    if (err) {
+      wx.hideLoading();
+
+      return showModal("注册失败", err.msg);
+    }
+
+    const result = await registerUnderStudentArchive(this.data.path);
+
+    wx.hideLoading();
+    this.state.inited = true;
+
+    if (result.success) {
+      showModal("注册成功", "本年度学籍注册成功", () =>
+        this.setData({ stage: "loading" }, () => {
+          this.getStudyArchive();
+        }),
       );
-
-      if (err) throw err.msg;
-
-      const result = await registerUnderStudentArchive(this.data.path);
-
-      wx.hideLoading();
-      this.state.inited = true;
-
-      if (result.success) {
-        showModal("注册成功", "本年度学籍注册成功", () =>
-          this.setData({ stage: "loading" }, () => {
-            this.getStudyArchive();
-          }),
-        );
-        this.state.loginMethod = "check";
-      } else if (result.type === ActionFailType.Expired) {
-        this.handleExpired(result.msg);
-      } else {
-        showModal("注册失败", result.msg);
-      }
-    } catch (msg) {
-      wx.hideLoading();
-      showModal("注册失败", msg as string);
+      this.state.loginMethod = "check";
+    } else if (result.type === ActionFailType.Expired) {
+      this.handleExpired(result.msg);
+    } else {
+      showModal("注册失败", result.msg);
     }
   },
 

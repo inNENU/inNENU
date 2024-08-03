@@ -188,7 +188,7 @@ $Page(PAGE_ID, {
       this.state.planOptions = planOptions;
 
       // restore the previous selection
-      if (majorTypes.indexOf(oldMajorType) !== -1) {
+      if (majorTypes.includes(oldMajorType)) {
         this.setData({ majorTypes, majorTypeIndex });
 
         return this.setClassTypeOptions();

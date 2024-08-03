@@ -89,7 +89,6 @@ interface RawUnderEnrollPlanConfig {
   edu_cost: string;
   // eslint-disable-next-line @typescript-eslint/naming-convention
   edu_len: string;
-  // eslint-disable-next-line @typescript-eslint/naming-convention
   major: string;
   // eslint-disable-next-line @typescript-eslint/naming-convention
   major_attr: string;

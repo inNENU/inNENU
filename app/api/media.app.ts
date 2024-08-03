@@ -1,3 +1,5 @@
+import type { MpError } from "@mptool/all";
+
 import { downLoad } from "./net.js";
 
 /**
@@ -14,5 +16,5 @@ export const savePhoto = (imgPath: string): Promise<void> =>
           success: () => resolve(),
         });
       })
-      .catch(() => reject());
+      .catch((err: MpError) => reject(err));
   });

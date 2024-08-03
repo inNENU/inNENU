@@ -1,3 +1,5 @@
+import { MpError } from "@mptool/all";
+
 import { showModal } from "./ui.js";
 
 /**
@@ -37,9 +39,8 @@ export const addPhoneContact = (
                 "权限被拒",
                 "如果想要保存联系人，请在“权限设置”允许添加到联系人权限",
                 () => {
-                  wx.openSetting({
-                    success: () => reject(),
-                  });
+                  wx.openSetting();
+                  reject(new MpError({ message: "用户拒绝权限" }));
                 },
               );
             },

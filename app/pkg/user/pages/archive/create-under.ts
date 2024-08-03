@@ -214,75 +214,76 @@ $Page(PAGE_ID, {
   async getCreateArchiveInfo() {
     wx.showLoading({ title: "获取中" });
 
-    try {
-      const err = await ensureUnderSystemLogin(
-        user.account!,
-        this.state.loginMethod,
-      );
+    const err = await ensureUnderSystemLogin(
+      user.account!,
+      this.state.loginMethod,
+    );
 
-      if (err) throw err.msg;
-
-      const result = await getCreateUnderStudentArchiveInfo();
-
+    if (err) {
       wx.hideLoading();
-      this.state.inited = true;
 
-      if (result.success) {
-        this.setData({
-          stage: "info",
-          readonly: result.readonly,
-          editable: result.editable.map((item) => {
-            if ("options" in item) {
-              const selectedIndex = Math.max(
-                item.options.findIndex(
-                  ({ text }) => text === item.defaultValue,
-                ),
-                0,
-              );
+      return showModal("获取失败", err.msg);
+    }
 
-              return {
-                ...item,
-                selectedIndex,
-              };
-            }
+    const result = await getCreateUnderStudentArchiveInfo();
 
-            let selectedIndex = 0;
-            const categoryIndex = Math.max(
-              item.values.findIndex((category) => {
-                const index = category.findIndex(
-                  ({ text }) => text === item.defaultValue,
-                );
+    wx.hideLoading();
+    this.state.inited = true;
 
-                if (index !== -1) selectedIndex = index;
+    if (!result.success) {
+      if (result.type === ActionFailType.Expired) {
+        return this.handleExpired(result.msg);
+      }
 
-                return index >= 0;
-              }),
-              0,
-            );
-
-            return {
-              ...item,
-              categoryIndex,
-              selectedIndex,
-            };
-          }),
-        });
-        this.state.loginMethod = "check";
-        this.state.infoFields = result.fields;
-        this.state.infoPath = result.path;
-      } else if (result.type === ActionFailType.Expired) {
-        this.handleExpired(result.msg);
-      } else if (result.type === ActionFailType.Existed) {
-        showModal("已有学籍", result.msg, () => {
+      if (result.type === ActionFailType.Existed) {
+        return showModal("已有学籍", result.msg, () => {
           this.$back();
         });
-      } else {
-        showModal("获取失败", result.msg);
       }
-    } catch (msg) {
-      wx.hideLoading();
-      showModal("获取失败", msg as string);
+
+      return showModal("获取失败", result.msg);
     }
+
+    this.setData({
+      stage: "info",
+      readonly: result.readonly,
+      editable: result.editable.map((item) => {
+        if ("options" in item) {
+          const selectedIndex = Math.max(
+            item.options.findIndex(({ text }) => text === item.defaultValue),
+            0,
+          );
+
+          return {
+            ...item,
+            selectedIndex,
+          };
+        }
+
+        let selectedIndex = 0;
+        const categoryIndex = Math.max(
+          item.values.findIndex((category) => {
+            const index = category.findIndex(
+              ({ text }) => text === item.defaultValue,
+            );
+
+            if (index !== -1) selectedIndex = index;
+
+            return index >= 0;
+          }),
+          0,
+        );
+
+        return {
+          ...item,
+          categoryIndex,
+          selectedIndex,
+        };
+      }),
+    });
+    this.state.loginMethod = "check";
+    this.state.infoFields = result.fields;
+    this.state.infoPath = result.path;
   },
 
   async submitCreateArchiveInfo() {
@@ -319,81 +320,76 @@ $Page(PAGE_ID, {
 
     wx.showLoading({ title: "提交中" });
 
-    try {
-      const err = await ensureUnderSystemLogin(
-        user.account!,
-        this.state.loginMethod,
-      );
+    const err = await ensureUnderSystemLogin(
+      user.account!,
+      this.state.loginMethod,
+    );
 
-      if (err) throw err.msg;
+    if (err) {
+      wx.hideLoading();
 
-      const fields = [...infoFields];
-      const changedFields: string[] = [];
+      return showModal("获取失败", err.msg);
+    }
 
-      editable.forEach((item) => {
-        const {
-          name,
-          defaultValue,
-          checkboxName,
-          checkboxValue,
-          selectedIndex,
-        } = item;
+    const fields = [...infoFields];
+    const changedFields: string[] = [];
 
-        if ("values" in item) {
-          const { categoryIndex, values } = item;
+    editable.forEach((item) => {
+      const { name, defaultValue, checkboxName, checkboxValue, selectedIndex } =
+        item;
 
-          if (values[categoryIndex][selectedIndex].text === item.defaultValue)
-            return;
+      if ("values" in item) {
+        const { categoryIndex, values } = item;
 
-          fields.push(
-            { name: checkboxName, value: checkboxValue },
-            {
-              name,
-              value: values[categoryIndex][selectedIndex].value,
-            },
-          );
-          changedFields.push(item.name);
-
+        if (values[categoryIndex][selectedIndex].text === item.defaultValue)
           return;
-        }
-
-        const { options } = item;
-
-        if (options[selectedIndex].text === defaultValue) return;
 
         fields.push(
           { name: checkboxName, value: checkboxValue },
-          { name, value: options[selectedIndex].value },
+          {
+            name,
+            value: values[categoryIndex][selectedIndex].value,
+          },
         );
         changedFields.push(item.name);
-      });
 
-      fields.find(({ name }) => name === "gxstr")!.value =
-        changedFields.join(",");
-
-      const result = await submitUnderStudentArchiveInfo({
-        fields,
-        path: infoPath,
-      });
-
-      wx.hideLoading();
-      this.state.inited = true;
-
-      if (result.success) {
-        this.state.addressPath = result.path;
-        this.state.addressFields = result.fields;
-        this.state.loginMethod = "check";
-        this.setData({ stage: "address", inputs: result.inputs });
-      } else if (result.type === ActionFailType.Expired) {
-        this.handleExpired(result.msg);
-      } else {
-        showModal("提交失败", result.msg);
+        return;
       }
-    } catch (msg) {
-      console.error(msg);
-      wx.hideLoading();
-      showModal("获取失败", msg as string);
+
+      const { options } = item;
+
+      if (options[selectedIndex].text === defaultValue) return;
+
+      fields.push(
+        { name: checkboxName, value: checkboxValue },
+        { name, value: options[selectedIndex].value },
+      );
+      changedFields.push(item.name);
+    });
+
+    fields.find(({ name }) => name === "gxstr")!.value =
+      changedFields.join(",");
+
+    const result = await submitUnderStudentArchiveInfo({
+      fields,
+      path: infoPath,
+    });
+
+    wx.hideLoading();
+    this.state.inited = true;
+
+    if (!result.success) {
+      if (result.type === ActionFailType.Expired) {
+        return this.handleExpired(result.msg);
+      }
+
+      return showModal("提交失败", result.msg);
     }
+
+    this.state.addressPath = result.path;
+    this.state.addressFields = result.fields;
+    this.state.loginMethod = "check";
+    this.setData({ stage: "address", inputs: result.inputs });
   },
 
   async submitCreateArchiveAddress() {
@@ -404,43 +400,43 @@ $Page(PAGE_ID, {
 
     wx.showLoading({ title: "提交中" });
 
-    try {
-      const err = await ensureUnderSystemLogin(
-        user.account!,
-        this.state.loginMethod,
-      );
+    const err = await ensureUnderSystemLogin(
+      user.account!,
+      this.state.loginMethod,
+    );
 
-      if (err) throw err.msg;
-
-      const fields = [...addressFields];
-
-      inputs.forEach(({ name, value }) => {
-        fields.push({ name, value });
-      });
-
-      const result = await submitUnderStudentArchiveAddress({
-        fields,
-        path: addressPath,
-      });
-
+    if (err) {
       wx.hideLoading();
-      this.state.inited = true;
 
-      if (result.success) {
-        this.state.studyPath = result.path;
-        this.state.studyFields = result.fields;
-        this.state.loginMethod = "check";
-        this.setData({ stage: "study", study: result.study });
-      } else if (result.type === ActionFailType.Expired) {
-        this.handleExpired(result.msg);
-      } else {
-        showModal("提交失败", result.msg);
-      }
-    } catch (msg) {
-      console.error(msg);
-      wx.hideLoading();
-      showModal("获取失败", msg as string);
+      return showModal("获取失败", err.msg);
     }
+
+    const fields = [...addressFields];
+
+    inputs.forEach(({ name, value }) => {
+      fields.push({ name, value });
+    });
+
+    const result = await submitUnderStudentArchiveAddress({
+      fields,
+      path: addressPath,
+    });
+
+    wx.hideLoading();
+    this.state.inited = true;
+
+    if (!result.success) {
+      if (result.type === ActionFailType.Expired) {
+        return this.handleExpired(result.msg);
+      }
+
+      return showModal("提交失败", result.msg);
+    }
+
+    this.state.studyPath = result.path;
+    this.state.studyFields = result.fields;
+    this.state.loginMethod = "check";
+    this.setData({ stage: "study", study: result.study });
   },
 
   async submitCreateArchiveStudy() {
@@ -449,38 +445,38 @@ $Page(PAGE_ID, {
 
     wx.showLoading({ title: "提交中" });
 
-    try {
-      const err = await ensureUnderSystemLogin(
-        user.account!,
-        this.state.loginMethod,
-      );
+    const err = await ensureUnderSystemLogin(
+      user.account!,
+      this.state.loginMethod,
+    );
 
-      if (err) throw err.msg;
-
-      const result = await submitUnderStudentArchiveStudy({
-        fields: studyFields,
-        path: studyPath,
-        study,
-      });
-
+    if (err) {
       wx.hideLoading();
-      this.state.inited = true;
 
-      if (result.success) {
-        this.state.familyPath = result.path;
-        this.state.familyFields = result.fields;
-        this.state.loginMethod = "check";
-        this.setData({ stage: "family", family: result.family });
-      } else if (result.type === ActionFailType.Expired) {
-        this.handleExpired(result.msg);
-      } else {
-        showModal("提交失败", result.msg);
-      }
-    } catch (msg) {
-      console.error(msg);
-      wx.hideLoading();
-      showModal("获取失败", msg as string);
+      return showModal("获取失败", err.msg);
     }
+
+    const result = await submitUnderStudentArchiveStudy({
+      fields: studyFields,
+      path: studyPath,
+      study,
+    });
+
+    wx.hideLoading();
+    this.state.inited = true;
+
+    if (!result.success) {
+      if (result.type === ActionFailType.Expired) {
+        return this.handleExpired(result.msg);
+      }
+
+      return showModal("提交失败", result.msg);
+    }
+
+    this.state.familyPath = result.path;
+    this.state.familyFields = result.fields;
+    this.state.loginMethod = "check";
+    this.setData({ stage: "family", family: result.family });
   },
 
   async submitCreateArchiveFamily() {
@@ -489,35 +485,35 @@ $Page(PAGE_ID, {
 
     wx.showLoading({ title: "提交中" });
 
-    try {
-      const err = await ensureUnderSystemLogin(
-        user.account!,
-        this.state.loginMethod,
-      );
+    const err = await ensureUnderSystemLogin(
+      user.account!,
+      this.state.loginMethod,
+    );
 
-      if (err) throw err.msg;
-
-      const result = await submitUnderStudentArchiveFamily({
-        fields: familyFields,
-        path: familyPath,
-        family,
-      });
-
+    if (err) {
       wx.hideLoading();
-      this.state.inited = true;
 
-      if (result.success) {
-        this.setData({ stage: "success" });
-      } else if (result.type === ActionFailType.Expired) {
-        this.handleExpired(result.msg);
-      } else {
-        showModal("提交失败", result.msg);
-      }
-    } catch (msg) {
-      console.error(msg);
-      wx.hideLoading();
-      showModal("获取失败", msg as string);
+      return showModal("获取失败", err.msg);
     }
+
+    const result = await submitUnderStudentArchiveFamily({
+      fields: familyFields,
+      path: familyPath,
+      family,
+    });
+
+    wx.hideLoading();
+    this.state.inited = true;
+
+    if (!result.success) {
+      if (result.type === ActionFailType.Expired) {
+        return this.handleExpired(result.msg);
+      }
+
+      return showModal("提交失败", result.msg);
+    }
+
+    this.setData({ stage: "success" });
   },
 
   handleExpired(content: string) {

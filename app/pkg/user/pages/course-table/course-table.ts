@@ -206,88 +206,85 @@ $Page(PAGE_ID, {
 
   async getUnderCourseData(time: string) {
     wx.showLoading({ title: "获取中" });
-    try {
-      const err = await ensureUnderSystemLogin(
-        user.account!,
-        this.state.loginMethod,
-      );
 
-      if (err) throw err.msg;
+    const err = await ensureUnderSystemLogin(
+      user.account!,
+      this.state.loginMethod,
+    );
 
-      const result = await getUnderCourseTable({ time });
-
+    if (err) {
       wx.hideLoading();
-      this.state.inited = true;
 
-      if (result.success) {
-        const { data, startTime } = result;
-        const courseTable = getCourseTableInfo(data, startTime);
-        const { courseData, weeks } = courseTable;
-        const weekIndex = getWeekIndex(startTime, weeks);
+      return showModal("获取失败", err.msg);
+    }
 
-        this.setData({
-          courseData,
-          weeks,
-          weekIndex,
-          dates: getDates(startTime, weekIndex),
-        });
-        this.state.coursesData[time] = courseTable;
-        this.state.loginMethod = "check";
-        set(COURSE_DATA_KEY, this.state.coursesData, 6 * MONTH);
-      } else if (result.type === ActionFailType.Expired) {
-        this.state.loginMethod = "force";
-        retryAction("登录过期", result.msg, () =>
-          this.getUnderCourseData(time),
-        );
-      } else {
-        showModal("获取失败", result.msg);
-      }
-    } catch (msg) {
-      wx.hideLoading();
-      showModal("获取失败", msg as string);
+    const result = await getUnderCourseTable({ time });
+
+    wx.hideLoading();
+    this.state.inited = true;
+
+    if (result.success) {
+      const { data, startTime } = result;
+      const courseTable = getCourseTableInfo(data, startTime);
+      const { courseData, weeks } = courseTable;
+      const weekIndex = getWeekIndex(startTime, weeks);
+
+      this.setData({
+        courseData,
+        weeks,
+        weekIndex,
+        dates: getDates(startTime, weekIndex),
+      });
+      this.state.coursesData[time] = courseTable;
+      this.state.loginMethod = "check";
+      set(COURSE_DATA_KEY, this.state.coursesData, 6 * MONTH);
+    } else if (result.type === ActionFailType.Expired) {
+      this.state.loginMethod = "force";
+      retryAction("登录过期", result.msg, () => this.getUnderCourseData(time));
+    } else {
+      showModal("获取失败", result.msg);
     }
   },
 
   async getGradCourseData(time: string) {
     wx.showLoading({ title: "获取中" });
 
-    try {
-      const err = await ensureGradOldSystemLogin(
-        user.account!,
-        this.state.loginMethod,
-      );
+    const err = await ensureGradOldSystemLogin(
+      user.account!,
+      this.state.loginMethod,
+    );
 
-      if (err) throw err.msg;
-
-      const result = await getGradCourseTable({ time });
-
+    if (err) {
       wx.hideLoading();
-      this.state.inited = true;
 
-      if (result.success) {
-        const { data, startTime } = result;
-        const courseTable = getCourseTableInfo(data, startTime);
-        const { courseData, weeks } = courseTable;
-        const weekIndex = getWeekIndex(startTime, weeks);
+      return showModal("获取失败", err.msg);
+    }
 
-        this.setData({
-          courseData,
-          weeks,
-          weekIndex,
-          dates: getDates(startTime, weekIndex),
-        });
-        this.state.coursesData[time] = courseTable;
-        this.state.loginMethod = "check";
-        set(COURSE_DATA_KEY, this.state.coursesData, 6 * MONTH);
-      } else if (result.type === ActionFailType.Expired) {
-        this.state.loginMethod = "force";
-        retryAction("登录过期", result.msg, () => this.getGradCourseData(time));
-      } else {
-        showModal("获取失败", result.msg);
-      }
-    } catch (msg) {
-      wx.hideLoading();
-      showModal("获取失败", msg as string);
+    const result = await getGradCourseTable({ time });
+
+    wx.hideLoading();
+    this.state.inited = true;
+
+    if (result.success) {
+      const { data, startTime } = result;
+      const courseTable = getCourseTableInfo(data, startTime);
+      const { courseData, weeks } = courseTable;
+      const weekIndex = getWeekIndex(startTime, weeks);
+
+      this.setData({
+        courseData,
+        weeks,
+        weekIndex,
+        dates: getDates(startTime, weekIndex),
+      });
+      this.state.coursesData[time] = courseTable;
+      this.state.loginMethod = "check";
+      set(COURSE_DATA_KEY, this.state.coursesData, 6 * MONTH);
+    } else if (result.type === ActionFailType.Expired) {
+      this.state.loginMethod = "force";
+      retryAction("登录过期", result.msg, () => this.getGradCourseData(time));
+    } else {
+      showModal("获取失败", result.msg);
     }
   },
 

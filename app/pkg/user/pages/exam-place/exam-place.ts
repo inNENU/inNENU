@@ -91,33 +91,32 @@ $Page(PAGE_ID, {
   async getExamPlace() {
     wx.showLoading({ title: "获取中" });
 
-    try {
-      const err = await ensureUnderSystemLogin(
-        user.account!,
-        this.state.loginMethod,
-      );
+    const err = await ensureUnderSystemLogin(
+      user.account!,
+      this.state.loginMethod,
+    );
 
-      if (err) throw err.msg;
-
-      const result = await getUnderExamPlace();
-
+    if (err) {
       wx.hideLoading();
-      this.state.inited = true;
 
-      if (result.success) {
-        set(EXAM_PLACE_DATA_KEY, result.data, 3 * HOUR);
+      return showModal("获取失败", err.msg);
+    }
 
-        this.setData({ data: result.data });
-        this.state.loginMethod = "check";
-      } else if (result.type === ActionFailType.Expired) {
-        this.state.loginMethod = "force";
-        retryAction("登录过期", result.msg, () => this.getExamPlace());
-      } else {
-        showModal("获取失败", result.msg);
-      }
-    } catch (msg) {
-      wx.hideLoading();
-      showModal("获取失败", msg as string);
+    const result = await getUnderExamPlace();
+
+    wx.hideLoading();
+    this.state.inited = true;
+
+    if (result.success) {
+      set(EXAM_PLACE_DATA_KEY, result.data, 3 * HOUR);
+
+      this.setData({ data: result.data });
+      this.state.loginMethod = "check";
+    } else if (result.type === ActionFailType.Expired) {
+      this.state.loginMethod = "force";
+      retryAction("登录过期", result.msg, () => this.getExamPlace());
+    } else {
+      showModal("获取失败", result.msg);
     }
   },
 });

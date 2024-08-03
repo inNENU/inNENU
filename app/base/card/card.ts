@@ -39,7 +39,7 @@ $Component({
         }
       } else if ("path" in config) this.$go(`info?path=${config.path}`);
       // 页面路径
-      else if (!config.url.match(/^https?:\/\//)) this.$go(config.url);
+      else if (!/^https?:\/\//.test(config.url)) this.$go(config.url);
       // 为链接
       else {
         // 打开浏览器或 App

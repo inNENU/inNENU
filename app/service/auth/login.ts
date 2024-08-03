@@ -112,8 +112,8 @@ const authLoginLocal = async ({
       };
 
     const salt = SALT_REGEXP.exec(loginPageContent)![1];
-    const execution = loginPageContent.match(
-      /name="execution" value="(.*?)"/,
+    const execution = /name="execution" value="(.*?)"/.exec(
+      loginPageContent,
     )![1];
 
     cookieStore.set({

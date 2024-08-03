@@ -60,7 +60,6 @@ $Page("music", {
     ensureJson("function/music/index");
   },
 
-  // eslint-disable-next-line max-lines-per-function
   onLoad(option) {
     const mode = wx.getStorageSync<PlayMode | undefined>("play-mode");
     const { darkmode } = info;

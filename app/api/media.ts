@@ -1,3 +1,5 @@
+import { MpError } from "@mptool/all";
+
 import { downLoad } from "./net.js";
 import { showModal } from "./ui.js";
 
@@ -36,9 +38,8 @@ export const savePhoto = (imgPath: string): Promise<void> =>
                     "权限被拒",
                     "如果想要保存图片，请在“权限设置”允许保存图片权限",
                     () => {
-                      wx.openSetting({
-                        success: () => reject(),
-                      });
+                      wx.openSetting();
+                      reject(new MpError({ message: "用户拒绝权限" }));
                     },
                   );
                 },
@@ -46,5 +47,5 @@ export const savePhoto = (imgPath: string): Promise<void> =>
           },
         });
       })
-      .catch(() => reject());
+      .catch((err: MpError) => reject(err));
   });

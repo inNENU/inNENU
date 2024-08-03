@@ -73,7 +73,6 @@ const getUnderHistoryScoreInfo =
         Object.entries(data).map(([province, configs]) => {
           const result: Record<string, Record<string, string[]>> = {};
 
-          // eslint-disable-next-line @typescript-eslint/naming-convention
           configs.forEach(({ major_type, type, year }) => {
             ((result[year] ??= {})[type] ??= []).push(major_type);
           });

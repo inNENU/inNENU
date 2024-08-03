@@ -38,8 +38,8 @@ export const isUnderStudyLoggedInLocal = async (): Promise<boolean> => {
         return true;
     }
 
-    throw -1;
-  } catch (err) {
+    return false;
+  } catch {
     return false;
   }
 };

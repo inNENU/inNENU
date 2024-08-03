@@ -35,7 +35,7 @@ $Component({
   observers: {
     // eslint-disable-next-line @typescript-eslint/naming-convention
     "config.content"(value: string) {
-      const isLink = value.match(/^https?:\/\//);
+      const isLink = /^https?:\/\//.test(value);
 
       this.setData({
         type: isLink ? "link" : "text",

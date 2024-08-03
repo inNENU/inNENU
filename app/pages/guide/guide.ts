@@ -58,7 +58,6 @@ $Page(PAGE_ID, {
 
   onShow() {
     showNotice(PAGE_ID);
-    showNotice;
     this.setPage();
   },
 

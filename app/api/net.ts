@@ -1,4 +1,4 @@
-import { createRequest, logger } from "@mptool/all";
+import { MpError, createRequest, logger } from "@mptool/all";
 
 import { showToast } from "./ui.js";
 import { assets, server, service } from "../config/index.js";
@@ -120,11 +120,11 @@ export const requestJSON = <
             broken_url: path,
           });
 
-          reject(statusCode);
+          reject(new MpError({ code: statusCode }));
         }
       },
       fail: ({ errMsg }) => {
-        reject(errMsg);
+        reject(new MpError({ message: errMsg }));
         networkReport();
 
         // 调试
@@ -150,18 +150,17 @@ export const downLoad = (path: string, mask = false): Promise<string> =>
         if (statusCode === 200) {
           resolve(tempFilePath);
         } else {
-          showToast("服务器出现问题，请稍后重试");
+          const errorMsg = `Download ${path} failed with statusCode: ${statusCode}`;
 
-          // 调试
-          logger.warn(`Download ${path} failed with statusCode: ${statusCode}`);
-
-          reject(statusCode);
+          showToast("下载失败");
+          logger.warn(errorMsg);
+          reject(new MpError({ code: statusCode, message: errorMsg }));
         }
       },
       fail: ({ errMsg }) => {
         wx.hideLoading();
 
-        reject(errMsg);
+        reject(new MpError({ message: errMsg }));
 
         networkReport();
         logger.warn(`Download ${path} failed:`, errMsg);

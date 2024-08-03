@@ -30,7 +30,7 @@ export const getUnderMajorPlanLocal =
 
       if (status !== 200) throw new Error("请求失败");
 
-      const listContent = html.match(MAJOR_PLAN_LIST_REGEXP)?.[1];
+      const listContent = MAJOR_PLAN_LIST_REGEXP.exec(html)?.[1];
 
       if (!listContent) throw new Error("未找到列表");
 

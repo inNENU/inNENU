@@ -13,13 +13,9 @@ module.exports = {
   /** 播放模式 */
   getMode: function (mode) {
     var modeMap = {
-      // eslint-disable-next-line
       "列表循环": "cycle",
-      // eslint-disable-next-line
       "单曲循环": "single",
-      // eslint-disable-next-line
       "顺序播放": "order",
-      // eslint-disable-next-line
       "随机播放": "random",
     };
 

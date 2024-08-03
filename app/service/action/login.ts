@@ -51,7 +51,7 @@ const isActionLoggedInLocal = async (): Promise<boolean> => {
     }
 
     return data.success;
-  } catch (err) {
+  } catch {
     return false;
   }
 };

@@ -47,7 +47,7 @@
     }
   },
   "dependencies": {
-    "@mptool/all": "0.8.6"
+    "@mptool/all": "0.9.0"
   },
   "devDependencies": {
     "@commitlint/cli": "19.3.0",
@@ -58,27 +58,27 @@
     "cpx2": "7.0.1",
     "cz-git": "1.9.4",
     "del": "7.1.0",
-    "eslint": "8.57.0",
-    "eslint-config-mister-hope": "0.1.1",
+    "eslint": "9.8.0",
+    "eslint-config-mister-hope": "0.2.2",
     "gulp": "5.0.0",
     "gulp-rename": "2.0.0",
     "gulp-replace": "1.1.4",
     "gulp-sourcemaps": "3.0.0",
     "gulp-typescript": "6.0.0-alpha.1",
-    "husky": "9.1.1",
+    "husky": "9.1.4",
     "miniprogram-api-typings": "3.12.2",
     "nano-staged": "0.8.0",
-    "postcss": "8.4.39",
+    "postcss": "8.4.40",
     "prettier": "3.3.3",
-    "rollup": "4.19.0",
+    "rollup": "4.19.2",
     "rollup-plugin-esbuild": "6.1.1",
     "standard-version": "9.5.0",
-    "stylelint": "16.7.0",
+    "stylelint": "16.8.1",
     "stylelint-config-hope": "7.0.2",
-    "tsx": "4.16.2",
-    "typescript": "5.5.3"
+    "tsx": "4.16.5",
+    "typescript": "5.5.4"
   },
-  "packageManager": "pnpm@9.5.0",
+  "packageManager": "pnpm@9.6.0",
   "prettier": {
     "overrides": [
       {

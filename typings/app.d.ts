@@ -1,4 +1,3 @@
-/* eslint-disable */
 declare namespace WechatMiniprogram {
   interface DonutLaunchMiniProgramCallbackResult {
     /** 返回的数据 */

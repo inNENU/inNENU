@@ -1,7 +1,6 @@
 declare namespace WechatMiniprogram {
   interface SystemInfo {
     /** 运行环境 */
-    // eslint-disable-next-line @typescript-eslint/naming-convention
     AppPlatform: "qq" | undefined;
   }
 

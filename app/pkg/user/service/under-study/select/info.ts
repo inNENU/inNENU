@@ -94,7 +94,7 @@ const ALLOWED_INFO_REGEXP =
   /<span id="sub-title">\s+?<div id="text">现在是(.*?)时间\s+（(\d\d:\d\d:\d\d)--(\d\d:\d\d:\d\d)）<\/span>/;
 
 const getSelectInfo = (content: string): UnderSelectInfo => {
-  const [, term, name, canCancelText = ""] = content.match(INFO_TITLE_REGEXP)!;
+  const [, term, name, canCancelText = ""] = INFO_TITLE_REGEXP.exec(content)!;
 
   const canSelect = !content.includes("现在不是选课时间");
 
@@ -103,7 +103,7 @@ const getSelectInfo = (content: string): UnderSelectInfo => {
     : name.includes("净月")
       ? "净月"
       : "";
-  const currentGrade = Number(content.match(CURRENT_GRADE_REGEXP)![1]);
+  const currentGrade = Number(CURRENT_GRADE_REGEXP.exec(content)![1]);
   const currentMajor = content.match(CURRENT_MAJOR_REGEXP)![1];
 
   const currentYear = new Date().getFullYear();
@@ -111,7 +111,7 @@ const getSelectInfo = (content: string): UnderSelectInfo => {
     .fill(null)
     .map((_, i) => currentYear - i);
 
-  const areaText = content.match(AREAS_REGEXP)![1];
+  const areaText = AREAS_REGEXP.exec(content)![1];
 
   const areas = Array.from(areaText.matchAll(AREA_ITEM_REGEXP)).map(
     ([, value, name]) => ({
@@ -120,7 +120,7 @@ const getSelectInfo = (content: string): UnderSelectInfo => {
     }),
   );
 
-  const courseTypeText = content.match(COURSE_TYPES_REGEXP)![1];
+  const courseTypeText = COURSE_TYPES_REGEXP.exec(content)![1];
 
   const types = Array.from(
     courseTypeText.matchAll(COURSE_TYPE_ITEM_REGEXP),
@@ -129,7 +129,7 @@ const getSelectInfo = (content: string): UnderSelectInfo => {
     name,
   }));
 
-  const courseOfficeText = content.match(COURSE_OFFICES_REGEXP)![1];
+  const courseOfficeText = COURSE_OFFICES_REGEXP.exec(content)![1];
 
   const offices = Array.from(
     courseOfficeText.matchAll(COURSE_OFFICE_ITEM_REGEXP),
@@ -138,7 +138,7 @@ const getSelectInfo = (content: string): UnderSelectInfo => {
     name,
   }));
 
-  const majorText = content.match(MAJORS_REGEXP)![2];
+  const majorText = MAJORS_REGEXP.exec(content)![2];
 
   const majors = Array.from(majorText.matchAll(MAJOR_ITEM_REGEXP)).map(
     ([, value, name]) => ({
@@ -189,7 +189,7 @@ const getSelectInfo = (content: string): UnderSelectInfo => {
   };
 
   if (canSelect) {
-    const [, stage, startTime, endTime] = content.match(ALLOWED_INFO_REGEXP)!;
+    const [, stage, startTime, endTime] = ALLOWED_INFO_REGEXP.exec(content)!;
 
     return {
       canCancel: canCancelText === "可退选",
@@ -257,9 +257,7 @@ const getUnderSelectInfoLocal = async (
       },
     });
 
-    console.log(content.match(/<title>.*?评教检查<\/title>/));
-
-    if (content.match(/<title>.*?评教检查<\/title>/)) {
+    if (/<title>.*?评教检查<\/title>/.exec(content)) {
       console.log("评教检查");
 
       const { completed } = await checkCourseCommentary(

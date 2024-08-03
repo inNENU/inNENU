@@ -1,4 +1,3 @@
-/* eslint-disable */
 declare namespace WechatMiniprogram {
   interface RequestOption {
     /** 是否启用高性能模式 */

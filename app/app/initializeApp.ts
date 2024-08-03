@@ -1,4 +1,3 @@
-/* eslint-disable max-lines */
 import { emitter, logger, writeJSON } from "@mptool/all";
 
 import { defaultResources, downloadResource } from "./resource.js";

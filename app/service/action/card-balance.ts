@@ -65,13 +65,13 @@ const getCardBalanceLocal = async (): Promise<CardBalanceResponse> => {
 
       return {
         success: true,
-        data: balanceList[0]?.kye.match(/\d+/)
+        data: /\d+/.test(balanceList[0]?.kye)
           ? Number(balanceList[0].kye) / 100
           : 0,
       };
     }
 
-    throw JSON.stringify(data);
+    throw new Error("获取余额失败");
   } catch (err) {
     const { message } = err as Error;
 

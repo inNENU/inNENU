@@ -1,4 +1,3 @@
-/* eslint-disable max-lines */
 import type { PageInstance, PageQuery } from "@mptool/all";
 import { logger, readJSON, writeJSON } from "@mptool/all";
 
@@ -65,7 +64,6 @@ const setListItemState = (
       listElement.status =
         wx.getStorageSync<boolean | undefined>(listElement.key) || false;
     else if (listElement.type === "slider")
-      // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
       listElement.value = wx.getStorageSync(listElement.key);
     // 设置列表选择器
     else if (listElement.type === "picker")
@@ -466,7 +464,6 @@ export const showNotice = (id: string): void => {
  * @param ctx 页面指针
  * @param preload 是否需要预加载(默认需要)
  */
-// eslint-disable-next-line max-lines-per-function
 export const setOnlinePage = (
   option: PageOptions,
   ctx: PageInstanceWithPage,

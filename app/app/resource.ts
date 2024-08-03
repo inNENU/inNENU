@@ -1,5 +1,5 @@
-/* eslint-disable max-lines */
 import {
+  MpError,
   exists,
   logger,
   readJSON,
@@ -78,14 +78,14 @@ export const downloadResource = async (
                 resolve();
               });
             } else {
-              reject(statusCode);
+              reject(new MpError({ code: statusCode }));
             }
           },
 
           // 下载失败
           fail: ({ errMsg }) => {
             logger.error(`download ${resource} fail: ${errMsg}`);
-            reject(errMsg);
+            reject(new MpError({ message: errMsg }));
           },
         });
       });
@@ -104,7 +104,7 @@ let hasResPopup = false;
  * @param name 检查资源的名称
  * @param dataUsage 消耗的数据流量
  */
-// eslint-disable-next-line max-lines-per-function
+
 export const checkResource = (): Promise<void> => {
   /** 资源提醒状态 */
   let notify = wx.getStorageSync<boolean | undefined>("resourceNotify");

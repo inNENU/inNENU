@@ -116,7 +116,6 @@ $Component({
 
       if (!courseData.length) return this.setData({ missing: true });
 
-      // eslint-disable-next-line no-constant-condition
       while (true) {
         const currentCell = courseData[classIndex][dayIndex].filter((course) =>
           course.weeks.some(

@@ -73,7 +73,7 @@ export const syncAppSettings = async (
     globalData.service = service;
     wx.setStorageSync("service", service);
     syncNotice(notice);
-  } catch (err) {
+  } catch {
     // 调试信息
     logger.warn(`Fetch settings failed`);
   }

@@ -1,3 +1,4 @@
+import type { MpError } from "@mptool/all";
 import {
   dirname,
   exists,
@@ -28,7 +29,7 @@ export const saveJson = (
 
       return;
     })
-    .catch((err: string | number) => {
+    .catch((err: MpError) => {
       logger.error(`Download ${onlinePath} failed with error:`, err);
       rm(`${localPath}.json`);
 
@@ -65,6 +66,6 @@ export const getJson = <T>(path: string, url = `d/${path}`): Promise<T> =>
 
       if (typeof data !== "undefined") return data;
 
-      return Promise.reject("Data returned with undefined");
+      return Promise.reject(new Error("Data returned with undefined"));
     })
-    .catch((err) => Promise.reject(err));
+    .catch((err) => Promise.reject(err as Error));
