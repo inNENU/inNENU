@@ -4,7 +4,11 @@ import type {
   CommonFailedResponse,
   CommonSuccessResponse,
 } from "../../../../../service/index.js";
-import { UnknownResponse, authEncrypt } from "../../../../../service/index.js";
+import {
+  ActionFailType,
+  UnknownResponse,
+  authEncrypt,
+} from "../../../../../service/index.js";
 import { RESET_PREFIX } from "../utils.js";
 
 export interface ActivateCheckPasswordOptions {
@@ -14,7 +18,10 @@ export interface ActivateCheckPasswordOptions {
 }
 
 interface RawCheckPasswordSuccessResponse {
-  code: 0;
+  code: "0";
+  datas: {
+    rules: Record<string, boolean>;
+  };
   message: "SUCCESS";
 }
 
@@ -49,6 +56,19 @@ export const checkPassword = async ({
 
   if (data.code !== "0" || data.message !== "SUCCESS")
     return UnknownResponse(data.message);
+
+  const warnings = Object.entries(
+    (data as RawCheckPasswordSuccessResponse).datas.rules,
+  )
+    .filter(([, value]) => !value)
+    .map(([key]) => key);
+
+  if (warnings.length > 0)
+    return {
+      success: false,
+      type: ActionFailType.Unknown,
+      msg: `密码不满足要求: ${warnings.join(", ")}`,
+    };
 
   return {
     success: true,

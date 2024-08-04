@@ -25,6 +25,8 @@ import type {
   ActivateValidSmsResponse,
 } from "./validate-sms.js";
 import { validateActivateSms } from "./validate-sms.js";
+import { request } from "../../../../../api/index.js";
+import { createService } from "../../../../../service/index.js";
 
 export type ActivateOptions =
   | { type: "get-info" }
@@ -49,7 +51,7 @@ export type ActivateResponse<T extends ActivateOptions = ActivateOptions> =
               ? ActivateSetPasswordResponse
               : never;
 
-export const activateAccount = async <T extends ActivateOptions>(
+const activateAccountLocal = async <T extends ActivateOptions>(
   options: T,
 ): Promise<ActivateResponse<T>> =>
   (options.type === "get-info"
@@ -63,3 +65,17 @@ export const activateAccount = async <T extends ActivateOptions>(
           : options.type === "check-password"
             ? checkPassword(options)
             : setPassword(options)) as Promise<ActivateResponse<T>>;
+
+const activateAccountOnline = async <T extends ActivateOptions>(
+  options: T,
+): Promise<ActivateResponse<T>> =>
+  request<ActivateResponse<T>>("/user/activate", {
+    method: options.type === "get-info" ? "GET" : "POST",
+    body: options.type === "get-info" ? undefined : JSON.stringify(options),
+  }).then(({ data }) => data);
+
+export const activateAccount = createService(
+  "activate-account",
+  activateAccountLocal,
+  activateAccountOnline,
+);
