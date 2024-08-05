@@ -7,7 +7,7 @@
   background-color-bottom="{{color.bgColorBottom}}"
   root-background-color="{{color.bgColor}}"
 />
-<view class="{{theme}} announcement-detail">
+<view class="{{theme}} notice-detail">
   <navbar nav="{{ { title: pageTitle } }}" />
   <view class="title">{{title}}</view>
   <error-hint wx:if="{{ status === 'error' }}" catch:retry="getInfo" />
