@@ -133,7 +133,7 @@ const getUnderCourseTableOnline = (
   });
 
 export const getUnderCourseTable = createService(
-  "course-table",
+  "under-course-table-old",
   getUnderCourseTableLocal,
   getUnderCourseTableOnline,
 );

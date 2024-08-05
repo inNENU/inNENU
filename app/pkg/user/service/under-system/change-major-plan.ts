@@ -208,7 +208,7 @@ const getUnderChangeMajorPlansOnline =
     });
 
 export const getUnderChangeMajorPlans = createService(
-  "change-major-plan",
+  "under-change-major-plan",
   getUnderChangeMajorPlansLocal,
   getUnderChangeMajorPlansOnline,
 );

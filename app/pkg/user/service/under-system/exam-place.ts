@@ -194,7 +194,7 @@ const getUnderExamPlaceOnline = (): Promise<UnderExamPlaceResponse> =>
   });
 
 export const getUnderExamPlace = createService(
-  "exam-place",
+  "under-exam-place-old",
   getUnderExamPlaceLocal,
   getUnderExamPlaceOnline,
 );
