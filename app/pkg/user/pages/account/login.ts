@@ -22,9 +22,9 @@ import {
 } from "../../../../utils/index.js";
 import type { AuthCaptchaInfo } from "../../service/index.js";
 import {
+  authInit,
   getAuthCaptcha,
   getAuthInitInfo,
-  initAuth,
   sendReAuthSMS,
   verifyAuthCaptcha,
   verifyReAuthCaptcha,
@@ -265,7 +265,7 @@ $Page(PAGE_ID, {
     // 设置协议版本
     wx.setStorageSync("license", (await getLicenseStatus()).version);
 
-    const result = await initAuth({
+    const result = await authInit({
       ...this.state.initOptions,
       id: Number(id),
       password,

@@ -135,10 +135,10 @@ export type InitAuthFailedResponse = CommonFailedResponse<
 
 export type InitAuthResponse = InitAuthSuccessResponse | InitAuthFailedResponse;
 
-const initAuthLocal = async (
+const authInitLocal = async (
   options: InitAuthOptions,
 ): Promise<InitAuthResponse> => {
-  if (!supportRedirect) return initAuthOnline(options);
+  if (!supportRedirect) return authInitOnline(options);
 
   const { id, password, authToken, salt, params } = options;
   const {
@@ -272,7 +272,7 @@ const initAuthLocal = async (
   return UnknownResponse("登录失败");
 };
 
-const initAuthOnline = async (
+const authInitOnline = async (
   options: InitAuthOptions,
 ): Promise<InitAuthResponse> => {
   const { data: result } = await request<InitAuthResponse>("/auth/init", {
@@ -286,8 +286,8 @@ const initAuthOnline = async (
   return result;
 };
 
-export const initAuth = createService(
-  "init-auth",
-  initAuthLocal,
-  initAuthOnline,
+export const authInit = createService(
+  "auth-init",
+  authInitLocal,
+  authInitOnline,
 );
