@@ -3,7 +3,7 @@
   "name": "inNENU",
   "version": "6.10.6",
   "mini-android": {
-    "sdkVersion": "1.3.25",
+    "sdkVersion": "1.3.26",
     "toolkitVersion": "0.7.3",
     "useExtendedSdk": {
       "media": true,
@@ -51,7 +51,7 @@
     "appMenuEnable": true
   },
   "mini-ios": {
-    "sdkVersion": "1.3.36",
+    "sdkVersion": "1.3.37",
     "toolkitVersion": "0.0.9",
     "useExtendedSdk": {
       "WeAppOpenFuns": false,
