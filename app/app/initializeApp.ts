@@ -55,7 +55,7 @@ export const initializeApp = (): void => {
       );
     })
     .then((data) => {
-      console.debug("Version info", data);
+      logger.debug("Version info", data);
       writeJSON("resource-version", data.version);
       // 成功初始化
       wx.setStorageSync(INITIALIZED_KEY, true);

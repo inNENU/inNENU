@@ -1,5 +1,5 @@
 import type { TrivialPageInstance } from "@mptool/all";
-import { $App, $Config, wrapFunction } from "@mptool/all";
+import { $App, $Config, logger, wrapFunction } from "@mptool/all";
 
 import type { GlobalData } from "./app/index.js";
 import {
@@ -120,7 +120,7 @@ $App<App>({
 
   onLaunch(options) {
     // 调试
-    console.info("App launched with options:", options);
+    logger.info("App launched with options:", options);
 
     // 初始化完成，检查页面资源
     if (wx.getStorageSync(INITIALIZED_KEY)) checkResource();
@@ -132,11 +132,11 @@ $App<App>({
     });
     startup(this.globalData);
 
-    console.info("GlobalData:", this.globalData);
+    logger.info("GlobalData:", this.globalData);
   },
 
   onAwake(time: number) {
-    console.info(`App awakes after ${time}ms`);
+    logger.info(`App awakes after ${time}ms`);
 
     syncAppSettings(this.globalData, wx.getStorageSync("test")).then(() => {
       this.$emit("settings");
@@ -145,13 +145,13 @@ $App<App>({
   },
 
   onError(errorMsg) {
-    console.error("Catch error msg: ", errorMsg);
+    logger.error("Catch error msg: ", errorMsg);
   },
 
   onPageNotFound(options) {
     // 重定向到主界面
     wx.switchTab({ url: "pages/main/main" });
 
-    console.error("Page not found:", options);
+    logger.error("Page not found:", options);
   },
 });

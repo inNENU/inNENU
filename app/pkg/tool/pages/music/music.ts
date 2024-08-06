@@ -1,4 +1,4 @@
-import { $Page } from "@mptool/all";
+import { $Page, logger } from "@mptool/all";
 
 import { loadFZSSJW, showToast } from "../../../../api/index.js";
 import { appCoverPrefix, appName } from "../../../../config/index.js";
@@ -166,25 +166,25 @@ $Page("music", {
     // 能够播放 100ms 后设置可以播放
     manager.onCanplay(() => {
       // 调试
-      console.info("Canplay current music");
+      logger.debug("Canplay current music");
       this.setData({ canplay: true });
     });
 
     // 在相应动作时改变状态
     manager.onPlay(() => {
-      console.log("play");
+      logger.info("play");
       this.setData({ playing: true });
       musicState.playing = true;
     });
 
     manager.onPause(() => {
-      console.log("pause");
+      logger.info("pause");
       this.setData({ playing: false });
       musicState.playing = false;
     });
 
     manager.onTimeUpdate(() => {
-      console.log("timeupdate:", manager.currentTime);
+      logger.debug("timeupdate:", manager.currentTime);
       // 更新歌曲信息
       this.setData({
         currentTime: Math.round(manager.currentTime * 100) / 100,
@@ -197,24 +197,24 @@ $Page("music", {
 
     // 缓冲中
     manager.onWaiting(() => {
-      console.warn("waiting");
+      logger.info("waiting");
       this.setData({ canplay: false });
     });
 
     manager.onPrev(() => {
-      console.log("previous");
+      logger.info("previous");
       this.previous();
     });
 
     // 歌曲播放结束
     manager.onEnded(() => {
-      console.log("Music ends");
+      logger.info("Music ends");
       this.end();
     });
 
     // 歌曲播放结束
     manager.onStop(() => {
-      console.log("Music Stops by closing popup");
+      logger.warn("Music Stops by closing popup");
       this.setData({ currentTime: 0, playing: false });
       this.state.interrupted = true;
     });
@@ -224,8 +224,8 @@ $Page("music", {
     });
 
     manager.onError(({ errMsg }) => {
+      logger.error(`Audio manager: ${errMsg}`);
       showToast("获取音乐出错，请稍后重试");
-      console.error(`Audio manager: ${errMsg}`);
     });
   },
 

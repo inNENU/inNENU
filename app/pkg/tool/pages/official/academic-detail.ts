@@ -38,12 +38,10 @@ $Page(PAGE_ID, {
       person,
     };
 
-    if (!url) {
+    if (!url)
       showModal("无法获取", "请提供 ID", () => {
         this.$back();
       });
-      console.error(url);
-    }
 
     this.getInfo();
     this.setData({

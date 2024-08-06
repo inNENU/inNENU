@@ -231,7 +231,7 @@ const checkCourseCommentary = async (
       return { completed: false, msg: "未完成评教" };
     }
 
-    console.log(content);
+    console.debug(content);
 
     return {
       completed: false,
@@ -258,8 +258,6 @@ const getUnderSelectInfoLocal = async (
     });
 
     if (/<title>.*?评教检查<\/title>/.exec(content)) {
-      console.log("评教检查");
-
       const { completed } = await checkCourseCommentary(
         /xnxqdm=(\d+)'/.exec(content)![1],
       );

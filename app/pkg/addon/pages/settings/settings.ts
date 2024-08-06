@@ -1,4 +1,4 @@
-import { $Page } from "@mptool/all";
+import { $Page, logger } from "@mptool/all";
 
 import type {
   FunctionalListComponentConfig,
@@ -159,7 +159,7 @@ $Page(PAGE_ID, {
     this.$emit("theme", theme);
 
     // debug
-    console.info(`Switched to ${theme} theme`);
+    logger.info(`Switched to ${theme} theme`);
   },
 
   /** 刷新所有资源 */

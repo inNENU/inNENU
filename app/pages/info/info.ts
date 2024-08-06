@@ -1,4 +1,4 @@
-import { $Page } from "@mptool/all";
+import { $Page, logger } from "@mptool/all";
 
 import type { PageOptions, PageState } from "../../../typings/index.js";
 import { appCoverPrefix } from "../../config/index.js";
@@ -19,7 +19,7 @@ $Page("info", {
   },
 
   onLoad(option: PageOptions & { path?: string }) {
-    console.info("onLoad options: ", option);
+    logger.info("onLoad options: ", option);
 
     if (option.path) {
       loadOnlinePage(option as PageOptions & { path: string }, this);

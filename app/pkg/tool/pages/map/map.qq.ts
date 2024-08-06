@@ -1,6 +1,6 @@
 // TODO: Support categories and satellite
 
-import { $Page } from "@mptool/all";
+import { $Page, logger } from "@mptool/all";
 
 import type {
   Category,
@@ -53,7 +53,7 @@ $Page(PAGE_ID, {
   context: {} as WechatMiniprogram.MapContext,
 
   onNavigate() {
-    console.debug("Navigating to Map");
+    logger.debug("Navigating to Map");
     ensureJson("function/map/marker/benbu");
     ensureJson("function/map/marker/jingyue");
   },
@@ -154,7 +154,7 @@ $Page(PAGE_ID, {
           this.state[path as Area] = markerData;
         })
         .catch((err) => {
-          console.log("Marked failed with", err);
+          logger.error("Marked failed with", err);
           showModal(
             "获取失败",
             "地图点位获取失败，请稍后重试。如果该情况持续发生，请反馈给开发者",
@@ -267,6 +267,6 @@ $Page(PAGE_ID, {
   },
 
   update(event: WechatMiniprogram.MapUpdated) {
-    console.log("update", event);
+    logger.debug("update", event);
   },
 });
