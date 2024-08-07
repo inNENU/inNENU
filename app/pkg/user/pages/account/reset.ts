@@ -1,15 +1,14 @@
-import { $Page, get, set } from "@mptool/all";
+import { $Page } from "@mptool/all";
 
 import { showModal, showToast } from "../../../../api/index.js";
-import { SECOND, appCoverPrefix } from "../../../../config/index.js";
-import { supportRedirect } from "../../../../service/index.js";
+import { appCoverPrefix } from "../../../../config/index.js";
+import { ActionFailType, supportRedirect } from "../../../../service/index.js";
 import { envName, info, logo } from "../../../../state/index.js";
 import { getPageColor, showNotice } from "../../../../utils/index.js";
-import { resetPassword } from "../../service/index.js";
+import { getResetCaptchaLocal, resetPassword } from "../../service/index.js";
 
 const PAGE_ID = "account-reset";
 const PAGE_TITLE = "重置统一身份认证密码";
-const RESET_KEY = "reset-sms-code";
 
 $Page(PAGE_ID, {
   data: {
@@ -36,7 +35,7 @@ ${envName}严格使用官方密码重置服务流程。
     stage: "info" as "info" | "phone" | "password" | "success",
 
     id: "",
-    mobile: "",
+    cellphone: "",
     captcha: "",
 
     code: "",
@@ -45,16 +44,23 @@ ${envName}严格使用官方密码重置服务流程。
     showPassword: false,
     confirmPassword: "",
     showConfirmPassword: false,
+
+    captchaImage: "",
+    hideCellphone: "",
+    hideEmail: "",
   },
 
   state: {
+    oldCaptcha: "",
+    oldCaptchaId: "",
     captchaId: "",
-    salt: "",
+    isAppealFlag: "0" as "0" | "1",
+    appealSign: "",
     sign: "",
   },
 
   onLoad() {
-    this.getCaptcha();
+    this.init();
 
     this.setData({
       color: getPageColor(),
@@ -86,7 +92,7 @@ ${envName}严格使用官方密码重置服务流程。
   },
 
   async getCaptcha() {
-    const result = await resetPassword({ type: "captcha" });
+    const result = await getResetCaptchaLocal();
 
     if (!result.success) return showModal("获取验证码失败", result.msg);
 
@@ -94,82 +100,157 @@ ${envName}严格使用官方密码重置服务流程。
     this.setData({ captchaImage: result.data.captcha });
   },
 
-  async verify() {
+  async init() {
+    const result = await resetPassword({ type: "init" });
+
+    if (!result.success) return showModal("初始化失败", result.msg);
+
+    this.state.captchaId = result.data.captchaId;
+    this.setData({ captchaImage: result.data.captcha });
+  },
+
+  async getInfo() {
     const { id, captcha } = this.data;
+    const { captchaId } = this.state;
 
     if (!id) return showModal("信息缺失", "请输入学号");
     if (id.length !== 10) return showModal("信息错误", "学号应为 10 位数字");
-    // if (!/1\d{10}/.test(mobile))
-    //   return showModal("信息错误", "请输入正确的手机号");
-    if (!captcha) return showModal("信息缺失", "请输入验证码");
+    if (!captcha) return showModal("未填写验证码", "请输入验证码");
 
-    wx.showLoading({ title: "正在验证" });
+    wx.showLoading({ title: "获取信息" });
 
-    const data = await resetPassword({
-      type: "verify-id",
+    const result = await resetPassword({
+      type: "get-info",
       id,
       captcha,
-      captchaId: this.state.captchaId,
+      captchaId,
     });
 
     wx.hideLoading();
 
-    if (data.success) {
-      this.state.sign = data.sign;
-      this.sendSMS();
+    if (!result.success) {
+      if (result.type === ActionFailType.WrongCaptcha) {
+        const { captchaId, captcha } = result.data;
 
-      return this.setData({ stage: "phone" });
+        this.state.captchaId = captchaId;
+        showModal("验证码错误", result.msg);
+
+        return this.setData({ captchaImage: captcha });
+      }
+
+      showModal("获取信息失败", result.msg);
+
+      return this.getCaptcha();
     }
 
-    showModal("信息有误", data.msg);
+    const {
+      hideCellphone,
+      hideEmail,
+      captcha: captchaImage,
+      ...args
+    } = result.data;
 
-    return this.getCaptcha();
+    this.state = {
+      ...this.state,
+      oldCaptcha: captcha,
+      oldCaptchaId: captchaId,
+      ...args,
+    };
+
+    return this.setData({
+      stage: "phone",
+      captcha: "",
+      captchaImage,
+      hideCellphone,
+      hideEmail,
+    });
   },
 
-  async sendSMS() {
-    if (get(RESET_KEY)) return showToast("请勿频繁发送", 1000, "none");
+  async sendCode() {
+    const { captcha, id, cellphone, hideCellphone, hideEmail } = this.data;
+    const { captchaId, isAppealFlag, appealSign, sign } = this.state;
 
-    const { id, mobile } = this.data;
-    const { sign } = this.state;
+    if (!/1\d{10}/.test(cellphone))
+      return showModal("信息错误", "请输入正确的手机号");
 
     wx.showLoading({ title: "发送中" });
 
-    const data = await resetPassword({ type: "send-sms", id, mobile, sign });
+    const result = await resetPassword({
+      type: "send-code",
+      id,
+      captcha,
+      captchaId,
+      cellphone,
+      email: "",
+      hideCellphone,
+      hideEmail,
+      isAppealFlag,
+      appealSign,
+      sign,
+    });
 
     wx.hideLoading();
 
-    if (data.success) {
-      this.state.sign = data.sign;
-      showToast("发送成功", 1000, "success");
-      set(RESET_KEY, true, SECOND * 100);
-    } else showModal("验证码发送失败", data.msg);
+    if (!result.success) {
+      if (result.type === ActionFailType.WrongCaptcha) {
+        const { captchaId, captcha } = result.data;
+
+        this.state.captchaId = captchaId;
+        showModal("验证码错误", result.msg);
+
+        return this.setData({ captchaImage: captcha });
+      }
+
+      return showModal("验证码发送失败", result.msg);
+    }
+
+    showToast("发送成功", 1000, "success");
+
+    this.state.sign = result.data.sign;
   },
 
-  async verifySMS() {
-    const { id, mobile, code } = this.data;
-    const { sign } = this.state;
+  async verifyCode() {
+    const { id, cellphone, hideCellphone, hideEmail, code } = this.data;
+    const { oldCaptcha, oldCaptchaId, isAppealFlag, appealSign, sign } =
+      this.state;
 
     wx.showLoading({ title: "验证中" });
 
-    const data = await resetPassword({
-      type: "verify-sms",
+    const result = await resetPassword({
+      type: "validate-code",
       id,
-      mobile,
+      captcha: oldCaptcha,
+      captchaId: oldCaptchaId,
+      cellphone,
+      email: "",
+      hideCellphone,
+      hideEmail,
+      isAppealFlag,
+      appealSign,
       sign,
       code,
     });
 
     wx.hideLoading();
 
-    if (data.success) {
-      showToast("验证成功", 1000, "success");
-      this.state.sign = data.sign;
-      this.state.salt = data.salt;
+    if (!result.success) {
+      if (result.type === ActionFailType.WrongCaptcha) {
+        const { captchaId, captcha } = result.data;
 
-      return this.setData({ stage: "password" });
+        this.state.captchaId = captchaId;
+        showModal("验证码错误", result.msg);
+
+        return this.setData({ captchaImage: captcha });
+      }
+
+      return showModal("验证失败", result.msg);
     }
 
-    showModal("验证码错误", data.msg);
+    showToast("验证成功", 1000, "success");
+
+    this.state.sign = result.data.sign;
+
+    return this.setData({ stage: "password", rules: result.data.rules });
   },
 
   togglePassword() {
@@ -181,50 +262,61 @@ ${envName}严格使用官方密码重置服务流程。
   },
 
   async setPassword() {
-    const { id, mobile, code, password, confirmPassword } = this.data;
-    const { salt, sign } = this.state;
+    const {
+      id,
+      cellphone,
+      hideCellphone,
+      hideEmail,
+      code,
+      password,
+      confirmPassword,
+    } = this.data;
+    const { oldCaptcha, oldCaptchaId, isAppealFlag, appealSign, sign } =
+      this.state;
 
     if (!password) return showModal("密码缺失", "请输入拟设定的密码");
 
     if (password !== confirmPassword)
       return showModal("密码不一致", "请确认两次输入的密码一致");
 
-    if (password.length < 8)
-      return showModal("密码格式不合法", "密码至少为 8 位");
+    wx.showLoading({ title: "检查密码" });
 
-    if (
-      [
-        /[A-Z]/.test(password),
-        /[a-z]/.test(password),
-        /[0-9]/.test(password),
-        /[!~`@#$%^&*()_+-=[\]{}\\|;':",./?<>]/.test(password),
-      ].filter(Boolean).length < 3
-    )
-      return showModal(
-        "密码格式不合法",
-        "密码至少包含大写字母、小写字母、数字和特殊字符中的三种",
-      );
+    const result = await resetPassword({
+      type: "check-password",
+      password,
+      sign,
+    });
 
-    wx.showLoading({ title: "重置密码" });
+    if (!result.success) {
+      wx.hideLoading();
+
+      return showModal("密码不符合要求", result.msg);
+    }
+
+    wx.showLoading({ title: "设置密码" });
 
     const data = await resetPassword({
-      type: "set",
+      type: "reset-password",
       id,
-      mobile,
+      captcha: oldCaptcha,
+      captchaId: oldCaptchaId,
+      cellphone,
+      email: "",
+      hideCellphone,
+      hideEmail,
+      isAppealFlag,
+      appealSign,
       sign,
       code,
       password,
-      salt,
     });
 
     wx.hideLoading();
 
-    if (data.success) {
-      showToast("设置成功", 1000, "success");
+    if (!data.success) return showModal("重置密码失败", data.msg);
 
-      return this.setData({ stage: "success" });
-    }
+    showToast("设置成功", 1000, "success");
 
-    showModal("重置密码失败", data.msg);
+    return this.setData({ stage: "success" });
   },
 });

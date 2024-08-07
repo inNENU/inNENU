@@ -1,4 +1,3 @@
-import { INFO_SALT } from "./utils.js";
 import { request } from "../../../../../api/index.js";
 import type {
   CommonFailedResponse,
@@ -10,8 +9,8 @@ import {
   authEncrypt,
 } from "../../../../../service/index.js";
 import type { ResetCaptchaInfo } from "../reset-captcha.js";
-import { getResetCaptcha } from "../reset-captcha.js";
-import { RESET_PREFIX } from "../utils.js";
+import { getResetCaptchaLocal } from "../reset-captcha.js";
+import { RESET_PREFIX, RESET_SALT } from "../utils.js";
 
 interface RawValidationSuccessResponse {
   success: true;
@@ -75,14 +74,14 @@ export const validAccountInfo = async ({
         captcha,
         captchaId,
         idType,
-        idNo: authEncrypt(id, INFO_SALT),
+        idNo: authEncrypt(id, RESET_SALT),
       },
     },
   );
 
   if (!data.success) {
     if (data.message === "验证码不正确") {
-      const captchaResponse = await getResetCaptcha();
+      const captchaResponse = await getResetCaptchaLocal();
 
       if (!captchaResponse.success) return captchaResponse;
 
@@ -97,7 +96,7 @@ export const validAccountInfo = async ({
     return UnknownResponse(data.message);
   }
 
-  const captchaResponse = await getResetCaptcha();
+  const captchaResponse = await getResetCaptchaLocal();
 
   if (!captchaResponse.success) return captchaResponse;
 

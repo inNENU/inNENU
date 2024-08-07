@@ -22,6 +22,55 @@
   margin: 0 var(--horizontal-margin);
 }
 
+.student-card {
+  margin: 8px 16px;
+  border-radius: 8px;
+  background: var(--bg-color-block);
+  box-shadow: var(--card-shadow);
+}
+
+.student-card-header-line {
+  margin-top: 12px;
+  height: 4px;
+  margin-bottom: 4px;
+  background: var(--blue);
+}
+
+.student-card-header,
+.student-card-footer {
+  background: var(--blue);
+  color: var(--bg-color-block);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 4px 8px;
+  font-weight: bold;
+}
+
+.student-card-body {
+  height: 240rpx;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.student-card-footer {
+  margin-bottom: 12px;
+}
+
+.gender-icon {
+  position: relative;
+  width: 16px;
+  height: 16px;
+  margin-left: 4px;
+  vertical-align: baseline;
+  bottom: -0.125em;
+}
+
+.qrcode-button {
+  background: var(--bg-color);
+}
+
 .input-list-item {
   .password-button {
     flex-shrink: 0;

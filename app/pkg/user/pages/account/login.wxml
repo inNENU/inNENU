@@ -11,7 +11,25 @@
     <image src="{{logo}}" class="logo" />
     <block wx:if="{{isSaved}}">
       <title config="{{ { text: '个人信息' } }}" />
-      <list config="{{list}}" />
+      <view class="student-card">
+        <view class="student-card-header-line"></view>
+        <view class="student-card-header">
+          <text>{{info.id}}</text>
+          <text>校园卡</text>
+        </view>
+        <view class="student-card-body">
+          <button class="qrcode-button" size="mini">查看二维码</button>
+        </view>
+        <view class="student-card-footer">
+          <text>{{info.school}} {{info.major}}</text>
+          <view
+            ><text>{{info.name}}</text
+            ><image
+              class="gender-icon"
+              src="./{{info.gender === '男性'? '': 'fe'}}male-{{darkmode? 'black': 'white'}}.svg"
+          /></view>
+        </view>
+      </view>
       <button class="delete-button warn" type="warn" catch:tap="delete">
         <text>删除全部信息</text>
       </button>

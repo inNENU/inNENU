@@ -1,17 +1,16 @@
-import { INFO_SALT } from "./utils.js";
-import { request } from "../../../../../api/index.js";
+import { RESET_PREFIX, RESET_SALT } from "./utils.js";
+import { request } from "../../../../api/index.js";
 import type {
   CommonFailedResponse,
   CommonSuccessResponse,
-} from "../../../../../service/index.js";
+} from "../../../../service/index.js";
 import {
   ActionFailType,
   UnknownResponse,
   authEncrypt,
-} from "../../../../../service/index.js";
-import { RESET_PREFIX } from "../utils.js";
+} from "../../../../service/index.js";
 
-export interface ActivateCheckPasswordOptions {
+export interface CheckPasswordOptions {
   type: "check-password";
   sign: string;
   password: string;
@@ -34,22 +33,23 @@ type RawCheckPasswordResponse =
   | RawCheckPasswordSuccessResponse
   | RawCheckPasswordFailResponse;
 
-export type ActivateCheckPasswordResponse =
+export type CheckPasswordResponse =
   | CommonSuccessResponse
   | CommonFailedResponse;
 
-export const checkPassword = async ({
-  sign,
-  password,
-}: ActivateCheckPasswordOptions): Promise<ActivateCheckPasswordResponse> => {
+export const checkPasswordLocal = async (
+  { sign, password }: CheckPasswordOptions,
+  operationSource: number,
+): Promise<CheckPasswordResponse> => {
   const { data } = await request<RawCheckPasswordResponse>(
     `${RESET_PREFIX}/common/passwordScoreCheck`,
     {
       method: "POST",
+
       body: {
-        password: authEncrypt(password, INFO_SALT),
-        operationSource: 3,
         sign,
+        password: authEncrypt(password, RESET_SALT),
+        operationSource,
       },
     },
   );

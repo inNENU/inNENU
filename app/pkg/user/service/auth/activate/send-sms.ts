@@ -1,4 +1,3 @@
-import { INFO_SALT } from "./utils.js";
 import { request } from "../../../../../api/index.js";
 import type {
   CommonFailedResponse,
@@ -10,8 +9,8 @@ import {
   authEncrypt,
 } from "../../../../../service/index.js";
 import type { ResetCaptchaInfo } from "../reset-captcha.js";
-import { getResetCaptcha } from "../reset-captcha.js";
-import { RESET_PREFIX } from "../utils.js";
+import { getResetCaptchaLocal } from "../reset-captcha.js";
+import { RESET_PREFIX, RESET_SALT } from "../utils.js";
 
 interface RawSendSmsSuccessResponse {
   code: "0";
@@ -64,7 +63,7 @@ export const sendActivateSms = async ({
       body: {
         sign,
         accountType: 1,
-        accountNum: authEncrypt(mobile, INFO_SALT),
+        accountNum: authEncrypt(mobile, RESET_SALT),
         captcha,
         captchaId,
       },
@@ -73,7 +72,7 @@ export const sendActivateSms = async ({
 
   if (!data.success) {
     if (data.message === "验证码不正确") {
-      const captchaResponse = await getResetCaptcha();
+      const captchaResponse = await getResetCaptchaLocal();
 
       if (!captchaResponse.success) return captchaResponse;
 

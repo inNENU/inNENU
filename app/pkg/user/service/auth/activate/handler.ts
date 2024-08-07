@@ -1,8 +1,3 @@
-import type {
-  ActivateCheckPasswordOptions,
-  ActivateCheckPasswordResponse,
-} from "./check-password.js";
-import { checkPassword } from "./check-password.js";
 import type { ActivateInfoResponse } from "./get-info.js";
 import { getActivateInfo } from "./get-info.js";
 import type {
@@ -27,13 +22,18 @@ import type {
 import { validateActivateSms } from "./validate-sms.js";
 import { request } from "../../../../../api/index.js";
 import { createService } from "../../../../../service/index.js";
+import type {
+  CheckPasswordOptions,
+  CheckPasswordResponse,
+} from "../check-password.js";
+import { checkPasswordLocal } from "../check-password.js";
 
 export type ActivateOptions =
   | { type: "get-info" }
   | ActivateValidationOptions
   | ActivateSendSmsOptions
   | ActivateValidSmsOptions
-  | ActivateCheckPasswordOptions
+  | CheckPasswordOptions
   | ActivateSetPasswordOptions;
 
 export type ActivateResponse<T extends ActivateOptions = ActivateOptions> =
@@ -46,7 +46,7 @@ export type ActivateResponse<T extends ActivateOptions = ActivateOptions> =
         : T extends { type: "validate-sms" }
           ? ActivateValidSmsResponse
           : T extends { type: "check-password" }
-            ? ActivateCheckPasswordResponse
+            ? CheckPasswordResponse
             : T extends { type: "set-password" }
               ? ActivateSetPasswordResponse
               : never;
@@ -63,7 +63,7 @@ const activateAccountLocal = async <T extends ActivateOptions>(
         : options.type === "validate-sms"
           ? validateActivateSms(options)
           : options.type === "check-password"
-            ? checkPassword(options)
+            ? checkPasswordLocal(options, 3)
             : setPassword(options)) as Promise<ActivateResponse<T>>;
 
 const activateAccountOnline = async <T extends ActivateOptions>(

@@ -1,9 +1,6 @@
 import { $Page } from "@mptool/all";
 
-import type {
-  ListComponentConfig,
-  ListComponentItemConfig,
-} from "../../../../../typings/components.js";
+import type { ListComponentConfig } from "../../../../../typings/components.js";
 import { retryAction, showModal, showToast } from "../../../../api/index.js";
 import { appCoverPrefix } from "../../../../config/index.js";
 import { ActionFailType, supportRedirect } from "../../../../service/index.js";
@@ -51,20 +48,6 @@ ${
 全部个人信息将在卸载${envName}一并删除。
 `;
 
-const getListItems = ({
-  name,
-  grade,
-  id,
-  org = "未知",
-  major = "未知",
-}: UserInfo): ListComponentItemConfig[] => [
-  { text: "姓名", desc: name },
-  { text: "学号", desc: id.toString() },
-  { text: "年级", desc: grade.toString() },
-  { text: "学院", desc: org },
-  { text: "专业", desc: major },
-];
-
 $Page(PAGE_ID, {
   data: {
     theme: info.theme,
@@ -94,6 +77,8 @@ $Page(PAGE_ID, {
 
     smsCode: "",
 
+    info: null as UserInfo | null,
+
     isSaved: false,
     showPassword: false,
     showReAuth: false,
@@ -117,12 +102,7 @@ $Page(PAGE_ID, {
         isSaved: true,
       });
 
-    if (info)
-      this.setData({
-        // eslint-disable-next-line @typescript-eslint/naming-convention
-        "list.items": getListItems(info),
-      });
-
+    if (info) this.setData({ info });
     if (update) this.state.shouldNavigateBack = true;
 
     this.setData({
@@ -290,8 +270,7 @@ $Page(PAGE_ID, {
 
       return this.setData({
         isSaved: true,
-        // eslint-disable-next-line @typescript-eslint/naming-convention
-        "list.items": getListItems(result.info),
+        info: result.info,
       });
     }
 
@@ -348,15 +327,14 @@ $Page(PAGE_ID, {
 
   delete() {
     showModal(
-      "删除账号",
-      "确认删除账号? 这会清除本地的全部个人信息与数据且无法恢复。",
+      "退出登录",
+      "确认退出登录? 这会清除本地的全部个人信息与数据且无法恢复。",
       () => {
         logout();
         this.setData({
           id: "",
           password: "",
-          // eslint-disable-next-line @typescript-eslint/naming-convention
-          "list.items": EMPTY_CONTENT,
+          info: null,
           isSaved: false,
         });
         showModal("删除成功", "已删除本地账号信息");

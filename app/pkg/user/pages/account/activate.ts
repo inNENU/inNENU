@@ -1,14 +1,13 @@
-import { $Page, get, set } from "@mptool/all";
+import { $Page } from "@mptool/all";
 
 import { showModal, showToast } from "../../../../api/index.js";
-import { MINUTE, appCoverPrefix } from "../../../../config/index.js";
+import { appCoverPrefix } from "../../../../config/index.js";
 import { ActionFailType, supportRedirect } from "../../../../service/index.js";
 import { envName, info, logo, user } from "../../../../state/index.js";
 import { getPageColor, showNotice } from "../../../../utils/index.js";
 import type {} from "../../service/index.js";
 import { activateAccount } from "../../service/index.js";
 
-const ACTIVATE_SMS_KEY = "activate-sms-code";
 const PAGE_ID = "account-activate";
 const PAGE_TITLE = "账号激活";
 
@@ -138,6 +137,7 @@ ${envName}严格使用官方激活流程。
 
   async verify() {
     const { name, id, idTypeIndex, schoolId, captcha } = this.data;
+    const { captchaId } = this.state;
 
     if (!name) return showModal("信息缺失", "请输入姓名");
     if (!id) return showModal("信息缺失", "请输入证件号");
@@ -155,13 +155,13 @@ ${envName}严格使用官方激活流程。
       idType: Number(idTypeIndex),
       schoolId,
       captcha,
-      captchaId: this.state.captchaId,
+      captchaId,
     });
 
     wx.hideLoading();
 
     if (result.success) {
-      const { captcha, captchaId, sign } = result.data;
+      const { captcha: captchaImage, captchaId, sign } = result.data;
 
       this.state.captchaId = captchaId;
       this.state.sign = sign;
@@ -169,7 +169,7 @@ ${envName}严格使用官方激活流程。
       return this.setData({
         stage: "phone",
         captcha: "",
-        captchaImage: captcha,
+        captchaImage,
       });
     }
 
@@ -192,8 +192,6 @@ ${envName}严格使用官方激活流程。
     const { captchaId, sign } = this.state;
 
     if (!captcha) return showModal("无法发送", "请先输入验证码");
-
-    if (get(ACTIVATE_SMS_KEY)) return showModal("验证码已发送", "请勿重复发送");
 
     if (!/1\d{10}/.test(mobile)) {
       showModal("手机号码有误", "请输入正确的手机号");
@@ -227,13 +225,12 @@ ${envName}严格使用官方激活流程。
     }
 
     showToast("发送成功", 1000, "success");
-    set(ACTIVATE_SMS_KEY, true, 2 * MINUTE);
     this.state.sign = result.data.sign;
 
     return;
   },
 
-  async bindPhone() {
+  async verifySMS() {
     const { smsCode } = this.data;
 
     wx.showLoading({ title: "绑定中" });
@@ -250,7 +247,7 @@ ${envName}严格使用官方激活流程。
 
     this.state.sign = result.data.sign;
 
-    this.setData({ stage: "password" });
+    this.setData({ stage: "password", rules: result.data.rules });
   },
 
   togglePassword() {

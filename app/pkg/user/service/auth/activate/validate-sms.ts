@@ -1,6 +1,7 @@
 import { request } from "../../../../../api/index.js";
 import type { CommonSuccessResponse } from "../../../../../service/index.js";
 import { ActionFailType } from "../../../../../service/index.js";
+import { getPasswordRule } from "../get-password-rule.js";
 import { RESET_PREFIX } from "../utils.js";
 
 export interface ActivateValidSmsOptions {
@@ -30,9 +31,10 @@ type RawValidSmsResponse =
   | RawValidSmsSuccessResponse
   | RawValidSmsFailedResponse;
 
-export type ActivateSuccessResponse = CommonSuccessResponse<{
+export type ActivateValidSmsSuccessResponse = CommonSuccessResponse<{
   loginNo: string;
   sign: string;
+  rules: string[];
 }>;
 
 export interface ActivateValidSmsConflictResponse {
@@ -42,7 +44,7 @@ export interface ActivateValidSmsConflictResponse {
 }
 
 export type ActivateValidSmsResponse =
-  | ActivateSuccessResponse
+  | ActivateValidSmsSuccessResponse
   | ActivateValidSmsConflictResponse;
 
 export const validateActivateSms = async ({
@@ -64,8 +66,10 @@ export const validateActivateSms = async ({
       msg: data.messages,
     };
 
+  const result = await getPasswordRule();
+
   return {
     success: true,
-    data: data.result,
+    data: { ...data.result, rules: result.data },
   };
 };

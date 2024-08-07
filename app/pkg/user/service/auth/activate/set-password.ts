@@ -1,11 +1,10 @@
-import { INFO_SALT } from "./utils.js";
 import { request } from "../../../../../api/index.js";
 import type {
   CommonFailedResponse,
   CommonSuccessResponse,
 } from "../../../../../service/index.js";
 import { UnknownResponse, authEncrypt } from "../../../../../service/index.js";
-import { RESET_PREFIX } from "../utils.js";
+import { RESET_PREFIX, RESET_SALT } from "../utils.js";
 
 export interface ActivateSetPasswordOptions {
   type: "set-password";
@@ -42,8 +41,8 @@ export const setPassword = async ({
       method: "POST",
       body: {
         sign,
-        password: authEncrypt(password, INFO_SALT),
-        confirmPassword: authEncrypt(password, INFO_SALT),
+        password: authEncrypt(password, RESET_SALT),
+        confirmPassword: authEncrypt(password, RESET_SALT),
       },
     },
   );

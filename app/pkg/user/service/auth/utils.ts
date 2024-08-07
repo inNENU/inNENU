@@ -6,3 +6,4 @@ export const RE_AUTH_URL = `${AUTH_SERVER}/authserver/reAuthCheck/reAuthLoginVie
 export const RESET_PREFIX = `${AUTH_SERVER}/retrieve-password`;
 export const IMPROVE_INFO_URL = `${AUTH_SERVER}/authserver/improveInfo/improveUserInfo.do`;
 export const UPDATE_INFO_URL = `${AUTH_SERVER}/authserver/improveInfo/updateUserInfo.do`;
+export const RESET_SALT = "rjBFAaHsNkKAhpoi";

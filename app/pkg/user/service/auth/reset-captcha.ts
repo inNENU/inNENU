@@ -29,7 +29,7 @@ export type ResetCaptchaResponse =
   | ResetCaptchaSuccessResponse
   | CommonFailedResponse<ActionFailType.Restricted | ActionFailType.Unknown>;
 
-export const getResetCaptcha = async (): Promise<ResetCaptchaResponse> => {
+export const getResetCaptchaLocal = async (): Promise<ResetCaptchaResponse> => {
   const captchaId = generateRandomString(16);
   const { data, headers } = await request<ArrayBuffer>(
     `${CAPTCHA_URL}?ltId=${captchaId}&codeType=2`,
