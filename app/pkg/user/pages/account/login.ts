@@ -325,6 +325,10 @@ $Page(PAGE_ID, {
     this.setData({ showReAuth: false, smsCode: "" });
   },
 
+  reset() {
+    showModal("忘记密码", "请前往官网 authserver.nenu.edu.cn 按引导操作。");
+  },
+
   delete() {
     showModal(
       "退出登录",

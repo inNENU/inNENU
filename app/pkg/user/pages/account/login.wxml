@@ -104,14 +104,17 @@
           账号激活
         </view>
 
-        <view
+        <view class="reset-button" hover-class="button-hover" catch:tap="reset">
+          忘记密码?
+        </view>
+        <!-- <view
           class="reset-button"
           hover-class="button-hover"
           data-url="account-reset"
           catch:tap="$bindGo"
         >
           忘记密码?
-        </view>
+        </view> -->
       </view>
     </block>
   </view>
