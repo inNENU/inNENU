@@ -49,7 +49,7 @@ $Page(PAGE_ID, {
   },
 
   rateApp() {
-    this.reportInfo({ type: "rate" });
+    reportUserInfo({ type: "rate" });
     rateApp();
   },
 
@@ -60,5 +60,7 @@ $Page(PAGE_ID, {
     this.setData({ path: detail.value });
   },
 
-  reportInfo: reportUserInfo,
+  reportInfo() {
+    reportUserInfo();
+  },
 });

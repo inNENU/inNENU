@@ -162,7 +162,9 @@ $Page(PAGE_ID, {
     }
   },
 
-  reportInfo: reportUserInfo,
+  reportInfo() {
+    reportUserInfo();
+  },
 
   // Note: For Wechat only
   openChannel() {

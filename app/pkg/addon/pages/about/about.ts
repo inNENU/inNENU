@@ -271,5 +271,7 @@ $Page(PAGE_ID, {
     copyContent(wx.getStorageSync("openid"));
   },
 
-  reportInfo: reportUserInfo,
+  reportInfo() {
+    reportUserInfo();
+  },
 });

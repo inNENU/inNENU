@@ -100,7 +100,9 @@ $Component({
       });
     },
 
-    reportInfo: reportUserInfo,
+    reportInfo() {
+      reportUserInfo();
+    },
   },
 
   observers: {
