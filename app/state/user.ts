@@ -2,9 +2,9 @@ import { get, remove, set } from "@mptool/all";
 
 import { MONTH } from "../config/index.js";
 
-const ACCOUNT_INFO_KEY = "nenu-account-info-v4";
+const ACCOUNT_INFO_KEY = "nenu-account-info-v5";
 
-const USER_INFO_KEY = "nenu-user-info-v4";
+const USER_INFO_KEY = "nenu-user-info-v5";
 
 export interface AccountInfo {
   /** 学号 */
