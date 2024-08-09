@@ -31,7 +31,8 @@ $Page("info", {
       setOnlinePage(option, this);
     }
 
-    wx.reportEvent?.("page_id", { id: option.id });
+    // FIXME: Replace it with custom report service
+    // wx.reportEvent?.("page_id", { id: option.id });
   },
 
   // eslint-disable-next-line @typescript-eslint/no-empty-function

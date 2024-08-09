@@ -1,1 +1,1 @@
-export const size = 1257;
+export const size = 1202;
