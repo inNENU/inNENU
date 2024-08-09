@@ -2,7 +2,10 @@ import { URLSearchParams } from "@mptool/all";
 
 import { RE_AUTH_URL } from "./utils.js";
 import { cookieStore, request } from "../../../../api/index.js";
-import type { CommonFailedResponse } from "../../../../service/index.js";
+import type {
+  CommonFailedResponse,
+  CommonSuccessResponse,
+} from "../../../../service/index.js";
 import {
   AUTH_COOKIE_SCOPE,
   AUTH_SERVER,
@@ -27,7 +30,7 @@ interface RawReAuthSMSFrequentResponse {
 }
 
 interface RawReAuthSMSFailResponse {
-  res: string;
+  res: `${string}_fail`;
   codeTime: number;
   returnMessage: string;
 }
@@ -37,13 +40,13 @@ type RawReAuthSMSResponse =
   | RawReAuthSMSFrequentResponse
   | RawReAuthSMSFailResponse;
 
-interface ReAuthSMSSuccessResponse {
-  success: true;
-  codeTime: number;
-}
-
 export type ReAuthSMSResponse =
-  | ReAuthSMSSuccessResponse
+  | CommonSuccessResponse<{
+      /** 下一个验证码的间隔秒数 */
+      codeTime: number;
+      /** 手机号 */
+      hiddenCellphone: string;
+    }>
   | (CommonFailedResponse<ActionFailType.TooFrequent> & { codeTime: number })
   | CommonFailedResponse<ActionFailType.Unknown>;
 
@@ -72,7 +75,10 @@ export const sendReAuthSMSLocal = async (
 
   return {
     success: true,
-    codeTime: data.codeTime,
+    data: {
+      codeTime: data.codeTime,
+      hiddenCellphone: data.mobile,
+    },
   };
 };
 

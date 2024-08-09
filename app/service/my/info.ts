@@ -59,7 +59,7 @@ interface RawInfo {
 
 export interface MyInfoSuccessResponse {
   success: true;
-  data: UserInfo;
+  data: Omit<UserInfo, "avatar">;
 }
 
 export type MyInfoResponse =

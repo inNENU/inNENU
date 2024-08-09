@@ -1,6 +1,6 @@
 import { logger } from "@mptool/all";
 
-import { UNDER_STUDY_DOMAIN, UNDER_STUDY_SERVER } from "./utils.js";
+import { CENTER_PAGE, CENTER_PREFIX } from "./utils.js";
 import { cookieStore, request } from "../../../../api/index.js";
 import type {
   ActionFailType,
@@ -12,7 +12,6 @@ import type {
 } from "../../../../service/index.js";
 import {
   MissingCredentialResponse,
-  RestrictedResponse,
   UnknownResponse,
   authLogin,
   checkAccountStatus,
@@ -22,115 +21,98 @@ import {
 import type { AccountInfo } from "../../../../state/index.js";
 import { user } from "../../../../state/index.js";
 
-let currentLogin: Promise<UnderStudyLoginResponse> | null = null;
+let currentLogin: Promise<AuthCenterLoginResponse> | null = null;
 let loginMethod: LoginMethod = "validate";
 
-export const isUnderStudyLoggedInLocal = async (): Promise<boolean> => {
+export const isAuthCenterLoggedInLocal = async (): Promise<boolean> => {
   try {
-    const response = await request<string>(UNDER_STUDY_SERVER, {
+    const response = await request<string>(CENTER_PAGE, {
+      headers: {
+        // eslint-disable-next-line @typescript-eslint/naming-convention
+        "Cache-Control": "no-cache",
+      },
       redirect: "manual",
     });
 
-    if (response.status === 302) {
-      const location = response.headers.get("location");
-
-      if (location?.startsWith(`${UNDER_STUDY_SERVER}/new/welcome.page`))
-        return true;
-    }
-
-    return false;
+    return response.status === 200;
   } catch {
     return false;
   }
 };
 
-export const isUnderStudyLoggedInOnline = (): Promise<boolean> =>
-  request<CookieVerifyResponse>("/under-study/check", {
+export const isAuthCenterLoggedInOnline = (): Promise<boolean> =>
+  request<CookieVerifyResponse>("/auth-center/check", {
     method: "POST",
-    cookieScope: UNDER_STUDY_SERVER,
+    cookieScope: CENTER_PREFIX,
   }).then(({ data }) => data.valid);
 
-const isUnderStudyLoggedIn = createService(
-  "under-study-check",
-  isUnderStudyLoggedInLocal,
-  isUnderStudyLoggedInOnline,
+const isAuthCenterLoggedIn = createService(
+  "auth-center-check",
+  isAuthCenterLoggedInLocal,
+  isAuthCenterLoggedInOnline,
 );
 
-export type UnderStudyLoginResponse =
+export type AuthCenterLoginResponse =
   | { success: true }
-  | AuthLoginFailedResponse
-  | CommonFailedResponse<ActionFailType.Restricted>;
-
-const SSO_LOGIN_URL = `${UNDER_STUDY_SERVER}/new/ssoLogin`;
+  | AuthLoginFailedResponse;
 
 /**
  * @requires "redirect:manual"
  */
-export const underStudyLoginLocal = async (
+export const authCenterLoginLocal = async (
   options: AccountInfo,
-): Promise<UnderStudyLoginResponse> => {
-  if (!supportRedirect) return underStudyLoginOnline(options);
+): Promise<AuthCenterLoginResponse> => {
+  if (!supportRedirect) return authCenterLoginOnline(options);
 
   const result = await authLogin({
     ...options,
-    service: SSO_LOGIN_URL,
+    service: CENTER_PAGE,
   });
 
   if (!result.success) {
-    logger.error(result.msg);
+    console.error(result.msg);
 
     return result;
   }
 
-  const ticketResponse = await request<string>(result.location, {
+  const ticketUrl = result.location;
+
+  const ticketResponse = await request(ticketUrl, {
     redirect: "manual",
   });
 
-  if (ticketResponse.status === 405) return RestrictedResponse;
   if (ticketResponse.status !== 302) return UnknownResponse("登录失败");
 
   const finalLocation = ticketResponse.headers.get("Location");
 
-  if (finalLocation === SSO_LOGIN_URL) {
-    const ssoResponse = await request<string>(SSO_LOGIN_URL, {
-      redirect: "manual",
-    });
-
-    if (
-      ssoResponse.status === 302 &&
-      ssoResponse.headers
-        .get("Location")
-        ?.startsWith(`${UNDER_STUDY_SERVER}/new/welcome.page`)
-    )
-      return {
-        success: true,
-      };
+  if (finalLocation === CENTER_PAGE) {
+    return { success: true };
   }
 
   return UnknownResponse("登录失败");
 };
 
-export const underStudyLoginOnline = async (
+export const authCenterLoginOnline = async (
   options: AccountInfo,
-): Promise<UnderStudyLoginResponse> =>
-  request<UnderStudyLoginResponse>("/under-study/login", {
+): Promise<AuthCenterLoginResponse> =>
+  request<AuthCenterLoginResponse>("/auth-center/login", {
     method: "POST",
     body: options,
-    cookieScope: UNDER_STUDY_SERVER,
+    cookieScope: CENTER_PREFIX,
   }).then(({ data }) => data);
 
-const underStudyLogin = createService(
-  "under-study-login",
-  underStudyLoginLocal,
-  underStudyLoginOnline,
+const authCenterLogin = createService(
+  "auth-center-login",
+  authCenterLoginLocal,
+  authCenterLoginOnline,
 );
 
-const hasUnderStudyCookies = (): boolean =>
+const hasAuthCenterCookies = (): boolean =>
   cookieStore
-    .getCookies(UNDER_STUDY_SERVER)
-    .some(({ domain }) => domain.endsWith(UNDER_STUDY_DOMAIN));
+    .getCookies(CENTER_PREFIX)
+    .some(({ domain }) => domain.endsWith(CENTER_PREFIX));
 
-export const withUnderStudyLogin =
+export const withAuthCenterLogin =
   <R extends { success: boolean }, T extends (...args: any[]) => Promise<R>>(
     serviceHandler: T,
   ) =>
@@ -138,13 +120,13 @@ export const withUnderStudyLogin =
     ...args: Parameters<T>
   ): Promise<
     | CommonFailedResponse<ActionFailType.MissingCredential>
-    | FailResponse<UnderStudyLoginResponse>
+    | FailResponse<AuthCenterLoginResponse>
     | Awaited<ReturnType<T>>
   > => {
     if (!user.account) return MissingCredentialResponse;
 
     // check whether cookies exist and avoid re-login if the login state is not expired
-    if (hasUnderStudyCookies()) {
+    if (hasAuthCenterCookies()) {
       let response: Awaited<ReturnType<T>> | null = null;
 
       // assuming login state is valid if cookies exist
@@ -154,7 +136,7 @@ export const withUnderStudyLogin =
 
       // validate login state with actual API
       if (loginMethod === "validate") {
-        if (await isUnderStudyLoggedIn()) {
+        if (await isAuthCenterLoggedIn()) {
           response = (await serviceHandler(...args)) as Awaited<ReturnType<T>>;
         }
       }
@@ -178,7 +160,7 @@ export const withUnderStudyLogin =
     }
 
     // ensure only one login action is running
-    const response = await (currentLogin ??= underStudyLogin(user.account));
+    const response = await (currentLogin ??= authCenterLogin(user.account));
 
     // clear the current login promise after log in
     currentLogin = null;

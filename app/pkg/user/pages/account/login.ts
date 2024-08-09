@@ -287,7 +287,10 @@ $Page(PAGE_ID, {
     if (result.success) {
       showModal("需要二次验证", "短信验证码已发送，请注意查收。");
 
-      return this.setData({ showReAuth: true });
+      return this.setData({
+        showReAuth: true,
+        hiddenCellphone: result.data.hiddenCellphone,
+      });
     }
 
     if (result.type === ActionFailType.TooFrequent) {

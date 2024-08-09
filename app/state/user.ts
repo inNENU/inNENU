@@ -19,6 +19,8 @@ export interface UserInfo {
   id: number;
   /** 用户姓名 */
   name: string;
+  /** 用户头像 */
+  avatar: string;
   /** 用户身份证号 */
   idCard: string;
   /** 用户所在组织名称 */

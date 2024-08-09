@@ -50,8 +50,18 @@
 .student-card-body {
   height: 240rpx;
   display: flex;
+}
+
+.student-card-info {
+  flex: 1;
+  display: flex;
   justify-content: center;
   align-items: center;
+}
+
+.student-card-avatar {
+  width: 240rpx;
+  height: 240rpx;
 }
 
 .student-card-footer {
@@ -67,7 +77,8 @@
   bottom: -0.125em;
 }
 
-.qrcode-button {
+.id-code-button {
+  margin: 16px auto 8px;
   background: var(--bg-color);
 }
 
@@ -174,6 +185,11 @@
   line-height: 1.4;
 }
 
+.login-popup-hint {
+  font-size: 12px;
+  padding: 0 4px 16px;
+}
+
 .login-popup-content {
   position: relative;
 }
@@ -226,6 +242,7 @@
   padding: 8px 12px;
   border-radius: 8px;
 
+  border: 1px solid var(--theme-color);
   background-color: var(--bg-color-block);
 
   font-size: 18px;

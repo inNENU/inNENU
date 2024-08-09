@@ -10,15 +10,23 @@
   <view class="content">
     <image src="{{logo}}" class="logo" />
     <block wx:if="{{isSaved}}">
-      <title config="{{ { text: '个人信息' } }}" />
       <view class="student-card">
         <view class="student-card-header-line"></view>
         <view class="student-card-header">
           <text>{{info.id}}</text>
-          <text>校园卡</text>
+          <text>当前用户</text>
         </view>
         <view class="student-card-body">
-          <button class="qrcode-button" size="mini">查看二维码</button>
+          <view class="student-card-info">
+            <button
+              class="id-code-button"
+              size="mini"
+              catch:tap="generateIdCode"
+            >
+              <text>生成身份码</text>
+            </button>
+          </view>
+          <image class="student-card-avatar" src="{{info.avatar}}" />
         </view>
         <view class="student-card-footer">
           <text>{{info.school}} {{info.major}}</text>
@@ -149,7 +157,10 @@
     </block>
 
     <block wx:if="{{showReAuth}}">
-      <view class="login-popup-title">短信验证码</view>
+      <view class="login-popup-title">二次验证</view>
+      <view class="login-popup-hint"
+        >请输入{{hiddenCellphone}}收到的验证码</view
+      >
       <input
         id="smsCode"
         class="re-auth-input"

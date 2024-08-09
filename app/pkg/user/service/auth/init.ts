@@ -26,6 +26,8 @@ import {
   vpnLoginLocal,
 } from "../../../../service/index.js";
 import type { AccountInfo, UserInfo } from "../../../../state/index.js";
+import { getAvatar } from "../auth-center/index.js";
+import { authCenterLoginLocal } from "../auth-center/login.js";
 
 export type AuthInitInfoSuccessResponse = {
   success: true;
@@ -248,7 +250,26 @@ const authInitLocal = async (
     if (loginResult.success) {
       const studentInfo = await getMyInfo();
 
-      if (studentInfo.success) info = studentInfo.data;
+      if (studentInfo.success) {
+        let avatar = "";
+
+        const authCenterResult = await authCenterLoginLocal({
+          id,
+          password,
+          authToken,
+        });
+
+        if (authCenterResult.success) {
+          const avatarInfo = await getAvatar();
+
+          if (avatarInfo.success) avatar = avatarInfo.data.avatar;
+        }
+
+        info = {
+          avatar,
+          ...studentInfo.data,
+        };
+      }
 
       logger.debug(`${id} 登录信息:\n`, JSON.stringify(info, null, 2));
     }
