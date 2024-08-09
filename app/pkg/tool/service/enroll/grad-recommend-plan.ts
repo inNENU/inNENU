@@ -6,7 +6,7 @@ import type { CommonFailedResponse } from "../../../../service/index.js";
 import { createService } from "../../../../service/index.js";
 
 const GRAD_RECOMMEND_PLAN_URL =
-  "https://math127.nenu.edu.cn/yjsy/HData/ZSB/ZSJZ2024-TM-1.html";
+  "https://pg.nenu.edu.cn/yjsy/HData/ZSB/ZSJZ2024-TM-1.html";
 const schoolInfoRegExp =
   /bXYName\['.*?']="<tr><td colspan=6><a href='(.*?)' target='_blank'>([^<]+) ([^<]+)<\/a><br>联系方式：(\S+?)，(\S+?)，(\S+?)<\/td><\/tr>";/g;
 
