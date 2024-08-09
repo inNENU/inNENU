@@ -22,8 +22,10 @@ import {
   authInit,
   getAuthCaptcha,
   getAuthInitInfo,
+  getIdCode,
   sendReAuthSMS,
   verifyAuthCaptcha,
+  verifyCode,
   verifyReAuthCaptcha,
 } from "../../service/index.js";
 
@@ -92,7 +94,7 @@ $Page(PAGE_ID, {
     touchPosition: 0,
   },
 
-  onLoad({ from = "返回", update }) {
+  onLoad({ from = "返回", update, scene }) {
     const { account, info } = user;
 
     if (account)
@@ -100,6 +102,7 @@ $Page(PAGE_ID, {
         id: account.id.toString(),
         password: account.password,
         isSaved: true,
+        isAdmin: wx.getStorageSync<boolean>("isAdmin"),
       });
 
     if (info) this.setData({ info });
@@ -109,6 +112,8 @@ $Page(PAGE_ID, {
       // eslint-disable-next-line @typescript-eslint/naming-convention
       "nav.from": from,
     });
+
+    if (scene?.startsWith("verify:")) this.verifyIDCode(scene.substring(7));
   },
 
   onShow() {
@@ -329,7 +334,46 @@ $Page(PAGE_ID, {
   },
 
   reset() {
-    showModal("忘记密码", "请前往官网 authserver.nenu.edu.cn 按引导操作。");
+    showModal("暂不支持", "请前往官网 authserver.nenu.edu.cn 按引导操作。");
+  },
+
+  async generateIdCode() {
+    wx.showLoading({ title: "生成中" });
+
+    const result = await getIdCode();
+
+    wx.hideLoading();
+
+    if (!result.success)
+      return retryAction("生成失败", result.msg, () => {
+        this.generateIdCode();
+      });
+
+    wx.previewImage({
+      urls: [result.data.code],
+    });
+  },
+
+  async verifyIDCode(uuid: string) {
+    wx.showLoading({ title: "验证中" });
+
+    const result = await verifyCode({ uuid });
+
+    wx.hideLoading();
+
+    if (!result.success) return showModal("验证失败", result.msg);
+
+    this.setData({
+      showIdCode: true,
+      idCodeInfo: {
+        ...result.data,
+        createTime: new Date(result.data.createTime).toLocaleString(),
+      },
+    });
+  },
+
+  closeIdCode() {
+    this.setData({ showIdCode: false });
   },
 
   delete() {

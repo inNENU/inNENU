@@ -88,8 +88,9 @@ const registerActions = (): void => {
  */
 export const startup = (globalData: GlobalData): void => {
   registerActions();
-  login(({ openid, inBlacklist }) => {
+  login(({ openid, isAdmin, inBlacklist }) => {
     setOpenid(openid);
+    if (isAdmin) wx.setStorageSync("isAdmin", true);
     if (inBlacklist && getCurrentRoute() !== "pkg/addon/pages/action/action")
       wx.reLaunch({ url: "/pkg/addon/pages/action/action?action=blacklist" });
   });

@@ -28,8 +28,8 @@ export const enum ActionFailType {
   WrongCaptcha = "wrong-captcha",
   /** 账号密码错误 */
   WrongPassword = "wrong-password",
-  /** 手机号错误 */
-  WrongCellphone = "wrong-cellphone",
+  /** 信息错误 */
+  WrongInfo = "wrong-info",
   /** 用户名错误 */
   WrongUserName = "wrong-username",
 
@@ -49,6 +49,8 @@ export const enum ActionFailType {
   Error = "error",
   /** 系统关闭 */
   Closed = "closed",
+  /** 数据库错误 */
+  DatabaseError = "database-error",
 
   /** 未完成评教 */
   MissingCommentary = "missing-commentary",

@@ -23,7 +23,7 @@
               size="mini"
               catch:tap="generateIdCode"
             >
-              <text>生成身份码</text>
+              <text>查看身份码</text>
             </button>
           </view>
           <image class="student-card-avatar" src="{{info.avatar}}" />
@@ -115,14 +115,6 @@
         <view class="reset-button" hover-class="button-hover" catch:tap="reset">
           忘记密码?
         </view>
-        <!-- <view
-          class="reset-button"
-          hover-class="button-hover"
-          data-url="account-reset"
-          catch:tap="$bindGo"
-        >
-          忘记密码?
-        </view> -->
       </view>
     </block>
   </view>
@@ -183,5 +175,46 @@
         </button>
       </view>
     </block>
+  </view>
+</view>
+
+<view wx:if="{{showIdCode}}" class="id-code-mask mask">
+  <view class="id-code-popup">
+    <view class="id-code-popup-title">验证结果</view>
+    <view class="id-code-popup-content">
+      <view wx:if="{{isAdmin}}" class="id-code-info-item">
+        <text class="label">学号</text>
+        <text class="value">{{info.id}}</text>
+      </view>
+      <view class="id-code-info-item">
+        <text class="label">姓名</text>
+        <text class="value">{{info.name}}</text>
+      </view>
+      <view wx:if="{{isAdmin}}" class="id-code-info-item">
+        <text class="label">性别</text>
+        <text class="value">{{info.gender}}</text>
+      </view>
+      <view class="id-code-info-item">
+        <text class="label">学院</text>
+        <text class="value">{{info.school}}</text>
+      </view>
+      <view class="id-code-info-item">
+        <text class="label">专业</text>
+        <text class="value">{{info.major}}</text>
+      </view>
+      <view class="id-code-info-item">
+        <text class="label">生成时间</text>
+        <text class="value">{{info.createTime}}</text>
+      </view>
+      <view class="id-code-popup-footer">
+        <button
+          type="primary"
+          class="confirm-button primary"
+          catch:tap="closeIdCode"
+        >
+          确定
+        </button>
+      </view>
+    </view>
   </view>
 </view>
