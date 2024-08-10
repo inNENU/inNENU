@@ -94,8 +94,10 @@ $Page(PAGE_ID, {
     touchPosition: 0,
   },
 
-  onLoad({ from = "返回", update, scene }) {
+  onLoad(options) {
     const { account, info } = user;
+    const from = options.from ?? "返回";
+    const scene = decodeURIComponent(options.scene ?? "");
 
     if (account)
       this.setData({
@@ -106,14 +108,13 @@ $Page(PAGE_ID, {
       });
 
     if (info) this.setData({ info });
-    if (update) this.state.shouldNavigateBack = true;
+    if (options.update) this.state.shouldNavigateBack = true;
+    if (scene.startsWith("verify:")) this.verifyIDCode(scene.substring(7));
 
     this.setData({
       // eslint-disable-next-line @typescript-eslint/naming-convention
       "nav.from": from,
     });
-
-    if (scene?.startsWith("verify:")) this.verifyIDCode(scene.substring(7));
   },
 
   onShow() {
