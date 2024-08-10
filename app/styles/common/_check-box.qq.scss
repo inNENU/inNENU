@@ -26,11 +26,6 @@
     text-align: center;
 
     visibility: visible;
-
-    @media (prefers-color-scheme: dark) {
-      border-color: #666;
-      background-color: #333;
-    }
   }
 
   &.checked {
@@ -49,10 +44,6 @@
       border-color: #fff;
 
       transform: rotate(45deg);
-
-      @media (prefers-color-scheme: dark) {
-        border-color: #000;
-      }
     }
 
     &::after {

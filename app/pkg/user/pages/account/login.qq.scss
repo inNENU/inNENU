@@ -172,10 +172,6 @@
   color: var(--grey3);
 
   text-align: left;
-
-  @media (prefers-color-scheme: dark) {
-    background-color: #1c1c1e;
-  }
 }
 
 .login-popup-title {
@@ -247,10 +243,6 @@
 
   font-size: 18px;
   line-height: 1;
-
-  @media (prefers-color-scheme: dark) {
-    background-color: #000;
-  }
 }
 
 .re-auth-footer {
@@ -285,10 +277,6 @@
   color: var(--grey3);
 
   text-align: center;
-
-  @media (prefers-color-scheme: dark) {
-    background-color: #1c1c1e;
-  }
 }
 
 .id-code-popup-title {

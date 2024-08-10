@@ -10,7 +10,6 @@
     "types": ["miniprogram-api-typings"]
   },
   "include": [
-    ".temp/**/*.ts",
     "app/**/*.ts",
     "app/**/*.wxs",
     "scripts/**/*.ts",
