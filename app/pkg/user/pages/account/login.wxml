@@ -184,27 +184,27 @@
     <view class="id-code-popup-content">
       <view wx:if="{{isAdmin}}" class="id-code-info-item">
         <text class="label">学号</text>
-        <text class="value">{{info.id}}</text>
+        <text class="value">{{idCodeInfo.id}}</text>
       </view>
       <view class="id-code-info-item">
         <text class="label">姓名</text>
-        <text class="value">{{info.name}}</text>
+        <text class="value">{{idCodeInfo.name}}</text>
       </view>
       <view wx:if="{{isAdmin}}" class="id-code-info-item">
         <text class="label">性别</text>
-        <text class="value">{{info.gender}}</text>
+        <text class="value">{{idCodeInfo.gender}}</text>
       </view>
       <view class="id-code-info-item">
         <text class="label">学院</text>
-        <text class="value">{{info.school}}</text>
+        <text class="value">{{idCodeInfo.school}}</text>
       </view>
       <view class="id-code-info-item">
         <text class="label">专业</text>
-        <text class="value">{{info.major}}</text>
+        <text class="value">{{idCodeInfo.major}}</text>
       </view>
       <view class="id-code-info-item">
         <text class="label">生成时间</text>
-        <text class="value">{{info.createTime}}</text>
+        <text class="value">{{idCodeInfo.createTime}}</text>
       </view>
       <view class="id-code-popup-footer">
         <button

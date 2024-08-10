@@ -18,7 +18,7 @@ export interface InfoData {
   school: string;
   major: string;
   grade: number;
-  createTime: number;
+  createTime: string;
   remark: string;
   verifyId?: number;
   verifyRemark?: string;

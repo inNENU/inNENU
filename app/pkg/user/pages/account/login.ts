@@ -364,11 +364,13 @@ $Page(PAGE_ID, {
 
     if (!result.success) return showModal("验证失败", result.msg);
 
+    const { createTime, ...info } = result.data;
+
     this.setData({
       showIdCode: true,
       idCodeInfo: {
-        ...result.data,
-        createTime: new Date(result.data.createTime).toLocaleString(),
+        ...info,
+        createTime: new Date(createTime).toLocaleString(),
       },
     });
   },
