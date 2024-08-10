@@ -158,7 +158,24 @@ const authLoginLocal = async ({
     if (loginStatus === 401) {
       if (loginContent.includes("您提供的用户名或者密码有误"))
         return WrongPasswordResponse;
-    } else if (loginStatus === 200) {
+
+      const lockedResult = /<span>账号已冻结，预计解冻时间：(.*?)<\/span>/.exec(
+        loginContent,
+      );
+
+      if (lockedResult)
+        return {
+          success: false,
+          type: ActionFailType.AccountLocked,
+          msg: `账号已冻结，预计解冻时间：${lockedResult[1]}`,
+        };
+
+      console.error("Unknown login response: ", loginStatus, loginContent);
+
+      return UnknownResponse("未知错误");
+    }
+
+    if (loginStatus === 200) {
       if (loginContent.includes("会话已失效，请刷新页面再登录"))
         return {
           success: false,
@@ -200,7 +217,7 @@ const authLoginLocal = async ({
           msg: "用户账号没有此服务权限。",
         };
 
-      console.error("Unknown login response: ", loginContent);
+      console.error("Unknown login response: ", loginStatus, loginContent);
 
       return UnknownResponse("未知错误");
     }
@@ -216,7 +233,7 @@ const authLoginLocal = async ({
     }
   }
 
-  logger.error("Unknown login response: ", loginPageStatus);
+  logger.error("Unknown login page status: ", loginPageStatus);
 
   return UnknownResponse("未知错误");
 };
