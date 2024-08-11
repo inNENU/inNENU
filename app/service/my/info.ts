@@ -136,8 +136,8 @@ export const getMyInfo = async (): Promise<MyInfoResponse> => {
         };
 
         info.birth = `${
-          year.startsWith("0") || year.startsWith("1") ? "20" : "19"
-        }-${monthMap[month]}-${day}`;
+          Number(year[0]) < 5 ? "20" : "19"
+        }${year}-${monthMap[month]}-${day}`;
       }
 
       const location = [
@@ -160,8 +160,8 @@ export const getMyInfo = async (): Promise<MyInfoResponse> => {
           : ["070201"].includes(info.majorId) || info.major === "细胞生物学"
             ? "unknown"
             : [
-                  253000, 170000, 166000, 234000, 173000, 236000, 232000,
-                  174000, 175000, 177000,
+                  164000, 253000, 170000, 166000, 234000, 173000, 236000,
+                  232000, 174000, 175000, 177000,
                 ].includes(info.orgId)
               ? "benbu"
               : [
