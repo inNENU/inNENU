@@ -82,7 +82,7 @@ export type VerifyCodeResponse =
 
 export const verifyCode = async ({
   uuid,
-  remark = `由 ${appName}${envName} 验证`,
+  remark = `由 ${appName} ${envName} 验证`,
 }: VerifyCodeOptions): Promise<VerifyCodeResponse> => {
   if (!user.account) return MissingCredentialResponse;
 
