@@ -156,7 +156,10 @@ const authLoginLocal = async ({
     const location = loginHeaders.get("Location");
 
     if (loginStatus === 401) {
-      if (loginContent.includes("您提供的用户名或者密码有误"))
+      if (
+        loginContent.includes("该账号非常用账号或用户名密码有误") ||
+        loginContent.includes("您提供的用户名或者密码有误")
+      )
         return WrongPasswordResponse;
 
       const lockedResult = /<span>账号已冻结，预计解冻时间：(.*?)<\/span>/.exec(
@@ -181,15 +184,6 @@ const authLoginLocal = async ({
           success: false,
           type: ActionFailType.Expired,
           msg: "会话已过期，请重新登陆",
-        };
-
-      if (
-        loginContent.includes("该帐号已经被锁定，请点击&ldquo;账号激活&rdquo;")
-      )
-        return {
-          success: false,
-          type: ActionFailType.AccountLocked,
-          msg: "该帐号已经被锁定，请使用小程序的“账号激活”功能",
         };
 
       if (

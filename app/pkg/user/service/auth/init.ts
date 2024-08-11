@@ -144,7 +144,7 @@ const authInitLocal = async (
 
   const { id, password, authToken, salt, params } = options;
   const {
-    data: loginContent,
+    data: content,
     headers: loginHeaders,
     status: loginStatus,
   } = await request<string>(AUTH_LOGIN_URL, {
@@ -159,11 +159,14 @@ const authInitLocal = async (
   const location = loginHeaders.get("Location");
 
   if (loginStatus === 401) {
-    if (loginContent.includes("您提供的用户名或者密码有误"))
+    if (
+      content.includes("该账号非常用账号或用户名密码有误") ||
+      content.includes("您提供的用户名或者密码有误")
+    )
       return WrongPasswordResponse;
 
     const lockedResult = /<span>账号已冻结，预计解冻时间：(.*?)<\/span>/.exec(
-      loginContent,
+      content,
     );
 
     if (lockedResult)
@@ -173,30 +176,20 @@ const authInitLocal = async (
         msg: `账号已冻结，预计解冻时间：${lockedResult[1]}`,
       };
 
-    console.error("Unknown login response: ", loginStatus, loginContent);
+    console.error("Unknown login response: ", loginStatus, content);
 
     return UnknownResponse("未知错误");
   }
 
   if (loginStatus === 200) {
-    if (loginContent.includes("无效的验证码"))
+    if (content.includes("无效的验证码"))
       return {
         success: false,
         type: ActionFailType.WrongCaptcha,
         msg: "验证码错误",
       };
 
-    if (loginContent.includes("您提供的用户名或者密码有误"))
-      return WrongPasswordResponse;
-
-    if (loginContent.includes("该帐号已经被锁定，请点击&ldquo;账号激活&rdquo;"))
-      return {
-        success: false,
-        type: ActionFailType.AccountLocked,
-        msg: "该帐号已经被锁定，请使用小程序的“账号激活”功能",
-      };
-
-    if (loginContent.includes("会话已失效，请刷新页面再登录"))
+    if (content.includes("会话已失效，请刷新页面再登录"))
       return {
         success: false,
         type: ActionFailType.Expired,
@@ -204,7 +197,7 @@ const authInitLocal = async (
       };
 
     if (
-      loginContent.includes(
+      content.includes(
         "当前存在其他用户使用同一帐号登录，是否注销其他使用同一帐号的用户。",
       )
     )
@@ -214,7 +207,7 @@ const authInitLocal = async (
         msg: "您已开启单点登录，请访问学校统一身份认证官网，在个人设置中关闭单点登录后重试。",
       };
 
-    if (loginContent.includes("<span>请输入验证码</span>"))
+    if (content.includes("<span>请输入验证码</span>"))
       return {
         success: false,
         type: ActionFailType.NeedCaptcha,
@@ -305,7 +298,7 @@ const authInitLocal = async (
     };
   }
 
-  logger.error("Unknown login response: ", loginStatus, loginContent);
+  logger.error("Unknown login response: ", loginStatus, content);
 
   return UnknownResponse("登录失败");
 };
