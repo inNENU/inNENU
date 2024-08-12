@@ -252,7 +252,7 @@ $Page(PAGE_ID, {
     const { id, password, accept } = this.data;
     const { authToken } = this.state;
 
-    if (!id || !password)
+    if (id.length !== 10 || !password)
       return wx.showToast({ title: "请输入完整信息", icon: "error" });
 
     if (!accept)
@@ -273,30 +273,30 @@ $Page(PAGE_ID, {
 
     wx.hideLoading();
 
-    if (result.success) {
-      if (!result.info)
-        return showModal(
-          "登录失败",
-          "账号密码校验成功，但未能成功获取账号信息。",
-        );
+    if (!result.success) {
+      if (result.type === ActionFailType.NeedReAuth) return this.startReAuth();
 
-      showModal("登录成功", "您已成功登录");
+      showModal("登录失败", result.msg);
 
-      setUserInfo({ id: Number(id), password, authToken }, result.info);
-
-      if (this.state.shouldNavigateBack) return this.$back();
-
-      return this.setData({
-        isSaved: true,
-        info: result.info,
-      });
+      return this.getInitInfo();
     }
 
-    if (result.type === ActionFailType.NeedReAuth) return this.startReAuth();
+    if (!result.info)
+      return showModal(
+        "登录失败",
+        "账号密码校验成功，但未能成功获取账号信息。",
+      );
 
-    showModal("登录失败", result.msg);
+    showModal("登录成功", "您已成功登录");
 
-    return this.getInitInfo();
+    setUserInfo({ id: Number(id), password, authToken }, result.info);
+
+    if (this.state.shouldNavigateBack) return this.$back();
+
+    return this.setData({
+      isSaved: true,
+      info: result.info,
+    });
   },
 
   async startReAuth() {
