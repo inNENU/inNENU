@@ -13,7 +13,7 @@ importers:
     dependencies:
       '@mptool/all':
         specifier: 0.9.0
-        version: 0.9.0(miniprogram-api-typings@3.12.2)
+        version: 0.9.0(miniprogram-api-typings@3.12.3)
     devDependencies:
       '@commitlint/cli':
         specifier: 19.3.0
@@ -44,7 +44,7 @@ importers:
         version: 9.8.0
       eslint-config-mister-hope:
         specifier: 0.2.2
-        version: 0.2.2(eslint-plugin-import@2.29.1(eslint@9.8.0))(eslint-plugin-vue@9.27.0(eslint@9.8.0))(eslint@9.8.0)(prettier@3.3.3)(typescript@5.5.4)(vitest@2.0.5(@types/node@22.1.0))(vue-eslint-parser@9.4.3(eslint@9.8.0))
+        version: 0.2.2(@typescript-eslint/parser@8.0.0(eslint@9.8.0)(typescript@5.5.4))(eslint-plugin-import@2.29.1(@typescript-eslint/parser@8.0.0(eslint@9.8.0)(typescript@5.5.4))(eslint@9.8.0))(eslint-plugin-vue@9.27.0(eslint@9.8.0))(eslint@9.8.0)(prettier@3.3.3)(typescript@5.5.4)(vitest@2.0.5(@types/node@22.1.0)(sass@1.77.8))(vue-eslint-parser@9.4.3(eslint@9.8.0))
       gulp:
         specifier: 5.0.0
         version: 5.0.0
@@ -64,8 +64,8 @@ importers:
         specifier: 9.1.4
         version: 9.1.4
       miniprogram-api-typings:
-        specifier: 3.12.2
-        version: 3.12.2
+        specifier: 3.12.3
+        version: 3.12.3
       nano-staged:
         specifier: 0.8.0
         version: 0.8.0
@@ -3616,8 +3616,8 @@ packages:
     resolution: {integrity: sha512-qOOzS1cBTWYF4BH8fVePDBOO9iptMnGUEZwNc/cMWnTV2nVLZ7VoNWEPHkYczZA0pdoA7dl6e7FL659nX9S2aw==}
     engines: {node: '>=16 || 14 >=14.17'}
 
-  miniprogram-api-typings@3.12.2:
-    resolution: {integrity: sha512-OJB2uVAfhycX4teG/zEVpoThushQqLOx946XACDpVc6OQydiJWjn7djVzvNCbv0VOA7sbHGPQp/RkXD9vMCDEw==}
+  miniprogram-api-typings@3.12.3:
+    resolution: {integrity: sha512-o7bOfrU28MEMCBWo83nXv0ROQSBFxJcfCl4f2wTYqah64ipC5RGqLJfvWJTWhlQt2ECVwspSzM8LgvnfMo7TEQ==}
 
   minizlib@2.1.2:
     resolution: {integrity: sha512-bAxsR8BVfj60DWXHE3u30oHzfl4G7khkSuPW+qvpd7jFRHm7dLxOjUk1EHACJ/hxLY8phGJ0YhYHZo7jil7Qdg==}
@@ -5920,9 +5920,9 @@ snapshots:
     optionalDependencies:
       markdown-it: 14.1.0
 
-  '@mptool/all@0.9.0(miniprogram-api-typings@3.12.2)':
+  '@mptool/all@0.9.0(miniprogram-api-typings@3.12.3)':
     dependencies:
-      miniprogram-api-typings: 3.12.2
+      miniprogram-api-typings: 3.12.3
 
   '@mr-hope/assert-type@3.0.0': {}
 
@@ -7781,34 +7781,7 @@ snapshots:
       eslint-import-resolver-typescript: 3.6.1(@typescript-eslint/parser@8.0.0(eslint@9.8.0)(typescript@5.5.4))(eslint-plugin-import@2.29.1(@typescript-eslint/parser@8.0.0(eslint@9.8.0)(typescript@5.5.4))(eslint@9.8.0))(eslint@9.8.0)
       eslint-plugin-import-x: 3.1.0(eslint@9.8.0)(typescript@5.5.4)
       eslint-plugin-prettier: 5.2.1(eslint-config-prettier@9.1.0(eslint@9.8.0))(eslint@9.8.0)(prettier@3.3.3)
-      eslint-plugin-vitest: 0.5.4(eslint@9.8.0)(typescript@5.5.4)(vitest@2.0.5(@types/node@22.1.0))
-      globals: 15.9.0
-      typescript-eslint: 8.0.0(eslint@9.8.0)(typescript@5.5.4)
-    optionalDependencies:
-      eslint-plugin-vue: 9.27.0(eslint@9.8.0)
-      vue-eslint-parser: 9.4.3(eslint@9.8.0)
-    transitivePeerDependencies:
-      - '@types/eslint'
-      - '@typescript-eslint/eslint-plugin'
-      - '@typescript-eslint/parser'
-      - eslint-import-resolver-node
-      - eslint-import-resolver-webpack
-      - eslint-plugin-import
-      - prettier
-      - supports-color
-      - typescript
-      - vitest
-
-  eslint-config-mister-hope@0.2.2(eslint-plugin-import@2.29.1(eslint@9.8.0))(eslint-plugin-vue@9.27.0(eslint@9.8.0))(eslint@9.8.0)(prettier@3.3.3)(typescript@5.5.4)(vitest@2.0.5(@types/node@22.1.0))(vue-eslint-parser@9.4.3(eslint@9.8.0)):
-    dependencies:
-      '@eslint/eslintrc': 3.1.0
-      '@eslint/js': 9.8.0
-      eslint: 9.8.0
-      eslint-config-prettier: 9.1.0(eslint@9.8.0)
-      eslint-import-resolver-typescript: 3.6.1(eslint-plugin-import@2.29.1(eslint@9.8.0))(eslint@9.8.0)
-      eslint-plugin-import-x: 3.1.0(eslint@9.8.0)(typescript@5.5.4)
-      eslint-plugin-prettier: 5.2.1(eslint-config-prettier@9.1.0(eslint@9.8.0))(eslint@9.8.0)(prettier@3.3.3)
-      eslint-plugin-vitest: 0.5.4(eslint@9.8.0)(typescript@5.5.4)(vitest@2.0.5(@types/node@22.1.0))
+      eslint-plugin-vitest: 0.5.4(eslint@9.8.0)(typescript@5.5.4)(vitest@2.0.5(@types/node@22.1.0)(sass@1.77.8))
       globals: 15.9.0
       typescript-eslint: 8.0.0(eslint@9.8.0)(typescript@5.5.4)
     optionalDependencies:
@@ -7855,23 +7828,6 @@ snapshots:
       - eslint-import-resolver-webpack
       - supports-color
 
-  eslint-import-resolver-typescript@3.6.1(eslint-plugin-import@2.29.1(eslint@9.8.0))(eslint@9.8.0):
-    dependencies:
-      debug: 4.3.6
-      enhanced-resolve: 5.17.1
-      eslint: 9.8.0
-      eslint-module-utils: 2.8.1(eslint-import-resolver-typescript@3.6.1(eslint-plugin-import@2.29.1(eslint@9.8.0))(eslint@9.8.0))(eslint@9.8.0)
-      eslint-plugin-import: 2.29.1(@typescript-eslint/parser@8.0.0(eslint@9.8.0)(typescript@5.5.4))(eslint@9.8.0)
-      fast-glob: 3.3.2
-      get-tsconfig: 4.7.6
-      is-core-module: 2.15.0
-      is-glob: 4.0.3
-    transitivePeerDependencies:
-      - '@typescript-eslint/parser'
-      - eslint-import-resolver-node
-      - eslint-import-resolver-webpack
-      - supports-color
-
   eslint-module-utils@2.8.1(@typescript-eslint/parser@8.0.0(eslint@9.8.0)(typescript@5.5.4))(eslint-import-resolver-node@0.3.9)(eslint@9.8.0):
     dependencies:
       debug: 3.2.7
@@ -7889,15 +7845,6 @@ snapshots:
       '@typescript-eslint/parser': 8.0.0(eslint@9.8.0)(typescript@5.5.4)
       eslint: 9.8.0
       eslint-import-resolver-typescript: 3.6.1(@typescript-eslint/parser@8.0.0(eslint@9.8.0)(typescript@5.5.4))(eslint-plugin-import@2.29.1(@typescript-eslint/parser@8.0.0(eslint@9.8.0)(typescript@5.5.4))(eslint@9.8.0))(eslint@9.8.0)
-    transitivePeerDependencies:
-      - supports-color
-
-  eslint-module-utils@2.8.1(eslint-import-resolver-typescript@3.6.1(eslint-plugin-import@2.29.1(eslint@9.8.0))(eslint@9.8.0))(eslint@9.8.0):
-    dependencies:
-      debug: 3.2.7
-    optionalDependencies:
-      eslint: 9.8.0
-      eslint-import-resolver-typescript: 3.6.1(eslint-plugin-import@2.29.1(eslint@9.8.0))(eslint@9.8.0)
     transitivePeerDependencies:
       - supports-color
 
@@ -7954,7 +7901,7 @@ snapshots:
     optionalDependencies:
       eslint-config-prettier: 9.1.0(eslint@9.8.0)
 
-  eslint-plugin-vitest@0.5.4(eslint@9.8.0)(typescript@5.5.4)(vitest@2.0.5(@types/node@22.1.0)):
+  eslint-plugin-vitest@0.5.4(eslint@9.8.0)(typescript@5.5.4)(vitest@2.0.5(@types/node@22.1.0)(sass@1.77.8)):
     dependencies:
       '@typescript-eslint/utils': 7.18.0(eslint@9.8.0)(typescript@5.5.4)
       eslint: 9.8.0
@@ -9329,7 +9276,7 @@ snapshots:
 
   minipass@7.1.2: {}
 
-  miniprogram-api-typings@3.12.2: {}
+  miniprogram-api-typings@3.12.3: {}
 
   minizlib@2.1.2:
     dependencies:
