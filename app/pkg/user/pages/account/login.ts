@@ -379,7 +379,7 @@ $Page(PAGE_ID, {
     if (result.data.verifier)
       return showModal(
         "已核验身份码",
-        `先前生成的身份码已被核验，核验人：${result.data.verifier}`,
+        `先前生成的身份码已被核验。\n核验信息：${result.data.verifier}`,
         () => {
           this.showIdCodeHint();
         },
