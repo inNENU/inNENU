@@ -30,7 +30,7 @@
             ><text>{{info.name}}</text
             ><image
               class="gender-icon"
-              src="./{{info.gender === '男性'? '': 'fe'}}male-{{darkmode? 'black': 'white'}}.svg"
+              src="./{{info.genderId === 1? '': 'fe'}}male-{{darkmode? 'black': 'white'}}.svg"
           /></view>
         </view>
       </view>
