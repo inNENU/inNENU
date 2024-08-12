@@ -18,7 +18,12 @@
         </view>
         <view class="student-card-body">
           <view class="student-card-info">
-            <button class="id-code-button" size="mini" catch:tap="checkIdCode">
+            <button
+              wx:if="{{env === 'wx'}}"
+              class="id-code-button"
+              size="mini"
+              catch:tap="checkIdCode"
+            >
               <text>查看身份码</text>
             </button>
           </view>

@@ -6,6 +6,7 @@ import { appCoverPrefix } from "../../../../config/index.js";
 import { ActionFailType, supportRedirect } from "../../../../service/index.js";
 import type { UserInfo } from "../../../../state/index.js";
 import {
+  env,
   envName,
   info,
   logo,
@@ -53,6 +54,7 @@ ${
 $Page(PAGE_ID, {
   data: {
     theme: info.theme,
+    env,
     logo,
 
     /** 导航栏 */
