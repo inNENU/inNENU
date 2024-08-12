@@ -59,10 +59,10 @@ const { request, cookieStore } = createRequest({
       return { data, headers, status };
     }
 
-    const msg = `Request ${url} failed with statusCode: ${status}`;
+    const message = `Request ${url} failed with statusCode: ${status}`;
 
     // 调试
-    logger.warn(msg);
+    logger.warn(message);
 
     wx.reportEvent?.("service_error", {
       url,
@@ -71,16 +71,15 @@ const { request, cookieStore } = createRequest({
 
     showToast(`${url.includes("innenu.com") ? "小程序" : "学校"}服务器故障`);
 
-    const error = new Error(msg);
-
-    // @ts-expect-error: Upstream type definition improvement
-    error.status = status;
+    const error = new MpError({ code: status, message });
 
     throw error;
   },
   errorHandler: (err, url) => {
-    logger.warn(`Request ${url} failed:`, err);
-    networkReport();
+    if (!err.code) {
+      logger.warn(`Request ${url} failed:`, err);
+      networkReport();
+    }
     throw err;
   },
 });
