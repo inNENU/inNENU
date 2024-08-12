@@ -68,7 +68,7 @@
     "husky": "9.1.4",
     "miniprogram-api-typings": "3.12.2",
     "nano-staged": "0.8.0",
-    "postcss": "8.4.40",
+    "postcss": "8.4.41",
     "prettier": "3.3.3",
     "rollup": "4.19.2",
     "rollup-plugin-esbuild": "6.1.1",
