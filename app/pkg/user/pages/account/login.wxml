@@ -197,8 +197,8 @@
           <text class="value">{{idCodeInfo.type}}</text>
         </view>
         <view class="id-code-info-item">
-          <text class="label">学院</text>
-          <text class="value">{{idCodeInfo.school}}</text>
+          <text class="label">组织</text>
+          <text class="value">{{idCodeInfo.org}}</text>
         </view>
         <view class="id-code-info-item">
           <text class="label">专业</text>
