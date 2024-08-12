@@ -395,7 +395,7 @@ $Page(PAGE_ID, {
   async getIdCode(force = false) {
     const { remark } = this.data;
 
-    if (!remark) showModal("未填写用途", "请必须准确描述生成用途。");
+    if (!remark) return showModal("未填写用途", "请必须准确描述生成用途。");
 
     wx.showLoading({ title: "生成中" });
 
