@@ -166,6 +166,13 @@ const authInitLocal = async (
     )
       return WrongPasswordResponse;
 
+    if (content.includes("该帐号未激活，请先完成帐号激活再登录"))
+      return {
+        success: false,
+        type: ActionFailType.AccountLocked,
+        msg: "该帐号未激活，请先完成帐号激活再登录",
+      };
+
     const lockedResult = /<span>账号已冻结，预计解冻时间：(.*?)<\/span>/.exec(
       content,
     );
