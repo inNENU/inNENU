@@ -16,7 +16,7 @@
   width: 0;
   height: 0;
   border-right: 8px solid transparent;
-  border-bottom: 8px solid var(--bg-color-block);
+  border-bottom: 8px solid var(--bg-block);
   border-left: 8px solid transparent;
 }
 
@@ -31,7 +31,7 @@
   padding: 0 12px;
   border-radius: 6px;
 
-  background-color: var(--bg-color-block);
+  background-color: var(--bg-block);
   color: var(--text-color);
   box-shadow: 1px 0 8px 4px rgb(0 0 0 / 15%);
 

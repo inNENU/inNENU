@@ -1,8 +1,12 @@
 page {
   --text-color: #000;
   --bg-color: #fff;
-  --bg-color-grey: #f3f3f8;
-  --bg-color-block: #f3f3f8;
+  --bg-grey: #f3f3f8;
+  --bg-block: #f3f3f8;
+  --bg-alpha: rgb(255 255 255 / 25%);
+  --bg-dialog: #fff;
+  --bg-control: #000;
+  --bg-hover: rgb(0 0 0 / 10%);
   --border-color: #cccccf;
   --grey: #888;
   --grey3: #333;
@@ -10,12 +14,12 @@ page {
   --dark-grey: #666;
   --light-grey: #999;
   --arrow-color: #c5c5c7;
-  --bg-hover: rgb(0 0 0 / 10%);
   --soft-shadow: rgb(191 192 195 / 15%);
+  --hard-shadow: #f0f1f2;
   --action-color: #3478f7;
   --theme-color: #41c88a;
 }
 
 .grey {
-  --bg-color-block: #fff;
+  --bg-block: #fff;
 }

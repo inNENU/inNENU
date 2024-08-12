@@ -47,7 +47,7 @@
   height: 130px;
   border-radius: 16px;
 
-  background-color: var(--bg-color-block);
+  background-color: var(--bg-block);
   box-shadow: 1px 1px 2px 3px var(--soft-shadow);
 
   font-size: 18px;
@@ -110,7 +110,7 @@
   padding: 4px 8px !important;
   border-radius: 8px;
 
-  background-color: var(--bg-color-block);
+  background-color: var(--bg-block);
   color: var(--action-color);
 
   font-weight: normal;
@@ -129,7 +129,7 @@
     line-height: 1.5 !important;
 
     &.activate {
-      background-color: var(--bg-color-block);
+      background-color: var(--bg-block);
       color: var(--action-color);
     }
   }

@@ -15,7 +15,7 @@
 
 .score-wrapper {
   display: flex;
-  background-color: var(--bg-color-grey);
+  background-color: var(--bg-grey);
 
   .bmi,
   .score {
@@ -71,7 +71,7 @@
   margin: 16px 0;
   border-radius: 8px;
 
-  background-color: var(--bg-color-block);
+  background-color: var(--bg-block);
   color: var(--text-color);
 
   font-size: 17px;

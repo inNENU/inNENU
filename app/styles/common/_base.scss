@@ -6,10 +6,10 @@ page {
 }
 
 button {
-  background-color: var(--bg-color-block);
+  background-color: var(--bg-block);
 
   &.plain {
-    background-color: var(--bg-color-block) !important ;
+    background-color: var(--bg-block) !important ;
     color: inherit !important;
   }
 
@@ -18,7 +18,7 @@ button {
   }
 
   &.warn {
-    background-color: var(--bg-color-block) !important ;
+    background-color: var(--bg-block) !important ;
     color: #fa5151 !important;
   }
 }

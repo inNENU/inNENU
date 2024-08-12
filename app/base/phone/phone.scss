@@ -6,7 +6,7 @@
   padding: 4px 16px;
   border-radius: 8px;
 
-  background-color: var(--bg-color-block);
+  background-color: var(--bg-block);
   color: var(--text-color);
 
   line-height: 2.5;
@@ -89,14 +89,10 @@
   max-height: 90%;
   border-radius: 12px;
 
-  background-color: #fff;
+  background-color: var(--bg-dialog);
   color: var(--grey3);
 
   text-align: center;
-
-  @media (prefers-color-scheme: dark) {
-    background-color: #1c1c1e;
-  }
 
   .title {
     padding: 32px 24px 16px;

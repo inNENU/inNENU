@@ -15,7 +15,7 @@
   padding: 4px 8px;
   border-radius: 8px;
 
-  background-color: var(--bg-color-block);
+  background-color: var(--bg-block);
   color: var(--action-color);
 
   &.active {
@@ -31,7 +31,7 @@
   padding: 4px 8px;
   border-radius: 8px;
 
-  background-color: var(--bg-color-block);
+  background-color: var(--bg-block);
   box-shadow: 1px 1px 2px 3px var(--soft-shadow);
 
   text-align: left;
@@ -90,7 +90,7 @@
       margin: 6px 8px;
       padding: 6px 8px;
       border-radius: 8px;
-      background-color: var(--bg-color-grey);
+      background-color: var(--bg-grey);
 
       .title {
         color: var(--dark-grey);

@@ -86,15 +86,11 @@
   max-height: 90%;
   border-radius: 12px;
 
-  background-color: #fff;
+  background-color: var(--bg-dialog);
 
   text-align: center;
 
   transform: translate(0, -50%);
-
-  @media (prefers-color-scheme: dark) {
-    background-color: #1c1c1e;
-  }
 
   .title {
     padding: 32px 24px 16px;

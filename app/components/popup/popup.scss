@@ -25,17 +25,13 @@
   border-top-left-radius: 12px;
   border-top-right-radius: 12px;
 
-  background-color: #fff;
+  background-color: var(--bg-dialog);
 
   line-height: 1.4;
 
   transition: all 0.3s;
 
   transform: translateY(100%);
-
-  @media (prefers-color-scheme: dark) {
-    background-color: #1c1c1e;
-  }
 
   &.show {
     transform: translateY(0);
@@ -124,7 +120,7 @@
   width: 120px;
   margin: 0 8px;
 
-  background-color: var(--bg-color-block);
+  background-color: var(--bg-block);
 
   &.primary {
     background-color: var(--theme-color) !important;
