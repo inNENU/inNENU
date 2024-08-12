@@ -11,7 +11,8 @@ page {
   --light-grey: #999;
   --arrow-color: #c5c5c7;
   --bg-hover: rgb(0 0 0 / 10%);
-  --card-shadow: rgb(191 192 195 / 15%);
+  --soft-shadow: rgb(191 192 195 / 15%);
+  --hard-shadow: #f0f1f2;
   --action-color: #3478f7;
   --theme-color: #41c88a;
 
@@ -28,7 +29,8 @@ page {
     --light-grey: #666;
     --arrow-color: #5a5a5f;
     --bg-hover: rgb(255 255 255 / 10%);
-    --card-shadow: rgb(64 63 60 / 15%);
+    --soft-shadow: rgb(64 63 60 / 15%);
+    --hard-shadow: #282a32;
   }
 }
 

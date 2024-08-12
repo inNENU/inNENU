@@ -382,7 +382,7 @@ $Page(PAGE_ID, {
   delete() {
     showModal(
       "退出登录",
-      "确认退出登录? 这会清除本地的全部个人信息与数据且无法恢复。",
+      "确认退出登录? 这会清除全部的账号数据与个人信息且无法恢复。",
       () => {
         logout();
         this.setData({
@@ -391,7 +391,7 @@ $Page(PAGE_ID, {
           info: null,
           isSaved: false,
         });
-        showModal("删除成功", "已删除本地账号信息");
+        showModal("删除成功", "已删除全部账号数据与个人信息");
       },
       () => {
         // do nothing
