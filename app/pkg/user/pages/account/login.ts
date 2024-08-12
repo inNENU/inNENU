@@ -367,16 +367,15 @@ $Page(PAGE_ID, {
     const { createTime, ...info } = result.data;
 
     this.setData({
-      showIdCode: true,
       idCodeInfo: {
         ...info,
-        createTime: new Date(createTime).toLocaleString(),
+        createTime: new Date(createTime).toLocaleString("zh"),
       },
     });
   },
 
   closeIdCode() {
-    this.setData({ showIdCode: false });
+    this.setData({ idCodeInfo: null });
   },
 
   delete() {

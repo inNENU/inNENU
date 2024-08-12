@@ -178,7 +178,7 @@
   </view>
 </view>
 
-<view wx:if="{{showIdCode}}" class="id-code-mask mask">
+<view wx:if="{{idCodeInfo}}" class="id-code-mask mask">
   <view class="id-code-popup">
     <view class="id-code-popup-title">验证结果</view>
     <view class="id-code-popup-content">
