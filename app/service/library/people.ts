@@ -1,5 +1,8 @@
 import { request } from "../../api/index.js";
-import type { CommonFailedResponse } from "../utils/index.js";
+import type {
+  CommonFailedResponse,
+  CommonSuccessResponse,
+} from "../utils/index.js";
 import { createService } from "../utils/index.js";
 
 interface LibraryPeopleRawData {
@@ -14,13 +17,15 @@ interface LibraryPeopleRawData {
   status: number;
 }
 
-export interface LibraryPeopleSuccessResponse {
-  success: true;
+export interface LibraryPeopleData {
   benbu: number;
   benbuMax: number;
   jingyue: number;
   jingyueMax: number;
 }
+
+export type LibraryPeopleSuccessResponse =
+  CommonSuccessResponse<LibraryPeopleData>;
 
 export type LibraryPeopleResponse =
   | LibraryPeopleSuccessResponse
@@ -36,10 +41,12 @@ const getLibraryPeopleLocal = async (): Promise<LibraryPeopleResponse> => {
 
     return {
       success: true,
-      benbu: MainNum,
-      benbuMax: AbleMainNum,
-      jingyue: JingYueNum,
-      jingyueMax: AbleJingYueNum,
+      data: {
+        benbu: MainNum,
+        benbuMax: AbleMainNum,
+        jingyue: JingYueNum,
+        jingyueMax: AbleJingYueNum,
+      },
     };
   }
 

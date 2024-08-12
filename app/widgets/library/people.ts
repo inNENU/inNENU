@@ -6,7 +6,7 @@ $Component({
   lifetimes: {
     attached() {
       getLibraryPeople().then((result) => {
-        if (result.success) this.setData(result);
+        if (result.success) this.setData(result.data);
         else logger.error("图书馆人数获取失败");
       });
     },
