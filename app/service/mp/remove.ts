@@ -1,14 +1,14 @@
-// import { request } from "../../api/index.js";
-// import { appID, env, user } from "../../state/index.js";
+import { request } from "../../api/index.js";
+import { appID, user } from "../../state/index.js";
 
-// export interface RemoveInfo {
-//   openid: string;
-//   isAdmin: boolean;
-//   inBlacklist: boolean;
-// }
+export interface RemoveInfo {
+  success: boolean;
+}
 
-// export const mpLogin = (code?: string): Promise<LoginInfo> =>
-//   request<LoginInfo>("/mp/login", {
-//     method: "POST",
-//     body: code ? { appID, code, env } : { openid: user.openid },
-//   }).then(({ data }) => data);
+export const mpRemove = (): Promise<RemoveInfo> =>
+  request<RemoveInfo>("/mp/remove", {
+    method: "POST",
+    body: user.account
+      ? { appID, id: user.account?.id, authToken: user.account?.authToken }
+      : {},
+  }).then(({ data }) => data);

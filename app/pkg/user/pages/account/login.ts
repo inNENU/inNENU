@@ -20,12 +20,12 @@ import {
 import type { AuthCaptchaInfo } from "../../service/index.js";
 import {
   authInit,
+  checkIdCode,
+  generateIdCode,
   getAuthCaptcha,
   getAuthInitInfo,
-  getIdCode,
   sendReAuthSMS,
   verifyAuthCaptcha,
-  verifyCode,
   verifyReAuthCaptcha,
 } from "../../service/index.js";
 
@@ -78,6 +78,16 @@ $Page(PAGE_ID, {
     sliderWidth: 45,
 
     smsCode: "",
+
+    remark: "",
+    refresh: false,
+    idCodeHintMsg: `\
+为了保障用户信息安全：
+1. 只有登录用户才能扫描身份码。
+2. 每个身份码只能被核验一次。
+3. 用户只能在最后的登录的设备上生成和核验身份码。
+4. 每个用户只能存在一个有效身份码，并可以随时强制生成新的身份码。\
+`,
 
     info: null as UserInfo | null,
 
@@ -338,27 +348,84 @@ $Page(PAGE_ID, {
     showModal("暂不支持", "请前往官网 authserver.nenu.edu.cn 按引导操作。");
   },
 
-  async generateIdCode() {
+  async checkIdCode() {
+    wx.showLoading({ title: "获取中" });
+
+    const result = await checkIdCode<void>();
+
+    wx.hideLoading();
+
+    if (!result.success) return showModal("获取失败", result.msg);
+
+    if (result.data.existed) {
+      const { code, remark } = result.data;
+
+      return wx.showModal({
+        title: "已存在身份码",
+        content: `已存在未核验的身份码，用途为：${remark}`,
+        confirmText: "重新生成",
+        cancelText: "显示当前",
+        success: ({ confirm, cancel }) => {
+          if (confirm) {
+            this.setData({ refresh: true });
+            this.showIdCodeHint();
+          } else if (cancel) {
+            this.setData({ idCode: code });
+          }
+        },
+      });
+    }
+
+    if (result.data.verifier)
+      return showModal(
+        "已核验身份码",
+        `先前生成的身份码已被核验，核验人：${result.data.verifier}`,
+        () => {
+          this.showIdCodeHint();
+        },
+      );
+
+    this.showIdCodeHint();
+  },
+
+  showIdCodeHint() {
+    this.setData({ idCodeHint: true });
+  },
+
+  async getIdCode(force = false) {
+    const { remark } = this.data;
+
+    if (!remark) showModal("未填写用途", "请必须准确描述生成用途。");
+
     wx.showLoading({ title: "生成中" });
 
-    const result = await getIdCode();
+    const result = await generateIdCode(remark, force);
 
     wx.hideLoading();
 
     if (!result.success)
       return retryAction("生成失败", result.msg, () => {
-        this.generateIdCode();
+        this.getIdCode(force);
       });
 
-    wx.previewImage({
-      urls: [result.data.code],
+    this.setData({
+      idCodeHint: false,
+      idCode: result.data.code,
     });
+  },
+
+  generateIdCode() {
+    this.getIdCode();
+  },
+
+  refreshIdCode() {
+    this.getIdCode(true);
   },
 
   async verifyIDCode(uuid: string) {
     wx.showLoading({ title: "验证中" });
 
-    const result = await verifyCode({ uuid });
+    const result = await checkIdCode(uuid);
 
     wx.hideLoading();
 
@@ -375,6 +442,10 @@ $Page(PAGE_ID, {
   },
 
   closeIdCode() {
+    this.setData({ idCode: null });
+  },
+
+  completeVerify() {
     this.setData({ idCodeInfo: null });
   },
 

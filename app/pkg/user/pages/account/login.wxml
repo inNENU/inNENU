@@ -18,11 +18,7 @@
         </view>
         <view class="student-card-body">
           <view class="student-card-info">
-            <button
-              class="id-code-button"
-              size="mini"
-              catch:tap="generateIdCode"
-            >
+            <button class="id-code-button" size="mini" catch:tap="checkIdCode">
               <text>查看身份码</text>
             </button>
           </view>
@@ -120,6 +116,7 @@
   </view>
   <footer config="{{footer}}" />
 </view>
+
 <view wx:if="{{captchaBg || showReAuth}}" class="login-mask mask">
   <view class="login-popup">
     <block wx:if="{{captchaBg}}">
@@ -178,43 +175,104 @@
   </view>
 </view>
 
-<view wx:if="{{idCodeInfo}}" class="id-code-mask mask">
+<view wx:if="{{idCodeHint || idCode || idCodeInfo}}" class="id-code-mask mask">
   <view class="id-code-popup">
-    <view class="id-code-popup-title">验证结果</view>
-    <view class="id-code-popup-content">
-      <view wx:if="{{isAdmin}}" class="id-code-info-item">
-        <text class="label">学号</text>
-        <text class="value">{{idCodeInfo.id}}</text>
+    <block wx:if="{{idCodeInfo}}">
+      <view class="id-code-popup-title">验证结果</view>
+      <view class="id-code-popup-content">
+        <view wx:if="{{idCodeInfo.id}}" class="id-code-info-item">
+          <text class="label">学号</text>
+          <text class="value">{{idCodeInfo.id}}</text>
+        </view>
+        <view class="id-code-info-item">
+          <text class="label">姓名</text>
+          <text class="value">{{idCodeInfo.name}}</text>
+        </view>
+        <view wx:if="{{idCodeInfo.gender}}" class="id-code-info-item">
+          <text class="label">性别</text>
+          <text class="value">{{idCodeInfo.gender}}</text>
+        </view>
+        <view class="id-code-info-item">
+          <text class="label">身份</text>
+          <text class="value">{{idCodeInfo.type}}</text>
+        </view>
+        <view class="id-code-info-item">
+          <text class="label">学院</text>
+          <text class="value">{{idCodeInfo.school}}</text>
+        </view>
+        <view class="id-code-info-item">
+          <text class="label">专业</text>
+          <text class="value">{{idCodeInfo.major}}</text>
+        </view>
+        <view class="id-code-info-item">
+          <text class="label">生成时间</text>
+          <text class="value">{{idCodeInfo.createTime}}</text>
+        </view>
+        <view class="id-code-info-item">
+          <text class="label">用途</text>
+          <text class="value">{{idCodeInfo.remark}}</text>
+        </view>
+        <view class="id-code-popup-footer">
+          <button
+            type="primary"
+            class="confirm-button primary"
+            catch:tap="completeVerify"
+          >
+            确定
+          </button>
+        </view>
       </view>
-      <view class="id-code-info-item">
-        <text class="label">姓名</text>
-        <text class="value">{{idCodeInfo.name}}</text>
+    </block>
+    <block wx:elif="{{idCode}}">
+      <view class="id-code-popup-title">身份码</view>
+      <view class="id-code-popup-content">
+        <image class="id-code-qrcode" src="{{idCode}}" mode="widthFix" />
+        <view class="id-code-popup-footer">
+          <button
+            type="primary"
+            class="confirm-button primary"
+            catch:tap="closeIdCode"
+          >
+            我已保存
+          </button>
+        </view>
       </view>
-      <view wx:if="{{isAdmin}}" class="id-code-info-item">
-        <text class="label">性别</text>
-        <text class="value">{{idCodeInfo.gender}}</text>
-      </view>
-      <view class="id-code-info-item">
-        <text class="label">学院</text>
-        <text class="value">{{idCodeInfo.school}}</text>
-      </view>
-      <view class="id-code-info-item">
-        <text class="label">专业</text>
-        <text class="value">{{idCodeInfo.major}}</text>
-      </view>
-      <view class="id-code-info-item">
-        <text class="label">生成时间</text>
-        <text class="value">{{idCodeInfo.createTime}}</text>
+    </block>
+    <block wx:else>
+      <view class="id-code-popup-title">生成身份码</view>
+      <view class="id-code-popup-content">
+        <view class="id-code-hint"
+          ><text
+            >身份码是包含了生成者可信身份信息的小程序码，可让登录用户在小程序中扫描核验，核验结果将包含生成者的姓名、年假、学院、专业、生成时间与生成用途。</text
+          ></view
+        >
+        <view class="id-code-hint">
+          <text decode>{{idCodeHintMsg}}</text>
+        </view>
+        <view class="id-code-hint"
+          ><text
+            >生成前，请您准确填写生成用途，以防止他人收到您提供的身份码后冒充您进行其他验证。</text
+          ></view
+        >
+        <input
+          id="remark"
+          class="remark-input"
+          type="text"
+          adjust-position="{{false}}"
+          value="{{remark}}"
+          placeholder="生成用途"
+          bindinput="input"
+        />
       </view>
       <view class="id-code-popup-footer">
         <button
           type="primary"
           class="confirm-button primary"
-          catch:tap="closeIdCode"
+          catch:tap="{{refresh ? 'refreshIdCode' :'generateIdCode'}}"
         >
-          确定
+          生成身份码
         </button>
       </view>
-    </view>
+    </block>
   </view>
 </view>

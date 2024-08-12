@@ -9,89 +9,100 @@ import type {
 import { MissingCredentialResponse } from "../../../../service/index.js";
 import { appID, envName, user } from "../../../../state/index.js";
 
-export interface InfoData {
-  uuid: string;
-  type: "account" | "admission";
-  id?: number;
-  name: string;
-  gender: string;
-  school: string;
-  major: string;
-  grade: number;
-  createTime: string;
+export interface GenerateIdCodeOptions {
   remark: string;
-  verifyId?: number;
-  verifyRemark?: string;
+  force?: boolean;
 }
 
-export interface StoreAccountInfoOptions {
-  remark: string;
-}
-
-export type StoreAccountInfoCodeSuccessResponse = CommonSuccessResponse<{
+export type GenerateIdCodeCodeSuccessResponse = CommonSuccessResponse<{
   code: string;
+  existed: boolean;
 }>;
 
-export type StoreAccountInfoResponse =
-  | StoreAccountInfoCodeSuccessResponse
+export type GenerateIdCodeResponse =
+  | GenerateIdCodeCodeSuccessResponse
   | CommonFailedResponse<
-      | ActionFailType.WrongPassword
-      | ActionFailType.BlackList
-      | ActionFailType.EnabledSSO
-      | ActionFailType.DatabaseError
-      | ActionFailType.Error
-      | ActionFailType.AccountLocked
-      | ActionFailType.MissingCredential
-      | ActionFailType.NeedCaptcha
-      | ActionFailType.NeedReAuth
       | ActionFailType.Expired
-      | ActionFailType.Forbidden
+      | ActionFailType.Existed
+      | ActionFailType.DatabaseError
+      | ActionFailType.MissingArg
+      | ActionFailType.MissingCredential
       | ActionFailType.Unknown
     >;
 
-export const getIdCode = async (
+export const generateIdCode = async (
   remark = "",
-): Promise<StoreAccountInfoResponse> => {
+  force = false,
+): Promise<GenerateIdCodeResponse> => {
   if (!user.account) return MissingCredentialResponse;
 
-  return request<StoreAccountInfoResponse>("/mp/id-code", {
+  return request<GenerateIdCodeResponse>("/mp/generate-id-code", {
     method: "POST",
     body: {
-      ...user.account,
+      id: user.account.id,
+      authToken: user.account.authToken,
       appID,
       remark,
+      force,
     },
   }).then(({ data }) => data);
 };
 
-export interface VerifyCodeOptions {
-  uuid: string;
+export interface CheckIDCodeOptions {
+  uuid?: string;
   remark?: string;
 }
 
-export type VerifyCodeSuccessResponse = CommonSuccessResponse<InfoData>;
+export interface IdCodeInfo {
+  name: string;
+  grade: number;
+  type: string;
+  org: string;
+  major: string;
+  createTime: string;
 
-export type VerifyCodeResponse =
-  | VerifyCodeSuccessResponse
+  /**
+   * @description Only available for admin
+   */
+  id: number | null;
+  /**
+   * @description Only available for admin
+   */
+  gender: string | null;
+}
+
+export type CheckIDCodeStatusSuccessResponse = CommonSuccessResponse<
+  | { existed: true; code: string; remark: string }
+  | { existed: false; verifier: string | null }
+>;
+export type CheckIDCodeInfoSuccessResponse = CommonSuccessResponse<IdCodeInfo>;
+
+export type CheckIDCodeResponse<T extends string | void> =
+  | (T extends string
+      ? CheckIDCodeInfoSuccessResponse
+      : CheckIDCodeStatusSuccessResponse)
   | AuthLoginFailedResponse
   | CommonFailedResponse<
       | ActionFailType.DatabaseError
-      | ActionFailType.MissingCredential
       | ActionFailType.WrongInfo
+      | ActionFailType.MissingArg
+      | ActionFailType.MissingCredential
     >;
 
-export const verifyCode = async ({
-  uuid,
-  remark = `由 ${appName} ${envName} 验证`,
-}: VerifyCodeOptions): Promise<VerifyCodeResponse> => {
+export const checkIdCode = async <T extends string | void>(
+  uuid?: T,
+): Promise<CheckIDCodeResponse<T>> => {
   if (!user.account) return MissingCredentialResponse;
 
-  return request<VerifyCodeResponse>("/mp/id-code", {
+  return request<CheckIDCodeResponse<T>>("/mp/check-id-code", {
     method: "POST",
     body: {
-      ...user.account,
+      id: user.account.id,
+      authToken: user.account.authToken,
+      appID,
+      openid: user.openid,
       uuid,
-      remark,
+      remark: `由 ${user.info?.name ?? "未知用户"} 通过 ${appName} ${envName} 验证`,
     },
   }).then(({ data }) => data);
 };

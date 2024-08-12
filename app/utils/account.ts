@@ -27,6 +27,7 @@ import {
 } from "../config/index.js";
 import type { LoginInfo } from "../service/mp/login.js";
 import { mpLogin } from "../service/mp/login.js";
+import { mpRemove } from "../service/mp/remove.js";
 import { clearUserInfo, env, user } from "../state/index.js";
 
 /**
@@ -49,6 +50,7 @@ export const login = (callback: (result: LoginInfo) => void): void => {
 export const logout = (): void => {
   cookieStore.clear();
   clearUserInfo();
+  mpRemove();
 
   // license
   remove(LICENSE_KEY);
