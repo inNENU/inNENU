@@ -79,27 +79,25 @@ $Component({
         return this.setData({ status: "error", errMsg: result.msg });
       }
 
-      if (result.success) {
-        const { unread, emails } = result.data;
-        const recent = emails.map(({ receivedDate, ...rest }) => {
-          const date = new Date(receivedDate);
+      const { unread, emails } = result.data;
+      const recent = emails.map(({ receivedDate, ...rest }) => {
+        const date = new Date(receivedDate);
 
-          return {
-            ...rest,
-            date: date.toLocaleDateString(),
-            shortDate: `${date.getMonth() + 1}/${date.getDate()}`,
-          };
-        });
+        return {
+          ...rest,
+          date: date.toLocaleDateString(),
+          shortDate: `${date.getMonth() + 1}/${date.getDate()}`,
+        };
+      });
 
-        this.setData({
-          status: "success",
-          unread: unread,
-          recent: type.includes("未读")
-            ? recent.filter(({ unread }) => unread)
-            : recent,
-        });
-        set(EMAIL_DATA_KEY, recent, 5 * MINUTE);
-      }
+      this.setData({
+        status: "success",
+        unread: unread,
+        recent: type.includes("未读")
+          ? recent.filter(({ unread }) => unread)
+          : recent,
+      });
+      set(EMAIL_DATA_KEY, recent, 5 * MINUTE);
     },
 
     async openEmail({

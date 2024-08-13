@@ -180,7 +180,7 @@ $Page(PAGE_ID, {
         const suffixNumber = Number(suffix);
 
         if (
-          Number.isNaN(suffix) ||
+          Number.isNaN(suffixNumber) ||
           suffixNumber < 100 ||
           suffixNumber > 999 ||
           Math.floor(suffixNumber) !== suffixNumber
