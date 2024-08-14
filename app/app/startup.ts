@@ -4,8 +4,8 @@ import type { GlobalData } from "./globalData.js";
 import { platformActions } from "./platform.js";
 import { updateApp } from "./update.js";
 import { getCurrentRoute, showToast } from "../api/index.js";
+import { mpLogin } from "../service/index.js";
 import { env, envName, setOpenid } from "../state/index.js";
-import { login } from "../utils/index.js";
 
 /** 注册全局监听 */
 const registerActions = (): void => {
@@ -88,12 +88,12 @@ const registerActions = (): void => {
  */
 export const startup = (globalData: GlobalData): void => {
   registerActions();
-  login(({ openid, isAdmin, inBlacklist }) => {
+  platformActions(globalData);
+  updateApp();
+  mpLogin().then(({ openid, isAdmin, inBlacklist }) => {
     setOpenid(openid);
     if (isAdmin) wx.setStorageSync("isAdmin", true);
     if (inBlacklist && getCurrentRoute() !== "pkg/addon/pages/action/action")
       wx.reLaunch({ url: "/pkg/addon/pages/action/action?action=blacklist" });
   });
-  platformActions(globalData);
-  updateApp();
 };

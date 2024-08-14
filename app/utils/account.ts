@@ -1,4 +1,4 @@
-import { logger, remove } from "@mptool/all";
+import { remove } from "@mptool/all";
 
 import { cookieStore } from "../api/index.js";
 import {
@@ -25,27 +25,8 @@ import {
   STARRED_NOTICE_LIST_KEY,
   STUDENT_ARCHIVE_KEY,
 } from "../config/index.js";
-import type { LoginInfo } from "../service/mp/login.js";
-import { mpLogin } from "../service/mp/login.js";
 import { mpRemove } from "../service/mp/remove.js";
-import { clearUserInfo, env, user } from "../state/index.js";
-
-/**
- * 登录
- */
-export const login = (callback: (result: LoginInfo) => void): void => {
-  if (user.openid) mpLogin().then(callback);
-  else if (env === "qq" || env === "wx") {
-    wx.login({
-      success: ({ code }) => {
-        mpLogin(code).then(callback);
-      },
-      fail: ({ errMsg }) => {
-        logger.error(`Login failed: ${errMsg}`);
-      },
-    });
-  }
-};
+import { clearUserInfo } from "../state/index.js";
 
 export const logout = (): void => {
   cookieStore.clear();
