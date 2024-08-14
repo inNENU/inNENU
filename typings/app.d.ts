@@ -40,6 +40,23 @@ declare namespace WechatMiniprogram {
     };
   }
 
+  interface AppBaseInfoHost {
+    /** 多端应用的 Id ；SDK >= 1.4.X 新增返回该字段 */
+    miniappId: string;
+    /** 多端应用资源包的 Id ；SDK >= 1.4.X 新增返回该字段 */
+    moduleId: string;
+    /** 运行环境，值为 "SAAASDK" */
+    env: string;
+    /** 对应 Android 应用的包名，Android 系统时返回 */
+    packageName?: string;
+    /** 对应 iOS 的 Bundle ID ，iOS 系统时返回 */
+    bundleIdentifier?: string;
+    /** SDK 版本 */
+    sdkVersion: string;
+    /** SDK 版本号数字值 */
+    version: string;
+  }
+
   interface Wx {
     /** 多端框架接口 */
     miniapp: {
