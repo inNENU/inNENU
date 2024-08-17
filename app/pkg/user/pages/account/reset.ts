@@ -214,6 +214,8 @@ ${envName}严格使用官方密码重置服务流程。
     const { oldCaptcha, oldCaptchaId, isAppealFlag, appealSign, sign } =
       this.state;
 
+    if (!code) return showModal("未填写验证码", "请点击发送验证码后输入验证码");
+
     wx.showLoading({ title: "验证中" });
 
     const result = await resetPassword({
