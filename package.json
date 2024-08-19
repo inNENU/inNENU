@@ -73,7 +73,7 @@
     "rollup": "4.19.2",
     "rollup-plugin-esbuild": "6.1.1",
     "standard-version": "9.5.0",
-    "stylelint": "16.8.1",
+    "stylelint": "16.8.2",
     "stylelint-config-hope": "7.0.2",
     "tsx": "4.16.5",
     "typescript": "5.5.4"
