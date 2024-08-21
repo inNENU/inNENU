@@ -6,33 +6,36 @@
 }
 
 .student-card-header-line {
-  margin-top: 12px;
   height: 4px;
+  margin-top: 12px;
   margin-bottom: 4px;
   background: var(--blue);
 }
 
 .student-card-header,
 .student-card-footer {
-  background: var(--blue);
-  color: var(--bg-block);
   display: flex;
   align-items: center;
   justify-content: space-between;
+
   padding: 4px 8px;
+
+  background: var(--blue);
+  color: var(--bg-block);
+
   font-weight: bold;
 }
 
 .student-card-body {
-  height: 240rpx;
   display: flex;
+  height: 240rpx;
 }
 
 .student-card-info {
-  flex: 1;
   display: flex;
-  justify-content: center;
+  flex: 1;
   align-items: center;
+  justify-content: center;
 }
 
 .student-card-avatar {
@@ -46,11 +49,13 @@
 
 .gender-icon {
   position: relative;
+  bottom: -0.125em;
+
+  vertical-align: baseline;
+
   width: 16px;
   height: 16px;
   margin-left: 4px;
-  vertical-align: baseline;
-  bottom: -0.125em;
 }
 
 .id-code-button {

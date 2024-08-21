@@ -28,8 +28,8 @@
 }
 
 .login-popup-hint {
-  font-size: 12px;
   padding: 0 4px 16px;
+  font-size: 12px;
 }
 
 .login-popup-content {
@@ -82,9 +82,9 @@
 
 .re-auth-input {
   padding: 8px 12px;
+  border: 1px solid var(--theme-color);
   border-radius: 8px;
 
-  border: 1px solid var(--theme-color);
   background-color: var(--bg-control);
 
   font-size: 18px;

@@ -178,6 +178,9 @@ importers:
       '@types/qrcode':
         specifier: 1.5.5
         version: 1.5.5
+      domhandler:
+        specifier: 5.0.3
+        version: 5.0.3
       eslint:
         specifier: 9.9.0
         version: 9.9.0(jiti@1.21.6)
