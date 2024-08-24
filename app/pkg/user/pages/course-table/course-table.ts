@@ -2,33 +2,33 @@ import { $Page, get, set } from "@mptool/all";
 
 import { retryAction, showModal } from "../../../../api/index.js";
 import {
-  COURSE_DATA_KEY,
   DAY,
   MONTH,
+  OLD_COURSE_DATA_KEY,
   appCoverPrefix,
 } from "../../../../config/index.js";
 import type { LoginMethod } from "../../../../service/index.js";
 import { ActionFailType } from "../../../../service/index.js";
 import type {
-  CourseTableClassData,
-  CourseTableData,
+  OldCourseTableClassData,
+  OldCourseTableData,
 } from "../../../../state/index.js";
 import { envName, info, user } from "../../../../state/index.js";
 import { getPageColor, showNotice } from "../../../../utils/index.js";
 import type {
-  CourseTableInfo,
-  TableData,
-  WeekRange,
+  OldCourseTableInfo,
+  OldTableData,
+  OldWeekRange,
 } from "../../../../widgets/course/typings.js";
 import {
-  getCurrentTimeCode,
+  getOldCurrentTimeCode,
   getWeekIndex,
 } from "../../../../widgets/course/utils.js";
 import {
   ensureGradOldSystemLogin,
   ensureUnderSystemLogin,
   getGradCourseTable,
-  getUnderCourseTable,
+  getUnderCourseTableOld,
 } from "../../service/index.js";
 
 const PAGE_ID = "course-table";
@@ -56,7 +56,7 @@ const getTimes = (grade: number): string[] => {
   return times.reverse();
 };
 
-const getWeekRange = (timeText: string): WeekRange[] => {
+const getWeekRange = (timeText: string): OldWeekRange[] => {
   const match = Array.from(timeText.matchAll(/([\d,-]+)[^\d]*周/g));
 
   return match
@@ -66,16 +66,16 @@ const getWeekRange = (timeText: string): WeekRange[] => {
 
         if (range.length === 1) range.push(range[0]);
 
-        return range.map((str) => Number.parseInt(str, 10)) as WeekRange;
+        return range.map((str) => Number.parseInt(str, 10)) as OldWeekRange;
       }),
     )
     .flat();
 };
 
 const getCourseTableInfo = (
-  courseTable: CourseTableData,
+  courseTable: OldCourseTableData,
   startTime: string,
-): CourseTableInfo => {
+): OldCourseTableInfo => {
   let weeks = 0;
 
   const courseData = courseTable.map((row) =>
@@ -106,7 +106,7 @@ const getDates = (startTime: string, weekIndex: number): string[] => {
 
 $Page(PAGE_ID, {
   data: {
-    courseData: [] as TableData,
+    courseData: [] as OldTableData,
     times: [] as string[],
     timeIndex: 0,
     weeks: 0,
@@ -121,7 +121,7 @@ $Page(PAGE_ID, {
 
   state: {
     loginMethod: "validate" as LoginMethod,
-    coursesData: {} as Record<string, CourseTableInfo>,
+    coursesData: {} as Record<string, OldCourseTableInfo>,
     grade: new Date().getFullYear(),
     inited: false,
   },
@@ -147,14 +147,15 @@ $Page(PAGE_ID, {
         );
       }
 
-      const coursesData = get<Record<string, CourseTableInfo>>(COURSE_DATA_KEY);
+      const coursesData =
+        get<Record<string, OldCourseTableInfo>>(OLD_COURSE_DATA_KEY);
 
       if (coursesData) this.state.coursesData = coursesData;
 
       const grade = Math.floor(account.id / 1000000);
       const times = getTimes(grade);
       const timeDisplays = times.map(getDisplayTime);
-      const time = getCurrentTimeCode();
+      const time = getOldCurrentTimeCode();
       const timeIndex = times.indexOf(time);
 
       if (coursesData?.[time]) {
@@ -218,7 +219,7 @@ $Page(PAGE_ID, {
       return showModal("获取失败", err.msg);
     }
 
-    const result = await getUnderCourseTable({ time });
+    const result = await getUnderCourseTableOld({ time });
 
     wx.hideLoading();
     this.state.inited = true;
@@ -237,7 +238,7 @@ $Page(PAGE_ID, {
       });
       this.state.coursesData[time] = courseTable;
       this.state.loginMethod = "check";
-      set(COURSE_DATA_KEY, this.state.coursesData, 6 * MONTH);
+      set(OLD_COURSE_DATA_KEY, this.state.coursesData, 6 * MONTH);
     } else if (result.type === ActionFailType.Expired) {
       this.state.loginMethod = "force";
       retryAction("登录过期", result.msg, () => this.getUnderCourseData(time));
@@ -279,7 +280,7 @@ $Page(PAGE_ID, {
       });
       this.state.coursesData[time] = courseTable;
       this.state.loginMethod = "check";
-      set(COURSE_DATA_KEY, this.state.coursesData, 6 * MONTH);
+      set(OLD_COURSE_DATA_KEY, this.state.coursesData, 6 * MONTH);
     } else if (result.type === ActionFailType.Expired) {
       this.state.loginMethod = "force";
       retryAction("登录过期", result.msg, () => this.getGradCourseData(time));
@@ -337,7 +338,7 @@ $Page(PAGE_ID, {
   }: WechatMiniprogram.TouchEvent<
     Record<never, never>,
     Record<never, never>,
-    { info: CourseTableClassData }
+    { info: OldCourseTableClassData }
   >) {
     const { name, teacher, location, time } = currentTarget.dataset.info;
 

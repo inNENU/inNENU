@@ -1,10 +1,14 @@
 import type { PropType } from "@mptool/all";
 import { $Component, get } from "@mptool/all";
 
-import type { ClassData, CourseTableInfo, TableData } from "./typings.js";
-import { getCurrentTimeCode, getWeekIndex } from "./utils.js";
+import type {
+  OldClassData,
+  OldCourseTableInfo,
+  OldTableData,
+} from "./typings.js";
+import { getOldCurrentTimeCode, getWeekIndex } from "./utils.js";
 import { showModal } from "../../api/index.js";
-import { COURSE_DATA_KEY } from "../../config/index.js";
+import { OLD_COURSE_DATA_KEY } from "../../config/index.js";
 import { getSize } from "../utils.js";
 
 $Component({
@@ -35,8 +39,9 @@ $Component({
   methods: {
     init() {
       const { type } = this.data;
-      const coursesData = get<Record<string, CourseTableInfo>>(COURSE_DATA_KEY);
-      const time = getCurrentTimeCode();
+      const coursesData =
+        get<Record<string, OldCourseTableInfo>>(OLD_COURSE_DATA_KEY);
+      const time = getOldCurrentTimeCode();
 
       if (!coursesData?.[time]) return this.setData({ missing: true });
 
@@ -51,7 +56,7 @@ $Component({
         return this.setCourses(courseData, weekIndex);
     },
 
-    setCourses(courseData: TableData, weekIndex: number) {
+    setCourses(courseData: OldTableData, weekIndex: number) {
       this.setData({
         courseData: courseData.map((row) =>
           row.map((cell) =>
@@ -66,7 +71,7 @@ $Component({
       });
     },
 
-    setTodayCourses(courseData: TableData, weekIndex: number) {
+    setTodayCourses(courseData: OldTableData, weekIndex: number) {
       const now = new Date();
       const isTomorrow = now.getHours() >= 21;
       const day = isTomorrow ? (now.getDay() + 1) % 7 : now.getDay();
@@ -86,7 +91,7 @@ $Component({
     },
 
     setNextCourse(
-      courseData: TableData,
+      courseData: OldTableData,
       currentWeekIndex: number,
       maxWeeks: number,
     ) {
@@ -112,7 +117,7 @@ $Component({
                 : hours >= 8
                   ? 1
                   : 0;
-      let nextCourses: ClassData[] = [];
+      let nextCourses: OldClassData[] = [];
 
       if (!courseData.length) return this.setData({ missing: true });
 
@@ -183,7 +188,7 @@ $Component({
       Record<never, never>,
       Record<never, never>,
       {
-        info: ClassData;
+        info: OldClassData;
       }
     >) {
       const { name, teacher, location, time } = currentTarget.dataset.info;

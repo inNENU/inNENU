@@ -1,0 +1,35 @@
+module.exports = {
+  getWeek: function (week) {
+    var weeks = ["全部课程"];
+    var i = 1;
+
+    while (i <= week) {
+      weeks.push("第" + i + "周");
+      i++;
+    }
+
+    return weeks;
+  },
+
+  isMatchingWeek: function (week, weeks) {
+    return week === 0 || weeks.indexOf(week) >= 0;
+  },
+
+  getLocation: function (week, weeks, locations) {
+    var index = weeks.indexOf(week);
+
+    if (index < 0) {
+      var filtered = [];
+
+      locations.forEach(function (item) {
+        if (filtered.indexOf(item) < 0) {
+          filtered.push(item);
+        }
+      });
+
+      return filtered.join("，");
+    }
+
+    return locations[index];
+  },
+};

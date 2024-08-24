@@ -13,8 +13,8 @@ import {
   isWebVPNPage,
 } from "../../../../service/index.js";
 import type {
-  CourseTableClassData,
-  CourseTableData,
+  OldCourseTableClassData,
+  OldCourseTableData,
 } from "../../../../state/index.js";
 import { getJson } from "../../../../utils/index.js";
 
@@ -26,10 +26,10 @@ const courseCellRegExp =
 const classRegExp =
   /(.+?)<br>(?:.+?)<br>(.+?)<br>\s*<nobr>\s*(\S+?)<nobr><br>(.+?)<br>\s*/g;
 
-const getCourses = (content: string): CourseTableData =>
+const getCourses = (content: string): OldCourseTableData =>
   [...content.matchAll(courseRowRegExp)].map(([, rowContent]) =>
     [...rowContent.matchAll(courseCellRegExp)].map(([, cell]) => {
-      const classMap: Record<string, CourseTableClassData[]> = {};
+      const classMap: Record<string, OldCourseTableClassData[]> = {};
 
       [...cell.matchAll(classRegExp)]
         .map(([, name, teacher, time, location]) => ({
@@ -58,7 +58,7 @@ export interface GradCourseTableOptions {
 
 export interface GradCourseTableSuccessResponse {
   success: true;
-  data: CourseTableData;
+  data: OldCourseTableData;
   startTime: string;
 }
 

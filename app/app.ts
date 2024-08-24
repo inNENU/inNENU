@@ -68,6 +68,9 @@ $Config({
     )
       return `/pkg/tool/pages/${pageName}/${pageName}`;
 
+    if (pageName === "under-course-table")
+      return "/pkg/user/pages/course-table/under";
+
     const name = pageName.startsWith("under-")
       ? pageName.slice(6) + "-under"
       : pageName.startsWith("grad-")

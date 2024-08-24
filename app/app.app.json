@@ -46,6 +46,7 @@
     "pkg/user/pages/account/reset",
     "pkg/user/pages/archive/create-under",
     "pkg/user/pages/archive/view-under",
+    "pkg/user/pages/course-table/under",
     "pkg/user/pages/commentary/under",
     "pkg/user/pages/grade/grade",
     "pkg/user/pages/grade/special",

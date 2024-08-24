@@ -1,19 +1,33 @@
-export type WeekRange = [number, number];
+import type { CourseTableData } from "../../state/index.js";
 
-export interface ClassData {
+export interface CourseTableInfo {
+  table: CourseTableData;
+  maxWeek: number;
+  startTime: string;
+}
+
+/** @deprecated */
+export type OldWeekRange = [number, number];
+
+/** @deprecated */
+export interface OldClassData {
   name: string;
   teacher: string;
   time: string;
   location: string;
-  weeks: WeekRange[];
+  weeks: OldWeekRange[];
 }
 
-export type CellData = ClassData[];
-export type RowData = CellData[];
-export type TableData = RowData[];
+/** @deprecated */
+export type OldCellData = OldClassData[];
+/** @deprecated */
+export type OldRowData = OldCellData[];
+/** @deprecated */
+export type OldTableData = OldRowData[];
 
-export interface CourseTableInfo {
-  courseData: TableData;
+/** @deprecated */
+export interface OldCourseTableInfo {
+  courseData: OldTableData;
   weeks: number;
   startTime: string;
 }

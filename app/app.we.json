@@ -73,6 +73,7 @@
         "pages/account/reset",
         "pages/archive/create-under",
         "pages/archive/view-under",
+        "pages/course-table/under",
         "pages/commentary/under",
         "pages/grade/grade",
         "pages/grade/special",

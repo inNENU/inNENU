@@ -4,7 +4,10 @@ const systemInfo = wx.getSystemInfoSync();
 
 /** 小程序 appid */
 /*@__PURE__*/
-export const appID = wx.getAccountInfoSync().miniProgram.appId as AppID;
+export const appID = (wx.getAccountInfoSync().miniProgram.appId ||
+  wx.getAppBaseInfo?.().host.appId ||
+  // FIXME: Current SDK can not return appid correctly
+  "wx69e79c3d87753512") as AppID;
 
 /** 小程序 appid */
 export type AppID =

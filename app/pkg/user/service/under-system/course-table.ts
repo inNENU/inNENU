@@ -12,8 +12,8 @@ import {
   isWebVPNPage,
 } from "../../../../service/index.js";
 import type {
-  CourseTableClassData,
-  CourseTableData,
+  OldCourseTableClassData,
+  OldCourseTableData,
 } from "../../../../state/index.js";
 import { getJson } from "../../../../utils/index.js";
 
@@ -25,10 +25,10 @@ const courseCellRegExp =
 const classRegExp =
   /<a[^>]*?>(.+?)\s*<br>(.+?)<br>\s*<nobr>\s*(\S+?)<nobr><br>(.+?)<br><br>\s*<\/a>/g;
 
-const getCourses = (content: string): CourseTableData =>
+const getCourses = (content: string): OldCourseTableData =>
   [...content.matchAll(courseRowRegExp)].map(([, rowContent]) =>
     [...rowContent.matchAll(courseCellRegExp)].map(([, cell]) => {
-      const classMap: Record<string, CourseTableClassData[]> = {};
+      const classMap: Record<string, OldCourseTableClassData[]> = {};
 
       [...cell.matchAll(classRegExp)]
         .map(([, name, teacher, time, location]) => ({
@@ -50,27 +50,27 @@ const getCourses = (content: string): CourseTableData =>
     }),
   );
 
-export interface UnderCourseTableOptions {
+export interface UnderCourseTableOldOptions {
   /** 查询时间 */
   time: string;
 }
 
-export interface UnderCourseTableSuccessResponse {
+export interface UnderCourseTableOldSuccessResponse {
   success: true;
-  data: CourseTableData;
+  data: OldCourseTableData;
   startTime: string;
 }
 
-export type UnderCourseTableFailedResponse =
+export type UnderCourseTableOldFailedResponse =
   CommonFailedResponse<ActionFailType.Expired>;
 
-export type UnderCourseTableResponse =
-  | UnderCourseTableSuccessResponse
-  | UnderCourseTableFailedResponse;
+export type UnderCourseTableOldResponse =
+  | UnderCourseTableOldSuccessResponse
+  | UnderCourseTableOldFailedResponse;
 
-const getUnderCourseTableLocal = async ({
+const getUnderCourseTableOldOldLocal = async ({
   time,
-}: UnderCourseTableOptions): Promise<UnderCourseTableResponse> => {
+}: UnderCourseTableOldOptions): Promise<UnderCourseTableOldResponse> => {
   try {
     const semesterStartTime = await getJson<Record<string, string>>(
       "function/data/semester-start-time",
@@ -119,10 +119,10 @@ const getUnderCourseTableLocal = async ({
   }
 };
 
-const getUnderCourseTableOnline = (
-  options: UnderCourseTableOptions,
-): Promise<UnderCourseTableResponse> =>
-  request<UnderCourseTableResponse>("/under-system/course-table", {
+const getUnderCourseTableOldOldOnline = (
+  options: UnderCourseTableOldOptions,
+): Promise<UnderCourseTableOldResponse> =>
+  request<UnderCourseTableOldResponse>("/under-system/course-table", {
     method: "POST",
     body: options,
     cookieScope: UNDER_SYSTEM_SERVER,
@@ -132,8 +132,8 @@ const getUnderCourseTableOnline = (
     return data;
   });
 
-export const getUnderCourseTable = createService(
+export const getUnderCourseTableOld = createService(
   "under-course-table-old",
-  getUnderCourseTableLocal,
-  getUnderCourseTableOnline,
+  getUnderCourseTableOldOldLocal,
+  getUnderCourseTableOldOldOnline,
 );
