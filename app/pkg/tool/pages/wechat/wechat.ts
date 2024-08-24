@@ -35,7 +35,6 @@ $Page(PAGE_ID, {
     logo: "",
     id: "",
     qrcode: "",
-    authorized: false,
     follow: "",
 
     showBackToTop: false,
@@ -92,7 +91,6 @@ $Page(PAGE_ID, {
           desc,
           logo,
           id,
-          authorized = false,
           qrcode = "",
           follow = "",
         } = data;
@@ -104,7 +102,6 @@ $Page(PAGE_ID, {
           logo,
           id,
           qrcode,
-          authorized,
           follow,
         });
 
@@ -182,14 +179,11 @@ $Page(PAGE_ID, {
     never,
     { title: string; url: string }
   >) {
-    const { title, url } = currentTarget.dataset;
+    const { url } = currentTarget.dataset;
 
     if (env === "app") wx.miniapp.openUrl({ url });
     else if (wx.openOfficialAccountArticle)
       wx.openOfficialAccountArticle({ url });
-    else if (this.data.authorized)
-      this.$go(`web?url=${encodeURIComponent(url)}&title=${title}`);
-    // 无法跳转，复制链接到剪切板
     else
       copyContent(url).then(() => {
         showModal(
