@@ -20,11 +20,18 @@ $Component({
       type: Number,
       default: 24,
     },
+    dark: {
+      type: Boolean,
+      default: false,
+    },
   },
 
   lifetimes: {
     attached() {
-      this.setData({ renderer: this.renderer, darkmode: info.darkmode });
+      this.setData({
+        renderer: this.renderer,
+        darkmode: this.data.dark ?? info.darkmode,
+      });
       this.updateLayout();
     },
   },

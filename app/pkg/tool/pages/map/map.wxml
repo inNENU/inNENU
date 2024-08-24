@@ -112,6 +112,7 @@
 <popup
   config="{{locationPopup}}"
   show="{{showLocation}}"
+  dark="{{false}}"
   catch:close="toggleLocationPopup"
 >
   <view

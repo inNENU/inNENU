@@ -8,7 +8,7 @@
 @mixin button() {
   position: fixed;
   background-color: #fff;
-  box-shadow: -1px 3px 5px rgb(219 218 223 / 80%);
+  border: 1px solid #cccccf;
 }
 
 @mixin single-button() {
@@ -199,7 +199,7 @@
   background-color: #fff !important;
 }
 
-.popup-head-title {
+.popup-header-title {
   .title {
     color: #000 !important;
   }
