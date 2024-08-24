@@ -6,13 +6,7 @@ import type {
   LocationConfig,
 } from "../../../typings/index.js";
 import { showToast } from "../../api/index.js";
-
-const getPoint = (point: LocationConfig & { id: number }): string =>
-  JSON.stringify({
-    name: point.name,
-    latitude: point.latitude,
-    longitude: point.longitude,
-  });
+import { getLocation } from "../../utils/index.js";
 
 $Component({
   props: {
@@ -40,6 +34,7 @@ $Component({
           name: config.title,
           detail: point.path ? "详情" : "",
           id: index,
+          ...getLocation(point.loc),
           ...point,
         })),
       });
@@ -52,10 +47,9 @@ $Component({
           .select("#location")
           .context(({ context }) => {
             (context as WechatMiniprogram.MapContext).includePoints({
-              points: this.data.config.points.map((point) => ({
-                longitude: point.longitude,
-                latitude: point.latitude,
-              })),
+              points: this.data.config.points.map(({ loc }) =>
+                getLocation(loc),
+              ),
               padding: [24, 24, 24, 24],
             });
           })
@@ -79,42 +73,36 @@ $Component({
       const { id, hasDetail } = this.data;
 
       if (hasDetail) {
-        const point = this.data.markers[id];
+        const { path, loc } = this.data.markers[id];
 
-        this.$go(`map-detail?id=${point.path!}&point=${getPoint(point)}`);
+        this.$go(`map-detail?id=${path!}&loc=${loc}`);
       }
     },
 
     onMarkerTap({ detail }: WechatMiniprogram.MarkerTap) {
       const id = detail.markerId;
-      const point = this.data.markers[id];
+      const { name, path } = this.data.markers[id];
 
-      this.setData({ id, title: point.name, hasDetail: Boolean(point.path) });
+      this.setData({ id, title: name, hasDetail: Boolean(path) });
 
-      if (point.path) this.$preload(`map-detail?id=${point.path}`);
+      if (path) this.$preload(`map-detail?id=${path}`);
     },
 
     onCalloutTap({ detail }: WechatMiniprogram.CalloutTap) {
-      const point = this.data.markers[detail.markerId];
+      const { path, loc } = this.data.markers[detail.markerId];
       const { navigate } = this.data.config;
 
-      if (point.path)
-        this.$go(`map-detail?id=${point.path}&point=${getPoint(point)}`);
+      if (path) this.$go(`map-detail?id=${path}&loc=${loc}`);
       else if (navigate !== false)
         this.startNavigation(this.data.markers[detail.markerId]);
     },
 
-    startNavigation({
-      latitude,
-      longitude,
-      name,
-    }: LocationConfig & { id: number }) {
+    startNavigation({ loc, name }: LocationConfig & { id: number }) {
       this.createSelectorQuery()
         .select("#location")
         .context(({ context }) => {
           (context as WechatMiniprogram.MapContext).openMapApp({
-            latitude,
-            longitude,
+            ...getLocation(loc),
             destination: name || this.data.config.title,
           });
         })

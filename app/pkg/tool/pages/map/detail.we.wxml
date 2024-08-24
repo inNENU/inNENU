@@ -38,7 +38,7 @@
     <view class="title">
       {{page.title}}
       <button
-        wx:if="{{point}}"
+        wx:if="{{loc}}"
         type="primary"
         size="mini"
         class="navigate primary"

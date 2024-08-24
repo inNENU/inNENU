@@ -6,13 +6,7 @@ import type {
   LocationConfig,
 } from "../../../typings/index.js";
 import { info } from "../../state/index.js";
-
-const getPoint = (point: LocationConfig & { id: number }): string =>
-  JSON.stringify({
-    name: point.name,
-    latitude: point.latitude,
-    longitude: point.longitude,
-  });
+import { getLocation, getPointConfig } from "../../utils/index.js";
 
 $Component({
   props: {
@@ -40,6 +34,7 @@ $Component({
           name: config.title,
           detail: "详情",
           id: index,
+          ...getLocation(point.loc),
           ...point,
         })),
       });
@@ -50,7 +45,9 @@ $Component({
       setTimeout(() => {
         // FIXME: fix crash on iOS
         if (this.data.config.points.length === 1 && info.platform === "ios") {
-          const { latitude, longitude } = this.data.config.points[0];
+          const { latitude, longitude } = getLocation(
+            this.data.config.points[0].loc,
+          );
 
           this.setData({
             includePoints: [
@@ -61,10 +58,9 @@ $Component({
           });
         } else {
           this.setData({
-            includePoints: this.data.config.points.map((point) => ({
-              longitude: point.longitude,
-              latitude: point.latitude,
-            })),
+            includePoints: this.data.config.points.map(({ loc }) =>
+              getLocation(loc),
+            ),
           });
         }
       }, 500);
@@ -78,7 +74,7 @@ $Component({
       if (hasDetail) {
         const point = this.data.markers[id];
 
-        this.$go(`map-detail?id=${point.path!}&point=${getPoint(point)}`);
+        this.$go(`map-detail?id=${point.path!}&point=${getPointConfig(point)}`);
       }
     },
 

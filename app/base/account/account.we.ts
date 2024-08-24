@@ -69,9 +69,7 @@ $Component({
     },
 
     navigate(): void {
-      const { location, name } = this.data.config;
-
-      startNavigation(JSON.stringify({ name, ...location }));
+      startNavigation(this.data.config);
     },
   },
 });

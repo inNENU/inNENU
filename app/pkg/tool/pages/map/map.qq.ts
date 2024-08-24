@@ -10,7 +10,12 @@ import type {
 import { showModal, showToast } from "../../../../api/index.js";
 import { appCoverPrefix } from "../../../../config/index.js";
 import { info } from "../../../../state/index.js";
-import { ensureJson, getJson, showNotice } from "../../../../utils/index.js";
+import {
+  ensureJson,
+  getJson,
+  getLocation,
+  showNotice,
+} from "../../../../utils/index.js";
 import type { Area } from "../../utils/index.js";
 import { benbuArea, jingyueArea } from "../../utils/index.js";
 
@@ -150,8 +155,16 @@ $Page(PAGE_ID, {
   setMarker() {
     const promises = ["benbu", "jingyue"].map((path) =>
       getJson<MarkerConfig>(`function/map/marker/${path}`)
-        .then((markerData) => {
-          this.state[path as Area] = markerData;
+        .then(({ category, marker }) => {
+          this.state[path as Area] = {
+            category,
+            marker: Object.fromEntries(
+              Object.entries(marker).map(([key, value]) => [
+                key,
+                value.map((item) => ({ ...item, ...getLocation(item.loc) })),
+              ]),
+            ),
+          };
         })
         .catch((err) => {
           logger.error("Marked failed with", err);
@@ -227,13 +240,7 @@ $Page(PAGE_ID, {
       if (item.path) this.$preload(`map-detail?id=${area}/${item.path}`);
     } else if (event.type === "callouttap") {
       if (item.path) {
-        const point = JSON.stringify({
-          latitude: item.latitude,
-          longitude: item.longitude,
-          name: item.name,
-        });
-
-        this.$go(`map-detail?id=${area}/${item.path}&point=${point}`);
+        this.$go(`map-detail?id=${area}/${item.path}&loc=${item.loc}`);
       } else {
         showToast("该地点暂无详情");
       }

@@ -11,6 +11,7 @@ import { info } from "../../../../state/index.js";
 import {
   ensureJson,
   getJson,
+  getLocation,
   showNotice,
   startNavigation,
 } from "../../../../utils/index.js";
@@ -179,8 +180,16 @@ $Page(PAGE_ID, {
   setMarker() {
     const promises = ["benbu", "jingyue"].map((path) =>
       getJson<MarkerConfig>(`function/map/marker/${path}`)
-        .then((markerData) => {
-          this.state[path as Area] = markerData;
+        .then(({ category, marker }) => {
+          this.state[path as Area] = {
+            category,
+            marker: Object.fromEntries(
+              Object.entries(marker).map(([key, value]) => [
+                key,
+                value.map((item) => ({ ...item, ...getLocation(item.loc) })),
+              ]),
+            ),
+          };
         })
         .catch((err) => {
           logger.error("Marked failed with", err);
@@ -268,27 +277,24 @@ $Page(PAGE_ID, {
       // eslint-disable-next-line @typescript-eslint/naming-convention
       "locationPopup.title": name,
     });
-    this.context.includePoints({ padding: [30, 20, 30, 20], points: markers });
+    this.context.includePoints({
+      padding: [30, 20, 30, 20],
+      points: markers.map((item) => ({ ...item, ...getLocation(item.loc) })),
+    });
   },
 
   markerTap(event: WechatMiniprogram.MarkerTap) {
     const { area, currentCategory } = this.data;
 
-    const item = this.data.marker[currentCategory].find(
+    const { path, loc } = this.data.marker[currentCategory].find(
       (item) => item.id === event.detail.markerId,
     )!;
 
     if (event.type === "markertap") {
-      if (item.path) this.$preload(`map-detail?id=${area}/${item.path}`);
+      if (path) this.$preload(`map-detail?id=${area}/${path}`);
     } else if (event.type === "callouttap") {
-      if (item.path) {
-        const point = JSON.stringify({
-          latitude: item.latitude,
-          longitude: item.longitude,
-          name: item.name,
-        });
-
-        this.$go(`map-detail?id=${area}/${item.path}&point=${point}`);
+      if (path) {
+        this.$go(`map-detail?id=${area}/${path}&loc=${loc}`);
       } else {
         showToast("该地点暂无详情");
       }
@@ -304,24 +310,22 @@ $Page(PAGE_ID, {
   },
 
   navigate({ currentTarget }: WechatMiniprogram.TouchEvent) {
-    const { name, latitude, longitude } = this.data.marker.all.find(
+    const { name, loc } = this.data.marker.all.find(
       (item) => item.id === Number(currentTarget.dataset.id),
     )!;
 
-    startNavigation(JSON.stringify({ latitude, longitude, name }));
+    startNavigation({ name, loc });
   },
 
   openLocation({ currentTarget }: WechatMiniprogram.TouchEvent) {
     const { area, currentCategory } = this.data;
 
-    const { name, latitude, longitude, path } = this.data.marker[
-      currentCategory
-    ].find((item) => item.id === currentTarget.dataset.id)!;
+    const { loc, path } = this.data.marker[currentCategory].find(
+      (item) => item.id === currentTarget.dataset.id,
+    )!;
 
     if (path) {
-      const point = JSON.stringify({ latitude, longitude, name });
-
-      this.$go(`map-detail?id=${area}/${path}&point=${point}`);
+      this.$go(`map-detail?id=${area}/${path}&loc=${loc}}`);
     } else {
       showToast("该地点暂无详情");
     }

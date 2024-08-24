@@ -17,7 +17,7 @@ const { globalData } = getApp<App>();
 $Page("map-detail", {
   data: {
     page: {} as PageState,
-    point: "",
+    loc: null as `${number},${number}` | null,
   },
 
   state: { id: "" },
@@ -29,7 +29,7 @@ $Page("map-detail", {
   },
 
   onLoad(option) {
-    const { id, point = "" } = option;
+    const { id, loc } = option;
 
     if (id) {
       if (globalData.page.id === id) setPage({ option, ctx: this });
@@ -54,7 +54,7 @@ $Page("map-detail", {
     this.setData({
       statusBarHeight: info.statusBarHeight,
       firstPage: getCurrentPages().length === 1,
-      point,
+      ...(loc ? { loc: loc as `${number},${number}` } : {}),
     });
   },
 
@@ -64,32 +64,32 @@ $Page("map-detail", {
   },
 
   onShareAppMessage(): WechatMiniprogram.Page.ICustomShareContent {
-    const { page, point } = this.data;
+    const { page, loc } = this.data;
 
     return {
       title: page.title,
       path: `/pkg/tool/pages/map/detail?id=${this.state.id}${
-        point ? `&point=${point}` : ""
+        loc ? `&loc=${loc}` : ""
       }`,
     };
   },
 
   onShareTimeline(): WechatMiniprogram.Page.ICustomTimelineContent {
-    const { page, point } = this.data;
+    const { page, loc } = this.data;
 
     return {
       title: page.title,
-      query: `id=${this.state.id}${point ? `&point=${point}` : ""}`,
+      query: `id=${this.state.id}${loc ? `&loc=${loc}` : ""}`,
     };
   },
 
   onAddToFavorites(): WechatMiniprogram.Page.IAddToFavoritesContent {
-    const { page, point } = this.data;
+    const { page, loc } = this.data;
 
     return {
       title: page.title,
       imageUrl: `${appCoverPrefix}.jpg`,
-      query: `id=${this.state.id}${point ? `&point=${point}` : ""}`,
+      query: `id=${this.state.id}${loc ? `&loc=${loc}` : ""}`,
     };
   },
 
@@ -97,6 +97,8 @@ $Page("map-detail", {
 
   /** 开启导航 */
   navigate() {
-    startNavigation(this.data.point);
+    const { loc, page } = this.data;
+
+    startNavigation({ name: page.title ?? "目的地", loc: loc! });
   },
 });
