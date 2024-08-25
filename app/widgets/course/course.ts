@@ -177,7 +177,7 @@ $Component({
     },
 
     courseTable() {
-      this.$go("course-table");
+      this.$go("under-course-table");
     },
 
     showClassInfo({
