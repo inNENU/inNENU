@@ -58,7 +58,6 @@
     "pkg/user/pages/select/under",
 
     "pkg/user/pages/change-major/change-major",
-    "pkg/user/pages/course-table/course-table",
     "pkg/user/pages/exam-place/exam-place"
   ],
   "window": {

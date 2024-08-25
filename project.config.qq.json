@@ -250,12 +250,7 @@
           "query": "",
           "scene": null
         },
-        {
-          "name": "旧课程表",
-          "pathName": "pkg/user/pages/course-table/course-table",
-          "query": "",
-          "scene": null
-        },
+
         {
           "name": "本科课程表",
           "pathName": "pkg/user/pages/course-table/under",

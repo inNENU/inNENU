@@ -73,7 +73,6 @@
         "pages/select/under",
 
         "pages/change-major/change-major",
-        "pages/course-table/course-table",
         "pages/exam-place/exam-place"
       ]
     }
