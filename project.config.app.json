@@ -309,8 +309,8 @@
           "scene": null
         },
         {
-          "name": "成绩",
-          "pathName": "pkg/user/pages/grade/grade",
+          "name": "本科成绩",
+          "pathName": "pkg/user/pages/grade/under",
           "query": "",
           "launchMode": "default",
           "scene": null

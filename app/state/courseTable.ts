@@ -12,16 +12,14 @@ export type CourseTableRowData = CourseTableCellData[];
 export type CourseTableData = CourseTableRowData[];
 
 /** @deprecated */
-export interface OldCourseTableClassData {
-  name: string;
+export interface LegacyCourseTableClassData extends CourseTableClassData {
   teacher: string;
-  time: string;
   location: string;
 }
 
 /** @deprecated */
-export type OldCourseTableCellData = OldCourseTableClassData[];
+export type LegacyCourseTableCellData = LegacyCourseTableClassData[];
 /** @deprecated */
-export type OldCourseTableRowData = OldCourseTableCellData[];
+export type LegacyCourseTableRowData = LegacyCourseTableCellData[];
 /** @deprecated */
-export type OldCourseTableData = OldCourseTableRowData[];
+export type LegacyCourseTableData = LegacyCourseTableRowData[];

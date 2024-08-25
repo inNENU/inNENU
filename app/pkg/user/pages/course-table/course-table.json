@@ -1,8 +1,0 @@
-{
-  "navigationBarTitleText": "课程表",
-  "usingComponents": {
-    "login-hint": "/components/login-hint/login-hint",
-    "header": "/components/header/header",
-    "popup": "/components/popup/popup"
-  }
-}

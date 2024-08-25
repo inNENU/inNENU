@@ -1,0 +1,15 @@
+module.exports = {
+  headers: [
+    "课程名称",
+    "成绩",
+    "学分",
+    "课程类别",
+    "修读时间",
+    "学时",
+    "考试类型",
+  ],
+
+  getGradeState: function (grade) {
+    return grade === 0 ? "absent" : grade < 60 ? "failed" : "normal";
+  },
+};

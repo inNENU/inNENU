@@ -9,34 +9,18 @@ import {
 import { envName, info, user } from "../../../../state/index.js";
 import { getPageColor, showNotice } from "../../../../utils/index.js";
 import type {
-  GradGradeResult,
   UnderGradeListOptions,
   UnderGradeResult,
 } from "../../service/index.js";
-import {
-  getGradGradeList,
-  getUnderGradeDetail,
-  getUnderGradeList,
-} from "../../service/index.js";
+import { getUnderGradeDetail, getUnderGradeList } from "../../service/index.js";
 
-const PAGE_ID = "grade";
-const PAGE_TITLE = "成绩查询";
-const underKeys = [
+const PAGE_ID = "under-grade";
+const PAGE_TITLE = "本科成绩查询";
+const keys = [
   "name",
   "grade",
   "point",
   "shortCourseType",
-  "time",
-  "hours",
-  "examType",
-] as const;
-const gradKeys = [
-  "name",
-  "grade",
-  "point",
-  "gradePoint",
-  "courseCategory",
-  "courseType",
   "time",
   "hours",
   "examType",
@@ -82,13 +66,12 @@ $Page(PAGE_ID, {
   data: {
     title: PAGE_TITLE,
 
-    grades: [] as UnderGradeResult[] | GradGradeResult[],
+    grades: [] as UnderGradeResult[],
 
     type: "",
     timeIndex: 0,
 
     showMark: false,
-    showRelearn: false,
     totalPoint: 0,
     totalCommonRequiredPoint: 0,
     totalCommonOptionalPoint: 0,
@@ -102,7 +85,7 @@ $Page(PAGE_ID, {
     sortIndex: -1,
     ascending: false,
 
-    desc: "数据来自教务处教学服务系统，请以各学院实际安排与认定为准。",
+    desc: "数据来自教务处本科教学服务系统，请以各学院实际安排与认定为准。",
 
     needLogin: false,
   },
@@ -134,28 +117,23 @@ $Page(PAGE_ID, {
         );
       }
 
+      if (info.typeId !== "bks")
+        return showModal("暂不支持", "仅本科生可使用本科成绩查询。");
+
       if (!this.state.inited || this.data.needLogin) {
-        const type = info.typeId === "bks" ? "under" : "grad";
         const timeConfig = getTimeConfig(info.grade);
-        const grades = get<UnderGradeResult[] | GradGradeResult[]>(
-          GRADE_DATA_KEY,
-        );
+        const grades = get<UnderGradeResult[]>(GRADE_DATA_KEY);
 
         this.state.timeConfig = timeConfig;
         this.setData({
           timeDisplays: ["全部学期", ...timeConfig.display],
-          type,
         });
 
         if (grades) {
           this.setGradeData(grades);
-          this[type === "under" ? "setUnderStatistics" : "setGradStatistics"](
-            // @ts-expect-error: Type is a union
-            grades,
-          );
+          this.setStatistics(grades);
         } else {
-          if (type === "under") this.getUnderGradeList();
-          else this.getGradGradeList();
+          this.getGradeList();
         }
       }
     }
@@ -174,7 +152,7 @@ $Page(PAGE_ID, {
     imageUrl: `${appCoverPrefix}.jpg`,
   }),
 
-  async getUnderGradeList(options: UnderGradeListOptions = {}) {
+  async getGradeList(options: UnderGradeListOptions = {}) {
     wx.showLoading({ title: "获取中" });
 
     const result = await getUnderGradeList(options);
@@ -190,35 +168,14 @@ $Page(PAGE_ID, {
       3 * HOUR,
     );
     this.setGradeData(result.data);
-    if (!options.time) this.setUnderStatistics(result.data);
+    if (!options.time) this.setStatistics(result.data);
   },
 
-  async getGradGradeList() {
-    wx.showLoading({ title: "获取中" });
-
-    const result = await getGradGradeList();
-
-    wx.hideLoading();
-    this.state.inited = true;
-
-    if (!result.success) return showModal("获取失败", result.msg);
-
-    set(`${GRADE_DATA_KEY}`, result.data, 3 * HOUR);
-    this.setGradeData(result.data);
-    this.setGradStatistics(result.data);
-  },
-
-  setGradeData(grades: UnderGradeResult[] | GradGradeResult[]) {
-    const { type } = this.data;
+  setGradeData(grades: UnderGradeResult[]) {
     const showMark = grades.some((item) => item.mark);
-    const showRelearn =
-      type === "under"
-        ? false
-        : (grades as GradGradeResult[]).some((item) => item.reLearn);
 
-    const numberValueIndex = (type === "under" ? underKeys : gradKeys)
+    const numberValueIndex = keys
       .map((key, index) =>
-        // @ts-expect-error: Type is a union
         grades.some((item) => Number.isNaN(Number(item[key]))) ? null : index,
       )
       .filter((item): item is number => item !== null);
@@ -227,15 +184,14 @@ $Page(PAGE_ID, {
 
     this.setData({
       // 默认通过时间排序
-      grades: (grades as UnderGradeResult[]).sort((itemA, itemB) =>
+      grades: grades.sort((itemA, itemB) =>
         itemB.time?.localeCompare(itemA.time),
       ),
       showMark,
-      showRelearn,
     });
   },
 
-  setUnderStatistics(grades: UnderGradeResult[]) {
+  setStatistics(grades: UnderGradeResult[]) {
     const gradeMap = new Map<string, UnderGradeResult>();
 
     grades.forEach((item) => {
@@ -278,7 +234,7 @@ $Page(PAGE_ID, {
     );
 
     const gpa = Math.round((totalGradePoint / totalPoint) * 100) / 100;
-    const numberValueIndex = underKeys
+    const numberValueIndex = keys
       .map((key, index) =>
         grades.some((item) => Number.isNaN(Number(item[key]))) ? null : index,
       )
@@ -299,72 +255,6 @@ $Page(PAGE_ID, {
     });
   },
 
-  setGradStatistics(grades: GradGradeResult[]) {
-    const gradeMap = new Map<string, GradGradeResult>();
-
-    grades.forEach((item) => {
-      if (
-        item.grade >= 60 &&
-        (!gradeMap.has(item.name) ||
-          item.grade > gradeMap.get(item.name)!.grade)
-      ) {
-        gradeMap.set(item.name, item);
-      }
-    });
-
-    const filteredData = Array.from(gradeMap.values());
-
-    const totalPoint = filteredData.reduce(
-      (total, { point }) => total + point,
-      0,
-    );
-    const totalCommonRequiredPoint = filteredData
-      .filter(
-        ({ courseCategory, courseType }) =>
-          courseCategory.includes("公共") && courseType.includes("必修"),
-      )
-      .reduce((total, { point }) => total + point, 0);
-    const totalCommonOptionalPoint = filteredData
-      .filter(
-        ({ courseCategory, courseType }) =>
-          courseCategory.includes("公共") && courseType.includes("选修"),
-      )
-      .reduce((total, { point }) => total + point, 0);
-    const totalBasePoint = filteredData
-      .filter(({ courseCategory }) => courseCategory === "学科基础课")
-      .reduce((total, { point }) => total + point, 0);
-    const totalMajorMainPoint = filteredData
-      .filter(({ courseCategory }) => courseCategory === "专业主干课")
-      .reduce((total, { point }) => total + point, 0);
-    const totalMajorOptionalPoint = filteredData
-      .filter(({ courseCategory }) => courseCategory === "专业选修课")
-      .reduce((total, { point }) => total + point, 0);
-
-    const totalGradePoint = filteredData.reduce(
-      (total, { gradePoint }) => total + gradePoint,
-      0,
-    );
-    const gpa = Math.round((totalGradePoint / totalPoint) * 100) / 100;
-    const numberValueIndex = gradKeys
-      .map((key, index) =>
-        grades.some((item) => Number.isNaN(Number(item[key]))) ? null : index,
-      )
-      .filter((item): item is number => item !== null);
-
-    this.state.numberValueIndex = numberValueIndex;
-
-    this.setData({
-      totalPoint,
-      totalCommonRequiredPoint,
-      totalCommonOptionalPoint,
-      totalBasePoint,
-      totalMajorMainPoint,
-      totalMajorOptionalPoint,
-      totalGradePoint: Math.round(totalGradePoint * 100) / 100,
-      gpa,
-    });
-  },
-
   changeTime({ detail }: WechatMiniprogram.PickerChange) {
     const timeIndex = Number(detail.value);
     const { timeIndex: timeOldIndex } = this.data;
@@ -374,11 +264,11 @@ $Page(PAGE_ID, {
       const time = timeConfig.under[timeIndex - 1];
 
       this.setData({ timeIndex });
-      this.getUnderGradeList(time ? { time } : {});
+      this.getGradeList(time ? { time } : {});
     }
   },
 
-  sortUnderResults({
+  sortResults({
     currentTarget,
   }: WechatMiniprogram.TouchEvent<
     Record<never, never>,
@@ -395,49 +285,11 @@ $Page(PAGE_ID, {
         grades: grades.reverse(),
       });
     } else {
-      const key = underKeys[index];
+      const key = keys[index];
 
       this.setData({
         sortIndex: index,
-        grades: (grades as UnderGradeResult[]).sort((itemA, itemB) => {
-          if (!itemA[key]) return 1;
-          if (!itemB[key]) return -1;
-
-          if (numberValueIndex.includes(index))
-            return ascending
-              ? Number(itemA[key]) - Number(itemB[key])
-              : Number(itemB[key]) - Number(itemA[key]);
-
-          return ascending
-            ? (itemA[key] as string)?.localeCompare(itemB[key] as string)
-            : (itemB[key] as string)?.localeCompare(itemA[key] as string);
-        }),
-      });
-    }
-  },
-
-  sortGradResults({
-    currentTarget,
-  }: WechatMiniprogram.TouchEvent<
-    Record<never, never>,
-    Record<never, never>,
-    { index: number }
-  >) {
-    const { index } = currentTarget.dataset;
-    const { ascending, sortIndex, grades } = this.data;
-    const { numberValueIndex } = this.state;
-
-    if (index === sortIndex) {
-      this.setData({
-        ascending: !ascending,
-        grades: grades.reverse(),
-      });
-    } else {
-      const key = gradKeys[index];
-
-      this.setData({
-        sortIndex: index,
-        grades: (grades as GradGradeResult[]).sort((itemA, itemB) => {
+        grades: grades.sort((itemA, itemB) => {
           if (!itemA[key]) return 1;
           if (!itemB[key]) return -1;
 
@@ -463,7 +315,7 @@ $Page(PAGE_ID, {
   >) {
     const { index } = currentTarget.dataset;
     const { grades } = this.data;
-    const { name, gradeCode, mark } = grades[index] as UnderGradeResult;
+    const { name, gradeCode, mark } = grades[index];
 
     getUnderGradeDetail(gradeCode).then((res) => {
       if (res.success)

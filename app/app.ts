@@ -44,7 +44,7 @@ $Config({
       return `/pkg/addon/pages/settings/widget`;
 
     // handle multi-word path in account sub package
-    if (["change-major", "course-table", "exam-place"].includes(pageName))
+    if (["change-major", "exam-place"].includes(pageName))
       return `/pkg/user/pages/${pageName}/${pageName}`;
 
     if (pageName === "under-major-plan")

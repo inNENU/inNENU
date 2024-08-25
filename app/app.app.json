@@ -48,7 +48,7 @@
     "pkg/user/pages/archive/view-under",
     "pkg/user/pages/course-table/under",
     "pkg/user/pages/commentary/under",
-    "pkg/user/pages/grade/grade",
+    "pkg/user/pages/grade/under",
     "pkg/user/pages/grade/special",
     "pkg/user/pages/email/apply",
     "pkg/user/pages/email/recent",

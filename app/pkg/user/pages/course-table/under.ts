@@ -22,7 +22,7 @@ import {
 } from "../../../../widgets/course/utils.js";
 import { getUnderCourseTable } from "../../service/index.js";
 
-const PAGE_ID = "course-table";
+const PAGE_ID = "under-course-table";
 const PAGE_TITLE = "本科课程表";
 
 const getDisplayTime = (time: string): string => {

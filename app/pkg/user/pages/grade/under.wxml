@@ -1,4 +1,4 @@
-<wxs src="./grade.wxs" module="grade" />
+<wxs src="./under.wxs" module="grade" />
 <page-meta
   background-text-style="{{darkmode ? 'dark' : 'light'}}"
   background-color="{{color.bgColor}}"
@@ -15,16 +15,15 @@
         class="refresh-button"
         type="default"
         size="mini"
-        catch:tap="{{type === 'under' ? 'getUnderGradeList' : 'getGradGradeList'}}"
+        catch:tap="getGradeList"
       >
         <text class="refresh-button-icon" />
       </button>
       <picker
-        wx:if="{{type === 'under'}}"
         class="picker"
         range="{{timeDisplays}}"
         value="{{timeIndex}}"
-        bindchange="{{type === 'under' ? 'changeTime' : ''}}"
+        bindchange="changeTime"
       >
         {{(timeDisplays[timeIndex])}}
       </picker>
@@ -35,18 +34,17 @@
         <view class="table">
           <view class="table-headers">
             <view
-              wx:for="{{grade.getHeaders(type)}}"
+              wx:for="{{grade.headers}}"
               wx:for-item="item"
               wx:for-index="index"
               class="table-header"
               data-index="{{index}}"
-              catch:tap="{{ type === 'under'? 'sortUnderResults': 'sortGradResults'}}"
+              catch:tap="sortResults"
             >
               <text class="text">{{item}}</text>
               {{sortIndex === index ? ascending ? '↑': '↓' : ''}}
             </view>
             <view wx:if="{{showMark}}" class="table-header">成绩标识</view>
-            <view wx:if="{{showRelearn}}" class="table-header">补重学期</view>
           </view>
 
           <view
@@ -54,35 +52,23 @@
             wx:for-item="item"
             class="table-row"
             data-index="{{index}}"
-            catch:tap="{{type === 'under'? 'showScoreDetail': ''}}"
+            catch:tap="showScoreDetail"
           >
             <view class="cell name">{{item.name}}</view>
             <view class="cell grade {{grade.getGradeState(item.grade)}}"
               >{{item.gradeText || item.grade}}</view
             >
             <view class="cell point">{{item.point}}</view>
-            <view wx:if="{{type === 'grad'}}" class="cell grade-point"
-              >{{item.gradePoint}}</view
-            >
-            <view wx:if="{{type === 'under'}}" class="cell course-type"
-              >{{item.shortCourseType}}</view
-            >
-            <block wx:else>
-              <view class="cell course-category">{{item.courseCategory}}</view>
-              <view class="cell course-type">{{item.courseType}}</view>
-            </block>
+            <view class="cell course-type">{{item.shortCourseType}}</view>
             <view class="cell time">{{item.time}}</view>
             <view class="cell time">{{item.hours || ''}}</view>
             <view class="cell examType">{{item.examType}}</view>
             <view wx:if="{{showMark}}" class="cell mark">{{item.mark}}</view>
-            <view wx:if="{{showRelearn}}" class="cell relearn"
-              >{{grade.reLearn}}</view
-            >
           </view>
         </view>
       </scroll-view>
       <view class="header">数据统计</view>
-      <view wx:if="{{type === 'under'}}" class="information">
+      <view class="information">
         <text class="label">通识必修课总学分:</text>
         <text class="value">{{totalCommonRequiredPoint}}</text>
 
@@ -100,31 +86,6 @@
 
         <text class="label">教师职业选修课总学分:</text>
         <text class="value">{{totalTeacherOptionalPoint}}</text>
-
-        <text class="label">总学分:</text>
-        <text class="value">{{totalPoint}}</text>
-
-        <text class="label">总绩点:</text>
-        <text class="value">{{totalGradePoint}}</text>
-
-        <text class="label">平均绩点:</text>
-        <text class="value">{{gpa}}</text>
-      </view>
-      <view wx:else class="information">
-        <text class="label">公共必修课总学分:</text>
-        <text class="value">{{totalCommonRequiredPoint}}</text>
-
-        <text class="label">公共选修课总学分:</text>
-        <text class="value">{{totalCommonOptionalPoint}}</text>
-
-        <text class="label">学科基础课总学分:</text>
-        <text class="value">{{totalBasePoint}}</text>
-
-        <text class="label">专业主干课总学分:</text>
-        <text class="value">{{totalMajorMainPoint}}</text>
-
-        <text class="label">专业选修课总学分:</text>
-        <text class="value">{{totalMajorOptionalPoint}}</text>
 
         <text class="label">总学分:</text>
         <text class="value">{{totalPoint}}</text>
