@@ -20,9 +20,9 @@ $Component({
       type: Number,
       default: 24,
     },
-    dark: {
-      type: Boolean,
-      default: false,
+    theme: {
+      type: String as PropType<"light" | "dark">,
+      default: "",
     },
   },
 
@@ -30,7 +30,12 @@ $Component({
     attached() {
       this.setData({
         renderer: this.renderer,
-        darkmode: this.data.dark ?? info.darkmode,
+        darkmode:
+          this.data.theme === "light"
+            ? true
+            : this.data.theme === "dark"
+              ? false
+              : info.darkmode,
       });
       this.updateLayout();
     },
