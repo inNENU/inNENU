@@ -10,10 +10,10 @@
       <text>
         在您使用 {{appName}} 的当前服务前，请仔细阅读<text
           class="license-link"
-          data-url="license"
+          data-url="license?type=privacy"
           catch:tap="$bindGo"
           >《隐私政策》</text
-        >。如果您完全同意我们的<text>《隐私政策》</text>，请点击“同意”开始使用。</text
+        >。如果您完全同意我们的《隐私政策》，请点击“同意”开始使用。</text
       >
     </view>
     <view class="license-footer">
