@@ -89,7 +89,7 @@
           <view class="course-table-body">
             <view
               class="course-table-row"
-              wx:for="{{courseData}}"
+              wx:for="{{table}}"
               wx:for-item="row"
               wx:for-index="rowIndex"
             >

@@ -1,14 +1,14 @@
 import type { PropType } from "@mptool/all";
 import { $Component, get } from "@mptool/all";
 
-import type {
-  OldClassData,
-  OldCourseTableInfo,
-  OldTableData,
-} from "./typings.js";
-import { getOldCurrentTimeCode, getWeekIndex } from "./utils.js";
+import type { CourseTableInfo } from "./typings.js";
+import { getCurrentTimeCode, getWeekIndex } from "./utils.js";
 import { showModal } from "../../api/index.js";
-import { OLD_COURSE_DATA_KEY } from "../../config/index.js";
+import { COURSE_DATA_KEY } from "../../config/index.js";
+import type {
+  CourseTableClassData,
+  CourseTableData,
+} from "../../state/index.js";
 import { getSize } from "../utils.js";
 
 $Component({
@@ -39,50 +39,50 @@ $Component({
   methods: {
     init() {
       const { type } = this.data;
-      const coursesData =
-        get<Record<string, OldCourseTableInfo>>(OLD_COURSE_DATA_KEY);
-      const time = getOldCurrentTimeCode();
+      const coursesData = get<Record<string, CourseTableInfo>>(COURSE_DATA_KEY);
+      const time = getCurrentTimeCode();
 
       if (!coursesData?.[time]) return this.setData({ missing: true });
 
-      const { courseData, weeks, startTime } = coursesData[time];
-      const weekIndex = getWeekIndex(startTime, weeks);
+      const { table, maxWeek, startTime } = coursesData[time];
+      const weekIndex = getWeekIndex(startTime, maxWeek);
 
       if (type.includes("今日课程"))
-        return this.setTodayCourses(courseData, weekIndex);
+        return this.setTodayCourses(table, weekIndex);
       if (type.includes("下节课程"))
-        return this.setNextCourse(courseData, weekIndex, weeks);
-      if (type.includes("课程表"))
-        return this.setCourses(courseData, weekIndex);
+        return this.setNextCourse(table, weekIndex, maxWeek);
+      if (type.includes("课程表")) return this.setCourses(table, weekIndex);
     },
 
-    setCourses(courseData: OldTableData, weekIndex: number) {
+    setCourses(table: CourseTableData, weekIndex: number) {
       this.setData({
-        courseData: courseData.map((row) =>
+        table: table.map((row) =>
           row.map((cell) =>
-            cell.filter((course) =>
-              course.weeks.some(
-                ([start, end]) => weekIndex >= start && weekIndex <= end,
-              ),
-            ),
+            cell
+              .filter((course) => course.weeks.includes(weekIndex))
+              .map((course) => ({
+                ...course,
+                location: course.locations[course.weeks.indexOf(weekIndex)],
+              })),
           ),
         ),
         missing: false,
       });
     },
 
-    setTodayCourses(courseData: OldTableData, weekIndex: number) {
+    setTodayCourses(table: CourseTableData, weekIndex: number) {
       const now = new Date();
       const isTomorrow = now.getHours() >= 21;
       const day = isTomorrow ? (now.getDay() + 1) % 7 : now.getDay();
       const dayIndex = day === 0 ? 6 : day - 1;
 
-      const todayCourses = courseData.map((row) =>
-        row[dayIndex].filter((course) =>
-          course.weeks.some(
-            ([start, end]) => weekIndex >= start && weekIndex <= end,
-          ),
-        ),
+      const todayCourses = table.map((row) =>
+        row[dayIndex]
+          .filter((course) => course.weeks.includes(weekIndex))
+          .map((course) => ({
+            ...course,
+            location: course.locations[course.weeks.indexOf(weekIndex)],
+          })),
       );
 
       if (todayCourses.some((item) => item.length))
@@ -91,9 +91,9 @@ $Component({
     },
 
     setNextCourse(
-      courseData: OldTableData,
+      table: CourseTableData,
       currentWeekIndex: number,
-      maxWeeks: number,
+      maxWeek: number,
     ) {
       const now = new Date();
       const hours = now.getHours();
@@ -117,15 +117,13 @@ $Component({
                 : hours >= 8
                   ? 1
                   : 0;
-      let nextCourses: OldClassData[] = [];
+      let nextCourses: CourseTableClassData[] = [];
 
-      if (!courseData.length) return this.setData({ missing: true });
+      if (!table.length) return this.setData({ missing: true });
 
       while (true) {
-        const currentCell = courseData[classIndex][dayIndex].filter((course) =>
-          course.weeks.some(
-            ([start, end]) => weekIndex >= start && weekIndex <= end,
-          ),
+        const currentCell = table[classIndex][dayIndex].filter((course) =>
+          course.weeks.includes(weekIndex),
         );
 
         if (currentCell.length) {
@@ -136,7 +134,7 @@ $Component({
 
         if (classIndex === 5) {
           if (dayIndex === 6) {
-            if (weekIndex === maxWeeks)
+            if (weekIndex === maxWeek)
               return this.setData({ isTomorrow, empty: true });
 
             classIndex = 0;
@@ -188,12 +186,15 @@ $Component({
       Record<never, never>,
       Record<never, never>,
       {
-        info: OldClassData;
+        info: CourseTableClassData & { location: string };
       }
     >) {
-      const { name, teacher, location, time } = currentTarget.dataset.info;
+      const { name, teachers, location, time } = currentTarget.dataset.info;
 
-      showModal(name, `教师: ${teacher}\n地点: ${location}\n时间: ${time}`);
+      showModal(
+        name,
+        `教师: ${teachers.join("，")}\n地点: ${location}\n时间: ${time}`,
+      );
     },
   },
 
