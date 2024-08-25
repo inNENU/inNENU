@@ -70,6 +70,8 @@ const getMaxWeek = (courseTable: CourseTableData): number =>
   );
 
 const getDates = (startTime: string, weekIndex: number): string[] => {
+  if (weekIndex === 0) return ["", "", "", "", "", "", ""];
+
   const weekStartTime = Date.parse(startTime) + (weekIndex - 1) * 7 * DAY;
 
   return [0, 1, 2, 3, 4, 5, 6].map((day) => {
@@ -91,7 +93,7 @@ $Page(PAGE_ID, {
     needLogin: false,
 
     footer: {
-      desc: "课表数据使用本地缓存，来源于教学服务系统。如有课程数据变更请自行点击右上角进行刷新。",
+      desc: "课表数据使用本地缓存，来源于本科教学服务系统。如有课程数据变更请自行点击右上角进行刷新。",
     },
   },
 
