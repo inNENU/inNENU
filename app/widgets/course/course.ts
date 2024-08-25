@@ -54,18 +54,21 @@ $Component({
       if (type.includes("课程表")) return this.setCourses(table, weekIndex);
     },
 
-    setCourses(table: CourseTableData, weekIndex: number) {
-      this.setData({
-        table: table.map((row) =>
-          row.map((cell) =>
-            cell
-              .filter((course) => course.weeks.includes(weekIndex))
-              .map((course) => ({
-                ...course,
-                location: course.locations[course.weeks.indexOf(weekIndex)],
-              })),
-          ),
+    setCourses(tableData: CourseTableData, weekIndex: number) {
+      const table = tableData.map((row) =>
+        row.map((cell) =>
+          cell
+            .filter((course) => course.weeks.includes(weekIndex))
+            .map((course) => ({
+              ...course,
+              location: course.locations[course.weeks.indexOf(weekIndex)],
+            })),
         ),
+      );
+
+      this.setData({
+        table,
+        empty: table.every((row) => row.every((cell) => !cell.length)),
         missing: false,
       });
     },
@@ -86,7 +89,12 @@ $Component({
       );
 
       if (todayCourses.some((item) => item.length))
-        this.setData({ isTomorrow, todayCourses, missing: false });
+        this.setData({
+          isTomorrow,
+          todayCourses,
+          empty: false,
+          missing: false,
+        });
       else this.setData({ isTomorrow, empty: true, missing: false });
     },
 
@@ -172,6 +180,7 @@ $Component({
       this.setData({
         time,
         nextCourses,
+        empty: false,
         missing: false,
       });
     },

@@ -76,7 +76,10 @@
     </block>
     <view wx:else class="widget-body full">
       <view class="widget-content">
-        <view class="course-table">
+        <view wx:if="{{empty}}" class="widget-hint-text"
+          ><text>本周无课</text></view
+        >
+        <view wx:else class="course-table">
           <view class="course-table-header">
             <view
               wx:for="{{course.weeks}}"
