@@ -26,13 +26,11 @@ import {
   STARRED_NOTICE_LIST_KEY,
   STUDENT_ARCHIVE_KEY,
 } from "../config/index.js";
-import { mpRemove } from "../service/mp/remove.js";
 import { clearUserInfo } from "../state/index.js";
 
 export const logout = (): void => {
   cookieStore.clear();
   clearUserInfo();
-  mpRemove();
 
   // license
   remove(LICENSE_KEY);

@@ -42,17 +42,28 @@ export const mpLogin = (): Promise<LoginInfo> => {
     }).then(({ data }) => (data.success ? data.data : DEFAULT_INFO));
 
   if (env === "qq" || env === "wx") {
-    new Promise((resolve, reject) => {
+    return new Promise<LoginInfo>((resolve) => {
       wx.login({
-        success: ({ code }) =>
-          request<MPLoginResponse>("/mp/login", {
-            method: "POST",
-            body: { appID, code, env },
-          }).then(({ data }) => resolve(data)),
+        success: ({ code }) => {
+          resolve(
+            request<MPLoginResponse>("/mp/login", {
+              method: "POST",
+              body: { appID, code, env },
+            }).then(({ data }) => {
+              if (!data.success) {
+                logger.error(`Login failed: ${data.msg}`);
+
+                return DEFAULT_INFO;
+              }
+
+              return data.data;
+            }),
+          );
+        },
         fail: ({ errMsg }) => {
           logger.error(`Login failed: ${errMsg}`);
 
-          reject(new Error(errMsg));
+          resolve(DEFAULT_INFO);
         },
       });
     });

@@ -3,7 +3,7 @@ import { $Page } from "@mptool/all";
 import type { ListComponentConfig } from "../../../../../typings/components.js";
 import { retryAction, showModal, showToast } from "../../../../api/index.js";
 import { appCoverPrefix } from "../../../../config/index.js";
-import { ActionFailType, supportRedirect } from "../../../../service/index.js";
+import { ActionFailType, mpRemove } from "../../../../service/index.js";
 import type { UserInfo } from "../../../../state/index.js";
 import {
   env,
@@ -42,13 +42,8 @@ ${envName}需自动完成登录以提供基于账户的功能。您可能需要�
 2. 账户登录失败次数过多或异地登录时将无法自动登录，此时您需要重新登录并填写验证码。
 
 『隐私说明』
-Mr.Hope 会严格遵守隐私协议的要求。
-${
-  supportRedirect
-    ? "您的账号、密码与个人信息将仅存储在本地，并会直接通过小程序登录各系统。Mr.Hope 不能收集并存储这些信息。"
-    : "您的账号、密码与个人信息将仅存储在本地，使用时将会经小程序服务器转发给学校各服务系统。Mr.Hope 不会在此过程中收集或存储任何信息。"
-}
-全部个人信息将在卸载${envName}一并删除。
+Mr.Hope 会严格遵守隐私协议的要求。您的账号密码将仅存储在本地，Mr.Hope 不会收集或存储。
+您可在登录后的任何时候点击【注销并删除信息】按钮。当你这样做时，Mr.Hope 将会删除${envName}本地和服务器上有关于你的全部信息。
 `;
 
 $Page(PAGE_ID, {
@@ -102,7 +97,9 @@ $Page(PAGE_ID, {
   state: {
     authToken: "",
     shouldNavigateBack: false,
-    initOptions: {} as { params: Record<string, string>; salt: string },
+    initId: null as string | null,
+    params: {} as Record<string, string>,
+    salt: "",
     touchPosition: 0,
   },
 
@@ -202,15 +199,17 @@ $Page(PAGE_ID, {
 
     const result = await getAuthInitInfo(id);
 
-    if (!result.success) return showModal("登录失败", result.msg);
+    if (!result.success) return showModal("初始化失败", result.msg);
 
     const { params, salt, needCaptcha, captcha } = result;
 
-    this.state.initOptions = { params, salt };
+    this.state.initId = id;
+    this.state.params = params;
+    this.state.salt = salt;
 
     if (needCaptcha) {
       if (!captcha.success)
-        return retryAction("获取账号信息失败", "未成功获取验证码", () => {
+        return retryAction("初始化失败", "获取图形验证码失败。", () => {
           this.getAuthCaptcha();
         });
 
@@ -248,7 +247,7 @@ $Page(PAGE_ID, {
     this.setData({ accept: !this.data.accept });
   },
 
-  async save() {
+  async init() {
     const { id, password, accept } = this.data;
     const { authToken } = this.state;
 
@@ -258,16 +257,25 @@ $Page(PAGE_ID, {
     if (!accept)
       return wx.showToast({ title: "请同意用户协议", icon: "error" });
 
+    const { initId, params, salt } = this.state;
+
+    if (initId !== id)
+      return showModal(
+        "初始化中",
+        "尚未完成登录信息拉取，请 3 秒重试。如果此提示重复出现，请重新输入学号。",
+      );
+
     wx.showLoading({ title: "验证中" });
 
     // 设置协议版本
     wx.setStorageSync("license", (await getLicenseStatus()).version);
 
     const result = await authInit({
-      ...this.state.initOptions,
       id: Number(id),
       password,
       authToken,
+      params,
+      salt,
       openid: user.openid!,
     });
 
@@ -277,15 +285,19 @@ $Page(PAGE_ID, {
       if (result.type === ActionFailType.NeedReAuth) return this.startReAuth();
 
       showModal("登录失败", result.msg);
+      this.state.initId = null;
 
       return this.getInitInfo();
     }
 
-    if (!result.info)
+    if (!result.info) {
+      this.state.initId = null;
+
       return showModal(
         "登录失败",
-        "账号密码校验成功，但未能成功获取账号信息。",
+        "账号密码校验成功，但未能成功获取账号信息。这通常是学校系统出错，请稍后重试。",
       );
+    }
 
     showModal("登录成功", "您已成功登录");
 
@@ -339,7 +351,7 @@ $Page(PAGE_ID, {
     this.setData({ showReAuth: false });
     this.state.authToken = result.authToken;
 
-    return this.save();
+    return this.init();
   },
 
   cancelReAuth() {
@@ -424,6 +436,10 @@ $Page(PAGE_ID, {
     this.getIdCode(true);
   },
 
+  cancelIdCode() {
+    this.setData({ idCodeHint: false });
+  },
+
   async verifyIDCode(uuid: string) {
     wx.showLoading({ title: "验证中" });
 
@@ -451,10 +467,10 @@ $Page(PAGE_ID, {
     this.setData({ idCodeInfo: null });
   },
 
-  delete() {
+  logout() {
     showModal(
       "退出登录",
-      "确认退出登录? 这会清除全部的账号数据与个人信息且无法恢复。",
+      "确认退出登录? ",
       () => {
         logout();
         this.setData({
@@ -463,7 +479,35 @@ $Page(PAGE_ID, {
           info: null,
           isSaved: false,
         });
-        showModal("删除成功", "已删除全部账号数据与个人信息");
+      },
+      () => {
+        // do nothing
+      },
+    );
+  },
+
+  unregister() {
+    showModal(
+      "注销账号",
+      `确认注销账号? 这会删除${envName}上和你相关的全部数据且无法恢复！`,
+      async () => {
+        const result = await mpRemove();
+
+        logout();
+        this.setData({
+          id: "",
+          password: "",
+          info: null,
+          isSaved: false,
+        });
+
+        if (result.success) {
+          showModal("注销成功", "已删除本地和服务器上的全部账号数据信息。");
+        } else
+          showModal(
+            "已请求注销",
+            "已删除本地的账号数据信息，服务器上的数据将在稍后删除",
+          );
       },
       () => {
         // do nothing

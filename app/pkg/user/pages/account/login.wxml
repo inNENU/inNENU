@@ -39,8 +39,11 @@
           /></view>
         </view>
       </view>
-      <button class="delete-button warn" type="warn" catch:tap="delete">
-        <text>删除全部信息</text>
+      <button class="logout-button" catch:tap="logout">
+        <text>退出登录</text>
+      </button>
+      <button class="unregister-button warn" type="warn" catch:tap="unregister">
+        <text>注销并删除信息</text>
       </button>
     </block>
     <block wx:else>
@@ -100,8 +103,8 @@
           >《用户协议》</text
         >
       </view>
-      <button type="primary" class="save-button primary" catch:tap="save">
-        验证并本地保存
+      <button type="primary" class="init-button primary" catch:tap="init">
+        登录
       </button>
       <view class="actions">
         <view
@@ -273,9 +276,13 @@
         <button
           type="primary"
           class="confirm-button primary"
+          size="mini"
           catch:tap="{{refresh ? 'refreshIdCode' :'generateIdCode'}}"
         >
           生成身份码
+        </button>
+        <button class="cancel-button" size="mini" catch:tap="cancelIdCode">
+          取消
         </button>
       </view>
     </block>

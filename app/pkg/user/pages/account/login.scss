@@ -65,12 +65,9 @@
   }
 }
 
-.delete-button {
-  min-width: 240px;
-  margin: 16px auto 8px;
-}
-
-.save-button {
+.init-button,
+.logout-button,
+.unregister-button {
   min-width: 240px;
   margin: 16px auto 8px;
 }

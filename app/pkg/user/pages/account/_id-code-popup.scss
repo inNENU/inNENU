@@ -70,6 +70,17 @@
   }
 }
 
-.confirm-button {
+.id-code-popup-footer {
   margin-top: 16px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.confirm-button {
+  margin: 0;
+}
+
+.cancel-button {
+  background: var(--bg-color) !important;
 }
