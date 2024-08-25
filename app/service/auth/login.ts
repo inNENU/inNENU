@@ -38,6 +38,7 @@ export type AuthLoginFailedResponse = CommonFailedResponse<
   | ActionFailType.Expired
   | ActionFailType.NeedCaptcha
   | ActionFailType.NeedReAuth
+  | ActionFailType.WrongCaptcha
   | ActionFailType.WrongPassword
   | ActionFailType.Unknown
 >;
@@ -166,6 +167,20 @@ const authLoginLocal = async ({
         loginContent.includes("您提供的用户名或者密码有误")
       )
         return WrongPasswordResponse;
+
+      if (loginContent.includes("图形动态码错误"))
+        return {
+          success: false,
+          type: ActionFailType.WrongCaptcha,
+          msg: "图形动态码错误，请重试",
+        };
+
+      if (loginContent.includes("该帐号已经被禁用"))
+        return {
+          success: false,
+          type: ActionFailType.Forbidden,
+          msg: "该帐号已经被禁用",
+        };
 
       const lockedResult = /<span>账号已冻结，预计解冻时间：(.*?)<\/span>/.exec(
         loginContent,
