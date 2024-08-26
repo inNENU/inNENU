@@ -47,7 +47,7 @@
     }
   },
   "dependencies": {
-    "@mptool/all": "0.9.0"
+    "@mptool/all": "0.10.0"
   },
   "devDependencies": {
     "@commitlint/cli": "19.4.0",
@@ -58,7 +58,7 @@
     "cpx2": "7.0.1",
     "cz-git": "1.9.4",
     "del": "7.1.0",
-    "eslint": "9.9.0",
+    "eslint": "9.9.1",
     "eslint-config-mister-hope": "0.2.3",
     "gulp": "5.0.0",
     "gulp-rename": "2.0.0",
@@ -75,10 +75,10 @@
     "standard-version": "9.5.0",
     "stylelint": "16.8.2",
     "stylelint-config-hope": "7.0.2",
-    "tsx": "4.17.0",
+    "tsx": "4.18.0",
     "typescript": "5.5.4"
   },
-  "packageManager": "pnpm@9.7.1",
+  "packageManager": "pnpm@9.8.0",
   "prettier": {
     "overrides": [
       {
