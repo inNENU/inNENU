@@ -123,7 +123,7 @@ $App<App>({
 
   onLaunch(options) {
     // 调试
-    logger.info("App launched with options:", options);
+    logger.debug("App launched with options", options);
 
     // 初始化完成，检查页面资源
     if (wx.getStorageSync(INITIALIZED_KEY)) checkResource();
@@ -135,11 +135,11 @@ $App<App>({
     });
     startup(this.globalData);
 
-    logger.info("GlobalData:", this.globalData);
+    logger.debug("GlobalData", this.globalData);
   },
 
   onAwake(time: number) {
-    logger.info(`App awakes after ${time}ms`);
+    logger.debug(`App awakes after ${time}ms`);
 
     syncAppSettings(this.globalData, wx.getStorageSync("test")).then(() => {
       this.$emit("settings");

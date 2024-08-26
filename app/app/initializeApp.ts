@@ -9,7 +9,7 @@ import { DEFAULT_CONFIG, INITIALIZED_KEY, server } from "../config/index.js";
 export const initializeApp = (): void => {
   // 提示用户正在初始化
   wx.showLoading({ title: "初始化中...", mask: true });
-  logger.info("First launch");
+  logger.debug("First launch");
 
   // 写入预设数据
   Object.entries(DEFAULT_CONFIG).forEach(([key, data]) => {

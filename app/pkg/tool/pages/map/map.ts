@@ -191,7 +191,7 @@ $Page(PAGE_ID, {
           };
         })
         .catch((err) => {
-          logger.error("Marked failed with", err);
+          logger.error("加载地图点位失败", err);
           showModal(
             "获取失败",
             "地图点位获取失败，请稍后重试。如果该情况持续发生，请反馈给开发者",

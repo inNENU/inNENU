@@ -13,7 +13,7 @@ export const rateApp = (): void => {
       logger.debug("plugin.openComment success", res);
     },
     fail: (res) => {
-      logger.warn("plugin.openComment fail", res);
+      logger.error("打开评论页失败", res);
     },
   });
 };

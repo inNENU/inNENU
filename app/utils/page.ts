@@ -167,7 +167,7 @@ const setPageState = (
 
   // 调试
 
-  logger.info(`Resolve ${page.id!} page success`);
+  logger.debug(`Resolve ${page.id!} page success`);
 
   // 返回处理后的 page
   return page;
@@ -232,7 +232,7 @@ export const resolvePage = (
   setGlobal = true,
 ): PageState | null => {
   // 控制台输出参数
-  logger.info("Handling page:", options);
+  logger.debug("Handling page:", options);
 
   let pageData = null;
 
@@ -446,7 +446,7 @@ export const showNotice = (id: string): void => {
       });
 
       // 调试
-      logger.info(`Pop notice in ${id} page`);
+      logger.debug(`Pop notice in ${id} page`);
     }
   }
 };
@@ -496,7 +496,7 @@ export const setOnlinePage = (
       );
     } else {
       // 需要重新载入界面
-      logger.info(`${id} onLoad with options: `, option);
+      logger.debug(`${id} onLoad with options: `, option);
 
       const page = readJSON<PageState>(`${id}`);
 
@@ -504,7 +504,7 @@ export const setOnlinePage = (
       if (page) {
         setPage({ option, ctx }, page);
         showNotice(id);
-        logger.info(`${id} onLoad success: `, ctx.data);
+        logger.debug(`${id} onLoad success: `, ctx.data);
 
         // 如果需要执行预加载，则执行
         if (preload) {
@@ -532,7 +532,7 @@ export const setOnlinePage = (
             showNotice(id);
 
             // 调试
-            logger.info(`${id} onLoad Succeed`);
+            logger.debug(`${id} onLoad Succeed`);
           })
           .catch((err) => {
             // 设置 error 页面并弹出通知
@@ -548,11 +548,11 @@ export const setOnlinePage = (
             showNotice(option.id || "");
 
             // 调试
-            logger.warn(`${id} onLoad failed with error:`, err);
+            logger.error(`页面 ${id} 加载失败`, err);
           });
       }
     }
-  else logger.error("no id");
+  else logger.error("无页面 ID");
 };
 
 /**

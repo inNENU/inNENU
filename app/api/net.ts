@@ -17,10 +17,16 @@ export const networkReport = (): void => {
           showToast("您没有连接到网络");
           break;
         case "wifi":
-          wx.getConnectedWifi({
-            success: ({ wifi }) => {
-              if (wifi.signalStrength < 0.5)
-                showToast("Wifi信号不佳，网络链接失败");
+          wx.startWifi({
+            success: () => {
+              wx.getConnectedWifi({
+                success: ({ wifi }) => {
+                  if (wifi.signalStrength < 0.5) showToast("Wifi 信号不佳");
+                },
+                fail: () => {
+                  showToast("无法连接网络");
+                },
+              });
             },
             fail: () => {
               showToast("无法连接网络");
@@ -31,12 +37,12 @@ export const networkReport = (): void => {
           showToast("网络连接出现问题，请稍后重试");
       }
 
-      logger.warn("Request fail with", networkType);
+      logger.error("Request fail with", networkType);
     },
     fail: () => {
       showToast("网络连接出现问题，请稍后重试");
 
-      logger.warn("Request fail and cannot get networkType");
+      logger.error("Request fail and cannot get networkType");
     },
   });
 };
@@ -48,7 +54,7 @@ const { request, cookieStore } = createRequest({
   responseHandler: ({ data, headers, status }, url, options) => {
     if (status < 500) {
       // 调试
-      logger.info(
+      logger.debug(
         `Request ${url} ends with ${status}: `,
         headers.toObject(),
         typeof data === "string" && data.length > 200
@@ -59,11 +65,6 @@ const { request, cookieStore } = createRequest({
       return { data, headers, status };
     }
 
-    const message = `Request ${url} failed with statusCode: ${status}`;
-
-    // 调试
-    logger.warn(message);
-
     wx.reportEvent?.("service_error", {
       url,
       payload: JSON.stringify(options),
@@ -71,9 +72,10 @@ const { request, cookieStore } = createRequest({
 
     showToast(`${url.includes("innenu.com") ? "小程序" : "学校"}服务器故障`);
 
-    const error = new MpError({ code: status, message });
-
-    throw error;
+    throw new MpError({
+      code: status,
+      message: `Request ${url} failed with statusCode: ${status}`,
+    });
   },
   errorHandler: (err, url) => {
     if (!err.code) {
@@ -149,11 +151,11 @@ export const downLoad = (path: string, mask = false): Promise<string> =>
         if (statusCode === 200) {
           resolve(tempFilePath);
         } else {
-          const errorMsg = `Download ${path} failed with statusCode: ${statusCode}`;
+          const errMsg = `Download ${path} failed with statusCode: ${statusCode}`;
 
           showToast("下载失败");
-          logger.warn(errorMsg);
-          reject(new MpError({ code: statusCode, message: errorMsg }));
+          logger.warn(errMsg);
+          reject(new MpError({ code: statusCode, message: errMsg }));
         }
       },
       fail: ({ errMsg }) => {

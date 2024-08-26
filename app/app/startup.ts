@@ -24,7 +24,7 @@ const registerActions = (): void => {
 
   // 设置内存不足警告
   wx.onMemoryWarning((res) => {
-    logger.warn("Memory warning received.");
+    logger.warn("内存警告");
     wx.reportEvent?.("memory_warning", {
       level: res?.level || 0,
     });

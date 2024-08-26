@@ -19,7 +19,7 @@ $Page("info", {
   },
 
   onLoad(option: PageOptions & { path?: string }) {
-    logger.info("onLoad options: ", option);
+    logger.debug("onLoad options: ", option);
 
     if (option.path) {
       loadOnlinePage(option as PageOptions & { path: string }, this);

@@ -42,7 +42,7 @@ export const myLoginLocal = async (
   });
 
   if (!result.success) {
-    logger.error(result.msg);
+    logger.error("小程序登录失败", result.msg);
 
     return {
       success: false,
@@ -86,7 +86,7 @@ export const myLoginOnline = async (
   });
 
   if (!data.success) {
-    logger.error("登录失败", data.msg);
+    logger.error("小程序登录失败", data.msg);
     checkAccountStatus(data);
   }
 

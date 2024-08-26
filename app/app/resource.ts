@@ -84,7 +84,7 @@ export const downloadResource = async (
 
           // 下载失败
           fail: ({ errMsg }) => {
-            logger.error(`download ${resource} fail: ${errMsg}`);
+            logger.error(`下载资源 ${resource} 失败`, errMsg);
             reject(new MpError({ message: errMsg }));
           },
         });
@@ -128,7 +128,7 @@ export const checkResource = (): Promise<void> => {
   if (currentTime > Number(localTime) + 604800 && !notify) {
     notify = true;
     wx.setStorageSync("resourceNotify", true);
-    logger.debug("Resource Notify reset to true after 7 days");
+    logger.debug("Reset resource notify after 7 days");
   }
 
   // 需要检查更新
@@ -145,7 +145,7 @@ export const checkResource = (): Promise<void> => {
         // 需要更新
         if (updateList.length > 0) {
           // 调试
-          logger.info("Newer resource detected");
+          logger.debug("New resource detected");
 
           const size = updateList.reduce(
             (sum, item) => sum + data.size[item],
@@ -184,11 +184,11 @@ export const checkResource = (): Promise<void> => {
         }
         // 调试
         else {
-          logger.debug("Newest resource already downloaded");
+          logger.debug("Resource up to date");
         }
       })
       .catch((err) => {
-        logger.warn("Resource check failed: ", err);
+        logger.error("资源检查失败", err);
         showToast("服务器出现问题");
       });
 

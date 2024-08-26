@@ -46,7 +46,7 @@ export const saveJson = (
 export const ensureJson = (path: string, url = `d/${path}`): Promise<void> => {
   if (exists(`${path}.json`)) return Promise.resolve();
 
-  logger.info(`Fetching ${url}.json`);
+  logger.debug(`Fetching ${url}.json`);
 
   mkdir(dirname(path));
 

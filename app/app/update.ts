@@ -45,58 +45,53 @@ export const updateApp = (): void => {
               version,
               appID,
             },
-          })
-            .then(({ data: { update } }) => {
-              // 更新下载就绪，提示用户重新启动
-              wx.showModal({
-                title: "已找到新版本",
-                content: `新版本${version}已下载，请重启应用更新。${
-                  update.reset ? "该版本会初始化小程序。" : ""
-                }`,
-                showCancel: !update.reset && !update.force,
-                confirmText: "应用",
-                cancelText: "取消",
-                theme: "day",
-                success: ({ confirm }) => {
-                  // 用户确认，应用更新
-                  if (confirm) {
-                    // 需要初始化
-                    if (update.reset) {
-                      // 显示提示
-                      wx.showLoading({ title: "初始化中", mask: true });
+          }).then(({ data: { update } }) => {
+            // 更新下载就绪，提示用户重新启动
+            wx.showModal({
+              title: "已找到新版本",
+              content: `新版本${version}已下载，请重启应用更新。${
+                update.reset ? "该版本会初始化小程序。" : ""
+              }`,
+              showCancel: !update.reset && !update.force,
+              confirmText: "应用",
+              cancelText: "取消",
+              theme: "day",
+              success: ({ confirm }) => {
+                // 用户确认，应用更新
+                if (confirm) {
+                  // 需要初始化
+                  if (update.reset) {
+                    // 显示提示
+                    wx.showLoading({ title: "初始化中", mask: true });
 
-                      // 清除文件系统文件与数据存储
-                      ls("").forEach((filePath) => rm(filePath));
-                      wx.clearStorageSync();
+                    // 清除文件系统文件与数据存储
+                    ls("").forEach((filePath) => rm(filePath));
+                    wx.clearStorageSync();
 
-                      // 隐藏提示
-                      wx.hideLoading();
-                    }
-
-                    // 应用更新
-                    updateManager.applyUpdate();
+                    // 隐藏提示
+                    wx.hideLoading();
                   }
-                },
-              });
-            })
-            .catch(() => {
-              // 调试信息
-              logger.warn(`config file error`);
-            }),
+
+                  // 应用更新
+                  updateManager.applyUpdate();
+                }
+              },
+            });
+          }),
         )
-        .catch(() => {
+        .catch((err) => {
           // 调试信息
-          logger.warn(`version file error`);
+          logger.error("版本配置文件错误", err);
         });
     });
 
     // 更新下载失败
-    updateManager.onUpdateFailed(() => {
+    updateManager.onUpdateFailed(({ errMsg }) => {
       // 提示用户网络出现问题
       showToast("小程序更新下载失败，请检查您的网络!");
 
       // 调试
-      logger.warn("Update App failed because of Net Error");
+      logger.error("更新应用失败", errMsg);
     });
   }
 };

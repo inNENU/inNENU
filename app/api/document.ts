@@ -10,10 +10,10 @@ export const openDocument = (url: string): void => {
         filePath,
         showMenu: true,
         success: () => {
-          logger.debug(`Open document ${filePath} success`);
+          logger.debug(`打开文档 ${filePath} 成功`);
         },
         fail: ({ errMsg }) => {
-          logger.warn(`Open document ${filePath} failed: ${errMsg}`);
+          logger.error(`打开文档 ${filePath} 失败`, errMsg);
         },
       });
     })
@@ -42,7 +42,7 @@ export const saveDocument = (
           filePath,
           success: () => {
             showModal("文件已保存", "文件已保存至“微信收藏”");
-            logger.debug("成功添加至收藏", url);
+            logger.debug(url, "添加至收藏成功");
           },
           fail: ({ errMsg }) => {
             logger.warn(url, "添加至收藏失败", errMsg);

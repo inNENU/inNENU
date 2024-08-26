@@ -159,7 +159,7 @@ $Page(PAGE_ID, {
     this.$emit("theme", theme);
 
     // debug
-    logger.info(`Switched to ${theme} theme`);
+    logger.debug(`Switched to ${theme} theme`);
   },
 
   /** 刷新所有资源 */
