@@ -30,7 +30,7 @@ export const saveJson = (
       return;
     })
     .catch((err: MpError) => {
-      logger.error(`Download ${onlinePath} failed with error:`, err);
+      logger.error(`下载 ${onlinePath}.json 失败`, err);
       rm(`${localPath}.json`);
 
       throw err;

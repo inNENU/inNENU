@@ -82,7 +82,7 @@ const getOfficialNoticeListLocal = async ({
   } catch (err) {
     const { message } = err as Error;
 
-    logger.error(err);
+    logger.error("获取官网通知列表失败", err);
 
     return UnknownResponse(message);
   }

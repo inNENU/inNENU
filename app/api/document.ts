@@ -45,7 +45,7 @@ export const saveDocument = (
             logger.debug(url, "添加至收藏成功");
           },
           fail: ({ errMsg }) => {
-            logger.warn(url, "添加至收藏失败", errMsg);
+            logger.error(url, "添加至收藏失败", errMsg);
           },
         });
       })

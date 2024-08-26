@@ -80,7 +80,7 @@ const getOfficialAcademicListLocal = async ({
   } catch (err) {
     const { message } = err as Error;
 
-    logger.error(err);
+    logger.error("获取学术会议列表失败", err);
 
     return {
       success: false,

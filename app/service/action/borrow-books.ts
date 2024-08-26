@@ -138,7 +138,7 @@ const getBorrowBooksLocal = async (): Promise<BorrowBooksResponse> => {
   } catch (err) {
     const { message } = err as Error;
 
-    logger.error(err);
+    logger.error("获取借阅书籍出错", err);
 
     return UnknownResponse(message);
   }

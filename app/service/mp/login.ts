@@ -51,7 +51,7 @@ export const mpLogin = (): Promise<LoginInfo> => {
               body: { appID, code, env },
             }).then(({ data }) => {
               if (!data.success) {
-                logger.error(`Login failed: ${data.msg}`);
+                logger.error("小程序登录失败", data.msg);
 
                 return DEFAULT_INFO;
               }
@@ -61,7 +61,7 @@ export const mpLogin = (): Promise<LoginInfo> => {
           );
         },
         fail: ({ errMsg }) => {
-          logger.error(`Login failed: ${errMsg}`);
+          logger.error("小程序登录失败", errMsg);
 
           resolve(DEFAULT_INFO);
         },

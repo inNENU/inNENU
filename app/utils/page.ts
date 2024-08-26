@@ -200,7 +200,7 @@ const preloadPageLinks = (page: PageState): void => {
           },
         );
     });
-  else logger.warn(`Page is empty`);
+  else logger.warn("页面为空");
 };
 
 /**
@@ -242,7 +242,7 @@ export const resolvePage = (
     const pageContent = readJSON<PageState>(`${options.id}`);
 
     if (pageContent) pageData = setPageState(pageContent, options);
-    else logger.warn(`Can't resolve ${options.id} because file doesn't exist`);
+    else logger.warn(`无法处理 ${options.id} 因为暂无数据`);
   }
 
   if (pageData && setGlobal) {
@@ -575,7 +575,7 @@ export const loadOnlinePage = (
   if (option.path) {
     option.id = id2path(option.path);
 
-    logger.info(`${option.path} onLoad starts with options:`, option);
+    logger.debug(`${option.path} onLoad starts with options:`, option);
 
     // 需要在线获取界面
     requestJSON<PageState>(`d/${option.id}`)
@@ -583,7 +583,7 @@ export const loadOnlinePage = (
         if (page) {
           setPage({ option, ctx }, page);
           showNotice(option.path);
-          logger.info(`${option.path} onLoad succeed:`, ctx.data);
+          logger.debug(`${option.path} onLoad succeed:`, ctx.data);
         }
       })
       .catch((errMsg) => {
@@ -600,9 +600,9 @@ export const loadOnlinePage = (
         showNotice(option.id || "");
 
         // 调试
-        logger.warn(`${option.path} onLoad failed with error: `, errMsg);
+        logger.error(`页面 ${option.path} 加载失败`, errMsg);
       });
   } else {
-    logger.error("no path");
+    logger.error("无页面路径");
   }
 };

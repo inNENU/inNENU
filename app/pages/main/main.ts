@@ -34,7 +34,7 @@ try {
     get<PageStateWithContent>(PAGE_KEY),
   ) as PageStateWithContent | null;
 } catch (err) {
-  logger.error(err);
+  logger.error("加载主页失败", err);
 } finally {
   if (!defaultPage) {
     defaultPage = {

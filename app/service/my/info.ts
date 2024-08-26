@@ -192,7 +192,7 @@ export const getMyInfo = async (): Promise<MyInfoResponse> => {
       msg: "获取人员信息失败",
     };
   } catch (err) {
-    logger.error(err);
+    logger.error("获取人员信息失败", err);
 
     return {
       success: false,
