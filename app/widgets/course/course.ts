@@ -2,7 +2,7 @@ import type { PropType } from "@mptool/all";
 import { $Component, get } from "@mptool/all";
 
 import type { CourseTableInfo } from "./typings.js";
-import { getCurrentTimeCode, getWeekIndex } from "./utils.js";
+import { getCurrentTimeCode, getWeekIndex, getWeekName } from "./utils.js";
 import { showModal } from "../../api/index.js";
 import { COURSE_DATA_KEY } from "../../config/index.js";
 import type {
@@ -19,6 +19,10 @@ $Component({
       >,
       default: "今日课程",
     },
+  },
+
+  data: {
+    maxWeek: 0,
   },
 
   lifetimes: {
@@ -46,6 +50,8 @@ $Component({
 
       const { table, maxWeek, startTime } = coursesData[time];
       const weekIndex = getWeekIndex(startTime, maxWeek);
+
+      this.setData({ maxWeek });
 
       if (type.includes("今日课程"))
         return this.setTodayCourses(table, weekIndex);
@@ -198,11 +204,13 @@ $Component({
         info: CourseTableClassData & { location: string };
       }
     >) {
-      const { name, teachers, location, time } = currentTarget.dataset.info;
+      const { maxWeek } = this.data;
+      const { name, teachers, location, weeks, classIndex, time } =
+        currentTarget.dataset.info;
 
       showModal(
         name,
-        `教师: ${teachers.join("，")}\n地点: ${location}\n时间: ${time}`,
+        `教师: ${teachers.join("，")}\n地点: ${location}\n节次:${classIndex[0]}-${classIndex[1]}节\n时间: ${getWeekName(weeks, maxWeek)} ${time}`,
       );
     },
   },

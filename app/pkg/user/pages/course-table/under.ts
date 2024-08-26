@@ -19,6 +19,7 @@ import type { CourseTableInfo } from "../../../../widgets/course/typings.js";
 import {
   getCurrentTimeCode,
   getWeekIndex,
+  getWeekName,
 } from "../../../../widgets/course/utils.js";
 import { getUnderCourseTable } from "../../service/index.js";
 
@@ -270,27 +271,9 @@ $Page(PAGE_ID, {
       if (index !== -1) location = locations[index];
     }
 
-    let weekName = `${weeks.join("、")}周`;
-
-    if (weeks.length === maxWeek) {
-      weekName = "每周";
-    } else if (
-      weeks[0] === 1 &&
-      weeks[weeks.length - 1] === (maxWeek % 2 === 0 ? maxWeek - 1 : maxWeek) &&
-      weeks.every((week) => week % 2 === 1)
-    ) {
-      weekName = "单周";
-    } else if (
-      weeks[0] === 2 &&
-      weeks[weeks.length - 1] === (maxWeek % 2 === 0 ? maxWeek : maxWeek - 1) &&
-      weeks.every((week) => week % 2 === 0)
-    ) {
-      weekName = "双周";
-    }
-
     showModal(
       name,
-      `教师: ${teachers.join("，")}\n地点: ${location}\n节次:${classIndex[0]}-${classIndex[1]}节\n时间: ${weekName} ${time}`,
+      `教师: ${teachers.join("，")}\n地点: ${location}\n节次:${classIndex[0]}-${classIndex[1]}节\n时间: ${getWeekName(weeks, maxWeek)} ${time}`,
     );
   },
 });
