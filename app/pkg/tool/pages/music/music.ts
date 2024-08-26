@@ -166,25 +166,25 @@ $Page("music", {
     // 能够播放 100ms 后设置可以播放
     manager.onCanplay(() => {
       // 调试
-      logger.debug("Canplay current music");
+      console.debug("Canplay current music");
       this.setData({ canplay: true });
     });
 
     // 在相应动作时改变状态
     manager.onPlay(() => {
-      logger.info("play");
+      console.info("play");
       this.setData({ playing: true });
       musicState.playing = true;
     });
 
     manager.onPause(() => {
-      logger.info("pause");
+      console.info("pause");
       this.setData({ playing: false });
       musicState.playing = false;
     });
 
     manager.onTimeUpdate(() => {
-      logger.debug("timeupdate:", manager.currentTime);
+      console.debug("timeupdate:", manager.currentTime);
       // 更新歌曲信息
       this.setData({
         currentTime: Math.round(manager.currentTime * 100) / 100,
@@ -197,24 +197,24 @@ $Page("music", {
 
     // 缓冲中
     manager.onWaiting(() => {
-      logger.info("waiting");
+      console.info("waiting");
       this.setData({ canplay: false });
     });
 
     manager.onPrev(() => {
-      logger.info("previous");
+      console.info("previous");
       this.previous();
     });
 
     // 歌曲播放结束
     manager.onEnded(() => {
-      logger.info("Music ends");
+      console.info("Music ends");
       this.end();
     });
 
     // 歌曲播放结束
     manager.onStop(() => {
-      logger.warn("Music Stops by closing popup");
+      console.warn("Music Stops by closing popup");
       this.setData({ currentTime: 0, playing: false });
       this.state.interrupted = true;
     });
@@ -224,8 +224,8 @@ $Page("music", {
     });
 
     manager.onError(({ errMsg }) => {
-      logger.error(`Audio manager: ${errMsg}`);
-      showToast("获取音乐出错，请稍后重试");
+      logger.error("音频播放器错误", errMsg);
+      showToast("音乐播放出错");
     });
   },
 

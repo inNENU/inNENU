@@ -1,11 +1,28 @@
-<!-- TODO: Rebuild with createInnerAudio Context -->
 <!-- 音频组件 -->
-<audio
-  class="audio-component"
-  poster="{{config.poster}}"
-  src="{{config.src}}"
-  name="{{config.name}}"
-  author="{{config.author}}"
-  loop="{{config.loop}}"
-  controls="{{config.controls !== false}}"
-/>
+<view class="audio-component">
+  <image
+    wx:if="{{config.poster}}"
+    class="audio-poster"
+    src="{{config.poster}}"
+    mode="aspectFill"
+  />
+  <view class="audio-info">
+    <view class="audio-name">{{config.name}}</view>
+    <view class="audio-author">{{config.author}}</view>
+  </view>
+  <view class="audio-actions">
+    <view
+      wx:if="{{canPlay}}"
+      class="audio-button"
+      hover-class="audio-button-hover"
+      hover-start-time="0"
+      hover-stay-time="100"
+      catch:tap="toggle"
+    >
+      <image class="icon" src="/icon/{{isPlaying ? 'pause' : 'play'}}.svg" />
+    </view>
+    <view wx:else class="audio-button">
+      <image class="icon" src="/icon/loading-state.svg" />
+    </view>
+  </view>
+</view>

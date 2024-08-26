@@ -1,7 +1,48 @@
 /* audio */
 .audio-component {
-  width: 80%;
   max-width: var(--max-width);
-  margin: 8px 10%;
-  border-radius: 8px;
+  margin: 8px 15px;
+  border-radius: 32px;
+  background: var(--bg-block);
+  display: flex;
+  align-items: center;
+}
+
+.audio-poster {
+  width: 64px;
+  height: 64px;
+  border-radius: 32px;
+  margin-right: 15px;
+}
+
+.audio-info {
+  flex: 1;
+}
+
+.audio-name {
+  font-size: 16px;
+  font-weight: bold;
+  line-height: 1.5;
+}
+
+.audio-author {
+  font-size: 13px;
+}
+
+.audio-actions {
+  padding: 16px;
+}
+
+.audio-button {
+  width: 40px;
+  height: 40px;
+
+  .icon {
+    width: 100%;
+    height: 100%;
+  }
+}
+
+.audio-button-hover {
+  filter: grayscale(50%);
 }

@@ -98,10 +98,10 @@
         hover-stay-time="100"
         catch:tap="play"
       >
-        <image class="icon" src="./icon/{{playing ? 'pause' : 'play'}}.svg" />
+        <image class="icon" src="/icon/{{playing ? 'pause' : 'play'}}.svg" />
       </view>
       <view wx:else class="play-button" hover-class="button-active">
-        <image class="icon" src="./icon/loading.svg" />
+        <image class="icon" src="/icon/loading-state.svg" />
       </view>
       <view
         class="button"
