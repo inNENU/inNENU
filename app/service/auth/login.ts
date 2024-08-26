@@ -11,6 +11,7 @@ import {
 } from "./utils.js";
 import { cookieStore, request } from "../../api/index.js";
 import type { AccountInfo } from "../../state/index.js";
+import { inBlackList } from "../mp/index.js";
 import type { CommonFailedResponse } from "../utils/index.js";
 import {
   ActionFailType,
@@ -57,13 +58,12 @@ const authLoginLocal = async ({
   // only use local login when redirect is supported
   if (!supportRedirect) return authLoginOnline({ id, password, authToken });
 
-  // TODO: Add black list
-  // if (isInBlackList(id))
-  //   return {
-  //     success: false,
-  //     type: ActionFailType.BlackList,
-  //     msg: BLACKLIST_HINT[Math.floor(Math.random() * BLACKLIST_HINT.length)],
-  //   };
+  if (await inBlackList(id))
+    return {
+      success: false,
+      type: ActionFailType.BlackList,
+      msg: "您已被加入黑名单",
+    };
 
   const domain = webVPN ? WEB_VPN_AUTH_DOMAIN : AUTH_DOMAIN;
   const server = webVPN ? WEB_VPN_AUTH_SERVER : AUTH_SERVER;
@@ -130,8 +130,9 @@ const authLoginLocal = async ({
 
     const checkCaptchaLink = `${server}/authserver/checkNeedCaptcha.htl?username=${id}&_=${Date.now()}`;
 
-    const { data } = await request<{ isNeed: boolean }>(checkCaptchaLink);
-    const needCaptcha = data.isNeed;
+    const { isNeed: needCaptcha } = (
+      await request<{ isNeed: boolean }>(checkCaptchaLink)
+    ).data;
 
     if (needCaptcha)
       return {
@@ -206,11 +207,7 @@ const authLoginLocal = async ({
           msg: "会话已过期，请重新登陆",
         };
 
-      if (
-        loginContent.includes(
-          "当前存在其他用户使用同一帐号登录，是否注销其他使用同一帐号的用户。",
-        )
-      )
+      if (loginContent.includes("当前账户已在其他PC端登录会话。"))
         return {
           success: false,
           type: ActionFailType.EnabledSSO,
@@ -231,7 +228,7 @@ const authLoginLocal = async ({
           msg: "用户账号没有此服务权限。",
         };
 
-      console.error("Unknown login response: ", loginStatus, loginContent);
+      logger.error("Unknown login response: ", loginStatus, loginContent);
 
       return UnknownResponse("未知错误");
     }
