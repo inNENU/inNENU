@@ -97,24 +97,24 @@ const getNoticeListLocal = async ({
   current = 1,
 }: NoticeListOptions = {}): Promise<NoticeListResponse> => {
   try {
-    const {
-      data: { data, pageIndex, pageSize, totalCount, totalPage },
-      status,
-    } = await request<RawNoticeListData>(NOTICE_LIST_QUERY_URL, {
-      method: "POST",
-      headers: {
-        Accept: "application/json, text/javascript, */*; q=0.01",
-        "Content-Type": "application/x-www-form-urlencoded; charset=UTF-8",
+    const { data: noticeData, status } = await request<RawNoticeListData>(
+      NOTICE_LIST_QUERY_URL,
+      {
+        method: "POST",
+        headers: {
+          Accept: "application/json, text/javascript, */*; q=0.01",
+          "Content-Type": "application/x-www-form-urlencoded; charset=UTF-8",
+        },
+        body: new URLSearchParams({
+          type,
+          _search: "false",
+          nd: Date.now().toString(),
+          limit: size.toString(),
+          page: current.toString(),
+        }),
+        redirect: "manual",
       },
-      body: new URLSearchParams({
-        type,
-        _search: "false",
-        nd: Date.now().toString(),
-        limit: size.toString(),
-        page: current.toString(),
-      }),
-      redirect: "manual",
-    });
+    );
 
     if (
       status === 302 ||
@@ -122,10 +122,12 @@ const getNoticeListLocal = async ({
       status === 404 ||
       // Note: If the env does not support "redirect: manual", the response will be a 302 redirect to WebVPN login page
       // In this case, the response.status will be 200 and the response body will be the WebVPN login page
-      (!supportRedirect && isWebVPNPage(data))
+      (!supportRedirect && isWebVPNPage(noticeData))
     ) {
       return ExpiredResponse;
     }
+
+    const { data, pageIndex, pageSize, totalCount, totalPage } = noticeData;
 
     if (!data.length)
       throw new Error(`获取公告列表失败: ${JSON.stringify(data, null, 2)}`);

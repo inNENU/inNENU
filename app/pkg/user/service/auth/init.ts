@@ -132,7 +132,7 @@ export type InitAuthFailedResponse = CommonFailedResponse<
   | ActionFailType.NeedCaptcha
   | ActionFailType.NeedReAuth
   | ActionFailType.Unknown
-  | ActionFailType.WeekPassword
+  | ActionFailType.SecurityError
   | ActionFailType.WrongCaptcha
   | ActionFailType.WrongPassword
 >;
@@ -251,7 +251,7 @@ const authInitLocal = async (
 
       return {
         success: false,
-        type: ActionFailType.WeekPassword,
+        type: ActionFailType.SecurityError,
         msg: data.errMsg ?? "密码太弱，请手动修改密码",
       };
     }

@@ -80,11 +80,10 @@ const getEmailPageLocal = async (
 };
 
 const getEmailPageOnline = (mid = ""): Promise<ActionEmailPageResponse> =>
-  request<ActionEmailPageResponse>("/action/email-page", {
-    method: "POST",
-    body: { mid },
-    cookieScope: ACTION_SERVER,
-  }).then(({ data }) => {
+  request<ActionEmailPageResponse>(
+    `/action/email-page${mid ? `?mid=${mid}` : ""}`,
+    { cookieScope: ACTION_SERVER },
+  ).then(({ data }) => {
     if (!data.success) logger.error("获取最近邮件失败", data);
 
     return data;

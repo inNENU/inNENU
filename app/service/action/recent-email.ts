@@ -87,7 +87,7 @@ export interface EmailData {
   unread: boolean;
 }
 
-const getEmailData = ({
+const getRecentEmailData = ({
   subject,
   receivedDate,
   from,
@@ -151,7 +151,7 @@ const getRecentEmailsLocal = async (): Promise<ActionRecentMailResponse> => {
         success: true,
         data: {
           unread: Number(data.count),
-          emails: data.emailList.con.var.map(getEmailData),
+          emails: data.emailList.con.var.map(getRecentEmailData),
         },
       };
     }
@@ -175,7 +175,7 @@ const getRecentEmailsOnline = async (): Promise<ActionRecentMailResponse> =>
     method: "POST",
     cookieScope: ACTION_SERVER,
   }).then(({ data }) => {
-    if (!data.success) logger.error("获取最近邮件失败", data);
+    if (!data.success) logger.error("获取近期邮件失败", data);
 
     return data;
   });

@@ -45,8 +45,6 @@ const getNoticeLocalDetail = async (
   noticeID: string,
 ): Promise<NoticeResponse> => {
   try {
-    if (!noticeID) throw new Error("ID is required");
-
     const noticeUrl = `${ACTION_SERVER}/page/viewNews?ID=${noticeID}`;
 
     const { data: text, status } = await request<string>(noticeUrl, {

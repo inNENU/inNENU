@@ -21,8 +21,8 @@ export const enum ActionFailType {
   NeedReAuth = "need-re-auth",
   /** 过于频繁 */
   TooFrequent = "too-frequent",
-  /** 弱密码 */
-  WeekPassword = "week-password",
+  /** 安全问题 */
+  SecurityError = "security-error",
 
   /** 验证码错误 */
   WrongCaptcha = "wrong-captcha",
@@ -33,7 +33,7 @@ export const enum ActionFailType {
   /** 用户名错误 */
   WrongUserName = "wrong-username",
 
-  /** 登陆过期 */
+  /** 登录过期 */
   Expired = "expired",
 
   /** 直接访问受限，需要 webVPN */

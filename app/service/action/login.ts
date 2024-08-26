@@ -1,6 +1,6 @@
 import { logger } from "@mptool/all";
 
-import { ACTION_DOMAIN, ACTION_SERVER } from "./utils.js";
+import { ACTION_DOMAIN, ACTION_MAIN_PAGE, ACTION_SERVER } from "./utils.js";
 import { cookieStore, request } from "../../api/index.js";
 import type { AccountInfo } from "../../state/index.js";
 import { user } from "../../state/index.js";
@@ -91,7 +91,7 @@ const actionLoginLocal = async (
 
   const result = await authLogin({
     ...options,
-    service: `${ACTION_SERVER}/portal_main/toPortalPage`,
+    service: ACTION_MAIN_PAGE,
     webVPN: true,
   });
 
@@ -109,7 +109,7 @@ const actionLoginLocal = async (
 
   const finalLocation = ticketResponse.headers.get("Location");
 
-  if (finalLocation?.startsWith(`${ACTION_SERVER}/portal_main/toPortalPage`))
+  if (finalLocation?.startsWith(ACTION_MAIN_PAGE))
     return {
       success: true,
     };
