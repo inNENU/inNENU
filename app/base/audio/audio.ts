@@ -2,7 +2,8 @@ import type { ComponentInstance, PropType } from "@mptool/all";
 import { $Component, logger } from "@mptool/all";
 
 import type { AudioComponentOptions } from "../../../typings/index.js";
-import { showToast } from "../../api/ui.js";
+import { showToast } from "../../api/index.js";
+import { info } from "../../state/index.js";
 
 // eslint-disable-next-line @typescript-eslint/consistent-type-definitions
 type AudioProps = {
@@ -15,6 +16,8 @@ type AudioProps = {
 interface AudioData {
   canPlay: boolean;
   isPlaying: boolean;
+  currentTime: number;
+  totalTime: number;
 }
 
 // eslint-disable-next-line @typescript-eslint/consistent-type-definitions
@@ -46,6 +49,8 @@ $Component<AudioData, AudioProps, AudioMethods, AudioInstanceMethod>({
   data: {
     canPlay: false,
     isPlaying: false,
+    currentTime: 0,
+    totalTime: 0,
   },
 
   lifetimes: {
@@ -103,9 +108,16 @@ $Component<AudioData, AudioProps, AudioMethods, AudioInstanceMethod>({
       instance.autoplay = autoplay;
       instance.loop = loop;
 
+      const onThemeChange = (): void => {
+        this.setData({ darkmode: info.darkmode });
+      };
+
       this.setData({
+        darkmode: info.darkmode,
         isPlaying: !instance.paused,
       });
+
+      wx.onThemeChange(onThemeChange);
 
       this.destroy = (): void => {
         instance.offPlay(onPlay);
@@ -116,6 +128,7 @@ $Component<AudioData, AudioProps, AudioMethods, AudioInstanceMethod>({
         instance.offError(onError);
         instance.stop();
         instance.destroy();
+        wx.offThemeChange(onThemeChange);
       };
     },
     detached() {

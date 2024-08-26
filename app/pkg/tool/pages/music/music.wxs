@@ -1,15 +1,4 @@
 module.exports = {
-  /** 时间处理 */
-  getTime: function (duration) {
-    var time = Math.round(duration);
-    var minute = Math.floor(time / 60).toString();
-    var second = Math.round(time % 60).toString();
-
-    return time
-      ? minute + ":" + (second.length === 1 ? "0" + second : second)
-      : "0:00";
-  },
-
   /** 播放模式 */
   getMode: function (mode) {
     var modeMap = {

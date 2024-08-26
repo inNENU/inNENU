@@ -1,4 +1,5 @@
 <!-- 音频组件 -->
+<wxs src="../../utils/time.wxs" module="time" />
 <view class="audio-component">
   <image
     wx:if="{{config.poster}}"
@@ -9,6 +10,9 @@
   <view class="audio-info">
     <view class="audio-name">{{config.name}}</view>
     <view class="audio-author">{{config.author}}</view>
+    <view wx:if="{{totalTime}}" class="audio-time">
+      {{time.getTime(currentTime)}} / {{time.getTime(totalTime)}}
+    </view>
   </view>
   <view class="audio-actions">
     <view
@@ -25,4 +29,19 @@
       <image class="icon" src="/icon/loading-state.svg" />
     </view>
   </view>
+  <!-- activeColor 为 QQ 适配 -->
+  <slider
+    wx:if="{{totalTime}}"
+    class="audio-progress-bar"
+    min="0"
+    max="{{totalTime * 100}}"
+    step="1"
+    value="{{currentTime * 100}}"
+    backgroundColor="{{darkmode ? '#999999' : '#cccccc'}}"
+    activeColor="#27C087"
+    block-size="12"
+    block-color="#27C087"
+    catch:change="drag"
+    catch:changing="drag"
+  />
 </view>

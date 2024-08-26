@@ -1,5 +1,6 @@
 /* audio */
 .audio-component {
+  position: relative;
   max-width: var(--max-width);
   margin: 8px 15px;
   border-radius: 32px;
@@ -16,7 +17,17 @@
 }
 
 .audio-info {
+  text-align: left;
+  position: relative;
   flex: 1;
+  padding-bottom: 8px;
+}
+
+.audio-time {
+  position: absolute;
+  top: 4px;
+  right: 4px;
+  font-size: 12px;
 }
 
 .audio-name {
@@ -45,4 +56,12 @@
 
 .audio-button-hover {
   filter: grayscale(50%);
+}
+
+.audio-progress-bar {
+  position: absolute;
+  left: 76px;
+  right: 68px;
+  bottom: 4px;
+  margin: 0;
 }
