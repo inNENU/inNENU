@@ -31,7 +31,7 @@
     "commit": "pnpm git-cz",
     "dev:app": "gulp -f gulpfile.cjs watchApp",
     "dev:qq": "gulp -f gulpfile.cjs watchQQ",
-    "dev:qy": "gulp -f gulpfile.cjs watchNenuyouth",
+    "dev:we": "gulp -f gulpfile.cjs watchWeNENU",
     "dev:wx": "gulp -f gulpfile.cjs watchWechat",
     "lint": "pnpm lint:prettier --write && pnpm lint:wxs --write && pnpm lint:wxml --write && pnpm eslint . --fix && pnpm lint:stylelint --fix",
     "lint:check": "pnpm lint:prettier && pnpm lint:wxs && pnpm lint:wxml && pnpm eslint . && pnpm lint:stylelint",
