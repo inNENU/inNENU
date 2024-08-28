@@ -26,9 +26,9 @@ export default config(
       ecmaVersion: "latest",
       sourceType: "module",
       parserOptions: {
+        projectService: true,
         parser: tsParser,
         tsconfigDirName: import.meta.dirname,
-        project: "./tsconfig.json",
         extraFileExtensions: [".wxs"],
       },
     },
