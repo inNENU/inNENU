@@ -10,7 +10,13 @@ import {
   appName,
 } from "../../config/index.js";
 import { searchMiniApp } from "../../service/index.js";
-import { envName, getIdentity, info, menuSpace } from "../../state/index.js";
+import {
+  envName,
+  getIdentity,
+  info,
+  menuSpace,
+  windowInfo,
+} from "../../state/index.js";
 import {
   getPageColor,
   resolvePage,
@@ -49,7 +55,7 @@ try {
 $Page(PAGE_ID, {
   data: {
     theme: info.theme,
-    statusBarHeight: info.statusBarHeight,
+    statusBarHeight: windowInfo.statusBarHeight,
     menuSpace,
     envName,
 

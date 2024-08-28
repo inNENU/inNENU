@@ -2,7 +2,7 @@ import { $Page } from "@mptool/all";
 
 import { copyContent, showToast } from "../../../../api/index.js";
 import { appCoverPrefix } from "../../../../config/index.js";
-import { info } from "../../../../state/index.js";
+import { windowInfo } from "../../../../state/index.js";
 import { ensureJson, getJson, showNotice } from "../../../../utils/index.js";
 
 interface PhoneItemConfig {
@@ -35,7 +35,7 @@ $Page("phone", {
     getJson<PhoneConfig[]>("function/phone/index").then((config) => {
       this.setData({
         config,
-        height: info.windowHeight - info.statusBarHeight - 160,
+        height: windowInfo.windowHeight - windowInfo.statusBarHeight - 160,
       });
     });
 
@@ -53,7 +53,7 @@ $Page("phone", {
 
   onResize({ size }) {
     this.setData({
-      height: size.windowHeight - info.statusBarHeight - 160,
+      height: size.windowHeight - windowInfo.statusBarHeight - 160,
     });
   },
 

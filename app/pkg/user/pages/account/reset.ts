@@ -1,9 +1,9 @@
 import { $Page } from "@mptool/all";
 
 import { showModal, showToast } from "../../../../api/index.js";
-import { appCoverPrefix } from "../../../../config/index.js";
+import { appCoverPrefix, logo } from "../../../../config/index.js";
 import { ActionFailType, supportRedirect } from "../../../../service/index.js";
-import { envName, info, logo } from "../../../../state/index.js";
+import { envName, info, windowInfo } from "../../../../state/index.js";
 import { getPageColor, showNotice } from "../../../../utils/index.js";
 import { getResetCaptchaLocal, resetPassword } from "../../service/index.js";
 
@@ -18,7 +18,7 @@ $Page(PAGE_ID, {
     /** 导航栏 */
     nav: {
       title: PAGE_TITLE,
-      statusBarHeight: info.statusBarHeight,
+      statusBarHeight: windowInfo.statusBarHeight,
       from: "返回",
     },
 

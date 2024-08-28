@@ -1,6 +1,6 @@
 import { $Component } from "@mptool/all";
 
-import { info } from "../../state/index.js";
+import { windowInfo } from "../../state/index.js";
 
 $Component({
   props: {
@@ -9,12 +9,12 @@ $Component({
     },
   },
 
+  data: {
+    statusBarHeight: windowInfo.statusBarHeight,
+  },
+
   lifetimes: {
     attached() {
-      this.setData({
-        statusBarHeight: info.statusBarHeight,
-      });
-
       this.createSelectorQuery()
         .select(".header-component")
         .boundingClientRect(({ height }) => {

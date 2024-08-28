@@ -12,7 +12,7 @@ import {
   description,
 } from "../../config/index.js";
 import { reportUserInfo } from "../../service/index.js";
-import { env, info, user } from "../../state/index.js";
+import { env, info, user, windowInfo } from "../../state/index.js";
 import {
   getPageColor,
   resolvePage,
@@ -60,7 +60,7 @@ $Page(PAGE_ID, {
     },
 
     theme: info.theme,
-    statusBarHeight: info.statusBarHeight,
+    statusBarHeight: windowInfo.statusBarHeight,
   },
 
   onPreload() {

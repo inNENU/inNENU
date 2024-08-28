@@ -1,5 +1,4 @@
 import type { ComponentConfig } from "./components.js";
-import type { GeneralScopeData } from "./scopeData.js";
 import type { PageData } from "../server/typings/index.js";
 
 /** 页面选项 */
@@ -32,7 +31,7 @@ export interface PageState extends Partial<PageData> {
   shadow?: boolean;
   image?: string[];
   content?: ComponentConfig[];
-  scopeData?: GeneralScopeData;
+  scopeData?: WechatMiniprogram.GeneralScopeData;
 }
 
 /** 含有内容的页面状态 */

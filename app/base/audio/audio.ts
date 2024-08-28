@@ -3,7 +3,7 @@ import { $Component, logger } from "@mptool/all";
 
 import type { AudioComponentOptions } from "../../../typings/index.js";
 import { showToast } from "../../api/index.js";
-import { info } from "../../state/index.js";
+import { appInfo } from "../../state/index.js";
 
 // eslint-disable-next-line @typescript-eslint/consistent-type-definitions
 type AudioProps = {
@@ -109,11 +109,11 @@ $Component<AudioData, AudioProps, AudioMethods, AudioInstanceMethod>({
       instance.loop = loop;
 
       const onThemeChange = (): void => {
-        this.setData({ darkmode: info.darkmode });
+        this.setData({ darkmode: appInfo.darkmode });
       };
 
       this.setData({
-        darkmode: info.darkmode,
+        darkmode: appInfo.darkmode,
         isPlaying: !instance.paused,
       });
 

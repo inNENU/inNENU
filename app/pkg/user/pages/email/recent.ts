@@ -1,13 +1,13 @@
 import { $Page } from "@mptool/all";
 
 import { copyContent, showModal, showToast } from "../../../../api/index.js";
-import { appCoverPrefix } from "../../../../config/index.js";
+import { appCoverPrefix, logo } from "../../../../config/index.js";
 import {
   ActionFailType,
   getEmailPage,
   getRecentEmails,
 } from "../../../../service/index.js";
-import { env, info, logo, user } from "../../../../state/index.js";
+import { env, info, user, windowInfo } from "../../../../state/index.js";
 import { showNotice } from "../../../../utils/index.js";
 
 const PAGE_ID = "email-recent";
@@ -20,7 +20,7 @@ $Page(PAGE_ID, {
 
     nav: {
       title: PAGE_TITLE,
-      statusBarHeight: info.statusBarHeight,
+      statusBarHeight: windowInfo.statusBarHeight,
       from: "返回",
     },
 

@@ -2,6 +2,7 @@ import { $Page, logger } from "@mptool/all";
 
 import type { PageOptions, PageState } from "../../../typings/index.js";
 import { appCoverPrefix } from "../../config/index.js";
+import { windowInfo } from "../../state/index.js";
 import {
   id2path,
   loadOnlinePage,
@@ -11,6 +12,7 @@ import {
 
 $Page("info", {
   data: {
+    statusBarHeight: windowInfo.statusBarHeight,
     page: {} as PageState & { id: string },
   },
 

@@ -3,7 +3,7 @@ import { $Page, readFile } from "@mptool/all";
 import { appCoverPrefix } from "../../../../config/index.js";
 import type { SearchResult, SearchType } from "../../../../service/index.js";
 import { searchMiniApp } from "../../../../service/index.js";
-import { info } from "../../../../state/index.js";
+import { appInfo, info } from "../../../../state/index.js";
 import { getPageColor, showNotice } from "../../../../utils/index.js";
 
 $Page("search", {
@@ -35,7 +35,7 @@ $Page("search", {
       color: getPageColor(true),
       searchWord: options.word || "",
       theme: info.theme,
-      darkmode: info.darkmode,
+      darkmode: appInfo.darkmode,
     });
 
     showNotice("search");

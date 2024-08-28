@@ -7,7 +7,7 @@ import type {
 } from "../../../../../typings/index.js";
 import { showModal, showToast } from "../../../../api/index.js";
 import type { App } from "../../../../app.js";
-import { info } from "../../../../state/index.js";
+import { appInfo, info } from "../../../../state/index.js";
 import {
   getPrivacyStatus,
   resolvePage,
@@ -43,7 +43,7 @@ const authorizeList: AuthorizeList[] = [
 $Page("privacy", {
   data: {
     theme: info.theme,
-    darkmode: info.darkmode,
+    darkmode: appInfo.darkmode,
     page: {
       title: "隐私说明",
       content: [

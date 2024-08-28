@@ -1,6 +1,6 @@
 import { $Component } from "@mptool/all";
 
-import { info } from "../../state/index.js";
+import { appInfo, windowInfo } from "../../state/index.js";
 
 $Component({
   props: {
@@ -8,12 +8,13 @@ $Component({
     action: String,
   },
 
+  data: {
+    statusBarHeight: windowInfo.statusBarHeight,
+  },
+
   lifetimes: {
     attached() {
-      this.setData({
-        statusBarHeight: info.statusBarHeight,
-      });
-      this.setImageLink(info.darkmode);
+      this.setImageLink(appInfo.darkmode);
       wx.onThemeChange?.(this.onThemeChange);
     },
 

@@ -12,7 +12,7 @@ import {
   showToast,
 } from "../../../../api/index.js";
 import { appCoverPrefix, server } from "../../../../config/index.js";
-import { env, info } from "../../../../state/index.js";
+import { env, info, windowInfo } from "../../../../state/index.js";
 import {
   ensureJson,
   getPageColor,
@@ -62,7 +62,7 @@ $Page(PAGE_ID, {
   },
 
   onShow() {
-    const { windowWidth, windowHeight } = info;
+    const { windowWidth, windowHeight } = windowInfo;
 
     this.setData({
       windowWidth,
@@ -113,7 +113,7 @@ $Page(PAGE_ID, {
   },
 
   onPageScroll(options) {
-    if (options.scrollTop > 250 + info.statusBarHeight)
+    if (options.scrollTop > 250 + windowInfo.statusBarHeight)
       this.setData({ showBackToTop: true });
     else this.setData({ showBackToTop: false });
   },

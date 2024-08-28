@@ -2,7 +2,7 @@ import { $Page } from "@mptool/all";
 
 import type { PageStateWithContent } from "../../../../../typings/index.js";
 import type { App } from "../../../../app.js";
-import { info } from "../../../../state/index.js";
+import { appInfo, info } from "../../../../state/index.js";
 import {
   getPrivacyStatus,
   resolvePage,
@@ -15,7 +15,7 @@ const { globalData } = getApp<App>();
 $Page("privacy", {
   data: {
     theme: info.theme,
-    darkmode: info.darkmode,
+    darkmode: appInfo.darkmode,
     page: {
       title: "隐私说明",
       content: [

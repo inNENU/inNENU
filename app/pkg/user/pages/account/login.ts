@@ -2,16 +2,16 @@ import { $Page } from "@mptool/all";
 
 import type { ListComponentConfig } from "../../../../../typings/components.js";
 import { retryAction, showModal, showToast } from "../../../../api/index.js";
-import { appCoverPrefix } from "../../../../config/index.js";
+import { appCoverPrefix, logo } from "../../../../config/index.js";
 import { ActionFailType, mpRemove } from "../../../../service/index.js";
 import type { UserInfo } from "../../../../state/index.js";
 import {
   env,
   envName,
   info,
-  logo,
   setUserInfo,
   user,
+  windowInfo,
 } from "../../../../state/index.js";
 import {
   getLicenseStatus,
@@ -55,7 +55,7 @@ $Page(PAGE_ID, {
     /** 导航栏 */
     nav: {
       title: PAGE_TITLE,
-      statusBarHeight: info.statusBarHeight,
+      statusBarHeight: windowInfo.statusBarHeight,
       from: "返回",
     },
 

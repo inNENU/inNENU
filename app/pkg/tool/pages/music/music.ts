@@ -2,7 +2,7 @@ import { $Page, logger } from "@mptool/all";
 
 import { loadFZSSJW, showToast } from "../../../../api/index.js";
 import { appCoverPrefix, appName } from "../../../../config/index.js";
-import { info } from "../../../../state/index.js";
+import { appInfo } from "../../../../state/index.js";
 import { ensureJson, getJson, showNotice } from "../../../../utils/index.js";
 import type {
   Lyric,
@@ -62,7 +62,7 @@ $Page("music", {
 
   onLoad(option) {
     const mode = wx.getStorageSync<PlayMode | undefined>("play-mode");
-    const { darkmode } = info;
+    const { darkmode } = appInfo;
 
     if (!mode) wx.setStorageSync("play-mode", "列表循环");
 

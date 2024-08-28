@@ -2,7 +2,7 @@ import { $Page, get, set } from "@mptool/all";
 
 import { confirmAction } from "../../../../api/index.js";
 import { WIDGET_KEY } from "../../../../config/index.js";
-import { info } from "../../../../state/index.js";
+import { appInfo, info } from "../../../../state/index.js";
 import { getPageColor, showNotice } from "../../../../utils/index.js";
 import type { WidgetInfo } from "../../../../widgets/config.js";
 import { DEFAULT_WIDGETS, WIDGETS } from "../../../../widgets/config.js";
@@ -16,7 +16,7 @@ $Page(PAGE_ID, {
   data: {
     title: PAGE_TITLE,
     theme: info.theme,
-    darkmode: info.darkmode,
+    darkmode: appInfo.darkmode,
     style: "",
 
     addPopup: {
@@ -37,7 +37,8 @@ $Page(PAGE_ID, {
   },
 
   onLoad() {
-    const { darkmode, theme } = info;
+    const { darkmode } = appInfo;
+    const { theme } = info;
     const widgets = get<WidgetConfig[]>(WIDGET_KEY) || DEFAULT_WIDGETS;
 
     this.setData({

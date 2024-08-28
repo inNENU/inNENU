@@ -17,7 +17,7 @@ import { requestJSON, showModal } from "../api/index.js";
 import type { NoticeItem } from "../app/index.js";
 import type { App } from "../app.js";
 import { imageWaterMark } from "../config/index.js";
-import { env, info } from "../state/index.js";
+import { appInfo, env, info } from "../state/index.js";
 
 type PageInstanceWithPage = PageInstance<
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -278,27 +278,28 @@ export interface PageColors {
 export const getPageColor = (grey = false): PageColors => {
   let temp: [string, string, string];
 
-  if (info.darkmode && grey)
-    switch (info.theme) {
-      case "Android":
-        temp = ["#10110b", "#10110b", "#10110b"];
-        break;
-      case "ios":
-        temp = ["#000000", "#000000", "#000000"];
-        break;
-      case "nenu":
-      default:
-        temp = ["#070707", "#070707", "#070707"];
-    }
-  else if (info.darkmode && !grey)
-    switch (info.theme) {
-      case "ios":
-      case "Android":
-      case "nenu":
-      default:
-        temp = ["#000000", "#000000", "#000000"];
-    }
-  else if (!info.darkmode && grey)
+  if (appInfo.darkmode) {
+    if (grey)
+      switch (info.theme) {
+        case "Android":
+          temp = ["#10110b", "#10110b", "#10110b"];
+          break;
+        case "ios":
+          temp = ["#000000", "#000000", "#000000"];
+          break;
+        case "nenu":
+        default:
+          temp = ["#070707", "#070707", "#070707"];
+      }
+    else
+      switch (info.theme) {
+        case "ios":
+        case "Android":
+        case "nenu":
+        default:
+          temp = ["#000000", "#000000", "#000000"];
+      }
+  } else if (grey)
     switch (info.theme) {
       case "Android":
         temp = ["#f8f8f8", "#f8f8f8", "#f8f8f8"];
@@ -370,7 +371,7 @@ export const setPage = (
         {
           color: getPageColor(pageData.grey),
           theme: info.theme,
-          darkmode: info.darkmode,
+          darkmode: appInfo.darkmode,
           page: pageData,
         },
         () => {
@@ -391,7 +392,7 @@ export const setPage = (
         {
           color: getPageColor(globalData.page.data?.grey),
           theme: info.theme,
-          darkmode: info.darkmode,
+          darkmode: appInfo.darkmode,
           page: globalData.page.data,
         },
         () => {
@@ -415,7 +416,7 @@ export const setPage = (
         {
           color: getPageColor(pageData.grey),
           theme: info.theme,
-          darkmode: info.darkmode,
+          darkmode: appInfo.darkmode,
           page: pageData,
         },
         resolve,
@@ -481,7 +482,7 @@ export const setOnlinePage = (
         {
           color: getPageColor(globalData.page.data!.grey),
           theme: info.theme,
-          darkmode: info.darkmode,
+          darkmode: appInfo.darkmode,
           page: globalData.page.data,
         },
         () => {
@@ -542,7 +543,6 @@ export const setOnlinePage = (
                 error: true,
                 id: option.id,
                 from: option.from,
-                statusBarHeight: info.statusBarHeight,
               },
             );
             showNotice(option.id || "");
@@ -594,7 +594,6 @@ export const loadOnlinePage = (
             error: true,
             id: option.id,
             from: option.from,
-            statusBarHeight: info.statusBarHeight,
           },
         );
         showNotice(option.id || "");

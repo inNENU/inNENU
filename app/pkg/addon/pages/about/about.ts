@@ -15,7 +15,7 @@ import {
   version,
 } from "../../../../config/index.js";
 import { reportUserInfo } from "../../../../service/index.js";
-import { info, updateSelectable } from "../../../../state/index.js";
+import { appInfo, info, updateSelectable } from "../../../../state/index.js";
 import { resolvePage, setPage, showNotice } from "../../../../utils/index.js";
 
 const { globalData } = getApp<App>();
@@ -28,7 +28,7 @@ const PAGE_TITLE = "关于";
 $Page(PAGE_ID, {
   data: {
     theme: info.theme,
-    darkmode: info.darkmode,
+    darkmode: appInfo.darkmode,
     page: {
       title: `关于 ${appName}`,
       desc: `当前版本: ${version}`,

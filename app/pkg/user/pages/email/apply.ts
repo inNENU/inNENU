@@ -1,13 +1,19 @@
 import { $Page } from "@mptool/all";
 
 import { copyContent, showModal, showToast } from "../../../../api/index.js";
-import { appCoverPrefix, appName } from "../../../../config/index.js";
+import { appCoverPrefix, appName, logo } from "../../../../config/index.js";
 import type {
   ActivateEmailOptions,
   LoginMethod,
 } from "../../../../service/index.js";
 import { applyEmail, ensureMyLogin } from "../../../../service/index.js";
-import { env, envName, info, logo, user } from "../../../../state/index.js";
+import {
+  env,
+  envName,
+  info,
+  user,
+  windowInfo,
+} from "../../../../state/index.js";
 import { showNotice } from "../../../../utils/index.js";
 
 const MAIL_LINK = "https://mail.nenu.edu.cn";
@@ -21,7 +27,7 @@ $Page(PAGE_ID, {
 
     nav: {
       title: PAGE_TITLE,
-      statusBarHeight: info.statusBarHeight,
+      statusBarHeight: windowInfo.statusBarHeight,
       from: "返回",
     },
 

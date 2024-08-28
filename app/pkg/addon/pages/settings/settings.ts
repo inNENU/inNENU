@@ -9,7 +9,12 @@ import { confirmAction, showModal } from "../../../../api/index.js";
 import { defaultResources, downloadResource } from "../../../../app/index.js";
 import { size, version } from "../../../../config/index.js";
 import { supportRedirect } from "../../../../service/index.js";
-import { envName, info, updateTheme } from "../../../../state/index.js";
+import {
+  appInfo,
+  envName,
+  info,
+  updateTheme,
+} from "../../../../state/index.js";
 import { getPageColor, setPage, showNotice } from "../../../../utils/index.js";
 import { resetApp } from "../../utils/index.js";
 
@@ -19,7 +24,7 @@ const PAGE_TITLE = `${envName}设置`;
 $Page(PAGE_ID, {
   data: {
     theme: info.theme,
-    darkmode: info.darkmode,
+    darkmode: appInfo.darkmode,
     page: {
       title: PAGE_TITLE,
       desc: `当前版本: ${version}`,

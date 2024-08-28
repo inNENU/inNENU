@@ -6,6 +6,7 @@ export const description = "weNENU，我们的东师";
 /** 小程序版本 */
 export const version = "0.0.2";
 
-// FIXME: Update Cover and logo
-export const appCoverPrefix = `${server}img/myNENU`;
+// FIXME: Update Cover, logo and watermark
+export const appCoverPrefix = `${server}img/weNENU`;
+export const logo = "/frameset/placeholder.png";
 export const imageWaterMark = "";

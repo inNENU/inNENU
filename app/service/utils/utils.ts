@@ -1,6 +1,6 @@
 import { compareVersion } from "../../api/index.js";
 import type { App } from "../../app.js";
-import { env, info } from "../../state/index.js";
+import { env, platform } from "../../state/index.js";
 
 // 获取 SDK 版本
 const { SDKVersion } = (wx.getAppBaseInfo || wx.getSystemInfoSync)();
@@ -8,7 +8,7 @@ const { SDKVersion } = (wx.getAppBaseInfo || wx.getSystemInfoSync)();
 /** 是否支持 redirect manual */
 export const supportRedirect =
   env === "wx" &&
-  ["android", "ios"].includes(info.platform) &&
+  ["android", "ios"].includes(platform) &&
   compareVersion(SDKVersion, "3.2.2") > 0;
 
 export const isOnlineService = (name: string): boolean => {

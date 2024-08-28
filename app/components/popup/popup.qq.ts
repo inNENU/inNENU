@@ -1,7 +1,7 @@
 import { $Component } from "@mptool/all";
 
 import { getWindowInfo } from "../../api/index.js";
-import { info } from "../../state/index.js";
+import { appInfo } from "../../state/index.js";
 
 $Component({
   props: {
@@ -19,7 +19,7 @@ $Component({
 
   lifetimes: {
     attached() {
-      this.setData({ darkmode: info.darkmode });
+      this.setData({ darkmode: appInfo.darkmode });
       this.updateLayout();
     },
   },

@@ -1,6 +1,6 @@
 import { $Page } from "@mptool/all";
 
-import { info } from "../../../../state/index.js";
+import { info, windowInfo } from "../../../../state/index.js";
 import { ensureJson, getJson, showNotice } from "../../../../utils/index.js";
 
 const PAGE_ID = "website";
@@ -27,7 +27,7 @@ $Page("website", {
       this.setData({
         titles: config.map((item) => item.name),
         config,
-        height: info.windowHeight - info.statusBarHeight - 160,
+        height: windowInfo.windowHeight - windowInfo.statusBarHeight - 160,
         theme: info.theme,
       });
     });
@@ -37,7 +37,7 @@ $Page("website", {
 
   onResize({ size }) {
     this.setData({
-      height: size.windowHeight - info.statusBarHeight - 160,
+      height: size.windowHeight - windowInfo.statusBarHeight - 160,
     });
   },
 

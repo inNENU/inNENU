@@ -1,13 +1,10 @@
-import { assets } from "../config/index.js";
+import { getWindowInfo } from "../api/index.js";
 
-const systemInfo = wx.getSystemInfoSync();
+const { theme, ...defaultAppInfo } = (
+  wx.getAppBaseInfo || wx.getSystemInfoSync
+)();
 
-/** 小程序 appid */
-/*@__PURE__*/
-export const appID = (wx.getAccountInfoSync().miniProgram.appId ||
-  wx.getAppBaseInfo?.().host.appId ||
-  // FIXME: Current SDK can not return appid correctly
-  "wx69e79c3d87753512") as AppID;
+export const windowInfoState = getWindowInfo();
 
 /** 小程序 appid */
 export type AppID =
@@ -16,30 +13,70 @@ export type AppID =
   | "wx69e79c3d87753512"
   | 1109559721;
 
+/** 小程序 appid */
+/*@__PURE__*/
+export const appID = (wx.getAccountInfoSync().miniProgram.appId ||
+  wx.getAppBaseInfo?.().host.appId ||
+  // FIXME: Current SDK can not return appid correctly
+  "wx69e79c3d87753512") as AppID;
+
 /** 运行环境 */
 export type Env = "app" | "qq" | "wx";
 
 /** 运行环境 */
 /*@__PURE__*/
 export const env: Env =
-  "miniapp" in wx ? "app" : systemInfo.AppPlatform || "wx";
+  "miniapp" in wx
+    ? "app"
+    : (wx as WechatMiniprogram.Wx).getSystemInfoSync().AppPlatform || "wx";
 
 /** 运行环境名称 */
+/*@__PURE__*/
 export const envName = env === "app" ? "App" : "小程序";
 
-export const logo =
-  env === "qq" ? `${assets}img/inNENU.png` : "/frameset/placeholder.png";
-
-export const platform = systemInfo.platform;
+/** 运行环境名称 */
+/*@__PURE__*/
+export const { platform } = (wx.getDeviceInfo || wx.getSystemInfoSync)();
 
 export const menuSpace =
   platform !== "windows" && env !== "app"
     ? (wx.getMenuButtonBoundingClientRect?.().width ?? 80)
     : 0;
 
-export interface InfoState extends Omit<WechatMiniprogram.SystemInfo, "theme"> {
+export interface AppInfo extends Omit<WechatMiniprogram.AppBaseInfo, "theme"> {
   /** 夜间模式 */
   darkmode: boolean;
+}
+
+const appInfoState: AppInfo = {
+  ...defaultAppInfo,
+  darkmode: theme === "dark",
+};
+
+export const appInfo: Readonly<AppInfo> = appInfoState;
+
+wx.onThemeChange?.(({ theme }) => {
+  appInfoState.darkmode = theme === "dark";
+});
+wx.onAppShow(() => {
+  appInfoState.darkmode =
+    (wx.getAppBaseInfo || wx.getSystemInfoSync)().theme === "dark";
+});
+
+export const windowInfo: Readonly<WechatMiniprogram.WindowInfo> =
+  windowInfoState;
+
+// Note: App does not support this API
+if (env !== "app")
+  // 更新窗口大小
+  wx.onWindowResize(({ size }) => {
+    const { windowHeight, windowWidth } = size;
+
+    windowInfoState.windowHeight = windowHeight;
+    windowInfoState.windowWidth = windowWidth;
+  });
+
+export interface InfoState {
   /** 启动时间 */
   startupTime: number;
   /** 当前主题 */
@@ -49,33 +86,10 @@ export interface InfoState extends Omit<WechatMiniprogram.SystemInfo, "theme"> {
 }
 
 const infoState: InfoState = {
-  ...systemInfo,
-  darkmode: systemInfo.theme === "dark",
   startupTime: Date.now(),
   theme: wx.getStorageSync<string>("theme") || "ios",
   selectable: wx.getStorageSync<boolean>("selectable") || false,
 };
-
-// FIXME: App does not support this API
-if (env !== "app")
-  // 更新窗口大小
-  wx.onWindowResize(({ size }) => {
-    const { windowHeight, windowWidth } = size;
-
-    infoState.windowHeight = windowHeight;
-    infoState.windowWidth = windowWidth;
-  });
-
-// 监听主题
-wx.onThemeChange?.(({ theme }) => {
-  infoState.darkmode = theme === "dark";
-});
-
-// 重新设置
-wx.onAppShow(() => {
-  infoState.darkmode =
-    (wx.getAppBaseInfo || wx.getSystemInfoSync)().theme === "dark";
-});
 
 export const info: Readonly<InfoState> = infoState;
 

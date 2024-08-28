@@ -4,13 +4,14 @@ import type { PageState } from "../../../../../typings/index.js";
 import type { App } from "../../../../app.js";
 import { appCoverPrefix } from "../../../../config/index.js";
 import { defaultScroller } from "../../../../mixins/index.js";
-import { info } from "../../../../state/index.js";
+import { windowInfo } from "../../../../state/index.js";
 import { getJson, resolvePage, setPage } from "../../../../utils/index.js";
 
 const { globalData } = getApp<App>();
 
 $Page("map-detail", {
   data: {
+    statusBarHeight: windowInfo.statusBarHeight,
     page: {} as PageState,
   },
 
@@ -33,20 +34,13 @@ $Page("map-detail", {
             setPage({ option, ctx: this }, data);
           })
           .catch(() => {
-            setPage(
-              { option, ctx: this },
-              {
-                error: true,
-                statusBarHeight: info.statusBarHeight,
-              },
-            );
+            setPage({ option, ctx: this }, { error: true });
           });
 
       this.state.id = id;
     }
 
     this.setData({
-      statusBarHeight: info.statusBarHeight,
       firstPage: getCurrentPages().length === 1,
     });
   },

@@ -9,12 +9,13 @@ import {
 } from "../../../../config/index.js";
 import type { WeatherAlarm, WeatherData } from "../../../../service/index.js";
 import { getWeather } from "../../../../service/index.js";
-import { info } from "../../../../state/index.js";
+import { windowInfo } from "../../../../state/index.js";
 
 const PAGE_TITLE = "东师天气";
 
 $Page("weather", {
   data: {
+    statusBarHeight: windowInfo.statusBarHeight,
     /** 天气数据 */
     weather: {} as WeatherData,
     /** 当前 tips 的索引值 */
@@ -35,7 +36,6 @@ $Page("weather", {
       // 18 点至次日 5 点为夜间
       night: currentHour > 18 || currentHour < 5,
       firstPage: getCurrentPages().length === 1,
-      statusBarHeight: info.statusBarHeight,
     });
 
     if (wx.getStorageSync(INITIALIZED_KEY)) {

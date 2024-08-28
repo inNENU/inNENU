@@ -2,7 +2,7 @@ import { $Page } from "@mptool/all";
 
 import { copyContent, showModal } from "../../../../api/index.js";
 import { appCoverPrefix } from "../../../../config/index.js";
-import { info } from "../../../../state/index.js";
+import { info, windowInfo } from "../../../../state/index.js";
 import { ensureJson, getJson, showNotice } from "../../../../utils/index.js";
 
 const PAGE_ID = "website";
@@ -30,7 +30,7 @@ $Page(PAGE_ID, {
       this.setData({
         titles: config.map((item) => item.name),
         config,
-        height: info.windowHeight - info.statusBarHeight - 160,
+        height: windowInfo.windowHeight - windowInfo.statusBarHeight - 160,
         theme: info.theme,
       });
     });
@@ -49,7 +49,7 @@ $Page(PAGE_ID, {
 
   onResize({ size }) {
     this.setData({
-      height: size.windowHeight - info.statusBarHeight - 160,
+      height: size.windowHeight - windowInfo.statusBarHeight - 160,
     });
   },
 

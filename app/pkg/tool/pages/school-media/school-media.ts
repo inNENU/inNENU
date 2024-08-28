@@ -8,7 +8,7 @@ import {
 } from "../../../../api/index.js";
 import { appCoverPrefix } from "../../../../config/index.js";
 import type { Env } from "../../../../state/index.js";
-import { env, info } from "../../../../state/index.js";
+import { env, windowInfo } from "../../../../state/index.js";
 import { ensureJson, getJson, showNotice } from "../../../../utils/index.js";
 
 const PAGE_ID = "school-media";
@@ -36,7 +36,7 @@ $Page(PAGE_ID, {
       this.setData({
         config,
         type,
-        height: info.screenHeight - info.statusBarHeight - 202,
+        height: windowInfo.windowHeight - windowInfo.statusBarHeight - 202,
       });
     });
 
@@ -54,7 +54,7 @@ $Page(PAGE_ID, {
 
   onResize() {
     this.setData({
-      height: info.screenHeight - info.statusBarHeight - 202,
+      height: windowInfo.windowHeight - windowInfo.statusBarHeight - 202,
     });
   },
 

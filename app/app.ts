@@ -11,7 +11,7 @@ import {
   updateApp,
 } from "./app/index.js";
 import { INITIALIZED_KEY } from "./config/index.js";
-import { info } from "./state/index.js";
+import { appInfo } from "./state/index.js";
 
 export interface App {
   globalData: GlobalData;
@@ -103,7 +103,7 @@ $Config({
     options.onLoad = wrapFunction(
       options.onLoad,
       function (this: TrivialPageInstance & { onThemeChange: () => void }) {
-        this.setData({ darkmode: info.darkmode });
+        this.setData({ darkmode: appInfo.darkmode });
         wx.onThemeChange?.(this.onThemeChange);
       },
     );

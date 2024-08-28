@@ -7,7 +7,7 @@ import type {
 } from "../../../../../typings/index.js";
 import { showModal, showToast } from "../../../../api/index.js";
 import { appCoverPrefix } from "../../../../config/index.js";
-import { info } from "../../../../state/index.js";
+import { windowInfo } from "../../../../state/index.js";
 import {
   ensureJson,
   getJson,
@@ -96,8 +96,8 @@ $Page(PAGE_ID, {
 
     this.setData({
       area,
-      statusBarHeight: info.statusBarHeight,
-      tabHeight: info.windowHeight / 2 - 20,
+      statusBarHeight: windowInfo.statusBarHeight,
+      tabHeight: windowInfo.windowHeight / 2 - 20,
     });
 
     showNotice(PAGE_ID);

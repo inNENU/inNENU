@@ -9,7 +9,7 @@ import {
 } from "../../../../config/index.js";
 import type { WeatherAlarm, WeatherData } from "../../../../service/index.js";
 import { getWeather } from "../../../../service/index.js";
-import { info } from "../../../../state/index.js";
+import { windowInfo } from "../../../../state/index.js";
 import { getPageColor } from "../../../../utils/index.js";
 
 const PAGE_TITLE = "东师天气";
@@ -38,7 +38,7 @@ $Page("weather", {
       infoClass: currentHour > 18 || currentHour < 5 ? "night" : "day",
       firstPage: getCurrentPages().length === 1,
       color: getPageColor(),
-      statusBarHeight: info.statusBarHeight,
+      statusBarHeight: windowInfo.statusBarHeight,
     });
 
     if (wx.getStorageSync(INITIALIZED_KEY)) {
@@ -127,7 +127,7 @@ $Page("weather", {
         ([
           { node: canvas, width, height },
         ]: Required<WechatMiniprogram.NodeInfo>[]) => {
-          const dpr = info.pixelRatio;
+          const dpr = windowInfo.pixelRatio;
 
           canvas.width = width * dpr;
           canvas.height = height * dpr;
@@ -158,7 +158,7 @@ $Page("weather", {
     const gap = max - min;
 
     const context = canvas.getContext("2d");
-    const dpr = info.pixelRatio;
+    const dpr = windowInfo.pixelRatio;
     const width = (canvas.width * 5) / 8 / dpr;
 
     context.scale(dpr, dpr);

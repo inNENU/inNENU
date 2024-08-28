@@ -2,7 +2,7 @@ import { $Page } from "@mptool/all";
 
 import { appCoverPrefix } from "../../../../config/index.js";
 import { reportUserInfo } from "../../../../service/index.js";
-import { info } from "../../../../state/index.js";
+import { appInfo, info } from "../../../../state/index.js";
 import { getPageColor } from "../../../../utils/index.js";
 import { rateApp, resetApp } from "../../utils/index.js";
 
@@ -15,13 +15,13 @@ $Page(PAGE_ID, {
   },
 
   onLoad(options) {
-    const { darkmode, theme } = info;
+    const { theme } = info;
     const action = options.scene
       ? decodeURIComponent(options.scene)
       : options.action;
 
     this.setData({
-      darkmode,
+      darkmode: appInfo.darkmode,
       theme,
       color: getPageColor(),
       canExit: typeof wx.restartMiniProgram === "function",

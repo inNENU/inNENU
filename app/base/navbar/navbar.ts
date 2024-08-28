@@ -1,7 +1,7 @@
 import { $Component } from "@mptool/all";
 
 import { defaultScroller, pageScrollMixin } from "../../mixins/index.js";
-import { info } from "../../state/index.js";
+import { info, windowInfo } from "../../state/index.js";
 
 $Component({
   props: {
@@ -9,7 +9,7 @@ $Component({
   },
 
   data: {
-    statusBarHeight: info.statusBarHeight,
+    statusBarHeight: windowInfo.statusBarHeight,
     titleDisplay: false,
     borderDisplay: false,
     shadow: false,

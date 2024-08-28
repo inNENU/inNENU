@@ -1,7 +1,7 @@
 import { $Component, get, set } from "@mptool/all";
 
 import { MONTH } from "../../config/index.js";
-import { info } from "../../state/index.js";
+import { appInfo, windowInfo } from "../../state/index.js";
 
 const KEY = "add-miniprogram-hint";
 
@@ -17,14 +17,13 @@ $Component({
   },
 
   data: {
+    statusBarHeight: windowInfo.statusBarHeight,
     display: true,
   },
 
   lifetimes: {
     attached() {
-      const { darkmode, statusBarHeight } = info;
-
-      this.setData({ darkmode, statusBarHeight });
+      this.setData({ darkmode: appInfo.darkmode });
       wx.onThemeChange?.(this.onThemeChange);
     },
 
