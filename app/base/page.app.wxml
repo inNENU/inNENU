@@ -1,17 +1,7 @@
 <import src="./components.wxml" />
+<import src="./error-page.wxml" />
+<import src="./loading-page.wxml" />
 <wxs src="./template.wxs" module="utils" />
-
-<!-- loading -->
-<template name="loading">
-  <view class="loading-logo">
-    <view class="logo">
-      <view>in</view>
-      <view>NENU</view>
-    </view>
-    <view class="shadow" />
-    <view class="text">加载中...</view>
-  </view>
-</template>
 
 <!-- page with navigation bar -->
 <template name="page">
@@ -23,13 +13,13 @@
     <!-- 错误显示 -->
     <block wx:if="{{page.error}}">
       <navbar nav="{{utils.getErrorNavbarConfig(page)}}" />
-      <template is="error" data="{{ id: page.id, from: page.from }}" />
+      <template is="error-page" data="{{ id: page.id, from: page.from }}" />
     </block>
 
     <!-- 加载页面 -->
     <view wx:elif="{{!page.content}}" class="loading-logo-wrapper">
       <back-button />
-      <template is="loading" />
+      <template is="loading-page" />
     </view>
 
     <block wx:else>
@@ -50,20 +40,5 @@
         config="{{utils.getFooterConfig(page)}}"
       />
     </block>
-  </view>
-</template>
-
-<!-- 错误文字 -->
-<template name="error">
-  <view class="error-wrapper">
-    <icon type="warn" size="80" />
-    <view class="error-text">十分抱歉，页面加载出错!</view>
-    <view class="hint">您可以截屏本页面并添加 inNENU 反馈群进行反馈</view>
-    <view class="desc">
-      <text>当前: {{ id || '未知' }}</text>
-    </view>
-    <view class="desc">
-      <text>来源: {{ from || '未知' }}</text>
-    </view>
   </view>
 </template>

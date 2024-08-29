@@ -1,4 +1,4 @@
-<import src="/base/template.wxml" />
+<import src="/base/page.wxml" />
 <page-meta
   background-text-style="{{darkmode ? 'dark' : 'light'}}"
   background-color="{{color.bgColor}}"
