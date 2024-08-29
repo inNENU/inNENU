@@ -1,4 +1,4 @@
-<view class="card-component" hover-class="button-hover" catch:tap="tap">
+<view class="card-component" hover-class="button-hover" catch:tap="onTap">
   <image
     wx:if="{{config.cover}}"
     class="card-cover"

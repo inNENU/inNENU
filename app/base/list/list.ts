@@ -6,6 +6,7 @@ import type {
   ListComponentOptions,
 } from "../../../typings/index.js";
 import { info } from "../../state/index.js";
+import { navigate } from "../../utils/index.js";
 
 $Component({
   props: {
@@ -13,6 +14,12 @@ $Component({
     config: {
       type: Object as PropType<ListComponentOptions>,
       required: true,
+    },
+
+    /** 引用标题 */
+    referer: {
+      type: String,
+      default: "",
     },
   },
 
@@ -26,6 +33,19 @@ $Component({
             : "",
         ),
       });
+    },
+
+    onTap({
+      currentTarget,
+    }: WechatMiniprogram.TouchEvent<
+      Record<string, never>,
+      Record<string, never>,
+      { item: ListComponentItemOptions }
+    >) {
+      const { referer } = this.data;
+      const { item } = currentTarget.dataset;
+
+      navigate(item, referer);
     },
   },
 

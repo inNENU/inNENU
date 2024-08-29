@@ -1,5 +1,12 @@
 import type { PageInstance, PageQuery } from "@mptool/all";
-import { logger, readJSON, showModal, writeJSON } from "@mptool/all";
+import {
+  go,
+  logger,
+  readJSON,
+  showModal,
+  writeClipboard,
+  writeJSON,
+} from "@mptool/all";
 
 import { getScopeData } from "./getScopeData.js";
 import { id2path } from "./id.js";
@@ -37,7 +44,6 @@ const setListItemState = (
     | FunctionalListComponentItemConfig
     | GridComponentItemOptions
     | ListComponentItemOptions,
-  title = "返回",
 ):
   | (
       | FunctionalListComponentItemConfig
@@ -51,12 +57,6 @@ const setListItemState = (
     !listElement.env?.includes(env)
   )
     return null;
-
-  // 设置列表导航
-  if ("url" in listElement && !listElement.url!.startsWith("plugin://"))
-    listElement.url += `?from=${title}`;
-  if (!("appId" in listElement) && "path" in listElement)
-    listElement.url = `info?from=${title}&id=${listElement.path!}`;
 
   if ("type" in listElement)
     if (listElement.type === "switch")
@@ -101,7 +101,6 @@ const setListItemState = (
 export const setComponentState = (
   components: ComponentConfig[],
   images: string[] = [],
-  title = "返回",
 ): ComponentConfig[] =>
   components
     .map((component) => {
@@ -116,16 +115,6 @@ export const setComponentState = (
         images.push(`${res || src}${watermark ? imageWaterMark : ""}`);
       }
 
-      if (
-        "path" in component &&
-        (tag === "p" ||
-          tag === "ol" ||
-          tag === "ul" ||
-          tag === "text" ||
-          (tag === "card" && !("appId" in component)))
-      )
-        component.url = `info?from=${title || "返回"}&id=${component.path!}`;
-
       // 设置 list 组件
       if (tag === "list" || tag === "grid" || tag === "functional-list")
         component.items = component.items
@@ -135,7 +124,7 @@ export const setComponentState = (
                 | FunctionalListComponentItemConfig
                 | GridComponentItemOptions
                 | ListComponentItemOptions,
-            ) => setListItemState(listElement, title),
+            ) => setListItemState(listElement),
           )
           .filter((listElement) => listElement !== null);
 
@@ -161,11 +150,7 @@ const setPageState = (
   page.from = option.from || "返回";
 
   if (page.content) {
-    page.content = setComponentState(
-      page.content,
-      (page.images ??= []),
-      page.title,
-    );
+    page.content = setComponentState(page.content, (page.images ??= []));
     page.scopeData = getScopeData(page as PageStateWithContent);
   }
 
@@ -607,5 +592,99 @@ export const loadOnlinePage = (
       });
   } else {
     logger.error("无页面路径");
+  }
+};
+
+export interface UrlOptions {
+  url: string;
+}
+
+export interface PathOptions {
+  path: string;
+}
+
+export interface MiniprogramOptions {
+  appId: string;
+  path?: string;
+  extraData?: Record<string, unknown>;
+  versionType?: "develop" | "trial" | "release";
+}
+
+export interface ShortLinkOptions {
+  shortLink: string;
+  extraData?: Record<string, unknown>;
+  versionType?: "develop" | "trial" | "release";
+}
+
+export const navigate = (
+  options:
+    | UrlOptions
+    | PathOptions
+    | MiniprogramOptions
+    | ShortLinkOptions
+    | Record<never, never>,
+  referer?: string,
+): void => {
+  if ("appId" in options) {
+    const { appId, path, extraData, versionType } = options;
+
+    if (env === "wx") {
+      wx.navigateToMiniProgram({
+        appId,
+        path,
+        extraData,
+        envVersion: versionType,
+      });
+    } else if (env === "app") {
+      wx.miniapp.launchMiniProgram({
+        userName: appId,
+        path,
+        miniprogramType:
+          versionType === "develop" ? 1 : versionType === "trial" ? 2 : 0,
+      });
+    } else {
+      showModal("无法打开", "暂不支持打开微信小程序");
+    }
+  } else if ("shortLink" in options) {
+    const { shortLink, extraData, versionType } = options;
+
+    if (env === "wx") {
+      wx.navigateToMiniProgram({
+        shortLink,
+        extraData,
+        envVersion: versionType,
+      });
+    } else {
+      showModal("无法打开", "暂不支持打开微信小程序");
+    }
+  } else if ("url" in options) {
+    const { url } = options;
+
+    // 页面路径
+    if (!/^https?:\/\//.test(url))
+      go(`${url}${url.includes("?") ? `&` : `?`}from=${referer}`);
+    // 为链接
+    else {
+      // 打开浏览器或 App
+      if (env === "app") wx.miniapp.openUrl({ url });
+      // 判断是否是可以跳转的微信图文
+      else if (
+        env === "wx" &&
+        url.startsWith("https://mp.weixin.qq.com") &&
+        wx.openOfficialAccountArticle
+      ) {
+        wx.openOfficialAccountArticle({ url });
+      }
+      // 无法跳转，复制链接到剪切板
+      else
+        writeClipboard(url).then(() => {
+          showModal(
+            "无法直接打开",
+            "小程序无法直接打开网页，链接已复制至剪切板，请打开浏览器粘贴查看。",
+          );
+        });
+    }
+  } else if ("path" in options) {
+    go(`info?id=${options.path}&from=${referer || "返回"}`);
   }
 };

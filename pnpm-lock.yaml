@@ -12,8 +12,8 @@ importers:
   .:
     dependencies:
       '@mptool/all':
-        specifier: 0.10.4
-        version: 0.10.4(miniprogram-api-typings@3.12.3)
+        specifier: 0.10.6
+        version: 0.10.6(miniprogram-api-typings@3.12.3)
     devDependencies:
       '@commitlint/cli':
         specifier: 19.4.0
@@ -947,8 +947,8 @@ packages:
       markdown-it:
         optional: true
 
-  '@mptool/all@0.10.4':
-    resolution: {integrity: sha512-Q782juy9cQfr9c+f+NMRx2YOXiE1IRIOURV15PQ453VAEqkCNhJ8WswXvYVWyW01wX3+qNwzSQ44rTgl7E49Mg==}
+  '@mptool/all@0.10.6':
+    resolution: {integrity: sha512-4twOcGCvYK1OFyPUhrhcB79h90Pk3lK5xQROFr/XoewPlFNS26w81tRAeeoD6LFa9ctnnVYFJbZ9WNJpwp086g==}
     peerDependencies:
       miniprogram-api-typings: ^3.12.3
 
@@ -6353,7 +6353,7 @@ snapshots:
     optionalDependencies:
       markdown-it: 14.1.0
 
-  '@mptool/all@0.10.4(miniprogram-api-typings@3.12.3)':
+  '@mptool/all@0.10.6(miniprogram-api-typings@3.12.3)':
     dependencies:
       miniprogram-api-typings: 3.12.3
 

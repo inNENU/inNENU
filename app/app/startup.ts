@@ -1,4 +1,4 @@
-import { getCurrentRoute, logger, showToast } from "@mptool/all";
+import { getCurrentRoute, logger, reLaunch, showToast } from "@mptool/all";
 
 import type { GlobalData } from "./globalData.js";
 import { platformActions } from "./platform.js";
@@ -93,6 +93,6 @@ export const startup = (globalData: GlobalData): void => {
     setOpenid(openid);
     if (isAdmin) wx.setStorageSync("isAdmin", true);
     if (inBlacklist && getCurrentRoute() !== "pkg/addon/pages/action/action")
-      wx.reLaunch({ url: "/pkg/addon/pages/action/action?action=blacklist" });
+      reLaunch("action=blacklist");
   });
 };

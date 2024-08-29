@@ -1,4 +1,4 @@
-<import src="/base/template.wxml" />
+<import src="/base/components.wxml" />
 <import src="/widgets/template.wxml" />
 <page-meta
   background-text-style="{{darkmode ? 'dark': 'light'}}"
@@ -29,7 +29,10 @@
   >
   </view>
   <scroll-view scroll-y class="content">
-    <template is="components" data="{{content: page.content}}" />
+    <template
+      is="components"
+      data="{{content: page.content, referer: '首页'}}"
+    />
     <block wx:if="{{id !== 'guest'}}">
       <view class="widget-button-wrapper">
         <view

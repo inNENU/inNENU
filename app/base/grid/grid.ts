@@ -1,11 +1,11 @@
 import type { PropType } from "@mptool/all";
-import { $Component, readFile, showModal, writeClipboard } from "@mptool/all";
+import { $Component, readFile } from "@mptool/all";
 
 import type {
   GridComponentItemOptions,
   GridComponentOptions,
 } from "../../../typings/index.js";
-import { env } from "../../state/index.js";
+import { navigate } from "../../utils/index.js";
 
 $Component({
   props: {
@@ -13,6 +13,12 @@ $Component({
     config: {
       type: Object as PropType<GridComponentOptions>,
       required: true,
+    },
+
+    /** 引用标题 */
+    referer: {
+      type: String,
+      default: "",
     },
   },
 
@@ -28,64 +34,17 @@ $Component({
       });
     },
 
-    tap({
+    onTap({
       currentTarget,
     }: WechatMiniprogram.TouchEvent<
       Record<string, never>,
       Record<string, never>,
       { item: GridComponentItemOptions }
     >) {
+      const { referer } = this.data;
       const { item } = currentTarget.dataset;
 
-      if ("appId" in item) {
-        if (env === "wx") {
-          wx.navigateToMiniProgram({
-            appId: item.appId,
-            path: item.path,
-            extraData: item.extraData,
-            envVersion: item.versionType,
-          });
-        } else if (env === "app") {
-          const { appId, path, versionType } = item;
-
-          if (appId && path)
-            wx.miniapp.launchMiniProgram({
-              userName: appId,
-              path,
-              miniprogramType:
-                versionType === "develop" ? 1 : versionType === "trial" ? 2 : 0,
-            });
-          else {
-            showModal("无法打开", "暂不支持打开微信小程序短链");
-          }
-        } else {
-          showModal("无法打开", "暂不支持打开微信小程序");
-        }
-      } else if (item.url) {
-        // 页面路径
-        if (!/^https?:\/\//.test(item.url)) this.$go(item.url);
-        // 为链接
-        else {
-          // 打开浏览器或 App
-          if (env === "app") wx.miniapp.openUrl({ url: item.url });
-          // 判断是否是可以跳转的微信图文
-          else if (
-            env === "wx" &&
-            item.url.startsWith("https://mp.weixin.qq.com") &&
-            wx.openOfficialAccountArticle
-          ) {
-            wx.openOfficialAccountArticle({ url: item.url });
-          }
-          // 无法跳转，复制链接到剪切板
-          else
-            writeClipboard(item.url).then(() => {
-              showModal(
-                "无法直接打开",
-                "小程序无法直接打开网页，链接已复制至剪切板，请打开浏览器粘贴查看。",
-              );
-            });
-        }
-      }
+      navigate(item, referer);
     },
   },
 

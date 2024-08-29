@@ -1,4 +1,4 @@
-<import src="/base/template.wxml" />
+<import src="/base/components.wxml" />
 <page-meta
   background-text-style="{{darkmode ? 'dark' : 'light'}}"
   background-color="{{color.bgColor}}"
@@ -36,7 +36,10 @@
     <starred-notice-widget type="通知收藏 (小)" />
   </view>
   <official-account />
-  <template is="components" data="{{content: page.content}}" />
+  <template
+    is="components"
+    data="{{content: page.content, referer: '我的东师'}}"
+  />
   <footer config="{{footer}}" />
 </view>
 <add-my-app />

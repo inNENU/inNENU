@@ -34,7 +34,10 @@
     />
     <view wx:else style="height: {{statusBarHeight + 44}}px;" />
     <view class="title"> {{page.title}} </view>
-    <template is="components" data="{{content: page.content, theme}}" />
+    <template
+      is="components"
+      data="{{content: page.content || [], theme, referer: page.title}}"
+    />
     <footer config="{{page}}" />
     <share config="{{page}}" />
   </block>

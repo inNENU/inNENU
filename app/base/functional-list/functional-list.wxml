@@ -94,13 +94,13 @@
       </navigator>
       <!-- 导航链接 -->
       <view
-        wx:elif="{{listItem.url}}"
+        wx:elif="{{listItem.url || listItem.path}}"
         id="{{index}}"
         class="list-item{{listItem.icon? ' has-icon' : ''}}"
         hover-class="button-hover"
         hover-stay-time="100"
-        data-url="{{listItem.url}}"
-        catch:tap="$bindGo"
+        data-item="{{listItem}}"
+        catch:tap="onItemTap"
       >
         <image
           wx:if="{{icons[index]}}"

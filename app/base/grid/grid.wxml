@@ -12,7 +12,7 @@
     hover-class="button-hover"
     hover-stay-time="100"
     data-item="{{item}}"
-    catch:tap="tap"
+    catch:tap="onTap"
   >
     <!-- 网格图标 -->
     <image wx:if="{{icons[index]}}" class="grid-icon" src="{{icons[index]}}" />

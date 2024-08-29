@@ -54,13 +54,12 @@
 <view
   wx:if="{{plainText.isContainer(config.type)}}"
   class="hint-box-component {{config.type}}"
-  hover-class="{{config.url ? 'hint-box-hover' : ''}}"
-  data-url="{{config.url}}"
-  catch:tap="$bindGo"
+  hover-class="{{config.path ? 'hint-box-hover' : ''}}"
+  catch:tap="onTap"
 >
   <view
     wx:if="{{config.heading !== false}}"
-    class="hint-box-title {{config.url ? 'access' : ''}}"
+    class="hint-box-title {{config.path ? 'access' : ''}}"
     selectable="{{selectable}}"
     user-select="{{selectable}}"
   >

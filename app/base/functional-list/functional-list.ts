@@ -10,6 +10,7 @@ import type {
   SwitchListComponentItemConfig,
 } from "../../../typings/index.js";
 import { info } from "../../state/index.js";
+import { navigate } from "../../utils/index.js";
 
 interface ListDetail<T = FunctionalListComponentItemOptions> {
   id: string;
@@ -18,14 +19,33 @@ interface ListDetail<T = FunctionalListComponentItemOptions> {
 
 $Component({
   props: {
-    /** 配置 */
+    /** 组件配置 */
     config: {
       type: Object as PropType<FunctionalListComponentConfig>,
       required: true,
     },
+
+    /** 引用标题 */
+    referer: {
+      type: String,
+      default: "",
+    },
   },
 
   methods: {
+    onItemTap({
+      currentTarget,
+    }: WechatMiniprogram.TouchEvent<
+      Record<string, never>,
+      Record<string, never>,
+      { item: FunctionalListComponentItemOptions }
+    >) {
+      const { referer } = this.data;
+      const { item } = currentTarget.dataset;
+
+      navigate(item, referer);
+    },
+
     /** 按钮设置 */
     onButtonTap(
       event: WechatMiniprogram.TouchEvent<

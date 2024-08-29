@@ -1,0 +1,94 @@
+<template name="title-component">
+  <title config="{{config}}" />
+</template>
+
+<template name="text-component">
+  <plain-text config="{{config}}" referer="{{referer}}" />
+</template>
+
+<template name="p-component">
+  <plain-text config="{{config}}" referer="{{referer}}" />
+</template>
+
+<template name="ul-component">
+  <plain-text config="{{config}}" referer="{{referer}}" />
+</template>
+
+<template name="ol-component">
+  <plain-text config="{{config}}" referer="{{referer}}" />
+</template>
+
+<template name="img-component">
+  <img config="{{config}}" images="{{images}}" />
+</template>
+
+<template name="list-component">
+  <list config="{{config}}" referer="{{referer}}" />
+</template>
+
+<template name="grid-component">
+  <grid config="{{config}}" referer="{{referer}}" />
+</template>
+
+<template name="doc-component">
+  <doc config="{{config}}" />
+</template>
+
+<template name="phone-component">
+  <phone config="{{config}}" />
+</template>
+
+<template name="account-component">
+  <account config="{{config}}" />
+</template>
+
+<template name="card-component">
+  <card config="{{config}}" referer="{{referer}}" />
+</template>
+
+<template name="action-component">
+  <action config="{{config}}" />
+</template>
+
+<template name="table-component">
+  <table config="{{config}}" />
+</template>
+
+<template name="functional-list-component">
+  <functional-list
+    config="{{config}}"
+    referer="{{referer}}"
+    ref="list{{index}}"
+    binding="$"
+    catch:change="list"
+  />
+</template>
+
+<template name="location-component">
+  <location config="{{config}}" />
+</template>
+
+<template name="carousel-component">
+  <carousel config="{{config}}" />
+</template>
+
+<template name="audio-player-component">
+  <audio-player config="{{config}}" />
+</template>
+
+<template name="video-player-component">
+  <video-player config="{{config}}" />
+</template>
+
+<template name="components">
+  <block wx:if="{{content && content.length}}">
+    <block wx:for="{{content}}" wx:key="id" wx:for-item="config">
+      <block wx:if="{{!config.hidden}}">
+        <template
+          is="{{config.tag}}-component"
+          data="{{config, images, index, referer}}"
+        />
+      </block>
+    </block>
+  </block>
+</template>

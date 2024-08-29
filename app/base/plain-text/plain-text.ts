@@ -3,6 +3,7 @@ import { $Component } from "@mptool/all";
 
 import type { TextComponentOptions } from "../../../typings/index.js";
 import { info } from "../../state/index.js";
+import { navigate } from "../../utils/index.js";
 
 $Component({
   props: {
@@ -11,13 +12,25 @@ $Component({
       type: Object as PropType<TextComponentOptions>,
       required: true,
     },
+
+    /** 引用标题 */
+    referer: {
+      type: String,
+      default: "",
+    },
   },
 
   lifetimes: {
     attached() {
-      const { selectable } = info;
+      this.setData({ selectable: info.selectable });
+    },
+  },
 
-      this.setData({ selectable });
+  methods: {
+    onTap() {
+      const { config, referer } = this.data;
+
+      navigate(config, referer);
     },
   },
 

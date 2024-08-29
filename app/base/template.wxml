@@ -1,100 +1,7 @@
+<import src="./components.wxml" />
 <wxs src="./template.wxs" module="utils" />
 
-<template name="title-component">
-  <title config="{{config}}" />
-</template>
-
-<template name="text-component">
-  <plain-text config="{{config}}" />
-</template>
-
-<template name="p-component">
-  <plain-text config="{{config}}" />
-</template>
-
-<template name="ul-component">
-  <plain-text config="{{config}}" />
-</template>
-
-<template name="ol-component">
-  <plain-text config="{{config}}" />
-</template>
-
-<template name="img-component">
-  <img config="{{config}}" images="{{images}}" />
-</template>
-
-<template name="list-component">
-  <list config="{{config}}" />
-</template>
-
-<template name="grid-component">
-  <grid config="{{config}}" />
-</template>
-
-<template name="doc-component">
-  <doc config="{{config}}" />
-</template>
-
-<template name="phone-component">
-  <phone config="{{config}}" />
-</template>
-
-<template name="account-component">
-  <account config="{{config}}" />
-</template>
-
-<template name="card-component">
-  <card config="{{config}}" />
-</template>
-
-<template name="action-component">
-  <action config="{{config}}" />
-</template>
-
-<template name="table-component">
-  <table config="{{config}}" />
-</template>
-
-<template name="functional-list-component">
-  <functional-list
-    config="{{config}}"
-    ref="list{{index}}"
-    binding="$"
-    catch:change="list"
-  />
-</template>
-
-<template name="location-component">
-  <location config="{{config}}" />
-</template>
-
-<template name="carousel-component">
-  <carousel config="{{config}}" />
-</template>
-
-<template name="audio-player-component">
-  <audio-player config="{{config}}" />
-</template>
-
-<template name="video-player-component">
-  <video-player config="{{config}}" />
-</template>
-
-<!-- components -->
-<template name="components">
-  <block wx:if="{{content && content.length}}">
-    <block wx:for="{{content}}" wx:key="id" wx:for-item="config">
-      <block wx:if="{{!config.hidden}}">
-        <template
-          is="{{config.tag}}-component"
-          data="{{config, images, index}}"
-        />
-      </block>
-    </block>
-  </block>
-</template>
-
+<!-- loading -->
 <template name="loading">
   <view class="loading-logo">
     <view class="logo">
@@ -136,7 +43,7 @@
       <!-- 页面内容 -->
       <template
         is="components"
-        data="{{ content: page.content || [], images: page.images || [] }}"
+        data="{{ content: page.content || [], images: page.images || [], referer: page.title }}"
       />
       <share config="{{utils.getShareConfig(page)}}" />
       <footer

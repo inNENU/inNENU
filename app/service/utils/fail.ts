@@ -1,4 +1,4 @@
-import { getCurrentRoute, showToast } from "@mptool/all";
+import { getCurrentRoute, go, showToast } from "@mptool/all";
 
 import { ActionFailType } from "./actionFailType.js";
 import type { CommonFailedResponse } from "./response.js";
@@ -21,6 +21,6 @@ export const checkAccountStatus = (
     void showToast("需要重新登录");
 
     if (getCurrentRoute() !== "/pkg/user/pages/account/login")
-      wx.navigateTo({ url: "/pkg/user/pages/account/login?update=true" });
+      go("account-login?update=true");
   }
 };

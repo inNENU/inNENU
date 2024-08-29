@@ -10,12 +10,12 @@
     <block wx:if="{{!listItem.hidden}}">
       <!-- 导航链接 -->
       <view
-        wx:if="{{listItem.url}}"
+        wx:if="{{listItem.url || listItem.path}}"
         class="list-item{{listItem.icon? ' has-icon' : ''}}"
         hover-class="button-hover"
         hover-stay-time="100"
-        data-url="{{listItem.url}}"
-        catch:tap="$bindGo"
+        data-item="{{listItem}}"
+        catch:tap="onTap"
       >
         <image
           wx:if="{{icons[index]}}"

@@ -1,4 +1,4 @@
-<!-- <import src="/base/template.wxml" /> -->
+<import src="/base/components.wxml" />
 <wxs src="/base/template.wxs" module="template" />
 <page-meta
   background-text-style="{{darkmode ? 'dark' : 'light'}}"
@@ -11,7 +11,7 @@
 <view class="{{theme}} {{page.grey ? 'grey' : ''}}">
   <template wx:if="{{page.error}}" is="error" data="{{ id: page.id }}" />
   <block wx:else>
-    <back-button button-class="{{titleDisplay ? 'fade-in' : 'fade-out'}}" />
+    <back-button button-class="{{titleDisplay ? 'fade-out': 'fade-in'}}" />
     <view
       class="nenu-navbar {{borderDisplay ? 'fade-in' : 'fade-out'}}"
       style="background-color: {{page.color}}; padding-top: {{statusBarHeight}}px;"
@@ -47,42 +47,10 @@
         导航
       </button>
     </view>
-    <!-- FIXME: An unknown bug which prevents template being loaded -->
-    <!-- <template is="components" data="{{content: page.content, theme}}" /> -->
-    <block wx:if="{{page.content && page.content.length}}">
-      <block wx:for="{{page.content}}" wx:key="id">
-        <block wx:if="{{!item.hidden}}">
-          <plain-text wx:if="{{template.isText(item.tag)}}" config="{{item}}" />
-          <title wx:elif="{{item.tag === 'title'}}" config="{{item}}" />
-          <img
-            wx:elif="{{item.tag === 'img'}}"
-            config="{{item}}"
-            images="{{images}}"
-          />
-          <list wx:elif="{{item.tag === 'list'}}" config="{{item}}" />
-          <footer wx:elif="{{item.tag === 'footer'}}" config="{{item}}" />
-          <grid wx:elif="{{item.tag === 'grid'}}" config="{{item}}" />
-          <doc wx:elif="{{item.tag === 'doc'}}" config="{{item}}" />
-          <phone wx:elif="{{item.tag === 'phone'}}" config="{{item}}" />
-          <account wx:elif="{{item.tag === 'account'}}" config="{{item}}" />
-          <card wx:elif="{{item.tag === 'card'}}" config="{{item}}" />
-          <action wx:elif="{{item.tag === 'action'}}" config="{{item}}" />
-          <table wx:elif="{{item.tag === 'table'}}" config="{{item}}" />
-          <functional-list
-            wx:elif="{{item.tag === 'functional-list'}}"
-            config="{{item}}"
-            ref="list{{index}}"
-            binding="$"
-            catch:change="list"
-          />
-          <location wx:elif="{{item.tag === 'location'}}" config="{{item}}" />
-          <carousel wx:elif="{{item.tag === 'carousel'}}" config="{{item}}" />
-          <audio-player wx:elif="{{item.tag === 'audio'}}" config="{{item}}" />
-          <video-player wx:elif="{{item.tag === 'video'}}" config="{{item}}" />
-          <loading wx:elif="{{item.tag === 'loading'}}" />
-        </block>
-      </block>
-    </block>
+    <template
+      is="components"
+      data="{{content: page.content || [], theme, referer: page.title}}"
+    />
     <footer config="{{page}}" />
     <share config="{{page}}" />
   </block>
