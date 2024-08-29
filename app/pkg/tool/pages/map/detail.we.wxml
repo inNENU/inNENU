@@ -1,4 +1,5 @@
-<!-- <import src="/base/template.wxml" /> -->
+<import src="/base/components.wxml" />
+<import src="/base/error-page.wxml" />
 <wxs src="/base/template.wxs" module="template" />
 <page-meta
   background-text-style="{{darkmode ? 'dark' : 'light'}}"
@@ -9,7 +10,7 @@
 />
 <license />
 <view class="{{theme}} {{page.grey ? 'grey' : ''}}">
-  <template wx:if="{{page.error}}" is="error" data="{{ id: page.id }}" />
+  <template wx:if="{{page.error}}" is="error-page" data="{{ id: page.id }}" />
   <block wx:else>
     <back-button button-class="{{titleDisplay ? 'fade-out': 'fade-in'}}" />
     <view

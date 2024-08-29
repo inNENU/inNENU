@@ -1,4 +1,5 @@
-<import src="/base/template.wxml" />
+<import src="/base/loading-page.wxml" />
+<import src="/base/page.wxml" />
 <page-meta
   background-text-style="{{darkmode ? 'dark' : 'light'}}"
   background-color="{{color.bgColor}}"
@@ -19,7 +20,7 @@
     <back-button />
 
     <view wx:if="{{loading}}" class="loading-logo-wrapper">
-      <template is="loading" />
+      <template is="loading-page" />
     </view>
     <block wx:else>
       <view class="intro-wrapper" style="padding-top: {{statusBarHeight}}px;">

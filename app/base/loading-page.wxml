@@ -1,0 +1,10 @@
+<template name="loading-page">
+  <view class="loading-logo">
+    <view class="logo">
+      <view>in</view>
+      <view>NENU</view>
+    </view>
+    <view class="shadow" />
+    <view class="text">加载中...</view>
+  </view>
+</template>
