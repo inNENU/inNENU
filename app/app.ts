@@ -147,6 +147,10 @@ $App<App>({
     updateApp();
   },
 
+  onUnhandledRejection({ reason, promise }) {
+    logger.error("Unhandled promise rejection at:", promise, "reason:", reason);
+  },
+
   onError(errorMsg) {
     logger.error("Catch error msg: ", errorMsg);
   },
