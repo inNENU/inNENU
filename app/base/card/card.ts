@@ -17,18 +17,23 @@ $Component({
     tap(): void {
       const { config } = this.data;
 
-      if ("options" in config) {
+      if ("appId" in config) {
         if (env === "wx") {
-          wx.navigateToMiniProgram(config.options);
+          wx.navigateToMiniProgram({
+            appId: config.appId,
+            path: config.path,
+            extraData: config.extraData,
+            envVersion: config.versionType,
+          });
         } else if (env === "app") {
-          const { appId, path, envVersion } = config.options;
+          const { appId, path, versionType } = config;
 
           if (appId && path)
             wx.miniapp.launchMiniProgram({
               userName: appId,
               path,
               miniprogramType:
-                envVersion === "develop" ? 1 : envVersion === "trial" ? 2 : 0,
+                versionType === "develop" ? 1 : versionType === "trial" ? 2 : 0,
             });
           else {
             showModal("无法打开", "暂不支持打开微信小程序短链");

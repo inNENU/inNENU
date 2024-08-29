@@ -9,7 +9,9 @@
   <view class="card-detail">
     <view class="card-info">
       <view class="card-title"><text>{{config.title}}</text></view>
-      <view class="card-description"><text>{{config.desc}}</text></view>
+      <view wx:if="{{config.desc}}" class="card-description"
+        ><text>{{config.desc}}</text></view
+      >
     </view>
     <view wx:if="{{base64Logo || config.logo}}" class="card-reference">
       <image class="card-logo" src="{{base64Logo || config.logo}}" lazy-load />
