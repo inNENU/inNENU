@@ -7,7 +7,7 @@ import {
 } from "@mptool/all";
 
 import type { Env } from "../../../../state/index.js";
-import { env, info } from "../../../../state/index.js";
+import { env, windowInfo } from "../../../../state/index.js";
 import { ensureJson, getJson, showNotice } from "../../../../utils/index.js";
 
 const PAGE_ID = "school-media";
@@ -34,7 +34,7 @@ $Page(PAGE_ID, {
       this.setData({
         config,
         type: res,
-        height: info.windowHeight - info.statusBarHeight - 202,
+        height: windowInfo.windowHeight - windowInfo.statusBarHeight - 202,
       });
     });
 
@@ -43,7 +43,7 @@ $Page(PAGE_ID, {
 
   onResize({ size }) {
     this.setData({
-      height: size.windowHeight - info.statusBarHeight - 202,
+      height: size.windowHeight - windowInfo.statusBarHeight - 202,
     });
   },
 
