@@ -1,26 +1,29 @@
 /* audio */
 .audio-component {
   position: relative;
+
+  display: flex;
+  align-items: center;
+
   max-width: var(--max-width);
   margin: 8px 15px;
   border-radius: 32px;
+
   background: var(--bg-block);
-  display: flex;
-  align-items: center;
 }
 
 .audio-poster {
   width: 64px;
   height: 64px;
-  border-radius: 32px;
   margin-right: 15px;
+  border-radius: 32px;
 }
 
 .audio-info {
-  text-align: left;
   position: relative;
   flex: 1;
   padding-bottom: 8px;
+  text-align: left;
 }
 
 .audio-time {
@@ -31,8 +34,8 @@
 }
 
 .audio-name {
-  font-size: 16px;
   font-weight: bold;
+  font-size: 16px;
   line-height: 1.5;
 }
 
@@ -60,8 +63,9 @@
 
 .audio-progress-bar {
   position: absolute;
-  left: 76px;
   right: 68px;
   bottom: 4px;
+  left: 76px;
+
   margin: 0;
 }

@@ -15,15 +15,16 @@
   }
 
   .grid-item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
     width: calc(33.33% - 24px);
     margin: 4px;
     padding: 6px 8px;
     border-radius: 6px;
 
     background-color: var(--bg-block);
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
 
     @media (min-width: 517px) {
       width: calc(25% - 24px);

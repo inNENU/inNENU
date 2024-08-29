@@ -14,9 +14,9 @@ const checkGroupApp = (): void => {
             entryDataHash,
             success: ({ isExisted }) => {
               if (!isExisted)
-                showModal("尊敬的管理员", "请考虑添加小程序到群应用!", () =>
-                  go("action?action=addGroupApp"),
-                );
+                showModal("尊敬的管理员", "请考虑添加小程序到群应用!", () => {
+                  go("action?action=addGroupApp");
+                });
             },
           });
       },

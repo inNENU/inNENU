@@ -5,7 +5,7 @@ import type {
   LocationComponentOptions,
   LocationConfig,
 } from "../../../typings/index.js";
-import { info } from "../../state/index.js";
+import { platform } from "../../state/index.js";
 import { getLocation, getPointConfig } from "../../utils/index.js";
 
 $Component({
@@ -44,7 +44,7 @@ $Component({
       // add delay to make sure `<map />` is rendered
       setTimeout(() => {
         // FIXME: fix crash on iOS
-        if (this.data.config.points.length === 1 && info.platform === "ios") {
+        if (this.data.config.points.length === 1 && platform === "ios") {
           const { latitude, longitude } = getLocation(
             this.data.config.points[0].loc,
           );

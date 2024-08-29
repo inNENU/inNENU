@@ -7,8 +7,8 @@
 
 @mixin button() {
   position: fixed;
-  background-color: #fff;
   border: 1px solid #cccccf;
+  background-color: #fff;
 }
 
 @mixin single-button() {
