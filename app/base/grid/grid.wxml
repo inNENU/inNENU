@@ -7,21 +7,18 @@
   <!-- 每个网格 -->
   <view
     wx:for="{{config.items}}"
-    wx:for-item="gridItem"
     wx:key="text"
-    class="bg-{{gridItem.color}} grid"
+    class="grid-item"
     hover-class="button-hover"
     hover-stay-time="100"
-    data-url="{{gridItem.url}}"
+    data-url="{{item.url}}"
     catch:tap="$bindGo"
   >
     <!-- 网格图标 -->
-    <image wx:if="{{icons[index]}}" class="icon" src="{{icons[index]}}" />
-    <image wx:elif="{{gridItem.icon}}" class="icon" src="{{gridItem.icon}}" />
+    <image wx:if="{{icons[index]}}" class="grid-icon" src="{{icons[index]}}" />
+    <image wx:elif="{{item.icon}}" class="grid-icon" src="{{item.icon}}" />
     <!-- 网格文字 -->
-    <view class="text"><text>{{gridItem.text}}</text></view>
-    <!-- 网格英文文字 -->
-    <view class="name"><text>{{gridItem.name}}</text></view>
+    <view class="grid-text"><text>{{item.text}}</text></view>
   </view>
 </view>
 <!-- 网格尾部文字 -->

@@ -3,41 +3,41 @@
     overflow: hidden;
     border-top: 1rpx solid rgb(0 0 0 / 10%);
     border-left: 1rpx solid rgb(0 0 0 / 10%);
+  }
 
-    .grid {
-      position: relative;
+  .grid-item {
+    position: relative;
 
-      float: left;
+    float: left;
 
-      box-sizing: border-box;
-      width: 25%;
-      padding: 20px 10px;
-      border-right: 1rpx solid rgb(0 0 0 / 10%);
-      border-bottom: 1rpx solid rgb(0 0 0 / 10%);
+    box-sizing: border-box;
+    width: 25%;
+    padding: 20px 10px;
+    border-right: 1rpx solid rgb(0 0 0 / 10%);
+    border-bottom: 1rpx solid rgb(0 0 0 / 10%);
 
-      background-color: #fff;
-    }
+    background-color: #fff;
+  }
 
-    .icon {
-      display: block;
-      width: 28px;
-      height: 28px;
-      margin: 0 auto;
-    }
+  .grid-icon {
+    display: block;
+    width: 28px;
+    height: 28px;
+    margin: 0 auto;
+  }
 
-    .text {
-      display: block;
+  .grid-text {
+    display: block;
 
-      overflow: hidden;
+    overflow: hidden;
 
-      margin-top: 5px;
+    margin-top: 5px;
 
-      color: rgb(0 0 0 / 90%);
+    color: rgb(0 0 0 / 90%);
 
-      font-size: 14px;
-      text-align: center;
-      text-overflow: ellipsis;
-      white-space: nowrap;
-    }
+    font-size: 14px;
+    text-align: center;
+    text-overflow: ellipsis;
+    white-space: nowrap;
   }
 }

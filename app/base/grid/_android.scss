@@ -10,36 +10,36 @@
     border-radius: 8px;
 
     background-color: var(--bg-block);
+  }
 
-    .grid {
-      position: relative;
+  .grid-item {
+    position: relative;
 
-      box-sizing: border-box;
-      width: 25%;
-      margin: 0;
-      padding: 8px;
+    box-sizing: border-box;
+    width: 25%;
+    margin: 0;
+    padding: 8px;
 
-      background-color: var(--bg-block);
+    background-color: var(--bg-block);
 
-      line-height: 1.25;
+    line-height: 1.25;
 
-      @media (min-width: 480px) {
-        width: 16.666%;
-      }
-
-      @media (min-width: 1024px) {
-        width: 12.5%;
-      }
+    @media (min-width: 480px) {
+      width: 16.666%;
     }
 
-    .icon {
-      width: 32px;
-      height: 32px;
+    @media (min-width: 1024px) {
+      width: 12.5%;
     }
+  }
 
-    .text {
-      color: var(--grey4);
-      font-size: 12px;
-    }
+  .grid-icon {
+    width: 32px;
+    height: 32px;
+  }
+
+  .grid-text {
+    color: var(--grey4);
+    font-size: 12px;
   }
 }
