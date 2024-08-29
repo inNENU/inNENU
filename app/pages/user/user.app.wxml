@@ -11,7 +11,7 @@
   action="goToSettings"
   binding="$"
 />
-<view class="{{theme}} grey user-page">
+<scroll-view type="list" scroll-y class="{{theme}} grey user-page">
   <view class="account-wrapper" style="padding-top:{{statusBarHeight}}px">
     <view
       class="account"
@@ -40,4 +40,4 @@
     data="{{content: page.content, referer: '我的东师'}}"
   />
   <footer config="{{footer}}" />
-</view>
+</scroll-view>

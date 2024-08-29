@@ -2,7 +2,10 @@
   position: relative;
 
   display: flex;
+  flex-direction: row;
   flex-wrap: wrap;
+  align-items: stretch;
+  justify-content: flex-start;
 
   overflow: hidden;
 
@@ -16,8 +19,11 @@
   .feature {
     position: relative;
 
+    flex: auto 0 0;
+
     box-sizing: border-box;
     width: 20%;
+    max-width: 80px;
     margin: 0;
     padding: 8px;
 
@@ -25,17 +31,10 @@
 
     line-height: 1.25;
 
-    @media (min-width: 480px) {
-      width: 16.666%;
-    }
-
-    @media (min-width: 1024px) {
-      width: 12.5%;
-    }
-
     .icon {
       width: 32px;
       height: 32px;
+      margin: 0 auto;
     }
 
     .text {

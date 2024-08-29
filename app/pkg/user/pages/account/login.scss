@@ -2,16 +2,16 @@
 @use "login-popup";
 @use "student-card";
 
-.account {
+.account-page {
   display: flex;
   flex-direction: column;
+  height: 100vh;
 }
 
 .content {
   display: flex;
-  flex: 1;
   flex-direction: column;
-  align-items: stretch;
+  align-items: center;
   justify-content: center;
 }
 
@@ -22,6 +22,7 @@
 }
 
 .input-list-wrapper {
+  width: calc(100% - var(--horizontal-margin) * 2);
   max-width: var(--max-width);
   margin: 0 var(--horizontal-margin);
 }
