@@ -2,7 +2,7 @@ import { $Page, showModal, showToast } from "@mptool/all";
 
 import type {
   ButtonListComponentItemConfig,
-  ListComponentConfig,
+  ListComponentOptions,
   PageStateWithContent,
 } from "../../../../../typings/index.js";
 import type { App } from "../../../../app.js";
@@ -133,7 +133,7 @@ $Page("privacy", {
   },
 
   onReady() {
-    const { items } = this.data.page.content[1] as ListComponentConfig;
+    const { items } = this.data.page.content[1] as ListComponentOptions;
 
     // update authorize status
     wx.getSetting({
@@ -226,7 +226,7 @@ $Page("privacy", {
                 wx.getSetting({
                   success: ({ authSetting }) => {
                     const { items } = this.data.page
-                      .content[1] as ListComponentConfig;
+                      .content[1] as ListComponentOptions;
 
                     authorizeList.forEach((type2, index) => {
                       (items as ButtonListComponentItemConfig[])[index].desc =
@@ -252,7 +252,7 @@ $Page("privacy", {
       success: () => {
         wx.getSetting({
           success: ({ authSetting }) => {
-            const { items } = this.data.page.content[1] as ListComponentConfig;
+            const { items } = this.data.page.content[1] as ListComponentOptions;
 
             authorizeList.forEach((type2, index) => {
               (items as ButtonListComponentItemConfig[])[index].desc =

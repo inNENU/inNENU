@@ -11,8 +11,8 @@
     class="grid-item"
     hover-class="button-hover"
     hover-stay-time="100"
-    data-url="{{item.url}}"
-    catch:tap="$bindGo"
+    data-item="{{item}}"
+    catch:tap="tap"
   >
     <!-- 网格图标 -->
     <image wx:if="{{icons[index]}}" class="grid-icon" src="{{icons[index]}}" />

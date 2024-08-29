@@ -7,8 +7,8 @@ import { ensureJson } from "./json.js";
 import type {
   ComponentConfig,
   FunctionalListComponentItemConfig,
-  GridComponentItemConfig,
-  ListComponentItemConfig,
+  GridComponentItemOptions,
+  ListComponentItemOptions,
   PageOptions,
   PageState,
   PageStateWithContent,
@@ -35,14 +35,14 @@ type PageInstanceWithPage = PageInstance<
 const setListItemState = (
   listElement:
     | FunctionalListComponentItemConfig
-    | GridComponentItemConfig
-    | ListComponentItemConfig,
+    | GridComponentItemOptions
+    | ListComponentItemOptions,
   title = "返回",
 ):
   | (
       | FunctionalListComponentItemConfig
-      | GridComponentItemConfig
-      | ListComponentItemConfig
+      | GridComponentItemOptions
+      | ListComponentItemOptions
     )
   | null => {
   if (
@@ -55,7 +55,7 @@ const setListItemState = (
   // 设置列表导航
   if ("url" in listElement && !listElement.url!.startsWith("plugin://"))
     listElement.url += `?from=${title}`;
-  if ("path" in listElement)
+  if (!("appId" in listElement) && "path" in listElement)
     listElement.url = `info?from=${title}&id=${listElement.path!}`;
 
   if ("type" in listElement)
@@ -118,7 +118,11 @@ export const setComponentState = (
 
       if (
         "path" in component &&
-        (tag === "p" || tag === "ol" || tag === "ul" || tag === "text")
+        (tag === "p" ||
+          tag === "ol" ||
+          tag === "ul" ||
+          tag === "text" ||
+          (tag === "card" && !("appId" in component)))
       )
         component.url = `info?from=${title || "返回"}&id=${component.path!}`;
 
@@ -129,8 +133,8 @@ export const setComponentState = (
             (
               listElement:
                 | FunctionalListComponentItemConfig
-                | GridComponentItemConfig
-                | ListComponentItemConfig,
+                | GridComponentItemOptions
+                | ListComponentItemOptions,
             ) => setListItemState(listElement, title),
           )
           .filter((listElement) => listElement !== null);
@@ -192,8 +196,8 @@ const preloadPageLinks = (page: PageState): void => {
           (
             element: (
               | FunctionalListComponentItemConfig
-              | GridComponentItemConfig
-              | ListComponentItemConfig
+              | GridComponentItemOptions
+              | ListComponentItemOptions
             ) & { hidden?: boolean },
           ) => {
             if ("path" in element) ensureJson(`${element.path!}`);

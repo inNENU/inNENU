@@ -2,8 +2,8 @@ import type { PropType } from "@mptool/all";
 import { $Component, readFile } from "@mptool/all";
 
 import type {
-  ListComponentConfig,
-  ListComponentItemConfig,
+  ListComponentItemOptions,
+  ListComponentOptions,
 } from "../../../typings/index.js";
 import { info } from "../../state/index.js";
 
@@ -11,14 +11,14 @@ $Component({
   props: {
     /** 普通列表配置 */
     config: {
-      type: Object as PropType<ListComponentConfig>,
+      type: Object as PropType<ListComponentOptions>,
       required: true,
     },
   },
 
   methods: {
     // 设置图标
-    setLogo(items?: ListComponentItemConfig[]) {
+    setLogo(items?: ListComponentItemOptions[]) {
       this.setData({
         icons: (items || this.data.config.items || []).map((item) =>
           item.icon && !item.icon.includes("/")
@@ -44,7 +44,7 @@ $Component({
 
   observers: {
     // eslint-disable-next-line @typescript-eslint/naming-convention
-    "config.items"(value: ListComponentItemConfig[]): void {
+    "config.items"(value: ListComponentItemOptions[]): void {
       this.setLogo(value);
     },
   },

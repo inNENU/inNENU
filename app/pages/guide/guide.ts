@@ -1,8 +1,8 @@
 import { $Page, get, set } from "@mptool/all";
 
 import type {
-  GridComponentConfig,
-  ListComponentItemConfig,
+  GridComponentOptions,
+  ListComponentItemOptions,
   PageStateWithContent,
 } from "../../../typings/index.js";
 import { checkResource } from "../../app/index.js";
@@ -25,8 +25,8 @@ const PAGE_TITLE = "东师指南";
 const PAGE_KEY = `${PAGE_ID}-page-data`;
 
 interface GuideData {
-  items: (Omit<GridComponentConfig, "tag"> & Record<string, unknown>)[];
-  more: (Omit<GridComponentConfig, "tag"> & Record<string, unknown>)[];
+  items: (Omit<GridComponentOptions, "tag"> & Record<string, unknown>)[];
+  more: (Omit<GridComponentOptions, "tag"> & Record<string, unknown>)[];
 }
 
 const defaultData = get<GuideData | undefined>(PAGE_KEY);
@@ -125,7 +125,7 @@ $Page(PAGE_ID, {
         }),
         more,
         moreItems: more.map(({ header, path }) => {
-          const item: ListComponentItemConfig = { text: header };
+          const item: ListComponentItemOptions = { text: header };
 
           if (path) item.url = `info?from=${PAGE_TITLE}&path=${path}`;
 

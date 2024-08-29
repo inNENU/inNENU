@@ -8,7 +8,6 @@ import type {
   DocComponentOptions,
   FooterComponentOptions,
   FunctionalListComponentOptions,
-  GridComponentItemOptions,
   GridComponentOptions,
   ImageComponentOptions,
   ListComponentItemOptions,
@@ -26,24 +25,6 @@ import type {
 export interface TextComponentConfig extends TextComponentOptions {
   /** 跳转路径 */
   url?: string;
-}
-
-export interface GridComponentItemConfig extends GridComponentItemOptions {
-  /** Base64 icon 路径 */
-  base64Icon?: string;
-}
-
-export interface GridComponentConfig extends GridComponentOptions {
-  items: GridComponentItemConfig[];
-}
-
-export interface ListComponentItemConfig extends ListComponentItemOptions {
-  /** Base64 icon 路径 */
-  base64Icon?: string;
-}
-
-export interface ListComponentConfig extends ListComponentOptions {
-  items: ListComponentItemConfig[];
 }
 
 export interface SwitchListComponentItemConfig
@@ -112,9 +93,9 @@ export type ComponentConfig = (
   | DocComponentOptions
   | FooterComponentOptions
   | FunctionalListComponentConfig
-  | GridComponentConfig
+  | GridComponentOptions
   | ImageComponentOptions
-  | ListComponentConfig
+  | ListComponentOptions
   | PhoneComponentOptions
   | TextComponentConfig
   | TitleComponentOptions

@@ -1,6 +1,6 @@
 import { $Page, retry, showModal, showToast } from "@mptool/all";
 
-import type { ListComponentConfig } from "../../../../../typings/components.js";
+import type { ListComponentOptions } from "../../../../../typings/index.js";
 import { appCoverPrefix, logo } from "../../../../config/index.js";
 import { ActionFailType, mpRemove } from "../../../../service/index.js";
 import type { UserInfo } from "../../../../state/index.js";
@@ -61,7 +61,7 @@ $Page(PAGE_ID, {
     list: {
       header: false,
       items: EMPTY_CONTENT,
-    } as ListComponentConfig,
+    } as ListComponentOptions,
 
     footer: {
       desc: FOOTER,

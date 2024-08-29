@@ -1,16 +1,17 @@
-import type { GridComponentItemConfig } from "../../typings/components.js";
+import type { GridComponentItemOptions } from "../../typings/index.js";
 import { getIdentity } from "../state/index.js";
 
-export interface EntranceItemOptions extends GridComponentItemConfig {
-  path: string;
+export type EntranceItemOptions = GridComponentItemOptions & {
+  path?: string;
+  url?: string;
   under?: string | false;
   grad?: string | false;
   benbu?: string | false;
   jingyue?: string | false;
-}
+};
 
 export interface EntranceItemData
-  extends Omit<GridComponentItemConfig, "path"> {
+  extends Omit<GridComponentItemOptions, "path"> {
   url: string;
 }
 
