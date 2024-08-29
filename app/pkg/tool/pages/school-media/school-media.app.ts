@@ -1,11 +1,11 @@
-import { $Page } from "@mptool/all";
-
 import {
-  copyContent,
+  $Page,
   savePhoto,
   showModal,
   showToast,
-} from "../../../../api/index.js";
+  writeClipboard,
+} from "@mptool/all";
+
 import type { Env } from "../../../../state/index.js";
 import { env, info } from "../../../../state/index.js";
 import { ensureJson, getJson, showNotice } from "../../../../utils/index.js";
@@ -75,7 +75,7 @@ $Page(PAGE_ID, {
         .then(() => showToast("二维码已保存至相册"))
         .catch(() => showToast("二维码下载失败"));
     else
-      copyContent(id.toString()).then(() => {
+      writeClipboard(id.toString()).then(() => {
         showModal("复制成功", "由于暂无二维码，QQ号已复制至您的剪切板");
       });
   },

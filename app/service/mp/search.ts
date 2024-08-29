@@ -1,4 +1,6 @@
-import { request, showModal } from "../../api/index.js";
+import { showModal } from "@mptool/all";
+
+import { request } from "../../api/index.js";
 import type { CommonFailedResponse } from "../utils/index.js";
 
 export type SearchType = "all" | "guide" | "intro" | "function";

@@ -1,6 +1,5 @@
-import { $Page, get, set } from "@mptool/all";
+import { $Page, get, retry, set, showModal } from "@mptool/all";
 
-import { retryAction, showModal } from "../../../../api/index.js";
 import {
   COURSE_DATA_KEY,
   DAY,
@@ -202,7 +201,7 @@ $Page(PAGE_ID, {
       set(COURSE_DATA_KEY, this.state.coursesData, 6 * MONTH);
     } else if (result.type === ActionFailType.Expired) {
       this.state.loginMethod = "force";
-      retryAction("登录过期", result.msg, () => this.getCourseData(time));
+      retry("登录过期", result.msg, () => this.getCourseData(time));
     } else {
       showModal("获取失败", result.msg);
     }

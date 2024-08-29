@@ -1,11 +1,10 @@
-import { $Page, logger } from "@mptool/all";
+import { $Page, logger, showModal, showToast } from "@mptool/all";
 
 import type {
   Category,
   MarkerConfig,
   MarkerData,
 } from "../../../../../typings/index.js";
-import { showModal, showToast } from "../../../../api/index.js";
 import { appCoverPrefix } from "../../../../config/index.js";
 import { windowInfo } from "../../../../state/index.js";
 import {

@@ -1,18 +1,18 @@
-import { $Page } from "@mptool/all";
+import {
+  $Page,
+  savePhoto,
+  showModal,
+  showToast,
+  writeClipboard,
+} from "@mptool/all";
 
 import type {
   WechatArticleItem,
   WechatConfig,
 } from "../../../../../typings/index.js";
-import {
-  copyContent,
-  request,
-  savePhoto,
-  showModal,
-  showToast,
-} from "../../../../api/index.js";
+import { request } from "../../../../api/index.js";
 import { appCoverPrefix, server } from "../../../../config/index.js";
-import { env, info, windowInfo } from "../../../../state/index.js";
+import { env, windowInfo } from "../../../../state/index.js";
 import {
   ensureJson,
   getPageColor,
@@ -149,7 +149,7 @@ $Page(PAGE_ID, {
   },
 
   appendSize(item: WechatArticleItem) {
-    const width = Math.min(info.windowWidth - 30, 517);
+    const width = Math.min(windowInfo.windowWidth - 30, 517);
     const titleCharPerLine = Math.floor((width - 30) / 16);
     const descCharPerLine = Math.floor((width - 30) / 14);
 
@@ -185,7 +185,7 @@ $Page(PAGE_ID, {
     else if (wx.openOfficialAccountArticle)
       wx.openOfficialAccountArticle({ url });
     else
-      copyContent(url).then(() => {
+      writeClipboard(url).then(() => {
         showModal(
           "无法跳转",
           "目前暂不支持跳转到该微信公众号图文，链接地址已复制至剪切板。请打开浏览器粘贴查看",

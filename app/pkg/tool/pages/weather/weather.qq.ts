@@ -1,6 +1,5 @@
-import { $Page, get, logger, readFile, set } from "@mptool/all";
+import { $Page, get, logger, readFile, set, showModal } from "@mptool/all";
 
-import { showModal } from "../../../../api/index.js";
 import {
   INITIALIZED_KEY,
   MINUTE,

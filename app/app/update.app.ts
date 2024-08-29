@@ -1,6 +1,8 @@
-import { compareVersion, downLoad, requestJSON } from "../api/index.js";
+import { compareVersion, download } from "@mptool/all";
+
+import { requestJSON } from "../api/index.js";
 import { assets, version } from "../config/index.js";
-import { appID, info } from "../state/index.js";
+import { appID, platform } from "../state/index.js";
 
 let apkFilePath: string | null = null;
 
@@ -16,7 +18,7 @@ export const updateApp = async (): Promise<void> => {
   const onlineVersion = await requestJSON<string>(`d/config/${appID}/version`);
 
   if (compareVersion(onlineVersion, version) > 0) {
-    if (info.platform === "android")
+    if (platform === "android")
       wx.showModal({
         title: "发现新版本",
         content: `已发现新版本 ${onlineVersion}，是否更新？`,
@@ -27,7 +29,7 @@ export const updateApp = async (): Promise<void> => {
             // avoid downloading the same file
             if (apkFilePath) wx.miniapp.installApp({ filePath: apkFilePath });
             else
-              downLoad(`${assets}innenu-v${onlineVersion}.apk`).then(
+              download(`${assets}innenu-v${onlineVersion}.apk`).then(
                 (filePath) => {
                   apkFilePath = filePath;
                   wx.miniapp.installApp({ filePath });

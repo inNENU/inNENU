@@ -1,4 +1,5 @@
-import { compareVersion } from "../../api/index.js";
+import { compareVersion } from "@mptool/all";
+
 import type { App } from "../../app.js";
 import { env, platform } from "../../state/index.js";
 

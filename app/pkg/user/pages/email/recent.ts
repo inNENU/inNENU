@@ -1,6 +1,5 @@
-import { $Page } from "@mptool/all";
+import { $Page, showModal, showToast, writeClipboard } from "@mptool/all";
 
-import { copyContent, showModal, showToast } from "../../../../api/index.js";
 import { appCoverPrefix, logo } from "../../../../config/index.js";
 import {
   ActionFailType,
@@ -119,7 +118,7 @@ $Page(PAGE_ID, {
 
       if (env === "app") this.$go(`web?url=${encodeURIComponent(data)}`);
       else {
-        await copyContent(data);
+        await writeClipboard(data);
         showModal(
           "复制成功",
           "相关链接已复制到剪切板。受小程序限制，请使用浏览器打开。",

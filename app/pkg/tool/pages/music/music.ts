@@ -1,6 +1,6 @@
-import { $Page, logger } from "@mptool/all";
+import { $Page, logger, showToast } from "@mptool/all";
 
-import { loadFZSSJW, showToast } from "../../../../api/index.js";
+import { loadFZSSJW } from "../../../../api/index.js";
 import { appCoverPrefix, appName } from "../../../../config/index.js";
 import { appInfo } from "../../../../state/index.js";
 import { ensureJson, getJson, showNotice } from "../../../../utils/index.js";

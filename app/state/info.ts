@@ -1,4 +1,4 @@
-import { getWindowInfo } from "../api/index.js";
+import { getWindowInfo } from "@mptool/all";
 
 const { theme, ...defaultAppInfo } = (
   wx.getAppBaseInfo || wx.getSystemInfoSync

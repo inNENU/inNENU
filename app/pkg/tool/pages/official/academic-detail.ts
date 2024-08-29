@@ -1,6 +1,5 @@
-import { $Page, get, logger, set } from "@mptool/all";
+import { $Page, get, logger, set, showModal, showToast } from "@mptool/all";
 
-import { showModal, showToast } from "../../../../api/index.js";
 import {
   STARRED_ACADEMIC_LIST_KEY,
   appCoverPrefix,

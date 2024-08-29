@@ -1,4 +1,4 @@
-import { getCurrentPage } from "../api/index.js";
+import { getCurrentPage } from "@mptool/all";
 
 type Scroller = (event: WechatMiniprogram.Page.IPageScrollOption) => void;
 

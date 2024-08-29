@@ -5,12 +5,13 @@ import {
   readJSON,
   rm,
   saveFile,
+  showToast,
   unzip,
   writeJSON,
 } from "@mptool/all";
 
 import type { VersionInfo } from "../../typings/index.js";
-import { request, showToast } from "../api/index.js";
+import { request } from "../api/index.js";
 import { assets, server } from "../config/index.js";
 
 export const defaultResources = [

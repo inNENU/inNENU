@@ -1,6 +1,5 @@
-import { $Page } from "@mptool/all";
+import { $Page, showModal, showToast, writeClipboard } from "@mptool/all";
 
-import { copyContent, showModal, showToast } from "../../../../api/index.js";
 import { appCoverPrefix, appName, logo } from "../../../../config/index.js";
 import type {
   ActivateEmailOptions,
@@ -239,7 +238,7 @@ $Page(PAGE_ID, {
   initEmail() {
     if (env === "app") this.$go(`web?url=${encodeURIComponent(MAIL_LINK)}`);
     else {
-      copyContent(MAIL_LINK).then(() =>
+      writeClipboard(MAIL_LINK).then(() =>
         showModal(
           "网址已复制",
           `小程序暂不支持打开网页，请手动粘贴到浏览器地址栏并访问。`,

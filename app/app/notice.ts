@@ -1,4 +1,4 @@
-import { showModal } from "../api/index.js";
+import { showModal } from "@mptool/all";
 
 export interface NoticeItem {
   /** 标题 */

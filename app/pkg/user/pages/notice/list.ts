@@ -1,6 +1,5 @@
-import { $Page } from "@mptool/all";
+import { $Page, showToast } from "@mptool/all";
 
-import { showToast } from "../../../../api/index.js";
 import { appCoverPrefix } from "../../../../config/index.js";
 import type { NoticeInfo } from "../../../../service/index.js";
 import { getNoticeList } from "../../../../service/index.js";

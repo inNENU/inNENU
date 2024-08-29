@@ -1,11 +1,10 @@
-import { $Page, set } from "@mptool/all";
+import { $Page, set, showToast, writeClipboard } from "@mptool/all";
 
 import type {
   FunctionalListComponentConfig,
   PageStateWithContent,
   SwitchListComponentItemConfig,
 } from "../../../../../typings/index.js";
-import { copyContent, showToast } from "../../../../api/index.js";
 import { syncAppSettings } from "../../../../app/index.js";
 import type { App } from "../../../../app.js";
 import {
@@ -268,7 +267,7 @@ $Page(PAGE_ID, {
    * 复制 APPID
    */
   copyAppID() {
-    copyContent(wx.getStorageSync("openid"));
+    writeClipboard(wx.getStorageSync("openid"));
   },
 
   reportInfo() {

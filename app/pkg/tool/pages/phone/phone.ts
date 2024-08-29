@@ -1,8 +1,7 @@
-import { $Page } from "@mptool/all";
+import { $Page, addContact } from "@mptool/all";
 
-import { addPhoneContact } from "../../../../api/index.js";
 import { appCoverPrefix } from "../../../../config/index.js";
-import { info, windowInfo } from "../../../../state/index.js";
+import { windowInfo } from "../../../../state/index.js";
 import { ensureJson, getJson, showNotice } from "../../../../utils/index.js";
 
 interface PhoneItemConfig {
@@ -53,7 +52,7 @@ $Page(PAGE_ID, {
 
   onResize({ size }) {
     this.setData({
-      height: size.windowHeight - info.statusBarHeight - 160,
+      height: size.windowHeight - windowInfo.statusBarHeight - 160,
     });
   },
 
@@ -96,7 +95,7 @@ $Page(PAGE_ID, {
   ) {
     const item = this.getConfig(event);
 
-    addPhoneContact({
+    addContact({
       // 添加联系人
       firstName: item.name,
       hostNumber: this.getNumber(item),

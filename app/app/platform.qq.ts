@@ -1,5 +1,6 @@
+import { showModal } from "@mptool/all";
+
 import type { GlobalData } from "./globalData.js";
-import { showModal } from "../api/index.js";
 
 const checkGroupApp = (): void => {
   const { entryDataHash } = wx.getLaunchOptionsSync();

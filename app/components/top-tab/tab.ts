@@ -1,6 +1,6 @@
 import { $Component } from "@mptool/all";
 
-import { info } from "../../state/index.js";
+import { windowInfo } from "../../state/index.js";
 
 $Component({
   props: {
@@ -30,7 +30,7 @@ $Component({
     transition({ detail }: WechatMiniprogram.SwiperTransition): void {
       this.setData({
         barleft:
-          (detail.dx + info.windowWidth * this.data.currentSwipe) /
+          (detail.dx + windowInfo.windowWidth * this.data.currentSwipe) /
           this.data.navList.length,
       });
     },

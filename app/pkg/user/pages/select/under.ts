@@ -1,8 +1,7 @@
-import { $Page } from "@mptool/all";
+import { $Page, showModal, showToast } from "@mptool/all";
 
 import type { ClassData, SortKey } from "./utils.js";
 import { confirmReplace, courseSorter } from "./utils.js";
-import { showModal, showToast } from "../../../../api/index.js";
 import { appCoverPrefix } from "../../../../config/index.js";
 import type {
   AuthLoginFailedResponse,

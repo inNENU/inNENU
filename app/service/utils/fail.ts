@@ -1,6 +1,8 @@
+import { getCurrentRoute, showToast } from "@mptool/all";
+
 import { ActionFailType } from "./actionFailType.js";
 import type { CommonFailedResponse } from "./response.js";
-import { cookieStore, getCurrentRoute, showToast } from "../../api/index.js";
+import { cookieStore } from "../../api/index.js";
 import { clearUserInfo } from "../../state/index.js";
 
 export const checkAccountStatus = (
@@ -16,7 +18,7 @@ export const checkAccountStatus = (
   ) {
     cookieStore.clear();
     clearUserInfo();
-    showToast("需要重新登录");
+    void showToast("需要重新登录");
 
     if (getCurrentRoute() !== "/pkg/user/pages/account/login")
       wx.navigateTo({ url: "/pkg/user/pages/account/login?update=true" });

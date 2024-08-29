@@ -1,6 +1,5 @@
-import { $Page, get, set } from "@mptool/all";
+import { $Page, get, set, showModal } from "@mptool/all";
 
-import { showModal } from "../../../../api/index.js";
 import {
   GRADE_DATA_KEY,
   HOUR,

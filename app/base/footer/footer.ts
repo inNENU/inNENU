@@ -1,8 +1,7 @@
 import type { PropType } from "@mptool/all";
-import { $Component } from "@mptool/all";
+import { $Component, showModal, writeClipboard } from "@mptool/all";
 
 import type { FooterComponentOptions } from "../../../typings/index.js";
-import { copyContent, showModal } from "../../api/index.js";
 import { description } from "../../config/index.js";
 import { env } from "../../state/index.js";
 
@@ -38,7 +37,7 @@ $Component({
       if (env === "app") {
         wx.miniapp.openUrl({ url });
       } else {
-        copyContent(url).then(() => {
+        writeClipboard(url).then(() => {
           showModal(
             "无法直接打开",
             "小程序无法直接打开网页，链接已复制至剪切板，请打开浏览器粘贴查看。",

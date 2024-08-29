@@ -1,8 +1,7 @@
 import type { PropType } from "@mptool/all";
-import { $Component } from "@mptool/all";
+import { $Component, addContact, showToast, writeClipboard } from "@mptool/all";
 
 import type { PhoneComponentOptions } from "../../../typings/index.js";
-import { addPhoneContact, copyContent, showToast } from "../../api/index.js";
 import { env } from "../../state/index.js";
 
 $Component({
@@ -29,11 +28,11 @@ $Component({
       const { config } = this.data;
 
       if (env === "qq") {
-        copyContent(this.data.config.num).then(() => {
+        writeClipboard(this.data.config.num).then(() => {
           showToast("号码已复制");
         });
       } else
-        addPhoneContact({
+        addContact({
           firstName: config.fName,
           lastName: config.lName,
           mobilePhoneNumber: config.num,

@@ -1,13 +1,13 @@
 import type { PropType } from "@mptool/all";
-import { $Component } from "@mptool/all";
-
-import type { AccountComponentOptions } from "../../../typings/index.js";
 import {
-  copyContent,
+  $Component,
   savePhoto,
   showModal,
   showToast,
-} from "../../api/index.js";
+  writeClipboard,
+} from "@mptool/all";
+
+import type { AccountComponentOptions } from "../../../typings/index.js";
 import { env } from "../../state/index.js";
 
 $Component({
@@ -36,7 +36,7 @@ $Component({
             .then(() => showToast("二维码已存至相册"))
             .catch(() => showToast("二维码保存失败"));
       else if (qq)
-        copyContent(qq.toString()).then(() => {
+        writeClipboard(qq.toString()).then(() => {
           showModal("复制成功", "由于暂无二维码，QQ号已复制至您的剪切板");
         });
     },
@@ -69,7 +69,7 @@ $Component({
       // app 可直接打开网址
       if (env === "app") wx.miniapp.openUrl({ url: site! });
       else
-        copyContent(site).then(() => {
+        writeClipboard(site).then(() => {
           showModal(
             "功能受限",
             "小程序无法直接打开网页，链接已复制至剪切板，请打开浏览器粘贴查看。",
@@ -80,7 +80,7 @@ $Component({
     copyEmail(): void {
       const { mail } = this.data.config;
 
-      copyContent(mail).then(() =>
+      writeClipboard(mail).then(() =>
         showModal("复制成功", `邮箱地址 ${mail!} 已成功复制至剪切板`),
       );
     },

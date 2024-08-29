@@ -1,15 +1,15 @@
 import type { PropType } from "@mptool/all";
-import { $Component } from "@mptool/all";
-
-import type { DocComponentOptions } from "../../../typings/index.js";
 import {
-  copyContent,
+  $Component,
   openDocument,
   saveDocument,
   savePhoto,
   showModal,
   showToast,
-} from "../../api/index.js";
+  writeClipboard,
+} from "@mptool/all";
+
+import type { DocComponentOptions } from "../../../typings/index.js";
 import { envName } from "../../state/index.js";
 
 const DOC_ICONS = ["doc", "ppt", "xls", "pdf"];
@@ -47,7 +47,7 @@ $Component({
         if (wx.canIUse("addFileToFavorites")) saveDocument(url, name);
         // 将链接复制到剪切板
         else
-          copyContent(url).then(() => {
+          writeClipboard(url).then(() => {
             showModal(
               "复制成功",
               `下载链接已复制到您的剪切板。受${envName}限制，请您自行打开浏览器粘贴在地址栏中以下载。`,

@@ -1,10 +1,9 @@
-import { ls, rm } from "@mptool/all";
+import { confirm, ls, rm, showModal } from "@mptool/all";
 
-import { confirmAction, showModal } from "../../../api/index.js";
 import { envName } from "../../../state/index.js";
 
 export const resetApp = (): void => {
-  confirmAction(`重置${envName}`, () => {
+  confirm(`重置${envName}`, "", () => {
     // 显示提示
     wx.showLoading({ title: "重置中", mask: true });
 

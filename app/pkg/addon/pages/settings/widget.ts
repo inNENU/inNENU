@@ -1,6 +1,5 @@
-import { $Page, get, set } from "@mptool/all";
+import { $Page, confirm, get, set } from "@mptool/all";
 
-import { confirmAction } from "../../../../api/index.js";
 import { WIDGET_KEY } from "../../../../config/index.js";
 import { appInfo, info } from "../../../../state/index.js";
 import { getPageColor, showNotice } from "../../../../utils/index.js";
@@ -111,7 +110,7 @@ $Page(PAGE_ID, {
     Record<never, never>,
     { index: number }
   >) {
-    confirmAction("移除此组件", () => {
+    confirm("移除此组件", "", () => {
       const { index } = currentTarget.dataset;
       const { widgets } = this.data;
 

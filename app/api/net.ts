@@ -1,51 +1,13 @@
-import { MpError, createRequest, logger } from "@mptool/all";
+import {
+  MpError,
+  download as _download,
+  createRequest,
+  logger,
+  reportNetworkStatus,
+  showToast,
+} from "@mptool/all";
 
-import { showToast } from "./ui.js";
 import { assets, server, service } from "../config/index.js";
-
-/** 网络状态汇报 */
-export const networkReport = (): void => {
-  // 获取网络信息
-  wx.getNetworkType({
-    success: ({ networkType }) => {
-      switch (networkType) {
-        case "2g":
-        case "3g":
-          showToast("您的网络状态不佳");
-          break;
-        case "none":
-          showToast("您没有连接到网络");
-          break;
-        case "wifi":
-          wx.startWifi({
-            success: () => {
-              wx.getConnectedWifi({
-                success: ({ wifi }) => {
-                  if (wifi.signalStrength < 0.5) showToast("Wifi 信号不佳");
-                },
-                fail: () => {
-                  showToast("无法连接网络");
-                },
-              });
-            },
-            fail: () => {
-              showToast("无法连接网络");
-            },
-          });
-          break;
-        default:
-          showToast("网络连接出现问题，请稍后重试");
-      }
-
-      logger.error("Request fail with", networkType);
-    },
-    fail: () => {
-      showToast("网络连接出现问题，请稍后重试");
-
-      logger.error("Request fail and cannot get networkType");
-    },
-  });
-};
 
 const { request, cookieStore } = createRequest({
   server: service,
@@ -80,7 +42,7 @@ const { request, cookieStore } = createRequest({
   errorHandler: (err, url) => {
     if (!err.code) {
       logger.warn(`Request ${url} failed:`, err);
-      networkReport();
+      reportNetworkStatus();
     }
     throw err;
   },
@@ -126,7 +88,7 @@ export const requestJSON = <
       },
       fail: ({ errMsg }) => {
         reject(new MpError({ message: errMsg }));
-        networkReport();
+        reportNetworkStatus();
 
         // 调试
         logger.warn(`Request ${path}.json failed: ${errMsg}`);
@@ -142,33 +104,5 @@ export const requestJSON = <
  * @param failFunc 失败回调函数
  * @param errorFunc 状态码错误回调函数
  */
-export const downLoad = (path: string, mask = false): Promise<string> =>
-  new Promise((resolve, reject) => {
-    const progress = wx.downloadFile({
-      url: path.startsWith("http") ? path : `${assets}${path}`,
-      success: ({ statusCode, tempFilePath }) => {
-        wx.hideLoading();
-        if (statusCode === 200) {
-          resolve(tempFilePath);
-        } else {
-          const errMsg = `Download ${path} failed with statusCode: ${statusCode}`;
-
-          showToast("下载失败");
-          logger.warn(errMsg);
-          reject(new MpError({ code: statusCode, message: errMsg }));
-        }
-      },
-      fail: ({ errMsg }) => {
-        wx.hideLoading();
-
-        reject(new MpError({ message: errMsg }));
-
-        networkReport();
-        logger.warn(`Download ${path} failed:`, errMsg);
-      },
-    });
-
-    progress.onProgressUpdate(({ progress }) => {
-      wx.showLoading({ title: `下载中...${Math.round(progress)}%`, mask });
-    });
-  });
+export const download = (path: string, mask = false): Promise<string> =>
+  _download(path.startsWith("http") ? path : `${assets}${path}`, mask);

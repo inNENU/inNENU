@@ -1,7 +1,6 @@
-import { $Page } from "@mptool/all";
+import { $Page, retry, showModal, showToast } from "@mptool/all";
 
 import type { ListComponentConfig } from "../../../../../typings/components.js";
-import { retryAction, showModal, showToast } from "../../../../api/index.js";
 import { appCoverPrefix, logo } from "../../../../config/index.js";
 import { ActionFailType, mpRemove } from "../../../../service/index.js";
 import type { UserInfo } from "../../../../state/index.js";
@@ -209,7 +208,7 @@ $Page(PAGE_ID, {
 
     if (needCaptcha) {
       if (!captcha.success)
-        return retryAction("初始化失败", "获取图形验证码失败。", () => {
+        return retry("初始化失败", "获取图形验证码失败。", () => {
           this.getAuthCaptcha();
         });
 
@@ -235,7 +234,7 @@ $Page(PAGE_ID, {
     this.setData({ captchaBg: "", distance: 0 });
 
     if (!result.success) {
-      retryAction("验证失败", "请正确拼合图像。", () => {
+      retry("验证失败", "请正确拼合图像。", () => {
         this.getAuthCaptcha();
       });
     }
@@ -418,7 +417,7 @@ $Page(PAGE_ID, {
     wx.hideLoading();
 
     if (!result.success)
-      return retryAction("生成失败", result.msg, () => {
+      return retry("生成失败", result.msg, () => {
         this.getIdCode(force);
       });
 

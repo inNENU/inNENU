@@ -1,5 +1,5 @@
 import type { PageInstance, PageQuery } from "@mptool/all";
-import { logger, readJSON, writeJSON } from "@mptool/all";
+import { logger, readJSON, showModal, writeJSON } from "@mptool/all";
 
 import { getScopeData } from "./getScopeData.js";
 import { id2path } from "./id.js";
@@ -13,7 +13,7 @@ import type {
   PageState,
   PageStateWithContent,
 } from "../../typings/index.js";
-import { requestJSON, showModal } from "../api/index.js";
+import { requestJSON } from "../api/index.js";
 import type { NoticeItem } from "../app/index.js";
 import type { App } from "../app.js";
 import { imageWaterMark } from "../config/index.js";

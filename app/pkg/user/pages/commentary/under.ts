@@ -1,6 +1,5 @@
-import { $Page } from "@mptool/all";
+import { $Page, confirm, showModal } from "@mptool/all";
 
-import { confirmAction, showModal } from "../../../../api/index.js";
 import { appCoverPrefix } from "../../../../config/index.js";
 import { envName, info, user } from "../../../../state/index.js";
 import { getPageColor, showNotice } from "../../../../utils/index.js";
@@ -282,54 +281,50 @@ $Page(PAGE_ID, {
   },
 
   commentAll() {
-    confirmAction(
-      "一键评教",
-      () => {
-        const { list } = this.data;
+    const { list } = this.data;
 
-        Promise.all(
-          list.map(async ({ teacherCode, courseCode }) => {
-            const getResult = await underStudyCourseCommentary({
-              type: "get",
-              courseCode,
-              teacherCode,
+    confirm("一键评教", "此操作将一键评价所有未评价的课程为 100 分。", () =>
+      Promise.all(
+        list.map(async ({ teacherCode, courseCode }) => {
+          const getResult = await underStudyCourseCommentary({
+            type: "get",
+            courseCode,
+            teacherCode,
+          });
+
+          if (getResult.success) {
+            const { params, text, questions } = getResult.data;
+
+            const submitResult = await underStudyCourseCommentary({
+              type: "submit",
+              params,
+              questions,
+              text: text,
+              answers: Array(questions.length).fill(0),
+              commentary: "",
             });
 
-            if (getResult.success) {
-              const { params, text, questions } = getResult.data;
-
-              const submitResult = await underStudyCourseCommentary({
-                type: "submit",
-                params,
-                questions,
-                text: text,
-                answers: Array(questions.length).fill(0),
-                commentary: "",
-              });
-
-              if (submitResult.success) {
-                return true;
-              }
+            if (submitResult.success) {
+              return true;
             }
+          }
 
-            return false;
-          }),
-        ).then((results) => {
-          if (results.every(Boolean))
-            showModal("一键评教成功", "已评价所有课程为 100 分。", () => {
+          return false;
+        }),
+      ).then((results) => {
+        if (results.every(Boolean))
+          showModal("一键评教成功", "已评价所有课程为 100 分。", () => {
+            this.refresh();
+          });
+        else
+          showModal(
+            "一键评教失败",
+            "部分课程评价失败，请尝试手动评价。",
+            () => {
               this.refresh();
-            });
-          else
-            showModal(
-              "一键评教失败",
-              "部分课程评价失败，请尝试手动评价。",
-              () => {
-                this.refresh();
-              },
-            );
-        });
-      },
-      "此操作将一键评价所有未评价的课程为 100 分。",
+            },
+          );
+      }),
     );
   },
 });

@@ -3,7 +3,7 @@ import { $Page, readFile } from "@mptool/all";
 import { appCoverPrefix } from "../../../../config/index.js";
 import type { SearchResult, SearchType } from "../../../../service/index.js";
 import { searchMiniApp } from "../../../../service/index.js";
-import { appInfo, info } from "../../../../state/index.js";
+import { appInfo, info, windowInfo } from "../../../../state/index.js";
 import { getPageColor, showNotice } from "../../../../utils/index.js";
 
 $Page("search", {
@@ -42,7 +42,7 @@ $Page("search", {
   },
 
   onPageScroll(options) {
-    if (options.scrollTop > 250 + info.statusBarHeight)
+    if (options.scrollTop > 250 + windowInfo.statusBarHeight)
       this.setData({ showBackToTop: true });
     else this.setData({ showBackToTop: false });
   },

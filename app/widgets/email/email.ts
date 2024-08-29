@@ -1,7 +1,13 @@
 import type { PropType } from "@mptool/all";
-import { $Component, get, set } from "@mptool/all";
+import {
+  $Component,
+  get,
+  set,
+  showModal,
+  showToast,
+  writeClipboard,
+} from "@mptool/all";
 
-import { copyContent, showModal, showToast } from "../../api/index.js";
 import { EMAIL_DATA_KEY, MINUTE } from "../../config/index.js";
 import type { EmailData } from "../../service/index.js";
 import { getEmailPage, getRecentEmails } from "../../service/index.js";
@@ -121,7 +127,7 @@ $Component({
         if (env === "app")
           return this.$go(`web?url=${encodeURIComponent(data)}`);
 
-        await copyContent(data);
+        await writeClipboard(data);
 
         return showModal(
           "复制成功",

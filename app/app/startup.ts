@@ -1,9 +1,8 @@
-import { logger } from "@mptool/all";
+import { getCurrentRoute, logger, showToast } from "@mptool/all";
 
 import type { GlobalData } from "./globalData.js";
 import { platformActions } from "./platform.js";
 import { updateApp } from "./update.js";
-import { getCurrentRoute, showToast } from "../api/index.js";
 import { mpLogin } from "../service/index.js";
 import { env, envName, setOpenid } from "../state/index.js";
 

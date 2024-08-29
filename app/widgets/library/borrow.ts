@@ -1,7 +1,6 @@
 import type { PropType } from "@mptool/all";
-import { $Component, get, set } from "@mptool/all";
+import { $Component, get, set, showModal } from "@mptool/all";
 
-import { showModal } from "../../api/index.js";
 import { BORROW_BOOKS_KEY, DAY, HOUR } from "../../config/index.js";
 import type { BorrowBookData } from "../../service/index.js";
 import { getBorrowBooks } from "../../service/index.js";

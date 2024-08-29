@@ -1,6 +1,6 @@
-import { $Page } from "@mptool/all";
+import { $Page, retry, showModal } from "@mptool/all";
 
-import { retryAction, showModal } from "../../../../api/index.js";
+import {} from "../../../../api/index.js";
 import { appCoverPrefix } from "../../../../config/index.js";
 import type { LoginMethod } from "../../../../service/index.js";
 import { ActionFailType } from "../../../../service/index.js";
@@ -518,6 +518,6 @@ $Page(PAGE_ID, {
 
   handleExpired(content: string) {
     this.state.loginMethod = "force";
-    retryAction("登录过期", content, () => this.getCreateArchiveInfo());
+    retry("登录过期", content, () => this.getCreateArchiveInfo());
   },
 });

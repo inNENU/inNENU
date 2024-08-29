@@ -1,11 +1,10 @@
-import { $Page, logger } from "@mptool/all";
+import { $Page, confirm, logger, showModal } from "@mptool/all";
 
 import type {
   FunctionalListComponentConfig,
   PageStateWithContent,
   PickerListComponentItemConfig,
 } from "../../../../../typings/index.js";
-import { confirmAction, showModal } from "../../../../api/index.js";
 import { defaultResources, downloadResource } from "../../../../app/index.js";
 import { size, version } from "../../../../config/index.js";
 import { supportRedirect } from "../../../../service/index.js";
@@ -169,7 +168,7 @@ $Page(PAGE_ID, {
 
   /** 刷新所有资源 */
   updateResource() {
-    confirmAction("更新资源文件", () => {
+    confirm("更新资源文件", "", () => {
       downloadResource(defaultResources);
     });
   },

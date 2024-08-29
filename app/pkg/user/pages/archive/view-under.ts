@@ -1,10 +1,5 @@
-import { $Page, set } from "@mptool/all";
+import { $Page, confirm, retry, set, showModal } from "@mptool/all";
 
-import {
-  confirmAction,
-  retryAction,
-  showModal,
-} from "../../../../api/index.js";
 import { HOUR, STUDENT_ARCHIVE_KEY } from "../../../../config/index.js";
 import type { LoginMethod } from "../../../../service/index.js";
 import { ActionFailType } from "../../../../service/index.js";
@@ -141,13 +136,9 @@ $Page(PAGE_ID, {
   },
 
   confirmRegister() {
-    confirmAction(
-      "注册学籍",
-      () => {
-        this.registerStudentArchive();
-      },
-      "您应已核对信息全部准确，注册后将无法修改！",
-    );
+    confirm("注册学籍", "您应已核对信息全部准确，注册后将无法修改！", () => {
+      this.registerStudentArchive();
+    });
   },
 
   createStudentArchive() {
@@ -156,6 +147,6 @@ $Page(PAGE_ID, {
 
   handleExpired(content: string) {
     this.state.loginMethod = "force";
-    retryAction("登录过期", content, () => this.getStudyArchive());
+    retry("登录过期", content, () => this.getStudyArchive());
   },
 });

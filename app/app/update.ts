@@ -1,7 +1,7 @@
-import { logger, ls, rm } from "@mptool/all";
+import { logger, ls, rm, showToast } from "@mptool/all";
 
 import type { AppSettings } from "./settings.js";
-import { request, showToast } from "../api/index.js";
+import { request } from "../api/index.js";
 import { server } from "../config/index.js";
 import { appID } from "../state/index.js";
 

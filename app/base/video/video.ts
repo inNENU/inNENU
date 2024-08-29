@@ -1,8 +1,7 @@
 import type { PropType } from "@mptool/all";
-import { $Component } from "@mptool/all";
+import { $Component, showToast } from "@mptool/all";
 
 import type { VideoComponentOptions } from "../../../typings/index.js";
-import { showToast } from "../../api/index.js";
 
 $Component({
   props: {

@@ -1,6 +1,5 @@
-import { $Page } from "@mptool/all";
+import { $Page, showModal, showToast } from "@mptool/all";
 
-import { showModal, showToast } from "../../../../api/index.js";
 import { appCoverPrefix, logo } from "../../../../config/index.js";
 import { ActionFailType, supportRedirect } from "../../../../service/index.js";
 import { envName, info, user, windowInfo } from "../../../../state/index.js";

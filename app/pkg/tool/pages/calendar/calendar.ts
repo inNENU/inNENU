@@ -1,6 +1,5 @@
-import { $Page } from "@mptool/all";
+import { $Page, showModal, showToast } from "@mptool/all";
 
-import { showModal, showToast } from "../../../../api/index.js";
 import { appCoverPrefix } from "../../../../config/index.js";
 import { info } from "../../../../state/index.js";
 import {

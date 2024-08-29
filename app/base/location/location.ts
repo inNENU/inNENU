@@ -1,11 +1,10 @@
 import type { PropType } from "@mptool/all";
-import { $Component } from "@mptool/all";
+import { $Component, showToast } from "@mptool/all";
 
 import type {
   LocationComponentOptions,
   LocationConfig,
 } from "../../../typings/index.js";
-import { showToast } from "../../api/index.js";
 import { getLocation } from "../../utils/index.js";
 
 $Component({
@@ -62,11 +61,11 @@ $Component({
     navigate() {
       const { config, id, markers } = this.data;
 
-      if (config.navigate !== false) {
-        if (id === -1 && markers.length !== 1) return showToast("请选择一个点");
+      if (config.navigate === false) return;
 
-        this.startNavigation(markers[id === -1 ? 0 : id]);
-      }
+      if (id === -1 && markers.length !== 1) return showToast("请选择一个点");
+
+      return this.startNavigation(markers[id === -1 ? 0 : id]);
     },
 
     detail() {

@@ -1,11 +1,10 @@
-import { $Page } from "@mptool/all";
+import { $Page, showModal, showToast } from "@mptool/all";
 
 import type {
   ButtonListComponentItemConfig,
   ListComponentConfig,
   PageStateWithContent,
 } from "../../../../../typings/index.js";
-import { showModal, showToast } from "../../../../api/index.js";
 import type { App } from "../../../../app.js";
 import { appInfo, info } from "../../../../state/index.js";
 import {

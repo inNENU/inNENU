@@ -1,8 +1,7 @@
 import type { PropType } from "@mptool/all";
-import { $Component } from "@mptool/all";
+import { $Component, showToast, writeClipboard } from "@mptool/all";
 
 import type { PhoneComponentOptions } from "../../../typings/index.js";
-import { copyContent, showToast } from "../../api/index.js";
 
 $Component({
   props: {
@@ -24,7 +23,7 @@ $Component({
     },
 
     copyContact() {
-      copyContent(this.data.config.num).then(() => {
+      writeClipboard(this.data.config.num).then(() => {
         showToast("号码已复制");
       });
     },

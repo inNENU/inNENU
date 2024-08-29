@@ -1,4 +1,5 @@
-import { showModal } from "../../../../api/index.js";
+import { showModal } from "@mptool/all";
+
 import type { UnderSelectClassInfo } from "../../service/index.js";
 
 const CONFIRM_KEY = "under-select-replace-confirm";

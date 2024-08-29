@@ -1,8 +1,7 @@
 import type { PropType } from "@mptool/all";
-import { $Component, logger } from "@mptool/all";
+import { $Component, logger, showModal, writeClipboard } from "@mptool/all";
 
 import type { ActionComponentOptions } from "../../../typings/index.js";
-import { copyContent, showModal } from "../../api/index.js";
 
 $Component({
   props: {
@@ -22,7 +21,7 @@ $Component({
     copy(): void {
       const { content } = this.data.config;
 
-      copyContent(content).then(() => {
+      writeClipboard(content).then(() => {
         logger.debug(`Copied '${content}'`);
       });
     },
@@ -30,7 +29,7 @@ $Component({
     link(): void {
       const { content } = this.data.config;
 
-      copyContent(content).then(() => {
+      writeClipboard(content).then(() => {
         showModal(
           "功能受限",
           "小程序无法直接打开网页，链接已复制至剪切板，请打开浏览器粘贴查看。",

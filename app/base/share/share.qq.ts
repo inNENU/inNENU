@@ -1,8 +1,14 @@
 import type { PropType } from "@mptool/all";
-import { $Component, logger } from "@mptool/all";
+import {
+  $Component,
+  logger,
+  savePhoto,
+  showToast,
+  writeClipboard,
+} from "@mptool/all";
 
 import type { PageState } from "../../../typings/index.js";
-import { copyContent, savePhoto, showToast } from "../../api/index.js";
+import {} from "../../api/index.js";
 import { appName, service } from "../../config/index.js";
 import { appID } from "../../state/index.js";
 import { path2id } from "../../utils/index.js";
@@ -58,7 +64,7 @@ $Component({
       const { title } = this.data.config;
       const content = `${title ? `${appName}查看『${title}』:` : ""}${link}`;
 
-      copyContent(content).then(() => {
+      writeClipboard(content).then(() => {
         showToast("链接已复制");
         logger.debug(`Share content is copied: ${content}`);
       });

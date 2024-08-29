@@ -1,6 +1,5 @@
-import { $Page } from "@mptool/all";
+import { $Page, showModal, showToast, writeClipboard } from "@mptool/all";
 
-import { copyContent, showModal, showToast } from "../../../../api/index.js";
 import { appCoverPrefix } from "../../../../config/index.js";
 import { env, info } from "../../../../state/index.js";
 import { getPageColor, showNotice } from "../../../../utils/index.js";
@@ -110,6 +109,6 @@ $Page(PAGE_ID, {
     const { site } = currentTarget.dataset;
 
     if (env === "app") wx.miniapp.openUrl({ url: site });
-    else copyContent(site).then(() => showToast("网址已复制"));
+    else writeClipboard(site).then(() => showToast("网址已复制"));
   },
 });
