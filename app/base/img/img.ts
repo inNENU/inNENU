@@ -3,6 +3,7 @@ import { $Component, logger } from "@mptool/all";
 
 import type { ImageComponentOptions } from "../../../typings/index.js";
 import { imageWaterMark } from "../../config/index.js";
+import { getPath } from "../../utils/index.js";
 
 $Component({
   props: {
@@ -19,6 +20,18 @@ $Component({
     },
   },
 
+  data: {
+    src: "",
+  },
+
+  lifetimes: {
+    attached() {
+      this.setData({
+        src: getPath(this.data.config.src),
+      });
+    },
+  },
+
   methods: {
     /** 图片加载完成 */
     load(): void {
@@ -27,7 +40,7 @@ $Component({
 
     /** 图片加载出错 */
     error(): void {
-      const { src } = this.data.config;
+      const { src } = this.data;
 
       this.setData({ error: true });
 
@@ -40,10 +53,8 @@ $Component({
 
     /** 进行图片预览 */
     view(): void {
-      const { config, images } = this.data;
-      const { res, src, watermark } = config;
-
-      const current = `${res || src}${watermark ? imageWaterMark : ""}`;
+      const { config, src, images } = this.data;
+      const current = `${src}${config.watermark ? imageWaterMark : ""}`;
 
       wx.previewImage({
         current,

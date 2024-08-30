@@ -5,7 +5,8 @@ import type {
   LocationComponentOptions,
   LocationConfig,
 } from "../../../typings/index.js";
-import { getLocation } from "../../utils/index.js";
+import { isCompany } from "../../state/index.js";
+import { getLocation, startNavigation } from "../../utils/index.js";
 
 $Component({
   props: {
@@ -19,7 +20,7 @@ $Component({
   data: {
     markers: [] as (LocationConfig & { id: number })[],
     id: -1,
-    title: "",
+    header: "",
     hasDetail: false,
   },
 
@@ -28,9 +29,9 @@ $Component({
       const { config } = this.data;
 
       this.setData({
-        title: config.title,
+        header: config.header,
         markers: config.points.map((point, index) => ({
-          name: config.title,
+          name: config.header,
           detail: point.path ? "详情" : "",
           id: index,
           ...getLocation(point.loc),
@@ -97,15 +98,17 @@ $Component({
     },
 
     startNavigation({ loc, name }: LocationConfig & { id: number }) {
-      this.createSelectorQuery()
-        .select("#location")
-        .context(({ context }) => {
-          (context as WechatMiniprogram.MapContext).openMapApp({
-            ...getLocation(loc),
-            destination: name || this.data.config.title,
-          });
-        })
-        .exec();
+      if (isCompany) startNavigation({ name, loc });
+      else
+        this.createSelectorQuery()
+          .select("#location")
+          .context(({ context }) => {
+            (context as WechatMiniprogram.MapContext).openMapApp({
+              ...getLocation(loc),
+              destination: name || this.data.config.header,
+            });
+          })
+          .exec();
     },
   },
 });

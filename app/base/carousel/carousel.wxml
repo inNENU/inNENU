@@ -13,7 +13,7 @@
     bindchange="change"
     bindanimationfinish="animationFinish"
   >
-    <swiper-item wx:for="{{config.images}}" wx:key="*this">
+    <swiper-item wx:for="{{images}}" wx:key="*this">
       <image
         class="{{config.imgClass || 'image'}}"
         mode="{{config.imgMode || 'aspectFill'}}"
@@ -28,7 +28,7 @@
     class="carousel-dots{{(config.fill ? '': ' card')}}"
   >
     <view
-      wx:for="{{config.images}}"
+      wx:for="{{images}}"
       wx:key="*this"
       class="dot {{index === current ? 'active' : ''}}"
       style="background-color: {{config.dotColor || '#fff'}}"

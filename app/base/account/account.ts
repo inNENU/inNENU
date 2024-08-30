@@ -8,7 +8,8 @@ import {
 } from "@mptool/all";
 
 import type { AccountComponentOptions } from "../../../typings/index.js";
-import { env } from "../../state/index.js";
+import { env, isCompany } from "../../state/index.js";
+import { getPath, startNavigation } from "../../utils/index.js";
 
 $Component({
   props: {
@@ -19,23 +20,36 @@ $Component({
     },
   },
 
+  data: {
+    isCompany,
+    env,
+  },
+
+  lifetimes: {
+    attached() {
+      this.setData({ logo: getPath(this.data.config.logo) });
+    },
+  },
+
   methods: {
     /** 添加 QQ */
     addQQ(): void {
       const { qq, qqcode = "" } = this.data.config;
 
-      if (qqcode)
+      if (qqcode) {
+        const realQQCodePath = getPath(qqcode);
+
         if (env === "qq")
           // QQ 可直接长按扫码添加好友
           wx.previewImage({
-            urls: [qqcode],
+            urls: [realQQCodePath],
           });
         // 其他平台需保存至相册
         else
-          savePhoto(qqcode)
+          savePhoto(realQQCodePath)
             .then(() => showToast("二维码已存至相册"))
             .catch(() => showToast("二维码保存失败"));
-      else if (qq)
+      } else if (qq)
         writeClipboard(qq.toString()).then(() => {
           showModal("复制成功", "由于暂无二维码，QQ号已复制至您的剪切板");
         });
@@ -47,7 +61,7 @@ $Component({
 
       if (account) this.$go(`wechat?path=${account}`);
       else if (wxcode)
-        savePhoto(wxcode)
+        savePhoto(getPath(wxcode))
           .then(() => showToast("二维码已存至相册"))
           .catch(() => showToast("二维码保存失败"));
       else if (wxid)
@@ -83,6 +97,10 @@ $Component({
       writeClipboard(mail).then(() =>
         showModal("复制成功", `邮箱地址 ${mail!} 已成功复制至剪切板`),
       );
+    },
+
+    navigate(): void {
+      startNavigation(this.data.config);
     },
   },
 });

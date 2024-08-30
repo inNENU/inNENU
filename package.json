@@ -47,7 +47,7 @@
     }
   },
   "dependencies": {
-    "@mptool/all": "0.10.6"
+    "@mptool/all": "0.10.8"
   },
   "devDependencies": {
     "@commitlint/cli": "19.4.1",
@@ -66,6 +66,7 @@
     "gulp-typescript": "6.0.0-alpha.1",
     "gulp5-sass-plugin": "2.0.2",
     "husky": "9.1.5",
+    "innenu-generator": "0.0.10",
     "miniprogram-api-typings": "3.12.3",
     "nano-staged": "0.8.0",
     "postcss": "8.4.41",

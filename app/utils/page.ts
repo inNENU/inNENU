@@ -110,9 +110,9 @@ export const setComponentState = (
       if ("env" in component && !component.env?.includes(env)) return null;
 
       if (tag === "img") {
-        const { src, res, watermark } = component;
+        const { src, watermark } = component;
 
-        images.push(`${res || src}${watermark ? imageWaterMark : ""}`);
+        images.push(`${src}${watermark ? imageWaterMark : ""}`);
       }
 
       // 设置 list 组件

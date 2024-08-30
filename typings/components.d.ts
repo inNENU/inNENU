@@ -20,12 +20,7 @@ import type {
   TextComponentOptions,
   TitleComponentOptions,
   VideoComponentOptions,
-} from "../server/typings/index.js";
-
-export interface TextComponentConfig extends TextComponentOptions {
-  /** 跳转路径 */
-  url?: string;
-}
+} from "innenu-generator/typings";
 
 export interface SwitchListComponentItemConfig
   extends SwitchListComponentItemOptions {
@@ -97,7 +92,7 @@ export type ComponentConfig = (
   | ImageComponentOptions
   | ListComponentOptions
   | PhoneComponentOptions
-  | TextComponentConfig
+  | TextComponentOptions
   | TitleComponentOptions
   | VideoComponentOptions
 ) &

@@ -1,5 +1,6 @@
+import type { PageData } from "innenu-generator/typings";
+
 import type { ComponentConfig } from "./components.js";
-import type { PageData } from "../server/typings/index.js";
 
 /** 页面选项 */
 export interface PageOptions {

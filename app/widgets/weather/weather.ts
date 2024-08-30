@@ -28,15 +28,18 @@ $Component({
   },
 
   lifetimes: {
+    created() {
+      this.updateIcon = this.updateIcon.bind(this);
+    },
     attached() {
       const { type } = this.data;
 
       if (wx.getStorageSync(INITIALIZED_KEY)) {
         const weatherIcon = JSON.parse(
-          (readFile("./icon/weather/icon") as string) || "{}",
+          readFile("./icon/weather/icon") || "{}",
         ) as Record<string, string>;
         const hintIcon = JSON.parse(
-          (readFile("./icon/weather/hint") as string) || "{}",
+          readFile("./icon/weather/hint") || "{}",
         ) as Record<string, string>;
 
         this.setData({
@@ -47,7 +50,6 @@ $Component({
         });
       } else {
         // update icon
-        this.updateIcon = this.updateIcon.bind(this);
         this.$on("inited", this.updateIcon);
       }
 
@@ -56,6 +58,9 @@ $Component({
         id: type.includes("今日") ? "today" : "recent",
       });
       this.getWeather();
+    },
+    detached() {
+      this.$off("inited", this.updateIcon);
     },
   },
 
@@ -76,12 +81,14 @@ $Component({
 
     updateIcon() {
       this.setData({
-        weatherIcon: JSON.parse(
-          readFile("./icon/weather/icon") as string,
-        ) as Record<string, string>,
-        hintIcon: JSON.parse(
-          readFile("./icon/weather/hint") as string,
-        ) as Record<string, string>,
+        weatherIcon: JSON.parse(readFile("./icon/weather/icon")!) as Record<
+          string,
+          string
+        >,
+        hintIcon: JSON.parse(readFile("./icon/weather/hint")!) as Record<
+          string,
+          string
+        >,
       });
     },
   },

@@ -2,7 +2,7 @@ import type { PropType } from "@mptool/all";
 import { $Component, readFile } from "@mptool/all";
 
 import type { CardComponentOptions } from "../../../typings/index.js";
-import { navigate } from "../../utils/index.js";
+import { getPath, navigate } from "../../utils/index.js";
 
 $Component({
   props: {
@@ -19,14 +19,12 @@ $Component({
     },
   },
 
+  data: {
+    cover: "",
+    logo: "",
+  },
+
   methods: {
-    /** 点击卡片触发的操作 */
-    onTap(): void {
-      const { config, referer } = this.data;
-
-      navigate(config, referer);
-    },
-
     setLogo(value?: string) {
       const logo = value || this.data.config.logo;
 
@@ -36,11 +34,25 @@ $Component({
           base64Logo: readFile(`icon/${logo}`) || "",
         });
     },
+
+    /** 点击卡片触发的操作 */
+    onTap(): void {
+      const { config, referer } = this.data;
+
+      navigate(config, referer);
+    },
   },
 
   lifetimes: {
-    attached() {
+    created() {
       this.setLogo = this.setLogo.bind(this);
+    },
+    attached() {
+      const { cover } = this.data.config;
+
+      this.setData({
+        cover: getPath(cover),
+      });
       this.$on("inited", this.setLogo);
     },
 

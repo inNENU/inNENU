@@ -1,6 +1,6 @@
 <video
   class="video-component"
-  src="{{config.src}}"
+  src="{{src}}"
   controls="{{config.controls !== false}}"
   loop="{{config.loop}}"
   autoplay="{{config.autoplay}}"

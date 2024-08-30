@@ -2,13 +2,13 @@
   <!-- 高斯模糊背景 -->
   <image
     class="account-background"
-    src="{{config.logo}}"
+    src="{{logo}}"
     mode="aspectFill"
     lazy-load
   />
   <view class="account-content">
     <!-- 图标 -->
-    <image class="account-logo" src="{{config.logo}}" lazy-load />
+    <image class="account-logo" src="{{logo}}" lazy-load />
     <!-- 名称 -->
     <text class="account-name">{{config.name}}</text>
     <!-- 详情 -->
@@ -21,8 +21,19 @@
     >
 
     <view class="account-action-list">
+      <button
+        wx:if="{{env === 'qq' && config.qqid}}"
+        class="account-action"
+        hover-class="button-hover"
+        hover-start-time="0"
+        hover-stay-time="0"
+        open-type="addFriend"
+        open-id="{{config.qqid}}"
+      >
+        <image class="icon" src="/icon/qq.svg" />
+      </button>
       <view
-        wx:if="{{config.qq || config.qqcode}}"
+        wx:elif="{{config.qq || config.qqcode}}"
         class="account-action"
         hover-class="button-hover"
         hover-start-time="0"
@@ -70,6 +81,15 @@
         catch:tap="copyEmail"
       >
         <image class="icon" src="./icon/mail.svg" />
+      </view>
+      <!-- FIXME: Support navigation in inNENU -->
+      <view
+        wx:if="{{isCompany && config.location}}"
+        class="account-action"
+        hover-class="button-hover"
+        catch:tap="navigate"
+      >
+        <image class="icon" src="/icon/navigate.svg" />
       </view>
     </view>
   </view>

@@ -7,8 +7,8 @@ import {
 } from "@mptool/all";
 
 import type {
-  WechatArticleItem,
-  WechatConfig,
+  WechatAccountConfig,
+  WechatArticleConfig,
 } from "../../../../../typings/index.js";
 import { request } from "../../../../api/index.js";
 import { appCoverPrefix, server } from "../../../../config/index.js";
@@ -22,7 +22,7 @@ import { createRecycleContext } from "../../components/recycle-view/index.js";
 
 const PAGE_ID = "wechat";
 
-interface WechatArticleItemWithSize extends WechatArticleItem {
+interface WechatArticleItemWithSize extends WechatArticleConfig {
   width: number;
   height: number;
 }
@@ -34,7 +34,6 @@ $Page(PAGE_ID, {
     desc: "",
     logo: "",
     id: "",
-    qrcode: "",
     follow: "",
 
     showBackToTop: false,
@@ -80,20 +79,12 @@ $Page(PAGE_ID, {
 
     this.ctx = ctx;
 
-    request<WechatConfig>(`${server}service/account.php`, {
+    request<WechatAccountConfig>(`${server}service/account.php`, {
       method: "POST",
       body: { id: this.state.path },
     })
       .then(({ data }) => {
-        const {
-          article,
-          name,
-          desc,
-          logo,
-          id,
-          qrcode = "",
-          follow = "",
-        } = data;
+        const { article, name, desc, logo, id, follow = "" } = data;
 
         this.setData({
           loading: false,
@@ -101,7 +92,6 @@ $Page(PAGE_ID, {
           desc,
           logo,
           id,
-          qrcode,
           follow,
         });
 
@@ -148,7 +138,7 @@ $Page(PAGE_ID, {
     };
   },
 
-  appendSize(item: WechatArticleItem) {
+  appendSize(item: WechatArticleConfig) {
     const width = Math.min(windowInfo.windowWidth - 30, 517);
     const titleCharPerLine = Math.floor((width - 30) / 16);
     const descCharPerLine = Math.floor((width - 30) / 14);
@@ -194,14 +184,17 @@ $Page(PAGE_ID, {
   },
 
   follow() {
-    const { follow, qrcode, id } = this.data;
+    const { follow, id } = this.data;
 
     if (env === "app")
-      savePhoto(qrcode || `https://open.weixin.qq.com/qr/code?username=${id}`)
+      savePhoto(`https://open.weixin.qq.com/qr/code?username=${id}`)
         .then(() => showToast("二维码已存至相册"))
         .catch(() => showToast("二维码保存失败"));
     else if (follow) this.$go(`web?url=${follow}&title=欢迎关注`);
-    else wx.previewImage({ urls: [qrcode] });
+    else
+      wx.previewImage({
+        urls: [`https://open.weixin.qq.com/qr/code?username=${id}`],
+      });
   },
 
   scrollTop() {
@@ -209,6 +202,6 @@ $Page(PAGE_ID, {
   },
 
   ctx: null as unknown as ReturnType<
-    typeof createRecycleContext<WechatArticleItem>
+    typeof createRecycleContext<WechatArticleConfig>
   >,
 });

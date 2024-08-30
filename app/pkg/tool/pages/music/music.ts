@@ -1,15 +1,20 @@
 import { $Page, logger, showToast } from "@mptool/all";
 
+import type {
+  LyricData,
+  MusicInfo,
+  MusicList,
+} from "../../../../../typings/index.js";
 import { loadFZSSJW } from "../../../../api/index.js";
 import { appCoverPrefix, appName } from "../../../../config/index.js";
 import { appInfo } from "../../../../state/index.js";
-import { ensureJson, getJson, showNotice } from "../../../../utils/index.js";
-import type {
-  Lyric,
-  MusicState,
-  PlayMode,
-  SongDetail,
-} from "../../utils/index.js";
+import {
+  ensureJson,
+  getJson,
+  getPath,
+  showNotice,
+} from "../../../../utils/index.js";
+import type { MusicState, PlayMode } from "../../utils/index.js";
 
 const musicState: MusicState = { playing: false, index: 0 };
 
@@ -29,11 +34,11 @@ $Page("music", {
     /** 歌曲总长度 */
     totalTime: 1,
     /** 当前歌曲信息 */
-    currentSong: {} as SongDetail,
+    currentSong: {} as MusicInfo,
     /** 是否展示歌曲列表 */
     showSongList: false,
     /** 歌曲列表 */
-    songList: [] as SongDetail[],
+    songList: [] as MusicList,
     /** 播放模式 */
     mode: "列表循环" as PlayMode,
 
@@ -42,7 +47,7 @@ $Page("music", {
     /** 当前歌词 */
     currentLyric: "",
     /** 歌词配置 */
-    lyrics: [] as Lyric[],
+    lyrics: [] as LyricData,
 
     /** 弹窗配置 */
     popupConfig: {
@@ -80,7 +85,13 @@ $Page("music", {
         : "rgba(0, 0, 0, 0.45)",
     });
 
-    getJson<SongDetail[]>("function/music/index").then((songList) => {
+    getJson<MusicList>("function/music/index").then((songData) => {
+      const songList = songData.map((item) => ({
+        ...item,
+        cover: getPath(item.cover),
+        src: getPath(item.src),
+      }));
+
       if (option.index) {
         musicState.index = Number(option.index);
       } else if (option.name) {
@@ -100,7 +111,11 @@ $Page("music", {
       // 写入歌曲列表与当前歌曲信息
       this.setData({
         index,
-        songList,
+        songList: songList.map((item) => ({
+          ...item,
+          cover: getPath(item.cover),
+          src: getPath(item.src),
+        })),
         currentSong,
       });
 
@@ -233,7 +248,7 @@ $Page("music", {
     const { lyric } = this.data.currentSong;
 
     if (lyric)
-      getJson<Lyric[]>(`function/music/${lyric}`).then((lyrics) => {
+      getJson<LyricData>(`function/music/${lyric}`).then((lyrics) => {
         this.setData({
           currentLyric: "",
           currentLyricId: -1,
@@ -244,7 +259,7 @@ $Page("music", {
       this.setData({
         currentLyric: "",
         currentLyricId: -1,
-        lyrics: [] as Lyric[],
+        lyrics: [] as LyricData,
       });
   },
 

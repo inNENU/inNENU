@@ -4,8 +4,8 @@ import { $Page, logger, showModal, showToast } from "@mptool/all";
 
 import type {
   Category,
-  MarkerConfig,
   MarkerData,
+  MarkersData,
 } from "../../../../../typings/index.js";
 import { appCoverPrefix } from "../../../../config/index.js";
 import { windowInfo } from "../../../../state/index.js";
@@ -153,7 +153,7 @@ $Page(PAGE_ID, {
   /** 生成点位 */
   setMarker() {
     const promises = ["benbu", "jingyue"].map((path) =>
-      getJson<MarkerConfig>(`function/map/marker/${path}`)
+      getJson<MarkersData>(`function/map/marker/${path}`)
         .then(({ category, marker }) => {
           this.state[path as Area] = {
             category,

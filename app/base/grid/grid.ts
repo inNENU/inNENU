@@ -1,11 +1,11 @@
 import type { PropType } from "@mptool/all";
-import { $Component, readFile } from "@mptool/all";
+import { $Component } from "@mptool/all";
 
 import type {
   GridComponentItemOptions,
   GridComponentOptions,
 } from "../../../typings/index.js";
-import { navigate } from "../../utils/index.js";
+import { getIcon, navigate } from "../../utils/index.js";
 
 $Component({
   props: {
@@ -26,10 +26,8 @@ $Component({
     // 设置图标
     setLogo(items?: GridComponentItemOptions[]) {
       this.setData({
-        icons: (items || this.data.config.items || []).map((item) =>
-          item.icon && !item.icon.includes("/")
-            ? readFile(`icon/${item.icon}`) || ""
-            : "",
+        icons: (items || this.data.config.items || []).map(({ icon }) =>
+          getIcon(icon),
         ),
       });
     },

@@ -6,10 +6,19 @@ import {
   writeClipboard,
 } from "@mptool/all";
 
+import type {
+  QQAccountsConfig,
+  WechatAccountsConfig,
+} from "../../../../../typings/index.js";
 import { appCoverPrefix } from "../../../../config/index.js";
 import type { Env } from "../../../../state/index.js";
 import { env, windowInfo } from "../../../../state/index.js";
-import { ensureJson, getJson, showNotice } from "../../../../utils/index.js";
+import {
+  ensureJson,
+  getJson,
+  getPath,
+  showNotice,
+} from "../../../../utils/index.js";
 
 const PAGE_ID = "school-media";
 const PAGE_TITLE = "校园媒体";
@@ -20,6 +29,7 @@ $Page(PAGE_ID, {
 
     config: [] as unknown[],
 
+    env,
     type: env,
 
     footer: {
@@ -31,11 +41,22 @@ $Page(PAGE_ID, {
     ensureJson(`function/account/${env}`);
   },
 
-  onLoad({ type = env }: { type: Env }) {
-    getJson<unknown[]>(`function/account/${type}`).then((config) => {
+  onLoad({ type }: { type: Env }) {
+    const defaultType = type || (env === "qq" ? "qq" : "wx");
+
+    getJson<WechatAccountsConfig | QQAccountsConfig>(
+      `function/account/${defaultType}`,
+    ).then((config) => {
       this.setData({
-        config,
-        type,
+        config: config.map(({ name, account }) => ({
+          name,
+          account: account.map((item) => ({
+            ...item,
+            logo: getPath(item.logo),
+            ...("qrcode" in item ? { qrcode: getPath(item.qrcode) } : {}),
+          })),
+        })),
+        type: defaultType,
         height: windowInfo.windowHeight - windowInfo.statusBarHeight - 202,
       });
     });
@@ -52,9 +73,9 @@ $Page(PAGE_ID, {
     imageUrl: `${appCoverPrefix}.jpg`,
   }),
 
-  onResize() {
+  onResize({ size }) {
     this.setData({
-      height: windowInfo.windowHeight - windowInfo.statusBarHeight - 202,
+      height: size.windowHeight - windowInfo.statusBarHeight - 202,
     });
   },
 

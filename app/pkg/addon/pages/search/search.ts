@@ -1,10 +1,10 @@
-import { $Page, readFile } from "@mptool/all";
+import { $Page } from "@mptool/all";
 
 import { appCoverPrefix } from "../../../../config/index.js";
 import type { SearchResult, SearchType } from "../../../../service/index.js";
 import { searchMiniApp } from "../../../../service/index.js";
 import { appInfo, info, windowInfo } from "../../../../state/index.js";
-import { getPageColor, showNotice } from "../../../../utils/index.js";
+import { getIcon, getPageColor, showNotice } from "../../../../utils/index.js";
 
 $Page("search", {
   data: {
@@ -130,8 +130,8 @@ $Page("search", {
       result,
       icons: Object.fromEntries(
         result
-          .filter((item) => item.icon && !item.icon.includes("/"))
-          .map((item) => [item.icon!, readFile(`icon/${item.icon!}`) || ""]),
+          .map(({ icon }) => (icon ? [icon, getIcon(icon)] : null))
+          .filter((item): item is [string, string] => item !== null),
       ),
     });
     this.state.query = value;

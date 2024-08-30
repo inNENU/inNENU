@@ -20,6 +20,8 @@ export const appID = (wx.getAccountInfoSync().miniProgram.appId ||
   // FIXME: Current SDK can not return appid correctly
   "wx69e79c3d87753512") as AppID;
 
+export const isCompany = appID === "wx2550e3fd373b79a8";
+
 /** 运行环境 */
 export type Env = "app" | "qq" | "wx";
 

@@ -8,6 +8,7 @@ import { windowInfo } from "../../../../state/index.js";
 import {
   getJson,
   getLocation,
+  getPath,
   resolvePage,
   setPage,
 } from "../../../../utils/index.js";
@@ -25,8 +26,9 @@ $Page("map-detail", {
 
   onPreload(options) {
     const { id } = options;
+    const page = readJSON(`function/map/${id}`);
 
-    resolvePage({ id }, readJSON(`function/map/${id}`));
+    resolvePage({ id }, page ? this.convertPage(page) : undefined);
   },
 
   onLoad(option) {
@@ -37,7 +39,7 @@ $Page("map-detail", {
       else
         getJson<PageState>(`function/map/${id}`)
           .then((data) => {
-            setPage({ option, ctx: this }, data);
+            setPage({ option, ctx: this }, this.convertPage(data));
           })
           .catch(() => {
             setPage({ option, ctx: this }, { error: true });
@@ -85,6 +87,10 @@ $Page("map-detail", {
       imageUrl: `${appCoverPrefix}.jpg`,
       query: `id=${this.state.id}${loc ? `&point=${loc}` : ""}`,
     };
+  },
+
+  convertPage(page: PageState & { photo?: string[] }): PageState {
+    return { ...page, photo: page.photo?.map(getPath) } as PageState;
   },
 
   defaultScroller,

@@ -1,12 +1,12 @@
 import type { PropType } from "@mptool/all";
-import { $Component, readFile } from "@mptool/all";
+import { $Component } from "@mptool/all";
 
 import type {
   ListComponentItemOptions,
   ListComponentOptions,
 } from "../../../typings/index.js";
 import { info } from "../../state/index.js";
-import { navigate } from "../../utils/index.js";
+import { getIcon, navigate } from "../../utils/index.js";
 
 $Component({
   props: {
@@ -27,10 +27,8 @@ $Component({
     // 设置图标
     setLogo(items?: ListComponentItemOptions[]) {
       this.setData({
-        icons: (items || this.data.config.items || []).map((item) =>
-          item.icon && !item.icon.includes("/")
-            ? readFile(`icon/${item.icon}`) || ""
-            : "",
+        icons: (items || this.data.config.items || []).map(({ icon }) =>
+          getIcon(icon),
         ),
       });
     },
@@ -50,11 +48,13 @@ $Component({
   },
 
   lifetimes: {
+    created() {
+      this.setLogo = this.setLogo.bind(this);
+    },
     attached() {
       const { selectable } = info;
 
       this.setData({ selectable });
-      this.setLogo = this.setLogo.bind(this);
       this.$on("inited", this.setLogo);
     },
     detached() {

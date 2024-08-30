@@ -2,6 +2,7 @@ import type { PropType } from "@mptool/all";
 import { $Component, showToast } from "@mptool/all";
 
 import type { VideoComponentOptions } from "../../../typings/index.js";
+import { getPath } from "../../utils/index.js";
 
 $Component({
   props: {
@@ -12,8 +13,16 @@ $Component({
     },
   },
 
+  data: {
+    src: "",
+  },
+
   lifetimes: {
     attached() {
+      this.setData({
+        src: getPath(this.data.config.src),
+      });
+
       // FIXME: Now skyline has bugs in setPassiveEvent
       if (this.renderer !== "skyline")
         this.setPassiveEvent?.({
@@ -39,7 +48,7 @@ $Component({
       showToast("视频加载出错");
       wx.reportEvent?.("resource_load_failed", {
         // eslint-disable-next-line @typescript-eslint/naming-convention
-        broken_url: this.data.config.src,
+        broken_url: this.data.src,
       });
     },
   },
