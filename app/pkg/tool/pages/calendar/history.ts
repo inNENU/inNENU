@@ -10,7 +10,7 @@ import {
 } from "../../../../utils/index.js";
 import type { TimeLineItem } from "../../components/timeline/timeline.js";
 
-const PAGE_ID = "calendar";
+const PAGE_ID = "calendar-history";
 const PAGE_TITLE = "东师校史沿革";
 
 $Page(PAGE_ID, {
