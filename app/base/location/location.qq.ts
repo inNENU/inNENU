@@ -20,7 +20,7 @@ $Component({
   data: {
     markers: [] as (LocationConfig & { id: number })[],
     id: -1,
-    title: "",
+    header: "",
     hasDetail: false,
   },
 
@@ -29,9 +29,9 @@ $Component({
       const { config } = this.data;
 
       this.setData({
-        title: config.title,
+        header: config.header,
         markers: config.points.map((point, index) => ({
-          name: config.title,
+          name: config.header,
           detail: "详情",
           id: index,
           ...getLocation(point.loc),

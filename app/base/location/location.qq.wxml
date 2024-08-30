@@ -9,7 +9,7 @@
     bindmarkertap="onMarkerTap"
   />
   <view class="location-info">
-    <text class="location-title">{{title}}</text>
+    <text class="location-title">{{header}}</text>
     <view class="location-actions">
       <view
         wx:if="{{hasDetail}}"
