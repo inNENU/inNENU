@@ -21,12 +21,7 @@
   "createTime": 1689498612931,
   "accessTime": 1689498612931,
   "packOptions": {
-    "ignore": [
-      {
-        "value": "bak",
-        "type": "suffix"
-      }
-    ],
+    "ignore": [],
     "include": []
   },
   "debugOptions": {
