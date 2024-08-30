@@ -8,11 +8,11 @@ import {
   DAY,
   appCoverPrefix,
   appName,
-  assets,
   description,
+  logo,
 } from "../../config/index.js";
 import { reportUserInfo } from "../../service/index.js";
-import { env, info, user, windowInfo } from "../../state/index.js";
+import { info, user, windowInfo } from "../../state/index.js";
 import {
   getPageColor,
   resolvePage,
@@ -52,8 +52,7 @@ $Page(PAGE_ID, {
 
     userName: appName,
 
-    logo:
-      env === "qq" ? `${assets}img/inNENU.png` : "/frameset/placeholder.png",
+    logo,
     footer: {
       author: "",
       desc: footer,
