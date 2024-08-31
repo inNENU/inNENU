@@ -11,7 +11,7 @@ import {
 
 import type { DocComponentOptions } from "../../../typings/index.js";
 import { envName } from "../../state/index.js";
-import { getAssetLink } from "../../utils/getPath.js";
+import { getAssetLink } from "../../utils/index.js";
 
 const DOC_ICONS = ["doc", "ppt", "xls", "pdf"];
 const IMAGE_ICONS = ["jpg", "png", "gif"];

@@ -6,6 +6,8 @@ export const getAssetLink = (path = ""): string =>
   path.startsWith("$") ? `${server}${path.slice(1)}` : path;
 
 export const getIconLink = (icon = ""): string =>
-  !icon.includes(".") && !/^https?:\/\//.test(icon)
-    ? readFile(`icon/${icon}`) || ""
-    : getAssetLink(icon);
+  icon
+    ? !icon.includes(".") && !/^https?:\/\//.test(icon)
+      ? readFile(`icon/${icon}`) || ""
+      : getAssetLink(icon)
+    : "";
