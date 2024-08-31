@@ -1,8 +1,8 @@
 import type { PropType } from "@mptool/all";
-import { $Component, readFile } from "@mptool/all";
+import { $Component } from "@mptool/all";
 
 import type { CardComponentOptions } from "../../../typings/index.js";
-import { getPath, navigate } from "../../utils/index.js";
+import { getIcon, getPath, navigate } from "../../utils/index.js";
 
 $Component({
   props: {
@@ -26,13 +26,9 @@ $Component({
 
   methods: {
     setLogo(value?: string) {
-      const logo = value || this.data.config.logo;
-
-      // 设置图标
-      if (logo && !logo.includes("/"))
-        this.setData({
-          base64Logo: readFile(`icon/${logo}`) || "",
-        });
+      this.setData({
+        logo: getIcon(value || this.data.config.logo),
+      });
     },
 
     /** 点击卡片触发的操作 */
