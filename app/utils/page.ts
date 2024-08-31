@@ -8,6 +8,7 @@ import {
   writeJSON,
 } from "@mptool/all";
 
+import { getAssetLink } from "./getLink.js";
 import { getScopeData } from "./getScopeData.js";
 import { id2path } from "./id.js";
 import { ensureJson } from "./json.js";
@@ -112,7 +113,7 @@ export const setComponentState = (
       if (tag === "img") {
         const { src, watermark } = component;
 
-        images.push(`${src}${watermark ? imageWaterMark : ""}`);
+        images.push(`${getAssetLink(src)}${watermark ? imageWaterMark : ""}`);
       }
 
       // 设置 list 组件
