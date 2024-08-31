@@ -4,7 +4,7 @@ import { server } from "./server.js";
 export const appName = "weNENU";
 export const description = "weNENU，我们的东师";
 /** 小程序版本 */
-export const version = "0.0.2";
+export const version = "0.0.3";
 
 // FIXME: Update Cover, logo and watermark
 export const appCoverPrefix = `${server}img/weNENU`;
