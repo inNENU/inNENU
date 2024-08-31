@@ -6,31 +6,34 @@ const { theme, ...defaultAppInfo } = (
 
 export const windowInfoState = getWindowInfo();
 
-/** 小程序 appid */
-export type AppID =
-  | "wx33acb831ee1831a5"
-  | "wx2550e3fd373b79a8"
-  | "wx69e79c3d87753512"
-  | 1109559721;
-
-/** 小程序 appid */
-/*@__PURE__*/
-export const appID = (wx.getAccountInfoSync().miniProgram.appId ||
-  wx.getAppBaseInfo?.().host.appId ||
-  // FIXME: Current SDK can not return appid correctly
-  "wx69e79c3d87753512") as AppID;
-
-export const isCompany = appID === "wx2550e3fd373b79a8";
-
-/** 运行环境 */
-export type Env = "app" | "qq" | "wx";
-
 /** 运行环境 */
 /*@__PURE__*/
 export const env: Env =
   "miniapp" in wx
     ? "app"
     : (wx as WechatMiniprogram.Wx).getSystemInfoSync().AppPlatform || "wx";
+
+/** 小程序 appid */
+export type AppID =
+  | "wx33acb831ee1831a5"
+  | "wx2550e3fd373b79a8"
+  | "wx0009f7cdfeefa3da"
+  | 1109559721;
+
+const accountInfo = wx.getAccountInfoSync();
+
+/** 小程序 appid */
+/*@__PURE__*/
+export const appID =
+  env === "app"
+    ? // FIXME: Current devtool SDK can not return appid correctly
+      (accountInfo.host.miniappId as AppID) || "wx0009f7cdfeefa3da"
+    : (accountInfo.miniProgram.appId as AppID);
+
+export const isCompany = appID === "wx2550e3fd373b79a8";
+
+/** 运行环境 */
+export type Env = "app" | "qq" | "wx";
 
 /** 运行环境名称 */
 /*@__PURE__*/

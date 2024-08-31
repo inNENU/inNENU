@@ -1,9 +1,9 @@
 {
   "miniVersion": "v2",
   "name": "inNENU",
-  "version": "6.12.0",
+  "version": "7.0.0",
   "mini-android": {
-    "sdkVersion": "1.4.1",
+    "sdkVersion": "1.4.2",
     "toolkitVersion": "0.7.3",
     "useExtendedSdk": {
       "media": true,
@@ -105,7 +105,7 @@
       "customImage": "assets/ios-splash.png"
     }
   },
-  "versionCode": 40,
+  "versionCode": 41,
   "mini-plugin": {
     "android": []
   }

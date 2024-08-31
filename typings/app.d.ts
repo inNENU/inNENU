@@ -57,6 +57,16 @@ declare namespace WechatMiniprogram {
     version: string;
   }
 
+  interface AccountInfo {
+    /** 多端应用配置 */
+    host: {
+      /** 多端应用的 Id ；SDK >= 1.4.X 新增返回该字段 */
+      miniappId: string;
+      /** 多端应用资源包的 Id ；SDK >= 1.4.X 新增返回该字段 */
+      moduleId: string;
+    };
+  }
+
   interface Wx {
     /** 多端框架接口 */
     miniapp: {
