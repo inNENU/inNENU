@@ -3,7 +3,7 @@ import { $Component, logger, showToast } from "@mptool/all";
 
 import type { AudioComponentOptions } from "../../../typings/index.js";
 import { appInfo } from "../../state/index.js";
-import { getPath } from "../../utils/index.js";
+import { getAssetLink } from "../../utils/index.js";
 
 // eslint-disable-next-line @typescript-eslint/consistent-type-definitions
 type AudioProps = {
@@ -104,7 +104,7 @@ $Component<AudioData, AudioProps, AudioMethods, AudioInstanceMethod>({
       instance.onCanplay(onCanPlay);
       instance.onWaiting(onWaiting);
       instance.onError(onError);
-      instance.src = getPath(src);
+      instance.src = getAssetLink(src);
       instance.autoplay = autoplay;
       instance.loop = loop;
 

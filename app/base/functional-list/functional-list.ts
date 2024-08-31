@@ -10,7 +10,7 @@ import type {
   SwitchListComponentItemConfig,
 } from "../../../typings/index.js";
 import { info } from "../../state/index.js";
-import { getIcon, navigate } from "../../utils/index.js";
+import { getIconLink, navigate } from "../../utils/index.js";
 
 interface ListDetail<T = FunctionalListComponentItemOptions> {
   id: string;
@@ -187,7 +187,7 @@ $Component({
     setLogo(items?: FunctionalListComponentItemOptions[]) {
       this.setData({
         icons: (items || this.data.config.items || []).map(({ icon }) =>
-          getIcon(icon),
+          getIconLink(icon),
         ),
       });
     },

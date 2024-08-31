@@ -3,7 +3,7 @@ import { $Component, logger } from "@mptool/all";
 
 import type { ImageComponentOptions } from "../../../typings/index.js";
 import { imageWaterMark } from "../../config/index.js";
-import { getPath } from "../../utils/index.js";
+import { getAssetLink } from "../../utils/index.js";
 
 $Component({
   props: {
@@ -27,7 +27,7 @@ $Component({
   lifetimes: {
     attached() {
       this.setData({
-        src: getPath(this.data.config.src),
+        src: getAssetLink(this.data.config.src),
       });
     },
   },

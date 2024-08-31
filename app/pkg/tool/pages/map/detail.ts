@@ -6,9 +6,9 @@ import { appCoverPrefix } from "../../../../config/index.js";
 import { defaultScroller } from "../../../../mixins/index.js";
 import { windowInfo } from "../../../../state/index.js";
 import {
+  getAssetLink,
   getJson,
   getLocation,
-  getPath,
   resolvePage,
   setPage,
 } from "../../../../utils/index.js";
@@ -90,7 +90,7 @@ $Page("map-detail", {
   },
 
   convertPage(page: PageState & { photo?: string[] }): PageState {
-    return { ...page, photo: page.photo?.map(getPath) } as PageState;
+    return { ...page, photo: page.photo?.map(getAssetLink) } as PageState;
   },
 
   defaultScroller,

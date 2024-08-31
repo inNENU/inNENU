@@ -2,7 +2,7 @@ import type { PropType } from "@mptool/all";
 import { $Component } from "@mptool/all";
 
 import type { CarouselComponentOptions } from "../../../typings/index.js";
-import { getPath } from "../../utils/index.js";
+import { getAssetLink } from "../../utils/index.js";
 
 $Component({
   props: {
@@ -20,7 +20,7 @@ $Component({
   lifetimes: {
     attached() {
       this.setData({
-        images: this.data.config.images.map(getPath),
+        images: this.data.config.images.map(getAssetLink),
       });
       // FIXME: Now skyline has bugs in setPassiveEvent
       if (this.renderer !== "skyline") this.setPassiveEvent?.({ wheel: false });

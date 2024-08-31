@@ -9,7 +9,7 @@ import {
 
 import type { AccountComponentOptions } from "../../../typings/index.js";
 import { env, isCompany } from "../../state/index.js";
-import { getPath, startNavigation } from "../../utils/index.js";
+import { getAssetLink, startNavigation } from "../../utils/index.js";
 
 $Component({
   props: {
@@ -27,7 +27,7 @@ $Component({
 
   lifetimes: {
     attached() {
-      this.setData({ logo: getPath(this.data.config.logo) });
+      this.setData({ logo: getAssetLink(this.data.config.logo) });
     },
   },
 
@@ -37,7 +37,7 @@ $Component({
       const { qq, qqcode = "" } = this.data.config;
 
       if (qqcode) {
-        const realQQCodePath = getPath(qqcode);
+        const realQQCodePath = getAssetLink(qqcode);
 
         if (env === "qq")
           // QQ 可直接长按扫码添加好友
@@ -61,7 +61,7 @@ $Component({
 
       if (account) this.$go(`wechat?path=${account}`);
       else if (wxcode)
-        savePhoto(getPath(wxcode))
+        savePhoto(getAssetLink(wxcode))
           .then(() => showToast("二维码已存至相册"))
           .catch(() => showToast("二维码保存失败"));
       else if (wxid)

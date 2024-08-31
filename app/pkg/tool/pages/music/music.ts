@@ -10,8 +10,8 @@ import { appCoverPrefix, appName } from "../../../../config/index.js";
 import { appInfo } from "../../../../state/index.js";
 import {
   ensureJson,
+  getAssetLink,
   getJson,
-  getPath,
   showNotice,
 } from "../../../../utils/index.js";
 import type { MusicState, PlayMode } from "../../utils/index.js";
@@ -88,8 +88,8 @@ $Page("music", {
     getJson<MusicList>("function/music/index").then((songData) => {
       const songList = songData.map((item) => ({
         ...item,
-        cover: getPath(item.cover),
-        src: getPath(item.src),
+        cover: getAssetLink(item.cover),
+        src: getAssetLink(item.src),
       }));
 
       if (option.index) {
@@ -113,8 +113,8 @@ $Page("music", {
         index,
         songList: songList.map((item) => ({
           ...item,
-          cover: getPath(item.cover),
-          src: getPath(item.src),
+          cover: getAssetLink(item.cover),
+          src: getAssetLink(item.src),
         })),
         currentSong,
       });

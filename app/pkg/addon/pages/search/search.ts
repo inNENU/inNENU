@@ -4,7 +4,11 @@ import { appCoverPrefix } from "../../../../config/index.js";
 import type { SearchResult, SearchType } from "../../../../service/index.js";
 import { searchMiniApp } from "../../../../service/index.js";
 import { appInfo, info, windowInfo } from "../../../../state/index.js";
-import { getIcon, getPageColor, showNotice } from "../../../../utils/index.js";
+import {
+  getIconLink,
+  getPageColor,
+  showNotice,
+} from "../../../../utils/index.js";
 
 $Page("search", {
   data: {
@@ -130,7 +134,7 @@ $Page("search", {
       result,
       icons: Object.fromEntries(
         result
-          .map(({ icon }) => (icon ? [icon, getIcon(icon)] : null))
+          .map(({ icon }) => (icon ? [icon, getIconLink(icon)] : null))
           .filter((item): item is [string, string] => item !== null),
       ),
     });

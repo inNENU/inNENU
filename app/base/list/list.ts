@@ -6,7 +6,7 @@ import type {
   ListComponentOptions,
 } from "../../../typings/index.js";
 import { info } from "../../state/index.js";
-import { getIcon, navigate } from "../../utils/index.js";
+import { getIconLink, navigate } from "../../utils/index.js";
 
 $Component({
   props: {
@@ -28,7 +28,7 @@ $Component({
     setLogo(items?: ListComponentItemOptions[]) {
       this.setData({
         icons: (items || this.data.config.items || []).map(({ icon }) =>
-          getIcon(icon),
+          getIconLink(icon),
         ),
       });
     },

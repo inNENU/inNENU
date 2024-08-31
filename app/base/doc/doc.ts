@@ -11,7 +11,7 @@ import {
 
 import type { DocComponentOptions } from "../../../typings/index.js";
 import { envName } from "../../state/index.js";
-import { getPath } from "../../utils/getPath.js";
+import { getAssetLink } from "../../utils/getPath.js";
 
 const DOC_ICONS = ["doc", "ppt", "xls", "pdf"];
 const IMAGE_ICONS = ["jpg", "png", "gif"];
@@ -28,7 +28,7 @@ $Component({
   methods: {
     view(): void {
       const { icon, url } = this.data.config;
-      const link = getPath(url);
+      const link = getAssetLink(url);
 
       // 检测到文档
       if (DOC_ICONS.includes(icon)) {
@@ -43,7 +43,7 @@ $Component({
     /** 下载文档 */
     download(): void {
       const { icon, name, url } = this.data.config;
-      const link = getPath(url);
+      const link = getAssetLink(url);
 
       if (DOC_ICONS.includes(icon)) {
         // 首选添加到收藏

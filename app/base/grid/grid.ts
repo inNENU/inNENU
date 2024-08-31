@@ -5,7 +5,7 @@ import type {
   GridComponentItemOptions,
   GridComponentOptions,
 } from "../../../typings/index.js";
-import { getIcon, navigate } from "../../utils/index.js";
+import { getIconLink, navigate } from "../../utils/index.js";
 
 $Component({
   props: {
@@ -27,7 +27,7 @@ $Component({
     setLogo(items?: GridComponentItemOptions[]) {
       this.setData({
         icons: (items || this.data.config.items || []).map(({ icon }) =>
-          getIcon(icon),
+          getIconLink(icon),
         ),
       });
     },

@@ -2,7 +2,7 @@ import type { PropType } from "@mptool/all";
 import { $Component, showToast } from "@mptool/all";
 
 import type { VideoComponentOptions } from "../../../typings/index.js";
-import { getPath } from "../../utils/index.js";
+import { getAssetLink } from "../../utils/index.js";
 
 $Component({
   props: {
@@ -20,7 +20,7 @@ $Component({
   lifetimes: {
     attached() {
       this.setData({
-        src: getPath(this.data.config.src),
+        src: getAssetLink(this.data.config.src),
       });
 
       // FIXME: Now skyline has bugs in setPassiveEvent

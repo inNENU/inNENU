@@ -15,8 +15,8 @@ import type { Env } from "../../../../state/index.js";
 import { env, windowInfo } from "../../../../state/index.js";
 import {
   ensureJson,
+  getAssetLink,
   getJson,
-  getPath,
   showNotice,
 } from "../../../../utils/index.js";
 
@@ -52,8 +52,8 @@ $Page(PAGE_ID, {
           name,
           account: account.map((item) => ({
             ...item,
-            logo: getPath(item.logo),
-            ...("qrcode" in item ? { qrcode: getPath(item.qrcode) } : {}),
+            logo: getAssetLink(item.logo),
+            ...("qrcode" in item ? { qrcode: getAssetLink(item.qrcode) } : {}),
           })),
         })),
         type: defaultType,
