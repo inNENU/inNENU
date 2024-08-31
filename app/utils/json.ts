@@ -43,7 +43,7 @@ export const saveJson = (
  * @param path JSON 的本地路径，不带 `.json` 后缀
  * @param url JSON 的在线路径，不带 `.json` 后缀以及 `server` 前缀
  */
-export const ensureJson = (path: string, url = `d/${path}`): Promise<void> => {
+export const ensureJson = (path: string, url = path): Promise<void> => {
   if (exists(`${path}.json`)) return Promise.resolve();
 
   logger.debug(`Fetching ${url}.json`);
@@ -59,7 +59,7 @@ export const ensureJson = (path: string, url = `d/${path}`): Promise<void> => {
  * @param path JSON 的本地路径，不带 `.json` 后缀
  * @param url JSON 的在线路径，不带 `.json` 后缀以及 `server` 前缀
  */
-export const getJson = <T>(path: string, url = `d/${path}`): Promise<T> =>
+export const getJson = <T>(path: string, url = path): Promise<T> =>
   ensureJson(path, url)
     .then(() => {
       const data = readJSON<T>(path);

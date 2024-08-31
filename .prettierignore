@@ -1,26 +1,18 @@
 .temp/**
+dist/**
+
 **/node_modules/**
+**/pnpm-lock.yaml
 
 app/pkg/tool/pages/music/music.wxs
 app/pkg/tool/components/recycle-view/
 app/service/auth/encrypt.js
 
-dist/**
-
-server/d/**
-server/site/**/*.md
-!server/site/README.md
-!server/site/about/**/*.md
-!server/site/contributing/**/*.md
-server/site/.vuepress/.cache/**
-server/site/.vuepress/.temp/**
-server/site/.vuepress/dist/**
-
-server/service/vendor/**
-server/service/composer.lock
-server/pnpm-lock.yaml
-
 project.config.json
 project.private.config.json
 
-pnpm-lock.yaml
+server/.oss/**
+server/.resource/**
+server/.site/**
+server/service/vendor/**
+server/service/composer.lock

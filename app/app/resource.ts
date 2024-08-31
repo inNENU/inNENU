@@ -47,7 +47,7 @@ export const downloadResource = async (
 
       return new Promise<void>((resolve, reject) => {
         wx.downloadFile({
-          url: `${assets}d/${resource}.zip`,
+          url: `${assets}${resource}.zip`,
           success: ({ statusCode, tempFilePath }) => {
             if (statusCode === 200) {
               // 判断取消提示

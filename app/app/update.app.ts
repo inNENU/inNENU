@@ -15,7 +15,7 @@ let apkFilePath: string | null = null;
  */
 export const updateApp = async (): Promise<void> => {
   // 请求配置文件
-  const onlineVersion = await requestJSON<string>(`d/config/${appID}/version`);
+  const onlineVersion = await requestJSON<string>(`config/${appID}/version`);
 
   if (compareVersion(onlineVersion, version) > 0) {
     if (platform === "android")

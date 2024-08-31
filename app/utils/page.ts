@@ -504,10 +504,10 @@ export const setOnlinePage = (
       }
       // 请求页面Json
       else {
-        requestJSON<PageState>(`d/${id}`)
+        requestJSON<PageState>(id)
           .then((data) => {
             // 非分享界面下将页面数据写入存储
-            if (option.from !== "share") writeJSON(`${id}`, data);
+            if (option.from !== "share") writeJSON(id, data);
 
             // 设置界面
             setPage({ option, ctx }, data);
@@ -567,7 +567,7 @@ export const loadOnlinePage = (
     logger.debug(`${option.path} onLoad starts with options:`, option);
 
     // 需要在线获取界面
-    requestJSON<PageState>(`d/${option.id}`)
+    requestJSON<PageState>(option.id)
       .then((page) => {
         if (page) {
           setPage({ option, ctx }, page);

@@ -120,6 +120,9 @@ importers:
       cheerio:
         specifier: 1.0.0
         version: 1.0.0
+      cpx2:
+        specifier: 7.0.1
+        version: 7.0.1
       del:
         specifier: 7.1.0
         version: 7.1.0

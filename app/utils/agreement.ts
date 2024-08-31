@@ -24,7 +24,7 @@ export const getLicenseStatus = (): Promise<LicenseStatus> => {
     });
 
   return requestJSON<PageConfig & { version: number }>(
-    `d/config/${appID}/license-data`,
+    `config/${appID}/license-data`,
   ).then(({ version }) => {
     onlineLicenseVersion = version;
     needLicense = version !== localLicenseVersion;
@@ -61,7 +61,7 @@ export const getPrivacyStatus = (): Promise<PrivacyStatus> => {
     });
 
   return requestJSON<PageConfig & { version: number }>(
-    `d/config/${appID}/privacy-data`,
+    `config/${appID}/privacy-data`,
   ).then(({ version }) => {
     onlinePrivacyVersion = version;
     needPrivacy = version !== localPrivacyVersion;

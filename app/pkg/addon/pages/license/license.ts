@@ -30,7 +30,7 @@ $Page(PAGE_ID, {
       title: string;
       version: number;
       nodes: RichTextNode[];
-    }>(`d/config/${appID}/${type}-data`).then((data) => {
+    }>(`config/${appID}/${type}-data`).then((data) => {
       this.setData({ ...data, from, type });
     });
   },
