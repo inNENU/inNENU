@@ -11,7 +11,7 @@
 ```
 https://innenu.com;
 https://assets.innenu.com;
-https://mp.innenu.com;
+https://res.innenu.com;
 https://service.innenu.com;
 
 https://wis.qq.com;
@@ -38,7 +38,7 @@ https://m-443.webvpn.nenu.edu.cn;
 ```
 https://assets.innenu.com
 https://innenu.com
-https://mp.innenu.com
+https://res.innenu.com
 https://service.innenu.com
 https://open.weixin.qq.com
 https://www.nenu.edu.cn
