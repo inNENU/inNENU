@@ -16,7 +16,7 @@ const getText = (page: PageStateWithContent): string => {
     )
     .map(
       (element) =>
-        `${typeof element.heading === "string" ? `${element.heading} ` : ""}${
+        `${typeof element.header === "string" ? `${element.header} ` : ""}${
           element.text ? `${element.text.join(" ")}` : ""
         }`,
     )

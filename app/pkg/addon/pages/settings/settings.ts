@@ -5,7 +5,7 @@ import type {
   PageStateWithContent,
   PickerListComponentItemConfig,
 } from "../../../../../typings/index.js";
-import { defaultResources, downloadResource } from "../../../../app/index.js";
+import { RESOURCE_NAMES, downloadResource } from "../../../../app/index.js";
 import { size, version } from "../../../../config/index.js";
 import { supportRedirect } from "../../../../service/index.js";
 import {
@@ -169,7 +169,7 @@ $Page(PAGE_ID, {
   /** 刷新所有资源 */
   updateResource() {
     confirm("更新资源文件", "", () => {
-      downloadResource(defaultResources);
+      downloadResource(RESOURCE_NAMES);
     });
   },
 

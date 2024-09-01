@@ -10,11 +10,11 @@ import {
   writeJSON,
 } from "@mptool/all";
 
-import type { VersionInfo } from "../../typings/index.js";
+import type { ResourceVersionInfo } from "../../typings/index.js";
 import { request } from "../api/index.js";
 import { assets, server } from "../config/index.js";
 
-export const defaultResources = [
+export const RESOURCE_NAMES = [
   "apartment",
   "function",
   "guide",
@@ -134,7 +134,7 @@ export const checkResource = (): Promise<void> => {
 
   // 需要检查更新
   if (notify && !hasResPopup)
-    return request<VersionInfo>(`${server}service/version.php`, {
+    return request<ResourceVersionInfo>(`${server}service/version.php`, {
       method: "POST",
     })
       .then(({ data }) => {

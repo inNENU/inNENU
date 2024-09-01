@@ -41,17 +41,7 @@ $Page("weather", {
     });
 
     if (wx.getStorageSync(INITIALIZED_KEY)) {
-      const weatherIcon = JSON.parse(
-        readFile("./icon/weather/icon") || "{}",
-      ) as Record<string, string>;
-      const hintIcon = JSON.parse(
-        readFile("./icon/weather/hint") || "{}",
-      ) as Record<string, string>;
-
-      this.setData({
-        weatherIcon,
-        hintIcon,
-      });
+      this.updateIcon();
     } else {
       // update icon
       this.updateIcon = this.updateIcon.bind(this);
@@ -103,11 +93,11 @@ $Page("weather", {
 
   updateIcon(): void {
     this.setData({
-      weatherIcon: JSON.parse(readFile("./icon/weather/icon")!) as Record<
+      weatherIcon: JSON.parse(readFile("./icon/weather") || "{}") as Record<
         string,
         string
       >,
-      hintIcon: JSON.parse(readFile("./icon/weather/hint")!) as Record<
+      hintIcon: JSON.parse(readFile("./icon/weather-hints") || "{}") as Record<
         string,
         string
       >,

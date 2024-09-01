@@ -58,7 +58,7 @@
   catch:tap="onTap"
 >
   <view
-    wx:if="{{config.heading !== false}}"
+    wx:if="{{config.header !== false}}"
     class="hint-box-title {{config.path ? 'access' : ''}}"
     selectable="{{selectable}}"
     user-select="{{selectable}}"
@@ -71,11 +71,11 @@
 <!-- 段落标题 -->
 <block wx:else>
   <text
-    wx:if="{{config.heading}}"
+    wx:if="{{config.header}}"
     class="text-component-header"
     selectable="{{selectable}}"
     user-select="{{selectable}}"
-    >{{config.heading === true ? '' : config.heading}}</text
+    >{{config.header}}</text
   >
   <!-- 段落主体 -->
   <view class="text-component" style="{{plainText.getAlign(config.align)}}">

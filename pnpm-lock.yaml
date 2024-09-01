@@ -64,8 +64,8 @@ importers:
         specifier: 9.1.5
         version: 9.1.5
       innenu-generator:
-        specifier: 0.0.11
-        version: 0.0.11
+        specifier: 0.0.19
+        version: 0.0.19
       miniprogram-api-typings:
         specifier: 3.12.3
         version: 3.12.3
@@ -102,6 +102,9 @@ importers:
 
   server:
     dependencies:
+      '@alicloud/cdn20180510':
+        specifier: 4.0.0
+        version: 4.0.0
       '@mdit-vue/plugin-frontmatter':
         specifier: 2.1.3
         version: 2.1.3
@@ -114,9 +117,6 @@ importers:
       '@vueuse/core':
         specifier: 10.11.1
         version: 10.11.1(vue@3.4.38(typescript@5.5.4))
-      ali-oss:
-        specifier: 6.21.0
-        version: 6.21.0
       cheerio:
         specifier: 1.0.0
         version: 1.0.0
@@ -130,8 +130,8 @@ importers:
         specifier: 16.4.5
         version: 16.4.5
       innenu-generator:
-        specifier: 0.0.11
-        version: 0.0.11
+        specifier: 0.0.19
+        version: 0.0.19
       js-yaml:
         specifier: 4.1.0
         version: 4.1.0
@@ -141,9 +141,6 @@ importers:
       nodejs-jieba:
         specifier: 0.1.2
         version: 0.1.2(encoding@0.1.13)
-      qrcode:
-        specifier: 1.5.4
-        version: 1.5.4
       svgo:
         specifier: 3.3.2
         version: 3.3.2
@@ -166,9 +163,6 @@ importers:
         specifier: 2.0.0-rc.52
         version: 2.0.0-rc.52(@vuepress/plugin-feed@2.0.0-rc.39(typescript@5.5.4)(vuepress@2.0.0-rc.14(@vuepress/bundler-vite@2.0.0-rc.14(@types/node@22.5.1)(jiti@1.21.6)(sass@1.77.8)(tsx@4.19.0)(typescript@5.5.4)(yaml@2.4.5))(typescript@5.5.4)(vue@3.4.38(typescript@5.5.4))))(markdown-it@14.1.0)(nodejs-jieba@0.1.2(encoding@0.1.13))(typescript@5.5.4)(vidstack@1.12.9)(vuepress-plugin-search-pro@2.0.0-rc.52(typescript@5.5.4)(vuepress@2.0.0-rc.14(@vuepress/bundler-vite@2.0.0-rc.14(@types/node@22.5.1)(jiti@1.21.6)(sass@1.77.8)(tsx@4.19.0)(typescript@5.5.4)(yaml@2.4.5))(typescript@5.5.4)(vue@3.4.38(typescript@5.5.4))))(vuepress@2.0.0-rc.14(@vuepress/bundler-vite@2.0.0-rc.14(@types/node@22.5.1)(jiti@1.21.6)(sass@1.77.8)(tsx@4.19.0)(typescript@5.5.4)(yaml@2.4.5))(typescript@5.5.4)(vue@3.4.38(typescript@5.5.4)))
     devDependencies:
-      '@types/ali-oss':
-        specifier: 6.16.11
-        version: 6.16.11
       '@types/js-yaml':
         specifier: 4.0.9
         version: 4.0.9
@@ -178,9 +172,6 @@ importers:
       '@types/node':
         specifier: 22.5.1
         version: 22.5.1
-      '@types/qrcode':
-        specifier: 1.5.5
-        version: 1.5.5
       domhandler:
         specifier: 5.0.3
         version: 5.0.3
@@ -216,6 +207,33 @@ packages:
 
   '@adobe/css-tools@4.4.0':
     resolution: {integrity: sha512-Ff9+ksdQQB3rMncgqDK78uLznstjyfIf2Arnh22pW8kBpLs6rpKDwgnZT46hin5Hl1WzazzK64DOrhSwYpS7bQ==}
+
+  '@alicloud/cdn20180510@4.0.0':
+    resolution: {integrity: sha512-s8H/sfQ/2bt2OkJ65o4trrYsT9eEq8mDw8UWFW9ltbyjlQrw2jZqZdBtckWUdbUFrViEzzxW5fBJIbGpYgiZYQ==}
+
+  '@alicloud/credentials@2.3.1':
+    resolution: {integrity: sha512-FK8N1YNVqUGOl7qOFn8h3zTwv2Tj8ON3459XXnJkAa08YBECj8o/V81D/ubxpX0yZub4RVKjknxNSHEbrASc+A==}
+
+  '@alicloud/endpoint-util@0.0.1':
+    resolution: {integrity: sha512-+pH7/KEXup84cHzIL6UJAaPqETvln4yXlD9JzlrqioyCSaWxbug5FUobsiI6fuUOpw5WwoB3fWAtGbFnJ1K3Yg==}
+
+  '@alicloud/gateway-spi@0.0.8':
+    resolution: {integrity: sha512-KM7fu5asjxZPmrz9sJGHJeSU+cNQNOxW+SFmgmAIrITui5hXL2LB+KNRuzWmlwPjnuA2X3/keq9h6++S9jcV5g==}
+
+  '@alicloud/openapi-client@0.4.11':
+    resolution: {integrity: sha512-WEDGbfSx4Lcjj7ij3fv+6HBDua3l0tMGott6jaFO+pI42ctTJlK/y/AcyjFGwrf1UCQneauI2gEo6+5hHbv4Bg==}
+
+  '@alicloud/openapi-util@0.3.2':
+    resolution: {integrity: sha512-EC2JvxdcOgMlBAEG0+joOh2IB1um8CPz9EdYuRfTfd1uP8Yc9D8QRUWVGjP6scnj6fWSOaHFlit9H6PrJSyFow==}
+
+  '@alicloud/tea-typescript@1.8.0':
+    resolution: {integrity: sha512-CWXWaquauJf0sW30mgJRVu9aaXyBth5uMBCUc+5vKTK1zlgf3hIqRUjJZbjlwHwQ5y9anwcu18r48nOZb7l2QQ==}
+
+  '@alicloud/tea-util@1.4.9':
+    resolution: {integrity: sha512-S0wz76rGtoPKskQtRTGqeuqBHFj8BqUn0Vh+glXKun2/9UpaaaWmuJwcmtImk6bJZfLYEShDF/kxDmDJoNYiTw==}
+
+  '@alicloud/tea-xml@0.0.3':
+    resolution: {integrity: sha512-+/9GliugjrLglsXVrd1D80EqqKgGpyA0eQ6+1ZdUOYCaRguaSwz44trX3PaxPu/HhIPJg9PsGQQ3cSLXWZjbAA==}
 
   '@ampproject/remapping@2.3.0':
     resolution: {integrity: sha512-30iZtAPgz+LTIYoeivqYo853f02jBYSd5uGnGpkFV0M3xOt9aN73erkgYAmZU43x4VfqcnLxW9Kpg3R5LC4YYw==}
@@ -1113,9 +1131,6 @@ packages:
     resolution: {integrity: sha512-L7z9BgrNEcYyUYtF+HaEfiS5ebkh9jXqbszz7pC0hRBPaatV0XjSD3+eHrpqFemQfgwiFF0QPIarnIihIDn7OA==}
     engines: {node: '>=10.13.0'}
 
-  '@types/ali-oss@6.16.11':
-    resolution: {integrity: sha512-/AyemPZy93ZXGzEokMsoPFgjH37snpzH4X/fwans/n63HLaCleriCG3PyrkHCPkgHEc9vj9Uo6paqsBN3vJ3OA==}
-
   '@types/conventional-commits-parser@5.0.0':
     resolution: {integrity: sha512-loB369iXNmAZglwWATL+WRe+CRMmmBPtpolYzIebFaX4YA3x+BEfLqhUAV9WanycKI3TG1IMr5bMJDajDKLlUQ==}
 
@@ -1167,17 +1182,20 @@ packages:
   '@types/ms@0.7.34':
     resolution: {integrity: sha512-nG96G3Wp6acyAgJqGasjODb+acrI7KltPiRxzHPXnP3NgI28bpQDRv53olbqGXbfcgF5aiiHmO3xpwEpS5Ld9g==}
 
+  '@types/node@12.20.55':
+    resolution: {integrity: sha512-J8xLz7q2OFulZ2cyGTLE1TbbZcjpno7FaN6zdJNrgAdrJ+DZzh/uFR6YrTb4C+nXakvud8Q4+rbhoIWlYQbUFQ==}
+
   '@types/node@17.0.45':
     resolution: {integrity: sha512-w+tIMs3rq2afQdsPJlODhoUEKzFP1ayaoyl1CcnwtIlsVe7K7bA1NGm4s3PraqTLlXnbIN84zuBlxBWo1u9BLw==}
+
+  '@types/node@20.16.3':
+    resolution: {integrity: sha512-/wdGiWRkMOm53gAsSyFMXFZHbVg7C6CbkrzHNpaHoYfsUWPg7m6ZRKtvQjgvQ9i8WT540a3ydRlRQbxjY30XxQ==}
 
   '@types/node@22.5.1':
     resolution: {integrity: sha512-KkHsxej0j9IW1KKOOAA/XBA0z08UFSrRQHErzEfA3Vgq57eXIMYboIlHJuYIfd+lwCQjtKqUu3UnmKbtUc9yRw==}
 
   '@types/normalize-package-data@2.4.4':
     resolution: {integrity: sha512-37i+OaWTh9qeK4LSHPsyRC7NahnGotNuZvjLSgcPzblpHB3rrCJxAOgI5gCdKm7coonsaX1Of0ILiTcnZjbfxA==}
-
-  '@types/qrcode@1.5.5':
-    resolution: {integrity: sha512-CdfBi/e3Qk+3Z/fXYShipBT13OJ2fDO2Q2w5CIP5anLTLIndQG9z6P1cnm+8zCWSpm5dnxMFd/uREtb0EXuQzg==}
 
   '@types/sax@1.2.7':
     resolution: {integrity: sha512-rO73L89PJxeYM3s3pPPjiPgVVcymqU490g0YO5n5By0k2Erzj6tay/4lr1CHAAU4JyOWd1rpQ8bCf6cZfHU96A==}
@@ -1193,6 +1211,9 @@ packages:
 
   '@types/web-bluetooth@0.0.20':
     resolution: {integrity: sha512-g9gZnnXVq7gM7v3tJCWV/qw7w+KeOlSHAhgF9RytFyifW6AF61hdT2ucrYhPq9hLs5JIryeupHV3qGk95dH9ow==}
+
+  '@types/xml2js@0.4.14':
+    resolution: {integrity: sha512-4YnrRemBShWRO2QjvUin8ESA41rH+9nQGLUGZV/1IDhi3SL9OhdpNC/MrulTWuptXKwhx/aDxE7toV0f/ypIXQ==}
 
   '@typescript-eslint/eslint-plugin@8.3.0':
     resolution: {integrity: sha512-FLAIn63G5KH+adZosDYiutqkOkYEx0nvcwNNfJAf+c7Ae/H35qWwTYvPZUKFj5AS+WfHG/WJJfWnDnyNUlp8UA==}
@@ -3113,6 +3134,9 @@ packages:
     resolution: {integrity: sha512-1e4Wqeblerz+tMKPIq2EMGiiWW1dIjZOksyHWSUm1rmuvw/how9hBHZ38lAGj5ID4Ik6EdkOw7NmWPy6LAwalw==}
     engines: {node: '>= 14'}
 
+  httpx@2.3.2:
+    resolution: {integrity: sha512-ZG7QArW/BB/opy+XVp/zSJYdiPD9FTmPb3VfMnPdAknKFJq2OiIXS9D4oBeDJvWnZnJAzXDy9J/JKATXkJ7qlw==}
+
   human-signals@5.0.0:
     resolution: {integrity: sha512-AXcZb6vzzrFAUE61HnN4mpLqd/cSIwNQjtNWR0euPm6y0iqx3G4gOXaIDdtdDwZmhwe82LA6+zinmW4UBWVePQ==}
     engines: {node: '>=16.17.0'}
@@ -3180,8 +3204,8 @@ packages:
     resolution: {integrity: sha512-QQnnxNyfvmHFIsj7gkPcYymR8Jdw/o7mp5ZFihxn6h8Ci6fh3Dx4E1gPjpQEpIuPo9XVNY/ZUwh4BPMjGyL01g==}
     engines: {node: ^14.17.0 || ^16.13.0 || >=18.0.0}
 
-  innenu-generator@0.0.11:
-    resolution: {integrity: sha512-tGZhErtvr/qmXB1WL0zrpfNWBsQPEujOpjkTdBiOXYn2hR8eO278FD3+fo37pcrx519bA2Z3bpvLWOa1blAT2A==}
+  innenu-generator@0.0.19:
+    resolution: {integrity: sha512-ktoxsqw24oHWo2JqCsUj0Es83pUrjLaAeWLOndsq61cx0Ri+cYgdSLK9CgwRxCcgQlDL9oqpKPZSD8A2/U9w5Q==}
 
   inquirer@8.2.5:
     resolution: {integrity: sha512-QAgPDQMEgrDssk1XiwwHoOGYF9BAbUcc1+j+FhEvaOt8/cKRqyLn0U5qA6F74fGhTMGxf92pOvPBeh29jQJDTQ==}
@@ -3497,6 +3521,9 @@ packages:
   kind-of@6.0.3:
     resolution: {integrity: sha512-dcS1ul+9tmeD95T+x28/ehLgd9mENa3LsvDTtzm3vyBEO7RPptvAD+t44WVXaUjTBRcrpFeFlC8WCruUR456hw==}
     engines: {node: '>=0.10.0'}
+
+  kitx@2.1.0:
+    resolution: {integrity: sha512-C/5v9MtIX7aHGOjwn5BmrrbNkJSf7i0R5mRzmh13GSAdRqQ7bYQo/Su2pTYNylFicqKNTVX3HML9k1u8k51+pQ==}
 
   known-css-properties@0.34.0:
     resolution: {integrity: sha512-tBECoUqNFbyAY4RrbqsBQqDFpGXAEbdD5QKr8kACx3+rnArmuuR22nKQWKazvp07N9yjTyDZaw/20UIH8tL9DQ==}
@@ -4713,6 +4740,9 @@ packages:
     resolution: {integrity: sha512-l1utJWal8F/RIheYk88DE2+enI12nIrn5SHt4ih/CNAH81PzkTv2GVBODlLynDJb7xan5hjd8XTL5f0L4cxLQA==}
     engines: {node: '>=18.18.0'}
 
+  sm3@1.0.3:
+    resolution: {integrity: sha512-KyFkIfr8QBlFG3uc3NaljaXdYcsbRy1KrSfc4tsQV8jW68jAktGeOcifu530Vx/5LC+PULHT0Rv8LiI8Gw+c1g==}
+
   smart-buffer@4.2.0:
     resolution: {integrity: sha512-94hK0Hh8rPqQl2xXc3HsaBoOXKV20MToPkcXvwbISWLEs+64sBq5kFgn2kJDHb1Pry9yrP0dxrCI9RRci7RXKg==}
     engines: {node: '>= 6.0.0', npm: '>= 3.0.0'}
@@ -5727,6 +5757,81 @@ snapshots:
 
   '@adobe/css-tools@4.4.0': {}
 
+  '@alicloud/cdn20180510@4.0.0':
+    dependencies:
+      '@alicloud/endpoint-util': 0.0.1
+      '@alicloud/openapi-client': 0.4.11
+      '@alicloud/openapi-util': 0.3.2
+      '@alicloud/tea-typescript': 1.8.0
+      '@alicloud/tea-util': 1.4.9
+    transitivePeerDependencies:
+      - supports-color
+
+  '@alicloud/credentials@2.3.1':
+    dependencies:
+      '@alicloud/tea-typescript': 1.8.0
+      httpx: 2.3.2
+      ini: 1.3.8
+      kitx: 2.1.0
+    transitivePeerDependencies:
+      - supports-color
+
+  '@alicloud/endpoint-util@0.0.1':
+    dependencies:
+      '@alicloud/tea-typescript': 1.8.0
+      kitx: 2.1.0
+    transitivePeerDependencies:
+      - supports-color
+
+  '@alicloud/gateway-spi@0.0.8':
+    dependencies:
+      '@alicloud/credentials': 2.3.1
+      '@alicloud/tea-typescript': 1.8.0
+    transitivePeerDependencies:
+      - supports-color
+
+  '@alicloud/openapi-client@0.4.11':
+    dependencies:
+      '@alicloud/credentials': 2.3.1
+      '@alicloud/gateway-spi': 0.0.8
+      '@alicloud/openapi-util': 0.3.2
+      '@alicloud/tea-typescript': 1.8.0
+      '@alicloud/tea-util': 1.4.9
+      '@alicloud/tea-xml': 0.0.3
+    transitivePeerDependencies:
+      - supports-color
+
+  '@alicloud/openapi-util@0.3.2':
+    dependencies:
+      '@alicloud/tea-typescript': 1.8.0
+      '@alicloud/tea-util': 1.4.9
+      kitx: 2.1.0
+      sm3: 1.0.3
+    transitivePeerDependencies:
+      - supports-color
+
+  '@alicloud/tea-typescript@1.8.0':
+    dependencies:
+      '@types/node': 12.20.55
+      httpx: 2.3.2
+    transitivePeerDependencies:
+      - supports-color
+
+  '@alicloud/tea-util@1.4.9':
+    dependencies:
+      '@alicloud/tea-typescript': 1.8.0
+      kitx: 2.1.0
+    transitivePeerDependencies:
+      - supports-color
+
+  '@alicloud/tea-xml@0.0.3':
+    dependencies:
+      '@alicloud/tea-typescript': 1.8.0
+      '@types/xml2js': 0.4.14
+      xml2js: 0.6.2
+    transitivePeerDependencies:
+      - supports-color
+
   '@ampproject/remapping@2.3.0':
     dependencies:
       '@jridgewell/gen-mapping': 0.3.5
@@ -6461,8 +6566,6 @@ snapshots:
 
   '@trysound/sax@0.2.0': {}
 
-  '@types/ali-oss@6.16.11': {}
-
   '@types/conventional-commits-parser@5.0.0':
     dependencies:
       '@types/node': 22.5.1
@@ -6514,17 +6617,19 @@ snapshots:
 
   '@types/ms@0.7.34': {}
 
+  '@types/node@12.20.55': {}
+
   '@types/node@17.0.45': {}
+
+  '@types/node@20.16.3':
+    dependencies:
+      undici-types: 6.19.8
 
   '@types/node@22.5.1':
     dependencies:
       undici-types: 6.19.8
 
   '@types/normalize-package-data@2.4.4': {}
-
-  '@types/qrcode@1.5.5':
-    dependencies:
-      '@types/node': 22.5.1
 
   '@types/sax@1.2.7':
     dependencies:
@@ -6540,6 +6645,10 @@ snapshots:
       '@types/node': 22.5.1
 
   '@types/web-bluetooth@0.0.20': {}
+
+  '@types/xml2js@0.4.14':
+    dependencies:
+      '@types/node': 22.5.1
 
   '@typescript-eslint/eslint-plugin@8.3.0(@typescript-eslint/parser@8.3.0(eslint@9.9.1(jiti@1.21.6))(typescript@5.5.4))(eslint@9.9.1(jiti@1.21.6))(typescript@5.5.4)':
     dependencies:
@@ -9200,6 +9309,13 @@ snapshots:
     transitivePeerDependencies:
       - supports-color
 
+  httpx@2.3.2:
+    dependencies:
+      '@types/node': 20.16.3
+      debug: 4.3.6
+    transitivePeerDependencies:
+      - supports-color
+
   human-signals@5.0.0: {}
 
   human-signals@8.0.0: {}
@@ -9248,11 +9364,15 @@ snapshots:
 
   ini@4.1.1: {}
 
-  innenu-generator@0.0.11:
+  innenu-generator@0.0.19:
     dependencies:
       '@mr-hope/assert-type': 3.0.0
+      ali-oss: 6.21.0
       js-yaml: 4.1.0
       upath: 2.0.1
+    transitivePeerDependencies:
+      - proxy-agent
+      - supports-color
 
   inquirer@8.2.5:
     dependencies:
@@ -9543,6 +9663,10 @@ snapshots:
       json-buffer: 3.0.1
 
   kind-of@6.0.3: {}
+
+  kitx@2.1.0:
+    dependencies:
+      '@types/node': 12.20.55
 
   known-css-properties@0.34.0: {}
 
@@ -10721,6 +10845,8 @@ snapshots:
       is-fullwidth-code-point: 3.0.0
 
   slimsearch@2.1.1: {}
+
+  sm3@1.0.3: {}
 
   smart-buffer@4.2.0: {}
 

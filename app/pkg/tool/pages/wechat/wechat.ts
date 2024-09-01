@@ -15,6 +15,7 @@ import { appCoverPrefix, server } from "../../../../config/index.js";
 import { env, windowInfo } from "../../../../state/index.js";
 import {
   ensureJson,
+  getAssetLink,
   getPageColor,
   showNotice,
 } from "../../../../utils/index.js";
@@ -90,7 +91,7 @@ $Page(PAGE_ID, {
           loading: false,
           name,
           desc,
-          logo,
+          logo: getAssetLink(logo),
           id,
           follow,
         });

@@ -12,8 +12,8 @@ module.exports = {
   getTitle: function (config) {
     var type = config.type;
 
-    return typeof config.heading === "string"
-      ? config.heading
+    return typeof config.header === "string"
+      ? config.header
       : type === "note"
         ? "注"
         : type === "tip"

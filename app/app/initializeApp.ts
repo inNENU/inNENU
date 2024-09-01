@@ -1,7 +1,7 @@
 import { emitter, logger, writeJSON } from "@mptool/all";
 
-import { defaultResources, downloadResource } from "./resource.js";
-import type { VersionInfo } from "../../typings/index.js";
+import { RESOURCE_NAMES, downloadResource } from "./resource.js";
+import type { ResourceVersionInfo } from "../../typings/index.js";
 import { request } from "../api/index.js";
 import { DEFAULT_CONFIG, INITIALIZED_KEY, server } from "../config/index.js";
 
@@ -45,12 +45,12 @@ export const initializeApp = (): void => {
     wx.setStorageSync("themeNum", DEFAULT_CONFIG.themeNum);
   }
 
-  downloadResource(defaultResources, false)
+  downloadResource(RESOURCE_NAMES, false)
     .then(() => {
       // 下载资源文件并写入更新时间
       wx.setStorageSync("resource-update-time", Math.round(Date.now() / 1000));
 
-      return request<VersionInfo>(`${server}service/version.php`).then(
+      return request<ResourceVersionInfo>(`${server}service/version.php`).then(
         ({ data }) => data,
       );
     })
