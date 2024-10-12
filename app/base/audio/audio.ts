@@ -34,10 +34,11 @@ type AudioComponentInstance = ComponentInstance<
   AudioData,
   AudioProps,
   AudioMethods,
+  [],
   AudioInstanceMethod
 >;
 
-$Component<AudioData, AudioProps, AudioMethods, AudioInstanceMethod>({
+$Component<AudioData, AudioProps, AudioMethods, [], AudioInstanceMethod>({
   props: {
     /** 媒体组件配置 */
     config: {

@@ -34,6 +34,7 @@ type BackButtonComponentInstance = ComponentInstance<
   BackButtonData,
   BackButtonProps,
   BackButtonMethods,
+  [],
   BackButtonInstanceMethod
 >;
 
@@ -41,6 +42,7 @@ $Component<
   BackButtonData,
   BackButtonProps,
   BackButtonMethods,
+  [],
   BackButtonInstanceMethod
 >({
   props: {
