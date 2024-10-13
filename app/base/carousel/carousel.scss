@@ -1,29 +1,29 @@
-.carousel {
+.carousel-component {
   position: relative;
   max-width: var(--max-width);
   margin: 0 auto;
+}
 
-  .item {
-    width: 100%;
-    height: 400rpx;
+.carousel-body {
+  width: 100%;
+  height: 400rpx;
+}
 
-    .image {
-      width: 100%;
-      height: 100%;
-    }
+.carousel-image {
+  width: 100%;
+  height: 100%;
 
-    &.card .image {
-      overflow: hidden;
+  .carousel-component.card & {
+    overflow: hidden;
 
-      width: calc(100% - 32px);
-      height: 360rpx;
-      margin: 8px 16px;
-      border-radius: 8px;
-    }
+    width: calc(100% - 32px);
+    height: 360rpx;
+    margin: 8px 16px;
+    border-radius: 8px;
   }
 }
 
-.carousel-dots {
+.carousel-dot-wrapper {
   position: absolute;
   right: 0;
   bottom: 10px;
@@ -32,22 +32,22 @@
   display: flex;
   justify-content: center;
 
-  &.card {
+  .carousel-component.card & {
     padding-bottom: 8px;
   }
+}
 
-  .dot {
-    width: 8px;
-    height: 8px;
-    margin: 0 4px;
-    border-radius: 4px;
+.carousel-dot {
+  width: 8px;
+  height: 8px;
+  margin: 0 4px;
+  border-radius: 4px;
 
-    background-color: #fff;
+  background-color: #fff;
 
-    transition: all 0.6s;
+  transition: all 0.6s;
 
-    &.active {
-      width: 12px;
-    }
+  &.active {
+    width: 12px;
   }
 }

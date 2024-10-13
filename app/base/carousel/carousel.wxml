@@ -1,7 +1,7 @@
-<view class="carousel">
+<view class="carousel-component{{config.fill ? '' : ' card'}}">
   <!-- Note: QQ 不支持 catch:change 和 catch:animationfinish -->
   <swiper
-    class="{{config.class || ('item' + (config.fill ? '' : ' card'))}}"
+    class="{{config.class || 'carousel-body'}}"
     style="{{config.style}}"
     autoplay="{{config.autoplay !== false}}"
     interval="{{config.interval || '5000'}}"
@@ -15,7 +15,7 @@
   >
     <swiper-item wx:for="{{images}}" wx:key="*this">
       <image
-        class="{{config.imgClass || 'image'}}"
+        class="{{config.imgClass || 'carousel-image'}}"
         mode="{{config.imgMode || 'aspectFill'}}"
         src="{{item}} "
         lazy-load
@@ -25,12 +25,12 @@
 
   <view
     wx:if="{{config.indicatorDots !== false && config.images.length > 1}}"
-    class="carousel-dots{{(config.fill ? '': ' card')}}"
+    class="carousel-dot-wrapper"
   >
     <view
       wx:for="{{images}}"
       wx:key="*this"
-      class="dot {{index === current ? 'active' : ''}}"
+      class="carousel-dot {{index === current ? 'active' : ''}}"
       style="background-color: {{config.dotColor || '#fff'}}"
     />
   </view>
