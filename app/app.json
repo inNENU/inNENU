@@ -189,7 +189,8 @@
       "defaultDisplayBlock": true,
       "defaultContentBox": true,
       "disableABTest": true,
-      "sdkVersionBegin": "3.2.0"
+      "sdkVersionBegin": "3.6.0",
+      "tagNameStyleIsolation": "legacy"
     }
   }
 }

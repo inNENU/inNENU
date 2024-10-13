@@ -147,7 +147,8 @@
   "rendererOptions": {
     "skyline": {
       "defaultDisplayBlock": true,
-      "defaultContentBox": true
+      "defaultContentBox": true,
+      "tagNameStyleIsolation": "legacy"
     }
   }
 }
