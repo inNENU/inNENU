@@ -45,7 +45,7 @@ $Component({
   },
 
   pageLifetimes: {
-    show() {
+    show(): void {
       const { enableBalance, status } = this.data;
 
       if (!user.account) return this.setData({ status: "login" });

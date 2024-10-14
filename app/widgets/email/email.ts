@@ -36,7 +36,7 @@ $Component({
   },
 
   lifetimes: {
-    attached() {
+    attached(): void {
       const { type } = this.data;
 
       this.setData({

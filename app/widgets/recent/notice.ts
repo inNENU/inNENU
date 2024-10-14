@@ -33,7 +33,7 @@ $Component({
   },
 
   lifetimes: {
-    attached() {
+    attached(): void {
       const { type } = this.data;
       const noticeType = type.includes("新闻") ? "news" : "notice";
       const size = getSize(type);
@@ -52,7 +52,7 @@ $Component({
   },
 
   pageLifetimes: {
-    show() {
+    show(): void {
       if (!user.account) return this.setData({ status: "login" });
 
       if (this.data.status === "login") {

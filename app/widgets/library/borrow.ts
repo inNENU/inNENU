@@ -20,7 +20,7 @@ $Component({
   },
 
   lifetimes: {
-    attached() {
+    attached(): void {
       const { type } = this.data;
       const books = get<BorrowBookData[]>(BORROW_BOOKS_KEY);
 
@@ -34,7 +34,7 @@ $Component({
   },
 
   pageLifetimes: {
-    show() {
+    show(): void {
       if (!user.account) return this.setData({ status: "login" });
 
       if (this.data.status === "login") {
