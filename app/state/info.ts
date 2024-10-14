@@ -9,9 +9,8 @@ export const windowInfoState = getWindowInfo();
 /** 运行环境 */
 /*@__PURE__*/
 export const env: Env =
-  "miniapp" in wx
-    ? "app"
-    : (wx as WechatMiniprogram.Wx).getSystemInfoSync().AppPlatform || "wx";
+  // @ts-expect-error: QQ is not globally defined
+  "miniapp" in wx ? "app" : typeof qq === "object" ? "qq" : "wx";
 
 /** 小程序 appid */
 export type AppID =
