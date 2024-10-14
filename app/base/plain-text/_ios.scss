@@ -16,7 +16,8 @@
     }
   }
 
-  .text-list-item {
+  .ordered-list-item,
+  .unordered-list-item {
     margin-bottom: 8px;
 
     &:last-child {

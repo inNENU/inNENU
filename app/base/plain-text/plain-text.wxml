@@ -2,7 +2,7 @@
 
 <template name="text">
   <block wx:if="{{config.tag === 'ol'}}">
-    <view wx:for="{{config.text}}" wx:key="*this" class="text-list-item">
+    <view wx:for="{{config.text}}" wx:key="*this" class="ordered-list-item">
       <text class="text-marker">{{index + 1}}.</text>
       <!-- Note: QQ does not support user-select -->
       <text
@@ -17,7 +17,7 @@
   </block>
 
   <block wx:elif="{{config.tag === 'ul'}}">
-    <view wx:for="{{config.text}}" wx:key="*this" class="text-list-item">
+    <view wx:for="{{config.text}}" wx:key="*this" class="unordered-list-item">
       <text class="text-marker">•</text>
       <!-- Note: QQ does not support user-select -->
       <text

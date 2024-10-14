@@ -4,10 +4,7 @@
   max-width: calc(var(--max-width) - 48px);
   margin: 12px var(--horizontal-margin);
   padding: 16px;
-  border-color: var(--hint-box-border-color);
-  border-left-width: 5px;
-  border-left-style: solid;
-  border-radius: 6px;
+  border-radius: 0.5em;
 
   background-color: var(--hint-box-bg-color);
 
@@ -28,6 +25,12 @@
   .text-marker {
     padding-left: 0;
   }
+
+  .paragraph,
+  .ordered-list-item,
+  .unordered-list-item {
+    font-size: 0.92em;
+  }
 }
 
 .hint-box-title {
@@ -35,7 +38,7 @@
 
   display: block;
 
-  padding-left: 24px;
+  padding-left: 26px;
 
   color: var(--hint-box-title-color);
 
