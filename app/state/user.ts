@@ -66,11 +66,11 @@ export interface UserState {
   info: UserInfo | null;
 }
 
-const OPEN_ID_KEY = "openid";
+const OPEN_ID_KEY = "openid-v2";
 
 const userState: UserState = {
   account: get<AccountInfo | undefined>(ACCOUNT_INFO_KEY) || null,
-  openid: wx.getStorageSync<string | undefined>(OPEN_ID_KEY) || null,
+  openid: get<string | undefined>(OPEN_ID_KEY) || null,
   info: get<UserInfo | undefined>(USER_INFO_KEY) || null,
 };
 
@@ -85,7 +85,7 @@ export const setUserInfo = (account: AccountInfo, info: UserInfo): void => {
 
 export const setOpenid = (openid: string | null): void => {
   userState.openid = openid;
-  wx.setStorageSync(OPEN_ID_KEY, openid);
+  set(OPEN_ID_KEY, openid);
 };
 
 export interface Identify {
