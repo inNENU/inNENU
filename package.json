@@ -52,12 +52,12 @@
   "devDependencies": {
     "@commitlint/cli": "19.5.0",
     "@commitlint/config-conventional": "19.5.0",
-    "@rollup/plugin-commonjs": "28.0.0",
+    "@rollup/plugin-commonjs": "28.0.1",
     "commitizen": "4.3.1",
     "cpx2": "8.0.0",
     "cz-git": "1.10.1",
     "del": "8.0.0",
-    "eslint": "9.12.0",
+    "eslint": "9.13.0",
     "eslint-config-mister-hope": "0.3.0",
     "gulp": "5.0.0",
     "gulp-rename": "2.0.0",
@@ -75,11 +75,11 @@
     "rollup-plugin-esbuild": "6.1.1",
     "standard-version": "9.5.0",
     "stylelint": "16.10.0",
-    "stylelint-config-hope": "7.0.2",
+    "stylelint-config-hope": "7.0.4",
     "tsx": "4.19.1",
     "typescript": "5.6.3"
   },
-  "packageManager": "pnpm@9.12.1",
+  "packageManager": "pnpm@9.12.2",
   "prettier": {
     "overrides": [
       {

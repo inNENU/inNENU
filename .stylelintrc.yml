@@ -19,3 +19,7 @@ rules:
         - scroll-view
         - radio
   shorthand-property-no-redundant-values: null
+  unit-no-unknown:
+    - true
+    - ignoreUnits:
+        - rpx
