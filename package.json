@@ -69,7 +69,7 @@
     "innenu-generator": "0.0.19",
     "miniprogram-api-typings": "4.0.1",
     "nano-staged": "0.8.0",
-    "postcss": "8.4.47",
+    "postcss": "8.4.48",
     "prettier": "3.3.3",
     "rollup": "4.24.0",
     "rollup-plugin-esbuild": "6.1.1",
