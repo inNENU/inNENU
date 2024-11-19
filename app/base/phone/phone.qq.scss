@@ -77,8 +77,6 @@
 }
 
 .phone-popup {
-  // root-portal 不支持使用 CSS 变量
-
   z-index: 5000;
 
   display: flex;
@@ -87,19 +85,14 @@
   overflow: hidden;
 
   width: calc(100% - 48px);
-  max-width: 520px;
+  max-width: var(--max-width);
   max-height: 90%;
   border-radius: 12px;
 
-  background-color: #fff;
-  color: #333;
+  background-color: var(--bg-dialog);
+  color: var(--grey3);
 
   text-align: center;
-
-  @media (prefers-color-scheme: dark) {
-    background-color: #1c1c1e;
-    color: #ccc;
-  }
 
   .title {
     padding: 32px 24px 16px;
@@ -114,7 +107,7 @@
     margin-bottom: 32px;
     padding: 0 24px;
 
-    color: #888;
+    color: var(--grey);
 
     font-size: 17px;
     line-height: 1.7;
@@ -131,15 +124,11 @@
     overflow: hidden;
 
     padding: 16px 0;
-    border-top: 1px solid #cccccf;
+    border-top: 1px solid var(--border-color);
 
     font-weight: 700;
     font-size: 17px;
     line-height: 1.4;
     text-decoration: none;
-
-    @media (prefers-color-scheme: dark) {
-      border-top-color: #3a3a3d;
-    }
   }
 }
