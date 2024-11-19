@@ -16,7 +16,7 @@
         type="text"
         adjust-position="{{false}}"
         value="{{path}}"
-        bindinput="pathInput"
+        catch:input="pathInput"
       />
       <button
         class="primary"

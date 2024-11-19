@@ -104,6 +104,7 @@ const getStyleJob = (id, ext = "wxss") => {
       .pipe(
         sass({
           style: "compressed",
+          silenceDeprecations: ["import"],
           importers: [
             // preserve `@import` rules
             {

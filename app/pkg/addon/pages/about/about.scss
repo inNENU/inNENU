@@ -9,7 +9,7 @@
   background-color: rgb(0 0 0 / 10%);
 }
 
-.password {
+.password-modal {
   position: fixed;
   top: 35%;
   left: 10%;
@@ -29,20 +29,20 @@
   font-size: 20px;
   letter-spacing: 1px;
   text-align: center;
+}
 
-  .hint {
-    height: 26px;
-    margin-bottom: 10px;
-  }
+.password-hint {
+  height: 26px;
+  margin-bottom: 10px;
+}
 
-  input {
-    border: none;
+.password-input {
+  border: none;
 
-    background-color: transparent;
+  background-color: transparent;
 
-    font-weight: 800;
-    font-size: 26px;
-    line-height: 1.5;
-    letter-spacing: 40px;
-  }
+  font-weight: 800;
+  font-size: 26px;
+  line-height: 1.5;
+  letter-spacing: 40px;
 }
