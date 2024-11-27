@@ -1,9 +1,10 @@
 {
-  "miniVersion": "v2",
   "name": "inNENU",
-  "version": "7.0.1",
+  "version": "7.1.0",
+  "versionCode": 43,
+  "miniVersion": "v2",
   "mini-android": {
-    "sdkVersion": "1.4.7",
+    "sdkVersion": "1.4.18",
     "toolkitVersion": "0.7.3",
     "useExtendedSdk": {
       "media": true,
@@ -51,7 +52,7 @@
     "appMenuEnable": true
   },
   "mini-ios": {
-    "sdkVersion": "1.4.15",
+    "sdkVersion": "1.4.26",
     "toolkitVersion": "0.0.9",
     "useExtendedSdk": {
       "WeAppOpenFuns": false,
@@ -105,8 +106,8 @@
       "customImage": "assets/ios-splash.png"
     }
   },
-  "versionCode": 42,
   "mini-plugin": {
-    "android": []
+    "android": [],
+    "ios": []
   }
 }
