@@ -427,8 +427,6 @@ const getWeatherLocal = async (): Promise<WeatherData> => {
       }),
     );
 
-  const tips = Object.values(data.tips.observe || {});
-
   return {
     air: {
       aqi,
@@ -464,7 +462,7 @@ const getWeatherLocal = async (): Promise<WeatherData> => {
       updateTime,
     },
     rise,
-    tips,
+    tips: [],
   };
 };
 
