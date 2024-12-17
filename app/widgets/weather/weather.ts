@@ -85,6 +85,7 @@ $Component({
           string,
           string
         >,
+
         hintIcon: JSON.parse(readFile("./icon/weather/hint")!) as Record<
           string,
           string

@@ -1,16 +1,13 @@
 import { compareVersion } from "@mptool/all";
 
 import type { App } from "../../app.js";
-import { env, platform } from "../../state/index.js";
-
-// 获取 SDK 版本
-const { SDKVersion } = (wx.getAppBaseInfo || wx.getSystemInfoSync)();
+import { appInfo, env, platform } from "../../state/index.js";
 
 /** 是否支持 redirect manual */
 export const supportRedirect =
   env === "wx" &&
   ["android", "ios"].includes(platform) &&
-  compareVersion(SDKVersion, "3.2.2") > 0;
+  compareVersion(appInfo.SDKVersion, "3.2.2") > 0;
 
 export const isOnlineService = (name: string): boolean => {
   const { globalData } = getApp<App>();

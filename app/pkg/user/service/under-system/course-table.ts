@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-deprecated */
 import { URLSearchParams, logger } from "@mptool/all";
 
 import { UNDER_SYSTEM_SERVER } from "./utils.js";

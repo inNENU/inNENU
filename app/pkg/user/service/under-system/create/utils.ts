@@ -24,16 +24,15 @@ export const hiddenFieldsRegExp =
 export const studyDataRegExp = /"brjl"\s*:\s*(\[.*?\])/;
 export const familyDataRegExp = /"jtcy"\s*:\s*(\[.*?\])/;
 
-export const onlineUnderStudentArchive = <Option, Response>(
-  options: Option,
-  additionalOptions: Record<string, unknown> = {},
+export const onlineUnderStudentArchive = <Response>(
+  options: Record<string, unknown> = {},
 ): Promise<Response> =>
   request("/under-system/create-archive", {
     method: "POST",
-    body: { ...additionalOptions, ...options },
+    body: options,
     cookieScope: UNDER_SYSTEM_SERVER,
   }).then(({ data }) => {
     if (!data.success) logger.error("获取失败", data.msg);
 
-    return data;
-  }) as Promise<Response>;
+    return data as Response;
+  });

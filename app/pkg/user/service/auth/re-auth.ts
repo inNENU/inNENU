@@ -48,7 +48,7 @@ export type ReAuthSMSResponse =
       hiddenCellphone: string;
     }>
   | (CommonFailedResponse<ActionFailType.TooFrequent> & { codeTime: number })
-  | CommonFailedResponse<ActionFailType.Unknown>;
+  | CommonFailedResponse;
 
 export const sendReAuthSMSLocal = async (
   id: string,

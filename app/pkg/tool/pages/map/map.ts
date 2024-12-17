@@ -189,7 +189,7 @@ $Page(PAGE_ID, {
             ),
           };
         })
-        .catch((err) => {
+        .catch((err: unknown) => {
           logger.error("加载地图点位失败", err);
           showModal(
             "获取失败",

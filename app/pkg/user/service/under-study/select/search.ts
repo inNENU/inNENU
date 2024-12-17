@@ -7,7 +7,6 @@ import type {
 import { getCourses } from "./utils.js";
 import { request } from "../../../../../api/index.js";
 import type {
-  ActionFailType,
   CommonFailedResponse,
   CommonSuccessResponse,
 } from "../../../../../service/index.js";
@@ -47,7 +46,7 @@ export interface UnderSelectSearchOptions {
 
 export type UnderSelectSearchResponse =
   | CommonSuccessResponse<UnderSelectCourseInfo[]>
-  | CommonFailedResponse<ActionFailType.Unknown>;
+  | CommonFailedResponse;
 
 const searchUnderCoursesLocal = async ({
   link = "",

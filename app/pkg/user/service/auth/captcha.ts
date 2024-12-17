@@ -2,10 +2,7 @@ import { URLSearchParams } from "@mptool/all";
 
 import { AUTH_CAPTCHA_URL } from "./utils.js";
 import { request } from "../../../../api/index.js";
-import type {
-  ActionFailType,
-  CommonFailedResponse,
-} from "../../../../service/index.js";
+import type { CommonFailedResponse } from "../../../../service/index.js";
 import {
   AUTH_COOKIE_SCOPE,
   AUTH_SERVER,
@@ -33,7 +30,7 @@ export interface AuthCaptchaSuccessResponse {
 
 export type AuthCaptchaResponse =
   | AuthCaptchaSuccessResponse
-  | CommonFailedResponse<ActionFailType.Unknown>;
+  | CommonFailedResponse;
 
 export const getAuthCaptchaLocal = async (
   id: string,

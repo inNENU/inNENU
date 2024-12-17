@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-deprecated */
 import { $Page, get, logger, readFile, set, showModal } from "@mptool/all";
 
 import {

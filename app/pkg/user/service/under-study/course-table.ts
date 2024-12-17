@@ -332,6 +332,7 @@ export const getUnderCourseTable = withUnderStudyLogin(async (time: string) => {
   if (semesterYear < 2023) {
     const legacyTime = `${semesterYear}-${semesterYear + 1}-${time.substring(6)}`;
 
+    // eslint-disable-next-line @typescript-eslint/no-deprecated
     return getLegacyUnderCourseTable(legacyTime);
   }
 

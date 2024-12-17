@@ -7,7 +7,6 @@ import type {
 import { getClasses } from "./utils.js";
 import { request } from "../../../../../api/index.js";
 import type {
-  ActionFailType,
   CommonFailedResponse,
   CommonSuccessResponse,
 } from "../../../../../service/index.js";
@@ -26,7 +25,7 @@ interface RawUnderSelectedClassResponse {
 
 export type UnderSelectSelectedResponse =
   | CommonSuccessResponse<UnderSelectClassInfo[]>
-  | CommonFailedResponse<ActionFailType.Unknown>;
+  | CommonFailedResponse;
 
 const getUnderSelectedClassesLocal = async (
   link: string,

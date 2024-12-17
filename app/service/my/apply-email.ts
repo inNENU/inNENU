@@ -128,7 +128,7 @@ const getEmailInfoLocal = async (
 
     const mailInitInfo = await getMailInitInfo(results[0].PROC_INST_ID_);
 
-    if (mailInitInfo.success === false) return mailInitInfo;
+    if (!mailInitInfo.success) return mailInitInfo;
 
     return {
       ...mailInitInfo,
@@ -138,7 +138,7 @@ const getEmailInfoLocal = async (
 
   const processResult = await getProcess(APPLY_MAIL_APP_ID);
 
-  if (processResult.success === false) return processResult;
+  if (!processResult.success) return processResult;
 
   const { taskId, instanceId } = processResult;
 

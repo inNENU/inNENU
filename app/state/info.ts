@@ -1,8 +1,8 @@
 import { getWindowInfo } from "@mptool/all";
 
-const { theme, ...defaultAppInfo } = (
-  wx.getAppBaseInfo || wx.getSystemInfoSync
-)();
+const { theme, ...defaultAppInfo } =
+  // eslint-disable-next-line @typescript-eslint/no-deprecated
+  (wx.getAppBaseInfo || wx.getSystemInfoSync)();
 
 export const windowInfoState = getWindowInfo();
 
@@ -40,6 +40,7 @@ export const envName = env === "app" ? "App" : "小程序";
 
 /** 运行环境名称 */
 /*@__PURE__*/
+// eslint-disable-next-line @typescript-eslint/no-deprecated
 export const { platform } = (wx.getDeviceInfo || wx.getSystemInfoSync)();
 
 export const menuSpace =
@@ -64,6 +65,7 @@ wx.onThemeChange?.(({ theme }) => {
 });
 wx.onAppShow(() => {
   appInfoState.darkmode =
+    // eslint-disable-next-line @typescript-eslint/no-deprecated
     (wx.getAppBaseInfo || wx.getSystemInfoSync)().theme === "dark";
 });
 

@@ -209,10 +209,9 @@ const getCreateUnderStudentArchiveInfoLocal =
 
 const getCreateUnderStudentArchiveInfoOnline =
   (): Promise<UnderCreateStudentArchiveGetInfoResponse> =>
-    onlineUnderStudentArchive<
-      Record<never, never>,
-      UnderCreateStudentArchiveGetInfoResponse
-    >({}, { type: "get-info" });
+    onlineUnderStudentArchive<UnderCreateStudentArchiveGetInfoResponse>({
+      type: "get-info",
+    });
 
 export const getCreateUnderStudentArchiveInfo = createService(
   "create-under-archive",

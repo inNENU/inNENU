@@ -79,7 +79,7 @@ export const updateApp = (): void => {
             });
           }),
         )
-        .catch((err) => {
+        .catch((err: unknown) => {
           // 调试信息
           logger.error("版本配置文件错误", err);
         });

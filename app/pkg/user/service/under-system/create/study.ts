@@ -146,10 +146,10 @@ const submitUnderStudentArchiveStudyLocal = async ({
 const submitUnderStudentArchiveStudyOnline = (
   options: UnderCreateStudentArchiveSubmitStudyOptions,
 ): Promise<UnderCreateStudentArchiveSubmitStudyResponse> =>
-  onlineUnderStudentArchive<
-    UnderCreateStudentArchiveSubmitStudyOptions,
-    UnderCreateStudentArchiveSubmitStudyResponse
-  >(options, { type: "submit-info" });
+  onlineUnderStudentArchive<UnderCreateStudentArchiveSubmitStudyResponse>({
+    type: "submit-info",
+    ...options,
+  });
 
 export const submitUnderStudentArchiveStudy = createService(
   "create-under-archive",

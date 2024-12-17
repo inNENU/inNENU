@@ -4,6 +4,7 @@ import { RESOURCE_NAMES, downloadResource } from "./resource.js";
 import type { ResourceVersionInfo } from "../../typings/index.js";
 import { request } from "../api/index.js";
 import { DEFAULT_CONFIG, INITIALIZED_KEY, server } from "../config/index.js";
+import { platform } from "../state/info.js";
 
 /** 初始化小程序 */
 export const initializeApp = (): void => {
@@ -20,7 +21,6 @@ export const initializeApp = (): void => {
   if (DEFAULT_CONFIG.theme === "auto") {
     let num;
     let theme;
-    const { platform } = (wx.getDeviceInfo || wx.getSystemInfoSync)();
 
     // 根据平台设置主题
     switch (platform) {

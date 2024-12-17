@@ -27,6 +27,7 @@
     "strict": true,
     "strictNullChecks": true,
     "strictPropertyInitialization": true,
+    "useUnknownInCatchVariables": true,
     "lib": ["ESNext"],
     "types": ["miniprogram-api-typings"]
   }

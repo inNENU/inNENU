@@ -11,6 +11,7 @@ export interface CourseTableInfo {
 
 /** @deprecated */
 export interface LegacyCourseTableInfo {
+  // eslint-disable-next-line @typescript-eslint/no-deprecated
   table: LegacyCourseTableData;
   maxWeek: number;
   startTime: string;

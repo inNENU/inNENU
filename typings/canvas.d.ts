@@ -405,8 +405,7 @@ interface CanvasDrawPath {
   isPointInStroke(x: number, y: number): boolean;
   isPointInStroke(path: Path2D, x: number, y: number): boolean;
   /** [MDN Reference](https://developer.mozilla.org/docs/Web/API/CanvasRenderingContext2D/stroke) */
-  stroke(): void;
-  stroke(path: Path2D): void;
+  stroke(path?: Path2D): void;
 }
 
 /**

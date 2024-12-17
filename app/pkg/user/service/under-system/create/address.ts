@@ -109,10 +109,10 @@ const submitUnderStudentArchiveAddressLocal = async ({
 const submitUnderStudentArchiveAddressOnline = (
   options: UnderCreateStudentArchiveSubmitAddressOptions,
 ): Promise<UnderCreateStudentArchiveSubmitAddressResponse> =>
-  onlineUnderStudentArchive<
-    UnderCreateStudentArchiveSubmitAddressOptions,
-    UnderCreateStudentArchiveSubmitAddressResponse
-  >(options, { type: "submit-address" });
+  onlineUnderStudentArchive<UnderCreateStudentArchiveSubmitAddressResponse>({
+    type: "submit-address",
+    ...options,
+  });
 
 export const submitUnderStudentArchiveAddress = createService(
   "create-under-under-archive",

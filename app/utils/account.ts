@@ -58,5 +58,6 @@ export const logout = (): void => {
   remove(STARRED_INFO_LIST_KEY);
   remove(STARRED_NOTICE_LIST_KEY);
   remove(STUDENT_ARCHIVE_KEY);
+  // eslint-disable-next-line @typescript-eslint/no-deprecated
   remove(OLD_COURSE_DATA_KEY);
 };

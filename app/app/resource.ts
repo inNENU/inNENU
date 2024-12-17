@@ -188,7 +188,7 @@ export const checkResource = (): Promise<void> => {
           logger.debug("Resource up to date");
         }
       })
-      .catch((err) => {
+      .catch((err: unknown) => {
         logger.error("资源检查失败", err);
         showToast("服务器出现问题");
       });

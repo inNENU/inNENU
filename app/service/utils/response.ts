@@ -70,9 +70,7 @@ export const MissingArgResponse = (
   msg: `缺少${name}参数`,
 });
 
-export const UnknownResponse = (
-  msg: string,
-): CommonFailedResponse<ActionFailType.Unknown> => ({
+export const UnknownResponse = (msg: string): CommonFailedResponse => ({
   success: false,
   type: ActionFailType.Unknown,
   msg,

@@ -99,10 +99,10 @@ const submitUnderStudentArchiveFamilyLocal = async ({
 const submitUnderStudentArchiveFamilyOnline = (
   options: UnderCreateStudentArchiveSubmitFamilyOptions,
 ): Promise<UnderCreateStudentArchiveSubmitFamilyResponse> =>
-  onlineUnderStudentArchive<
-    UnderCreateStudentArchiveSubmitFamilyOptions,
-    UnderCreateStudentArchiveSubmitFamilyResponse
-  >(options, { type: "submit-info" });
+  onlineUnderStudentArchive<UnderCreateStudentArchiveSubmitFamilyResponse>({
+    type: "submit-info",
+    ...options,
+  });
 
 export const submitUnderStudentArchiveFamily = createService(
   "create-under-under-archive",

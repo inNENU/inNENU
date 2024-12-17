@@ -52,11 +52,7 @@ const setListItemState = (
       | ListComponentItemOptions
     )
   | null => {
-  if (
-    "env" in listElement &&
-    listElement.env &&
-    !listElement.env?.includes(env)
-  )
+  if ("env" in listElement && listElement.env && !listElement.env.includes(env))
     return null;
 
   if ("type" in listElement)
@@ -157,7 +153,7 @@ const setPageState = (
 
   // 调试
 
-  logger.debug(`Resolve ${page.id!} page success`);
+  logger.debug(`Resolve ${page.id} page success`);
 
   // 返回处理后的 page
   return page;
@@ -186,7 +182,7 @@ const preloadPageLinks = (page: PageState): void => {
               | ListComponentItemOptions
             ) & { hidden?: boolean },
           ) => {
-            if ("path" in element) ensureJson(`${element.path!}`);
+            if ("path" in element && element.path) ensureJson(element.path);
           },
         );
     });
@@ -229,7 +225,7 @@ export const resolvePage = (
   if (page) {
     pageData = setPageState(page, options);
   } else if (options.id) {
-    const pageContent = readJSON<PageState>(`${options.id}`);
+    const pageContent = readJSON<PageState>(options.id);
 
     if (pageContent) pageData = setPageState(pageContent, options);
     else logger.warn(`无法处理 ${options.id} 因为暂无数据`);
@@ -489,7 +485,7 @@ export const setOnlinePage = (
       // 需要重新载入界面
       logger.debug(`${id} onLoad with options: `, option);
 
-      const page = readJSON<PageState>(`${id}`);
+      const page = readJSON<PageState>(id);
 
       // 如果本地存储中含有 page 直接处理
       if (page) {
@@ -525,7 +521,7 @@ export const setOnlinePage = (
             // 调试
             logger.debug(`${id} onLoad Succeed`);
           })
-          .catch((err) => {
+          .catch((err: unknown) => {
             // 设置 error 页面并弹出通知
             setPage(
               { option, ctx },
@@ -576,7 +572,7 @@ export const loadOnlinePage = (
           logger.debug(`${option.path} onLoad succeed:`, ctx.data);
         }
       })
-      .catch((errMsg) => {
+      .catch((errMsg: unknown) => {
         // 设置 error 页面并弹出通知
         setPage(
           { option, ctx },

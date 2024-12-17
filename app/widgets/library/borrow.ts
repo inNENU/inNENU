@@ -83,7 +83,7 @@ $Component({
     showBooks() {
       const { books } = this.data;
 
-      if (books?.length)
+      if (books.length)
         showModal(
           "借阅书目",
           books

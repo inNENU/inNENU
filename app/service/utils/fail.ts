@@ -10,11 +10,12 @@ export const checkAccountStatus = (
 ): void => {
   if (
     "type" in response &&
+    response.type &&
     [
       ActionFailType.NeedCaptcha,
       ActionFailType.WrongPassword,
       ActionFailType.BlackList,
-    ].includes(response.type!)
+    ].includes(response.type)
   ) {
     cookieStore.clear();
     clearUserInfo();
