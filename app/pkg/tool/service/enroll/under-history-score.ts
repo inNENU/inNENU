@@ -74,7 +74,9 @@ const getUnderHistoryScoreInfo =
           const result: Record<string, Record<string, string[]>> = {};
 
           configs.forEach(({ major_type, type, year }) => {
-            ((result[year] ??= {})[type] ??= []).push(major_type);
+            const current = ((result[year] ??= {})[type] ??= []);
+
+            if (!current.includes(major_type)) current.push(major_type);
           });
 
           return [province, result];

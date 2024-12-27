@@ -23,7 +23,6 @@ import {
   getMyInfo,
   myLoginLocal,
   supportRedirect,
-  vpnLoginLocal,
 } from "../../../../service/index.js";
 import type { AccountInfo, UserInfo } from "../../../../state/index.js";
 import { appID } from "../../../../state/index.js";
@@ -271,12 +270,7 @@ const authInitLocal = async (
       "type" in loginResult &&
       loginResult.type === ActionFailType.Forbidden
     ) {
-      // Activate VPN by login
-      const vpnLoginResult = await vpnLoginLocal({ id, password, authToken });
-
-      if (vpnLoginResult.success)
-        loginResult = await myLoginLocal({ id, password, authToken });
-      else logger.error("VPN login failed", vpnLoginResult);
+      loginResult = await myLoginLocal({ id, password, authToken });
     }
 
     // 获得信息
