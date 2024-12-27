@@ -16,7 +16,7 @@ import {
 const INFO_REGEXP =
   /<div class="ar_tit">\s*<h3>([^>]+)<\/h3>\s*<h6>([^]+?)<\/h6>/;
 const CONTENT_REGEXP =
-  /<div class="v_news_content">([^]+?)<\/div><\/div><div id="div_vote_id">/;
+  /<div class="v_news_content">([^]+?)<\/div>\s*<\/div>\s*<div id="div_vote_id">/;
 
 const TIME_REGEXP = /<span>发布时间：([^<]*)<\/span>/;
 const FROM_REGEXP = /<span>发布单位：([^<]*)<\/span>/;
