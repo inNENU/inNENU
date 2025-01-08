@@ -7,7 +7,7 @@ wx.env.DEBUG = true;
 export const appName = "inNENU";
 export const description = "在东师，就用 inNENU";
 /** 小程序版本 */
-export const version = "7.1.0";
+export const version = "7.2.0";
 
 export const appCoverPrefix = `${server}img/inNENU`;
 export const logo = "/frameset/placeholder.png";
