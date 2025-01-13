@@ -41,45 +41,18 @@
     "lint:wxs": "prettier --check --parser babel-flow **/*.wxs",
     "prepare": "husky"
   },
+  "nano-staged": {
+    "**/*": "prettier --write --ignore-unknown",
+    "*.{js,ts}": "eslint --fix",
+    "*.wxss": "stylelint --fix",
+    "*.wxml": "prettier --parser html --write",
+    "*.wxs": "prettier --parser babel-flow --write"
+  },
   "config": {
     "commitizen": {
       "path": "./node_modules/cz-git"
     }
   },
-  "dependencies": {
-    "@mptool/all": "0.10.10"
-  },
-  "devDependencies": {
-    "@commitlint/cli": "19.6.1",
-    "@commitlint/config-conventional": "19.6.0",
-    "@rollup/plugin-commonjs": "28.0.2",
-    "commitizen": "4.3.1",
-    "cpx2": "8.0.0",
-    "cz-git": "1.11.0",
-    "del": "8.0.0",
-    "eslint": "9.17.0",
-    "eslint-config-mister-hope": "0.4.0",
-    "gulp": "5.0.0",
-    "gulp-rename": "2.0.0",
-    "gulp-replace": "1.1.4",
-    "gulp-sourcemaps": "3.0.0",
-    "gulp-typescript": "6.0.0-alpha.1",
-    "gulp5-sass-plugin": "2.0.4",
-    "husky": "9.1.7",
-    "innenu-generator": "0.0.21",
-    "miniprogram-api-typings": "4.0.2",
-    "nano-staged": "0.8.0",
-    "postcss": "8.4.49",
-    "prettier": "3.4.2",
-    "rollup": "4.30.1",
-    "rollup-plugin-esbuild": "6.1.1",
-    "standard-version": "9.5.0",
-    "stylelint": "16.12.0",
-    "stylelint-config-hope": "7.0.4",
-    "tsx": "4.19.2",
-    "typescript": "5.7.2"
-  },
-  "packageManager": "pnpm@9.15.3",
   "prettier": {
     "overrides": [
       {
@@ -96,16 +69,51 @@
       }
     ]
   },
-  "nano-staged": {
-    "**/*": "prettier --write --ignore-unknown",
-    "*.{js,ts}": "eslint --fix",
-    "*.wxss": "stylelint --fix",
-    "*.wxml": "prettier --parser html --write",
-    "*.wxs": "prettier --parser babel-flow --write"
+  "dependencies": {
+    "@mptool/all": "0.10.10"
   },
+  "devDependencies": {
+    "@commitlint/cli": "19.6.1",
+    "@commitlint/config-conventional": "19.6.0",
+    "@rollup/plugin-commonjs": "28.0.2",
+    "commitizen": "4.3.1",
+    "cpx2": "8.0.0",
+    "cz-git": "1.11.0",
+    "del": "8.0.0",
+    "eslint": "9.18.0",
+    "eslint-config-mister-hope": "0.4.1",
+    "gulp": "5.0.0",
+    "gulp-rename": "2.0.0",
+    "gulp-replace": "1.1.4",
+    "gulp-sourcemaps": "3.0.0",
+    "gulp-typescript": "6.0.0-alpha.1",
+    "gulp5-sass-plugin": "2.0.4",
+    "husky": "9.1.7",
+    "innenu-generator": "0.0.21",
+    "miniprogram-api-typings": "4.0.2",
+    "nano-staged": "0.8.0",
+    "postcss": "8.4.49",
+    "prettier": "3.4.2",
+    "rollup": "4.30.1",
+    "rollup-plugin-esbuild": "6.1.1",
+    "standard-version": "9.5.0",
+    "stylelint": "16.13.0",
+    "stylelint-config-hope": "7.0.4",
+    "tsx": "4.19.2",
+    "typescript": "5.7.3"
+  },
+  "packageManager": "pnpm@10.0.0",
   "pnpm": {
+    "onlyBuiltDependencies": [
+      "@parcel/watcher",
+      "es5-ext",
+      "esbuild",
+      "nodejs-jieba"
+    ],
     "overrides": {
-      "css": "npm:@adobe/css-tools@^4.4.0"
+      "@vuepress/cli>esbuild": "^0.24.1",
+      "css": "npm:@adobe/css-tools@^4.4.0",
+      "stylelint>ignore": "7.0.0"
     }
   }
 }
