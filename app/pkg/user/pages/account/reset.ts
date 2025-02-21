@@ -93,7 +93,11 @@ ${envName}严格使用官方密码重置服务流程。
   async getCaptcha() {
     const result = await getResetCaptchaLocal();
 
-    if (!result.success) return showModal("获取验证码失败", result.msg);
+    if (!result.success) {
+      showModal("获取验证码失败", result.msg);
+
+      return;
+    }
 
     this.state.captchaId = result.data.captchaId;
     this.setData({ captchaImage: result.data.captcha });
@@ -102,7 +106,11 @@ ${envName}严格使用官方密码重置服务流程。
   async init() {
     const result = await resetPassword({ type: "init" });
 
-    if (!result.success) return showModal("初始化失败", result.msg);
+    if (!result.success) {
+      showModal("初始化失败", result.msg);
+
+      return;
+    }
 
     this.state.captchaId = result.data.captchaId;
     this.setData({ captchaImage: result.data.captcha });
@@ -112,9 +120,21 @@ ${envName}严格使用官方密码重置服务流程。
     const { id, captcha } = this.data;
     const { captchaId } = this.state;
 
-    if (!id) return showModal("信息缺失", "请输入学号");
-    if (id.length !== 10) return showModal("信息错误", "学号应为 10 位数字");
-    if (!captcha) return showModal("未填写验证码", "请输入验证码");
+    if (!id) {
+      showModal("信息缺失", "请输入学号");
+
+      return;
+    }
+    if (id.length !== 10) {
+      showModal("信息错误", "学号应为 10 位数字");
+
+      return;
+    }
+    if (!captcha) {
+      showModal("未填写验证码", "请输入验证码");
+
+      return;
+    }
 
     wx.showLoading({ title: "获取信息" });
 
@@ -133,8 +153,9 @@ ${envName}严格使用官方密码重置服务流程。
 
         this.state.captchaId = captchaId;
         showModal("验证码错误", result.msg);
+        this.setData({ captchaImage: captcha });
 
-        return this.setData({ captchaImage: captcha });
+        return;
       }
 
       showModal("获取信息失败", result.msg);
@@ -156,21 +177,26 @@ ${envName}严格使用官方密码重置服务流程。
       ...args,
     };
 
-    return this.setData({
+    this.setData({
       stage: "phone",
       captcha: "",
       captchaImage,
       hideCellphone,
       hideEmail,
     });
+
+    return;
   },
 
   async sendCode() {
     const { captcha, id, cellphone, hideCellphone, hideEmail } = this.data;
     const { captchaId, isAppealFlag, appealSign, sign } = this.state;
 
-    if (!/1\d{10}/.test(cellphone))
-      return showModal("信息错误", "请输入正确的手机号");
+    if (!/1\d{10}/.test(cellphone)) {
+      showModal("信息错误", "请输入正确的手机号");
+
+      return;
+    }
 
     wx.showLoading({ title: "发送中" });
 
@@ -196,11 +222,13 @@ ${envName}严格使用官方密码重置服务流程。
 
         this.state.captchaId = captchaId;
         showModal("验证码错误", result.msg);
+        this.setData({ captchaImage: captcha });
 
-        return this.setData({ captchaImage: captcha });
+        return;
       }
+      showModal("验证码发送失败", result.msg);
 
-      return showModal("验证码发送失败", result.msg);
+      return;
     }
 
     showToast("发送成功", 1000, "success");
@@ -213,7 +241,11 @@ ${envName}严格使用官方密码重置服务流程。
     const { oldCaptcha, oldCaptchaId, isAppealFlag, appealSign, sign } =
       this.state;
 
-    if (!code) return showModal("未填写验证码", "请点击发送验证码后输入验证码");
+    if (!code) {
+      showModal("未填写验证码", "请点击发送验证码后输入验证码");
+
+      return;
+    }
 
     wx.showLoading({ title: "验证中" });
 
@@ -240,18 +272,21 @@ ${envName}严格使用官方密码重置服务流程。
 
         this.state.captchaId = captchaId;
         showModal("验证码错误", result.msg);
+        this.setData({ captchaImage: captcha });
 
-        return this.setData({ captchaImage: captcha });
+        return;
       }
+      showModal("验证失败", result.msg);
 
-      return showModal("验证失败", result.msg);
+      return;
     }
 
     showToast("验证成功", 1000, "success");
 
     this.state.sign = result.data.sign;
+    this.setData({ stage: "password", rules: result.data.rules });
 
-    return this.setData({ stage: "password", rules: result.data.rules });
+    return;
   },
 
   togglePassword() {
@@ -275,10 +310,17 @@ ${envName}严格使用官方密码重置服务流程。
     const { oldCaptcha, oldCaptchaId, isAppealFlag, appealSign, sign } =
       this.state;
 
-    if (!password) return showModal("密码缺失", "请输入拟设定的密码");
+    if (!password) {
+      showModal("密码缺失", "请输入拟设定的密码");
 
-    if (password !== confirmPassword)
-      return showModal("密码不一致", "请确认两次输入的密码一致");
+      return;
+    }
+
+    if (password !== confirmPassword) {
+      showModal("密码不一致", "请确认两次输入的密码一致");
+
+      return;
+    }
 
     wx.showLoading({ title: "检查密码" });
 
@@ -290,8 +332,9 @@ ${envName}严格使用官方密码重置服务流程。
 
     if (!result.success) {
       wx.hideLoading();
+      showModal("密码不符合要求", result.msg);
 
-      return showModal("密码不符合要求", result.msg);
+      return;
     }
 
     wx.showLoading({ title: "设置密码" });
@@ -314,10 +357,15 @@ ${envName}严格使用官方密码重置服务流程。
 
     wx.hideLoading();
 
-    if (!data.success) return showModal("重置密码失败", data.msg);
+    if (!data.success) {
+      showModal("重置密码失败", data.msg);
+
+      return;
+    }
 
     showToast("设置成功", 1000, "success");
+    this.setData({ stage: "success" });
 
-    return this.setData({ stage: "success" });
+    return;
   },
 });

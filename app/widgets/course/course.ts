@@ -45,18 +45,32 @@ $Component({
       const coursesData = get<Record<string, CourseTableInfo>>(COURSE_DATA_KEY);
       const time = getCurrentTimeCode();
 
-      if (!coursesData?.[time]) return this.setData({ missing: true });
+      if (!coursesData?.[time]) {
+        this.setData({ missing: true });
+
+        return;
+      }
 
       const { table, maxWeek, startTime } = coursesData[time];
       const weekIndex = getWeekIndex(startTime, maxWeek);
 
       this.setData({ maxWeek });
 
-      if (type.includes("今日课程"))
-        return this.setTodayCourses(table, weekIndex);
-      if (type.includes("下节课程"))
-        return this.setNextCourse(table, weekIndex, maxWeek);
-      if (type.includes("课程表")) return this.setCourses(table, weekIndex);
+      if (type.includes("今日课程")) {
+        this.setTodayCourses(table, weekIndex);
+
+        return;
+      }
+      if (type.includes("下节课程")) {
+        this.setNextCourse(table, weekIndex, maxWeek);
+
+        return;
+      }
+      if (type.includes("课程表")) {
+        this.setCourses(table, weekIndex);
+
+        return;
+      }
     },
 
     setCourses(tableData: CourseTableData, weekIndex: number) {
@@ -132,7 +146,11 @@ $Component({
                   : 0;
       let nextCourses: CourseTableClassData[] = [];
 
-      if (!table.length) return this.setData({ missing: true });
+      if (!table.length) {
+        this.setData({ missing: true });
+
+        return;
+      }
 
       while (true) {
         const currentCell = table[classIndex][dayIndex].filter((course) =>
@@ -147,8 +165,11 @@ $Component({
 
         if (classIndex === 5) {
           if (dayIndex === 6) {
-            if (weekIndex === maxWeek)
-              return this.setData({ isTomorrow, empty: true });
+            if (weekIndex === maxWeek) {
+              this.setData({ isTomorrow, empty: true });
+
+              return;
+            }
 
             classIndex = 0;
             dayIndex = 0;

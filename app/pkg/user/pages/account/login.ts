@@ -198,7 +198,11 @@ $Page(PAGE_ID, {
 
     const result = await getAuthInitInfo(id);
 
-    if (!result.success) return showModal("初始化失败", result.msg);
+    if (!result.success) {
+      showModal("初始化失败", result.msg);
+
+      return;
+    }
 
     const { params, salt, needCaptcha, captcha } = result;
 
@@ -207,24 +211,32 @@ $Page(PAGE_ID, {
     this.state.salt = salt;
 
     if (needCaptcha) {
-      if (!captcha.success)
-        return retry("初始化失败", "获取图形验证码失败。", () => {
+      if (!captcha.success) {
+        retry("初始化失败", "获取图形验证码失败。", () => {
           this.getAuthCaptcha();
         });
 
-      return this.setCaptchaInfo(captcha.data);
+        return;
+      }
+      this.setCaptchaInfo(captcha.data);
+
+      return;
     }
   },
 
   async getAuthCaptcha() {
     const result = await getAuthCaptcha(this.data.id);
 
-    if (!result.success)
-      return showModal("获取失败", "拼图验证码获取失败", () => {
+    if (!result.success) {
+      showModal("获取失败", "拼图验证码获取失败", () => {
         this.getAuthCaptcha();
       });
 
-    return this.setCaptchaInfo(result.data);
+      return;
+    }
+    this.setCaptchaInfo(result.data);
+
+    return;
   },
 
   async verifyCaptcha() {
@@ -238,8 +250,9 @@ $Page(PAGE_ID, {
         this.getAuthCaptcha();
       });
     }
+    showModal("验证成功", "请继续登录");
 
-    return showModal("验证成功", "请继续登录");
+    return;
   },
 
   acceptLicense() {
@@ -258,11 +271,14 @@ $Page(PAGE_ID, {
 
     const { initId, params, salt } = this.state;
 
-    if (initId !== id)
-      return showModal(
+    if (initId !== id) {
+      showModal(
         "初始化中",
         "尚未完成登录信息拉取，请 3 秒重试。如果此提示重复出现，请重新输入学号。",
       );
+
+      return;
+    }
 
     wx.showLoading({ title: "验证中" });
 
@@ -291,11 +307,12 @@ $Page(PAGE_ID, {
 
     if (!result.info) {
       this.state.initId = null;
-
-      return showModal(
+      showModal(
         "登录失败",
         "账号密码校验成功，但未能成功获取账号信息。这通常是学校系统出错，请稍后重试。",
       );
+
+      return;
     }
 
     showModal("登录成功", "您已成功登录");
@@ -303,11 +320,12 @@ $Page(PAGE_ID, {
     setUserInfo({ id: Number(id), password, authToken }, result.info);
 
     if (this.state.shouldNavigateBack) return this.$back();
-
-    return this.setData({
+    this.setData({
       isSaved: true,
       info: result.info,
     });
+
+    return;
   },
 
   async startReAuth() {
@@ -315,11 +333,12 @@ $Page(PAGE_ID, {
 
     if (result.success) {
       showModal("需要二次验证", "短信验证码已发送，请注意查收。");
-
-      return this.setData({
+      this.setData({
         showReAuth: true,
         hiddenCellphone: result.data.hiddenCellphone,
       });
+
+      return;
     }
 
     if (result.type === ActionFailType.TooFrequent) {
@@ -327,11 +346,13 @@ $Page(PAGE_ID, {
         "已发送验证码",
         `两分钟内已下发过短信验证码，重新发送需等待 ${result.codeTime} 秒。`,
       );
+      this.setData({ showReAuth: true });
 
-      return this.setData({ showReAuth: true });
+      return;
     }
+    showModal("发送失败", result.msg);
 
-    return showModal("发送失败", result.msg);
+    return;
   },
 
   async verifyReAuth() {
@@ -344,7 +365,9 @@ $Page(PAGE_ID, {
     this.setData({ smsCode: "" });
 
     if (!result.success) {
-      return showModal("验证失败", result.msg);
+      showModal("验证失败", result.msg);
+
+      return;
     }
 
     this.setData({ showReAuth: false });
@@ -368,12 +391,16 @@ $Page(PAGE_ID, {
 
     wx.hideLoading();
 
-    if (!result.success) return showModal("获取失败", result.msg);
+    if (!result.success) {
+      showModal("获取失败", result.msg);
+
+      return;
+    }
 
     if (result.data.existed) {
       const { code, remark } = result.data;
 
-      return wx.showModal({
+      wx.showModal({
         title: "已存在身份码",
         content: `已存在未核验的身份码，用途为：${remark}`,
         confirmText: "重新生成",
@@ -387,16 +414,21 @@ $Page(PAGE_ID, {
           }
         },
       });
+
+      return;
     }
 
-    if (result.data.verifier)
-      return showModal(
+    if (result.data.verifier) {
+      showModal(
         "已核验身份码",
         `先前生成的身份码已被核验。\n核验信息：${result.data.verifier}`,
         () => {
           this.showIdCodeHint();
         },
       );
+
+      return;
+    }
 
     this.showIdCodeHint();
   },
@@ -408,7 +440,11 @@ $Page(PAGE_ID, {
   async getIdCode(force = false) {
     const { remark } = this.data;
 
-    if (!remark) return showModal("未填写用途", "请必须准确描述生成用途。");
+    if (!remark) {
+      showModal("未填写用途", "请必须准确描述生成用途。");
+
+      return;
+    }
 
     wx.showLoading({ title: "生成中" });
 
@@ -416,10 +452,13 @@ $Page(PAGE_ID, {
 
     wx.hideLoading();
 
-    if (!result.success)
-      return retry("生成失败", result.msg, () => {
+    if (!result.success) {
+      retry("生成失败", result.msg, () => {
         this.getIdCode(force);
       });
+
+      return;
+    }
 
     this.setData({
       idCodeHint: false,
@@ -446,7 +485,11 @@ $Page(PAGE_ID, {
 
     wx.hideLoading();
 
-    if (!result.success) return showModal("验证失败", result.msg);
+    if (!result.success) {
+      showModal("验证失败", result.msg);
+
+      return;
+    }
 
     const { createTime, ...info } = result.data;
 

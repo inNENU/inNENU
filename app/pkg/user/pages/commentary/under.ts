@@ -88,20 +88,25 @@ $Page(PAGE_ID, {
 
     if (account) {
       if (!info) {
-        return showModal(
+        showModal(
           "个人信息缺失",
           `${envName}本地暂无个人信息，请重新登录`,
           () => {
             this.$go("account-login?update=true");
           },
         );
+
+        return;
       }
 
       if (!this.state.inited || this.data.needLogin) {
-        if (info.typeId !== "bks")
-          return showModal("暂不支持", "课程评价仅支持本科生", () => {
+        if (info.typeId !== "bks") {
+          showModal("暂不支持", "课程评价仅支持本科生", () => {
             this.$back();
           });
+
+          return;
+        }
 
         const grade = Math.floor(account.id / 1000000);
         const { times, current } = getTimes(grade);
@@ -143,7 +148,9 @@ $Page(PAGE_ID, {
     this.state.inited = true;
 
     if (!result.success) {
-      return showModal("获取失败", result.msg);
+      showModal("获取失败", result.msg);
+
+      return;
     }
 
     this.setData({

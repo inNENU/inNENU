@@ -66,14 +66,21 @@ $Component({
     async getNoticeList() {
       const { noticeType, size } = this.data;
 
-      if (!user.account) return this.setData({ status: "login" });
+      if (!user.account) {
+        this.setData({ status: "login" });
+
+        return;
+      }
 
       this.setData({ status: "loading" });
 
       const result = await getNoticeList({ type: noticeType });
 
-      if (!result.success)
-        return this.setData({ status: "error", errMsg: result.msg });
+      if (!result.success) {
+        this.setData({ status: "error", errMsg: result.msg });
+
+        return;
+      }
 
       const data = result.data
         .filter(({ from }) => !FILTERED_SOURCES.includes(from))

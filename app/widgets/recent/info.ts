@@ -91,7 +91,11 @@ $Component({
 
       const result = await getOfficialInfoList({ type: infoType });
 
-      if (!result.success) return this.setData({ status: "error" });
+      if (!result.success) {
+        this.setData({ status: "error" });
+
+        return;
+      }
 
       const data = result.data.map(({ title, url }) => ({ title, url }));
 

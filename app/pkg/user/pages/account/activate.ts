@@ -112,10 +112,12 @@ ${envName}严格使用官方激活流程。
     wx.hideLoading();
 
     if (!result.success) {
-      return this.setData({
+      this.setData({
         status: "error",
         errMsg: result.msg,
       });
+
+      return;
     }
 
     const { license, captcha, captchaId } = result.data;
@@ -138,12 +140,31 @@ ${envName}严格使用官方激活流程。
     const { name, id, idTypeIndex, schoolId, captcha } = this.data;
     const { captchaId } = this.state;
 
-    if (!name) return showModal("信息缺失", "请输入姓名");
-    if (!id) return showModal("信息缺失", "请输入证件号");
-    if (!schoolId) return showModal("信息缺失", "请输入学号");
-    if (!/\d{10}/.test(schoolId))
-      return showModal("信息有误", "学号应为10位数字");
-    if (!captcha) return showModal("信息缺失", "请输入验证码");
+    if (!name) {
+      showModal("信息缺失", "请输入姓名");
+
+      return;
+    }
+    if (!id) {
+      showModal("信息缺失", "请输入证件号");
+
+      return;
+    }
+    if (!schoolId) {
+      showModal("信息缺失", "请输入学号");
+
+      return;
+    }
+    if (!/\d{10}/.test(schoolId)) {
+      showModal("信息有误", "学号应为10位数字");
+
+      return;
+    }
+    if (!captcha) {
+      showModal("信息缺失", "请输入验证码");
+
+      return;
+    }
 
     wx.showLoading({ title: "正在验证" });
 
@@ -164,12 +185,13 @@ ${envName}严格使用官方激活流程。
 
       this.state.captchaId = captchaId;
       this.state.sign = sign;
-
-      return this.setData({
+      this.setData({
         stage: "phone",
         captcha: "",
         captchaImage,
       });
+
+      return;
     }
 
     if (result.type === ActionFailType.WrongCaptcha) {
@@ -177,8 +199,9 @@ ${envName}严格使用官方激活流程。
 
       this.setData({ captcha: "", captchaImage: captcha });
       this.state.captchaId = captchaId;
+      showModal("验证码错误", "请重新输入验证码");
 
-      return showModal("验证码错误", "请重新输入验证码");
+      return;
     }
 
     showModal("信息有误", result.msg);
@@ -190,7 +213,11 @@ ${envName}严格使用官方激活流程。
     const { mobile, captcha } = this.data;
     const { captchaId, sign } = this.state;
 
-    if (!captcha) return showModal("无法发送", "请先输入验证码");
+    if (!captcha) {
+      showModal("无法发送", "请先输入验证码");
+
+      return;
+    }
 
     if (!/1\d{10}/.test(mobile)) {
       showModal("手机号码有误", "请输入正确的手机号");
@@ -219,8 +246,9 @@ ${envName}严格使用官方激活流程。
 
         return showToast("验证码不正确");
       }
+      showModal("验证码发送失败", result.msg);
 
-      return showModal("验证码发送失败", result.msg);
+      return;
     }
 
     showToast("发送成功", 1000, "success");
@@ -242,7 +270,11 @@ ${envName}严格使用官方激活流程。
 
     wx.hideLoading();
 
-    if (!result.success) return showModal("绑定失败", result.msg);
+    if (!result.success) {
+      showModal("绑定失败", result.msg);
+
+      return;
+    }
 
     this.state.sign = result.data.sign;
 
@@ -260,13 +292,23 @@ ${envName}严格使用官方激活流程。
   async setPassword() {
     const { password, confirmPassword } = this.data;
 
-    if (!password) return showModal("密码缺失", "请输入拟设定的密码");
+    if (!password) {
+      showModal("密码缺失", "请输入拟设定的密码");
 
-    if (password !== confirmPassword)
-      return showModal("密码不一致", "请确认两次输入的密码一致");
+      return;
+    }
 
-    if (password.length < 8)
-      return showModal("密码格式不合法", "密码至少为 8 位");
+    if (password !== confirmPassword) {
+      showModal("密码不一致", "请确认两次输入的密码一致");
+
+      return;
+    }
+
+    if (password.length < 8) {
+      showModal("密码格式不合法", "密码至少为 8 位");
+
+      return;
+    }
 
     if (
       [
@@ -275,11 +317,14 @@ ${envName}严格使用官方激活流程。
         /[0-9]/.test(password),
         /[!~`@#$%^&*()_+-=[\]{}\\|;':",./?<>]/.test(password),
       ].filter(Boolean).length < 3
-    )
-      return showModal(
+    ) {
+      showModal(
         "密码格式不合法",
         "密码至少包含大写字母、小写字母、数字和特殊字符中的三种",
       );
+
+      return;
+    }
 
     wx.showLoading({ title: "设置密码" });
 
@@ -291,8 +336,9 @@ ${envName}严格使用官方激活流程。
 
     if (!checkResult.success) {
       wx.hideLoading();
+      showModal("密码不合规", checkResult.msg);
 
-      return showModal("密码不合规", checkResult.msg);
+      return;
     }
 
     const setResult = await activateAccount({
@@ -303,7 +349,11 @@ ${envName}严格使用官方激活流程。
 
     wx.hideLoading();
 
-    if (!setResult.success) return showModal("密码设置失败", setResult.msg);
+    if (!setResult.success) {
+      showModal("密码设置失败", setResult.msg);
+
+      return;
+    }
 
     this.setData({ stage: "success" });
   },

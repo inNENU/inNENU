@@ -80,12 +80,8 @@ const setListItemState = (
         listElement.currentValue = [];
         listElement.value = [];
         selectIndexes.forEach((pickerElement, index) => {
-          // eslint-disable-next-line
-          (listElement.value as any[])[index] = (
-            listElement.select[
-              index
-              // eslint-disable-next-line
-            ] as any[]
+          (listElement.value as unknown[])[index] = (
+            listElement.select[index] as unknown[]
           )[Number(pickerElement)];
           // eslint-disable-next-line @typescript-eslint/no-explicit-any
           (listElement.currentValue as any[])[index] = Number(pickerElement);
@@ -668,7 +664,7 @@ export const navigate = (
       else if (
         env === "wx" &&
         url.startsWith("https://mp.weixin.qq.com") &&
-        wx.openOfficialAccountArticle
+        "openOfficialAccountArticle" in wx
       ) {
         wx.openOfficialAccountArticle({ url });
       }

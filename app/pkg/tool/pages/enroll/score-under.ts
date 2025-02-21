@@ -77,7 +77,11 @@ $Page(PAGE_ID, {
   async getHistoryScoreInfo() {
     const result = await getUnderHistoryScore({ type: "info" });
 
-    if (!result.success) return showModal("查询失败", result.msg);
+    if (!result.success) {
+      showModal("查询失败", result.msg);
+
+      return;
+    }
 
     this.state.options = result.data;
     this.setData({ provinces: Object.keys(result.data) });
@@ -138,18 +142,20 @@ $Page(PAGE_ID, {
       // restore the previous selection
       if (yearIndex !== -1) {
         this.setData({ years, yearIndex });
+        this.setMajorTypeOptions();
 
-        return this.setMajorTypeOptions();
+        return;
       }
 
       // if there is only one year, select it
       if (years.length === 1) {
         this.setData({ years, yearIndex: 1 });
+        this.setMajorTypeOptions();
 
-        return this.setMajorTypeOptions();
+        return;
       }
 
-      return this.setData({
+      this.setData({
         years,
         yearIndex: 0,
         majorTypes: [],
@@ -157,9 +163,11 @@ $Page(PAGE_ID, {
         classTypes: [],
         classTypeIndex: 0,
       });
+
+      return;
     }
 
-    return this.setData({
+    this.setData({
       years: [],
       yearIndex: 0,
       majorTypes: [],
@@ -167,6 +175,8 @@ $Page(PAGE_ID, {
       classTypes: [],
       classTypeIndex: 0,
     });
+
+    return;
   },
 
   setMajorTypeOptions() {
@@ -189,31 +199,36 @@ $Page(PAGE_ID, {
       // restore the previous selection
       if (majorTypes.includes(oldMajorType)) {
         this.setData({ majorTypes, majorTypeIndex });
+        this.setClassTypeOptions();
 
-        return this.setClassTypeOptions();
+        return;
       }
 
       // if there is only one major type, select it
       if (majorTypes.length === 1) {
         this.setData({ majorTypes, majorTypeIndex: 1 });
+        this.setClassTypeOptions();
 
-        return this.setClassTypeOptions();
+        return;
       }
-
-      return this.setData({
+      this.setData({
         majorTypes,
         majorTypeIndex: 0,
         classTypes: [],
         classTypeIndex: 0,
       });
+
+      return;
     }
 
-    return this.setData({
+    this.setData({
       majorTypes: [],
       majorTypeIndex: 0,
       classTypes: [],
       classTypeIndex: 0,
     });
+
+    return;
   },
 
   setClassTypeOptions() {
@@ -232,18 +247,25 @@ $Page(PAGE_ID, {
 
       // restore the previous selection
       if (classTypeIndex !== -1) {
-        return this.setData({ classTypes, classTypeIndex });
+        this.setData({ classTypes, classTypeIndex });
+
+        return;
       }
 
       // if there is only one class type, select it
       if (classTypes.length === 1) {
-        return this.setData({ classTypes, classTypeIndex: 1 });
-      }
+        this.setData({ classTypes, classTypeIndex: 1 });
 
-      return this.setData({ classTypes, classTypeIndex: 0 });
+        return;
+      }
+      this.setData({ classTypes, classTypeIndex: 0 });
+
+      return;
     }
 
-    return this.setData({ classTypes: [], classTypeIndex: 0 });
+    this.setData({ classTypes: [], classTypeIndex: 0 });
+
+    return;
   },
 
   getScore() {

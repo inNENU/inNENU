@@ -4,7 +4,7 @@
   "versionCode": 45,
   "miniVersion": "v2",
   "mini-android": {
-    "sdkVersion": "1.5.8",
+    "sdkVersion": "1.5.10",
     "toolkitVersion": "0.7.3",
     "useExtendedSdk": {
       "media": true,
@@ -53,7 +53,7 @@
     "appMenuEnable": true
   },
   "mini-ios": {
-    "sdkVersion": "1.5.10",
+    "sdkVersion": "1.5.13",
     "toolkitVersion": "0.0.9",
     "useExtendedSdk": {
       "WeAppOpenFuns": false,

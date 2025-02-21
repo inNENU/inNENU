@@ -116,19 +116,24 @@ $Page(PAGE_ID, {
 
     if (account) {
       if (!info) {
-        return showModal(
+        showModal(
           "个人信息缺失",
           `${envName}本地暂无个人信息，请重新登录`,
           () => {
             this.$go("account-login?update=true");
           },
         );
+
+        return;
       }
 
-      if (info.typeId !== "bks")
-        return showModal("暂不支持", "本科课表查询仅允许本科生使用", () => {
+      if (info.typeId !== "bks") {
+        showModal("暂不支持", "本科课表查询仅允许本科生使用", () => {
           this.$back();
         });
+
+        return;
+      }
 
       const coursesData = get<Record<string, CourseTableInfo>>(COURSE_DATA_KEY);
 
@@ -215,7 +220,7 @@ $Page(PAGE_ID, {
     if (timeIndex !== timeOldIndex) {
       const newTime = times[timeIndex];
 
-      if (coursesData[newTime]) {
+      if (newTime in coursesData) {
         const { table, maxWeek, startTime } = coursesData[newTime];
         const weekIndex = getWeekIndex(startTime, maxWeek);
 

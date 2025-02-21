@@ -143,21 +143,32 @@ $Page(PAGE_ID, {
 
     if (!account) {
       this.setData({ status: "login" });
-    } else if (!info) {
-      return showModal(
+      showNotice(PAGE_ID);
+
+      return;
+    }
+
+    if (!info) {
+      showModal(
         "个人信息缺失",
         `${envName}本地暂无个人信息，请重新登录`,
         () => {
           this.$go("account-login?update=true");
         },
       );
-    } else if (info.typeId !== "bks") {
-      return showModal("暂不支持", "当前为本科选课系统", () => {
+
+      return;
+    }
+
+    if (info.typeId !== "bks") {
+      showModal("暂不支持", "当前为本科选课系统", () => {
         this.$back();
       });
-    } else {
-      this.loadCategories();
+
+      return;
     }
+
+    this.loadCategories();
 
     showNotice(PAGE_ID);
   },
@@ -202,15 +213,20 @@ $Page(PAGE_ID, {
     wx.hideLoading();
 
     if (!result.success) {
-      if (result.type === ActionFailType.NotInitialized)
-        return showModal("未初始化", result.msg, () => {
+      if (result.type === ActionFailType.NotInitialized) {
+        showModal("未初始化", result.msg, () => {
           this.$back();
         });
 
-      return this.setData({
+        return;
+      }
+
+      this.setData({
         status: "error",
         errMsg: result.msg,
       });
+
+      return;
     }
 
     this.setData({
@@ -410,7 +426,11 @@ $Page(PAGE_ID, {
 
     wx.hideLoading();
 
-    if (!result.success) return showModal("获取班级信息失败", result.msg);
+    if (!result.success) {
+      showModal("获取班级信息失败", result.msg);
+
+      return;
+    }
 
     const selectedIndex = result.data.findIndex((item) =>
       selectedClasses.some(({ classId }) => classId === item.classId),
@@ -482,7 +502,11 @@ $Page(PAGE_ID, {
 
     wx.hideLoading();
 
-    if (!result.success) return showModal("获取相关课程失败", result.msg);
+    if (!result.success) {
+      showModal("获取相关课程失败", result.msg);
+
+      return;
+    }
 
     const selectedIndex = result.data.findIndex((item) =>
       selectedClasses.some(({ classId }) => classId === item.classId),

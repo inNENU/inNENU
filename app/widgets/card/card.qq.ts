@@ -51,14 +51,21 @@ $Component({
 
   methods: {
     async getCardBalance() {
-      if (!user.account) return this.setData({ status: "login" });
+      if (!user.account) {
+        this.setData({ status: "login" });
+
+        return;
+      }
 
       this.setData({ status: "loading" });
 
       const result = await getCardBalance();
 
-      if (!result.success)
-        return this.setData({ status: "error", errMsg: result.msg });
+      if (!result.success) {
+        this.setData({ status: "error", errMsg: result.msg });
+
+        return;
+      }
 
       this.setData({ balance: result.data, status: "success" });
       set(CARD_BALANCE_KEY, result.data, 5 * MINUTE);

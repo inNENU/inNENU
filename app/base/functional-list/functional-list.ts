@@ -87,16 +87,16 @@ $Component({
         // 判断为多列选择器，遍历每一列更新页面数据、并存储选择器值
         if (Array.isArray(value)) {
           value.forEach((x: string | number, y: number) => {
-            // eslint-disable-next-line
-            (item.value as any[])[y] = (item.select as any[][])[y]![Number(x)];
-
+            (item.value as unknown[])[y] = (item.select as unknown[][])[y][
+              Number(x)
+            ];
             (item.currentValue as number[])[y] = Number(x);
           });
           wx.setStorageSync(item.key, value.join("-"));
 
           // 判断为单列选择器，更新页面数据并存储选择器值
         } else {
-          // eslint-disable-next-line
+          // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
           item.value = item.select[Number(value)];
           item.currentValue = Number(value);
           wx.setStorageSync(item.key, Number(value));

@@ -6,7 +6,6 @@ import { rollup } from "rollup";
 import esbuild from "rollup-plugin-esbuild";
 
 // @ts-expect-error: tsconfig is not correct
-// eslint-disable-next-line @typescript-eslint/naming-convention
 const __dirname = dirname(fileURLToPath(import.meta.url));
 
 const getInputOptions = (dir: string): [string, string][] => {
@@ -42,7 +41,7 @@ const toolPages = getInputOptions("pkg/tool/pages");
 const userPages = getInputOptions("pkg/user/pages");
 
 // repack miniapp
-rollup({
+void rollup({
   input: {
     app: resolve(__dirname, `../.temp/app.ts`),
     ...Object.fromEntries(base),

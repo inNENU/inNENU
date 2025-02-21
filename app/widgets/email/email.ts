@@ -82,7 +82,9 @@ $Component({
       const result = await getRecentEmails();
 
       if (!result.success) {
-        return this.setData({ status: "error", errMsg: result.msg });
+        this.setData({ status: "error", errMsg: result.msg });
+
+        return;
       }
 
       const { unread, emails } = result.data;
@@ -129,10 +131,12 @@ $Component({
 
         await writeClipboard(data);
 
-        return showModal(
+        showModal(
           "复制成功",
           "相关链接已复制到剪切板。受小程序限制，请使用浏览器打开。",
         );
+
+        return;
       }
 
       showToast("加载页面失败");

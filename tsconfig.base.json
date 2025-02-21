@@ -17,7 +17,6 @@
     "noEmitHelpers": false,
     "noFallthroughCasesInSwitch": true,
     "noImplicitAny": true,
-    "noImplicitReturns": true,
     "noImplicitThis": true,
     "noUnusedLocals": true,
     "noUnusedParameters": true,

@@ -68,7 +68,11 @@ $Page(PAGE_ID, {
   },
 
   async getNoticeList(current = 1) {
-    if (!user.account) return this.setData({ status: "login" });
+    if (!user.account) {
+      this.setData({ status: "login" });
+
+      return;
+    }
 
     wx.showLoading({ title: "获取中" });
 

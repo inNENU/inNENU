@@ -130,11 +130,23 @@ $Page(PAGE_ID, {
   async search() {
     const { input } = this.state;
 
-    if (!input.name) return this.tip("未填写姓名");
+    if (!input.name) {
+      this.tip("未填写姓名");
 
-    if (!validateIdCard(input.id)) return this.tip("证件号不合法");
+      return;
+    }
 
-    if (!input.testId) return this.tip("未填写准考证号");
+    if (!validateIdCard(input.id)) {
+      this.tip("证件号不合法");
+
+      return;
+    }
+
+    if (!input.testId) {
+      this.tip("未填写准考证号");
+
+      return;
+    }
 
     wx.setStorageSync("admission-info", input);
 

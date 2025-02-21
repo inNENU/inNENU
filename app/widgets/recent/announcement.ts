@@ -48,7 +48,11 @@ $Component({
       const { size } = this.data;
       const result = await getOfficialNoticeList();
 
-      if (!result.success) return this.setData({ status: "error" });
+      if (!result.success) {
+        this.setData({ status: "error" });
+
+        return;
+      }
 
       const data = result.data
         .filter(({ from }) => !FILTERED_SOURCES.includes(from))

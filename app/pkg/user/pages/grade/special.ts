@@ -40,20 +40,25 @@ $Page(PAGE_ID, {
 
     if (account) {
       if (!info) {
-        return showModal(
+        showModal(
           "个人信息缺失",
           `${envName}本地暂无个人信息，请重新登录`,
           () => {
             this.$go("account-login?update=true");
           },
         );
+
+        return;
       }
 
       if (!this.state.inited || this.data.needLogin) {
-        if (info.typeId !== "bks")
-          return showModal("暂不支持", "专项考试查询仅支持本科生", () => {
+        if (info.typeId !== "bks") {
+          showModal("暂不支持", "专项考试查询仅支持本科生", () => {
             this.$back();
           });
+
+          return;
+        }
 
         const data = get<UnderSpecialExamResult[]>(SPECIAL_EXAM_DATA_KEY);
 
@@ -84,7 +89,11 @@ $Page(PAGE_ID, {
     wx.hideLoading();
     this.state.inited = true;
 
-    if (!result.success) return showModal("获取失败", result.msg);
+    if (!result.success) {
+      showModal("获取失败", result.msg);
+
+      return;
+    }
 
     set(SPECIAL_EXAM_DATA_KEY, result.data, 3 * HOUR);
 

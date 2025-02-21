@@ -66,7 +66,9 @@ $Component({
 
       if (id === -1 && markers.length !== 1) return showToast("请选择一个点");
 
-      return this.startNavigation(markers[id === -1 ? 0 : id]);
+      this.startNavigation(markers[id === -1 ? 0 : id]);
+
+      return;
     },
 
     detail() {

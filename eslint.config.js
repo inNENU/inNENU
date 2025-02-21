@@ -1,56 +1,25 @@
-import hopeConfig, {
-  config,
+import {
+  defaultNamingConventionRules,
   globals,
-  tsConfigs,
-  tsParser,
+  hope,
 } from "eslint-config-mister-hope";
 
-export default config(
-  ...hopeConfig,
-
+export default hope(
   {
     ignores: [
-      "**/node_modules/**",
-      ".temp/**",
       "app/service/auth/encrypt.js",
       "app/service/auth/encrypt.d.ts",
       "app/pkg/tool/components/recycle-view/",
-      "dist/**",
       "server/**",
     ],
-  },
 
-  {
     languageOptions: {
-      ecmaVersion: "latest",
-      sourceType: "module",
       parserOptions: {
-        projectService: true,
-        parser: tsParser,
-        tsconfigDirName: import.meta.dirname,
         extraFileExtensions: [".wxs"],
       },
     },
-  },
 
-  {
-    files: ["app/**/*.ts"],
-    languageOptions: {
-      globals: {
-        wx: "readonly",
-        getApp: "readonly",
-        getCurrentPages: "readonly",
-        App: "readonly",
-        Page: "readonly",
-        Component: "readonly",
-        getRegExp: "readonly",
-      },
-    },
-  },
-
-  {
-    files: ["**/*.ts"],
-    rules: {
+    ts: {
       "@typescript-eslint/naming-convention": [
         "warn",
         {
@@ -61,85 +30,24 @@ export default config(
           },
           format: null,
         },
-        {
-          selector: "default",
-          format: ["camelCase"],
-        },
-        {
-          selector: ["variable"],
-          format: ["camelCase", "PascalCase", "UPPER_CASE"],
-          leadingUnderscore: "allow",
-        },
-        {
-          selector: ["parameter"],
-          format: ["camelCase", "PascalCase"],
-          leadingUnderscore: "allow",
-        },
-        {
-          selector: ["property"],
-          format: ["camelCase", "PascalCase", "UPPER_CASE"],
-          leadingUnderscore: "allow",
-          trailingUnderscore: "allow",
-        },
-        {
-          selector: "import",
-          format: ["PascalCase", "camelCase"],
-        },
-        {
-          selector: "typeLike",
-          format: ["PascalCase"],
-        },
-        {
-          selector: "enumMember",
-          format: ["PascalCase"],
-        },
+        ...defaultNamingConventionRules,
       ],
+    },
 
-      "@typescript-eslint/no-confusing-void-expression": "off",
-      "@typescript-eslint/no-floating-promises": "off",
-      "@typescript-eslint/no-non-null-assertion": "off",
-      "@typescript-eslint/no-unsafe-member-access": "warn",
+    wxapp: {},
+  },
+
+  {
+    files: ["app/**/*.ts"],
+    rules: {
       "@typescript-eslint/no-unnecessary-condition": "off",
-      "@typescript-eslint/prefer-nullish-coalescing": "off",
+      // $this.on this.off can not bind $this
       "@typescript-eslint/unbound-method": "off",
     },
   },
 
   {
-    files: ["app/**/*.wxs"],
-    ...tsConfigs.disableTypeChecked,
-  },
-
-  {
-    files: ["app/**/*.wxs"],
-    languageOptions: {
-      ecmaVersion: 5,
-      globals: {
-        getDate: "readonly",
-        getRegExp: "readonly",
-        console: "readonly",
-        module: "readonly",
-      },
-    },
-    rules: {
-      curly: ["error", "all"],
-      "func-names": ["error", "never"],
-      "func-style": ["error", "declaration"],
-      "no-var": "off",
-      "object-shorthand": ["error", "never"],
-      "prefer-destructuring": "off",
-      "prefer-template": "off",
-
-      "@typescript-eslint/no-var-requires": "off",
-
-      "import/no-commonjs": "off",
-      "import/no-default-export": "off",
-      "import/no-named-export": "off",
-    },
-  },
-
-  {
-    files: ["scripts/**/*.js", "gulpfile.cjs"],
+    files: ["gulpfile.cjs"],
     languageOptions: {
       globals: globals.node,
     },

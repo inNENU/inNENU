@@ -50,12 +50,19 @@ $Component({
     },
 
     async getBooks() {
-      if (!user.account) return this.setData({ status: "login" });
+      if (!user.account) {
+        this.setData({ status: "login" });
+
+        return;
+      }
 
       const result = await getBorrowBooks();
 
-      if (!result.success)
-        return this.setData({ status: "error", errMsg: result.msg });
+      if (!result.success) {
+        this.setData({ status: "error", errMsg: result.msg });
+
+        return;
+      }
 
       this.setBooks(result.data);
       set(BORROW_BOOKS_KEY, result.data, 3 * HOUR);

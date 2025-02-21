@@ -118,8 +118,9 @@ $Page(PAGE_ID, {
       wx.hideLoading();
       showToast(err.msg);
       this.state.loginMethod = "force";
+      this.setData({ status: "error" });
 
-      return this.setData({ status: "error" });
+      return;
     }
 
     const result = await applyEmail({ type: "get" });
@@ -128,7 +129,9 @@ $Page(PAGE_ID, {
 
     if (result.success) {
       if (result.hasEmail) {
-        return this.setData({ status: "success", result });
+        this.setData({ status: "success", result });
+
+        return;
       }
 
       const { accounts, taskId, instanceId } = result;
@@ -141,22 +144,25 @@ $Page(PAGE_ID, {
       };
       this.state.loginMethod = "check";
 
-      return this.setData({
+      this.setData({
         accounts: ["请选择", ...accounts, "自定义"],
       });
+
+      return;
     }
 
     this.state.loginMethod = "force";
+    this.setData({ status: "error" });
 
-    return this.setData({ status: "error" });
+    return;
   },
 
   apply() {
     const { accounts, accountIndex, isCustom, name, suffix, phone } = this.data;
     const { info } = user;
 
-    if (!info)
-      return showModal(
+    if (!info) {
+      showModal(
         "个人信息缺失",
         `${envName}本地暂无个人信息，请重新登录`,
         () => {
@@ -164,23 +170,33 @@ $Page(PAGE_ID, {
         },
       );
 
+      return;
+    }
+
     if (isCustom) {
-      if (!name) return showModal("无法申请", "请输入自定义邮箱名称");
+      if (!name) {
+        showModal("无法申请", "请输入自定义邮箱名称");
 
-      if (!/^[a-z][a-z0-9-]*[a-z]$/.test(name))
-        return showModal(
-          "邮箱名字有误",
-          "邮箱名称只能包含小写字母、数字和减号",
-        );
+        return;
+      }
 
-      if (name.length < 5 || name.length > 15)
-        return showModal(
-          "邮箱名长度错误",
-          "邮箱长度需要在 5 - 15 个字符之间。",
-        );
+      if (!/^[a-z][a-z0-9-]*[a-z]$/.test(name)) {
+        showModal("邮箱名字有误", "邮箱名称只能包含小写字母、数字和减号");
+
+        return;
+      }
+
+      if (name.length < 5 || name.length > 15) {
+        showModal("邮箱名长度错误", "邮箱长度需要在 5 - 15 个字符之间。");
+
+        return;
+      }
     } else {
-      if (accountIndex === 0 || accountIndex === accounts.length - 1)
-        return showModal("未选择邮箱名称", "请选择一个合适的邮箱名称");
+      if (accountIndex === 0 || accountIndex === accounts.length - 1) {
+        showModal("未选择邮箱名称", "请选择一个合适的邮箱名称");
+
+        return;
+      }
       if (suffix) {
         const suffixNumber = Number(suffix);
 
@@ -189,16 +205,19 @@ $Page(PAGE_ID, {
           suffixNumber < 100 ||
           suffixNumber > 999 ||
           Math.floor(suffixNumber) !== suffixNumber
-        )
-          return showModal(
-            "后缀设置有误",
-            "请设置一个 100 到 999 之间的三位数字",
-          );
+        ) {
+          showModal("后缀设置有误", "请设置一个 100 到 999 之间的三位数字");
+
+          return;
+        }
       }
     }
 
-    if (!/^1\d{10}$/.test(phone))
-      return showModal("手机号码有误", "请输入正确的 11 位手机号码。");
+    if (!/^1\d{10}$/.test(phone)) {
+      showModal("手机号码有误", "请输入正确的 11 位手机号码。");
+
+      return;
+    }
 
     const { taskId, instanceId } = this.state;
 

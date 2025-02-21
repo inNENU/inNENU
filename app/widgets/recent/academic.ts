@@ -43,7 +43,11 @@ $Component({
 
       const result = await getOfficialAcademicList();
 
-      if (!result.success) return this.setData({ status: "error" });
+      if (!result.success) {
+        this.setData({ status: "error" });
+
+        return;
+      }
 
       const { data } = result;
 

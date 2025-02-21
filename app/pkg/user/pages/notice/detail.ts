@@ -89,7 +89,11 @@ $Page(PAGE_ID, {
   async getNotice() {
     const { id, type } = this.state;
 
-    if (!user.account) return this.setData({ status: "login" });
+    if (!user.account) {
+      this.setData({ status: "login" });
+
+      return;
+    }
 
     wx.showLoading({ title: "获取中" });
 
@@ -97,8 +101,11 @@ $Page(PAGE_ID, {
 
     wx.hideLoading();
 
-    if (!result.success)
-      return this.setData({ status: "error", errMsg: result.msg });
+    if (!result.success) {
+      this.setData({ status: "error", errMsg: result.msg });
+
+      return;
+    }
 
     const { title, time, pageView, author, from, content } = result.data;
 

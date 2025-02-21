@@ -107,17 +107,22 @@ $Page(PAGE_ID, {
 
     if (account) {
       if (!info) {
-        return showModal(
+        showModal(
           "个人信息缺失",
           `${envName}本地暂无个人信息，请重新登录`,
           () => {
             this.$go("account-login?update=true");
           },
         );
+
+        return;
       }
 
-      if (info.typeId !== "bks")
-        return showModal("暂不支持", "仅本科生可使用本科成绩查询。");
+      if (info.typeId !== "bks") {
+        showModal("暂不支持", "仅本科生可使用本科成绩查询。");
+
+        return;
+      }
 
       if (!this.state.inited || this.data.needLogin) {
         const timeConfig = getTimeConfig(info.grade);
@@ -159,7 +164,11 @@ $Page(PAGE_ID, {
     wx.hideLoading();
     this.state.inited = true;
 
-    if (!result.success) return showModal("获取失败", result.msg);
+    if (!result.success) {
+      showModal("获取失败", result.msg);
+
+      return;
+    }
 
     set(
       `${GRADE_DATA_KEY}${options.time ? `-${options.time}` : ""}`,
