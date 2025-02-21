@@ -34,7 +34,7 @@ export default hope(
       ],
     },
 
-    wxapp: {},
+    wxapp: true,
   },
 
   {
