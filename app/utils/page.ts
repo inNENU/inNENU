@@ -622,11 +622,13 @@ export const navigate = (
     const { appId, path, extraData, versionType } = options;
 
     if (env === "wx") {
-      wx.navigateToMiniProgram({
+      wx.openEmbeddedMiniProgram({
         appId,
         path,
         extraData,
         envVersion: versionType,
+        allowFullScreen: true,
+        noRelaunchIfPathUnchanged: true,
       });
     } else if (env === "app") {
       wx.miniapp.launchMiniProgram({
