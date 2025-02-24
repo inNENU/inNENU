@@ -1,10 +1,10 @@
 {
   "name": "inNENU",
   "version": "7.2.0",
-  "versionCode": 45,
+  "versionCode": 46,
   "miniVersion": "v2",
   "mini-android": {
-    "sdkVersion": "1.5.10",
+    "sdkVersion": "1.6.1",
     "toolkitVersion": "0.7.3",
     "useExtendedSdk": {
       "media": true,
@@ -12,8 +12,7 @@
       "network": false,
       "scanner": false,
       "skyline": true,
-      "xweb": true,
-      "xwebEmbed": true
+      "xweb": true
     },
     "icons": {
       "hdpi": "assets/icon-hdpi.jpg",
@@ -45,7 +44,7 @@
       "qmapAPIKey": "NLVBZ-PGJRQ-T7K5F-GQ54N-GIXDH-FCBC4"
     },
     "usePluginSdk": {
-      "map": "1.2.3"
+      "map": "1.2.5"
     },
     "schemes": {
       "scheme": "innenu"
@@ -53,14 +52,14 @@
     "appMenuEnable": true
   },
   "mini-ios": {
-    "sdkVersion": "1.5.13",
+    "sdkVersion": "1.6.2",
     "toolkitVersion": "0.0.9",
     "useExtendedSdk": {
       "WeAppOpenFuns": false,
       "WeAppNetwork": false,
       "WeAppBluetooth": false,
       "WeAppLBS": true,
-      "WeAppOthers": false,
+      "WeAppOthers": true,
       "WeAppVideo": true,
       "WeAppImage": true,
       "WeAppAudio": true,
@@ -86,9 +85,13 @@
       "ipadNotificationIcon40": "assets/ios-notify.png",
       "appStore1024": "assets/app-store.png"
     },
+    "splashscreen": {
+      "customImage": "assets/ios-splash.png"
+    },
     "privacy": {
-      "enable": false,
-      "template": ""
+      "enable": true,
+      "enableViewOnly": true,
+      "template": "miniapp-privacy.json"
     },
     "privateDescriptions": {
       "NSPhotoLibraryAddUsageDescription": "写入图片至你的相册",
@@ -104,8 +107,9 @@
     },
     "appMenuEnable": true,
     "enableIpad": true,
-    "splashscreen": {
-      "customImage": "assets/ios-splash.png"
+    "enableOpenUrlNavigate": true,
+    "gdt": {
+      "splashAd_defaultEnable": false
     }
   },
   "mini-plugin": {
