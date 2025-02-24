@@ -15,6 +15,7 @@
   lazy-load="{{config.lazy !== false}}"
   mode="{{config.imgMode || 'widthFix'}}"
   src="{{src}}?x-oss-process=image/resize,mfit,h_800,w_800"
+  show-menu-by-longpress="{{config.menu}}"
   catch:load="load"
   catch:error="error"
   catch:tap="view"
