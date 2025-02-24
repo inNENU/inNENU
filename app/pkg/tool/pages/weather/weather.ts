@@ -18,8 +18,6 @@ $Page("weather", {
   data: {
     /** 天气数据 */
     weather: {} as WeatherData,
-    /** 当前 tips 的索引值 */
-    tipIndex: 0,
     /** 动画对象 */
     animation: {},
   },
@@ -243,13 +241,6 @@ $Page("weather", {
         animation3: layer3Animation.export(),
       });
     });
-  },
-
-  /** 更新提示 */
-  changeHint() {
-    const { weather, tipIndex } = this.data;
-
-    this.setData({ tipIndex: (tipIndex + 1) % weather.tips.length });
   },
 
   showAqi() {

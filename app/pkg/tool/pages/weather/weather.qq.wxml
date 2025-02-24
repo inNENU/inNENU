@@ -52,9 +52,6 @@
           catch:tap="showAlarm"
           >{{item.type}}{{item.level}}预警</view
         >
-        <view class="tip" catch:tap="changeHint"
-          >{{weather.tips[tipIndex]}}</view
-        >
       </view>
     </view>
     <view class="forecast border-bottom">
