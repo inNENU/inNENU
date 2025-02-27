@@ -138,6 +138,12 @@
           "scene": null
         },
         {
+          "name": "二维码",
+          "pathName": "pkg/addon/pages/qrcode/qrcode",
+          "query": "",
+          "scene": null
+        },
+        {
           "name": "隐私协议",
           "pathName": "pkg/addon/pages/privacy/privacy",
           "query": "",

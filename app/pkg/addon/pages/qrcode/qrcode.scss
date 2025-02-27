@@ -1,0 +1,163 @@
+.qrcode-page {
+  width: 100vw;
+  height: 100vh;
+  background: var(--bg-color);
+}
+
+.background {
+  position: absolute;
+  top: 0;
+  right: 0;
+  left: 0;
+
+  height: 70vh;
+
+  background: linear-gradient(
+    180deg,
+    var(--theme-color) 42%,
+    rgb(255 153 90 / 0%) 100%
+  );
+}
+
+.page-content {
+  position: absolute;
+  top: 0;
+  right: 0;
+  left: 0;
+  z-index: 20;
+
+  overflow-y: auto;
+
+  box-sizing: border-box;
+  width: 100vw;
+  height: 100vh;
+  padding: 0 30rpx;
+}
+
+.custom-nav-bar {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 31px;
+}
+
+.custom-nav-bar-title {
+  color: var(--bg-color);
+  font-weight: bold;
+  font-size: 18px;
+}
+
+.qrcode-image-wrapper {
+  position: relative;
+
+  display: flex;
+  flex-direction: column;
+  align-items: end;
+  justify-content: center;
+
+  height: 290rpx;
+
+  color: var(--bg-color);
+
+  font-weight: bold;
+  line-height: 1.5;
+  letter-spacing: 1px;
+
+  &.empty {
+    height: 100rpx;
+  }
+}
+
+.qrcode-image-header {
+  font-size: 20px;
+}
+
+.qrcode-image-desc {
+  font-size: 14px;
+}
+
+.qrcode-image {
+  position: absolute;
+  top: 0;
+  right: 0;
+  height: 100%;
+}
+
+.qrcode-wrapper {
+  padding-bottom: 20px;
+  border-radius: 12px;
+  background: var(--bg-color);
+}
+
+.qrcode-header {
+  display: flex;
+  padding: 20px;
+}
+
+.avatar {
+  width: 100rpx;
+  height: 100rpx;
+  margin-right: 12px;
+}
+
+.qrcode-info {
+  flex: 1;
+}
+
+.qrcode-name {
+  overflow: hidden;
+
+  margin-bottom: 8px;
+
+  font-weight: 500;
+  font-size: 18px;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.qrcode-tags {
+  display: flex;
+  align-items: center;
+}
+
+.qrcode-tag {
+  margin-right: 8px;
+  padding: 2px 4px;
+  border-radius: 2px;
+
+  background: var(--bg-block);
+  color: var(--theme-color);
+
+  font-size: 12px;
+}
+
+.qrcode-box {
+  box-sizing: border-box;
+  width: 450rpx;
+  margin: 20px auto;
+  padding: 8px;
+  border: 1px solid var(--border-color);
+  border-radius: 16px;
+}
+
+.qrcode {
+  width: 100%;
+}
+
+.bottom-hint-wrapper {
+  margin-top: 16px;
+  padding: 0 30px;
+}
+
+.bottom-hint {
+  width: 100%;
+  border-radius: 25px;
+
+  background: var(--theme-color);
+  color: var(--bg-color);
+
+  font-weight: 600;
+  font-size: 18px;
+  line-height: 45px;
+  text-align: center;
+}

@@ -1,0 +1,47 @@
+<back-button />
+<view class="qrcode-page">
+  <view class="background" />
+  <view class="page-content">
+    <view class="custom-nav-bar" style="padding-top:{{statusBarHeight + 6}}px;">
+      <view class="custom-nav-bar-title">{{header}}</view>
+    </view>
+
+    <view class="qrcode-image-wrapper {{bg || subHeader || desc? '': 'empty'}}">
+      <image
+        wx:if="{{bg}}"
+        src="{{bg}}"
+        class="qrcode-image"
+        mode="heightFix"
+      />
+      <view class="qrcode-image-header" wx:if="{{subHeader}}"
+        >{{ subHeader }}</view
+      >
+      <view class="qrcode-image-desc" wx:if="{{desc}}">{{ desc }}</view>
+    </view>
+
+    <view class="qrcode-wrapper">
+      <view class="qrcode-header">
+        <image class="avatar" src="{{avatar}}" />
+        <view class="qrcode-info">
+          <view class="qrcode-name">{{title}}</view>
+          <view class="qrcode-tags">
+            <view class="qrcode-tag" wx:for="{{tags}}" wx:key="item"
+              >{{item}}</view
+            >
+          </view>
+        </view>
+      </view>
+      <view class="qrcode-box">
+        <image
+          src="{{qrcode}}"
+          class="qrcode"
+          mode="widthFix"
+          show-menu-by-longpress
+        />
+      </view>
+    </view>
+    <view class="bottom-hint-wrapper">
+      <view type="default" class="bottom-hint">👆{{hint}}👆</view>
+    </view>
+  </view>
+</view>

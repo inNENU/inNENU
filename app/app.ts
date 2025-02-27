@@ -34,6 +34,7 @@ $Config({
         "action",
         "license",
         "privacy",
+        "qrcode",
         "search",
         "settings",
         "web",

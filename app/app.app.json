@@ -12,6 +12,7 @@
     "pkg/addon/pages/action/action",
     "pkg/addon/pages/license/license",
     "pkg/addon/pages/privacy/privacy",
+    "pkg/addon/pages/qrcode/qrcode",
     "pkg/addon/pages/search/search",
     "pkg/addon/pages/settings/settings",
     "pkg/addon/pages/settings/widget",

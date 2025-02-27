@@ -41,17 +41,17 @@
     "lint:wxs": "prettier --check --parser babel-flow **/*.wxs",
     "prepare": "husky"
   },
+  "commitlint": {
+    "extends": [
+      "@commitlint/config-conventional"
+    ]
+  },
   "nano-staged": {
     "**/*": "prettier --write --ignore-unknown",
     "*.{js,ts}": "eslint --fix",
-    "*.wxss": "stylelint --fix",
+    "*.scss": "stylelint --fix",
     "*.wxml": "prettier --parser html --write",
     "*.wxs": "prettier --parser babel-flow --write"
-  },
-  "config": {
-    "commitizen": {
-      "path": "./node_modules/cz-git"
-    }
   },
   "prettier": {
     "overrides": [

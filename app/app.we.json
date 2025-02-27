@@ -17,6 +17,7 @@
         "pages/action/action",
         "pages/license/license",
         "pages/privacy/privacy",
+        "pages/qrcode/qrcode",
         "pages/search/search",
         "pages/settings/settings",
         "pages/settings/widget",
