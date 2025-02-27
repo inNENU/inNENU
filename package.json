@@ -76,7 +76,6 @@
     "@commitlint/cli": "19.7.1",
     "@commitlint/config-conventional": "19.7.1",
     "@rollup/plugin-commonjs": "28.0.2",
-    "commitizen": "4.3.1",
     "cpx2": "8.0.0",
     "cz-git": "1.11.0",
     "del": "8.0.0",
