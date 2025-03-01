@@ -247,14 +247,6 @@ $Page("weather", {
     });
   },
 
-  /** 更新提示 */
-  refresh() {
-    const { length } = this.data.weather.tips;
-    const numbers = this.data.tipIndex;
-
-    this.setData({ tipIndex: numbers === 0 ? length - 1 : numbers - 1 });
-  },
-
   showAqi() {
     const { aqi, aqiLevel, aqiName, co, so2, no2, pm10, pm25, o3 } =
       this.data.weather.air;
