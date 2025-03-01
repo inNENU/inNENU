@@ -1,5 +1,5 @@
 <back-button />
-<view class="qrcode-page">
+<view class="qrcode-page grey">
   <view class="background" />
   <view class="page-content">
     <view class="custom-nav-bar" style="padding-top:{{statusBarHeight + 6}}px;">

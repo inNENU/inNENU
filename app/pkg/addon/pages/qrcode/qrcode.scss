@@ -1,7 +1,7 @@
 .qrcode-page {
   width: 100vw;
   height: 100vh;
-  background: var(--bg-color);
+  background: var(--bg-grey);
 }
 
 .background {
@@ -52,7 +52,6 @@
 
   display: flex;
   flex-direction: column;
-  align-items: end;
   justify-content: center;
 
   height: 290rpx;
@@ -69,11 +68,11 @@
 }
 
 .qrcode-image-header {
-  font-size: 20px;
+  font-size: 40rpx;
 }
 
 .qrcode-image-desc {
-  font-size: 14px;
+  font-size: 28rpx;
 }
 
 .qrcode-image {
@@ -86,7 +85,7 @@
 .qrcode-wrapper {
   padding-bottom: 20px;
   border-radius: 12px;
-  background: var(--bg-color);
+  background: var(--bg-block);
 }
 
 .qrcode-header {
@@ -121,11 +120,12 @@
 }
 
 .qrcode-tag {
-  margin-right: 8px;
+  margin-right: 4px;
   padding: 2px 4px;
-  border-radius: 2px;
+  border: 1px solid var(--theme-color);
+  border-radius: 8px;
 
-  background: var(--bg-block);
+  background: var(--bg-grey);
   color: var(--theme-color);
 
   font-size: 12px;
@@ -142,6 +142,7 @@
 
 .qrcode {
   width: 100%;
+  border-radius: 8px;
 }
 
 .bottom-hint-wrapper {
