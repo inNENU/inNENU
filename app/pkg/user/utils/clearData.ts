@@ -1,6 +1,6 @@
 import { remove } from "@mptool/all";
 
-import { cookieStore } from "../api/index.js";
+import { cookieStore } from "../../../api/index.js";
 import {
   BORROW_BOOKS_KEY,
   CARD_BALANCE_KEY,
@@ -25,10 +25,10 @@ import {
   STARRED_INFO_LIST_KEY,
   STARRED_NOTICE_LIST_KEY,
   STUDENT_ARCHIVE_KEY,
-} from "../config/index.js";
-import { clearUserInfo } from "../state/index.js";
+} from "../../../config/index.js";
+import { clearUserInfo } from "../../../state/index.js";
 
-export const logout = (): void => {
+export const clearData = (): void => {
   cookieStore.clear();
   clearUserInfo();
 

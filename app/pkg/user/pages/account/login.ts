@@ -12,11 +12,7 @@ import {
   user,
   windowInfo,
 } from "../../../../state/index.js";
-import {
-  getLicenseStatus,
-  logout,
-  showNotice,
-} from "../../../../utils/index.js";
+import { getLicenseStatus, showNotice } from "../../../../utils/index.js";
 import type { AuthCaptchaInfo } from "../../service/index.js";
 import {
   authInit,
@@ -28,6 +24,7 @@ import {
   verifyAuthCaptcha,
   verifyReAuthCaptcha,
 } from "../../service/index.js";
+import { clearData } from "../../utils/index.js";
 
 const PAGE_ID = "account-login";
 const PAGE_TITLE = "统一身份认证信息";
@@ -514,7 +511,7 @@ $Page(PAGE_ID, {
       "退出登录",
       "确认退出登录? ",
       () => {
-        logout();
+        clearData();
         this.setData({
           id: "",
           password: "",
@@ -535,7 +532,7 @@ $Page(PAGE_ID, {
       async () => {
         const result = await mpRemove();
 
-        logout();
+        clearData();
         this.setData({
           id: "",
           password: "",
