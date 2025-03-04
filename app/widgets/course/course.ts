@@ -7,7 +7,7 @@ import { COURSE_DATA_KEY } from "../../config/index.js";
 import type {
   CourseTableClassData,
   CourseTableData,
-} from "../../state/index.js";
+} from "../../typings/index.js";
 import { getSize } from "../utils.js";
 
 $Component({

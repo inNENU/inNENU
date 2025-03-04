@@ -7,8 +7,8 @@ import {
 } from "../../../../config/index.js";
 import type { OfficialInfoType } from "../../../../service/index.js";
 import { appID, info } from "../../../../state/index.js";
+import type { StarredOfficialInfoData } from "../../../../typings/index.js";
 import { getPageColor, showNotice } from "../../../../utils/index.js";
-import type { StarredOfficialInfoData } from "../../../../widgets/star/typings.js";
 import { getOfficialInfoDetail } from "../../service/index.js";
 import { getOfficialTitle } from "../../utils/index.js";
 

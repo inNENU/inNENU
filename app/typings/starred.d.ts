@@ -2,9 +2,9 @@ import type {
   OfficialAcademicData,
   OfficialInfoData,
   OfficialNoticeData,
-} from "../../pkg/tool/service/index.js";
-import type { NoticeData } from "../../pkg/user/service/index.js";
-import type { NoticeType, OfficialInfoType } from "../../service/index.js";
+} from "../pkg/tool/service/index.js";
+import type { NoticeData } from "../pkg/user/service/index.js";
+import type { NoticeType, OfficialInfoType } from "../service/index.js";
 
 export interface StarredOfficialAcademicData extends OfficialAcademicData {
   url: string;

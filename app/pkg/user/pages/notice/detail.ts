@@ -7,8 +7,8 @@ import {
 } from "../../../../config/index.js";
 import type { NoticeType } from "../../../../service/index.js";
 import { appID, info, user } from "../../../../state/index.js";
+import type { StarredNoticeData } from "../../../../typings/index.js";
 import { getPageColor, showNotice } from "../../../../utils/index.js";
-import type { StarredNoticeData } from "../../../../widgets/star/typings.js";
 import { getNoticeDetail } from "../../service/index.js";
 
 const PAGE_ID = "notice-detail";

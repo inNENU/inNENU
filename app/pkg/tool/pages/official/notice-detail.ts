@@ -6,8 +6,8 @@ import {
   service,
 } from "../../../../config/index.js";
 import { appID, info } from "../../../../state/index.js";
+import type { StarredOfficialNoticeData } from "../../../../typings/index.js";
 import { getPageColor, showNotice } from "../../../../utils/index.js";
-import type { StarredOfficialNoticeData } from "../../../../widgets/star/typings.js";
 import { getOfficialNoticeDetail } from "../../service/index.js";
 
 const PAGE_ID = "official-notice-detail";

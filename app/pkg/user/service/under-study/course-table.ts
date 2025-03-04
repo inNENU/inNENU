@@ -16,7 +16,7 @@ import {
 import type {
   CourseTableClassData,
   CourseTableData,
-} from "../../../../state/index.js";
+} from "../../../../typings/index.js";
 import { getJson } from "../../../../utils/index.js";
 import { getLegacyUnderCourseTable } from "../under-system/index.js";
 

@@ -8,11 +8,11 @@ import {
 } from "../../../../config/index.js";
 import type { LoginMethod } from "../../../../service/index.js";
 import { ActionFailType } from "../../../../service/index.js";
+import { envName, info, user } from "../../../../state/index.js";
 import type {
   CourseTableClassData,
   CourseTableData,
-} from "../../../../state/index.js";
-import { envName, info, user } from "../../../../state/index.js";
+} from "../../../../typings/index.js";
 import { getPageColor, showNotice } from "../../../../utils/index.js";
 import type { CourseTableInfo } from "../../../../widgets/course/typings.js";
 import {

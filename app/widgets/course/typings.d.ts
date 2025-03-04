@@ -1,7 +1,7 @@
 import type {
   CourseTableData,
   LegacyCourseTableData,
-} from "../../state/index.js";
+} from "../../typings/index.js";
 
 export interface CourseTableInfo {
   table: CourseTableData;

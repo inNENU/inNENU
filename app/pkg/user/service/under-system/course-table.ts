@@ -15,7 +15,7 @@ import {
 import type {
   LegacyCourseTableClassData,
   LegacyCourseTableData,
-} from "../../../../state/index.js";
+} from "../../../../typings/index.js";
 import { getJson } from "../../../../utils/index.js";
 
 const courseRowRegExp =
