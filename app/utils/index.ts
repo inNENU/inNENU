@@ -1,4 +1,5 @@
 export * from "./agreement.js";
+export * from "./courseTable.js";
 export * from "./getLink.js";
 export * from "./getScopeData.js";
 export * from "./id.js";

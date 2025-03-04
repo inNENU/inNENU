@@ -14,12 +14,13 @@ import type {
   CourseTableData,
   CourseTableInfo,
 } from "../../../../typings/index.js";
-import { getPageColor, showNotice } from "../../../../utils/index.js";
 import {
   getCurrentTimeCode,
+  getPageColor,
   getWeekIndex,
   getWeekName,
-} from "../../../../widgets/course/utils.js";
+  showNotice,
+} from "../../../../utils/index.js";
 import { getUnderCourseTable } from "../../service/index.js";
 
 const PAGE_ID = "under-course-table";

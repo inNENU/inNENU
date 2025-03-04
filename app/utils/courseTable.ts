@@ -1,18 +1,4 @@
-import { DAY } from "../../config/index.js";
-
-/** @deprecated */
-export const getOldCurrentTimeCode = (): string => {
-  const date = new Date();
-
-  const currentYear = date.getFullYear();
-  const currentMonth = date.getMonth() + 1;
-
-  if (currentMonth >= 2 && currentMonth < 8)
-    return `${currentYear - 1}-${currentYear}-2`;
-  if (currentMonth > 7) return `${currentYear}-${currentYear + 1}-1`;
-
-  return `${currentYear - 1}-${currentYear}-1`;
-};
+import { DAY } from "../config/index.js";
 
 export const getCurrentTimeCode = (): string => {
   const date = new Date();
