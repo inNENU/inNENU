@@ -12,9 +12,9 @@ import { envName, info, user } from "../../../../state/index.js";
 import type {
   CourseTableClassData,
   CourseTableData,
+  CourseTableInfo,
 } from "../../../../typings/index.js";
 import { getPageColor, showNotice } from "../../../../utils/index.js";
-import type { CourseTableInfo } from "../../../../widgets/course/typings.js";
 import {
   getCurrentTimeCode,
   getWeekIndex,

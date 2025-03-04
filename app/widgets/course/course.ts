@@ -1,12 +1,12 @@
 import type { PropType } from "@mptool/all";
 import { $Component, get, showModal } from "@mptool/all";
 
-import type { CourseTableInfo } from "./typings.js";
 import { getCurrentTimeCode, getWeekIndex, getWeekName } from "./utils.js";
 import { COURSE_DATA_KEY } from "../../config/index.js";
 import type {
   CourseTableClassData,
   CourseTableData,
+  CourseTableInfo,
 } from "../../typings/index.js";
 import { getSize } from "../utils.js";
 
