@@ -70,17 +70,17 @@
     ]
   },
   "dependencies": {
-    "@mptool/all": "0.10.11"
+    "@mptool/all": "0.10.12"
   },
   "devDependencies": {
     "@commitlint/cli": "19.7.1",
     "@commitlint/config-conventional": "19.7.1",
     "@rollup/plugin-commonjs": "28.0.2",
     "cpx2": "8.0.0",
-    "cz-git": "1.11.0",
+    "cz-git": "1.11.1",
     "del": "8.0.0",
     "eslint": "9.21.0",
-    "eslint-config-mister-hope": "0.7.5",
+    "eslint-config-mister-hope": "0.8.1",
     "gulp": "5.0.0",
     "gulp-rename": "2.0.0",
     "gulp-replace": "1.1.4",
@@ -88,20 +88,20 @@
     "gulp-typescript": "6.0.0-alpha.1",
     "gulp5-sass-plugin": "2.0.4",
     "husky": "9.1.7",
-    "innenu-generator": "0.0.25",
+    "innenu-generator": "0.0.26",
     "miniprogram-api-typings": "4.0.5",
     "nano-staged": "0.8.0",
     "postcss": "8.5.3",
-    "prettier": "3.5.2",
-    "rollup": "4.34.8",
-    "rollup-plugin-esbuild": "6.2.0",
+    "prettier": "3.5.3",
+    "rollup": "4.34.9",
+    "rollup-plugin-esbuild": "6.2.1",
     "standard-version": "9.5.0",
-    "stylelint": "16.14.1",
+    "stylelint": "16.15.0",
     "stylelint-config-hope": "8.0.0",
     "tsx": "4.19.3",
-    "typescript": "5.7.3"
+    "typescript": "5.8.2"
   },
-  "packageManager": "pnpm@10.5.1",
+  "packageManager": "pnpm@10.5.2",
   "pnpm": {
     "onlyBuiltDependencies": [
       "@parcel/watcher",
