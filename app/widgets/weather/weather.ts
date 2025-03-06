@@ -34,20 +34,13 @@ $Component({
     attached() {
       const { type } = this.data;
 
-      if (wx.getStorageSync(INITIALIZED_KEY)) {
-        const weatherIcon = JSON.parse(
-          readFile("./icon/weather/icon") || "{}",
-        ) as Record<string, string>;
-        const hintIcon = JSON.parse(
-          readFile("./icon/weather/hint") || "{}",
-        ) as Record<string, string>;
+      this.setData({
+        // 18 点至次日 5 点为夜间
+        night: new Date().getHours() > 18 || new Date().getHours() < 5,
+      });
 
-        this.setData({
-          // 18 点至次日 5 点为夜间
-          night: new Date().getHours() > 18 || new Date().getHours() < 5,
-          weatherIcon,
-          hintIcon,
-        });
+      if (wx.getStorageSync(INITIALIZED_KEY)) {
+        this.updateIcon();
       } else {
         // update icon
         this.$on("inited", this.updateIcon);
@@ -81,12 +74,12 @@ $Component({
 
     updateIcon() {
       this.setData({
-        weatherIcon: JSON.parse(readFile("./icon/weather/icon")!) as Record<
+        weatherIcon: JSON.parse(readFile("./icon/weather")!) as Record<
           string,
           string
         >,
 
-        hintIcon: JSON.parse(readFile("./icon/weather/hint")!) as Record<
+        hintIcon: JSON.parse(readFile("./icon/weather-hints")!) as Record<
           string,
           string
         >,
