@@ -31,7 +31,7 @@
   box-sizing: border-box;
   width: 100vw;
   height: 100vh;
-  padding: 0 30rpx;
+  padding: 0 15px;
 }
 
 .custom-nav-bar {
@@ -54,7 +54,7 @@
   flex-direction: column;
   justify-content: center;
 
-  height: 290rpx;
+  height: 150px;
 
   color: var(--bg-color);
 
@@ -63,16 +63,16 @@
   letter-spacing: 1px;
 
   &.empty {
-    height: 100rpx;
+    height: 50px;
   }
 }
 
 .qrcode-image-header {
-  font-size: 40rpx;
+  font-size: 20px;
 }
 
 .qrcode-image-desc {
-  font-size: 28rpx;
+  font-size: 14px;
 }
 
 .qrcode-image {
@@ -94,8 +94,8 @@
 }
 
 .avatar {
-  width: 100rpx;
-  height: 100rpx;
+  width: 64px;
+  height: 64px;
   margin-right: 12px;
 }
 
@@ -129,11 +129,12 @@
   color: var(--theme-color);
 
   font-size: 12px;
+  white-space: nowrap;
 }
 
 .qrcode-box {
   box-sizing: border-box;
-  width: 450rpx;
+  width: 60vw;
   margin: 20px auto;
   padding: 8px;
   border: 1px solid var(--border-color);
