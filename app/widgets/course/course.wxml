@@ -109,7 +109,7 @@
                   wx:key="cid"
                 >
                   <view
-                    class="course-table-course course-item{{hash.getHashIndex(classData.name)}}"
+                    class="course-table-course course-item{{hash.getHashIndex(classData.name, 13)}}"
                     data-info="{{classData}}"
                     catch:tap="showClassInfo"
                   >

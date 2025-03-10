@@ -15,7 +15,7 @@ function getHash(content) {
 }
 
 function getHashIndex(content, total) {
-  return getHash(content) % (total || 9);
+  return getHash(content) % total;
 }
 
 module.exports = {

@@ -74,8 +74,10 @@
 }
 
 $colors:
-  #c0392b, #d35400, #f39c12, #27ae60, #16a085, #2980b9, #8e44ad, #2c3e50,
-  #7f8c8d;
+  hsl(0deg 67% 45%), hsl(30deg 67% 45%), hsl(60deg 67% 45%), hsl(90deg 67% 45%),
+  hsl(120deg 67% 45%), hsl(150deg 67% 45%), hsl(180deg 67% 45%),
+  hsl(210deg 67% 45%), hsl(240deg 67% 45%), hsl(270deg 67% 45%),
+  hsl(300deg 67% 45%), hsl(330deg 67% 45%), hsl(0deg 0% 0%);
 
 @each $color in $colors {
   $index: list.index($colors, $color) - 1;
