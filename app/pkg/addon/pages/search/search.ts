@@ -124,16 +124,16 @@ $Page("search", {
     this.setData({ words: [] });
     wx.showLoading({ title: "搜索中..." });
 
-    const result = await searchMiniApp<SearchResult[]>({
+    const searchResults = await searchMiniApp<SearchResult[]>({
       word: value,
       scope: this.data.type,
       type: "result",
     });
 
     this.setData({
-      result,
+      result: searchResults,
       icons: Object.fromEntries(
-        result
+        searchResults
           .map(({ icon }) => (icon ? [icon, getIconLink(icon)] : null))
           .filter((item): item is [string, string] => item !== null),
       ),

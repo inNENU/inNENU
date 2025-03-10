@@ -89,19 +89,19 @@ const actionLoginLocal = async (
 
   if (!vpnLoginResult.success) return vpnLoginResult;
 
-  const result = await authLogin({
+  const authLoginResult = await authLogin({
     ...options,
     service: ACTION_MAIN_PAGE,
     webVPN: true,
   });
 
-  if (!result.success) {
-    logger.error(result.msg);
+  if (!authLoginResult.success) {
+    logger.error(authLoginResult.msg);
 
-    return result;
+    return authLoginResult;
   }
 
-  const ticketResponse = await request<string>(result.location, {
+  const ticketResponse = await request<string>(authLoginResult.location, {
     redirect: "manual",
   });
 
