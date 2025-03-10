@@ -82,11 +82,11 @@
         <view wx:else class="course-table">
           <view class="course-table-header">
             <view
-              wx:for="{{course.weeks}}"
+              wx:for="{{table}}"
               wx:key="*this"
               class="course-table-header-item"
             >
-              <text>{{item}}</text>
+              <text>{{course.weeks[index]}}</text>
             </view>
           </view>
           <view class="course-table-body">
@@ -104,16 +104,16 @@
               >
                 <block
                   wx:for="{{cell}}"
-                  wx:for-item="CourseTableClassData"
+                  wx:for-item="classData"
                   wx:for-index="classIndex"
                   wx:key="cid"
                 >
                   <view
-                    class="course-table-course course-item{{hash.getHashIndex(CourseTableClassData.name)}}"
-                    data-info="{{CourseTableClassData}}"
+                    class="course-table-course course-item{{hash.getHashIndex(classData.name)}}"
+                    data-info="{{classData}}"
                     catch:tap="showClassInfo"
                   >
-                    <text>{{CourseTableClassData.name}}</text>
+                    <text>{{classData.name}}</text>
                   </view>
                 </block>
               </view>

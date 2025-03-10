@@ -2,7 +2,14 @@
 @import "../../styles/lib/widget";
 
 .course-item {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: center;
+
   border-bottom: 1px solid var(--border-color);
+
   font-size: 12px;
   line-height: 1.5;
 

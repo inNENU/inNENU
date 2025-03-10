@@ -42,8 +42,12 @@
 }
 
 .course-table-item {
+  display: flex;
   flex: 1;
   flex-basis: 0;
+  align-items: stretch;
+  justify-content: center;
+
   border-top: 1px dashed var(--border-color);
   border-left: 1px dashed var(--border-color);
 
@@ -54,6 +58,12 @@
 }
 
 .course-table-course {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+
   margin: 4px 2px;
   border: 1px solid var(--border-color);
   border-radius: 4px;
