@@ -65,7 +65,7 @@
     "include": []
   },
   "watchOptions": {
-    "ignore": ["app/**", "node_modules/**", "server/**"]
+    "ignore": ["app/**", "node_modules/**", "res/**"]
   },
   "condition": {
     "miniprogram": {

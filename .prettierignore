@@ -11,8 +11,8 @@ app/service/auth/encrypt.js
 project.config.json
 project.private.config.json
 
-server/.oss/**
-server/.resource/**
-server/.site/**
-server/service/vendor/**
-server/service/composer.lock
+res/.oss/**
+res/.resource/**
+res/.site/**
+res/service/vendor/**
+res/service/composer.lock

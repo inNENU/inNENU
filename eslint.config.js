@@ -10,7 +10,7 @@ export default hope(
       "app/service/auth/encrypt.js",
       "app/service/auth/encrypt.d.ts",
       "app/pkg/tool/components/recycle-view/",
-      "server/**",
+      "res/**",
     ],
 
     languageOptions: {
