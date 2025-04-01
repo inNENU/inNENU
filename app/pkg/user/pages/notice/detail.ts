@@ -6,7 +6,7 @@ import {
   service,
 } from "../../../../config/index.js";
 import type { NoticeType } from "../../../../service/index.js";
-import { appID, info, user } from "../../../../state/index.js";
+import { appId, info, user } from "../../../../state/index.js";
 import type { StarredNoticeData } from "../../../../typings/index.js";
 import { getPageColor, showNotice } from "../../../../utils/index.js";
 import { getNoticeDetail } from "../../service/index.js";
@@ -48,7 +48,7 @@ $Page(PAGE_ID, {
       share: {
         title,
         shareable: true,
-        qrcode: `${service}mp/qrcode?appID=${appID}&page=pkg/user/pages/notice/detail&scene=${id}`,
+        qrcode: `${service}mp/qrcode?appId=${appId}&page=pkg/user/pages/notice/detail&scene=${id}`,
       },
       starred: starredNotices.some((item) => item.id === id),
     });

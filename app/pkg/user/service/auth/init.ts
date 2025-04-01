@@ -25,7 +25,7 @@ import {
   supportRedirect,
 } from "../../../../service/index.js";
 import type { AccountInfo, UserInfo } from "../../../../state/index.js";
-import { appID } from "../../../../state/index.js";
+import { appId } from "../../../../state/index.js";
 import { getAvatar } from "../auth-center/index.js";
 import { authCenterLoginLocal } from "../auth-center/login.js";
 
@@ -325,7 +325,7 @@ const authInitOnline = async (
 ): Promise<InitAuthResponse> => {
   const { data: result } = await request<InitAuthResponse>("/auth/init", {
     method: "POST",
-    body: { ...options, appID },
+    body: { ...options, appId },
     cookieScope: AUTH_COOKIE_SCOPE,
   });
 

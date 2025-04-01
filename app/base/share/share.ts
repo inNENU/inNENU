@@ -12,7 +12,7 @@ import type { PageState } from "../../../typings/index.js";
 import { request } from "../../api/index.js";
 import { appName, server, service } from "../../config/index.js";
 import { reportUserInfo } from "../../service/index.js";
-import { appID } from "../../state/index.js";
+import { appId } from "../../state/index.js";
 import { path2id } from "../../utils/index.js";
 
 type ShareConfig = Pick<
@@ -57,7 +57,7 @@ $Component({
       savePhoto(
         typeof config.qrcode === "string"
           ? config.qrcode
-          : `${service}mp/qrcode?appID=${appID}&page=pages/info/info&scene=${path2id(
+          : `${service}mp/qrcode?appId=${appId}&page=pages/info/info&scene=${path2id(
               config.id,
             )}`,
       )
@@ -83,7 +83,7 @@ $Component({
     copyWechatLink() {
       request<LinkData>(`${server}service/share-link.php`, {
         method: "POST",
-        body: { appID, id: this.data.config.id! },
+        body: { appId, id: this.data.config.id! },
       }).then(({ data }) => {
         if (data.error)
           showModal("链接尚未生成", "请使用小程序右上角菜单(···)来复制链接。");

@@ -2,7 +2,7 @@ import { compareVersion, download } from "@mptool/all";
 
 import { requestJSON } from "../api/index.js";
 import { assets, version } from "../config/index.js";
-import { appID, platform } from "../state/index.js";
+import { appId, platform } from "../state/index.js";
 
 let apkFilePath: string | null = null;
 
@@ -15,7 +15,7 @@ let apkFilePath: string | null = null;
  */
 export const updateApp = async (): Promise<void> => {
   // 请求配置文件
-  const onlineVersion = await requestJSON<string>(`config/${appID}/version`);
+  const onlineVersion = await requestJSON<string>(`config/${appId}/version`);
 
   if (compareVersion(onlineVersion, version) > 0) {
     if (platform === "android")

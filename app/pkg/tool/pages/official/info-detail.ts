@@ -6,7 +6,7 @@ import {
   service,
 } from "../../../../config/index.js";
 import type { OfficialInfoType } from "../../../../service/index.js";
-import { appID, info } from "../../../../state/index.js";
+import { appId, info } from "../../../../state/index.js";
 import type { StarredOfficialInfoData } from "../../../../typings/index.js";
 import { getPageColor, showNotice } from "../../../../utils/index.js";
 import { getOfficialInfoDetail } from "../../service/index.js";
@@ -57,7 +57,7 @@ $Page(PAGE_ID, {
       share: {
         title,
         shareable: true,
-        qrcode: `${service}mp/qrcode?appID=${appID}&page=pkg/tool/pages/official/info-detail&scene=${url}@${type}`,
+        qrcode: `${service}mp/qrcode?appId=${appId}&page=pkg/tool/pages/official/info-detail&scene=${url}@${type}`,
       },
       starred: starredInfos.some((item) => item.url === url),
     });

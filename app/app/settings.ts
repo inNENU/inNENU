@@ -6,7 +6,7 @@ import { syncNotice } from "./notice.js";
 import type { ComponentConfig } from "../../typings/components.js";
 import { request } from "../api/index.js";
 import { server, version } from "../config/index.js";
-import { appID } from "../state/index.js";
+import { appId } from "../state/index.js";
 
 export type ServiceStatus = "local" | "online";
 
@@ -64,7 +64,7 @@ export const syncAppSettings = async (
     } = await request<AppSettings>(`${server}service/settings.php`, {
       method: "POST",
       body: {
-        appID,
+        appId,
         version: isTest ? "test" : version,
       },
     });

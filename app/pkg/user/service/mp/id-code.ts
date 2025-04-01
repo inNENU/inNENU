@@ -7,7 +7,7 @@ import type {
   CommonSuccessResponse,
 } from "../../../../service/index.js";
 import { MissingCredentialResponse } from "../../../../service/index.js";
-import { appID, envName, user } from "../../../../state/index.js";
+import { appId, envName, user } from "../../../../state/index.js";
 
 export interface GenerateIdCodeOptions {
   remark: string;
@@ -41,7 +41,7 @@ export const generateIdCode = async (
     body: {
       id: user.account.id,
       authToken: user.account.authToken,
-      appID,
+      appId,
       remark,
       force,
     },
@@ -99,7 +99,7 @@ export const checkIdCode = async <T extends string | void>(
     body: {
       id: user.account.id,
       authToken: user.account.authToken,
-      appID,
+      appId,
       openid: user.openid,
       uuid,
       remark: `由 ${user.info?.name ?? "未知用户"} 通过 ${appName} ${envName} 验证`,

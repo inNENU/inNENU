@@ -10,7 +10,7 @@ import {
 import type { PageState } from "../../../typings/index.js";
 import {} from "../../api/index.js";
 import { appName, service } from "../../config/index.js";
-import { appID } from "../../state/index.js";
+import { appId } from "../../state/index.js";
 import { path2id } from "../../utils/index.js";
 
 type ShareConfig = Pick<
@@ -44,7 +44,7 @@ $Component({
       savePhoto(
         typeof config.qrcode === "string"
           ? config.qrcode
-          : `${service}mp/qrcode?appID=${appID}&page=${encodeURI(
+          : `${service}mp/qrcode?appId=${appId}&page=${encodeURI(
               `pages/info/info?path=${path2id(this.data.config.id)}`,
             )}`,
       )
@@ -54,7 +54,7 @@ $Component({
 
     copyQQLink() {
       this.copy(
-        `https://m.q.qq.com/a/p/${appID}?s=${encodeURI(
+        `https://m.q.qq.com/a/p/${appId}?s=${encodeURI(
           `pages/info/info?path=${path2id(this.data.config.id)}`,
         )}`,
       );

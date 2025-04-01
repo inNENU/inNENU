@@ -3,7 +3,7 @@ import { $Page } from "@mptool/all";
 
 import { requestJSON } from "../../../../api/index.js";
 import { appCoverPrefix } from "../../../../config/index.js";
-import { appID, info } from "../../../../state/index.js";
+import { appId, info } from "../../../../state/index.js";
 import { getPageColor } from "../../../../utils/index.js";
 
 const PAGE_ID = "license";
@@ -30,7 +30,7 @@ $Page(PAGE_ID, {
       title: string;
       version: number;
       nodes: RichTextNode[];
-    }>(`config/${appID}/${type}-data`).then((data) => {
+    }>(`config/${appId}/${type}-data`).then((data) => {
       this.setData({ ...data, from, type });
     });
   },

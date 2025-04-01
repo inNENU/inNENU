@@ -23,13 +23,13 @@ const accountInfo = wx.getAccountInfoSync();
 
 /** 小程序 appid */
 /*@__PURE__*/
-export const appID =
+export const appId =
   env === "app"
     ? // FIXME: Current devtool SDK can not return appid correctly
       (accountInfo.host.miniappId as AppID) || "wx0009f7cdfeefa3da"
     : (accountInfo.miniProgram.appId as AppID);
 
-export const isCompany = appID === "wx2550e3fd373b79a8";
+export const isCompany = appId === "wx2550e3fd373b79a8";
 
 /** 运行环境 */
 export type Env = "app" | "qq" | "wx";

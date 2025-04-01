@@ -1,7 +1,7 @@
 import { logger } from "@mptool/all";
 
 import { request } from "../../api/index.js";
-import { appID, env, user } from "../../state/index.js";
+import { appId, env, user } from "../../state/index.js";
 import type {
   ActionFailType,
   CommonFailedResponse,
@@ -48,7 +48,7 @@ export const mpLogin = (): Promise<LoginInfo> => {
           resolve(
             request<MPLoginResponse>("/mp/login", {
               method: "POST",
-              body: { appID, code, env },
+              body: { appId, code, env },
             }).then(({ data }) => {
               if (!data.success) {
                 logger.error("小程序登录失败", data.msg);

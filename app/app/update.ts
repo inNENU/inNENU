@@ -3,7 +3,7 @@ import { logger, ls, rm, showToast } from "@mptool/all";
 import type { AppSettings } from "./settings.js";
 import { request } from "../api/index.js";
 import { server } from "../config/index.js";
-import { appID } from "../state/index.js";
+import { appId } from "../state/index.js";
 
 export interface UpdateInfo {
   /** 是否进行强制更新 */
@@ -34,7 +34,7 @@ export const updateApp = (): void => {
       request<string>(`${server}service/app-version.php`, {
         method: "POST",
         body: {
-          appID,
+          appId,
         },
       })
         .then(({ data: version }) =>
@@ -43,7 +43,7 @@ export const updateApp = (): void => {
             method: "POST",
             body: {
               version,
-              appID,
+              appId,
             },
           }).then(({ data: { update } }) => {
             // 更新下载就绪，提示用户重新启动
