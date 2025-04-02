@@ -104,8 +104,7 @@ void rollup({
         "pkg/user/service",
         "pkg/user/utils",
       ]) {
-        if (normalizedId.includes(`/.temp/${name}/index.ts`))
-          return `${name}/index`;
+        if (normalizedId.includes(`/.temp/${name}/`)) return `${name}/index`;
       }
 
       if (normalizedId.includes("/.temp/app.ts")) return "app";
