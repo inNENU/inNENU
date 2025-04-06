@@ -16,8 +16,6 @@
     "miniprogram",
     "mptool",
     "nenu",
-    "nenuyouth",
-    "notifyed",
     "qqcode",
     "qqid",
     "qrcode",
@@ -52,16 +50,12 @@
     "./res/.vscode/wx-account.schema.json": [
       "/res/data/function/account/wx.yml"
     ],
-    "./res/.vscode/tab-data.schema.json": [
-      "/res/data/function/data/tab.yml"
-    ],
+    "./res/.vscode/tab-data.schema.json": ["/res/data/function/data/tab.yml"],
     "./res/.vscode/location.schema.json": [
       "/res/data/function/map/benbu/**/*.yml",
       "/res/data/function/map/jingyue/**/*.yml"
     ],
-    "./res/.vscode/marker.schema.json": [
-      "/res/data/function/map/marker/*.yml"
-    ],
+    "./res/.vscode/marker.schema.json": ["/res/data/function/map/marker/*.yml"],
     "./res/.vscode/page.schema.json": ["/res/pages/**/*.yml"]
   }
 }

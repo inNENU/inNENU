@@ -418,14 +418,14 @@ export const setPage = (
  * @param id 当前界面的标识符
  */
 export const showNotice = (id: string): void => {
-  if (!wx.getStorageSync(`${id}-notifyed`)) {
+  if (!wx.getStorageSync(`${id}-notified`)) {
     // 没有进行过通知，判断是否需要弹窗，从存储中获取通知内容并展示
     const notice = wx.getStorageSync<NoticeItem | undefined>(`${id}-notice`);
 
     if (notice) {
       showModal(notice.title, notice.content, () => {
         // 防止二次弹窗
-        wx.setStorageSync(`${id}-notifyed`, true);
+        wx.setStorageSync(`${id}-notified`, true);
       });
 
       // 调试

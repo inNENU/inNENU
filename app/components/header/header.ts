@@ -14,7 +14,7 @@ $Component({
   },
 
   lifetimes: {
-    attached() {
+    ready() {
       this.createSelectorQuery()
         .select(".header-component")
         .boundingClientRect(({ height }) => {

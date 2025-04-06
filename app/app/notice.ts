@@ -31,14 +31,14 @@ export const syncNotice = (noticeSettings: NoticeSettings): void => {
       force
     ) {
       wx.setStorageSync(`${pageName}-notice`, notice);
-      wx.removeStorageSync(`${pageName}-notifyed`);
+      wx.removeStorageSync(`${pageName}-notified`);
     }
 
     // 如果找到 APP 级通知，进行判断
     if (pageName === "app")
-      if (!wx.getStorageSync("app-notifyed") || force)
+      if (!wx.getStorageSync("app-notified") || force)
         showModal(title, content, () =>
-          wx.setStorageSync("app-notifyed", true),
+          wx.setStorageSync("app-notified", true),
         );
   });
 };

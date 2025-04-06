@@ -79,7 +79,7 @@
     "cpx2": "8.0.0",
     "cz-git": "1.11.1",
     "del": "8.0.0",
-    "eslint": "9.23.0",
+    "eslint": "9.24.0",
     "eslint-config-mister-hope": "0.8.1",
     "gulp": "5.0.0",
     "gulp-rename": "2.0.0",
@@ -99,11 +99,12 @@
     "stylelint": "16.17.0",
     "stylelint-config-hope": "8.0.0",
     "tsx": "4.19.3",
-    "typescript": "5.8.2"
+    "typescript": "5.8.3"
   },
   "packageManager": "pnpm@10.7.1",
   "pnpm": {
     "onlyBuiltDependencies": [
+      "@alicloud/openapi-core",
       "@parcel/watcher",
       "es5-ext",
       "esbuild",
