@@ -190,6 +190,7 @@
       "defaultDisplayBlock": true,
       "defaultContentBox": true,
       "disableABTest": true,
+      "enableScrollViewAutoSize": true,
       "sdkVersionBegin": "3.6.0",
       "tagNameStyleIsolation": "legacy"
     }

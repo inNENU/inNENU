@@ -149,6 +149,7 @@
     "skyline": {
       "defaultDisplayBlock": true,
       "defaultContentBox": true,
+      "enableScrollViewAutoSize": true,
       "tagNameStyleIsolation": "legacy"
     }
   }
