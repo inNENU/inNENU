@@ -21,6 +21,6 @@ export const getPointConfig = ({ name, loc }: PointOptions): string =>
 
 export const startNavigation = (options: PointOptions): void => {
   wx.navigateTo({
-    url: `plugin://routePlan/index?key=7ZXBZ-DZO6W-TK3RO-OGHG5-4J4EQ-PBFFX&referer=${appName}&endPoint=${getPointConfig(options)}&mode=walking&themeColor=#2ecc71`,
+    url: `plugin://route-plan/index?key=7ZXBZ-DZO6W-TK3RO-OGHG5-4J4EQ-PBFFX&referer=${appName}&endPoint=${getPointConfig(options)}&mode=walking&themeColor=#2ecc71`,
   });
 };
