@@ -1,13 +1,13 @@
 <view class="search-bar custom-class">
   <view
-    class="search-wrapper-{{showInput ? 'input' : 'placeholder'}} {{(words.length > 0 && focus) ? 'has-words' : ''}}"
+    class="search-{{showInput ? 'input' : 'placeholder'}}-wrapper {{(words.length > 0 && focus) ? 'not-empty' : ''}}"
     catch:tap="showInput"
   >
     <icon class="search-icon" type="search" size="22" />
 
     <block wx:if="{{showInput}}">
       <input
-        class="input"
+        class="search-input"
         type="text"
         placeholder="{{placeholder}}"
         value="{{value}}"
@@ -21,22 +21,22 @@
 
       <icon
         wx:if="{{value.length > 0}}"
-        catch:tap="clearInput"
-        class="clear"
+        class="clear-icon"
         type="clear"
         size="18"
+        catch:tap="clearInput"
       />
     </block>
     <text wx:else class="text">{{placeholder}}</text>
   </view>
-  <view hidden="{{!showInput}}" class="cancel" catch:tap="hideInput">
+  <view hidden="{{!showInput}}" class="cancel-button" catch:tap="hideInput">
     <text>取消</text>
   </view>
-  <view class="word-wrapper" wx:if="{{words.length > 0 && showInput && focus}}">
+  <view class="suggestions" wx:if="{{words.length > 0 && showInput && focus}}">
     <view
       wx:for="{{words}}"
       wx:key="*this"
-      class="word"
+      class="suggestion"
       hover-class="button-hover"
       data-index="{{index}}"
       catch:tap="select"

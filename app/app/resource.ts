@@ -42,7 +42,7 @@ export const downloadResource = async (
   // 取消下载成功提示并移除对应资源文件
   await Promise.all(
     fileNames.map((resource) => {
-      wx.setStorageSync(`${resource}Download`, false);
+      wx.setStorageSync(`${resource}-download`, false);
       if (exists(resource)) rm(resource, "dir");
 
       return new Promise<void>((resolve, reject) => {
@@ -74,7 +74,7 @@ export const downloadResource = async (
                 rm(`${resource}.zip`, "file");
 
                 // 将下载成功信息写入存储
-                wx.setStorageSync(`${resource}Download`, true);
+                wx.setStorageSync(`${resource}-download`, true);
 
                 resolve();
               });
