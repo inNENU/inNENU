@@ -1,11 +1,10 @@
 {
   "name": "inNENU",
-  "version": "7.3.0",
-  "versionCode": 47,
+  "version": "7.4.0",
+  "versionCode": 48,
   "miniVersion": "v2",
   "mini-android": {
-    "sdkVersion": "1.6.2",
-    "toolkitVersion": "0.7.3",
+    "sdkVersion": "1.6.8",
     "useExtendedSdk": {
       "media": true,
       "bluetooth": false,
@@ -44,7 +43,7 @@
       "qmapAPIKey": "NLVBZ-PGJRQ-T7K5F-GQ54N-GIXDH-FCBC4"
     },
     "usePluginSdk": {
-      "map": "1.2.5"
+      "map": "1.2.6"
     },
     "schemes": {
       "scheme": "innenu"
@@ -52,8 +51,7 @@
     "appMenuEnable": true
   },
   "mini-ios": {
-    "sdkVersion": "1.6.4",
-    "toolkitVersion": "0.0.9",
+    "sdkVersion": "1.6.10",
     "useExtendedSdk": {
       "WeAppOpenFuns": false,
       "WeAppNetwork": false,
