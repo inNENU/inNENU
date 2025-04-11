@@ -170,7 +170,6 @@
     ]
   },
   "debug": false,
-  "frameset": true,
   "resizable": true,
   "permission": {
     "scope.userLocation": {

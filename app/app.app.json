@@ -113,7 +113,6 @@
     ]
   },
   "debug": false,
-  "frameset": true,
   "resizable": true,
   "usingComponents": {
     "account": "/base/account/account",
