@@ -8,7 +8,7 @@ const sourcemaps = require("gulp-sourcemaps");
 const typescript = require("gulp-typescript");
 const { sass } = require("gulp5-sass-plugin");
 
-const tsProject = typescript.createProject("tsconfig.build.json");
+const tsProject = typescript.createProject("tsconfig.json");
 
 const getScriptJob = (id) => {
   const suffix = `.${id}`;
