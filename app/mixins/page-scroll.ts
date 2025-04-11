@@ -49,8 +49,23 @@ export function defaultScroller(
 }
 
 export const pageScrollMixin = (scroller: Scroller): string =>
-  Behavior({
+  Behavior<
+    { disableScroll?: boolean },
+    Record<string, never>,
+    Record<string, never>,
+    WechatMiniprogram.Behavior.BehaviorIdentifier[]
+  >({
     attached() {
+      if (this.data.disableScroll) {
+        this.setData({
+          titleDisplay: true,
+          borderDisplay: true,
+          shadow: true,
+        });
+
+        return;
+      }
+
       const page = getCurrentPage();
 
       if (page) {
@@ -65,10 +80,18 @@ export const pageScrollMixin = (scroller: Scroller): string =>
         page.onPageScroll = onPageScroll as (
           arg?: WechatMiniprogram.Page.IPageScrollOption,
         ) => void;
+
+        page.onScrollViewScroll = function (
+          event: WechatMiniprogram.ScrollViewScroll,
+        ): void {
+          this.onPageScroll(event.detail);
+        };
       }
     },
 
     detached() {
+      if (this.data.disableScroll) return;
+
       const page = getCurrentPage<{
         $scrollHandler?: Scroller[];
       }>();

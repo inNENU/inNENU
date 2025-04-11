@@ -108,7 +108,9 @@ let hasResPopup = false;
 
 export const checkResource = (): Promise<void> => {
   /** 资源提醒状态 */
-  let notify = wx.getStorageSync<boolean | undefined>("resourceNotify");
+  let disableNotify = wx.getStorageSync<boolean | undefined>(
+    "disableResourceNotify",
+  );
   /** 本地资源版本 */
   const localVersion: Record<string, number> =
     readJSON("resource-version") || {};
@@ -121,19 +123,19 @@ export const checkResource = (): Promise<void> => {
 
   // 调试
   logger.debug(
-    `Resource Notify status: ${notify ? "open" : "close"}`,
+    `Resource Notify status: ${disableNotify ? "close" : "open"}`,
     "Local resource version: ",
     localVersion,
   );
 
-  if (currentTime > Number(localTime) + 604800 && !notify) {
-    notify = true;
-    wx.setStorageSync("resourceNotify", true);
-    logger.debug("Reset resource notify after 7 days");
+  if (currentTime > Number(localTime) + 604800 && disableNotify) {
+    disableNotify = true;
+    wx.setStorageSync("disableResourceNotify", false);
+    logger.debug("Enable resource notify after 7 days");
   }
 
   // 需要检查更新
-  if (notify && !hasResPopup)
+  if (disableNotify && !hasResPopup)
     return request<ResourceVersionInfo>(`${server}service/version.php`, {
       method: "POST",
     })

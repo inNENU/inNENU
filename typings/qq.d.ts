@@ -82,6 +82,22 @@ declare namespace WechatMiniprogram {
     success?: GetGroupAppStatusSuccessCallback;
   }
 
+  /** 接口调用结束的回调函数(调用成功、失败都会执行) */
+  type AddGroupAppCompleteCallback = (res: GeneralCallbackResult) => void;
+  /** 接口调用失败的回调函数 */
+  type AddGroupAppFailCallback = (res: GeneralCallbackResult) => void;
+  /** 接口调用成功的回调函数 */
+  type AddGroupAppSuccessCallback = (res: GeneralCallbackResult) => void;
+
+  interface AddGroupAppOption {
+    /** 接口调用结束的回调函数(调用成功、失败都会执行) */
+    complete?: AddGroupAppCompleteCallback;
+    /** 接口调用失败的回调函数 */
+    fail?: AddGroupAppFailCallback;
+    /** 接口调用成功的回调函数 */
+    success?: AddGroupAppSuccessCallback;
+  }
+
   interface IsAddedToMyAppsCallback {
     /** 是否已经添加为我的小程序 */
     isAdded: boolean;
@@ -148,6 +164,14 @@ declare namespace WechatMiniprogram {
      * 获取当前小程序是否添加了群应用
      */
     getGroupAppStatus(option?: GetGroupAppStatusOption): void;
+
+    /**
+     * @kind qq
+     *
+     * 添加群应用
+     */
+    addGroupApp(option?: GetGroupAppStatusOption): void;
+
     /**
      * @kind qq
      *

@@ -6,7 +6,7 @@ import type {
   PickerListComponentItemConfig,
 } from "../../../../../typings/index.js";
 import { RESOURCE_NAMES, downloadResource } from "../../../../app/index.js";
-import { size, version } from "../../../../config/index.js";
+import { THEMES, size, version } from "../../../../config/index.js";
 import { supportRedirect } from "../../../../service/index.js";
 import {
   appInfo,
@@ -36,14 +36,10 @@ $Page(PAGE_ID, {
             {
               type: "picker",
               text: "当前主题",
-              select: ["ios", "android", "nenu", "weui"],
-              key: "themeNum",
+              select: THEMES,
+              key: "themeIndex",
               handler: "updateTheme",
               single: true,
-            },
-            {
-              text: "自定义主页小组件",
-              url: "widget-settings",
             },
           ],
         },
@@ -71,10 +67,10 @@ $Page(PAGE_ID, {
           header: "内容更新",
           items: [
             {
-              text: "内容更新提示",
+              text: "禁用内容更新提示",
               type: "switch",
-              key: "resourceNotify",
-              handler: "notify",
+              key: "disableResourceNotify",
+              handler: "showNotifyModal",
             },
             {
               text: "更新资源文件",
@@ -176,12 +172,12 @@ $Page(PAGE_ID, {
   /** 初始化 */
   resetApp,
 
-  notify(status: boolean) {
+  showNotifyModal(isDisabled: boolean) {
     showModal(
-      `已${status ? "打开" : "关闭"}更新提示`,
-      status
-        ? "您将在内容更新时收到提醒。"
-        : "7天内，您不会再收到内容更新的提醒。\n警告: 这会导致您无法获取7天内新增与修正的内容，带来的后果请您自负!",
+      `已${isDisabled ? "关闭" : "打开"}更新提示`,
+      isDisabled
+        ? "7天内，您不会再收到内容更新的提醒。\n警告: 这会导致您无法获取7天内新增与修正的内容，带来的后果请您自负!"
+        : "您将在内容更新时收到提醒。",
     );
   },
 });

@@ -1,6 +1,6 @@
 ---
-name: Feature request
-about: Suggest an idea for this project
+name: 功能请求
+about: 为此项目提供想法建议
 title: "[Feature Request]"
 labels: enhancement
 assignees: Mister-Hope

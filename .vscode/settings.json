@@ -2,12 +2,12 @@
   "cSpell.words": [
     "benbu",
     "canonicalize",
-    "danmu",
     "damnu",
+    "danmu",
     "darkmode",
+    "elif",
     "errcode",
     "errmsg",
-    "frameset",
     "innenu",
     "inited",
     "jingyue",
@@ -28,8 +28,8 @@
     "weui",
     "wxcode",
     "wxid",
-    "wxss",
-    "wxml"
+    "wxml",
+    "wxss"
   ],
   "git.ignoreLimitWarning": true,
   "minapp-vscode.cssExtname": "scss",

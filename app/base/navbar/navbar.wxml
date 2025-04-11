@@ -5,5 +5,5 @@
 <template
   wx:if="{{!nav.hidden && theme}}"
   is="{{theme}}-navbar"
-  data="{{nav, firstPage, statusBarHeight, titleDisplay, borderDisplay, shadow}}"
+  data="{{nav, firstPage, statusBarHeight, titleDisplay, borderDisplay, shadow, disableScroll}}"
 />

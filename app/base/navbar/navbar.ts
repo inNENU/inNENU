@@ -6,6 +6,7 @@ import { info, windowInfo } from "../../state/index.js";
 $Component({
   props: {
     nav: Object,
+    disableScroll: Boolean,
   },
 
   data: {

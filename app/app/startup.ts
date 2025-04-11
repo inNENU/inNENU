@@ -6,41 +6,7 @@ import { updateApp } from "./update.js";
 import { mpLogin } from "../service/index.js";
 import { env, envName, setOpenid } from "../state/index.js";
 
-/** 注册全局监听 */
-const registerActions = (): void => {
-  const debug = wx.getStorageSync<boolean | undefined>("debugMode") || false;
-
-  // 设置调试
-  wx.setEnableDebug({ enableDebug: debug });
-  (wx.env as Record<string, unknown>).DEBUG = debug;
-
-  // 获取网络信息
-  wx.getNetworkType({
-    success: ({ networkType }) => {
-      if (networkType === "none") showToast("没有网络连接");
-    },
-  });
-
-  // 设置内存不足警告
-  wx.onMemoryWarning((res) => {
-    logger.warn("内存警告");
-    wx.reportEvent?.("memory_warning", {
-      level: res?.level || 0,
-    });
-  });
-
-  // 监听网络状态
-  wx.onNetworkStatusChange(({ isConnected }) => {
-    // 显示提示
-    if (!isConnected) {
-      showToast(`网络连接中断,部分${envName}功能暂不可用`);
-      wx.setStorageSync("networkError", true);
-    } else if (wx.getStorageSync("network")) {
-      wx.setStorageSync("networkError", false);
-      showToast("网络连接恢复");
-    }
-  });
-
+export const handleScreenCapture = (): void => {
   // 监听用户截屏
   if (
     ["wx", "qq"].includes(env) &&
@@ -76,6 +42,44 @@ const registerActions = (): void => {
       }
     });
   }
+};
+
+/** 注册全局监听 */
+const registerActions = (): void => {
+  const debug = wx.getStorageSync<boolean | undefined>("debugMode") || false;
+
+  // 设置调试
+  wx.setEnableDebug({ enableDebug: debug });
+  (wx.env as Record<string, unknown>).DEBUG = debug;
+
+  // 获取网络信息
+  wx.getNetworkType({
+    success: ({ networkType }) => {
+      if (networkType === "none") showToast("没有网络连接");
+    },
+  });
+
+  // 设置内存不足警告
+  wx.onMemoryWarning((res) => {
+    logger.warn("内存警告");
+    wx.reportEvent?.("memory_warning", {
+      level: res?.level || 0,
+    });
+  });
+
+  // 监听网络状态
+  wx.onNetworkStatusChange(({ isConnected }) => {
+    // 显示提示
+    if (!isConnected) {
+      showToast(`网络连接中断,部分${envName}功能暂不可用`);
+      wx.setStorageSync("networkError", true);
+    } else if (wx.getStorageSync("network")) {
+      wx.setStorageSync("networkError", false);
+      showToast("网络连接恢复");
+    }
+  });
+
+  handleScreenCapture();
 };
 
 /**

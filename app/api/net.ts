@@ -105,4 +105,4 @@ export const requestJSON = <
  * @param errorFunc 状态码错误回调函数
  */
 export const download = (path: string, mask = false): Promise<string> =>
-  _download(path.startsWith("http") ? path : `${assets}${path}`, mask);
+  _download(path.startsWith("https://") ? path : `${assets}${path}`, mask);

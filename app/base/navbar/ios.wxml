@@ -25,5 +25,7 @@
     class="ios-navbar-border"
     style="top:{{statusBarHeight + 44}}px"
   />
-  <view class="ios-navbar-header"><text>{{nav.title}}</text></view>
+  <view wx:if="{{!disableScroll}}" class="ios-navbar-header"
+    ><text>{{nav.title}}</text></view
+  >
 </template>
