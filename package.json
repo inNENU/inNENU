@@ -28,7 +28,6 @@
     "bundle:wx": "gulp -f gulpfile.cjs bundleWechat && tsx scripts/bundle.ts",
     "changelog": "standard-version --skip.bump --skip.commit --skip.tag",
     "clean": "tsx scripts/del.js",
-    "commit": "pnpm git-cz",
     "dev:app": "gulp -f gulpfile.cjs watchApp",
     "dev:qq": "gulp -f gulpfile.cjs watchQQ",
     "dev:we": "gulp -f gulpfile.cjs watchWeNENU",
@@ -70,14 +69,13 @@
     ]
   },
   "dependencies": {
-    "@mptool/all": "0.10.14"
+    "@mptool/all": "0.11.1"
   },
   "devDependencies": {
     "@commitlint/cli": "19.8.0",
     "@commitlint/config-conventional": "19.8.0",
     "@rollup/plugin-commonjs": "28.0.3",
     "cpx2": "8.0.0",
-    "cz-git": "1.11.1",
     "del": "8.0.0",
     "eslint": "9.24.0",
     "eslint-config-mister-hope": "0.8.1",
@@ -96,12 +94,12 @@
     "rollup": "4.39.0",
     "rollup-plugin-esbuild": "6.2.1",
     "standard-version": "9.5.0",
-    "stylelint": "16.17.0",
+    "stylelint": "16.18.0",
     "stylelint-config-hope": "8.0.0",
     "tsx": "4.19.3",
     "typescript": "5.8.3"
   },
-  "packageManager": "pnpm@10.7.1",
+  "packageManager": "pnpm@10.8.0",
   "pnpm": {
     "onlyBuiltDependencies": [
       "@alicloud/openapi-core",
