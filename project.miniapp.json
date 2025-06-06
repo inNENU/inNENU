@@ -4,7 +4,7 @@
   "versionCode": 48,
   "miniVersion": "v2",
   "mini-android": {
-    "sdkVersion": "1.6.8",
+    "sdkVersion": "1.6.12",
     "useExtendedSdk": {
       "media": true,
       "bluetooth": false,
@@ -43,7 +43,7 @@
       "qmapAPIKey": "NLVBZ-PGJRQ-T7K5F-GQ54N-GIXDH-FCBC4"
     },
     "usePluginSdk": {
-      "map": "1.2.6"
+      "map": "1.2.7"
     },
     "schemes": {
       "scheme": "innenu"
@@ -51,7 +51,7 @@
     "appMenuEnable": true
   },
   "mini-ios": {
-    "sdkVersion": "1.6.10",
+    "sdkVersion": "1.6.14",
     "useExtendedSdk": {
       "WeAppOpenFuns": false,
       "WeAppNetwork": false,
