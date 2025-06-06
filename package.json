@@ -77,9 +77,9 @@
     "@rollup/plugin-commonjs": "28.0.3",
     "cpx2": "8.0.0",
     "del": "8.0.0",
-    "eslint": "9.26.0",
+    "eslint": "9.28.0",
     "eslint-config-mister-hope": "0.9.3",
-    "gulp": "5.0.0",
+    "gulp": "5.0.1",
     "gulp-rename": "2.0.0",
     "gulp-replace": "1.1.4",
     "gulp-sourcemaps": "3.0.0",
@@ -89,28 +89,28 @@
     "innenu-generator": "0.0.31",
     "miniprogram-api-typings": "4.0.7",
     "nano-staged": "0.8.0",
-    "postcss": "8.5.3",
+    "postcss": "8.5.4",
     "prettier": "3.5.3",
-    "rollup": "4.40.2",
+    "rollup": "4.41.1",
     "rollup-plugin-esbuild": "6.2.1",
     "standard-version": "9.5.0",
-    "stylelint": "16.19.1",
+    "stylelint": "16.20.0",
     "stylelint-config-hope": "9.0.0",
     "tsx": "4.19.4",
     "typescript": "5.8.3"
   },
-  "packageManager": "pnpm@10.10.0",
+  "packageManager": "pnpm@10.11.1",
   "pnpm": {
     "onlyBuiltDependencies": [
       "@alicloud/openapi-core",
       "@parcel/watcher",
       "es5-ext",
       "esbuild",
-      "nodejs-jieba"
+      "unrs-resolver"
     ],
     "overrides": {
       "css": "npm:@adobe/css-tools@^4.4.1",
-      "esbuild": "^0.25.0"
+      "esbuild": "^0.25.4"
     }
   }
 }
