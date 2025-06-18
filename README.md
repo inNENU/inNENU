@@ -9,28 +9,37 @@
 ### Request 域名
 
 ```
-https://innenu.com;
-https://assets.innenu.com;
-https://res.innenu.com;
-https://service.innenu.com;
+https://innenu.com
+https://assets.innenu.com
+https://meilisearch.innenu.com
+https://res.innenu.com
+https://service.innenu.com
 
-https://wis.qq.com;
+https://wis.qq.com
 
-https://authserver.nenu.edu.cn;
-https://bkjx.nenu.edu.cn;
-https://bkzsw.nenu.edu.cn;
-https://dsyjs.nenu.edu.cn;
-https://gkcx.nenu.edu.cn;
-https://math127.nenu.edu.cn;
-https://www.library.nenu.edu.cn;
-https://www.nenu.edu.cn;
-https://yz.nenu.edu.cn;
+https://www.nenu.edu.cn
+https://www.library.nenu.edu.cn
 
-https://webvpn.nenu.edu.cn;
-https://authserver-443.webvpn.nenu.edu.cn;
-https://dsjx.webvpn.nenu.edu.cn;
-https://my-443.webvpn.nenu.edu.cn;
-https://m-443.webvpn.nenu.edu.cn;
+https://activate.nenu.edu.cn
+https://authserver.nenu.edu.cn
+https://authserver-443.webvpn.nenu.edu.cn
+https://webvpn.nenu.edu.cn
+https://m-443.webvpn.nenu.edu.cn
+https://my-443.webvpn.nenu.edu.cn
+https://info-443.webvpn.nenu.edu.cn
+
+
+# 招生
+https://gkcx.nenu.edu.cn
+
+# 本科生
+https://bkjx.nenu.edu.cn
+https://dsjx.webvpn.nenu.edu.cn
+
+# 研究生
+https://dsyjs.nenu.edu.cn
+https://pg.nenu.edu.cn
+https://yz.nenu.edu.cn
 ```
 
 ### Download File 域名
