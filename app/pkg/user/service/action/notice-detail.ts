@@ -1,5 +1,5 @@
 import type { RichTextNode } from "@mptool/all";
-import { getRichTextNodes, logger } from "@mptool/all";
+import { encodeBase64, getRichTextNodes, logger } from "@mptool/all";
 
 import { request } from "../../../../api/index.js";
 import type {
@@ -10,6 +10,7 @@ import type {
 import {
   ACTION_SERVER,
   ExpiredResponse,
+  INFO_SERVER,
   MY_SERVER,
   UnknownResponse,
   createService,
@@ -18,21 +19,17 @@ import {
   withActionLogin,
 } from "../../../../service/index.js";
 
-const TITLE_REGEXP = /var title = '(.*?)';/;
-const FROM_REGEXP = /var ly = '(.*?)'/;
-const AUTHOR_REGEXP = /var wz = '(.*?)'/;
-const TIME_REGEXP =
-  /<span style="margin: 0 10px;font-size: 13px;color: #787878;font-family: 'Microsoft YaHei';">\s+时间：(.*?)(?:&nbsp;)*?\s+<\/span>/;
-const PAGEVIEW_REGEXP =
-  /<span style="margin: 0 10px;font-size: 13px;color: #787878;font-family: 'Microsoft YaHei';">\s+阅览：(\d+)\s+<\/span>/;
+const TITLE_REGEXP = /name="pageTitle" content="(.*)"/;
+const FROM_REGEXP = /<span>(?:发布单位|供稿单位)：(.*)<\/span>/;
+const TIME_REGEXP = /<span>发布时间：(.*)<\/span>/;
+const PAGEVIEW_REGEXP = /_showDynClicks\("wbnews", (\d+), (\d+)\)/;
 const CONTENT_REGEXP =
-  /<div class="read" id="WBNR">\s+([^]*?)\s+<\/div>\s+<p id="zrbj"/;
+  /<div id="vsb_content.*?>([^]*?)\s*<\/div>\s*<div id="div_vote_id"/;
 
 export interface NoticeData {
   title: string;
-  author: string;
-  time: string;
   from: string;
+  time: string;
   pageView: number;
   content: RichTextNode[];
 }
@@ -42,14 +39,13 @@ export type NoticeResponse =
   | CommonFailedResponse<ActionFailType.Expired | ActionFailType.Unknown>;
 
 const getNoticeLocalDetail = async (
-  noticeID: string,
+  noticeUrl: string,
 ): Promise<NoticeResponse> => {
   try {
-    const noticeUrl = `${ACTION_SERVER}/page/viewNews?ID=${noticeID}`;
-
-    const { data: text, status } = await request<string>(noticeUrl, {
-      redirect: "manual",
-    });
+    const { data: text, status } = await request<string>(
+      `${INFO_SERVER}${noticeUrl}`,
+      { redirect: "manual" },
+    );
 
     if (
       status === 302 ||
@@ -60,18 +56,21 @@ const getNoticeLocalDetail = async (
       return ExpiredResponse;
 
     const title = TITLE_REGEXP.exec(text)![1];
-    const author = AUTHOR_REGEXP.exec(text)![1];
     const time = TIME_REGEXP.exec(text)![1];
     const from = FROM_REGEXP.exec(text)![1];
-    const pageView = PAGEVIEW_REGEXP.exec(text)![1];
+    const [, owner, clickId] = PAGEVIEW_REGEXP.exec(text)!;
     const content = CONTENT_REGEXP.exec(text)![1];
+
+    const { data: pageview } = await request<string>(
+      `${INFO_SERVER}/system/resource/code/news/click/dynclicks.jsp?clickid=${clickId}&owner=${owner}&clicktype=wbnews`,
+      { redirect: "manual" },
+    );
 
     const data = {
       title,
-      author,
       from,
       time,
-      pageView: Number(pageView),
+      pageView: Number(pageview),
       content: await getRichTextNodes(content, {
         transform: {
           a: (node) => {
@@ -80,14 +79,38 @@ const getNoticeLocalDetail = async (
             if (
               href &&
               !href.startsWith(ACTION_SERVER) &&
+              !href.startsWith(INFO_SERVER) &&
               !href.startsWith(MY_SERVER)
             )
               node.children?.push({ type: "text", text: ` (${href})` });
 
             return node;
           },
-          // TODO: Support image
-          img: () => null,
+          img: async (node) => {
+            const src = node.attrs?.src;
+
+            // convert to base64
+            if (src?.startsWith("/")) {
+              const {
+                data: buffer,
+                headers,
+                status,
+              } = await request<ArrayBuffer>(`${INFO_SERVER}${src}`, {
+                responseType: "arraybuffer",
+                redirect: "manual",
+              });
+
+              if (status === 200) {
+                node.attrs!.src = `data:${headers.get(
+                  "content-type",
+                )};base64,${encodeBase64(buffer)}`;
+
+                return node;
+              }
+            }
+
+            return node;
+          },
         },
       }),
     };

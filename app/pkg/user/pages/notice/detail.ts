@@ -21,22 +21,22 @@ $Page(PAGE_ID, {
   },
 
   state: {
-    id: "",
+    url: "",
     title: "",
     type: "notice" as NoticeType,
     notice: null as StarredNoticeData | null,
   },
 
-  onLoad({ scene = "", title = "", id = scene, type = "notice" }) {
+  onLoad({ scene = "", title = "", url = scene, type = "notice" }) {
     const starredNotices =
       get<StarredNoticeData[]>(STARRED_NOTICE_LIST_KEY) ?? [];
 
     this.state.type = type as NoticeType;
-    this.state.id = id;
+    this.state.url = url;
 
-    if (id) this.getNotice();
+    if (url) this.getNotice();
     else
-      showModal("无法获取", "请提供公告 ID", () => {
+      showModal("无法获取", "请提供公告链接", () => {
         this.$back();
       });
 
@@ -48,9 +48,9 @@ $Page(PAGE_ID, {
       share: {
         title,
         shareable: true,
-        qrcode: `${service}mp/qrcode?appId=${appId}&page=pkg/user/pages/notice/detail&scene=${id}`,
+        qrcode: `${service}mp/qrcode?appId=${appId}&page=pkg/user/pages/notice/detail&scene=${url}`,
       },
-      starred: starredNotices.some((item) => item.id === id),
+      starred: starredNotices.some((item) => item.url === url),
     });
   },
 
@@ -59,35 +59,35 @@ $Page(PAGE_ID, {
   },
 
   onShareAppMessage(): WechatMiniprogram.Page.ICustomShareContent {
-    const { type, id, title } = this.state;
+    const { type, url, title } = this.state;
 
     return {
       title,
-      path: `/pkg/user/pages/notice/detail?type=${type}&id=${id}&title=${title}`,
+      path: `/pkg/user/pages/notice/detail?type=${type}&url=${url}&title=${title}`,
     };
   },
 
   onShareTimeline(): WechatMiniprogram.Page.ICustomTimelineContent {
-    const { type, id, title } = this.state;
+    const { type, url, title } = this.state;
 
     return {
       title,
-      query: `type=${type}&id=${id}&title=${title}`,
+      query: `type=${type}&url=${url}&title=${title}`,
     };
   },
 
   onAddToFavorites(): WechatMiniprogram.Page.IAddToFavoritesContent {
-    const { type, id, title } = this.state;
+    const { type, url, title } = this.state;
 
     return {
       title,
       imageUrl: `${appCoverPrefix}.jpg`,
-      query: `type=${type}&id=${id}&title=${title}`,
+      query: `type=${type}&url=${url}&title=${title}`,
     };
   },
 
   async getNotice() {
-    const { id, type } = this.state;
+    const { url, type } = this.state;
 
     if (!user.account) {
       this.setData({ status: "login" });
@@ -97,7 +97,7 @@ $Page(PAGE_ID, {
 
     wx.showLoading({ title: "获取中" });
 
-    const result = await getNoticeDetail(id);
+    const result = await getNoticeDetail(url);
 
     wx.hideLoading();
 
@@ -107,7 +107,7 @@ $Page(PAGE_ID, {
       return;
     }
 
-    const { title, time, pageView, author, from, content } = result.data;
+    const { title, time, pageView, from, content } = result.data;
 
     this.setData({
       status: "success",
@@ -116,7 +116,6 @@ $Page(PAGE_ID, {
       "share.title": title,
       time,
       pageView,
-      author,
       from,
       content,
     });
@@ -124,17 +123,16 @@ $Page(PAGE_ID, {
       title,
       time,
       pageView,
-      author,
       from,
       content,
-      id,
+      url,
       type,
     };
   },
 
   toggleStar() {
     const { starred } = this.data;
-    const { notice, id } = this.state;
+    const { notice, url } = this.state;
 
     if (!notice) showToast("通知未获取完成", 1500, "error");
 
@@ -143,7 +141,7 @@ $Page(PAGE_ID, {
 
       set(
         STARRED_NOTICE_LIST_KEY,
-        starredNotices.filter((item) => item.id !== id),
+        starredNotices.filter((item) => item.url !== url),
       );
     } else {
       const starredNotices =

@@ -62,9 +62,9 @@ $Component({
     >) {
       const notices = get<StarredNoticeData[]>(STARRED_NOTICE_LIST_KEY) || [];
       const { index } = currentTarget.dataset;
-      const { title, id, type } = notices[index];
+      const { title, url, type } = notices[index];
 
-      return this.$go(`notice-detail?title=${title}&id=${id}&type=${type}`);
+      return this.$go(`notice-detail?title=${title}&url=${url}&type=${type}`);
     },
   },
 
