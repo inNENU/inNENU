@@ -1,0 +1,13 @@
+{
+  "extends": "./tsconfig.base.json",
+  "compilerOptions": {
+    "allowJs": true,
+    "target": "ES2017",
+    "module": "CommonJS",
+    "moduleResolution": "Node10",
+    "moduleSuffixes": ["", ".wx", ".we", ".qq", ".app"],
+    "outDir": "./dist",
+    "types": ["miniprogram-api-typings"]
+  },
+  "include": ["app/**/*.ts", "typings/**/*.ts"]
+}
