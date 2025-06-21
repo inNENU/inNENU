@@ -9,3 +9,6 @@ dist/**
 project.config.json
 project.private.config.json
 .npmrc
+
+# Mac
+.DS_Store
