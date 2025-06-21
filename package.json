@@ -99,18 +99,5 @@
     "tsx": "4.20.3",
     "typescript": "5.8.3"
   },
-  "packageManager": "pnpm@10.12.1",
-  "pnpm": {
-    "onlyBuiltDependencies": [
-      "@alicloud/openapi-core",
-      "@parcel/watcher",
-      "es5-ext",
-      "esbuild",
-      "unrs-resolver"
-    ],
-    "overrides": {
-      "css": "npm:@adobe/css-tools@^4.4.1",
-      "esbuild": "^0.25.4"
-    }
-  }
+  "packageManager": "pnpm@10.12.1"
 }
