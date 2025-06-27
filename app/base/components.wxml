@@ -72,11 +72,11 @@
   <carousel config="{{config}}" />
 </template>
 
-<template name="audio-player-component">
+<template name="audio-component">
   <audio-player config="{{config}}" />
 </template>
 
-<template name="video-player-component">
+<template name="video-component">
   <video-player config="{{config}}" />
 </template>
 
