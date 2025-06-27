@@ -4,7 +4,7 @@ import { appCoverPrefix } from "../../../../config/index.js";
 import { reportUserInfo } from "../../../../service/index.js";
 import { appInfo, info } from "../../../../state/index.js";
 import { getPageColor } from "../../../../utils/index.js";
-import { rateApp, resetApp } from "../../utils/index.js";
+import { resetApp } from "../../utils/index.js";
 
 const PAGE_ID = "action";
 const PAGE_TITLE = "功能页";
@@ -46,11 +46,6 @@ $Page(PAGE_ID, {
       imageUrl: `${appCoverPrefix}.jpg`,
       query: `action=${this.state.action}`,
     };
-  },
-
-  rateApp() {
-    reportUserInfo({ type: "rate" });
-    rateApp();
   },
 
   /** 初始化 */

@@ -22,13 +22,7 @@
         "pages/settings/settings",
         "pages/settings/widget",
         "pages/web/web"
-      ],
-      "plugins": {
-        "wxacommentplugin": {
-          "version": "latest",
-          "provider": "wx82e6ae1175f264fa"
-        }
-      }
+      ]
     },
     {
       "name": "tool",
