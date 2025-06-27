@@ -133,7 +133,7 @@ $Page(PAGE_ID, {
     if (provinceIndex !== 0) {
       const province = provinces[provinceIndex - 1];
       const yearOptions = this.state.options[province];
-      const years = Object.keys(yearOptions);
+      const years = Object.keys(yearOptions).reverse();
       const oldYear = oldYears[oldYearIndex - 1];
       const yearIndex = years.indexOf(oldYear);
 
