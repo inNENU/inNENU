@@ -53,19 +53,19 @@
   "unordered list component with title": {
     "scope": "yaml",
     "prefix": "ul",
-    "body": ["  - tag: ul", "${1:    header: $2}", "    text:", "      - $0"],
+    "body": ["  - tag: ul", "${1:    header: $2}", "    text:"],
     "description": "inset ul",
   },
   "ordered list component": {
     "scope": "yaml",
     "prefix": "ol",
-    "body": ["  - tag: ol", "${1:    header: $2}", "    text:", "      - $0"],
+    "body": ["  - tag: ol", "${1:    header: $2}", "    text:"],
     "description": "inset ol",
   },
   "ordered list component with title": {
     "scope": "yaml",
     "prefix": "olh",
-    "body": ["  - tag: ol", "    text:", "      - $0"],
+    "body": ["  - tag: ol", "    text:"],
     "description": "inset ol",
   },
   "hint box component": {

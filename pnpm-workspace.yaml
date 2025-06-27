@@ -1,3 +1,14 @@
 packages:
   - app/
   - res/
+
+onlyBuiltDependencies:
+  - "@alicloud/openapi-core"
+  - "@parcel/watcher"
+  - es5-ext
+  - esbuild
+  - unrs-resolver
+
+overrides:
+  css: npm:@adobe/css-tools@^4.4.3
+  esbuild: ^0.25.5

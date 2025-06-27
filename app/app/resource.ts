@@ -122,11 +122,8 @@ export const checkResource = (): Promise<void> => {
   const currentTime = Math.round(Date.now() / 1000);
 
   // 调试
-  logger.debug(
-    `Resource Notify status: ${disableNotify ? "close" : "open"}`,
-    "Local resource version: ",
-    localVersion,
-  );
+  logger.debug(`Resource Notify status: ${disableNotify ? "close" : "open"}`);
+  logger.debug("Local resource version: ", localVersion);
 
   if (currentTime > Number(localTime) + 604800 && disableNotify) {
     disableNotify = true;
