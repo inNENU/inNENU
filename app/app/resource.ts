@@ -132,7 +132,7 @@ export const checkResource = (): Promise<void> => {
   }
 
   // 需要检查更新
-  if (disableNotify && !hasResPopup)
+  if (!disableNotify && !hasResPopup)
     return request<ResourceVersionInfo>(`${server}service/version.php`, {
       method: "POST",
     })
