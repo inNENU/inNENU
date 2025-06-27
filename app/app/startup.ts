@@ -97,6 +97,6 @@ export const startup = (globalData: GlobalData): void => {
     setOpenid(openid);
     if (isAdmin) wx.setStorageSync("isAdmin", true);
     if (inBlacklist && getCurrentRoute() !== "pkg/addon/pages/action/action")
-      reLaunch("action=blacklist");
+      reLaunch("action?action=blacklist");
   });
 };
