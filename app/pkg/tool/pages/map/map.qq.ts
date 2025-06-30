@@ -3,7 +3,7 @@
 import { $Page, logger, showModal, showToast } from "@mptool/all";
 
 import type {
-  Category,
+  MarkerCategory,
   MarkerData,
   MarkersData,
 } from "../../../../../typings/index.js";
@@ -45,11 +45,11 @@ $Page(PAGE_ID, {
     gestureHold: false,
     isSet: false,
     benbu: {
-      category: [] as Category[],
+      category: [] as MarkerCategory[],
       marker: {} as Record<string, MarkerData[]>,
     },
     jingyue: {
-      category: [] as Category[],
+      category: [] as MarkerCategory[],
       marker: {} as Record<string, MarkerData[]>,
     },
   },
