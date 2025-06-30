@@ -4,8 +4,8 @@ import type {
   AudioComponentOptions,
   ButtonListComponentItemOptions,
   CardComponentOptions,
-  CarouselComponentOptions,
-  DocComponentOptions,
+  CarouselComponentData,
+  DocComponentData,
   FooterComponentOptions,
   FunctionalListComponentOptions,
   GridComponentOptions,
@@ -13,12 +13,12 @@ import type {
   ListComponentItemOptions,
   ListComponentOptions,
   NavigatorListComponentItemOptions,
-  PhoneComponentOptions,
+  PhoneComponentData,
   PickerListComponentItemOptions,
   SliderListComponentItemOptions,
   SwitchListComponentItemOptions,
-  TextComponentOptions,
-  TitleComponentOptions,
+  TextComponentData,
+  TitleComponentData,
   VideoComponentOptions,
 } from "innenu-generator/typings";
 
@@ -36,14 +36,13 @@ export interface SliderListComponentItemConfig<T = unknown>
   visible?: boolean;
 }
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-export interface PickerListComponentItemConfig<T = any>
-  extends PickerListComponentItemOptions<T> {
+export interface PickerListComponentItemConfig
+  extends PickerListComponentItemOptions {
   /** 是否显示选择器 */
   visible?: boolean;
   /** picker 选择器对应的键 */
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  currentValue?: T extends any[] ? number[] : number;
+  currentValue?: number[] | number;
+  value?: any; // eslint-disable-line @typescript-eslint/no-explicit-any
 }
 
 export interface ButtonListComponentItemConfig
@@ -70,7 +69,7 @@ export interface FunctionalListComponentConfig
   content: FunctionalListComponentItemConfig[];
 }
 
-export interface CommonComponentConfig {
+export interface CommonComponentData {
   /**
    * 是否隐藏
    *
@@ -79,21 +78,21 @@ export interface CommonComponentConfig {
   hidden?: boolean;
 }
 
-export type ComponentConfig = (
+export type ComponentData = (
   | AccountComponentOptions
   | ActionComponentOptions
   | AudioComponentOptions
   | CardComponentOptions
-  | CarouselComponentOptions
-  | DocComponentOptions
+  | CarouselComponentData
+  | DocComponentData
   | FooterComponentOptions
   | FunctionalListComponentConfig
   | GridComponentOptions
   | ImageComponentOptions
   | ListComponentOptions
-  | PhoneComponentOptions
-  | TextComponentOptions
-  | TitleComponentOptions
+  | PhoneComponentData
+  | TextComponentData
+  | TitleComponentData
   | VideoComponentOptions
 ) &
-  CommonComponentConfig;
+  CommonComponentData;

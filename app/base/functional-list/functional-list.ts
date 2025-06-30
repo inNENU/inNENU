@@ -92,14 +92,13 @@ $Component({
             ];
             (item.currentValue as number[])[y] = Number(x);
           });
-          wx.setStorageSync(item.key, value.join("-"));
+          wx.setStorageSync(item.key!, value.join("-"));
 
           // 判断为单列选择器，更新页面数据并存储选择器值
         } else {
-          // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
           item.value = item.select[Number(value)];
           item.currentValue = Number(value);
-          wx.setStorageSync(item.key, Number(value));
+          wx.setStorageSync(item.key!, Number(value));
         }
 
         // 将选择器的变更响应到页面上

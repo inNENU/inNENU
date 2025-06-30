@@ -57,13 +57,9 @@ $Component({
 
     /** 微信 */
     addWechat(): void {
-      const { account, wxid, wxcode } = this.data.config;
+      const { account, wxid } = this.data.config;
 
       if (account) this.$go(`wechat?path=${account}`);
-      else if (wxcode)
-        savePhoto(getAssetLink(wxcode))
-          .then(() => showToast("二维码已存至相册"))
-          .catch(() => showToast("二维码保存失败"));
       else if (wxid)
         if (env === "wx")
           // 微信客户端可打开图片长按扫码

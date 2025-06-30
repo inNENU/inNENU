@@ -13,7 +13,7 @@ import { getScopeData } from "./getScopeData.js";
 import { id2path } from "./id.js";
 import { ensureJson } from "./json.js";
 import type {
-  ComponentConfig,
+  ComponentData,
   FunctionalListComponentItemConfig,
   GridComponentItemOptions,
   ListComponentItemOptions,
@@ -68,7 +68,6 @@ const setListItemState = (
         // 单列选择器
         const selectIndex = wx.getStorageSync<number>(listElement.key);
 
-        // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
         listElement.value = listElement.select[selectIndex];
         listElement.currentValue = [selectIndex];
       } else {
@@ -92,9 +91,9 @@ const setListItemState = (
 };
 
 export const setComponentState = (
-  components: ComponentConfig[],
+  components: ComponentData[],
   images: string[] = [],
-): ComponentConfig[] =>
+): ComponentData[] =>
   components
     .map((component) => {
       const { tag } = component;

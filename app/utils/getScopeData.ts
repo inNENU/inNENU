@@ -1,14 +1,14 @@
 import type {
   PageStateWithContent,
-  TextComponentOptions,
-  TitleComponentOptions,
+  TextComponentData,
+  TitleComponentData,
 } from "../../typings/index.js";
 import { appCoverPrefix, appName } from "../config/index.js";
 
 const getText = (page: PageStateWithContent): string => {
   const pageContent = page.content
     .filter(
-      (element): element is TextComponentOptions =>
+      (element): element is TextComponentData =>
         element.tag === "text" ||
         element.tag === "p" ||
         element.tag === "ul" ||
@@ -27,9 +27,7 @@ const getText = (page: PageStateWithContent): string => {
 
 const getTags = (page: PageStateWithContent): string[] => {
   const titles = page.content
-    .filter(
-      (element): element is TitleComponentOptions => element.tag === "title",
-    )
+    .filter((element): element is TitleComponentData => element.tag === "title")
     .map((element) => element.text);
 
   return titles.length

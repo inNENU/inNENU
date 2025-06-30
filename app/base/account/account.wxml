@@ -53,7 +53,7 @@
         <image class="icon" src="/icon/wechat.svg" />
       </view>
       <view
-        wx:elif="{{config.wxid || config.wxcode}}"
+        wx:elif="{{config.wxid}}"
         class="account-action"
         hover-class="button-hover"
         hover-start-time="0"
