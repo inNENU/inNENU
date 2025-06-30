@@ -9,7 +9,7 @@ import {
   writeClipboard,
 } from "@mptool/all";
 
-import type { DocComponentOptions } from "../../../typings/index.js";
+import type { DocComponentData } from "../../../typings/index.js";
 import { envName } from "../../state/index.js";
 import { getAssetLink } from "../../utils/index.js";
 
@@ -20,7 +20,7 @@ $Component({
   props: {
     /** 配置 */
     config: {
-      type: Object as PropType<DocComponentOptions>,
+      type: Object as PropType<DocComponentData>,
       required: true,
     },
   },

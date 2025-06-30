@@ -2,7 +2,6 @@ import { $Page, get, set } from "@mptool/all";
 
 import type {
   GridComponentOptions,
-  ListComponentItemOptions,
   PageStateWithContent,
 } from "../../../typings/index.js";
 import { checkResource } from "../../app/index.js";
@@ -125,7 +124,7 @@ $Page(PAGE_ID, {
         }),
         more,
         moreItems: more.map(({ header, path }) => {
-          const item: ListComponentItemOptions = { text: header };
+          const item: { text: string; url?: string } = { text: header };
 
           if (path) item.url = `info?from=${PAGE_TITLE}&path=${path}`;
 

@@ -7,8 +7,8 @@ import {
 } from "@mptool/all";
 
 import type {
-  QQAccountsConfig,
-  WechatAccountsConfig,
+  QQAccounts,
+  WechatAccounts,
 } from "../../../../../typings/index.js";
 import { appCoverPrefix } from "../../../../config/index.js";
 import type { Env } from "../../../../state/index.js";
@@ -44,7 +44,7 @@ $Page(PAGE_ID, {
   onLoad({ type }: { type: Env }) {
     const defaultType = type || (env === "qq" ? "qq" : "wx");
 
-    getJson<WechatAccountsConfig | QQAccountsConfig>(
+    getJson<QQAccounts | WechatAccounts>(
       `function/account/${defaultType}`,
     ).then((config) => {
       this.setData({

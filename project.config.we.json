@@ -60,13 +60,7 @@
     "include": []
   },
   "watchOptions": {
-    "ignore": [
-      ".temp/**",
-      "app/**",
-      "node_modules/**",
-      "res/**",
-      "typings/**"
-    ]
+    "ignore": [".temp/**", "app/**", "node_modules/**", "res/**", "typings/**"]
   },
   "condition": {
     "miniprogram": {

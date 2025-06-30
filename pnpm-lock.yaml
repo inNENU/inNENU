@@ -59,8 +59,8 @@ importers:
         specifier: 9.1.7
         version: 9.1.7
       innenu-generator:
-        specifier: 0.2.4
-        version: 0.2.4
+        specifier: 0.3.1
+        version: 0.3.1
       miniprogram-api-typings:
         specifier: 4.0.7
         version: 4.0.7
@@ -131,8 +131,8 @@ importers:
         specifier: 17.0.0
         version: 17.0.0
       innenu-generator:
-        specifier: 0.2.4
-        version: 0.2.4
+        specifier: 0.3.1
+        version: 0.3.1
       js-yaml:
         specifier: 4.1.0
         version: 4.1.0
@@ -641,8 +641,8 @@ packages:
     resolution: {integrity: sha512-O8jcjabXaleOG9DQ0+ARXWZBTfnP4WNAqzuiJK7ll44AmxGKv/J2M4TPjxjY3znBCfvBXFzucm1twdyFybFqEA==}
     engines: {node: '>=12'}
 
-  '@jridgewell/sourcemap-codec@1.5.1':
-    resolution: {integrity: sha512-mBLKRHc7Ffw/hObYb9+cunuGNjshQk+vZdwZBJoqiysK/mW3Jq0UXosq8aIhMnLevANhR9yoYfdUEOHg6M9y0g==}
+  '@jridgewell/sourcemap-codec@1.5.2':
+    resolution: {integrity: sha512-gKYheCylLIedI+CSZoDtGkFV9YEBxRRVcfCH7OfAqh4TyUyRjEE6WVE/aXDXX0p8BIe/QgLcaAoI0220KRRFgg==}
 
   '@keyv/serialize@1.0.3':
     resolution: {integrity: sha512-qnEovoOp5Np2JDGonIDL6Ayihw0RhnRh6vxPuHo4RDn1UOzwEo4AeIfpL6UGIrsceWrCMiVPgwRjbHu4vYFc3g==}
@@ -3226,8 +3226,8 @@ packages:
     resolution: {integrity: sha512-QQnnxNyfvmHFIsj7gkPcYymR8Jdw/o7mp5ZFihxn6h8Ci6fh3Dx4E1gPjpQEpIuPo9XVNY/ZUwh4BPMjGyL01g==}
     engines: {node: ^14.17.0 || ^16.13.0 || >=18.0.0}
 
-  innenu-generator@0.2.4:
-    resolution: {integrity: sha512-kdyp8NDHS+aeZztcs+zVa4BaLfAvTXcsVGGPmDlwvhJOA148zEXS7jV/DuIQBgyaLf679F1OMW8CTfTAyGKp5g==}
+  innenu-generator@0.3.1:
+    resolution: {integrity: sha512-l6xOsc3KSAcV+HVNhVhq2rCN/4etaYQq0VBJiip9PqCmyhTu0k0nkNjnG3ashh2PP3w/jLlHS2ya/m6/5M6tIQ==}
 
   interpret@3.1.1:
     resolution: {integrity: sha512-6xwYfHbajpoF0xLW+iwLkhwgvLoZDfjYfoFNu8ftMoXINzwuymNLd9u/KmwtdT2GbR+/Cz66otEGEVVUHX9QLQ==}
@@ -5510,6 +5510,9 @@ packages:
     resolution: {integrity: sha512-AyeEbWOu/TAXdxlV9wmGcR0+yh2j3vYPGOECcIj2S7MkrLyC7ne+oye2BKTItt0ii2PHk4cDy+95+LshzbXnGg==}
     engines: {node: '>=12.20'}
 
+  zod@3.25.67:
+    resolution: {integrity: sha512-idA2YXwpCdqUSKRCACDE6ItZD9TZzy3OZMtpfLoh6oPR47lipysRrJfjzMqFxQ3uJuUPyUeWe1r9vLH33xO/Qw==}
+
   zwitch@2.0.4:
     resolution: {integrity: sha512-bXE4cR/kVZhKZX/RjPEflHaKVhUVl85noU3v6b8apfQEc1x4A+zBxjZ4lN8LqGd6WZ3dl98pY4o717VFmoPp+A==}
 
@@ -5995,7 +5998,7 @@ snapshots:
       wrap-ansi: 8.1.0
       wrap-ansi-cjs: wrap-ansi@7.0.0
 
-  '@jridgewell/sourcemap-codec@1.5.1': {}
+  '@jridgewell/sourcemap-codec@1.5.2': {}
 
   '@keyv/serialize@1.0.3':
     dependencies:
@@ -8980,12 +8983,13 @@ snapshots:
 
   ini@4.1.1: {}
 
-  innenu-generator@0.2.4:
+  innenu-generator@0.3.1:
     dependencies:
       '@mr-hope/assert-type': 3.0.0
       ali-oss: 6.23.0
       js-yaml: 4.1.0
       upath: 2.0.1
+      zod: 3.25.67
     transitivePeerDependencies:
       - proxy-agent
       - supports-color
@@ -9298,7 +9302,7 @@ snapshots:
 
   magic-string@0.30.17:
     dependencies:
-      '@jridgewell/sourcemap-codec': 1.5.1
+      '@jridgewell/sourcemap-codec': 1.5.2
 
   map-cache@0.2.2: {}
 
@@ -11315,5 +11319,7 @@ snapshots:
   yocto-queue@0.1.0: {}
 
   yocto-queue@1.2.1: {}
+
+  zod@3.25.67: {}
 
   zwitch@2.0.4: {}

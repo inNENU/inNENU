@@ -1,14 +1,14 @@
 import type { PropType } from "@mptool/all";
 import { $Component, addContact, showToast, writeClipboard } from "@mptool/all";
 
-import type { PhoneComponentOptions } from "../../../typings/index.js";
+import type { PhoneComponentData } from "../../../typings/index.js";
 import { env } from "../../state/index.js";
 
 $Component({
   props: {
     /** 电话组件配置 */
     config: {
-      type: Object as PropType<PhoneComponentOptions>,
+      type: Object as PropType<PhoneComponentData>,
       required: true,
     },
   },

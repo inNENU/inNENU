@@ -7,8 +7,8 @@ import {
 } from "@mptool/all";
 
 import type {
-  WechatAccountConfig,
-  WechatArticleConfig,
+  WechatAccountData,
+  WechatArticle,
 } from "../../../../../typings/index.js";
 import { request } from "../../../../api/index.js";
 import { appCoverPrefix, server } from "../../../../config/index.js";
@@ -23,7 +23,7 @@ import { createRecycleContext } from "../../components/recycle-view/index.js";
 
 const PAGE_ID = "wechat";
 
-interface WechatArticleItemWithSize extends WechatArticleConfig {
+interface WechatArticleItemWithSize extends WechatArticle {
   width: number;
   height: number;
 }
@@ -80,7 +80,7 @@ $Page(PAGE_ID, {
 
     this.ctx = ctx;
 
-    request<WechatAccountConfig>(`${server}service/account.php`, {
+    request<WechatAccountData>(`${server}service/account.php`, {
       method: "POST",
       body: { id: this.state.path },
     })
@@ -139,7 +139,7 @@ $Page(PAGE_ID, {
     };
   },
 
-  appendSize(item: WechatArticleConfig) {
+  appendSize(item: WechatArticle) {
     const width = Math.min(windowInfo.windowWidth - 30, 517);
     const titleCharPerLine = Math.floor((width - 30) / 16);
     const descCharPerLine = Math.floor((width - 30) / 14);
@@ -203,6 +203,6 @@ $Page(PAGE_ID, {
   },
 
   ctx: null as unknown as ReturnType<
-    typeof createRecycleContext<WechatArticleConfig>
+    typeof createRecycleContext<WechatArticle>
   >,
 });

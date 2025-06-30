@@ -1,6 +1,6 @@
 import type { PageData } from "innenu-generator/typings";
 
-import type { ComponentConfig } from "./components.js";
+import type { ComponentData } from "./components.js";
 
 /** 页面选项 */
 export interface PageOptions {
@@ -31,11 +31,11 @@ export interface PageState extends Partial<PageData> {
   /** 是否显示阴影(仅 Android 主题) */
   shadow?: boolean;
   image?: string[];
-  content?: ComponentConfig[];
+  content?: ComponentData[];
   scopeData?: WechatMiniprogram.GeneralScopeData;
 }
 
 /** 含有内容的页面状态 */
 export interface PageStateWithContent extends PageState {
-  content: ComponentConfig[];
+  content: ComponentData[];
 }

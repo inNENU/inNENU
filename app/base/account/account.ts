@@ -7,7 +7,7 @@ import {
   writeClipboard,
 } from "@mptool/all";
 
-import type { AccountComponentOptions } from "../../../typings/index.js";
+import type { AccountComponentData } from "../../../typings/index.js";
 import { env, isCompany } from "../../state/index.js";
 import { getAssetLink, startNavigation } from "../../utils/index.js";
 
@@ -15,7 +15,7 @@ $Component({
   props: {
     /** 介绍组件配置 */
     config: {
-      type: Object as PropType<AccountComponentOptions>,
+      type: Object as PropType<AccountComponentData>,
       required: true,
     },
   },
@@ -57,13 +57,9 @@ $Component({
 
     /** 微信 */
     addWechat(): void {
-      const { account, wxid, wxcode } = this.data.config;
+      const { account, wxid } = this.data.config;
 
       if (account) this.$go(`wechat?path=${account}`);
-      else if (wxcode)
-        savePhoto(getAssetLink(wxcode))
-          .then(() => showToast("二维码已存至相册"))
-          .catch(() => showToast("二维码保存失败"));
       else if (wxid)
         if (env === "wx")
           // 微信客户端可打开图片长按扫码
@@ -100,7 +96,9 @@ $Component({
     },
 
     navigate(): void {
-      startNavigation(this.data.config);
+      const { name, loc } = this.data.config;
+
+      startNavigation({ name, loc: loc! });
     },
   },
 });

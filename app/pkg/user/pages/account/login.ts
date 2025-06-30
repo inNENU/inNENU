@@ -56,7 +56,6 @@ $Page(PAGE_ID, {
     },
 
     list: {
-      header: false,
       items: EMPTY_CONTENT,
     } as ListComponentOptions,
 
