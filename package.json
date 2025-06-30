@@ -77,10 +77,10 @@
     "@rollup/plugin-commonjs": "28.0.6",
     "cpx2": "8.0.0",
     "del": "8.0.0",
-    "eslint": "9.29.0",
+    "eslint": "9.30.0",
     "eslint-config-mister-hope": "0.9.6",
     "gulp": "5.0.1",
-    "gulp-rename": "2.0.0",
+    "gulp-rename": "2.1.0",
     "gulp-replace": "1.1.4",
     "gulp-sourcemaps": "3.0.0",
     "gulp-typescript": "6.0.0-alpha.1",
@@ -90,8 +90,8 @@
     "miniprogram-api-typings": "4.0.7",
     "nano-staged": "0.8.0",
     "postcss": "8.5.6",
-    "prettier": "3.6.0",
-    "rollup": "4.44.0",
+    "prettier": "3.6.2",
+    "rollup": "4.44.1",
     "rollup-plugin-esbuild": "6.2.1",
     "standard-version": "9.5.0",
     "stylelint": "16.21.0",
@@ -99,5 +99,5 @@
     "tsx": "4.20.3",
     "typescript": "5.8.3"
   },
-  "packageManager": "pnpm@10.12.2"
+  "packageManager": "pnpm@10.12.4"
 }
