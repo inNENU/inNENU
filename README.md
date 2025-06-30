@@ -25,7 +25,7 @@ https://authserver.nenu.edu.cn
 https://authserver-443.webvpn.nenu.edu.cn
 https://webvpn.nenu.edu.cn
 https://m-443.webvpn.nenu.edu.cn
-https://my-443.webvpn.nenu.edu.cn
+https://oa-443.webvpn.nenu.edu.cn
 https://info-443.webvpn.nenu.edu.cn
 
 
