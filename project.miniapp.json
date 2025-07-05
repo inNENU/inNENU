@@ -1,10 +1,10 @@
 {
   "name": "inNENU",
-  "version": "7.4.0",
+  "version": "7.3.1",
   "versionCode": 48,
   "miniVersion": "v2",
   "mini-android": {
-    "sdkVersion": "1.6.13",
+    "sdkVersion": "1.6.15",
     "useExtendedSdk": {
       "media": true,
       "bluetooth": false,
@@ -51,7 +51,7 @@
     "appMenuEnable": true
   },
   "mini-ios": {
-    "sdkVersion": "1.6.15",
+    "sdkVersion": "1.6.17",
     "useExtendedSdk": {
       "WeAppOpenFuns": false,
       "WeAppNetwork": false,
@@ -93,7 +93,20 @@
     },
     "privateDescriptions": {
       "NSPhotoLibraryAddUsageDescription": "写入图片至你的相册",
-      "NSLocationWhenInUseUsageDescription": "您的位置将用于校园地图导航"
+      "NSLocationWhenInUseUsageDescription": "您的位置将用于校园地图导航",
+      "NSPhotoLibraryUsageDescription": "当前应用程序需要访问用户的相册，如需修改描述请前往「project.miniapp.json - 隐私信息访问许可描述」修改，并且关闭「自动使用默认描述补全默认隐私信息访问许可」",
+      "NSCameraUsageDescription": "当前应用程序需要访问用户的相机，如需修改描述请前往「project.miniapp.json - 隐私信息访问许可描述」修改，并且关闭「自动使用默认描述补全默认隐私信息访问许可」",
+      "NSMicrophoneUsageDescription": "当前应用程序需要访问用户的麦克风，如需修改描述请前往「project.miniapp.json - 隐私信息访问许可描述」修改，并且关闭「自动使用默认描述补全默认隐私信息访问许可」",
+      "NSLocationAlwaysUsageDescription": "当前应用程序需要始终访问用户的位置，如需修改描述请前往「project.miniapp.json - 隐私信息访问许可描述」修改，并且关闭「自动使用默认描述补全默认隐私信息访问许可」",
+      "NSLocationAlwaysAndWhenInUseUsageDescription": "当前应用程序需要始终和在使用时访问用户的位置，如需修改描述请前往「project.miniapp.json - 隐私信息访问许可描述」修改，并且关闭「自动使用默认描述补全默认隐私信息访问许可」",
+      "NSContactsUsageDescription": "当前应用程序需要访问用户的联系人，如需修改描述请前往「project.miniapp.json - 隐私信息访问许可描述」修改，并且关闭「自动使用默认描述补全默认隐私信息访问许可」",
+      "NSCalendarsUsageDescription": "当前应用程序需要访问用户的日历，如需修改描述请前往「project.miniapp.json - 隐私信息访问许可描述」修改，并且关闭「自动使用默认描述补全默认隐私信息访问许可」",
+      "NSRemindersUsageDescription": "当前应用程序需要访问用户的提醒事项，如需修改描述请前往「project.miniapp.json - 隐私信息访问许可描述」修改，并且关闭「自动使用默认描述补全默认隐私信息访问许可」",
+      "NSBluetoothPeripheralUsageDescription": "当前应用程序需要访问用户的蓝牙，如需修改描述请前往「project.miniapp.json - 隐私信息访问许可描述」修改，并且关闭「自动使用默认描述补全默认隐私信息访问许可」",
+      "NSBluetoothAlwaysUsageDescription": "当前应用程序需要始终访问用户的蓝牙，如需修改描述请前往「project.miniapp.json - 隐私信息访问许可描述」修改，并且关闭「自动使用默认描述补全默认隐私信息访问许可」",
+      "NSSpeechRecognitionUsageDescription": "当前应用程序需要使用语音识别，如需修改描述请前往「project.miniapp.json - 隐私信息访问许可描述」修改，并且关闭「自动使用默认描述补全默认隐私信息访问许可」",
+      "NSLocalNetworkUsageDescription": "当前应用程序需要访问本地网络，如需修改描述请前往「project.miniapp.json - 隐私信息访问许可描述」修改，并且关闭「自动使用默认描述补全默认隐私信息访问许可」",
+      "NSSystemAdministrationUsageDescription": "当前应用程序需要进行系统管理操作，如需修改描述请前往「project.miniapp.json - 隐私信息访问许可描述」修改，并且关闭「自动使用默认描述补全默认隐私信息访问许可」"
     },
     "qmapAPIKey": "NLVBZ-PGJRQ-T7K5F-GQ54N-GIXDH-FCBC4",
     "infoPlist": {
@@ -108,6 +121,9 @@
     "enableOpenUrlNavigate": true,
     "gdt": {
       "splashAd_defaultEnable": false
+    },
+    "buildCloud": {
+      "useRemote": false
     }
   },
   "mini-plugin": {
