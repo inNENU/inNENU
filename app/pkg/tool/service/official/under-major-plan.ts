@@ -12,7 +12,8 @@ import {
 const UNDER_MAJOR_PLAN_URL = `${OFFICIAL_URL}/jyjx/bksjy/rcpyfa.htm`;
 
 const MAJOR_PLAN_LIST_REGEXP = /<ul class="table2[^>]*?>([^]*?)<\/ul>/;
-const MAJOR_PLAN_ITEM_REGEXP = /<li><p><a href="(.*?)">(.*?)<\/a><\/p><\/li>/g;
+const MAJOR_PLAN_ITEM_REGEXP =
+  /<li><p><a href="\.\.\/\.\.([^"]*?)"[^>]*>(.*?)<\/a><\/p><\/li>/g;
 
 export type UnderMajorPlanSuccessResponse = CommonSuccessResponse<
   { name: string; url: string }[]
