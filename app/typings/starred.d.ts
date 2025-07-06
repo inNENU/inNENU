@@ -22,5 +22,6 @@ export interface StarredOfficialInfoData extends OfficialInfoData {
 
 export interface StarredNoticeData extends NoticeData {
   id: string;
+  url?: string;
   type: NoticeType;
 }

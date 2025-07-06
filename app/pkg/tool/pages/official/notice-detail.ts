@@ -60,7 +60,7 @@ $Page(PAGE_ID, {
 
     return {
       title,
-      path: `/pkg/tool/pages/official/notice-detail?title=${title}&url=${url}`,
+      path: `/pkg/tool/pages/official/notice-detail?url=${url}&title=${title}`,
     };
   },
 
@@ -69,7 +69,7 @@ $Page(PAGE_ID, {
 
     return {
       title,
-      query: `title=${title}&url=${url}`,
+      query: `url=${url}&title=${title}`,
     };
   },
 
@@ -79,7 +79,7 @@ $Page(PAGE_ID, {
     return {
       title,
       imageUrl: `${appCoverPrefix}.jpg`,
-      query: `title=${title}&url=${url}`,
+      query: `url=${url}&title=${title}`,
     };
   },
 

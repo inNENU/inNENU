@@ -114,11 +114,11 @@ $Page(PAGE_ID, {
     { index: number }
   >) {
     const { index } = currentTarget.dataset;
-    const { title, id } = this.data.notices[index];
+    const { title, id, url } = this.data.notices[index];
     const { type } = this.state;
 
     return this.$go(
-      `notice-detail?from=${this.data.title}&title=${title}&id=${id}&type=${type}`,
+      `notice-detail?from=${this.data.title}&title=${title}&type=${type}&${url ? `url=${url}` : `id=${id}`}`,
     );
   },
 });

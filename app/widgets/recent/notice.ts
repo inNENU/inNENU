@@ -84,9 +84,10 @@ $Component({
 
       const data = result.data
         .filter(({ from }) => !FILTERED_SOURCES.includes(from))
-        .map(({ title, id }) => ({
+        .map(({ title, url, id }) => ({
           title: title.replace(/^关于/g, "").replace(/的通知$/g, ""),
           id,
+          url,
         }));
 
       this.setData({
@@ -101,13 +102,13 @@ $Component({
     }: WechatMiniprogram.TouchEvent<
       Record<string, never>,
       Record<string, never>,
-      { notice: { title: string; id: string } }
+      { notice: { title: string; id: string; url: string } }
     >) {
       const { noticeType } = this.data;
-      const { title, id } = currentTarget.dataset.notice;
+      const { title, id, url } = currentTarget.dataset.notice;
 
       return this.$go(
-        `notice-detail?title=${title}&id=${id}&type=${noticeType}`,
+        `notice-detail?title=${title}&id=${id}&type=${noticeType}&${url ? `url=${url}` : ``}`,
       );
     },
   },

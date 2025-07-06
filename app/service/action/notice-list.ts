@@ -1,7 +1,7 @@
 import { URLSearchParams, logger } from "@mptool/all";
 
 import { withActionLogin } from "./login.js";
-import { ACTION_SERVER } from "./utils.js";
+import { ACTION_SERVER, INFO_BASE_SERVER } from "./utils.js";
 import { request } from "../../api/index.js";
 import type {
   ActionFailType,
@@ -43,15 +43,22 @@ export interface NoticeListOptions {
 
 interface RawNoticeItem {
   LLCS: number;
+  /** time */
   FBSJ: string;
+  /** title */
   KEYWORDS_: string;
+  /** id */
   // eslint-disable-next-line @typescript-eslint/naming-convention
   ID__: string;
   SFZD: string;
   FLAG: string;
+  /** index */
   RN: number;
+  /** from */
   CJBM: string;
-  TYPE: "notice";
+  TYPE: "notice" | "news";
+  /** url */
+  URL: string | null;
 }
 
 interface RawNoticeListData {
@@ -66,7 +73,8 @@ export interface NoticeInfo {
   title: string;
   from: string;
   time: string;
-  id: string;
+  id?: string;
+  url?: string;
 }
 
 const getNoticeItem = ({
@@ -74,11 +82,15 @@ const getNoticeItem = ({
   CJBM: from,
   KEYWORDS_: title,
   FBSJ: time,
+  URL: url,
 }: RawNoticeItem): NoticeInfo => ({
   id,
   title,
   from,
   time,
+  ...(url
+    ? { url: url.slice(INFO_BASE_SERVER.length) } // Remove the base URL
+    : {}),
 });
 
 export interface NoticeListSuccessResponse
