@@ -11,7 +11,10 @@ $Component({
       type: String,
       default: "搜索",
     },
-    searchWord: String,
+    searchWord: {
+      type: String,
+      default: "",
+    },
   },
 
   data: {

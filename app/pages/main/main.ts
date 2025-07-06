@@ -187,4 +187,22 @@ $Page(PAGE_ID, {
   search({ detail }: WechatMiniprogram.Input) {
     this.$go(`search?type=all&word=${detail.value}`);
   },
+
+  openOfficial() {
+    if (wx.openOfficialAccountProfile)
+      wx.openOfficialAccountProfile({
+        username: "gh_b4378a2c36ae",
+        fail: () => {
+          this.$go("qrcode");
+        },
+      });
+    else this.$go("qrcode");
+  },
+
+  // Note: For Wechat only
+  openChannel() {
+    wx.openChannelsUserProfile({
+      finderUserName: "sphQlMRqDF84Orm",
+    });
+  },
 });
