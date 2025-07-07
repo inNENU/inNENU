@@ -43,7 +43,7 @@ $Component({
     ready() {
       // add delay to make sure `<map />` is rendered
       setTimeout(() => {
-        // FIXME: fix crash on iOS
+        // This prevent crash on iOS
         if (this.data.config.points.length === 1 && platform === "ios") {
           const { latitude, longitude } = getLocation(
             this.data.config.points[0].loc,
