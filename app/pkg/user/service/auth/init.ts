@@ -215,7 +215,7 @@ const authInitLocal = async (
       return {
         success: false,
         type: ActionFailType.Expired,
-        msg: "会话已过期，请重新登陆",
+        msg: "会话已过期，请重新登录",
       };
 
     if (
