@@ -1,3 +1,4 @@
+import { id2path } from "./id.js";
 import type { GridComponentItemOptions } from "../../typings/index.js";
 import { getIdentity } from "../state/index.js";
 
@@ -51,7 +52,7 @@ export const getTabData = (
         ...rest,
         url:
           url ??
-          `info?id=${
+          `info?id=${id2path(
             type === "under" && under
               ? under
               : type === "grad" && grad
@@ -60,8 +61,8 @@ export const getTabData = (
                   ? benbu
                   : location === "jingyue" && jingyue
                     ? jingyue
-                    : path
-          }&from=${title}`,
+                    : path,
+          )}&from=${title}`,
       };
     })
     .filter((item) => item !== null);
