@@ -5,7 +5,7 @@ import type {
   GridComponentItemOptions,
   GridComponentOptions,
 } from "../../../typings/index.js";
-import { getIconLink, navigate } from "../../utils/index.js";
+import { getIconLink, route } from "../../utils/index.js";
 
 $Component({
   props: {
@@ -42,7 +42,7 @@ $Component({
       const { referer } = this.data;
       const { item } = currentTarget.dataset;
 
-      navigate(item, referer);
+      route(item, referer);
     },
   },
 

@@ -1,10 +1,10 @@
-import { getCurrentRoute, logger, reLaunch, showToast } from "@mptool/all";
+import { env, getCurrentRoute, logger, reLaunch, showToast } from "@mptool/all";
 
 import type { GlobalData } from "./globalData.js";
 import { platformActions } from "./platform.js";
 import { updateApp } from "./update.js";
 import { mpLogin } from "../service/index.js";
-import { env, envName, setOpenid } from "../state/index.js";
+import { envName, setOpenid } from "../state/index.js";
 
 export const handleScreenCapture = (): void => {
   // 监听用户截屏

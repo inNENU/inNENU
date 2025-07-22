@@ -1,4 +1,4 @@
-import { $Page, showModal, showToast, writeClipboard } from "@mptool/all";
+import { $Page, env, showModal, showToast, writeClipboard } from "@mptool/all";
 
 import { appCoverPrefix, appName, logo } from "../../../../config/index.js";
 import type {
@@ -6,13 +6,7 @@ import type {
   LoginMethod,
 } from "../../../../service/index.js";
 import { applyEmail, ensureMyLogin } from "../../../../service/index.js";
-import {
-  env,
-  envName,
-  info,
-  user,
-  windowInfo,
-} from "../../../../state/index.js";
+import { envName, info, user, windowInfo } from "../../../../state/index.js";
 import { showNotice } from "../../../../utils/index.js";
 
 const MAIL_LINK = "https://mail.nenu.edu.cn";
@@ -255,7 +249,7 @@ $Page(PAGE_ID, {
   },
 
   initEmail() {
-    if (env === "app") this.$go(`web?url=${encodeURIComponent(MAIL_LINK)}`);
+    if (env === "donut") this.$go(`web?url=${encodeURIComponent(MAIL_LINK)}`);
     else {
       writeClipboard(MAIL_LINK).then(() =>
         showModal(

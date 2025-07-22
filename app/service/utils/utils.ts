@@ -1,9 +1,9 @@
-import { compareVersion } from "@mptool/all";
+import { compareVersion, env } from "@mptool/all";
 
 import type { App } from "../../app.js";
-import { appInfo, env, platform } from "../../state/index.js";
+import { appInfo, platform } from "../../state/index.js";
 
-/** 是否支持 redirect manual */
+/** 是否支持 `redirect: 'manual'` */
 export const supportRedirect =
   env === "wx" &&
   ["android", "ios"].includes(platform) &&

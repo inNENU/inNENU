@@ -1,6 +1,7 @@
 import type { PropType } from "@mptool/all";
 import {
   $Component,
+  env,
   savePhoto,
   showModal,
   showToast,
@@ -8,8 +9,13 @@ import {
 } from "@mptool/all";
 
 import type { AccountComponentData } from "../../../typings/index.js";
-import { env, isCompany } from "../../state/index.js";
-import { getAssetLink, startNavigation } from "../../utils/index.js";
+import { isCompany } from "../../state/index.js";
+import {
+  getAssetLink,
+  showOfficialQRCode,
+  startNavigation,
+  tryOpenOfficialProfile,
+} from "../../utils/index.js";
 
 $Component({
   props: {
@@ -44,8 +50,8 @@ $Component({
           wx.previewImage({
             urls: [realQQCodePath],
           });
-        // 其他平台需保存至相册
         else
+          // 其他平台需保存至相册
           savePhoto(realQQCodePath)
             .then(() => showToast("二维码已存至相册"))
             .catch(() => showToast("二维码保存失败"));
@@ -59,25 +65,19 @@ $Component({
     addWechat(): void {
       const { account, wxid } = this.data.config;
 
-      if (account) this.$go(`wechat?path=${account}`);
-      else if (wxid)
-        if (env === "wx")
-          // 微信客户端可打开图片长按扫码
-          wx.previewImage({
-            urls: [`https://open.weixin.qq.com/qr/code?username=${wxid}`],
-          });
-        // 其他平台保存至相册
-        else
-          savePhoto(`https://open.weixin.qq.com/qr/code?username=${wxid}`)
-            .then(() => showToast("二维码已存至相册"))
-            .catch(() => showToast("二维码保存失败"));
+      if (wxid)
+        tryOpenOfficialProfile(wxid, () => {
+          if (account) this.$go(`wechat?path=${account}`);
+          else showOfficialQRCode(wxid);
+        });
+      else if (account) this.$go(`wechat?path=${account}`);
     },
 
     openSite(): void {
       const { site } = this.data.config;
 
       // app 可直接打开网址
-      if (env === "app") wx.miniapp.openUrl({ url: site! });
+      if (env === "donut") wx.miniapp.openUrl({ url: site! });
       else
         writeClipboard(site).then(() => {
           showModal(

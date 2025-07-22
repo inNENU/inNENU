@@ -1,5 +1,6 @@
 import {
   $Page,
+  env,
   savePhoto,
   showModal,
   showToast,
@@ -12,12 +13,14 @@ import type {
 } from "../../../../../typings/index.js";
 import { request } from "../../../../api/index.js";
 import { appCoverPrefix, server } from "../../../../config/index.js";
-import { env, windowInfo } from "../../../../state/index.js";
+import { windowInfo } from "../../../../state/index.js";
 import {
   ensureJson,
   getAssetLink,
   getPageColor,
   showNotice,
+  showOfficialQRCode,
+  tryOpenOfficialProfile,
 } from "../../../../utils/index.js";
 import { createRecycleContext } from "../../components/recycle-view/index.js";
 
@@ -172,7 +175,7 @@ $Page(PAGE_ID, {
   >) {
     const { url } = currentTarget.dataset;
 
-    if (env === "app") wx.miniapp.openUrl({ url });
+    if (env === "donut") wx.miniapp.openUrl({ url });
     else if (wx.openOfficialAccountArticle)
       wx.openOfficialAccountArticle({ url });
     else
@@ -187,15 +190,14 @@ $Page(PAGE_ID, {
   follow() {
     const { follow, id } = this.data;
 
-    if (env === "app")
-      savePhoto(`https://open.weixin.qq.com/qr/code?username=${id}`)
-        .then(() => showToast("二维码已存至相册"))
-        .catch(() => showToast("二维码保存失败"));
-    else if (follow) this.$go(`web?url=${follow}&title=欢迎关注`);
-    else
-      wx.previewImage({
-        urls: [`https://open.weixin.qq.com/qr/code?username=${id}`],
-      });
+    tryOpenOfficialProfile(id, () => {
+      if (env === "donut")
+        savePhoto(`https://open.weixin.qq.com/qr/code?username=${id}`)
+          .then(() => showToast("二维码已存至相册"))
+          .catch(() => showToast("二维码保存失败"));
+      else if (follow) this.$go(`web?url=${follow}&title=欢迎关注`);
+      else showOfficialQRCode(id);
+    });
   },
 
   scrollTop() {

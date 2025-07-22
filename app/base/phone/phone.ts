@@ -1,8 +1,13 @@
 import type { PropType } from "@mptool/all";
-import { $Component, addContact, showToast, writeClipboard } from "@mptool/all";
+import {
+  $Component,
+  addContact,
+  env,
+  showToast,
+  writeClipboard,
+} from "@mptool/all";
 
 import type { PhoneComponentData } from "../../../typings/index.js";
-import { env } from "../../state/index.js";
 
 $Component({
   props: {

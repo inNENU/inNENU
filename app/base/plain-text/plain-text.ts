@@ -3,7 +3,7 @@ import { $Component } from "@mptool/all";
 
 import type { TextComponentOptions } from "../../../typings/index.js";
 import { info } from "../../state/index.js";
-import { navigate } from "../../utils/index.js";
+import { route } from "../../utils/index.js";
 
 $Component({
   props: {
@@ -30,7 +30,7 @@ $Component({
     onTap() {
       const { config, referer } = this.data;
 
-      navigate(config, referer);
+      route(config, referer);
     },
   },
 

@@ -1,5 +1,6 @@
 import {
   $Page,
+  env,
   savePhoto,
   showModal,
   showToast,
@@ -11,14 +12,17 @@ import type {
   WechatAccounts,
 } from "../../../../../typings/index.js";
 import { appCoverPrefix } from "../../../../config/index.js";
-import type { Env } from "../../../../state/index.js";
-import { env, windowInfo } from "../../../../state/index.js";
+import { windowInfo } from "../../../../state/index.js";
 import {
   ensureJson,
   getAssetLink,
   getJson,
   showNotice,
+  showOfficialQRCode,
+  tryOpenOfficialProfile,
 } from "../../../../utils/index.js";
+
+type AccountType = "qq" | "wx";
 
 const PAGE_ID = "school-media";
 const PAGE_TITLE = "校园媒体";
@@ -41,7 +45,7 @@ $Page(PAGE_ID, {
     ensureJson(`function/account/${env}`);
   },
 
-  onLoad({ type }: { type: Env }) {
+  onLoad({ type }: { type: AccountType }) {
     const defaultType = type || (env === "qq" ? "qq" : "wx");
 
     getJson<QQAccounts | WechatAccounts>(
@@ -84,7 +88,7 @@ $Page(PAGE_ID, {
   }: WechatMiniprogram.TouchEvent<
     Record<string, never>,
     Record<string, never>,
-    { type: Env }
+    { type: AccountType }
   >) {
     const { type } = currentTarget.dataset;
 
@@ -93,7 +97,30 @@ $Page(PAGE_ID, {
     });
   },
 
-  detail(
+  showWechat(
+    event: WechatMiniprogram.TouchEvent<
+      Record<string, never>,
+      Record<string, never>,
+      {
+        item: {
+          name: string;
+          desc: string;
+          logo: string;
+          id: string;
+          path?: string;
+        };
+      }
+    >,
+  ) {
+    const { item } = event.currentTarget.dataset;
+
+    tryOpenOfficialProfile(item.id, () => {
+      if (item.path) this.$go("wechat?from=校园媒体&path=" + item.path);
+      else showOfficialQRCode(item.id);
+    });
+  },
+
+  showQQ(
     event: WechatMiniprogram.TouchEvent<
       Record<string, never>,
       Record<string, never>,

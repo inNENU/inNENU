@@ -1,9 +1,8 @@
 import type { PropType } from "@mptool/all";
-import { $Component, showModal, writeClipboard } from "@mptool/all";
+import { $Component, env, showModal, writeClipboard } from "@mptool/all";
 
 import type { FooterComponentOptions } from "../../../typings/index.js";
 import { description } from "../../config/index.js";
-import { env } from "../../state/index.js";
 
 $Component({
   props: {
@@ -34,7 +33,7 @@ $Component({
     >) {
       const url = this.data.config.cite![currentTarget.dataset.index];
 
-      if (env === "app") {
+      if (env === "donut") {
         wx.miniapp.openUrl({ url });
       } else {
         writeClipboard(url).then(() => {

@@ -1,11 +1,10 @@
-import { $Page, retry, showModal, showToast } from "@mptool/all";
+import { $Page, env, retry, showModal, showToast } from "@mptool/all";
 
 import type { ListComponentOptions } from "../../../../../typings/index.js";
 import { appCoverPrefix, logo } from "../../../../config/index.js";
 import { ActionFailType, mpRemove } from "../../../../service/index.js";
 import type { UserInfo } from "../../../../state/index.js";
 import {
-  env,
   envName,
   info,
   setUserInfo,

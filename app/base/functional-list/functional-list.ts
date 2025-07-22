@@ -10,7 +10,7 @@ import type {
   SwitchListComponentItemConfig,
 } from "../../../typings/index.js";
 import { info } from "../../state/index.js";
-import { getIconLink, navigate } from "../../utils/index.js";
+import { getIconLink, route } from "../../utils/index.js";
 
 interface ListDetail<T = FunctionalListComponentItemOptions> {
   id: string;
@@ -43,7 +43,7 @@ $Component({
       const { referer } = this.data;
       const { item } = currentTarget.dataset;
 
-      navigate(item, referer);
+      route(item, referer);
     },
 
     /** 按钮设置 */

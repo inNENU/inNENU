@@ -1,4 +1,4 @@
-import { $Page, showModal, showToast, writeClipboard } from "@mptool/all";
+import { $Page, env, showModal, showToast, writeClipboard } from "@mptool/all";
 
 import { appCoverPrefix, logo } from "../../../../config/index.js";
 import {
@@ -6,7 +6,7 @@ import {
   getEmailPage,
   getRecentEmails,
 } from "../../../../service/index.js";
-import { env, info, user, windowInfo } from "../../../../state/index.js";
+import { info, user, windowInfo } from "../../../../state/index.js";
 import { showNotice } from "../../../../utils/index.js";
 
 const PAGE_ID = "email-recent";
@@ -116,7 +116,7 @@ $Page(PAGE_ID, {
     if (result.success) {
       const { data } = result;
 
-      if (env === "app") this.$go(`web?url=${encodeURIComponent(data)}`);
+      if (env === "donut") this.$go(`web?url=${encodeURIComponent(data)}`);
       else {
         await writeClipboard(data);
         showModal(

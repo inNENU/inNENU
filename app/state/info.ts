@@ -1,16 +1,10 @@
-import { getWindowInfo } from "@mptool/all";
+import { env, getWindowInfo } from "@mptool/all";
 
 const { theme, ...defaultAppInfo } =
   // eslint-disable-next-line @typescript-eslint/no-deprecated
   (wx.getAppBaseInfo || wx.getSystemInfoSync)();
 
 export const windowInfoState = getWindowInfo();
-
-/** 运行环境 */
-/*@__PURE__*/
-export const env: Env =
-  // @ts-expect-error: QQ is not globally defined
-  "miniapp" in wx ? "app" : typeof qq === "object" ? "qq" : "wx";
 
 /** 小程序 appid */
 export type AppID =
@@ -24,7 +18,7 @@ const accountInfo = wx.getAccountInfoSync();
 /** 小程序 appid */
 /*@__PURE__*/
 export const appId =
-  env === "app"
+  env === "donut"
     ? // FIXME: Current devtool SDK can not return appid correctly
       (accountInfo.host.miniappId as AppID) || "wx0009f7cdfeefa3da"
     : (accountInfo.miniProgram.appId as AppID);
@@ -36,7 +30,7 @@ export type Env = "app" | "qq" | "wx";
 
 /** 运行环境名称 */
 /*@__PURE__*/
-export const envName = env === "app" ? "App" : "小程序";
+export const envName = env === "donut" ? "App" : "小程序";
 
 /** 运行环境名称 */
 /*@__PURE__*/
@@ -44,7 +38,7 @@ export const envName = env === "app" ? "App" : "小程序";
 export const { platform } = (wx.getDeviceInfo || wx.getSystemInfoSync)();
 
 export const menuSpace =
-  platform !== "windows" && env !== "app"
+  platform !== "windows" && env !== "donut"
     ? (wx.getMenuButtonBoundingClientRect?.().width ?? 80)
     : 0;
 
@@ -73,7 +67,7 @@ export const windowInfo: Readonly<WechatMiniprogram.WindowInfo> =
   windowInfoState;
 
 // Note: App does not support this API
-if (env !== "app")
+if (env !== "donut")
   // 更新窗口大小
   wx.onWindowResize(({ size }) => {
     const { windowHeight, windowWidth } = size;

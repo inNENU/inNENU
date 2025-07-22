@@ -1,7 +1,7 @@
-import { $Page, showModal, showToast, writeClipboard } from "@mptool/all";
+import { $Page, env, showModal, showToast, writeClipboard } from "@mptool/all";
 
 import { appCoverPrefix } from "../../../../config/index.js";
-import { env, info } from "../../../../state/index.js";
+import { info } from "../../../../state/index.js";
 import { getPageColor, showNotice } from "../../../../utils/index.js";
 import type {
   GradEnrollSchoolPlan,
@@ -108,7 +108,7 @@ $Page(PAGE_ID, {
   >) {
     const { site } = currentTarget.dataset;
 
-    if (env === "app") wx.miniapp.openUrl({ url: site });
+    if (env === "donut") wx.miniapp.openUrl({ url: site });
     else writeClipboard(site).then(() => showToast("网址已复制"));
   },
 });

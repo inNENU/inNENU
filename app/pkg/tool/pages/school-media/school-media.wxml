@@ -62,7 +62,7 @@
               hover-class="button-hover"
               data-id="{{item.id}}"
               data-qrcode="{{item.qrcode}}"
-              catch:tap="detail"
+              catch:tap="showQQ"
             >
               <template is="account" data="{{...item}}" />
             </view>
@@ -75,8 +75,8 @@
             class="account-item border-bottom"
             hover-class="button-hover"
             hover-stay-time="100"
-            data-url="{{'wechat?from=校园媒体&path=' + item.path}}"
-            catch:tap="$bindGo"
+            data-item="{{item}}"
+            catch:tap="showWechat"
           >
             <template is="account" data="{{...item}}" />
           </view>

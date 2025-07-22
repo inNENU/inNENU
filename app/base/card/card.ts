@@ -2,7 +2,7 @@ import type { PropType } from "@mptool/all";
 import { $Component } from "@mptool/all";
 
 import type { CardComponentOptions } from "../../../typings/index.js";
-import { getAssetLink, getIconLink, navigate } from "../../utils/index.js";
+import { getAssetLink, getIconLink, route } from "../../utils/index.js";
 
 $Component({
   props: {
@@ -35,7 +35,7 @@ $Component({
     onTap(): void {
       const { config, referer } = this.data;
 
-      navigate(config, referer);
+      route(config, referer);
     },
   },
 

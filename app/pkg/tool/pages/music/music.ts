@@ -238,8 +238,8 @@ $Page("music", {
       this.next();
     });
 
-    manager.onError(({ errMsg }) => {
-      logger.error("音频播放器错误", errMsg);
+    manager.onError((res) => {
+      logger.error("音频播放器错误", res);
       showToast("音乐播放出错");
     });
   },

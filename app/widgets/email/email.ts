@@ -1,6 +1,7 @@
 import type { PropType } from "@mptool/all";
 import {
   $Component,
+  env,
   get,
   set,
   showModal,
@@ -11,7 +12,7 @@ import {
 import { EMAIL_DATA_KEY, MINUTE } from "../../config/index.js";
 import type { EmailData } from "../../service/index.js";
 import { getEmailPage, getRecentEmails } from "../../service/index.js";
-import { env, user } from "../../state/index.js";
+import { user } from "../../state/index.js";
 import type { LoginWidgetStatus } from "../utils.js";
 import { getSize } from "../utils.js";
 
@@ -126,7 +127,7 @@ $Component({
       if (result.success) {
         const { data } = result;
 
-        if (env === "app")
+        if (env === "donut")
           return this.$go(`web?url=${encodeURIComponent(data)}`);
 
         await writeClipboard(data);
