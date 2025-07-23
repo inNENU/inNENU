@@ -1,3 +1,0 @@
-[submodule "server"]
-	path = res
-	url = git@github.com:inNENU/resource.git
