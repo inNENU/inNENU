@@ -182,9 +182,4 @@ $Page(PAGE_ID, {
       finderUserName: "sphQlMRqDF84Orm",
     });
   },
-
-  // NOTE: For QQ Only
-  addToDesktop() {
-    wx.saveAppToDesktop();
-  },
 });

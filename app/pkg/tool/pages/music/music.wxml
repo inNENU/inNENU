@@ -66,7 +66,6 @@
       catch:change="drag"
       catch:changing="drag"
     />
-    <!-- activeColor 为 QQ 适配 -->
     <!-- 播放时间 -->
     <view class="time-wrapper">
       <view class="time">{{time.getTime(currentTime)}}</view>

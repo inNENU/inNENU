@@ -25,9 +25,6 @@ export const appId =
 
 export const isCompany = appId === "wx2550e3fd373b79a8";
 
-/** 运行环境 */
-export type Env = "app" | "qq" | "wx";
-
 /** 运行环境名称 */
 /*@__PURE__*/
 export const envName = env === "donut" ? "App" : "小程序";

@@ -28,9 +28,6 @@ jobs:
       - name: Build Wechat
         run: pnpm build:wx
 
-      - name: Build QQ
-        run: pnpm build:qq
-
       - name: Build weNENU
         run: pnpm build:we
 

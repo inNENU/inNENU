@@ -16,9 +16,9 @@
         type="{{item.type}}"
         adjust-position="{{false}}"
         placeholder="{{item.placeholder}}"
-        bindfocus="focus"
-        bindinput="input"
-        bindblur="blur"
+        catch:focus="focus"
+        catch:input="input"
+        catch:blur="blur"
       />
     </view>
   </view>

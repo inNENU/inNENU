@@ -6,7 +6,7 @@
     "moduleResolution": "NodeNext",
     "target": "ESNext",
     "outDir": "dist",
-    "moduleSuffixes": ["", ".wx", ".we", ".qq", ".app"],
+    "moduleSuffixes": ["", ".wx", ".we", ".app"],
     "types": ["miniprogram-api-typings"]
   },
   "include": [

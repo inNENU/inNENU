@@ -56,8 +56,6 @@ const getEmailPageLocal = async (
 
     if (
       status === 302 ||
-      // Note: On QQ the status code is 404
-      status === 404 ||
       // Note: If the env does not support "redirect: manual", the response will be a 302 redirect to WebVPN login page
       // In this case, the response.status will be 200 and the response body will be the WebVPN login page
       (!supportRedirect && isWebVPNPage(data))

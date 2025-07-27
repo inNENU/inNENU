@@ -14,7 +14,7 @@
         class="picker"
         range="{{timeDisplays}}"
         value="{{timeIndex}}"
-        bindchange="onTimeChange"
+        catch:change="onTimeChange"
       >
         {{(timeDisplays[timeIndex])}}
       </picker>
@@ -107,7 +107,7 @@
         <radio-group
           class="score-selector"
           data-question-index="{{questionIndex}}"
-          bindchange="onRadioChange"
+          catch:change="onRadioChange"
         >
           <view
             wx:for="{{question.options}}"
@@ -126,7 +126,7 @@
     <textarea
       class="commentary-textarea"
       placeholder="请输入评价"
-      bindinput="onCommentaryInput"
+      catch:input="onCommentaryInput"
       value="{{commentary}}"
     />
   </view>

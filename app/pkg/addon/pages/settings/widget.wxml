@@ -58,7 +58,7 @@
           indicator-color="{{indicatorColor}}"
           indicator-active-color="{{indicatorActiveColor}}"
           class="widgets-display"
-          bindchange="swiperChange"
+          catch:change="swiperChange"
         >
           <swiper-item
             wx:for="{{current.types}}"

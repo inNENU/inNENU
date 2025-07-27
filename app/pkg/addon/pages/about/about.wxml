@@ -15,13 +15,12 @@
 />
 <view wx:if="{{debug}}" class="password-modal">
   <view class="password-hint"><text>请输入密码:</text></view>
-  <!-- Note: QQ 不支持 catch:input -->
   <input
     class="password-input"
     type="number"
     password
     value="{{value}}"
     focus="{{focus}}"
-    bindinput="onInput"
+    catch:input="onInput"
   />
 </view>

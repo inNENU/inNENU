@@ -1,8 +1,0 @@
-<license />
-<view class="ios">
-  <header title="{{title}}" />
-  <view class="content">
-    <doc wx:for="{{plans}}" config="{{item}}" />
-  </view>
-  <footer />
-</view>

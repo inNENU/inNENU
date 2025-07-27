@@ -75,41 +75,37 @@
       <view slot="page2">
         <view class="search-container">
           <view class="header">筛选课程</view>
-          <!-- Note: QQ does not support catch:input -->
           <input
             class="input"
             type="text"
             value="{{course}}"
             placeholder="课程名称"
             data-key="course"
-            bindinput="onInput"
+            catch:input="onInput"
           />
-          <!-- Note: QQ does not support catch:input -->
           <input
             class="input"
             type="text"
             value="{{teacher}}"
             placeholder="教师名称"
             data-key="teacher"
-            bindinput="onInput"
+            catch:input="onInput"
           />
-          <!-- Note: QQ does not support catch:input -->
           <input
             class="input"
             type="text"
             value="{{place}}"
             placeholder="上课地点"
             data-key="place"
-            bindinput="onInput"
+            catch:input="onInput"
           />
-          <!-- Note: QQ does not support catch:change -->
           <picker
             class="picker"
             header-text="选择年级"
             range="{{under.getRange(grades)}}"
             value="{{gradeIndex}}"
             data-key="gradeIndex"
-            bindchange="onPickerChange"
+            catch:change="onPickerChange"
           >
             <view class="display">
               <text class="label">年级:</text>
@@ -118,14 +114,13 @@
               >
             </view>
           </picker>
-          <!-- Note: QQ does not support catch:change -->
           <picker
             class="picker"
             header-text="课程类别"
             range="{{under.getRange(types, 'name')}}"
             value="{{courseTypeIndex}}"
             data-key="courseTypeIndex"
-            bindchange="onPickerChange"
+            catch:change="onPickerChange"
           >
             <view class="display">
               <text class="label">课程类别:</text>
@@ -134,14 +129,13 @@
               >
             </view>
           </picker>
-          <!-- Note: QQ does not support catch:change -->
           <picker
             class="picker"
             header-text="课程分类"
             range="{{under.getRange(categories, 'name')}}"
             value="{{categoryIndex}}"
             data-key="categoryIndex"
-            bindchange="onPickerChange"
+            catch:change="onPickerChange"
           >
             <view class="display">
               <text class="label">课程分类:</text>
@@ -151,14 +145,13 @@
               >
             </view>
           </picker>
-          <!-- Note: QQ does not support catch:change -->
           <picker
             class="picker"
             header-text="授课专业"
             range="{{under.getRange(majors, 'name')}}"
             value="{{majorIndex}}"
             data-key="majorIndex"
-            bindchange="onPickerChange"
+            catch:change="onPickerChange"
           >
             <view class="display">
               <text class="label">专业:</text>
@@ -168,14 +161,13 @@
             </view>
           </picker>
 
-          <!-- Note: QQ does not support catch:change -->
           <picker
             class="picker"
             header-text="开课单位"
             range="{{under.getRange(offices, 'name')}}"
             value="{{officeIndex}}"
             data-key="officeIndex"
-            bindchange="onPickerChange"
+            catch:change="onPickerChange"
           >
             <view class="display">
               <text class="label">开课单位:</text>
@@ -185,14 +177,13 @@
             </view>
           </picker>
 
-          <!-- Note: QQ does not support catch:change -->
           <picker
             class="picker"
             header-text="星期"
             range="{{under.getRange(courseTable.weeks)}}"
             value="{{weekIndex}}"
             data-key="weekIndex"
-            bindchange="onPickerChange"
+            catch:change="onPickerChange"
           >
             <view class="display">
               <text class="label">星期:</text>
@@ -201,24 +192,6 @@
               >
             </view>
           </picker>
-
-          <!-- Note: QQ does not support catch:change -->
-          <!-- FIXME: Support classIndex -->
-          <!-- <picker
-            class="picker"
-            header-text="节次"
-            range="{{under.getRange(courseTable.times)}}"
-            value="{{classIndex}}"
-            data-key="classIndex"
-            bindchange="onPickerChange"
-          >
-            <view class="display">
-              <text class="label">节次:</text>
-              <text class="value"
-                >{{under.getPickerDisplay(courseTable.times, classIndex)}}</text
-              >
-            </view>
-          </picker> -->
 
           <button
             class="search-button primary"
@@ -342,7 +315,7 @@
     <picker
       range="{{under.sorterNames}}"
       value="{{sortKeyIndex}}"
-      bindchange="changeRelatedSorter"
+      catch:change="changeRelatedSorter"
     >
       排序: {{under.sorterNames[sortKeyIndex]}}
     </picker>
@@ -381,7 +354,7 @@
     <picker
       range="{{under.sorterNames}}"
       value="{{sortKeyIndex}}"
-      bindchange="changeClassesSorter"
+      catch:change="changeClassesSorter"
     >
       排序: {{under.sorterNames[sortKeyIndex]}}
     </picker>

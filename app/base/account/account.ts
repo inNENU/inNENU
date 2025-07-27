@@ -45,16 +45,10 @@ $Component({
       if (qqcode) {
         const realQQCodePath = getAssetLink(qqcode);
 
-        if (env === "qq")
-          // QQ 可直接长按扫码添加好友
-          wx.previewImage({
-            urls: [realQQCodePath],
-          });
-        else
-          // 其他平台需保存至相册
-          savePhoto(realQQCodePath)
-            .then(() => showToast("二维码已存至相册"))
-            .catch(() => showToast("二维码保存失败"));
+        // 保存至相册
+        savePhoto(realQQCodePath)
+          .then(() => showToast("二维码已存至相册"))
+          .catch(() => showToast("二维码保存失败"));
       } else if (qq)
         writeClipboard(qq.toString()).then(() => {
           showModal("复制成功", "由于暂无二维码，QQ号已复制至您的剪切板");

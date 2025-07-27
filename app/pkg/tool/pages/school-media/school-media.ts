@@ -46,7 +46,7 @@ $Page(PAGE_ID, {
   },
 
   onLoad({ type }: { type: AccountType }) {
-    const defaultType = type || (env === "qq" ? "qq" : "wx");
+    const defaultType = type || "wx";
 
     getJson<QQAccounts | WechatAccounts>(
       `function/account/${defaultType}`,

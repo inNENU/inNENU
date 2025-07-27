@@ -50,9 +50,4 @@ $Component({
       });
     },
   },
-
-  // NOTE: For QQ only
-  options: {
-    styleIsolation: "shared",
-  },
 });

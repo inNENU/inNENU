@@ -19,17 +19,14 @@
   "type": "module",
   "scripts": {
     "build:app": "gulp -f gulpfile.cjs buildApp",
-    "build:qq": "gulp -f gulpfile.cjs buildQQ",
     "build:we": "gulp -f gulpfile.cjs buildWeNENU",
     "build:wx": "gulp -f gulpfile.cjs buildWechat",
     "bundle:app": "gulp -f gulpfile.cjs bundleApp && tsx scripts/bundle.ts",
-    "bundle:qq": "gulp -f gulpfile.cjs bundleQQ && tsx scripts/bundle.ts",
     "bundle:we": "gulp -f gulpfile.cjs bundleWeNENU && tsx scripts/bundle.ts",
     "bundle:wx": "gulp -f gulpfile.cjs bundleWechat && tsx scripts/bundle.ts",
     "changelog": "standard-version --skip.bump --skip.commit --skip.tag",
     "clean": "tsx scripts/del.js",
     "dev:app": "gulp -f gulpfile.cjs watchApp",
-    "dev:qq": "gulp -f gulpfile.cjs watchQQ",
     "dev:we": "gulp -f gulpfile.cjs watchWeNENU",
     "dev:wx": "gulp -f gulpfile.cjs watchWechat",
     "lint": "pnpm eslint . --fix && pnpm lint:prettier --write && pnpm lint:wxs --write && pnpm lint:wxml --write && pnpm lint:stylelint --fix",
@@ -69,7 +66,7 @@
     ]
   },
   "dependencies": {
-    "@mptool/all": "0.11.1"
+    "@mptool/all": "0.12.0"
   },
   "devDependencies": {
     "@commitlint/cli": "19.8.1",
@@ -86,12 +83,12 @@
     "gulp-typescript": "6.0.0-alpha.1",
     "gulp5-sass-plugin": "2.0.4",
     "husky": "9.1.7",
-    "innenu-generator": "0.5.6",
+    "innenu-generator": "0.5.7",
     "miniprogram-api-typings": "4.1.0",
     "nano-staged": "0.8.0",
     "postcss": "8.5.6",
     "prettier": "3.6.2",
-    "rollup": "4.45.3",
+    "rollup": "4.46.0",
     "rollup-plugin-esbuild": "6.2.1",
     "standard-version": "9.5.0",
     "stylelint": "16.22.0",

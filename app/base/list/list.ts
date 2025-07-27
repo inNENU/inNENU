@@ -68,9 +68,4 @@ $Component({
       this.setLogo(value);
     },
   },
-
-  // NOTE: For QQ only
-  options: {
-    styleIsolation: "shared",
-  },
 });

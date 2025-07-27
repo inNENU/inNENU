@@ -1,5 +1,4 @@
 <view class="carousel-component{{config.fill ? '' : ' card'}}">
-  <!-- Note: QQ 不支持 catch:change 和 catch:animationfinish -->
   <swiper
     class="{{config.class || 'carousel-body'}}"
     style="{{config.style}}"
@@ -10,8 +9,8 @@
     vertical="{{config.vertical}}"
     previous-margin="{{config.preMargin || '0px'}}"
     next-margin="{{config.nextMargin || '0px'}}"
-    bindchange="change"
-    bindanimationfinish="animationFinish"
+    catch:change="change"
+    catch:animationfinish="animationFinish"
   >
     <swiper-item wx:for="{{images}}" wx:key="*this">
       <image

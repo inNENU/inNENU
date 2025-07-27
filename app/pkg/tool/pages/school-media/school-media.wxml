@@ -46,18 +46,7 @@
       >
         <block wx:if="{{type === 'qq'}}">
           <block wx:for="{{category.account}}" wx:key="name">
-            <button
-              wx:if="{{env === 'qq' && item.openid}}"
-              class="account-item border-bottom"
-              hover-class="button-hover"
-              plain
-              open-type="addFriend"
-              open-id="{{item.openid}}"
-            >
-              <template is="account" data="{{...item}}" />
-            </button>
             <view
-              wx:else
               class="account-item border-bottom"
               hover-class="button-hover"
               data-id="{{item.id}}"

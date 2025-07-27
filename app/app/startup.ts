@@ -8,11 +8,8 @@ import { envName, setOpenid } from "../state/index.js";
 
 export const handleScreenCapture = (): void => {
   // 监听用户截屏
-  if (
-    ["wx", "qq"].includes(env) &&
-    wx.getStorageSync("capture-screen") !== "never"
-  ) {
-    // avoid duplicate modal on QQ
+  if (env === "wx" && wx.getStorageSync("capture-screen") !== "never") {
+    // avoid duplicate modal
     let isDisplayingModal = false;
 
     wx.onUserCaptureScreen?.(() => {

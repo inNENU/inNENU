@@ -10,11 +10,10 @@
   <navbar nav="{{ { title } }}" />
   <view class="filter">
     <text>筛选:</text>
-    <!-- NOTE: QQ 不支持 bind:change -->
     <picker
       range="{{schools}}"
       value="{{schoolIndex}}"
-      bindchange="onSchoolChange"
+      catch:change="onSchoolChange"
     >
       <text>学院: {{schools[schoolIndex]}}</text>
     </picker>

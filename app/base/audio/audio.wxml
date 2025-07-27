@@ -29,7 +29,6 @@
       <image class="icon" src="/icon/loading-state.svg" />
     </view>
   </view>
-  <!-- activeColor 为 QQ 适配 -->
   <slider
     wx:if="{{totalTime}}"
     class="audio-progress-bar"
@@ -38,7 +37,6 @@
     step="1"
     value="{{currentTime * 100}}"
     backgroundColor="{{darkmode ? '#999999' : '#cccccc'}}"
-    activeColor="#27C087"
     block-size="12"
     block-color="#27C087"
     catch:change="drag"

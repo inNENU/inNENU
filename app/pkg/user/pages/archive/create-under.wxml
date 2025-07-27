@@ -32,8 +32,8 @@
             range-key="text"
             value="{{[item.categoryIndex, item.selectedIndex]}}"
             data-index="{{index}}"
-            bindcolumnchange="onMultiPickerColumnChange"
-            bindchange="onMultiPickerChange"
+            catch:columnchange="onMultiPickerColumnChange"
+            catch:change="onMultiPickerChange"
           >
             {{item.values[item.categoryIndex][item.selectedIndex].text}}
           </picker>
@@ -42,7 +42,7 @@
             range-key="text"
             value="{{item.selectedIndex}}"
             data-index="{{index}}"
-            bindchange="onPickerChange"
+            catch:change="onPickerChange"
           >
             {{item.options[item.selectedIndex].text}}
           </picker>
@@ -69,7 +69,7 @@
             class="input"
             value="{{item.value}}"
             data-index="{{index}}"
-            bindinput="onAddressInput"
+            catch:input="onAddressInput"
           />
         </view>
       </view>
@@ -111,7 +111,7 @@
               value="{{studyItem[item.key]}}"
               placeholder="{{item.placeholder}}"
               data-index="{{studyIndex}}"
-              bindinput="onStudyInput"
+              catch:input="onStudyInput"
             />
           </view>
         </view>
@@ -163,7 +163,7 @@
               value="{{familyItem[item.key]}}"
               placeholder="{{item.placeholder}}"
               data-index="{{familyIndex}}"
-              bindinput="onFamilyInput"
+              catch:input="onFamilyInput"
             />
           </view>
         </view>

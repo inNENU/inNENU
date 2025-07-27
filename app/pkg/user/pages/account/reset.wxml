@@ -35,7 +35,7 @@
               type="digit"
               value="{{id}}"
               placeholder="十位数字"
-              bindinput="input"
+              catch:input="input"
             />
           </view>
           <view class="input-list-item">
@@ -44,7 +44,7 @@
               id="captcha"
               class="input"
               value="{{captcha}}"
-              bindinput="input"
+              catch:input="input"
             />
             <image
               class="captcha-image"
@@ -72,7 +72,7 @@
               type="digit"
               value="{{cellphone}}"
               placeholder="{{hideCellphone}}"
-              bindinput="input"
+              catch:input="input"
             />
           </view>
           <view class="input-list-item">
@@ -81,7 +81,7 @@
               id="captcha"
               class="input"
               value="{{captcha}}"
-              bindinput="input"
+              catch:input="input"
             />
             <image
               class="captcha-image"
@@ -91,7 +91,12 @@
           </view>
           <view class="input-list-item">
             <view class="text">短信验证码</view>
-            <input id="code" class="input" value="{{code}}" bindinput="input" />
+            <input
+              id="code"
+              class="input"
+              value="{{code}}"
+              catch:input="input"
+            />
             <button type="default" class="sms-button" catch:tap="sendCode">
               发送验证码
             </button>
@@ -119,7 +124,7 @@
               class="input"
               type="text"
               value="{{password}}"
-              bindinput="input"
+              catch:input="input"
             />
             <input
               id="password"
@@ -127,7 +132,7 @@
               class="input"
               type="password"
               value="{{password}}"
-              bindinput="input"
+              catch:input="input"
             />
             <button
               type="default"
@@ -145,7 +150,7 @@
               class="input"
               type="text"
               value="{{confirmPassword}}"
-              bindinput="input"
+              catch:input="input"
             />
             <input
               id="confirmPassword"
@@ -153,7 +158,7 @@
               class="input"
               type="password"
               value="{{confirmPassword}}"
-              bindinput="input"
+              catch:input="input"
             />
             <button
               type="default"

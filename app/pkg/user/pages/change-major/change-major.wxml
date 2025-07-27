@@ -31,7 +31,7 @@
         class="picker"
         range="{{schools}}"
         value="{{schoolIndex}}"
-        bindchange="changeSchool"
+        catch:change="changeSchool"
       >
         {{schools[schoolIndex]}}
       </picker>
@@ -39,7 +39,7 @@
         class="picker"
         range="{{subjects}}"
         value="{{subjectIndex}}"
-        bindchange="changeSubject"
+        catch:change="changeSubject"
       >
         {{subjects[subjectIndex]}}
       </picker>

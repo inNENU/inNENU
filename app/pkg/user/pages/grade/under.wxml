@@ -23,7 +23,7 @@
         class="picker"
         range="{{timeDisplays}}"
         value="{{timeIndex}}"
-        bindchange="changeTime"
+        catch:change="changeTime"
       >
         {{(timeDisplays[timeIndex])}}
       </picker>

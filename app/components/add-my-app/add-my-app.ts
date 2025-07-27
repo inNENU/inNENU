@@ -36,14 +36,6 @@ $Component({
             });
           },
         });
-      } else if (wx.isAddedToMyApps) {
-        wx.isAddedToMyApps({
-          success: ({ isAdded }) => {
-            this.setData({
-              display: !isAdded,
-            });
-          },
-        });
       } else {
         // 判断是否已经显示过
         const cache = get<boolean>(KEY);
@@ -71,8 +63,7 @@ $Component({
     },
 
     addToMyApps() {
-      if (wx.applyAddToMyApps) wx.applyAddToMyApps();
-      else this.close();
+      this.close();
     },
 
     /** 关闭显示 */

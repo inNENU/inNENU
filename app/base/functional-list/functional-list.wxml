@@ -8,7 +8,6 @@
   <block wx:for="{{config.items}}" wx:for-item="listItem" wx:key="text">
     <block wx:if="{{!listItem.hidden}}">
       <!-- 按钮、嵌入选择器与滑块 -->
-      <!-- NOTE: open-id group-id guide-id 仅 QQ 小程序可用 -->
       <button
         wx:if="{{list.isButton(listItem)}}"
         id="{{index}}"
@@ -18,9 +17,6 @@
         disabled="{{listItem.disabled}}"
         plain
         open-type="{{listItem.openType}}"
-        open-id="{{listItem.openId}}"
-        group-id="{{listItem.groupId}}"
-        guild-id="{{listItem.guildId}}"
         catch:tap="onButtonTap"
         capture-bind:tap="{{list.tapHandler(listItem)}}"
       >
@@ -169,11 +165,9 @@
           src="{{listItem.icon}}"
         />
         <view class="list-item-detail">
-          <!-- NOTE: selectable 是对 QQ 的兼容 -->
           <text
             class="list-item-text"
             decode
-            selectable="{{selectable}}"
             user-select="{{selectable}}"
             space="nbsp"
             >{{listItem.text}}</text
@@ -191,7 +185,6 @@
       </view>
       <!-- 滑块与嵌入式选择器显示 -->
       <block wx:if="{{listItem.visible}}">
-        <!-- NOTE: QQ 不支持 catch:change 和 catch:changing -->
         <!-- 滑块显示 -->
         <slider
           wx:if="{{listItem.type === 'slider' }}"
@@ -201,11 +194,10 @@
           value="{{listItem.value}}"
           step="{{listItem.step ? listItem.step : '1'}}"
           data-id="{{index}}"
-          bindchange="onSliderChange"
-          bindchanging="onSliderChange"
+          catch:change="onSliderChange"
+          catch:changing="onSliderChange"
         />
         <!-- 嵌入式选择器显示 -->
-        <!-- NOTE: QQ 不支持 catch:change -->
         <picker-view
           wx:if="{{listItem.type === 'picker'}}"
           class="list-picker-view"
@@ -213,7 +205,7 @@
           value="{{listItem.currentValue}}"
           mask-class="list-picker-mask"
           data-id="{{index}}"
-          bindchange="onPickerChange"
+          catch:change="onPickerChange"
         >
           <picker-view-column
             wx:if="{{listItem.single}}"

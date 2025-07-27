@@ -46,7 +46,6 @@ $Page("info", {
     return {
       title,
       path: `/pages/info/info?path=${id}`,
-      generalWebpageUrl: `https://innenu.com/${id}.html`,
     };
   },
 

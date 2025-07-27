@@ -57,7 +57,7 @@
             adjust-position="{{false}}"
             placeholder="10 位数字"
             value="{{id}}"
-            bindinput="input"
+            catch:input="input"
           />
         </view>
         <view class="input-list-item">
@@ -70,7 +70,7 @@
             adjust-position="{{false}}"
             placeholder="统一身份认证密码"
             value="{{password}}"
-            bindinput="input"
+            catch:input="input"
           />
           <input
             id="password"
@@ -80,7 +80,7 @@
             adjust-position="{{false}}"
             placeholder="统一身份认证密码"
             value="{{password}}"
-            bindinput="input"
+            catch:input="input"
           />
           <button
             type="default"
@@ -164,7 +164,7 @@
         type="digit"
         adjust-position="{{false}}"
         value="{{smsCode}}"
-        bindinput="input"
+        catch:input="input"
       />
       <view class="re-auth-footer">
         <button class="verify-button" size="mini" catch:tap="cancelReAuth">
@@ -269,7 +269,7 @@
           adjust-position="{{false}}"
           value="{{remark}}"
           placeholder="生成用途"
-          bindinput="input"
+          catch:input="input"
         />
       </view>
       <view class="id-code-popup-footer">

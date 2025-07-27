@@ -41,7 +41,7 @@ export const mpLogin = (): Promise<LoginInfo> => {
       body: { openid: user.openid },
     }).then(({ data }) => (data.success ? data.data : DEFAULT_INFO));
 
-  if (env === "qq" || env === "wx") {
+  if (env === "wx") {
     return new Promise<LoginInfo>((resolve) => {
       wx.login({
         success: ({ code }) => {

@@ -18,7 +18,7 @@
         class="picker"
         range="{{timeDisplays}}"
         value="{{timeIndex}}"
-        bindchange="changeTime"
+        catch:change="changeTime"
       >
         {{(timeDisplays[timeIndex])}}
       </picker>
@@ -26,7 +26,7 @@
         class="picker"
         range="{{utils.getWeek(maxWeek)}}"
         value="{{weekIndex}}"
-        bindchange="changeWeek"
+        catch:change="changeWeek"
       >
         {{(utils.getWeek(maxWeek)[weekIndex])}}
       </picker>

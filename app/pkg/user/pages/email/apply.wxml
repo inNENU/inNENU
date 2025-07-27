@@ -29,7 +29,7 @@
       <view class="input-list-wrapper">
         <view wx:if="{{isCustom}}" class="input-list-item">
           <view class="text">自定义邮箱名称</view>
-          <input id="name" class="input" value="{{name}}" bindinput="input" />
+          <input id="name" class="input" value="{{name}}" catch:input="input" />
         </view>
         <block wx:else>
           <view class="input-list-item">
@@ -39,7 +39,7 @@
               class="input"
               range="{{accounts}}"
               value="{{accountIndex}}"
-              bindchange="picker"
+              catch:change="picker"
             >
               {{accounts[accountIndex]}}
             </picker>
@@ -52,7 +52,7 @@
               type="digit"
               placeholder="选填，需为三位数字"
               value="{{suffix}}"
-              bindinput="input"
+              catch:input="input"
             />
           </view>
         </block>
@@ -63,7 +63,7 @@
             class="input"
             type="digit"
             value="{{phone}}"
-            bindinput="input"
+            catch:input="input"
           />
         </view>
       </view>

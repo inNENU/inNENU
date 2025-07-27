@@ -295,93 +295,6 @@ const bundleWeNENU = parallel(
   moveWeNENUConfig,
 );
 
-/* QQ */
-
-const buildQQScript = getScriptJob("qq");
-const watchQQScript = () =>
-  watch("{app,typings}/**/*.ts", { ignoreInitial: false }, buildQQScript);
-
-const buildQss = getStyleJob("qq");
-const watchQss = () =>
-  watch("app/**/*.scss", { ignoreInitial: false }, buildQss);
-
-const moveQQAssets = getAssetsJob("qq", { wxFiles: false });
-const watchQQAssets = () =>
-  watch(
-    ["app/**/*.{json,svg,png,webp}", "app/**/*.{wxml,wxs}"],
-    { ignoreInitial: false },
-    moveQQAssets,
-  );
-
-const moveQQFiles = () =>
-  src("app/**/*.{wxml,wxs,qml,qs}", {
-    read: (value) => {
-      const { name, ext } = parse(value.path);
-
-      if (name.includes(".")) return name.endsWith(".qq");
-
-      if (
-        ext === "wxml" &&
-        existsSync(resolve("app", value.path).replace(/\.wxml$/, `.qml`))
-      )
-        return false;
-
-      if (
-        ext === "wxs" &&
-        existsSync(resolve("app", value.path).replace(/\.wxs$/, `.qs`))
-      )
-        return false;
-
-      if (
-        existsSync(
-          resolve("app", value.path).replace(new RegExp(ext), `.qq${ext}`),
-        )
-      )
-        return false;
-
-      return true;
-    },
-    since: lastRun(moveQQFiles),
-  })
-    .pipe(
-      rename((path) => {
-        if (path.basename.endsWith(".qq"))
-          path.basename = path.basename.replace(/\.qq$/, "");
-        else if (path.extname === ".qs") path.extname = ".wxs";
-        else if (path.extname === ".qml") path.extname = ".wxml";
-      }),
-    )
-    .pipe(dest("dist"));
-
-const watchQQFiles = () =>
-  watch("app/**/*.{wxml,wxs,qml,qs}", { ignoreInitial: false }, moveQQFiles);
-
-const moveQQConfig = getConfigJob("qq");
-const watchQQConfig = () =>
-  watch("project.config.qq.json", { ignoreInitial: false }, moveQQConfig);
-
-const watchQQ = parallel(
-  watchQQScript,
-  watchQss,
-  watchQQAssets,
-  watchQQFiles,
-  watchQQConfig,
-);
-const buildQQ = parallel(
-  buildQss,
-  buildQQScript,
-  moveQQAssets,
-  moveQQFiles,
-  moveQQConfig,
-);
-const bundleQQ = parallel(
-  buildQss,
-  getAssetsJob("qq", { bundle: true, wxFiles: false }),
-  getMoveScriptJob("qq"),
-  moveQQFiles,
-  moveQQConfig,
-);
-
 /* exports */
 
 exports.default = buildWechat;
@@ -397,7 +310,3 @@ exports.bundleWechat = bundleWechat;
 exports.watchWeNENU = watchWeNENU;
 exports.buildWeNENU = buildWeNENU;
 exports.bundleWeNENU = bundleWeNENU;
-
-exports.watchQQ = watchQQ;
-exports.buildQQ = buildQQ;
-exports.bundleQQ = bundleQQ;

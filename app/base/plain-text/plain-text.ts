@@ -33,9 +33,4 @@ $Component({
       route(config, referer);
     },
   },
-
-  // Note: for QQ only
-  options: {
-    styleIsolation: "shared",
-  },
 });

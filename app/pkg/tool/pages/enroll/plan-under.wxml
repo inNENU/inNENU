@@ -12,7 +12,7 @@
     <picker
       range="{{utils.getRange(provinces)}}"
       value="{{provinceIndex}}"
-      bindchange="provinceChange"
+      catch:change="provinceChange"
     >
       <text>省份: {{utils.getDisplay(provinces, provinceIndex)}}</text>
     </picker>
@@ -20,7 +20,7 @@
       wx:if="{{years.length > 0}}"
       range="{{utils.getRange(years)}}"
       value="{{yearIndex}}"
-      bindchange="yearChange"
+      catch:change="yearChange"
     >
       <text>年份: {{utils.getDisplay(years, yearIndex)}}</text>
     </picker>
@@ -28,7 +28,7 @@
       wx:if="{{majorTypes.length > 0}}"
       range="{{utils.getRange(majorTypes)}}"
       value="{{majorTypeIndex}}"
-      bindchange="majorTypeChange"
+      catch:change="majorTypeChange"
     >
       <text>类型: {{utils.getDisplay(majorTypes, majorTypeIndex)}}</text>
     </picker>
@@ -36,7 +36,7 @@
       wx:if="{{classTypes.length > 0}}"
       range="{{utils.getRange(classTypes)}}"
       value="{{classTypeIndex}}"
-      bindchange="classTypeChange"
+      catch:change="classTypeChange"
     >
       <text>科类: {{utils.getDisplay(classTypes, classTypeIndex)}}</text>
     </picker>

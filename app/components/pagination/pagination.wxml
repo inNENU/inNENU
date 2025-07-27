@@ -13,7 +13,7 @@
   <picker
     class="page-picker"
     range="{{panigation.getRanges(total)}}"
-    bindchange="changePage"
+    catch:change="changePage"
     >第 {{current}} 页</picker
   >
   <button

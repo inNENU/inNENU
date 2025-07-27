@@ -56,7 +56,12 @@
         <view class="input-list-wrapper">
           <view class="input-list-item">
             <view class="text">姓名</view>
-            <input id="name" class="input" value="{{name}}" bindinput="input" />
+            <input
+              id="name"
+              class="input"
+              value="{{name}}"
+              catch:input="input"
+            />
           </view>
           <view class="input-list-item">
             <view class="text">学号</view>
@@ -66,7 +71,7 @@
               type="digit"
               placeholder="录取通知书证书编号"
               value="{{schoolId}}"
-              bindinput="input"
+              catch:input="input"
             />
           </view>
           <view class="input-list-item">
@@ -76,7 +81,7 @@
               class="picker"
               range="{{idTypes}}"
               value="{{idTypeIndex}}"
-              bindchange="input"
+              catch:change="input"
             >
               {{idTypes[idTypeIndex]}}
             </picker>
@@ -88,7 +93,7 @@
               class="input"
               type="{{idTypeIndex === '0'? 'idcard': 'text'}}"
               value="{{id}}"
-              bindinput="input"
+              catch:input="input"
             />
           </view>
           <view class="input-list-item">
@@ -97,7 +102,7 @@
               id="captcha"
               class="input"
               value="{{captcha}}"
-              bindinput="input"
+              catch:input="input"
             />
             <image
               class="captcha-image"
@@ -122,7 +127,7 @@
               type="digit"
               placeholder="这是账户将绑定的手机号"
               value="{{mobile}}"
-              bindinput="input"
+              catch:input="input"
             />
           </view>
           <view class="input-list-item">
@@ -131,7 +136,7 @@
               id="captcha"
               class="input"
               value="{{captcha}}"
-              bindinput="input"
+              catch:input="input"
             />
             <image
               class="captcha-image"
@@ -146,7 +151,7 @@
               class="input"
               type="digit"
               value="{{smsCode}}"
-              bindinput="input"
+              catch:input="input"
             />
             <button type="default" class="sms-button" catch:tap="sendSMS">
               发送验证码
@@ -176,7 +181,7 @@
               class="input"
               type="text"
               value="{{password}}"
-              bindinput="input"
+              catch:input="input"
             />
             <input
               id="password"
@@ -184,7 +189,7 @@
               class="input"
               type="password"
               value="{{password}}"
-              bindinput="input"
+              catch:input="input"
             />
             <button
               type="default"
@@ -202,7 +207,7 @@
               class="input"
               type="text"
               value="{{confirmPassword}}"
-              bindinput="input"
+              catch:input="input"
             />
             <input
               id="confirmPassword"
@@ -210,7 +215,7 @@
               class="input"
               type="password"
               value="{{confirmPassword}}"
-              bindinput="input"
+              catch:input="input"
             />
             <button
               type="default"

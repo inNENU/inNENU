@@ -32,7 +32,7 @@ $Component({
 
       // 检测到文档
       if (DOC_ICONS.includes(icon)) {
-        // compatible with pc wechat and qq
+        // compatible with pc wechat
         if (wx.canIUse("openDocument")) openDocument(link);
         else this.download();
       } else if (IMAGE_ICONS.includes(icon))
