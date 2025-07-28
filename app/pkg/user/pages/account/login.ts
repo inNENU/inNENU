@@ -5,6 +5,7 @@ import { appCoverPrefix, logo } from "../../../../config/index.js";
 import { ActionFailType, mpRemove } from "../../../../service/index.js";
 import type { UserInfo } from "../../../../state/index.js";
 import {
+  appId,
   envName,
   info,
   setUserInfo,
@@ -287,6 +288,7 @@ $Page(PAGE_ID, {
       params,
       salt,
       openid: user.openid!,
+      appId,
     });
 
     wx.hideLoading();
@@ -351,24 +353,57 @@ $Page(PAGE_ID, {
   },
 
   async verifyReAuth() {
-    const { smsCode } = this.data;
+    const { id, password, smsCode } = this.data;
 
     if (!smsCode) return showToast("请输入验证码");
 
-    const result = await verifyReAuthCaptcha(smsCode);
+    const result = await verifyReAuthCaptcha({
+      id: Number(id),
+      password,
+      smsCode,
+      openid: user.openid!,
+      appId,
+    });
 
     this.setData({ smsCode: "" });
 
     if (!result.success) {
       showModal("验证失败", result.msg);
 
-      return;
+      if (result.type === ActionFailType.WrongCaptcha) return;
+
+      this.state.initId = null;
+
+      return this.getInitInfo();
     }
 
     this.setData({ showReAuth: false });
     this.state.authToken = result.authToken;
 
-    return this.init();
+    if (!result.info) {
+      this.state.initId = null;
+      showModal(
+        "登录失败",
+        "账号密码校验成功，但未能成功获取账号信息。这通常是学校系统出错，请稍后重试。",
+      );
+
+      return;
+    }
+
+    showModal("登录成功", "您已成功登录");
+
+    setUserInfo(
+      { id: Number(id), password, authToken: result.authToken },
+      result.info,
+    );
+
+    if (this.state.shouldNavigateBack) return this.$back();
+    this.setData({
+      isSaved: true,
+      info: result.info,
+    });
+
+    return;
   },
 
   cancelReAuth() {

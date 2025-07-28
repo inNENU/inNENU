@@ -13,6 +13,7 @@ import {
   UnknownResponse,
   createService,
 } from "../../../../service/index.js";
+import type { UserInfo } from "../../../../state/index.js";
 
 const RE_AUTH_SMS_URL = `${AUTH_SERVER}/authserver/dynamicCode/getDynamicCodeByReauth.do`;
 
@@ -100,18 +101,40 @@ interface RawVerifyReAuthCaptchaResponse {
   msg: string;
 }
 
+export interface VerifyReAuthCaptchaOptions {
+  /** 短信验证码 */
+  smsCode: string;
+  /** 用户学号 */
+  id: number;
+  /** 用户密码 */
+  password: string;
+  /** OPEN ID */
+  openid: string;
+  /** 应用 ID */
+  appId: string | number;
+}
+
 export interface VerifyReAuthCaptchaSuccessResponse {
   success: true;
+  info: UserInfo | null;
   authToken: string;
 }
 
 export type VerifyReAuthCaptchaResponse =
   | VerifyReAuthCaptchaSuccessResponse
-  | CommonFailedResponse;
+  | CommonFailedResponse<
+      | ActionFailType.BlackList
+      | ActionFailType.Forbidden
+      | ActionFailType.WrongCaptcha
+      | ActionFailType.Unknown
+    >;
 
-const verifyReAuthCaptchaLocal = async (
-  smsCode: string,
-): Promise<VerifyReAuthCaptchaResponse> => {
+/**
+ * FIXME: This function is now outdated
+ */
+const verifyReAuthCaptchaLocal = async ({
+  smsCode,
+}: VerifyReAuthCaptchaOptions): Promise<VerifyReAuthCaptchaResponse> => {
   const { data } = await request<RawVerifyReAuthCaptchaResponse>(
     RE_AUTH_VERIFY_URL,
     {
@@ -136,15 +159,16 @@ const verifyReAuthCaptchaLocal = async (
   return {
     success: true,
     authToken: cookieStore.getValue("MULTIFACTOR_USERS", {})!,
+    info: null, // User info is not returned in this case
   };
 };
 
 const verifyReAuthCaptchaOnline = async (
-  smsCode: string,
+  options: VerifyReAuthCaptchaOptions,
 ): Promise<VerifyReAuthCaptchaResponse> =>
   request<VerifyReAuthCaptchaResponse>("/auth/re-auth", {
     method: "POST",
-    body: { smsCode },
+    body: options,
     cookieScope: AUTH_COOKIE_SCOPE,
   }).then(({ data }) => data);
 

@@ -42,6 +42,9 @@ export type AuthInitInfoResponse =
   | AuthInitInfoSuccessResponse
   | CommonFailedResponse;
 
+/**
+ * FIXME: This function is now outdated
+ */
 const getAuthInitInfoLocal = async (
   id: string,
 ): Promise<AuthInitInfoResponse> => {
@@ -115,6 +118,7 @@ export interface InitAuthOptions extends AccountInfo {
   params: Record<string, string>;
   salt: string;
   openid: string;
+  appId: string | number;
 }
 
 export interface InitAuthSuccessResponse {
@@ -138,6 +142,9 @@ export type InitAuthFailedResponse = CommonFailedResponse<
 
 export type InitAuthResponse = InitAuthSuccessResponse | InitAuthFailedResponse;
 
+/**
+ * FIXME: This function is now outdated
+ */
 const authInitLocal = async (
   options: InitAuthOptions,
 ): Promise<InitAuthResponse> => {
