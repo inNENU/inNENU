@@ -4,8 +4,8 @@
 <back-button />
 <view class="music-wrapper">
   <view class="song-info">
-    <view class="name">{{currentSong.title}}</view>
-    <view class="author">—— {{currentSong.singer}} ——</view>
+    <view class="song-name {{size}}">{{currentSong.title}}</view>
+    <view class="song-author {{size}}">—— {{currentSong.singer}} ——</view>
   </view>
   <swiper
     class="display-wrapper"
