@@ -1,7 +1,7 @@
 <wxs module="phone" src="./phone.wxs" />
 
 <license />
-<view class="ios">
+<view class="ios phone-page">
   <header title="{{title}}" />
   <view style="height: 16px" />
   <tab-bar nav-list="{{phone.getName(config)}}" height="{{height || 300}}">
@@ -11,11 +11,11 @@
       wx:for-item="category"
       wx:for-index="groupIndex"
     >
-      <scroll-view scroll-y class="phone-wrapper" slot="page{{groupIndex + 1}}">
+      <scroll-view scroll-y class="phone-list" slot="page{{groupIndex + 1}}">
         <view
           wx:for="{{category.list}}"
           wx:key="name"
-          class="phone border-bottom"
+          class="phone-item{{wideScreen? 'half': ''}} border-bottom"
         >
           <view class="info">
             <view class="name">{{item.name}}</view>

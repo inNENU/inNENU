@@ -1,6 +1,6 @@
 <wxs src="../../../../utils/time.wxs" module="time" />
 <wxs src="./music.wxs" module="music" />
-<image class="backgroud-image" mode="aspectFill" src="{{currentSong.cover}}" />
+<image class="background-image" mode="aspectFill" src="{{currentSong.cover}}" />
 <back-button />
 <view class="music-wrapper">
   <view class="song-info">

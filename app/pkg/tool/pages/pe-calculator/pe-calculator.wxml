@@ -1,8 +1,11 @@
-<view
-  class="ios grey"
+<scroll-view
+  class="ios pe-calculator-page grey"
   style="{{isTyping ? 'padding-bottom:' + keyboardHeight + 'px;' : ''}}"
+  scroll-y
+  enable-flex
+  enable-back-to-top
 >
-  <navbar nav="{{ { title } }}" />
+  <header title="{{title}}" />
   <view class="desc-wrapper">
     <view
       class="desc-button"
@@ -91,7 +94,7 @@
   </button>
 
   <footer />
-</view>
+</scroll-view>
 
 <!-- 成绩列表 -->
 <popup

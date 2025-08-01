@@ -1,5 +1,7 @@
 {
+  "disableScroll": true,
   "navigationBarTitleText": "东师校园地图",
+  "renderer": "skyline",
   "usingComponents": {
     "popup": "/components/popup/popup",
     "tab-bar": "/components/top-tab/tab"
