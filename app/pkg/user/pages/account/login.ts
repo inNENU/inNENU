@@ -13,8 +13,9 @@ import {
   windowInfo,
 } from "../../../../state/index.js";
 import { getLicenseStatus, showNotice } from "../../../../utils/index.js";
-import type { AuthCaptchaInfo } from "../../service/index.js";
+import type { AuthCaptchaInfo, SliderTrackPoint } from "../../service/index.js";
 import {
+  CAPTCHA_CANVAS_WIDTH,
   authInit,
   checkIdCode,
   generateIdCode,
@@ -96,6 +97,10 @@ $Page(PAGE_ID, {
     params: {} as Record<string, string>,
     salt: "",
     touchPosition: 0,
+    sliderTracks: [] as SliderTrackPoint[],
+    slideStartTime: 0,
+    lastTrackTime: 0,
+    captchaSafeValue: "",
   },
 
   onLoad(options) {
@@ -153,38 +158,114 @@ $Page(PAGE_ID, {
     this.setData({ showPassword: !this.data.showPassword });
   },
 
-  onSliderMove({ currentTarget, type, touches }: WechatMiniprogram.Touch) {
-    switch (type) {
-      case "touchstart":
-        this.state.touchPosition = touches[0].pageX - currentTarget.offsetLeft;
-        break;
-      case "touchmove": {
-        const distance = touches[0].pageX - this.state.touchPosition;
+  onSliderMove({
+    currentTarget,
+    type,
+    touches,
+    changedTouches,
+  }: WechatMiniprogram.Touch) {
+    const currentTime = Date.now();
 
-        this.setData({
-          distance: Math.max(
-            0,
-            Math.min(distance, 295 - this.data.sliderWidth / 2),
-          ),
-        });
+    switch (type) {
+      case "touchstart": {
+        this.state.touchPosition = touches[0].pageX - currentTarget.offsetLeft;
+        this.state.slideStartTime = currentTime;
+        this.state.lastTrackTime = currentTime;
+        this.state.sliderTracks = [{ a: 0, b: 0, c: 0 }];
         break;
       }
+
+      case "touchmove": {
+        const distance = Math.max(
+          0,
+          Math.min(
+            touches[0].pageX - this.state.touchPosition,
+            CAPTCHA_CANVAS_WIDTH - this.data.sliderWidth / 2,
+          ),
+        );
+
+        const timeDiff = currentTime - this.state.lastTrackTime;
+
+        if (timeDiff >= 20) {
+          const offsetY = touches[0].pageY - (currentTarget.offsetTop ?? 0);
+
+          this.state.sliderTracks.push({
+            a: distance,
+            b: offsetY,
+            c: timeDiff,
+          });
+          this.state.lastTrackTime = currentTime;
+        }
+
+        this.setData({ distance });
+        break;
+      }
+
       case "touchend": {
-        // reset state
+        // Use changedTouches for touchend event as touches array is empty on PC
+        const endTouch =
+          changedTouches?.length > 0
+            ? changedTouches[0]
+            : touches?.length > 0
+              ? touches[0]
+              : null;
+
+        let finalDistance: number;
+        let endY: number;
+
+        if (endTouch) {
+          // Use actual touch position
+          finalDistance = endTouch.pageX - this.state.touchPosition;
+          endY = endTouch.pageY - (currentTarget.offsetTop ?? 0);
+        } else {
+          console.warn(
+            "No touch data available, using current distance as final position",
+          );
+          finalDistance = this.data.distance;
+          endY = 0;
+        }
+
+        const totalTime = currentTime - this.state.slideStartTime;
+
+        // Add final track point
+        this.state.sliderTracks.push({
+          a: Math.max(
+            0,
+            Math.min(
+              finalDistance,
+              CAPTCHA_CANVAS_WIDTH - this.data.sliderWidth / 2,
+            ),
+          ),
+          b: endY,
+          c: totalTime,
+        });
+
+        // Reset touch state for next interaction
         this.state.touchPosition = 0;
-        // verify captcha
+        this.state.slideStartTime = 0;
+        this.state.lastTrackTime = 0;
+
+        // Verify captcha
         this.verifyCaptcha();
+        break;
       }
     }
   },
 
-  setCaptchaInfo({ slider, bg, sliderWidth, offsetY }: AuthCaptchaInfo) {
+  setCaptchaInfo({
+    slider,
+    bg,
+    sliderWidth,
+    offsetY,
+    safeValue,
+  }: AuthCaptchaInfo) {
     this.setData({
       captchaBg: bg,
       captchaSlider: slider,
-      sliderOffsetY: offsetY,
+      offsetY,
       sliderWidth,
     });
+    this.state.captchaSafeValue = safeValue;
   },
 
   async getInitInfo() {
@@ -236,19 +317,33 @@ $Page(PAGE_ID, {
   },
 
   async verifyCaptcha() {
-    const result = await verifyAuthCaptcha(this.data.distance);
+    const safeValue = this.state.captchaSafeValue;
 
-    // clear captcha
+    if (!safeValue) {
+      showModal("验证失败", "验证码信息丢失，请重新获取");
+
+      return;
+    }
+
+    const result = await verifyAuthCaptcha(
+      this.data.distance,
+      this.state.sliderTracks,
+      safeValue,
+    );
+
+    // Clear captcha
     this.setData({ captchaBg: "", distance: 0 });
+    this.state.captchaSafeValue = "";
 
     if (!result.success) {
       retry("验证失败", "请正确拼合图像。", () => {
         this.getAuthCaptcha();
       });
-    }
-    showModal("验证成功", "请继续登录");
 
-    return;
+      return;
+    }
+
+    showModal("验证成功", "请继续登录");
   },
 
   acceptLicense() {

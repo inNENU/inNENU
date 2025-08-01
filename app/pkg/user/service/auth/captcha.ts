@@ -1,4 +1,4 @@
-import { URLSearchParams } from "@mptool/all";
+import { URLSearchParams, decodeBase64 } from "@mptool/all";
 
 import { AUTH_CAPTCHA_URL } from "./utils.js";
 import { request } from "../../../../api/index.js";
@@ -6,6 +6,7 @@ import type { CommonFailedResponse } from "../../../../service/index.js";
 import {
   AUTH_COOKIE_SCOPE,
   AUTH_SERVER,
+  authEncrypt,
   createService,
 } from "../../../../service/index.js";
 
@@ -21,6 +22,7 @@ export interface AuthCaptchaInfo {
   bg: string;
   sliderWidth: number;
   offsetY: number;
+  safeValue: string;
 }
 
 export interface AuthCaptchaSuccessResponse {
@@ -48,6 +50,24 @@ export const getAuthCaptchaLocal = async (
     },
   );
 
+  // Extract safeValue from smallImage
+  let safeValue = "";
+
+  try {
+    // Use @mptool/all decodeBase64 method
+    const arrayBuffer = decodeBase64(smallImage);
+    const uint8Array = new Uint8Array(arrayBuffer);
+    const dataLength = uint8Array.length;
+
+    // Extract last 16 bytes as safeValue
+    for (let i = dataLength - 16; i < dataLength; i++) {
+      safeValue += String.fromCharCode(uint8Array[i]);
+    }
+  } catch (error) {
+    console.error("Failed to extract safeValue:", error);
+    safeValue = "";
+  }
+
   return {
     success: true,
     data: {
@@ -55,6 +75,7 @@ export const getAuthCaptchaLocal = async (
       bg: `data:image/png;base64,${bigImage}`,
       offsetY: yHeight,
       sliderWidth: tagWidth,
+      safeValue,
     },
   };
 };
@@ -70,6 +91,7 @@ export const getAuthCaptcha = createService(
   getAuthCaptchaOnline,
 );
 
+export const CAPTCHA_CANVAS_WIDTH = 295;
 const VERIFY_CAPTCHA_URL = `${AUTH_SERVER}/authserver/common/verifySliderCaptcha.htl`;
 
 type RawVerifyAuthCaptchaResponse =
@@ -82,16 +104,37 @@ type RawVerifyAuthCaptchaResponse =
       errorMsg: "error";
     };
 
+/**
+ * 滑块轨迹点接口
+ */
+export interface SliderTrackPoint {
+  /** 滑块的水平位置（距离） */
+  a: number;
+  /** 滑块的垂直偏移量 */
+  b: number;
+  /** 时间差（毫秒） */
+  c: number;
+}
+
 const verifyAuthCaptchaLocal = async (
-  distance: number,
+  moveLength: number,
+  tracks: SliderTrackPoint[],
+  safeValue: string,
 ): Promise<{ success: boolean }> => {
+  // Prepare the verification data
   const { data } = await request<RawVerifyAuthCaptchaResponse>(
     VERIFY_CAPTCHA_URL,
     {
       method: "POST",
       body: new URLSearchParams({
-        canvasLength: "295",
-        moveLength: distance.toString(),
+        sign: authEncrypt(
+          JSON.stringify({
+            canvasLength: CAPTCHA_CANVAS_WIDTH,
+            moveLength,
+            tracks,
+          }),
+          safeValue,
+        ),
       }),
     },
   );
@@ -102,11 +145,13 @@ const verifyAuthCaptchaLocal = async (
 };
 
 const verifyAuthCaptchaOnline = async (
-  distance: number,
+  moveLength: number,
+  tracks: SliderTrackPoint[],
+  safeValue: string,
 ): Promise<{ success: boolean }> =>
   request<{ success: boolean }>(`/auth/auth-captcha`, {
     method: "POST",
-    body: { width: "295", distance },
+    body: { canvasLength: CAPTCHA_CANVAS_WIDTH, moveLength, tracks, safeValue },
     cookieScope: AUTH_COOKIE_SCOPE,
   }).then(({ data }) => data);
 
