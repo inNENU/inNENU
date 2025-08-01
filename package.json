@@ -88,13 +88,13 @@
     "nano-staged": "0.8.0",
     "postcss": "8.5.6",
     "prettier": "3.6.2",
-    "rollup": "4.46.0",
+    "rollup": "4.46.2",
     "rollup-plugin-esbuild": "6.2.1",
     "standard-version": "9.5.0",
-    "stylelint": "16.22.0",
+    "stylelint": "16.23.0",
     "stylelint-config-hope": "9.1.0",
     "tsx": "4.20.3",
-    "typescript": "5.8.3"
+    "typescript": "5.9.2"
   },
-  "packageManager": "pnpm@10.13.1"
+  "packageManager": "pnpm@10.14.0"
 }
