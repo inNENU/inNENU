@@ -48,6 +48,11 @@ $Page(PAGE_ID, {
   onLoad({ type }: { type: AccountType }) {
     const defaultType = type || "wx";
 
+    this.setData({
+      type: defaultType,
+      height: windowInfo.windowHeight - windowInfo.statusBarHeight - 202,
+    });
+
     getJson<QQAccounts | WechatAccounts>(
       `function/account/${defaultType}`,
     ).then((config) => {
@@ -60,8 +65,6 @@ $Page(PAGE_ID, {
             ...("qrcode" in item ? { qrcode: getAssetLink(item.qrcode) } : {}),
           })),
         })),
-        type: defaultType,
-        height: windowInfo.windowHeight - windowInfo.statusBarHeight - 202,
       });
     });
 

@@ -1,0 +1,24 @@
+module.exports = {
+  page: {
+    title: "工作室简介",
+    content: [
+      { tag: "title", text: "工作室简介" },
+      {
+        tag: "p",
+        text: [
+          "Hope Studio，中文名希望工作室，成立于 2017 年，是一家年轻、朝气、有活力有思想的工作室。工作室独立开发了本小程序",
+        ],
+      },
+      { tag: "title", text: "工作室口号" },
+      {
+        tag: "text",
+        text: ["播种一个希望，静待它的成长"],
+      },
+      { tag: "title", text: "工作室人员" },
+      {
+        tag: "text",
+        text: ["工作室现有成员 17 人。"],
+      },
+    ],
+  },
+};

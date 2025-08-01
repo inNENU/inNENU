@@ -214,7 +214,7 @@
       "defaultContentBox": true,
       "disableABTest": true,
       "enableScrollViewAutoSize": true,
-      "sdkVersionBegin": "3.6.0",
+      "sdkVersionBegin": "3.8.0",
       "tagNameStyleIsolation": "legacy"
     }
   }

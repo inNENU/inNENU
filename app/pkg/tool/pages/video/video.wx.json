@@ -1,7 +1,8 @@
 {
+  "disableScroll": true,
   "navigationBarTitleText": "影约东师",
+  "renderer": "skyline",
   "usingComponents": {
-    "player-component": "plugin://player/video",
     "tab-bar": "/components/top-tab/tab"
   }
 }

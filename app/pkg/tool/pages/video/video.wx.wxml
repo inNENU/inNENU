@@ -2,9 +2,9 @@
 <wxs src="./video.wxs" module="video" />
 
 <!-- 返回按钮 -->
-<back-button />
+<back-button wx:if="{{type === 'video'}}" />
 
-<view class="video-page">
+<view wx:if="{{type === 'video'}}" class="video-page">
   <!-- 视频信息 -->
   <view class="video-info">
     <view class="name"><text>{{videoName}}</text></view>
@@ -56,3 +56,4 @@
     </tab-bar>
   </view>
 </view>
+<template wx:else is="page" data="{{theme, page: video.page}}" />

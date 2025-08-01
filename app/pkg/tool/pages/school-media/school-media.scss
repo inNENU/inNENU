@@ -1,4 +1,4 @@
-.switch {
+.type-switch {
   display: flex;
 
   overflow: hidden;
@@ -13,14 +13,14 @@
 
   font-weight: bold;
   line-height: 30px;
+}
 
-  .item {
-    width: 50%;
+.type-switch-item {
+  width: 50%;
 
-    &.active {
-      background-color: #2ecc71;
-      color: var(--bg-color);
-    }
+  &.active {
+    background-color: #2ecc71;
+    color: var(--bg-color);
   }
 }
 
@@ -43,7 +43,8 @@
   line-height: 1.2;
   text-align: justify;
 
-  @media (min-width: 768px) {
+  // NOTE: Skyline does not support media queries
+  &.half {
     width: calc(50% - 61.5px);
     padding: 8px 12px;
 

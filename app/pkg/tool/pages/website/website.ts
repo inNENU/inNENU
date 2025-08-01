@@ -25,12 +25,16 @@ $Page(PAGE_ID, {
   },
 
   onLoad() {
+    this.setData({
+      // NOTE: Compact for skyline renderer, which does not support media queries.
+      height: windowInfo.windowHeight - windowInfo.statusBarHeight - 160,
+      theme: info.theme,
+    });
+
     getJson<WebsiteConfig[]>("function/website/index").then((config) => {
       this.setData({
         titles: config.map((item) => item.name),
         config,
-        height: windowInfo.windowHeight - windowInfo.statusBarHeight - 160,
-        theme: info.theme,
       });
     });
 

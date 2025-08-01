@@ -2,10 +2,6 @@ page {
   --max-width: 520px;
   --horizontal-margin: 16px;
   --paragraph-horizontal-margin: auto;
-
-  @media (min-width: 552px) {
-    --horizontal-margin: auto;
-  }
 }
 
 .grey {

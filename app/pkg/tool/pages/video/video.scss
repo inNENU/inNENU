@@ -1,6 +1,8 @@
-.page.video-wrapper {
+.video-page {
   display: flex;
   flex-direction: column;
+
+  // align-items: center;
   justify-content: space-between;
 
   height: 90vh;
@@ -35,22 +37,20 @@
   }
 }
 
-.player {
-  width: 700rpx;
+.video-player {
+  flex: auto 0 0;
 
-  // A fix for pc frameset layout
-  max-width: 92%;
+  width: 92%;
   max-height: 400rpx;
-  margin: 20px auto;
+  margin: 20px 4%;
   border-radius: 16rpx;
 }
 
-.video-list {
+.video-list-wrapper {
   flex: 1;
 
-  overflow-y: scroll;
-
-  padding: 10px 0;
+  width: 100%;
+  padding: 12px 0;
   border-top-left-radius: 12px;
   border-top-right-radius: 12px;
 
@@ -61,50 +61,48 @@
   @media (prefers-color-scheme: dark) {
     box-shadow: 0 -2px 5px rgb(36 37 32 / 95%);
   }
+}
 
-  .title {
-    margin: 0 auto;
-    padding: 8px 16px 4px;
+.video-list {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  justify-content: flex-start;
+}
 
-    font-weight: 500;
-    font-size: 20px;
-    text-align: left;
-  }
+.video-item {
+  width: 100%;
+  padding: 8px 15px;
+  text-align: left;
 
-  .item {
-    width: 100%;
-    padding: 8px 16px;
-    text-align: left;
-  }
-
-  .name {
-    color: #333;
-    font-size: 16px;
-    font-family:
-      FZSSJW,
-      -apple-system-font,
-      "PingFang SC",
-      "Helvetica Neue",
-      Helvetica,
-      STHeiti,
-      Tahoma,
-      Simsun,
-      sans-serif !important;
-
-    @media (prefers-color-scheme: dark) {
-      color: #ccc;
-    }
-  }
-
-  .author {
-    color: #888;
-    font-size: 13px;
-  }
-
-  .active {
-    .name,
-    .author {
+  &.active {
+    .video-name,
+    .video-author {
       color: #3478f7;
     }
   }
+}
+
+.video-name {
+  color: #333;
+  font-size: 16px;
+  font-family:
+    FZSSJW,
+    -apple-system-font,
+    "PingFang SC",
+    "Helvetica Neue",
+    Helvetica,
+    STHeiti,
+    Tahoma,
+    Simsun,
+    sans-serif !important;
+
+  @media (prefers-color-scheme: dark) {
+    color: #ccc;
+  }
+}
+
+.video-author {
+  color: #888;
+  font-size: 13px;
 }
