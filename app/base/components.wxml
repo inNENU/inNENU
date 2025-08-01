@@ -19,7 +19,7 @@
 </template>
 
 <template name="img-component">
-  <img config="{{config}}" images="{{images}}" />
+  <picture config="{{config}}" images="{{images}}" />
 </template>
 
 <template name="list-component">
