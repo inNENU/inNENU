@@ -17,7 +17,7 @@
 
   // NOTE: Skyline does not support media queries
   // @media (min-width: 768px) {
-  &.half {
+  &.large {
     width: calc(50% - 61.5px);
 
     &:nth-last-child(2)::after {

@@ -20,7 +20,7 @@
         <view
           wx:for="{{category.list}}"
           wx:key="name"
-          class="phone-item{{wideScreen? 'half': ''}} border-bottom"
+          class="phone-item {{size}} border-bottom"
         >
           <view class="info">
             <view class="name">{{item.name}}</view>

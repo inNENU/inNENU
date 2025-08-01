@@ -4,7 +4,7 @@
 
     // NOTE: Skyline does not support media queries
     // @media (min-width: 768px) {
-    &.wide {
+    &.large {
       padding: 0 10px;
     }
   }
@@ -30,7 +30,7 @@
 
     // NOTE: Skyline does not support media queries
     // @media (min-width: 1024px) {
-    &.xlarge {
+    &.xl {
       width: calc(12.5% - 8px);
     }
   }

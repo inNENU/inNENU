@@ -22,7 +22,7 @@
         <view
           wx:for="{{category.website}}"
           wx:key="name"
-          class="website-item{{wideScreen? ' half': ''}} border-bottom"
+          class="website-item {{size}} border-bottom"
           hover-class="button-hover"
           data-link="{{item.link}}"
           catch:tap="copy"

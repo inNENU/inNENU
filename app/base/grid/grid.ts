@@ -35,7 +35,6 @@ $Component({
 
     onResize({ size }: WechatMiniprogram.OnWindowResizeListenerResult) {
       this.setData({
-        wideScreen: size.windowWidth >= 768,
         size: getSizeClass(size.windowWidth),
       });
     },
@@ -62,7 +61,6 @@ $Component({
     attached() {
       this.$on("inited", this.setLogo);
       this.setData({
-        wideScreen: windowInfo.windowWidth >= 768,
         size: getSizeClass(windowInfo.windowWidth),
       });
       wx.onWindowResize(this.onResize);

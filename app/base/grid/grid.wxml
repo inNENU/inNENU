@@ -1,12 +1,12 @@
 <!-- 网格头部文字 -->
 <view
   wx:if="{{config.header !== false}}"
-  class="grid-component-header{{wideScreen ? ' wide' : ''}}"
+  class="grid-component-header {{size}}"
 >
   <text>{{config.header}}</text>
 </view>
 <!-- 网格主体 -->
-<view class="grid-component-wrapper{{wideScreen ? ' wide' : ''}}">
+<view class="grid-component-wrapper {{size}}">
   <!-- 每个网格 -->
   <view
     wx:for="{{config.items}}"
@@ -25,9 +25,6 @@
   </view>
 </view>
 <!-- 网格尾部文字 -->
-<view
-  wx:if="{{config.footer}}"
-  class="grid-component-footer{{wideScreen ? ' wide' : ''}}"
->
+<view wx:if="{{config.footer}}" class="grid-component-footer {{size}}">
   <text>{{config.footer}}</text>
 </view>
