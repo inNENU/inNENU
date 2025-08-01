@@ -96,7 +96,7 @@
         {
           "name": "Path 加载",
           "pathName": "pages/info/info",
-          "query": "path=Gdorm/electricity/power",
+          "query": "path=Gexpress/benbu-cainiao",
           "launchMode": "default",
           "scene": null
         },

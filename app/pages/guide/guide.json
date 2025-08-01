@@ -1,7 +1,9 @@
 {
-  "navigationBarTitleText": "东师指南",
+  "disableScroll": true,
   "enablePullDownRefresh": true,
   "initialRenderingCache": "static",
+  "navigationBarTitleText": "东师指南",
+  "renderer": "skyline",
   "usingComponents": {
     "feature-panel": "/components/feature-panel/feature-panel",
     "search": "/components/search/search"
