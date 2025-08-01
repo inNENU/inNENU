@@ -16,6 +16,7 @@
   text-align: justify;
 
   // NOTE: Skyline does not support media queries
+  // @media (min-width: 768px) {
   &.half {
     width: calc(50% - 61.5px);
 

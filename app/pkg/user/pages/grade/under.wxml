@@ -30,7 +30,7 @@
     </view>
     <view class="header"> 查询结果 </view>
     <block wx:if="{{grades.length}}">
-      <scroll-view scroll-x class="grade-list">
+      <scroll-view type="list" scroll-x class="grade-list">
         <view class="table">
           <view class="table-headers">
             <view

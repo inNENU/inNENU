@@ -1,9 +1,10 @@
 <scroll-view
-  class="ios pe-calculator-page grey"
-  style="{{isTyping ? 'padding-bottom:' + keyboardHeight + 'px;' : ''}}"
+  type="list"
   scroll-y
   enable-flex
   enable-back-to-top
+  class="ios pe-calculator-page grey"
+  style="{{isTyping ? 'padding-bottom:' + keyboardHeight + 'px;' : ''}}"
 >
   <header title="{{title}}" />
   <view class="desc-wrapper">

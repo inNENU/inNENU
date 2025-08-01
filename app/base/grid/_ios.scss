@@ -2,12 +2,19 @@
   .grid-component-wrapper {
     padding: 0 6px;
 
-    @media (min-width: 768px) {
+    // NOTE: Skyline does not support media queries
+    // @media (min-width: 768px) {
+    &.wide {
       padding: 0 10px;
     }
   }
 
   .grid-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: start;
+
     width: calc(25% - 8px);
     margin: 4px;
     padding: 10px 0;
@@ -15,11 +22,15 @@
 
     background-color: var(--bg-block);
 
-    @media (min-width: 480px) {
+    // NOTE: Skyline does not support media queries
+    // @media (min-width: 480px) {
+    &.medium {
       width: calc(16.666% - 8px);
     }
 
-    @media (min-width: 1024px) {
+    // NOTE: Skyline does not support media queries
+    // @media (min-width: 1024px) {
+    &.xlarge {
       width: calc(12.5% - 8px);
     }
   }

@@ -1,5 +1,5 @@
 <license />
-<scroll-view scroll-y type="list" class="ios">
+<scroll-view type="list" scroll-y class="ios">
   <header title="{{title}}" />
   <view class="content">
     <doc wx:for="{{plans}}" config="{{item}}" />

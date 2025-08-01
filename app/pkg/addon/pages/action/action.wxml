@@ -6,7 +6,7 @@
   background-color-bottom="{{color.bgColorBottom}}"
   root-background-color="{{color.bgColor}}"
 />
-<view class="{{theme}} action-page">
+<scroll-view type="list" scroll-y enable-flex class="{{theme}} action-page">
   <!-- 跳转输入 -->
   <view wx:if="{{navigate || all}}" class="input-list-wrapper">
     <view class="input-list-item">
@@ -89,4 +89,4 @@
   >
     <text>返回</text>
   </button>
-</view>
+</scroll-view>

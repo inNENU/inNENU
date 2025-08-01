@@ -33,10 +33,11 @@
     </swiper-item>
     <swiper-item wx:if="{{lyrics.length > 0}}" class="lyric">
       <scroll-view
-        class="lyric-wrapper"
+        type="list"
         scroll-y
         scroll-with-animation
         scroll-into-view="lyric-{{currentLyricId}}"
+        class="lyric-wrapper"
       >
         <view
           wx:for="{{lyrics}}"

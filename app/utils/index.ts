@@ -7,5 +7,6 @@ export * from "./json.js";
 export * from "./map.js";
 export * from "./page.js";
 export * from "./route.js";
+export * from "./size.js";
 export * from "./tab.js";
 export * from "./wechat.js";

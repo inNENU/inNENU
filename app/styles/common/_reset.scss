@@ -1,0 +1,20 @@
+page,
+view,
+text,
+image,
+button,
+video,
+map,
+scroll-view,
+swiper,
+input,
+textarea,
+navigator {
+  position: relative;
+  background-origin: border-box;
+  isolation: isolate;
+}
+
+page {
+  height: 100%;
+}

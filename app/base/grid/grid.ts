@@ -5,7 +5,8 @@ import type {
   GridComponentItemOptions,
   GridComponentOptions,
 } from "../../../typings/index.js";
-import { getIconLink, route } from "../../utils/index.js";
+import { windowInfo } from "../../state/index.js";
+import { getIconLink, getSizeClass, route } from "../../utils/index.js";
 
 $Component({
   props: {
@@ -32,6 +33,13 @@ $Component({
       });
     },
 
+    onResize({ size }: WechatMiniprogram.OnWindowResizeListenerResult) {
+      this.setData({
+        wideScreen: size.windowWidth >= 768,
+        size: getSizeClass(size.windowWidth),
+      });
+    },
+
     onTap({
       currentTarget,
     }: WechatMiniprogram.TouchEvent<
@@ -49,12 +57,19 @@ $Component({
   lifetimes: {
     created() {
       this.setLogo = this.setLogo.bind(this);
+      this.onResize = this.onResize.bind(this);
     },
     attached() {
       this.$on("inited", this.setLogo);
+      this.setData({
+        wideScreen: windowInfo.windowWidth >= 768,
+        size: getSizeClass(windowInfo.windowWidth),
+      });
+      wx.onWindowResize(this.onResize);
     },
     detached() {
       this.$off("inited", this.setLogo);
+      wx.offWindowResize(this.onResize);
     },
   },
 

@@ -315,7 +315,7 @@ ${envName}严格使用官方激活流程。
         /[A-Z]/.test(password),
         /[a-z]/.test(password),
         /[0-9]/.test(password),
-        /[!~`@#$%^&*()_+-=[\]{}\\|;':",./?<>]/.test(password),
+        /[!~`@#$%^&*()_+\-=[\]{}\\|;':",./?<>]/.test(password),
       ].filter(Boolean).length < 3
     ) {
       showModal(

@@ -58,7 +58,7 @@
             class="current-icon"
           />
         </view>
-        <scroll-view class="hours" enable-flex scroll-x>
+        <scroll-view type="list" scroll-x enable-flex class="hours">
           <block wx:for="{{weather.hourForecast}}" wx:key="updateTime">
             <view wx:if="{{index <= 26}}" class="item">
               <text class="time">{{item.time}}</text>
@@ -136,7 +136,7 @@
               </view>
             </view>
           </view>
-          <scroll-view scroll-x class="days-wrapper">
+          <scroll-view type="list" scroll-x class="days-wrapper">
             <view class="days">
               <block wx:for="{{weather.dayForecast}}" wx:key="weekday">
                 <view class="item">
@@ -183,7 +183,7 @@
             <text>{{temperature}}</text>
           </view>
         </view>
-        <scroll-view class="hours" enable-flex scroll-x>
+        <scroll-view type="list" scroll-x enable-flex class="hours">
           <block wx:for="{{weather.hourForecast}}" wx:key="updateTime">
             <view wx:if="{{index <= 26}}" class="item">
               <text class="time"><text>{{item.time}}</text></text>

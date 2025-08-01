@@ -2,7 +2,7 @@ import type { PropType } from "@mptool/all";
 import { $Component } from "@mptool/all";
 
 import type { TitleComponentOptions } from "../../../typings/index.js";
-import { info } from "../../state/index.js";
+import { info, windowInfo } from "../../state/index.js";
 
 $Component({
   props: {
@@ -17,7 +17,11 @@ $Component({
     attached() {
       const { selectable } = info;
 
-      this.setData({ selectable });
+      this.setData({
+        selectable,
+        // NOTE: Skyline does not support media queries
+        wideScreen: windowInfo.windowWidth >= 768,
+      });
     },
   },
 });

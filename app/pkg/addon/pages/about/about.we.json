@@ -1,3 +1,5 @@
 {
-  "navigationBarTitleText": "关于weNENU"
+  "disableScroll": true,
+  "navigationBarTitleText": "关于 weNENU",
+  "renderer": "skyline"
 }
