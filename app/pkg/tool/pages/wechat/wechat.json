@@ -1,5 +1,6 @@
 {
   "navigationBarTitleText": "校园公众号",
+  "renderer": "webview",
   "usingComponents": {
     "recycle-view": "../../components/recycle-view/recycle-view",
     "recycle-item": "../../components/recycle-view/recycle-item"

@@ -12,6 +12,7 @@ $Page(PAGE_ID, {
   data: {
     title: "",
     type: "",
+    nodes: [] as RichTextNode[],
   },
 
   onLoad({
