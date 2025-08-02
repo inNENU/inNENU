@@ -12,7 +12,6 @@
   line-height: 1.6;
   text-align: justify;
   word-wrap: break-word;
-  word-break: break-word;
 
   @media (prefers-color-scheme: dark) {
     background-color: var(--hint-box-title-color);
@@ -62,8 +61,6 @@
       position: absolute;
       top: 50%;
       right: 2px;
-
-      float: right;
 
       width: 8px;
       height: 8px;
