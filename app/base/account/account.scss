@@ -1,7 +1,8 @@
 .account-component {
   position: relative;
   overflow: hidden;
-  width: 100%;
+  max-width: var(--max-width);
+  margin: 0 var(--horizontal-margin);
 }
 
 .account-background {

@@ -5,4 +5,4 @@
   background-color-top="{{color.bgColorTop}}"
   background-color-bottom="{{color.bgColorBottom}}"
 />
-<template is="page" data="{{page, theme}}" />
+<template is="page" data="{{page, theme, size}}" />

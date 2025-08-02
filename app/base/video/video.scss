@@ -1,9 +1,14 @@
 /* video */
 .video-component {
-  width: 92%;
-  max-width: var(--max-width);
-  height: 388.125rpx;
-  max-height: calc(var(--max-width) / 16 * 9);
-  margin: 8px 4%;
+  width: calc(100% - 32px);
+  max-width: 520px;
+  height: 400rpx;
+  max-height: calc(520px / 16 * 9);
+  margin: 8px 16px;
   border-radius: 8px;
+
+  .medium &,
+  .large & {
+    margin: 8px auto;
+  }
 }

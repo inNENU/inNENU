@@ -6,4 +6,4 @@
   background-color-bottom="{{color.bgColorBottom}}"
   root-background-color="{{color.bgColor}}"
 />
-<template is="page" data="{{page, theme, event}}" />
+<template is="page" data="{{page, theme}}" />

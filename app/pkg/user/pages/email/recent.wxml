@@ -8,7 +8,7 @@
 <scroll-view
   type="list"
   scroll-y
-  class="{{theme}} email-page"
+  class="{{theme}} {{size}} email-page"
   catch:scroll="onScrollViewScroll"
 >
   <navbar nav="{{nav}}" />
@@ -17,16 +17,16 @@
     <login-hint wx:elif="{{status === 'login'}}" source="校园邮箱" />
     <block wx:elif="{{status === 'success'}}">
       <view class="recent-title">
-        <view class="recent-text"
-          >近期邮件{{unread ? ' (未读' + unread + '封)' : ''}}</view
-        >
+        <view class="recent-text">
+          <text>近期邮件{{unread ? ' (未读' + unread + '封)' : ''}}</text>
+        </view>
         <button
           class="enter-button primary"
           type="primary"
           size="mini"
           catch:tap="openEmail"
         >
-          进入邮箱
+          <text>进入邮箱</text>
         </button>
       </view>
       <view class="email-list">
@@ -38,13 +38,13 @@
             data-mid="{{item.mid}}"
             catch:tap="openEmail"
           >
-            <view class="subject"
-              >{{item.subject}}
-              <view class="unread-badge" wx:if="{{item.unread}}"></view>
+            <view class="subject">
+              <text>{{item.subject}}</text>
+              <text class="unread-badge" wx:if="{{item.unread}}"></text>
             </view>
             <view class="info">
-              <view class="time">时间: {{item.date}}</view>
-              <view class="name">发件人: {{item.name}}</view>
+              <text class="time">时间: {{item.date}}</text>
+              <text class="name">发件人: {{item.name}}</text>
             </view>
           </view>
         </block>

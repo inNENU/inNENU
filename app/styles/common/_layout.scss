@@ -1,12 +1,18 @@
 page,
 wx-root-portal-content {
-  --max-width: 520px;
+  --max-width: initial;
   --horizontal-margin: 16px;
-  --paragraph-horizontal-margin: auto;
+}
+
+// NOTE: Skyline does not support media queries
+// @media (min-width: 552px) {
+.medium,
+.large {
+  --max-width: 520px;
+  --horizontal-margin: auto;
 }
 
 .grey {
   --max-width: initial;
   --horizontal-margin: 16px;
-  --paragraph-horizontal-margin: 16px;
 }

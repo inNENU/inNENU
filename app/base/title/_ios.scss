@@ -1,12 +1,11 @@
 .ios .title-component {
   box-sizing: border-box;
   max-width: var(--max-width);
-  min-height: 24px;
   margin: 0 var(--horizontal-margin);
-  padding: 12px 5px 6px;
+  padding: 12px 4px 4px;
 
   font-weight: bold;
-  font-size: 26px;
+  font-size: 24px;
   text-align: left;
 
   + .title-component {
@@ -14,14 +13,6 @@
   }
 }
 
-// @media (min-width: 768px) {
-// NOTE: Skyline does not support media queries
-.ios:not(.grey) .title-component.large {
-  min-height: 26px;
-  font-size: 24px;
-}
-
 .ios.grey .title-component {
-  max-width: unset;
   padding-left: 30px;
 }

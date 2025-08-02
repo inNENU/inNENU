@@ -3,8 +3,8 @@
 
   max-width: var(--max-width);
   min-height: 13px;
-  margin: 0 var(--paragraph-horizontal-margin);
-  padding: 12px 16px 4px;
+  margin: 0 var(--horizontal-margin);
+  padding: 12px 0 4px;
 
   color: var(--text-color);
 
@@ -25,8 +25,7 @@
 
 .text-component {
   max-width: var(--max-width);
-  margin: 0 var(--paragraph-horizontal-margin);
-  padding: 0 16px;
+  margin: 0 var(--horizontal-margin);
 
   font-size: 16px;
   line-height: 1.6;

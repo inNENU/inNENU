@@ -8,12 +8,6 @@
   .grid-component-wrapper {
     padding: 0 6px;
     text-align: center;
-
-    // NOTE: Skyline does not support media queries
-    // @media (min-width: 768px) {
-    &.large {
-      padding: 0 10px;
-    }
   }
 
   .grid-item {
@@ -27,24 +21,6 @@
     border-radius: 6px;
 
     background-color: var(--bg-block);
-
-    // NOTE: Skyline does not support media queries
-    // @media (min-width: 480px) {
-    &.medium {
-      width: calc(25% - 24px);
-    }
-
-    // NOTE: Skyline does not support media queries
-    // @media (min-width: 768px) {
-    &.large {
-      width: calc(20% - 24px);
-    }
-
-    // NOTE: Skyline does not support media queries
-    // @media (min-width: 1024px) {
-    &.xl {
-      width: calc(16.666% - 24px);
-    }
   }
 
   .grid-icon {
@@ -56,4 +32,28 @@
     color: var(--grey4);
     font-size: 13px;
   }
+}
+
+// NOTE: Skyline does not support media queries
+// @media (min-width: 768px) {
+.nenu.large .grid-component-wrapper {
+  padding: 0 10px;
+}
+
+// NOTE: Skyline does not support media queries
+// @media (min-width: 480px) {
+.nenu.medium .grid-item {
+  width: calc(25% - 24px);
+}
+
+// NOTE: Skyline does not support media queries
+// @media (min-width: 768px) {
+.nenu.large .grid-item {
+  width: calc(20% - 24px);
+}
+
+// NOTE: Skyline does not support media queries
+// @media (min-width: 1024px) {
+.nenu.xl .grid-item {
+  width: calc(16.666% - 24px);
 }

@@ -100,4 +100,5 @@
     </block>
     <view wx:else class="empty">暂无成绩结果</view>
   </block>
+  <footer config="{{ { desc } }}" />
 </view>

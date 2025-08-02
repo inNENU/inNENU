@@ -1,18 +1,21 @@
-.title {
-  position: relative;
+.location-info {
+  display: flex;
+  align-items: center;
 
-  max-width: 520px;
-  margin: 0 auto;
-  padding: 8px 72px 8px 16px;
+  box-sizing: border-box;
+  max-width: var(--max-width);
+  margin: 0 var(--horizontal-margin);
+  padding: 8px 16px;
 
   font-weight: 500;
   font-size: 28px;
   text-align: left;
+}
 
-  .navigate {
-    position: absolute;
-    top: 10px;
-    right: 16px;
-    border-radius: 16px;
-  }
+.location-name {
+  flex: 1;
+}
+
+.navigate-button {
+  border-radius: 16px;
 }

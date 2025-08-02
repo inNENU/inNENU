@@ -5,7 +5,6 @@
 
   box-sizing: border-box;
   max-width: var(--max-width);
-  min-height: 13px;
   margin: 0 var(--horizontal-margin);
   padding: 12px 8px 4px;
 
@@ -16,8 +15,11 @@
   text-align: left;
 
   .grey & {
+    min-height: 13px;
     padding: 21px 16px 5px;
+
     color: var(--dark-grey);
+
     font-weight: 400;
     font-size: 13px;
   }
@@ -140,7 +142,7 @@
     top: 50%;
     right: 2px;
 
-    display: inline-block;
+    display: block;
 
     width: 7px;
     height: 7px;

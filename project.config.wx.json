@@ -96,7 +96,7 @@
         {
           "name": "Path 加载",
           "pathName": "pages/info/info",
-          "query": "path=Gdorm/electricity/power",
+          "query": "path=Seducation/enroll&from=教育学部",
           "launchMode": "default",
           "scene": null
         },
@@ -453,7 +453,7 @@
         {
           "name": "地图地点详情",
           "pathName": "pkg/tool/pages/map/detail",
-          "query": "id=benbu/general/index&point={\"latitude\":43.86188,\"longitude\":125.33137,\"name\":\"自由校区\"}",
+          "query": "id=benbu/general/index&loc=43.86188,125.33137",
           "launchMode": "default",
           "scene": null
         },

@@ -8,7 +8,7 @@
   root-background-color="{{color.bgColor}}"
 />
 <license />
-<view class="{{theme}} main grey">
+<view class="{{theme}} grey main-page">
   <view
     class="search-navigation-bar"
     style="padding-top:{{statusBarHeight}}px;"

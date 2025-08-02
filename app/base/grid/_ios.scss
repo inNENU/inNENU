@@ -1,12 +1,6 @@
 .ios {
   .grid-component-wrapper {
     padding: 0 6px;
-
-    // NOTE: Skyline does not support media queries
-    // @media (min-width: 768px) {
-    &.large {
-      padding: 0 10px;
-    }
   }
 
   .grid-item {
@@ -21,18 +15,6 @@
     border-radius: 6px;
 
     background-color: var(--bg-block);
-
-    // NOTE: Skyline does not support media queries
-    // @media (min-width: 480px) {
-    &.medium {
-      width: calc(16.666% - 8px);
-    }
-
-    // NOTE: Skyline does not support media queries
-    // @media (min-width: 1024px) {
-    &.xl {
-      width: calc(12.5% - 8px);
-    }
   }
 
   .grid-icon {
@@ -44,4 +26,22 @@
     color: var(--grey4);
     font-size: 13px;
   }
+}
+
+// NOTE: Skyline does not support media queries
+// @media (min-width: 768px) {
+.ios.large .grid-component-wrapper {
+  padding: 0 10px;
+}
+
+// NOTE: Skyline does not support media queries
+// @media (min-width: 480px) {
+.ios.medium .grid-item {
+  width: calc(16.666% - 8px);
+}
+
+// NOTE: Skyline does not support media queries
+// @media (min-width: 1024px) {
+.ios.xl .grid-item {
+  width: calc(12.5% - 8px);
 }

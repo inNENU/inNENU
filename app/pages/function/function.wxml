@@ -7,7 +7,7 @@
   root-background-color="{{color.bgColor}}"
 />
 <license />
-<view class="{{theme}} function-wrapper grey">
+<view class="{{theme}}  {{size}} function-wrapper grey">
   <view
     class="search-navigation-bar"
     style="padding-top:{{statusBarHeight}}px;"

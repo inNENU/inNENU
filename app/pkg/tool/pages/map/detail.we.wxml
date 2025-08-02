@@ -12,7 +12,7 @@
 <scroll-view
   type="list"
   scroll-y
-  class="{{theme}} {{page.grey ? 'grey' : ''}}"
+  class="{{theme}}{{page.grey ? ' grey' : ''}}"
   catch:scroll="onScrollViewScroll"
 >
   <template wx:if="{{page.error}}" is="error-page" data="{{ id: page.id }}" />
@@ -41,17 +41,19 @@
       config="{{ { fill: true, images: page.photo } }}"
     />
     <view wx:else style="height: {{statusBarHeight + 44}}px;" />
-    <view class="title">
-      {{page.title}}
-      <button
-        wx:if="{{loc}}"
-        type="primary"
-        size="mini"
-        class="navigate primary"
-        catch:tap="navigate"
-      >
-        导航
-      </button>
+    <view class="location-info-wrapper">
+      <view class="location-info">
+        <text class="location-name">{{page.title}}</text>
+        <button
+          wx:if="{{loc}}"
+          type="primary"
+          size="mini"
+          class="navigate-button primary"
+          catch:tap="navigate"
+        >
+          导航
+        </button>
+      </view>
     </view>
     <template
       is="components"

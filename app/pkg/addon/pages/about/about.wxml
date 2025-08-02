@@ -7,7 +7,7 @@
   root-background-color="{{color.bgColor}}"
 />
 <license />
-<template is="page" data="{{page, theme}}" />
+<template is="page" data="{{page, theme, size}}" />
 <view
   class="password-mask {{debug ? 'fade-in' : 'fade-out'}}"
   style="top: {{debug ? 0 : '100%'}};"

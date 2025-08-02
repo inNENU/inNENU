@@ -28,7 +28,7 @@
   <plain-text config="{{admission.hint}}"></plain-text>
   <footer />
 </view>
-<template wx:else is="page" data="{{theme: 'ios', page: admission.page}}" />
+<template wx:else is="page" data="{{theme, page: admission.page, size}}" />
 <!-- 录取结果 -->
 <popup
   config="{{popupConfig}}"

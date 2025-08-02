@@ -31,13 +31,13 @@
 
     // NOTE: Skyline does not support media queries
     // @media (min-width: 480px) {
-    &.medium {
+    .medium & {
       width: 16.666%;
     }
 
     // NOTE: Skyline does not support media queries
     // @media (min-width: 1024px) {
-    &.xl {
+    .xl & {
       width: 12.5%;
     }
   }
@@ -51,4 +51,16 @@
     color: var(--grey4);
     font-size: 12px;
   }
+}
+
+// NOTE: Skyline does not support media queries
+// @media (min-width: 480px) {
+.android.medium .grid-item {
+  width: 16.666%;
+}
+
+// NOTE: Skyline does not support media queries
+// @media (min-width: 1024px) {
+.android.xl .grid-item {
+  width: 12.5%;
 }
