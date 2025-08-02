@@ -40,7 +40,9 @@ $Component({
 
   lifetimes: {
     attached() {
-      // FIXME: Now skyline has bugs in setPassiveEvent
+      this.setData({ renderer: this.renderer });
+
+      // FIXME: Skyline has bugs in setPassiveEvent
       if (this.renderer !== "skyline")
         this.setPassiveEvent?.({
           touchstart: false,
@@ -50,6 +52,14 @@ $Component({
   },
 
   methods: {
+    showMenu(): void {
+      this.setData({ show: true });
+    },
+
+    hideMenu(): void {
+      this.setData({ show: false });
+    },
+
     /** 二维码下载 */
     download(): void {
       const { config } = this.data;

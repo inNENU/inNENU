@@ -1,18 +1,30 @@
 <wxs src="./share.wxs" module="share" />
 <!-- 分享按钮 -->
-<view
-  wx:if="{{share.isShowed(config)}}"
-  class="share-button"
-  hover-class="hover"
-  hover-stay-time="200"
-  catch:touchstart="{{share.moveButton}}"
-  catch:touchmove="{{share.moveButton}}"
-  catch:touchend="{{share.moveButton}}"
->
-  <image class="icon" src="./icon/share.svg" />
-</view>
-<!-- 分享菜单 -->
-<view class="share-wrapper" catch:tap="{{share.hideMenu}}">
+
+<block wx:if="{{share.isShowed(config)}}">
+  <view
+    wx:if="{{renderer === 'webview'}}"
+    class="share-button"
+    hover-class="hover"
+    hover-stay-time="200"
+    catch:touchstart="{{share.moveButton}}"
+    catch:touchmove="{{share.moveButton}}"
+    catch:touchend="{{share.moveButton}}"
+  >
+    <image class="icon" src="./icon/share.svg" />
+  </view>
+  <view
+    wx:else
+    class="share-button"
+    hover-class="hover"
+    hover-stay-time="200"
+    catch:tap="showMenu"
+  >
+    <image class="icon" src="./icon/share.svg" />
+  </view>
+</block>
+
+<template name="share-menu-content" data="{{actions}}">
   <!-- 背景蒙层 -->
   <view class="mask" />
   <!-- 分享按钮列表 -->
@@ -36,4 +48,16 @@
     </scroll-view>
     <button class="cancel-button" hover-class="button-hover">取消</button>
   </view>
+</template>
+
+<!-- 分享菜单 -->
+<view
+  wx:if="{{renderer === 'webview'}}"
+  class="share-wrapper {{show? 'show': ''}}"
+  catch:tap="{{share.hideMenu}}"
+>
+  <template is="share-menu-content" data="{{actions}}" />
+</view>
+<view wx:else class="share-wrapper {{show? 'show': ''}}" catch:tap="hideMenu">
+  <template is="share-menu-content" data="{{actions}}" />
 </view>

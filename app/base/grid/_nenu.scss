@@ -9,7 +9,9 @@
     padding: 0 6px;
     text-align: center;
 
-    @media (min-width: 768px) {
+    // NOTE: Skyline does not support media queries
+    // @media (min-width: 768px) {
+    &.large {
       padding: 0 10px;
     }
   }
@@ -26,15 +28,21 @@
 
     background-color: var(--bg-block);
 
-    @media (min-width: 517px) {
+    // NOTE: Skyline does not support media queries
+    // @media (min-width: 480px) {
+    &.medium {
       width: calc(25% - 24px);
     }
 
-    @media (min-width: 768px) {
+    // NOTE: Skyline does not support media queries
+    // @media (min-width: 768px) {
+    &.large {
       width: calc(20% - 24px);
     }
 
-    @media (min-width: 1024px) {
+    // NOTE: Skyline does not support media queries
+    // @media (min-width: 1024px) {
+    &.xl {
       width: calc(16.666% - 24px);
     }
   }

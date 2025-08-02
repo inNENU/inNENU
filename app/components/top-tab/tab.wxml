@@ -1,21 +1,22 @@
 <view class="top-tab-wrapper">
   <scroll-view
-    class="top-tab-head"
+    class="top-tab-header-wrapper"
+    type="list"
+    enable-flex
     scroll-x
     scroll-into-view="tab-bar{{activeTab}}"
+    scroll-into-view-alignment="nearest"
     scroll-with-animation
   >
-    <view class="top-tab-header">
-      <view
-        wx:for="{{navList}}"
-        wx:key="index"
-        class="top-tab-header-item {{index === current ? 'active' : ''}}"
-        id="tab-bar{{index}}"
-        data-index="{{index}}"
-        catch:tap="changeTab"
-      >
-        <view class="top-tab-header-text">{{item}}</view>
-      </view>
+    <view
+      wx:for="{{navList}}"
+      wx:key="index"
+      class="top-tab-header-item {{index === current ? 'active' : ''}}"
+      id="tab-bar{{index}}"
+      data-index="{{index}}"
+      catch:tap="changeTab"
+    >
+      <text>{{item}}</text>
     </view>
   </scroll-view>
 

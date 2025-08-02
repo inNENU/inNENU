@@ -5,10 +5,15 @@
 
 <!-- page with navigation bar -->
 <template name="page">
-  <view
+  <scroll-view
     wx:if="{{page}}"
-    wx:scope-data="{{...page.scopeData}}"
+    type="list"
+    scroll-y
+    enable-back-to-top
+    enable-flex
     class="{{theme}} {{page.grey ? 'grey' : ''}}"
+    wx:scope-data="{{...page.scopeData}}"
+    catch:scroll="onScrollViewScroll"
   >
     <!-- 错误显示 -->
     <block wx:if="{{page.error}}">
@@ -40,5 +45,5 @@
         config="{{utils.getFooterConfig(page)}}"
       />
     </block>
-  </view>
+  </scroll-view>
 </template>

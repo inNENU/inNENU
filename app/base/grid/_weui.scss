@@ -8,7 +8,10 @@
   .grid-item {
     position: relative;
 
-    float: left;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: start;
 
     box-sizing: border-box;
     width: 25%;

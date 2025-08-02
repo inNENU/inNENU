@@ -9,17 +9,19 @@
   font-size: 26px;
   text-align: left;
 
-  @media (min-width: 768px) {
-    min-height: 26px;
-    font-size: 24px;
-  }
-
-  .grey & {
-    max-width: unset;
-    padding-left: 30px;
-  }
-
   + .title-component {
     padding-top: 2px;
   }
+}
+
+// @media (min-width: 768px) {
+// NOTE: Skyline does not support media queries
+.ios:not(.grey) .title-component.large {
+  min-height: 26px;
+  font-size: 24px;
+}
+
+.ios.grey .title-component {
+  max-width: unset;
+  padding-left: 30px;
 }
