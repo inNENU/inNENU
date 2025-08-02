@@ -11,7 +11,8 @@ import {
   updateApp,
 } from "./app/index.js";
 import { INITIALIZED_KEY } from "./config/index.js";
-import { appInfo } from "./state/index.js";
+import { appInfo, windowInfo } from "./state/index.js";
+import { getSizeClass } from "./utils/size.js";
 
 export interface App {
   globalData: GlobalData;
@@ -104,7 +105,10 @@ $Config({
     options.onLoad = wrapFunction(
       options.onLoad,
       function (this: TrivialPageInstance & { onThemeChange: () => void }) {
-        this.setData({ darkmode: appInfo.darkmode });
+        this.setData({
+          darkmode: appInfo.darkmode,
+          size: getSizeClass(windowInfo.windowWidth),
+        });
         wx.onThemeChange?.(this.onThemeChange);
       },
     );
@@ -113,6 +117,18 @@ $Config({
       options.onUnload,
       function (this: TrivialPageInstance & { onThemeChange: () => void }) {
         wx.offThemeChange?.(this.onThemeChange);
+      },
+    );
+
+    options.onResize = wrapFunction(
+      options.onResize,
+      function (
+        this: TrivialPageInstance,
+        { size }: WechatMiniprogram.Page.IResizeOption,
+      ) {
+        this.setData({
+          size: getSizeClass(size.windowWidth),
+        });
       },
     );
   },
