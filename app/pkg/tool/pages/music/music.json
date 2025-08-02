@@ -1,5 +1,7 @@
 {
+  "disableScroll": true,
   "navigationBarTitleText": "音悦东师",
+  "renderer": "skyline",
   "usingComponents": {
     "popup": "/components/popup/popup"
   }

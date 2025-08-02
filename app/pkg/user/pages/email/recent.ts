@@ -30,12 +30,12 @@ $Page(PAGE_ID, {
       date: string;
     }[],
 
-    status: "success" as "success" | "error" | "login",
+    status: "loading" as "success" | "error" | "login" | "loading",
   },
 
   onShow() {
     if (user.account) {
-      this.setData({ status: "success" });
+      this.setData({ status: "loading" });
       this.getEmails();
     } else {
       this.setData({ status: "login" });
@@ -68,6 +68,7 @@ $Page(PAGE_ID, {
 
     if (result.success) {
       this.setData({
+        status: "success",
         unread: result.data.unread,
         recent: result.data.emails.map(({ receivedDate, ...item }) => ({
           date: new Date(receivedDate).toLocaleDateString(),

@@ -1,5 +1,7 @@
 {
+  "disableScroll": true,
   "navigationBarTitleText": "影约东师",
+  "renderer": "skyline",
   "usingComponents": {
     "tab-bar": "/components/top-tab/tab"
   }

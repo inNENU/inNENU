@@ -9,7 +9,12 @@
   root-background-color="{{color.bgColor}}"
 />
 <license />
-<view class="{{theme}} {{page.grey ? 'grey' : ''}}">
+<scroll-view
+  type="list"
+  scroll-y
+  class="{{theme}} {{page.grey ? 'grey' : ''}}"
+  catch:scroll="onScrollViewScroll"
+>
   <template wx:if="{{page.error}}" is="error-page" data="{{ id: page.id }}" />
   <block wx:else>
     <back-button button-class="{{titleDisplay ? 'fade-out': 'fade-in'}}" />
@@ -48,7 +53,6 @@
         导航
       </button>
     </view>
-    <!-- FIXME: An unknown bug which prevents template being loaded -->
     <template
       is="components"
       data="{{content: page.content || [], theme, referer: page.title}}"
@@ -56,4 +60,4 @@
     <footer config="{{page}}" />
     <share config="{{page}}" />
   </block>
-</view>
+</scroll-view>

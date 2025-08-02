@@ -1,4 +1,5 @@
 {
+  "renderer": "webview",
   "usingComponents": {
     "error-hint": "/components/error-hint/error-hint"
   }

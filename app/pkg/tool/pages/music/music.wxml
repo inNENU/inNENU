@@ -1,11 +1,11 @@
 <wxs src="../../../../utils/time.wxs" module="time" />
 <wxs src="./music.wxs" module="music" />
-<image class="backgroud-image" mode="aspectFill" src="{{currentSong.cover}}" />
+<image class="background-image" mode="aspectFill" src="{{currentSong.cover}}" />
 <back-button />
 <view class="music-wrapper">
   <view class="song-info">
-    <view class="name">{{currentSong.title}}</view>
-    <view class="author">—— {{currentSong.singer}} ——</view>
+    <view class="song-name {{size}}">{{currentSong.title}}</view>
+    <view class="song-author {{size}}">—— {{currentSong.singer}} ——</view>
   </view>
   <swiper
     class="display-wrapper"
@@ -33,10 +33,11 @@
     </swiper-item>
     <swiper-item wx:if="{{lyrics.length > 0}}" class="lyric">
       <scroll-view
-        class="lyric-wrapper"
+        type="list"
         scroll-y
         scroll-with-animation
         scroll-into-view="lyric-{{currentLyricId}}"
+        class="lyric-wrapper"
       >
         <view
           wx:for="{{lyrics}}"

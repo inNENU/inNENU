@@ -1,3 +1,4 @@
+// NOTE: captcha gesture stops migrating to skyline
 import { $Page, env, retry, showModal, showToast } from "@mptool/all";
 
 import type { ListComponentOptions } from "../../../../../typings/index.js";
@@ -76,7 +77,7 @@ $Page(PAGE_ID, {
     refresh: false,
     idCodeHintMsg: `\
 为了保障用户信息安全：
-1. 只有登录用户才能扫描身份码。
+1. 只有登录用户（其他学生、教职工）才能扫描身份码。
 2. 每个身份码只能被核验一次。
 3. 用户只能在最后的登录的设备上生成和核验身份码。
 4. 每个用户只能存在一个有效身份码，并可以随时强制生成新的身份码。\

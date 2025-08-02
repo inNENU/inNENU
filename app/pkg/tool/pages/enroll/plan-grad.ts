@@ -1,3 +1,4 @@
+// FIXME: Support 2026 enroll plan
 import { $Page, env, showModal, showToast, writeClipboard } from "@mptool/all";
 
 import { appCoverPrefix } from "../../../../config/index.js";

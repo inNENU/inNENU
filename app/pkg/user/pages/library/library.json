@@ -1,5 +1,6 @@
 {
   "navigationBarTitleText": "图书馆",
+  "renderer": "webview",
   "usingComponents": {
     "header": "/components/header/header",
     "library-borrow-widget": "/widgets/library/borrow",

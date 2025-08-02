@@ -1,3 +1,4 @@
 {
-  "navigationBarTitleText": "用户账号"
+  "navigationBarTitleText": "用户账号",
+  "renderer": "webview"
 }

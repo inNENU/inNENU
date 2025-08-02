@@ -1,4 +1,4 @@
-.email {
+.email-page {
   display: flex;
   flex-direction: column;
 }
@@ -12,10 +12,13 @@
 }
 
 .enter-button {
-  float: right;
+  display: block;
 }
 
 .recent-title {
+  display: flex;
+  align-items: center;
+
   box-sizing: border-box;
   min-height: 24px;
   margin: 0 16px;
@@ -24,6 +27,10 @@
   font-weight: 500;
   font-size: 22px;
   text-align: left;
+}
+
+.recent-text {
+  flex: 1;
 }
 
 .email-list {
@@ -60,4 +67,16 @@
     display: inline-block;
     margin-right: 1em;
   }
+}
+
+.empty-hint {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+
+  height: 300px;
+  padding: 16px;
+
+  font-size: 18px;
 }

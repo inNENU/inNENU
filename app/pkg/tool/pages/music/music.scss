@@ -1,4 +1,4 @@
-.backgroud-image {
+.background-image {
   position: absolute;
   top: 0;
   left: 0;
@@ -43,23 +43,29 @@
     Simsun,
     sans-serif !important;
   text-align: center;
+}
 
-  .name {
-    margin-bottom: 10px;
-    font-weight: 500;
-    font-size: 28px;
+.song-name {
+  margin-bottom: 10px;
+  font-weight: 500;
+  font-size: 28px;
 
-    @media (min-width: 480px) {
-      font-size: 44px;
-    }
+  // NOTE: Skyline does not support media queries
+  // @media (min-width: 480px) {
+  &.medium,
+  &.large {
+    font-size: 44px;
   }
+}
 
-  .author {
-    font-size: 16px;
+.song-author {
+  font-size: 16px;
 
-    @media (min-width: 480px) {
-      font-size: 32px;
-    }
+  // NOTE: Skyline does not support media queries
+  // @media (min-width: 480px) {
+  &.medium,
+  &.large {
+    font-size: 32px;
   }
 }
 

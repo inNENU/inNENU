@@ -15,7 +15,9 @@
 
   text-align: justify;
 
-  @media (min-width: 768px) {
+  // NOTE: Skyline does not support media queries
+  // @media (min-width: 768px) {
+  &.large {
     width: calc(50% - 61.5px);
 
     &:nth-last-child(2)::after {

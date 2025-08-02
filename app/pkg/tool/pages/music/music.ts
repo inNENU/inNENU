@@ -75,8 +75,6 @@ $Page("music", {
     this.setData({
       playing: musicState.playing,
       mode: mode || "列表循环",
-
-      darkmode,
       indicatorColor: darkmode
         ? "rgba(255, 255, 255, 0.15)"
         : "rgba(0, 0, 0, 0.15)",
@@ -168,7 +166,6 @@ $Page("music", {
 
   onThemeChange({ theme }: WechatMiniprogram.OnThemeChangeListenerResult) {
     this.setData({
-      darkmode: theme === "dark",
       indicatorColor:
         theme === "dark" ? "rgba(255, 255, 255, 0.15)" : "rgba(0, 0, 0, 0.15)",
       indicatorActiveColor:

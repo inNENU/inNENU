@@ -59,6 +59,11 @@ $Page("map-detail", {
     this.defaultScroller(options);
   },
 
+  onScrollViewScroll(options: WechatMiniprogram.ScrollViewScroll) {
+    // @ts-expect-error: data type is missing
+    this.defaultScroller(options.detail);
+  },
+
   onShareAppMessage(): WechatMiniprogram.Page.ICustomShareContent {
     const { page, loc } = this.data;
 

@@ -324,7 +324,7 @@ $Page(PAGE_ID, {
     )!;
 
     if (path) {
-      this.$go(`map-detail?id=${area}/${path}&loc=${loc}}`);
+      this.$go(`map-detail?id=${area}/${path}&loc=${loc}`);
     } else {
       showToast("该地点暂无详情");
     }

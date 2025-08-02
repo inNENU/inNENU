@@ -1,3 +1,4 @@
 {
-  "navigationBarTitleText": "学校天气"
+  "navigationBarTitleText": "东师天气",
+  "renderer": "webview"
 }

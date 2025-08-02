@@ -1,5 +1,7 @@
 {
+  "disableScroll": true,
   "navigationBarTitleText": "师大黄页",
+  "renderer": "skyline",
   "usingComponents": {
     "header": "/components/header/header",
     "tab-bar": "/components/top-tab/tab"

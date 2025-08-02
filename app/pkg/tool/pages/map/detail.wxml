@@ -9,7 +9,13 @@
   root-background-color="{{color.bgColor}}"
 />
 <license />
-<view class="{{theme}} {{page.grey ? 'grey' : ''}}">
+<map id="tool" style="width: 0; height: 0" />
+<scroll-view
+  type="list"
+  scroll-y
+  class="{{theme}} {{page.grey ? 'grey' : ''}}"
+  catch:scroll="onScrollViewScroll"
+>
   <template wx:if="{{page.error}}" is="error-page" data="{{ id: page.id }}" />
   <block wx:else>
     <back-button button-class="{{titleDisplay ? 'fade-out': 'fade-in'}}" />
@@ -55,5 +61,4 @@
     <footer config="{{page}}" />
     <share config="{{page}}" />
   </block>
-</view>
-<map id="tool" style="width: 0; height: 0" />
+</scroll-view>

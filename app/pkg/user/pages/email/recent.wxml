@@ -5,14 +5,21 @@
   background-color-bottom="{{color.bgColorBottom}}"
   root-background-color="{{color.bgColor}}"
 />
-<view class="{{theme}} email">
+<scroll-view
+  type="list"
+  scroll-y
+  class="{{theme}} email-page"
+  catch:scroll="onScrollViewScroll"
+>
   <navbar nav="{{nav}}" />
   <view class="content">
     <error-hint wx:if="{{status === 'error'}}" catch:retry="getEmails" />
     <login-hint wx:elif="{{status === 'login'}}" source="校园邮箱" />
-    <block wx:else>
-      <view class="recent-title"
-        >近期邮件{{unread ? ' (未读' + unread + '封)' : ''}}
+    <block wx:elif="{{status === 'success'}}">
+      <view class="recent-title">
+        <view class="recent-text"
+          >近期邮件{{unread ? ' (未读' + unread + '封)' : ''}}</view
+        >
         <button
           class="enter-button primary"
           type="primary"
@@ -23,24 +30,29 @@
         </button>
       </view>
       <view class="email-list">
-        <view
-          wx:for="{{recent}}"
-          class="email-item"
-          hover-class="button-hover"
-          data-mid="{{item.mid}}"
-          catch:tap="openEmail"
-        >
-          <view class="subject"
-            >{{item.subject}}
-            <view class="unread-badge" wx:if="{{item.unread}}"></view>
+        <block wx:if="{{recent.length}}">
+          <view
+            wx:for="{{recent}}"
+            class="email-item"
+            hover-class="button-hover"
+            data-mid="{{item.mid}}"
+            catch:tap="openEmail"
+          >
+            <view class="subject"
+              >{{item.subject}}
+              <view class="unread-badge" wx:if="{{item.unread}}"></view>
+            </view>
+            <view class="info">
+              <view class="time">时间: {{item.date}}</view>
+              <view class="name">发件人: {{item.name}}</view>
+            </view>
           </view>
-          <view class="info">
-            <view class="time">时间: {{item.date}}</view>
-            <view class="name">发件人: {{item.name}}</view>
-          </view>
+        </block>
+        <view wx:else class="empty-hint">
+          <text>暂无近期邮件</text>
         </view>
       </view>
     </block>
   </view>
   <footer />
-</view>
+</scroll-view>

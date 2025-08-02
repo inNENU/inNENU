@@ -1,3 +1,5 @@
 {
-  "navigationBarTitleText": "地点介绍"
+  "disableScroll": true,
+  "navigationBarTitleText": "地点详情",
+  "renderer": "skyline"
 }

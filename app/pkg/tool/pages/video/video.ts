@@ -29,6 +29,7 @@ $Page("video", {
     videoName: "",
     videoList: [] as VideoGroup[],
     src: "",
+    height: 100,
   },
 
   onNavigate() {
@@ -133,8 +134,9 @@ $Page("video", {
 
   resizeTabList() {
     this.createSelectorQuery()
-      .select(".video-list")
+      .select(".video-list-wrapper")
       .fields({ size: true }, (res) => {
+        console.log(res);
         if (res) this.setData({ height: res.height as number });
       })
       .exec();

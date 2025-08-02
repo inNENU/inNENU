@@ -13,11 +13,16 @@
       wx:for-item="category"
       wx:for-index="groupIndex"
     >
-      <scroll-view scroll-y class="website-list" slot="page{{groupIndex + 1}}">
+      <scroll-view
+        slot="page{{groupIndex + 1}}"
+        type="list"
+        scroll-y
+        class="website-list"
+      >
         <view
           wx:for="{{category.website}}"
           wx:key="name"
-          class="website-item border-bottom"
+          class="website-item {{size}} border-bottom"
           hover-class="button-hover"
           data-link="{{item.link}}"
           catch:tap="copy"

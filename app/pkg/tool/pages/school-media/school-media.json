@@ -1,5 +1,7 @@
 {
+  "disableScroll": true,
   "navigationBarTitleText": "校园媒体",
+  "renderer": "skyline",
   "usingComponents": {
     "header": "/components/header/header",
     "tab-bar": "/components/top-tab/tab"

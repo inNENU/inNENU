@@ -5,7 +5,7 @@
   background-color-bottom="{{color.bgColorBottom}}"
   root-background-color="{{color.bgColor}}"
 />
-<view class="account {{theme}}">
+<view class="{{theme}} account-page">
   <navbar nav="{{nav}}" />
   <view class="content">
     <image src="{{logo}}" class="logo" />
@@ -31,12 +31,13 @@
         </view>
         <view class="student-card-footer">
           <text>{{info.school}} {{info.major}}</text>
-          <view
-            ><text>{{info.name}}</text
+          <view>
+            <text>{{info.name}}</text
             ><image
               class="gender-icon"
               src="./{{info.genderId === 1? '': 'fe'}}male-{{darkmode? 'black': 'white'}}.svg"
-          /></view>
+            />
+          </view>
         </view>
       </view>
       <button class="logout-button" catch:tap="logout">
@@ -49,7 +50,7 @@
     <block wx:else>
       <view class="input-list-wrapper">
         <view class="input-list-item">
-          <view class="text">学号</view>
+          <text class="text">学号</text>
           <input
             id="id"
             class="input"
@@ -61,7 +62,7 @@
           />
         </view>
         <view class="input-list-item">
-          <view class="text">密码</view>
+          <text class="text">密码</text>
           <input
             wx:if="{{showPassword}}"
             id="password"
@@ -87,7 +88,7 @@
             class="password-button"
             catch:tap="togglePassword"
           >
-            {{showPassword? '隐藏': '显示'}}
+            <text>{{showPassword? '隐藏': '显示'}}</text>
           </button>
         </view>
       </view>
@@ -95,12 +96,14 @@
         <view
           class="check-box{{accept? ' checked': ''}}"
           catch:tap="acceptLicense"
-        ></view
-        >我已阅读并同意<text
-          class="license-text"
-          data-url="license?type=license"
-          catch:tap="$bindGo"
-          >《用户协议》</text
+        />
+        <text
+          >我已阅读并同意<text
+            class="license-text"
+            data-url="license?type=license"
+            catch:tap="$bindGo"
+            >《用户协议》</text
+          ></text
         >
       </view>
       <button type="primary" class="init-button primary" catch:tap="init">
@@ -113,7 +116,7 @@
           data-url="account-activate"
           catch:tap="$bindGo"
         >
-          账号激活
+          <text>账号激活</text>
         </view>
 
         <view class="reset-button" hover-class="button-hover" catch:tap="reset">

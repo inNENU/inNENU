@@ -92,6 +92,8 @@
 }
 
 .re-auth-footer {
+  display: flex;
+  justify-content: flex-end;
   margin-top: 16px;
   text-align: right;
 }

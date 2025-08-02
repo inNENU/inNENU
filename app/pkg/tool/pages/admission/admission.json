@@ -1,5 +1,7 @@
 {
+  "disableScroll": true,
   "navigationBarTitleText": "录取查询",
+  "renderer": "skyline",
   "usingComponents": {
     "header": "/components/header/header",
     "popup": "/components/popup/popup"
