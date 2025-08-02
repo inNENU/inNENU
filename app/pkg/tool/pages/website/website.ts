@@ -15,8 +15,8 @@ interface WebsiteConfig {
 $Page(PAGE_ID, {
   data: {
     title: PAGE_TITLE,
-    config: [] as WebsiteConfig[],
     theme: info.theme,
+    config: [] as WebsiteConfig[],
     titles: [] as string[],
   },
 
@@ -26,9 +26,9 @@ $Page(PAGE_ID, {
 
   onLoad() {
     this.setData({
+      theme: info.theme,
       // NOTE: Compact for skyline renderer, which does not support media queries.
       height: windowInfo.windowHeight - windowInfo.statusBarHeight - 160,
-      theme: info.theme,
     });
 
     getJson<WebsiteConfig[]>("function/website/index").then((config) => {

@@ -13,7 +13,7 @@ import type {
 } from "../../../../../typings/index.js";
 import { request } from "../../../../api/index.js";
 import { appCoverPrefix, server } from "../../../../config/index.js";
-import { windowInfo } from "../../../../state/index.js";
+import { info, windowInfo } from "../../../../state/index.js";
 import {
   ensureJson,
   getAssetLink,
@@ -33,6 +33,7 @@ interface WechatArticleItemWithSize extends WechatArticle {
 
 $Page(PAGE_ID, {
   data: {
+    theme: info.theme,
     loading: true,
     name: "",
     desc: "",
@@ -56,6 +57,7 @@ $Page(PAGE_ID, {
 
   onLoad({ path = "" }) {
     this.setData({
+      theme: info.theme,
       color: getPageColor(true),
     });
 

@@ -9,7 +9,7 @@
 />
 <license />
 <recycle-view
-  class="ios grey"
+  class="{{theme}} grey"
   batch="{{batchSetRecycleData}}"
   id="recycleId"
   enable-back-to-top

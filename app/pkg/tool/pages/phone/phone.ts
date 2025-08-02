@@ -1,7 +1,7 @@
 import { $Page, addContact } from "@mptool/all";
 
 import { appCoverPrefix } from "../../../../config/index.js";
-import { windowInfo } from "../../../../state/index.js";
+import { info, windowInfo } from "../../../../state/index.js";
 import { ensureJson, getJson, showNotice } from "../../../../utils/index.js";
 
 interface PhoneItemConfig {
@@ -21,6 +21,7 @@ const PAGE_ID = "phone";
 $Page(PAGE_ID, {
   data: {
     title: PAGE_TITLE,
+    theme: info.theme,
     config: [] as PhoneConfig[],
     showInfo: false,
     info: {} as PhoneItemConfig,
@@ -31,11 +32,13 @@ $Page(PAGE_ID, {
   },
 
   onLoad() {
+    this.setData({
+      theme: info.theme,
+      height: windowInfo.windowHeight - windowInfo.statusBarHeight - 160,
+    });
+
     getJson<PhoneConfig[]>("function/phone/index").then((config) => {
-      this.setData({
-        config,
-        height: windowInfo.windowHeight - windowInfo.statusBarHeight - 160,
-      });
+      this.setData({ config });
     });
 
     showNotice(PAGE_ID);

@@ -12,7 +12,7 @@ import type {
   WechatAccounts,
 } from "../../../../../typings/index.js";
 import { appCoverPrefix } from "../../../../config/index.js";
-import { windowInfo } from "../../../../state/index.js";
+import { info, windowInfo } from "../../../../state/index.js";
 import {
   ensureJson,
   getAssetLink,
@@ -30,6 +30,7 @@ const PAGE_TITLE = "校园媒体";
 $Page(PAGE_ID, {
   data: {
     title: PAGE_TITLE,
+    theme: info.theme,
 
     config: [] as unknown[],
 
@@ -49,6 +50,7 @@ $Page(PAGE_ID, {
     const defaultType = type || "wx";
 
     this.setData({
+      theme: info.theme,
       height: windowInfo.windowHeight - windowInfo.statusBarHeight - 202,
     });
 
