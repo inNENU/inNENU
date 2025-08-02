@@ -129,6 +129,13 @@
           "scene": null
         },
         {
+          "name": "用户协议",
+          "pathName": "pkg/addon/pages/license/license",
+          "query": "",
+          "launchMode": "default",
+          "scene": null
+        },
+        {
           "name": "关于",
           "pathName": "pkg/addon/pages/about/about",
           "query": "",
