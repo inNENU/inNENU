@@ -14,10 +14,13 @@ rules:
     - true
     - ignoreTypes:
         - icon
+        - navigator
         - page
         - picker
         - scroll-view
+        - swiper
         - radio
+        - wx-root-portal-content
   shorthand-property-no-redundant-values: null
   unit-no-unknown:
     - true

@@ -10,8 +10,7 @@ export const windowInfoState = getWindowInfo();
 export type AppID =
   | "wx33acb831ee1831a5"
   | "wx2550e3fd373b79a8"
-  | "wx0009f7cdfeefa3da"
-  | 1109559721;
+  | "wx0009f7cdfeefa3da";
 
 const accountInfo = wx.getAccountInfoSync();
 
