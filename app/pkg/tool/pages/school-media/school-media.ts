@@ -49,24 +49,10 @@ $Page(PAGE_ID, {
     const defaultType = type || "wx";
 
     this.setData({
-      type: defaultType,
       height: windowInfo.windowHeight - windowInfo.statusBarHeight - 202,
     });
 
-    getJson<QQAccounts | WechatAccounts>(
-      `function/account/${defaultType}`,
-    ).then((config) => {
-      this.setData({
-        config: config.map(({ name, account }) => ({
-          name,
-          account: account.map((item) => ({
-            ...item,
-            logo: getAssetLink(item.logo),
-            ...("qrcode" in item ? { qrcode: getAssetLink(item.qrcode) } : {}),
-          })),
-        })),
-      });
-    });
+    this.updateType(defaultType);
 
     showNotice(PAGE_ID);
   },
@@ -93,10 +79,24 @@ $Page(PAGE_ID, {
     Record<string, never>,
     { type: AccountType }
   >) {
-    const { type } = currentTarget.dataset;
+    this.updateType(currentTarget.dataset.type);
+  },
 
-    getJson<unknown[]>(`function/account/${type}`).then((config) => {
-      this.setData({ config, type });
+  async updateType(type: AccountType) {
+    const config = await getJson<QQAccounts | WechatAccounts>(
+      `function/account/${type}`,
+    );
+
+    this.setData({
+      type,
+      config: config.map(({ name, account }) => ({
+        name,
+        account: account.map((item) => ({
+          ...item,
+          logo: getAssetLink(item.logo),
+          ...("qrcode" in item ? { qrcode: getAssetLink(item.qrcode) } : {}),
+        })),
+      })),
     });
   },
 
