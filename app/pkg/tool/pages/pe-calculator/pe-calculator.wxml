@@ -90,9 +90,15 @@
       <view class="unit">{{special.unit}}</view>
     </view>
   </view>
-  <button type="primary" class="calculate-button primary" catch:tap="calculate">
-    计算
-  </button>
+  <view class="calculate-button-wrapper">
+    <button
+      type="primary"
+      class="calculate-button primary"
+      catch:tap="calculate"
+    >
+      计算
+    </button>
+  </view>
 
   <footer />
 </scroll-view>

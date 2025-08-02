@@ -24,6 +24,7 @@
   .bmi,
   .score {
     width: 50%;
+    text-align: center;
   }
 
   .title {
@@ -47,6 +48,11 @@
 
 .input-list-wrapper {
   text-align: right;
+
+  .input,
+  .picker {
+    text-align: right;
+  }
 }
 
 .list-item {
