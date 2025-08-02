@@ -2,14 +2,6 @@
 <view class="phone-component-wrapper">
   <view class="header">
     <text>{{phone.getName(config)}}</text>
-    <view
-      class="action info-button"
-      hover-class="button-hover"
-      hover-stay-time="100"
-      catch:tap="toggleInfo"
-    >
-      <image class="info-icon" mode="widthFix" src="./icon/info.svg" />
-    </view>
   </view>
   <view class="info">
     <!-- 电话图标 -->
@@ -17,6 +9,14 @@
     <!-- 电话号码 -->
     <view class="number"><text>{{config.num}}</text></view>
     <!-- 拨打电话按钮 -->
+    <view
+      class="action"
+      hover-class="button-hover"
+      hover-stay-time="100"
+      catch:tap="toggleInfo"
+    >
+      <image class="info-icon" mode="widthFix" src="./icon/info.svg" />
+    </view>
     <view
       class="action"
       hover-class="button-hover"
