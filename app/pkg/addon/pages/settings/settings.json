@@ -1,3 +1,5 @@
 {
-  "navigationBarTitleText": "存储设置"
+  "disableScroll": true,
+  "navigationBarTitleText": "存储设置",
+  "renderer": "skyline"
 }

@@ -41,7 +41,6 @@ $Page(PAGE_ID, {
     const widgets = get<WidgetConfig[]>(WIDGET_KEY) || DEFAULT_WIDGETS;
 
     this.setData({
-      darkmode,
       theme,
       color: getPageColor(),
       indicatorColor: darkmode

@@ -1,5 +1,6 @@
 {
   "navigationBarTitleText": "自定义组件",
+  "renderer": "webview",
   "usingComponents": {
     "popup": "/components/popup/popup",
     "card-widget": "/widgets/card/card",

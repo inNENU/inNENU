@@ -1,31 +1,38 @@
 .action-page {
   display: flex;
   flex-direction: column;
-  align-items: stretch;
+  align-items: center;
   justify-content: center;
 
-  .input {
-    text-align: left;
-  }
+  text-align: center;
+}
 
-  .blacklist-title {
-    padding: 8px 16px;
-    color: #f33;
-    font-size: 18px;
+.input {
+  text-align: left;
+}
 
-    .link {
-      color: var(--action-color);
-    }
-  }
+.black-list-icon {
+  margin: 12px auto;
+}
 
-  .blacklist-hint {
-    margin: 8px 16px;
-    color: var(--dark-grey);
-    font-size: 14px;
-    text-align: left;
-  }
+.blacklist-title {
+  padding: 8px 16px;
+  color: #f33;
+  font-size: 18px;
+}
 
-  .action-button {
-    margin: 12px auto;
-  }
+.action-link {
+  color: var(--action-color);
+}
+
+.blacklist-hint {
+  margin: 8px 16px;
+  color: var(--dark-grey);
+  font-size: 14px;
+  text-align: left;
+}
+
+.action-button {
+  display: block;
+  margin: 12px auto;
 }

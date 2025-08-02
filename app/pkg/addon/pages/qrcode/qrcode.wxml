@@ -3,7 +3,9 @@
   <view class="background" />
   <view class="page-content">
     <view class="custom-nav-bar" style="padding-top:{{statusBarHeight + 6}}px;">
-      <view class="custom-nav-bar-title">{{header}}</view>
+      <view class="custom-nav-bar-title">
+        <text>{{header}}</text>
+      </view>
     </view>
 
     <view class="qrcode-image-wrapper {{bg || subHeader || desc? '': 'empty'}}">
@@ -13,10 +15,12 @@
         class="qrcode-image"
         mode="heightFix"
       />
-      <view class="qrcode-image-header" wx:if="{{subHeader}}"
-        >{{ subHeader }}</view
-      >
-      <view class="qrcode-image-desc" wx:if="{{desc}}">{{ desc }}</view>
+      <view class="qrcode-image-header" wx:if="{{subHeader}}">
+        <text>{{ subHeader }}</text>
+      </view>
+      <view class="qrcode-image-desc" wx:if="{{desc}}">
+        <text>{{ desc }}</text>
+      </view>
     </view>
 
     <view class="qrcode-wrapper">
@@ -25,9 +29,9 @@
         <view class="qrcode-info">
           <view class="qrcode-name">{{title}}</view>
           <view class="qrcode-tags">
-            <view class="qrcode-tag" wx:for="{{tags}}" wx:key="item"
-              >{{item}}</view
-            >
+            <view class="qrcode-tag" wx:for="{{tags}}" wx:key="item">
+              <text>{{item}}</text>
+            </view>
           </view>
         </view>
       </view>
@@ -41,7 +45,9 @@
       </view>
     </view>
     <view class="bottom-hint-wrapper">
-      <view type="default" class="bottom-hint">👆{{hint}}👆</view>
+      <view type="default" class="bottom-hint">
+        <text>👆{{hint}}👆</text>
+      </view>
     </view>
   </view>
 </view>

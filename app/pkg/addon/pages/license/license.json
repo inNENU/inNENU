@@ -1,1 +1,4 @@
-{}
+{
+  "navigationBarTitleText": "用户协议",
+  "renderer": "webview"
+}
