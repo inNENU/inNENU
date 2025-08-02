@@ -182,7 +182,7 @@
     "functional-list": "/base/functional-list/functional-list",
     "footer": "/base/footer/footer",
     "grid": "/base/grid/grid",
-    "img": "/base/img/img",
+    "picture": "/base/img/img",
     "list": "/base/list/list",
     "location": "/base/location/location",
     "navbar": "/base/navbar/navbar",
@@ -214,7 +214,7 @@
       "defaultContentBox": true,
       "disableABTest": true,
       "enableScrollViewAutoSize": true,
-      "sdkVersionBegin": "3.6.0",
+      "sdkVersionBegin": "3.8.0",
       "tagNameStyleIsolation": "legacy"
     }
   }
