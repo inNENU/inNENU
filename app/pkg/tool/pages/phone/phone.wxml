@@ -15,59 +15,61 @@
         slot="page{{groupIndex + 1}}"
         type="list"
         scroll-y
-        class="phone-list"
+        class="phone-list-wrapper"
       >
-        <view
-          wx:for="{{category.list}}"
-          wx:key="name"
-          class="phone-item {{size}} border-bottom"
-        >
-          <view class="info">
-            <view class="name">{{item.name}}</view>
-            <view class="num">{{item.num}}</view>
-          </view>
-          <!-- 拨打电话按钮 -->
-          <view class="actions">
-            <view
-              class="action"
-              hover-class="button-hover"
-              hover-stay-time="100"
-              data-group="{{groupIndex}}"
-              data-index="{{index}}"
-              catch:tap="openInfo"
-            >
-              <image
-                class="icon"
-                mode="widthFix"
-                src="/base/phone/icon/info.svg"
-              />
+        <view class="phone-list">
+          <view
+            wx:for="{{category.list}}"
+            wx:key="name"
+            class="phone-item {{size}} border-bottom"
+          >
+            <view class="info">
+              <view class="name">{{item.name}}</view>
+              <view class="num">{{item.num}}</view>
             </view>
+            <!-- 拨打电话按钮 -->
+            <view class="actions">
+              <view
+                class="action"
+                hover-class="button-hover"
+                hover-stay-time="100"
+                data-group="{{groupIndex}}"
+                data-index="{{index}}"
+                catch:tap="openInfo"
+              >
+                <image
+                  class="icon"
+                  mode="widthFix"
+                  src="/base/phone/icon/info.svg"
+                />
+              </view>
 
-            <view
-              class="action"
-              hover-class="button-hover"
-              hover-stay-time="100"
-              data-group="{{groupIndex}}"
-              data-index="{{index}}"
-              catch:tap="call"
-            >
-              <image
-                class="icon"
-                mode="widthFix"
-                src="/base/phone/icon/call.svg"
-              />
-            </view>
+              <view
+                class="action"
+                hover-class="button-hover"
+                hover-stay-time="100"
+                data-group="{{groupIndex}}"
+                data-index="{{index}}"
+                catch:tap="call"
+              >
+                <image
+                  class="icon"
+                  mode="widthFix"
+                  src="/base/phone/icon/call.svg"
+                />
+              </view>
 
-            <!-- 添加联系人 -->
-            <view
-              class="action"
-              hover-class="button-hover"
-              hover-stay-time="100"
-              data-group="{{groupIndex}}"
-              data-index="{{index}}"
-              catch:tap="addContact"
-            >
-              <image class="icon" mode="widthFix" src="/icon/add.svg" />
+              <!-- 添加联系人 -->
+              <view
+                class="action"
+                hover-class="button-hover"
+                hover-stay-time="100"
+                data-group="{{groupIndex}}"
+                data-index="{{index}}"
+                catch:tap="addContact"
+              >
+                <image class="icon" mode="widthFix" src="/icon/add.svg" />
+              </view>
             </view>
           </view>
         </view>

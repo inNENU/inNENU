@@ -52,8 +52,8 @@
 
   // NOTE: Skyline does not support media queries
   // @media (min-width: 480px) {
-  &.medium,
-  &.large {
+  .medium &,
+  .large & {
     font-size: 44px;
   }
 }
@@ -63,8 +63,8 @@
 
   // NOTE: Skyline does not support media queries
   // @media (min-width: 480px) {
-  &.medium,
-  &.large {
+  .medium &,
+  .large & {
     font-size: 32px;
   }
 }

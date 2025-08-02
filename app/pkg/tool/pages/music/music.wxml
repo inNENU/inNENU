@@ -2,10 +2,10 @@
 <wxs src="./music.wxs" module="music" />
 <image class="background-image" mode="aspectFill" src="{{currentSong.cover}}" />
 <back-button />
-<view class="music-wrapper">
+<view class="music-wrapper {{size}}">
   <view class="song-info">
-    <view class="song-name {{size}}">{{currentSong.title}}</view>
-    <view class="song-author {{size}}">—— {{currentSong.singer}} ——</view>
+    <view class="song-name">{{currentSong.title}}</view>
+    <view class="song-author">—— {{currentSong.singer}} ——</view>
   </view>
   <swiper
     class="display-wrapper"
