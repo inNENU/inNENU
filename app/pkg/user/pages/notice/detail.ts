@@ -38,13 +38,12 @@ $Page(PAGE_ID, {
       this.state.url = url;
 
       this.getNotice();
-    }
-    if (id) {
+    } else if (id) {
       this.state.id = id;
 
       this.getNotice();
     } else
-      showModal("无法获取", "请提供公告链信息", () => {
+      showModal("无法获取", "请提供公告信息", () => {
         this.$back();
       });
 
