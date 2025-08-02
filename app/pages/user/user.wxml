@@ -6,6 +6,7 @@
   background-color-bottom="{{color.bgColorBottom}}"
   root-background-color="{{color.bgColor}}"
 />
+<add-my-app />
 <back-button
   icon="/icon/settings-{{darkmode? 'white': 'black'}}.svg"
   action="goToSettings"
@@ -35,11 +36,9 @@
     <email-widget type="最近邮件 (小)" />
     <starred-notice-widget type="通知收藏 (小)" />
   </view>
-  <official-account />
   <template
     is="components"
     data="{{content: page.content, referer: '我的东师'}}"
   />
   <footer config="{{footer}}" />
 </view>
-<add-my-app />

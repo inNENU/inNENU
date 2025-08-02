@@ -1,6 +1,7 @@
 {
   "enablePullDownRefresh": true,
   "navigationBarTitleText": "我的东师",
+  "renderer": "webview",
   "usingComponents": {
     "add-my-app": "/components/add-my-app/add-my-app",
     "card-widget": "/widgets/card/card",
