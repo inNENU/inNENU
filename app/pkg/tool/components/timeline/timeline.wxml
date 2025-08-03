@@ -27,13 +27,7 @@
         <view class="timeline-title">{{item.title}}</view>
         <!-- 时间线文字 -->
         <view>
-          <text
-            decode
-            selectable="{{selectable}}"
-            user-select="{{selectable}}"
-            space="nbsp"
-            >{{item.text}}</text
-          >
+          <text user-select="{{selectable}}">{{item.text}}</text>
         </view>
       </view>
     </view>

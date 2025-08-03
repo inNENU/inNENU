@@ -58,7 +58,7 @@
         <view class="requirement">要求</view>
         <view class="requirement-info">
           <view class="subject">科类: {{item.subject}}</view>
-          <text space="nbsp">{{item.requirement}}</text>
+          <text>{{item.requirement}}</text>
         </view>
         <view class="plan">人数信息</view>
         <view class="plan-info">

@@ -27,7 +27,7 @@
   <view wx:if="{{nav.desc}}" class="weui-header">
     <view class="weui-header-title"><text>{{nav.title}}</text></view>
     <view wx:if="{{nav.desc}}" class="weui-header-desc">
-      <text decode>{{nav.desc}}</text>
+      <text>{{nav.desc}}</text>
     </view>
   </view>
 </template>

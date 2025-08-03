@@ -258,7 +258,7 @@
           ></view
         >
         <view class="id-code-hint">
-          <text decode>{{idCodeHintMsg}}</text>
+          <text>{{idCodeHintMsg}}</text>
         </view>
         <view class="id-code-hint"
           ><text

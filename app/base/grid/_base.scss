@@ -1,5 +1,5 @@
 .grid-component-header {
-  padding: 12px 16px 4px;
+  margin: 8px 16px 4px;
 
   color: var(--text-color);
 
@@ -7,51 +7,42 @@
   font-size: 19px;
   text-align: left;
 
+  &:empty {
+    margin-top: 0;
+  }
+
   // NOTE: Skyline does not support media queries
   // @media (min-width: 768px) {
   .large & {
-    min-height: 38px;
     font-size: 21px;
   }
 
   .grey & {
-    min-height: 13px;
-    margin: 0 10px;
-    padding: 14px 16px 2px;
+    min-height: 12px;
+    margin: 12px 16px 4px;
+    padding: 0 4px;
 
     color: var(--dark-grey);
 
-    font-size: 13px;
-  }
-
-  // NOTE: Skyline does not support media queries
-  // @media (min-width: 768px) {
-  .large.grey & {
-    margin: 0 16px;
+    font-weight: 500;
+    font-size: 15px;
   }
 }
 
 .grid-component-wrapper {
   display: flex;
   flex-wrap: wrap;
+  margin-top: 4px;
+  margin-bottom: 4px;
 }
 
 .grid-component-footer {
-  min-height: 16px;
-  padding: 5px 16px;
-
+  margin: 4px 16px;
   color: var(--dark-grey);
-
   font-size: 13px;
   text-align: left;
 
   .grey & {
-    margin: 0 10px;
-  }
-
-  // NOTE: Skyline does not support media queries
-  // @media (min-width: 768px) {
-  .large.grey & {
-    margin: 0 16px;
+    padding: 0 4px;
   }
 }

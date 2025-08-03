@@ -17,7 +17,7 @@ $Component({
     attached() {
       const { selectable } = info;
 
-      this.setData({ selectable });
+      this.setData({ selectable, renderer: this.renderer });
     },
   },
 });

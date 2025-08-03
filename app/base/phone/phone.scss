@@ -2,7 +2,7 @@
   overflow: hidden;
 
   max-width: calc(var(--max-width) - 32px);
-  margin: 2px var(--horizontal-margin);
+  margin: 4px var(--horizontal-margin);
   padding: 4px 16px;
   border-radius: 8px;
 
@@ -49,7 +49,7 @@
 
   font-weight: 500;
   font-size: 20px;
-  line-height: 2;
+  line-height: 1.75;
   text-align: left;
 }
 

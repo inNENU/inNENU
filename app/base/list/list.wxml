@@ -1,6 +1,6 @@
 <!-- 列表头部文字 -->
-<view wx:if="{{config.header !== false}}" class="list-component-header">
-  <text>{{config.header}}</text>
+<view class="list-component-header">
+  <text wx:if="{{config.header}}">{{config.header}}</text>
 </view>
 <!-- 列表主体 -->
 <view class="list-component-content">
@@ -45,11 +45,7 @@
           src="{{listItem.icon}}"
         />
         <view class="list-item-detail">
-          <text
-            class="list-item-text"
-            decode
-            user-select="{{selectable}}"
-            space="nbsp"
+          <text class="list-item-text" user-select="{{selectable}}"
             >{{listItem.text}}</text
           >
           <text class="list-item-desc">{{listItem.desc}}</text>

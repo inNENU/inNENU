@@ -1,10 +1,10 @@
 <view class="footer-component">
   <view wx:if="{{config.desc}}" class="footer-description">
-    <text decode>{{config.desc}}</text>
+    <text>{{config.desc}}</text>
   </view>
   <view class="footer-info">
-    <text wx:if="{{config.author}}" decode>作者: {{config.author}}</text>
-    <text wx:if="{{config.time}}" decode>最后更新于: {{config.time}}</text>
+    <text wx:if="{{config.author}}">作者: {{config.author}}</text>
+    <text wx:if="{{config.time}}">最后更新于: {{config.time}}</text>
   </view>
   <view wx:if="{{config.cite}}" class="footer-cite-links">
     <text
@@ -18,6 +18,6 @@
   </view>
 
   <view class="footer-copyright">
-    <text decode>{{copyright}}</text>
+    <text>{{copyright}}</text>
   </view>
 </view>

@@ -1,5 +1,5 @@
 <view class="table-component">
-  <view class="table">
+  <view class="table {{renderer}}">
     <view wx:if="{{config.caption}}" class="caption">
       <text>{{config.caption}}</text>
     </view>

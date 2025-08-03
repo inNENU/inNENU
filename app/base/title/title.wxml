@@ -1,5 +1,3 @@
 <view class="title-component" style="{{config.style || ''}}">
-  <text selectable="{{selectable}}" user-select="{{selectable}}"
-    >{{config.text}}</text
-  >
+  <text user-select="{{selectable}}">{{config.text}}</text>
 </view>

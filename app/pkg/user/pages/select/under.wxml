@@ -235,7 +235,7 @@
             </view>
           </block>
           <view wx:else class="description">
-            <text decode space="nbsp">{{category.description}}</text>
+            <text>{{category.description}}</text>
           </view>
         </view>
         <view class="action-title">已选课程</view>
@@ -291,7 +291,7 @@
           >{{category.term}} - {{category.name}}</view
         >
         <view class="description">
-          <text decode space="nbsp">{{category.description}}</text>
+          <text>{{category.description}}</text>
         </view>
       </view>
     </view>

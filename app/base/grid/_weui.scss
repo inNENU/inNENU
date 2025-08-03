@@ -8,11 +8,6 @@
   .grid-item {
     position: relative;
 
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: start;
-
     box-sizing: border-box;
     width: 25%;
     padding: 20px 10px;
@@ -46,8 +41,6 @@
 
     font-size: 14px;
     text-align: center;
-    text-overflow: ellipsis;
-    white-space: nowrap;
 
     @media (prefers-color-scheme: dark) {
       color: rgb(255 255 255 / 90%);

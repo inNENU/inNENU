@@ -165,11 +165,7 @@
           src="{{listItem.icon}}"
         />
         <view class="list-item-detail">
-          <text
-            class="list-item-text"
-            decode
-            user-select="{{selectable}}"
-            space="nbsp"
+          <text class="list-item-text" user-select="{{selectable}}"
             >{{listItem.text}}</text
           >
           <text class="list-item-desc">{{listItem.desc}}</text>

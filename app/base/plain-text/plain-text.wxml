@@ -4,11 +4,7 @@
   <block wx:if="{{config.tag === 'ol'}}">
     <view wx:for="{{config.text}}" wx:key="*this" class="ordered-list-item">
       <text class="text-marker">{{index + 1}}.</text>
-      <text
-        class="text-content"
-        decode
-        space="nbsp"
-        user-select="{{selectable}}"
+      <text class="text-content" user-select="{{selectable}}"
         ><text style="{{config.style || ''}}">{{item}}</text></text
       >
     </view>
@@ -17,11 +13,7 @@
   <block wx:elif="{{config.tag === 'ul'}}">
     <view wx:for="{{config.text}}" wx:key="*this" class="unordered-list-item">
       <text class="text-marker">•</text>
-      <text
-        class="text-content"
-        decode
-        space="nbsp"
-        user-select="{{selectable}}"
+      <text class="text-content" user-select="{{selectable}}"
         ><text style="{{config.style || ''}}">{{item}}</text></text
       >
     </view>
@@ -37,9 +29,7 @@
       <text
         class="text-content"
         decode
-        space="nbsp"
         style="{{plainText.getStyle(config, selectable)}}"
-        selectable="{{selectable}}"
         user-select="{{selectable}}"
         ><text>{{item}}</text></text
       >
@@ -54,9 +44,7 @@
   catch:tap="onTap"
 >
   <view
-    wx:if="{{config.header !== false}}"
     class="hint-box-title {{config.path ? 'access' : ''}}"
-    selectable="{{selectable}}"
     user-select="{{selectable}}"
   >
     <image class="hint-box-icon" src="./hintbox/{{config.type}}.svg" />
@@ -66,13 +54,11 @@
 </view>
 <!-- 段落标题 -->
 <block wx:else>
-  <text
-    wx:if="{{config.header}}"
-    class="text-component-header"
-    selectable="{{selectable}}"
-    user-select="{{selectable}}"
-    >{{config.header}}</text
-  >
+  <view class="text-component-header">
+    <text wx:if="{{config.header}}" user-select="{{selectable}}"
+      >{{config.header}}</text
+    >
+  </view>
   <!-- 段落主体 -->
   <view class="text-component" style="{{plainText.getAlign(config.align)}}">
     <template is="text" data="{{config, selectable}}" />

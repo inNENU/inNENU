@@ -1,9 +1,9 @@
 .hint-box-component {
   position: relative;
 
-  max-width: calc(var(--max-width) - 48px);
-  margin: 12px var(--horizontal-margin);
-  padding: 16px;
+  max-width: calc(var(--max-width) - 32px);
+  margin: 8px var(--horizontal-margin);
+  padding: 12px 16px;
   border-radius: 0.5em;
 
   background-color: var(--hint-box-bg-color);
@@ -15,10 +15,6 @@
 
   @media (prefers-color-scheme: dark) {
     background-color: var(--hint-box-title-color);
-  }
-
-  .grey & {
-    margin: 16px;
   }
 
   .text-marker {

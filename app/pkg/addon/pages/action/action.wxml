@@ -46,7 +46,7 @@
       <text>您已被禁止访问此小程序</text>
     </view>
     <view class="blacklist-hint">
-      <text encode space="nbsp">{{action.blacklistHint}}</text>
+      <text>{{action.blacklistHint}}</text>
     </view>
   </view>
 

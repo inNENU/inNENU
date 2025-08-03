@@ -1,6 +1,6 @@
 <!-- 网格头部文字 -->
-<view wx:if="{{config.header !== false}}" class="grid-component-header">
-  <text>{{config.header}}</text>
+<view class="grid-component-header">
+  <text wx:if="{{config.header}}"> {{config.header}}</text>
 </view>
 <!-- 网格主体 -->
 <view class="grid-component-wrapper">
@@ -18,7 +18,9 @@
     <image wx:if="{{icons[index]}}" class="grid-icon" src="{{icons[index]}}" />
     <image wx:elif="{{item.icon}}" class="grid-icon" src="{{item.icon}}" />
     <!-- 网格文字 -->
-    <view class="grid-text"><text>{{item.text}}</text></view>
+    <view class="grid-text">
+      <text class="grid-text-content">{{item.text}}</text>
+    </view>
   </view>
 </view>
 <!-- 网格尾部文字 -->
