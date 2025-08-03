@@ -1,37 +1,37 @@
 <wxs src="./phone.wxs" module="phone" />
 <view class="phone-component-wrapper">
-  <view class="header">
-    <text>{{phone.getName(config)}}</text>
-  </view>
-  <view class="info">
-    <!-- 电话图标 -->
-    <image class="phone-icon" mode="widthFix" src="./icon/phone.svg" />
-    <!-- 电话号码 -->
-    <view class="number"><text>{{config.num}}</text></view>
-    <!-- 拨打电话按钮 -->
+  <view class="phone-header">
+    <text class="phone-name">{{phone.getName(config)}}</text>
     <view
-      class="action"
+      class="phone-action"
       hover-class="button-hover"
       hover-stay-time="100"
       catch:tap="toggleInfo"
     >
       <image class="info-icon" mode="widthFix" src="./icon/info.svg" />
     </view>
+  </view>
+  <view class="phone-info">
+    <!-- 电话图标 -->
+    <image class="phone-icon" mode="widthFix" src="./icon/phone.svg" />
+    <!-- 电话号码 -->
+    <view class="phone-number"><text>{{config.num}}</text></view>
+    <!-- 拨打电话按钮 -->
     <view
-      class="action"
+      class="phone-action"
       hover-class="button-hover"
       hover-stay-time="100"
       catch:tap="call"
     >
-      <image class="icon" mode="widthFix" src="./icon/call.svg" />
+      <image class="call-icon" mode="widthFix" src="./icon/call.svg" />
     </view>
     <view
-      class="action"
+      class="phone-action"
       hover-class="button-hover"
       hover-stay-time="100"
       catch:tap="addContact"
     >
-      <image class="icon" mode="widthFix" src="/icon/add.svg" />
+      <image class="add-icon" mode="widthFix" src="/icon/add.svg" />
     </view>
   </view>
 </view>
@@ -39,8 +39,8 @@
 <root-portal enable>
   <view wx:if="{{showInfo}}" class="phone-mask mask" catch:tap="toggleInfo">
     <view class="phone-popup">
-      <view class="title"><text>{{phone.getName(config)}}</text></view>
-      <view class="body">
+      <view class="phone-title"><text>{{phone.getName(config)}}</text></view>
+      <view class="phone-body">
         <view wx:if="{{config.num}}"><text>电话: {{config.num}}</text></view>
         <view wx:if="{{config.workNum}}">
           <text>工作电话: {{config.workNum}}</text>
@@ -70,7 +70,11 @@
           <text>备注: {{config.remark}}</text>
         </view>
       </view>
-      <view class="button" hover-class="button-hover" catch:tap="toggleInfo">
+      <view
+        class="phone-button"
+        hover-class="button-hover"
+        catch:tap="toggleInfo"
+      >
         <text>确定</text>
       </view>
     </view>
