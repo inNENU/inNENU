@@ -1,10 +1,55 @@
-<view class="table-component">
-  <view class="table {{renderer}}">
+<view class="table-component {{renderer}}">
+  <block wx:if="{{renderer === 'skyline'}}">
+    <view class="caption" wx:if="{{config.caption}}">{{config.caption}}</view>
+
+    <scroll-view
+      type="list"
+      scroll-x
+      class="table-container"
+      style="height: {{tableHeight}}px;"
+    >
+      <view class="table-wrapper">
+        <view class="table">
+          <!-- 表头行 -->
+          <view class="tr header">
+            <view
+              class="th"
+              wx:for="{{config.header}}"
+              wx:key="*this"
+              style="width: {{columnWidths[index]}}px;"
+              >{{item}}</view
+            >
+          </view>
+
+          <!-- 表格主体 -->
+          <view class="tbody">
+            <view
+              class="tr"
+              wx:for="{{config.body}}"
+              wx:for-item="row"
+              wx:key="index"
+            >
+              <view
+                class="td"
+                wx:for="{{row}}"
+                wx:for-item="cell"
+                wx:key="index"
+                style="width: {{columnWidths[index]}}px;"
+                >{{cell}}</view
+              >
+            </view>
+          </view>
+        </view>
+      </view>
+    </scroll-view>
+  </block>
+
+  <view wx:else class="table">
     <view wx:if="{{config.caption}}" class="caption">
       <text>{{config.caption}}</text>
     </view>
-    <view class="tr">
-      <view wx:for="{{config.header}}" wx:key="*thclass" class="th">
+    <view class="tr header">
+      <view wx:for="{{config.header}}" class="th">
         <text user-select="{{selectable}}">{{item}}</text>
       </view>
     </view>

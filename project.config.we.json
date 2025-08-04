@@ -110,7 +110,7 @@
         {
           "name": "ID 加载",
           "pathName": "pages/info/info",
-          "query": "id=other/about/welcome",
+          "query": "id=apartment/library/permission",
           "launchMode": "default",
           "scene": null
         },
