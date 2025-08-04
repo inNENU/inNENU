@@ -10,6 +10,9 @@ $Component({
       type: Object as PropType<ActionComponentOptions>,
       required: true,
     },
+
+    /** 是否在大标题后 */
+    afterTitle: Boolean,
   },
 
   data: {

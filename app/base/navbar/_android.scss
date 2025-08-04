@@ -39,10 +39,10 @@
   }
 
   &.shadow {
-    box-shadow: 0 0 4px 1.5px rgb(208 208 208 / 8000%);
+    box-shadow: 0 0 4px 1.5px rgb(208 208 208 / 80%);
 
     @media (prefers-color-scheme: dark) {
-      box-shadow: 0 0 4px 1.5px rgb(47 47 47 / 8000%);
+      box-shadow: 0 0 4px 1.5px rgb(47 47 47 / 80%);
     }
   }
 }

@@ -8,4 +8,8 @@
   .text-component {
     font-size: 15px;
   }
+
+  &.grey .text-component {
+    box-shadow: 1px 1px 2px 3px var(--hard-shadow);
+  }
 }

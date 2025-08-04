@@ -1,6 +1,6 @@
 <!-- 标题 -->
-<view wx:if="{{config.header}}" class="action-component-header">
-  <text>{{config.header}}</text>
+<view class="action-component-header{{afterTitle ? ' after-title' : ''}}">
+  <text wx:if="{{config.header}}">{{config.header}}</text>
 </view>
 
 <view

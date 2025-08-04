@@ -80,8 +80,14 @@
   .more-list {
     overflow: hidden;
 
+    .list-component-header {
+      display: none !important;
+    }
+
     .list-component-content {
       margin: 0;
+      border-radius: 16px;
+      box-shadow: none;
     }
   }
 

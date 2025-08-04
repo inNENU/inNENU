@@ -71,7 +71,7 @@
 </template>
 
 <template name="action-component">
-  <action config="{{config}}" />
+  <action config="{{config}}" after-title="{{afterTitle}}" />
 </template>
 
 <template name="table-component">

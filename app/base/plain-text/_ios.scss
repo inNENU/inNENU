@@ -7,6 +7,10 @@
     line-height: 1.3;
   }
 
+  &.grey .text-component {
+    border-radius: 28px / 24px;
+  }
+
   .paragraph-item {
     margin-top: 4px;
     margin-bottom: 12px;
