@@ -205,13 +205,6 @@
           "scene": null
         },
         {
-          "name": "黑名单",
-          "pathName": "pkg/addon/pages/action/action",
-          "query": "action=blacklist",
-          "launchMode": "default",
-          "scene": null
-        },
-        {
           "name": "初始化小程序",
           "pathName": "pkg/addon/pages/action/action",
           "query": "action=reset",

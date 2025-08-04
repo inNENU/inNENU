@@ -211,6 +211,13 @@
           "scene": null
         },
         {
+          "name": "跳转列表",
+          "pathName": "pkg/addon/pages/action/action",
+          "query": "action=navigate",
+          "launchMode": "default",
+          "scene": null
+        },
+        {
           "name": "学术预告",
           "pathName": "pkg/tool/pages/official/academic-list",
           "query": "",

@@ -191,6 +191,13 @@
           "scene": null
         },
         {
+          "name": "功能页",
+          "pathName": "pkg/addon/pages/action/action",
+          "query": "",
+          "launchMode": "default",
+          "scene": null
+        },
+        {
           "name": "客服",
           "pathName": "pkg/addon/pages/action/action",
           "query": "action=contact",
