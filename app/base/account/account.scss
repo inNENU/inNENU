@@ -2,7 +2,11 @@
   position: relative;
   overflow: hidden;
   max-width: var(--max-width);
-  margin: 0 var(--horizontal-margin);
+
+  .medium &,
+  .large & {
+    margin: 0 auto;
+  }
 }
 
 .account-background {

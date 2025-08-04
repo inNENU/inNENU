@@ -11,7 +11,7 @@ import {
   updateApp,
 } from "./app/index.js";
 import { INITIALIZED_KEY } from "./config/index.js";
-import { appInfo, windowInfo } from "./state/index.js";
+import { appInfo } from "./state/index.js";
 import { getSizeClass } from "./utils/size.js";
 
 export interface App {
@@ -107,7 +107,7 @@ $Config({
       function (this: TrivialPageInstance & { onThemeChange: () => void }) {
         this.setData({
           darkmode: appInfo.darkmode,
-          size: getSizeClass(windowInfo.windowWidth),
+          size: getSizeClass(),
         });
         wx.onThemeChange?.(this.onThemeChange);
       },

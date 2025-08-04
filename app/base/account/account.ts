@@ -31,12 +31,6 @@ $Component({
     env,
   },
 
-  lifetimes: {
-    attached() {
-      this.setData({ logo: getAssetLink(this.data.config.logo) });
-    },
-  },
-
   methods: {
     /** 添加 QQ */
     addQQ(): void {
@@ -93,6 +87,12 @@ $Component({
       const { name, loc } = this.data.config;
 
       startNavigation({ name, loc: loc! });
+    },
+  },
+
+  lifetimes: {
+    attached() {
+      this.setData({ logo: getAssetLink(this.data.config.logo) });
     },
   },
 });
