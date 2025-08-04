@@ -4,6 +4,7 @@ import type {
   GridComponentOptions,
   PageStateWithContent,
 } from "../../../typings/index.js";
+import { preloadSkyline } from "../../api/index.js";
 import { checkResource } from "../../app/index.js";
 import type { App } from "../../app.js";
 import { DAY, appCoverPrefix } from "../../config/index.js";
@@ -63,6 +64,7 @@ $Page(PAGE_ID, {
   onReady() {
     // 注册事件监听器
     this.$on("theme", this.setTheme);
+    preloadSkyline();
   },
 
   async onPullDownRefresh() {

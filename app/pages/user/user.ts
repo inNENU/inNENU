@@ -2,6 +2,7 @@ import { $Page, get, logger, put, set, take } from "@mptool/all";
 
 import { footer } from "./info.js";
 import type { PageStateWithContent } from "../../../typings/index.js";
+import { preloadSkyline } from "../../api/index.js";
 import { checkResource } from "../../app/index.js";
 import type { App } from "../../app.js";
 import {
@@ -97,6 +98,7 @@ $Page(PAGE_ID, {
   onReady() {
     // 注册事件监听器
     this.$on("theme", this.setTheme);
+    preloadSkyline();
   },
 
   async onPullDownRefresh() {

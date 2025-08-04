@@ -1,6 +1,7 @@
 import { $Page, get, logger, set } from "@mptool/all";
 
 import type { PageStateWithContent } from "../../../typings/index.js";
+import { preloadSkyline } from "../../api/index.js";
 import { checkResource } from "../../app/index.js";
 import type { App } from "../../app.js";
 import {
@@ -95,6 +96,7 @@ $Page(PAGE_ID, {
     ["function", "guide", "intro", "user"].forEach((item) => {
       this.$preload(item);
     });
+    preloadSkyline();
   },
 
   async onPullDownRefresh() {

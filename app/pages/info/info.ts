@@ -1,6 +1,7 @@
 import { $Page, logger } from "@mptool/all";
 
 import type { PageOptions, PageState } from "../../../typings/index.js";
+import { preloadSkyline } from "../../api/index.js";
 import { appCoverPrefix } from "../../config/index.js";
 import { windowInfo } from "../../state/index.js";
 import {
@@ -35,6 +36,10 @@ $Page("info", {
 
     // FIXME: Replace it with custom report service
     // wx.reportEvent?.("page_id", { id: option.id });
+  },
+
+  onReady() {
+    preloadSkyline();
   },
 
   // eslint-disable-next-line @typescript-eslint/no-empty-function
