@@ -8,7 +8,7 @@
   text-align: left;
 
   &:empty {
-    margin-top: 0;
+    display: none;
   }
 
   // NOTE: Skyline does not support media queries
@@ -18,6 +18,8 @@
   }
 
   .grey & {
+    display: block;
+
     margin: 20px 16px 4px;
     padding: 0 4px;
 
@@ -25,6 +27,15 @@
 
     font-weight: 500;
     font-size: 15px;
+
+    &:empty {
+      display: block;
+    }
+
+    &.after-title :empty {
+      margin-top: 0;
+      margin-bottom: 0;
+    }
   }
 }
 

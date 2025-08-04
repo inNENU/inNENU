@@ -14,10 +14,13 @@ $Component({
     },
 
     /** 引用标题 */
-    referer: {
+    referrer: {
       type: String,
       default: "",
     },
+
+    /** 是否在大标题后 */
+    afterTitle: Boolean,
   },
 
   lifetimes: {
@@ -28,9 +31,9 @@ $Component({
 
   methods: {
     onTap() {
-      const { config, referer } = this.data;
+      const { config, referrer } = this.data;
 
-      route(config, referer);
+      route(config, referrer);
     },
   },
 });

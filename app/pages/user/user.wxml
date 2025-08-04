@@ -38,7 +38,7 @@
   </view>
   <template
     is="components"
-    data="{{content: page.content, referer: '我的东师'}}"
+    data="{{content: page.content, referrer: '我的东师'}}"
   />
   <footer config="{{footer}}" />
 </view>

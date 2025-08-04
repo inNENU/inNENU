@@ -13,7 +13,7 @@
   text-align: left;
 
   &:empty {
-    margin-bottom: 0;
+    display: none;
   }
 
   .grey & {
@@ -24,6 +24,15 @@
 
     font-weight: 500;
     font-size: 15px;
+
+    &:empty {
+      display: block;
+    }
+
+    &.after-title :empty {
+      margin-top: 0;
+      margin-bottom: 0;
+    }
   }
 }
 

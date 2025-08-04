@@ -26,10 +26,13 @@ $Component({
     },
 
     /** 引用标题 */
-    referer: {
+    referrer: {
       type: String,
       default: "",
     },
+
+    /** 是否在大标题后 */
+    afterTitle: Boolean,
   },
 
   methods: {
@@ -40,10 +43,10 @@ $Component({
       Record<string, never>,
       { item: FunctionalListComponentItemOptions }
     >) {
-      const { referer } = this.data;
+      const { referrer } = this.data;
       const { item } = currentTarget.dataset;
 
-      route(item, referer);
+      route(item, referrer);
     },
 
     /** 按钮设置 */

@@ -3,19 +3,35 @@
 </template>
 
 <template name="text-component">
-  <plain-text config="{{config}}" referer="{{referer}}" />
+  <plain-text
+    config="{{config}}"
+    referrer="{{referrer}}"
+    after-title="{{afterTitle}}"
+  />
 </template>
 
 <template name="p-component">
-  <plain-text config="{{config}}" referer="{{referer}}" />
+  <plain-text
+    config="{{config}}"
+    referrer="{{referrer}}"
+    after-title="{{afterTitle}}"
+  />
 </template>
 
 <template name="ul-component">
-  <plain-text config="{{config}}" referer="{{referer}}" />
+  <plain-text
+    config="{{config}}"
+    referrer="{{referrer}}"
+    after-title="{{afterTitle}}"
+  />
 </template>
 
 <template name="ol-component">
-  <plain-text config="{{config}}" referer="{{referer}}" />
+  <plain-text
+    config="{{config}}"
+    referrer="{{referrer}}"
+    after-title="{{afterTitle}}"
+  />
 </template>
 
 <template name="img-component">
@@ -23,11 +39,19 @@
 </template>
 
 <template name="list-component">
-  <list config="{{config}}" referer="{{referer}}" />
+  <list
+    config="{{config}}"
+    referrer="{{referrer}}"
+    after-title="{{afterTitle}}"
+  />
 </template>
 
 <template name="grid-component">
-  <grid config="{{config}}" referer="{{referer}}" />
+  <grid
+    config="{{config}}"
+    referrer="{{referrer}}"
+    after-title="{{afterTitle}}"
+  />
 </template>
 
 <template name="doc-component">
@@ -43,7 +67,7 @@
 </template>
 
 <template name="card-component">
-  <card config="{{config}}" referer="{{referer}}" />
+  <card config="{{config}}" referrer="{{referrer}}" />
 </template>
 
 <template name="action-component">
@@ -57,7 +81,8 @@
 <template name="functional-list-component">
   <functional-list
     config="{{config}}"
-    referer="{{referer}}"
+    referrer="{{referrer}}"
+    after-title="{{afterTitle}}"
     ref="list{{index}}"
     binding="$"
     catch:change="list"
@@ -82,11 +107,11 @@
 
 <template name="components">
   <block wx:if="{{content && content.length}}">
-    <block wx:for="{{content}}" wx:key="id" wx:for-item="config">
+    <block wx:for="{{content}}" wx:for-item="config">
       <block wx:if="{{!config.hidden}}">
         <template
           is="{{config.tag}}-component"
-          data="{{config, images, index, referer}}"
+          data="{{config, images, index, referrer, afterTitle: content[index - 1] && content[index - 1].tag === 'title'}}"
         />
       </block>
     </block>

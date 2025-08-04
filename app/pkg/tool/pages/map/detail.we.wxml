@@ -57,7 +57,7 @@
     </view>
     <template
       is="components"
-      data="{{content: page.content || [], theme, referer: page.title}}"
+      data="{{content: page.content || [], theme, referrer: page.title}}"
     />
     <footer config="{{page}}" />
     <share config="{{page}}" />

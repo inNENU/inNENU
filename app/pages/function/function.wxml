@@ -30,7 +30,7 @@
   <scroll-view type="list" scroll-y class="functions">
     <template
       is="components"
-      data="{{content: page.content, referer: '功能大厅'}}"
+      data="{{content: page.content, referrer: '功能大厅'}}"
     />
   </scroll-view>
 </view>

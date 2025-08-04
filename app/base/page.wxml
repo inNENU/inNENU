@@ -38,7 +38,7 @@
       <!-- 页面内容 -->
       <template
         is="components"
-        data="{{ content: page.content || [], images: page.images || [], referer: page.title }}"
+        data="{{ content: page.content || [], images: page.images || [], referrer: page.title }}"
       />
       <share config="{{utils.getShareConfig(page)}}" />
       <footer

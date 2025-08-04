@@ -54,7 +54,7 @@
 </view>
 <!-- 段落标题 -->
 <block wx:else>
-  <view class="text-component-header">
+  <view class="text-component-header{{afterTitle ? ' after-title' : ''}}">
     <text wx:if="{{config.header}}" user-select="{{selectable}}"
       >{{config.header}}</text
     >

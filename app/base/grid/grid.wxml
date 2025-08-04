@@ -1,5 +1,5 @@
 <!-- 网格头部文字 -->
-<view class="grid-component-header">
+<view class="grid-component-header{{afterTitle ? ' after-title' : ''}}">
   <text wx:if="{{config.header}}"> {{config.header}}</text>
 </view>
 <!-- 网格主体 -->

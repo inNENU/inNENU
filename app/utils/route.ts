@@ -23,7 +23,7 @@ export const route = (
     | MiniProgramFullOptions
     | MiniProgramShortLinkOptions
     | Record<never, never>,
-  referer?: string,
+  referrer?: string,
 ): void => {
   if ("action" in options) {
     switch (options.action) {
@@ -137,8 +137,8 @@ export const route = (
   } else if ("url" in options) {
     const { url } = options;
 
-    go(`${url}${url.includes("?") ? `&` : `?`}from=${referer}`);
+    go(`${url}${url.includes("?") ? `&` : `?`}from=${referrer}`);
   } else if ("path" in options) {
-    go(`info?id=${options.path}&from=${referer || "返回"}`);
+    go(`info?id=${options.path}&from=${referrer || "返回"}`);
   }
 };

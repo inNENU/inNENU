@@ -13,7 +13,7 @@ $Component({
     },
 
     /** 引用标题 */
-    referer: {
+    referrer: {
       type: String,
       default: "",
     },
@@ -33,9 +33,9 @@ $Component({
 
     /** 点击卡片触发的操作 */
     onTap(): void {
-      const { config, referer } = this.data;
+      const { config, referrer } = this.data;
 
-      route(config, referer);
+      route(config, referrer);
     },
   },
 

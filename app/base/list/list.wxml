@@ -1,5 +1,5 @@
 <!-- 列表头部文字 -->
-<view class="list-component-header">
+<view class="list-component-header{{afterTitle ? ' after-title' : ''}}">
   <text wx:if="{{config.header}}">{{config.header}}</text>
 </view>
 <!-- 列表主体 -->

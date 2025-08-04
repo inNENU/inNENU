@@ -1,7 +1,7 @@
 <wxs src="./functional-list.wxs" module="list" />
 <!-- 列表头部注释文字 -->
-<view wx:if="{{config.header !== false}}" class="list-component-header">
-  <text>{{config.header}}</text>
+<view class="list-component-header{{afterTitle ? ' after-title' : ''}}">
+  <text wx:if="{{config.header}}">{{config.header}}</text>
 </view>
 <!-- 列表主体 -->
 <view class="list-component-content">
