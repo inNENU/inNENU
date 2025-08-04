@@ -3,9 +3,9 @@
   <view class="ios-navbar-spacer" style="height:{{statusBarHeight + 44}}px;">
   </view>
   <view class="ios-navbar" style="padding-top:{{statusBarHeight}}px">
-    <view wx:if="{{titleDisplay}}" class="ios-navbar-title"
-      ><text>{{nav.title}}</text></view
-    >
+    <view wx:if="{{titleDisplay}}" class="ios-navbar-title">
+      <text overflow="ellipsis" max-lines="1">{{nav.title}}</text>
+    </view>
     <view
       wx:if="{{nav.action !== false}}"
       class="ios-navbar-back-button"
@@ -15,7 +15,7 @@
       catch:tap="{{nav.action ? navbar.action : '$bindBack'}}"
     >
       <view wx:if="{{!nav.action}}" class="ios-back-arrow" />
-      <text class="ios-back-text"
+      <text class="ios-back-text" overflow="ellipsis" max-lines="1"
         >{{firstPage ? '主页' : (nav.from || '返回')}}</text
       >
     </view>

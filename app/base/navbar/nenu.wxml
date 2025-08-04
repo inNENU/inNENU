@@ -13,11 +13,17 @@
         catch:tap="$bindBack"
       >
         <view class="ios-back-arrow" style="border-color: #fff" />
-        <text class="ios-back-text" style="color: #fff">
-          {{firstPage ? '主页' : (nav.from || '返回')}}
-        </text>
+        <text
+          class="ios-back-text"
+          overflow="ellipsis"
+          max-lines="1"
+          style="color: #fff"
+          >{{firstPage ? '主页' : (nav.from || '返回')}}</text
+        >
       </view>
-      <view class="nenu-navbar-title"><text>{{nav.title}}</text></view>
+      <view class="nenu-navbar-title">
+        <text overflow="ellipsis" max-lines="1">{{nav.title}}</text>
+      </view>
     </view>
   </block>
   <block wx:else>

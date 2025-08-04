@@ -51,11 +51,15 @@
   position: absolute;
   z-index: 100;
 
+  overflow: hidden;
+
   max-width: 50%;
 
   font-weight: 500;
   font-size: 17px;
   line-height: 1;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
 .android-navbar-back-button {

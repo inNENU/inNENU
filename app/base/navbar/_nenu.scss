@@ -18,10 +18,14 @@
 
 .nenu-navbar-title {
   position: absolute;
+  right: 25%;
+  left: 25%;
 
-  width: 100%;
+  overflow: hidden;
 
   font-weight: 500;
   font-size: 18px;
   text-align: center;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }

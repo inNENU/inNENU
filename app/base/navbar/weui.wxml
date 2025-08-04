@@ -5,7 +5,9 @@
     class="weui-navbar {{shadow ? 'shadow' : ''}}"
     style="padding-top:{{statusBarHeight}}px"
   >
-    <view class="android-navbar-title"><text>{{nav.title}}</text></view>
+    <view class="android-navbar-title">
+      <text overflow="ellipsis" max-lines="1">{{nav.title}}</text>
+    </view>
     <view
       wx:if="{{nav.action !== false}}"
       class="android-navbar-back-button"
@@ -15,7 +17,7 @@
       catch:tap="{{nav.action ? navbar.action : '$bindBack'}}"
     >
       <view wx:if="{{!nav.action}}" class="weui-navbar-back-button" />
-      <text class="android-back-text"
+      <text class="android-back-text" overflow="ellipsis" max-lines="1"
         >{{firstPage ? '主页' : (nav.from || '返回')}}</text
       >
     </view>
