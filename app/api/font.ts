@@ -5,5 +5,6 @@ export const loadFZSSJW = (global = false): void => {
     family: "FZSSJW",
     source: `url('${assets}assets/nenu.ttf')`,
     global,
+    scopes: ["webview", "skyline"],
   });
 };
