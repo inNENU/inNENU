@@ -5,11 +5,11 @@ export const getSizeClass = (
 ): "small" | "medium" | "large" | "large xl" => {
   const width = windowWidth ?? windowInfo.windowWidth;
 
-  return width < 480
+  return width < 556
     ? "small"
-    : width < 1024
+    : width < 768
       ? "medium"
-      : width < 768
+      : width < 1024
         ? "large"
         : "large xl";
 };

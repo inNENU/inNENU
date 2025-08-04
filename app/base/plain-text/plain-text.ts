@@ -25,7 +25,7 @@ $Component({
 
   lifetimes: {
     attached() {
-      this.setData({ selectable: info.selectable });
+      this.setData({ selectable: info.selectable, renderer: this.renderer });
     },
   },
 

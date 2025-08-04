@@ -32,9 +32,10 @@ module.exports = {
     return align ? "text-align:" + align : "";
   },
 
-  getStyle: function (config, selectable) {
+  getStyle: function (config, selectable, renderer) {
     return config.tag === "p"
-      ? (selectable ? "" : "display: block;") + "text-indent: 1.5em"
+      ? (selectable ? "" : "display: block;") +
+          (renderer === "skyline" ? "" : "text-indent: 1.5em")
       : "";
   },
 };

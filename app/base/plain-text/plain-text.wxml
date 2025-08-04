@@ -29,8 +29,10 @@
       <text
         class="text-content"
         decode
-        style="{{plainText.getStyle(config, selectable)}}"
+        style="{{plainText.getStyle(config, selectable, renderer)}}"
         user-select="{{selectable}}"
+        ><text wx:if="{{config.tag === 'p' && renderer === 'skyline'}}"
+          >{{'\u3164\u3164'}}</text
         ><text>{{item}}</text></text
       >
     </view>
@@ -50,7 +52,7 @@
     <image class="hint-box-icon" src="./hintbox/{{config.type}}.svg" />
     <text>{{plainText.getTitle(config)}}</text>
   </view>
-  <template is="text" data="{{config, selectable}}" />
+  <template is="text" data="{{config, selectable, renderer}}" />
 </view>
 <!-- 段落标题 -->
 <block wx:else>
@@ -61,6 +63,6 @@
   </view>
   <!-- 段落主体 -->
   <view class="text-component" style="{{plainText.getAlign(config.align)}}">
-    <template is="text" data="{{config, selectable}}" />
+    <template is="text" data="{{config, selectable, renderer}}" />
   </view>
 </block>
