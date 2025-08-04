@@ -3,6 +3,15 @@
     border-radius: 16px;
   }
 
+  .list-component-header {
+    padding: 0 8px;
+  }
+
+  &.grey .list-component-header {
+    color: var(--grey);
+    font-size: 14px;
+  }
+
   .list-item {
     &:first-child {
       padding-top: 6px;
@@ -39,5 +48,10 @@
 
     font-size: 13px;
     text-align: left;
+  }
+
+  .list-component-footer {
+    padding: 0 8px;
+    font-size: 14px;
   }
 }

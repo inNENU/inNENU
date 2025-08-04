@@ -2,15 +2,15 @@
   width: 100%;
   height: 69px;
 
-  background-color: #f8f8f8;
+  background-color: var(--bg-color);
   color: #d9d9d9;
 
   font-size: 8px;
 
-  @media (prefers-color-scheme: dark) {
-    background-color: #000;
+  &.grey {
+    background-color: #f4f4f4;
 
-    .grey & {
+    @media (prefers-color-scheme: dark) {
       background-color: #10110b;
     }
   }
@@ -28,11 +28,7 @@
   width: 100%;
   height: 44px;
 
-  background-color: #f8f8f8;
-
-  @media (prefers-color-scheme: dark) {
-    background-color: #000;
-  }
+  background-color: var(--bg-color);
 
   .grey & {
     background-color: #f4f4f4;

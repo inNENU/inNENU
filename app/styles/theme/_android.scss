@@ -8,14 +8,10 @@
   width: 100%;
   min-height: 100%;
 
-  background-color: #f8f8f8;
+  background-color: var(--bg-color);
   color: var(--text-color);
 
   text-align: center;
-
-  @media (prefers-color-scheme: dark) {
-    background-color: #000;
-  }
 
   &.grey {
     background-color: #f4f4f4;

@@ -5,7 +5,8 @@ module.exports = {
       type === "tip" ||
       type === "info" ||
       type === "warning" ||
-      type === "danger"
+      type === "danger" ||
+      type === "important"
     );
   },
 
@@ -16,13 +17,15 @@ module.exports = {
       ? config.header
       : type === "note"
         ? "注"
-        : type === "tip"
-          ? "提示"
+        : type === "caution"
+          ? "警告"
           : type === "info"
             ? "相关信息"
             : type === "warning"
               ? "注意"
-              : "警告";
+              : type === "important"
+                ? "重要"
+                : "提示";
   },
 
   getAlign: function (align) {

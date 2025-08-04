@@ -2,7 +2,6 @@
   box-sizing: border-box;
   max-width: var(--max-width);
   margin: 4px var(--horizontal-margin);
-  padding: 0 4px;
 
   color: var(--text-color);
 
@@ -54,7 +53,7 @@
 
 .text-marker {
   flex-shrink: 0;
-  padding: 0 0.5em;
+  padding-right: 0.5em;
   font-weight: 700;
 
   .grey & {
