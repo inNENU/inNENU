@@ -40,6 +40,11 @@
     color: var(--hint-box-bg-color);
   }
 
+  &:only-child {
+    // the outer wrapper has 16px top and 12px bottom padding
+    padding-bottom: 4px;
+  }
+
   &:not(:only-child) {
     margin-bottom: 12px;
   }
