@@ -133,6 +133,8 @@ $Page("pe-calculator", {
 
     this.setData({
       theme: info.theme,
+      renderer: this.renderer,
+
       // 写入性别
       // eslint-disable-next-line @typescript-eslint/naming-convention
       "gender.key":
@@ -204,24 +206,21 @@ $Page("pe-calculator", {
 
   /** 输入框聚焦 */
   focus(event: WechatMiniprogram.InputFocus) {
-    const { id } = event.currentTarget;
     const query = this.createSelectorQuery();
 
     this.setData({ isTyping: true, keyboardHeight: event.detail.height });
 
-    query.select(`#${id}`).boundingClientRect();
-    query.selectViewport().fields({ size: true, scrollOffset: true });
-    query.exec((res: Required<WechatMiniprogram.NodeInfo>[]) => {
-      if (res[0].bottom + event.detail.height > res[1].height)
-        wx.pageScrollTo({
-          scrollTop:
-            res[1].scrollTop +
-            res[0].bottom +
-            event.detail.height -
-            res[1].height +
-            10,
+    if (this.renderer === "skyline") {
+      query
+        .select(".pe-calculator-page")
+        .node()
+        .exec((res: [WechatMiniprogram.NodeCallbackResult]) => {
+          (res[0].node as WechatMiniprogram.ScrollViewContext).scrollIntoView(
+            `#${event.currentTarget.id}`,
+            { alignment: "nearest", animated: true },
+          );
         });
-    });
+    }
   },
 
   /** 输入成绩 */

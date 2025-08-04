@@ -1,9 +1,13 @@
 <import src="/base/page.wxml" />
 <wxs src="./admission.wxs" module="admission" />
 <license />
-<view
+<scroll-view
   wx:if="{{type === 'search'}}"
-  class="ios grey"
+  scroll-y
+  enable-flex
+  enable-back-to-top
+  enhanced
+  class="{{theme}} grey admission-page"
   style="{{isTyping ? 'padding-bottom:' + keyboardHeight + 'px;' : ''}}"
 >
   <header title="{{title}}" />
@@ -14,7 +18,6 @@
         id="{{item.id}}"
         class="input"
         type="{{item.type}}"
-        adjust-position="{{false}}"
         placeholder="{{item.placeholder}}"
         catch:focus="focus"
         catch:input="input"
@@ -27,7 +30,7 @@
   </button>
   <plain-text config="{{admission.hint}}"></plain-text>
   <footer />
-</view>
+</scroll-view>
 <template wx:else is="page" data="{{theme, page: admission.page, size}}" />
 <!-- 录取结果 -->
 <popup

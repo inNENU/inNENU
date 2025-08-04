@@ -31,6 +31,7 @@
     <view class="input-list-item">
       <view class="text">性别</view>
       <picker
+        id="gender"
         class="picker"
         mode="selector"
         range="{{gender.keys}}"
@@ -42,6 +43,7 @@
     <view class="input-list-item">
       <view class="text">年级</view>
       <picker
+        id="grade"
         class="picker"
         mode="selector"
         range="{{grade.keys}}"
@@ -56,7 +58,6 @@
         id="{{item.id}}"
         class="input"
         type="{{item.type}}"
-        adjust-position="{{false}}"
         placeholder="{{item.desc}}"
         catch:focus="focus"
         catch:input="input"
@@ -67,6 +68,7 @@
     <view class="input-list-item">
       <view class="text">{{longRun.text}}</view>
       <picker
+        id="longRun"
         class="picker"
         mode="multiSelector"
         range="{{longRun.picker}}"
@@ -81,7 +83,6 @@
         id="{{special.id}}"
         class="input"
         type="{{special.type}}"
-        adjust-position="{{false}}"
         placeholder="{{special.desc}}"
         catch:focus="focus"
         catch:input="input"

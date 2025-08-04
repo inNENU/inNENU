@@ -1,6 +1,7 @@
 import { $Page } from "@mptool/all";
 
 import { appCoverPrefix } from "../../../../config/index.js";
+import { info } from "../../../../state/index.js";
 import { showNotice } from "../../../../utils/index.js";
 import type {
   UnderAdmissionOptions,
@@ -29,6 +30,7 @@ $Page(PAGE_ID, {
   data: {
     type: "debug",
     title: PAGE_TITLE,
+    theme: info.theme,
 
     /** 输入列表 */
     input: INPUT_CONFIG,
@@ -53,13 +55,13 @@ $Page(PAGE_ID, {
   },
 
   onLoad({ type = "debug" }) {
-    const info = wx.getStorageSync<UnderAdmissionOptions | undefined>(
+    const admissionInfo = wx.getStorageSync<UnderAdmissionOptions | undefined>(
       "admission-info",
     );
 
-    if (info) this.state.input = info;
+    if (admissionInfo) this.state.input = admissionInfo;
 
-    this.setData({ type });
+    this.setData({ theme: info.theme, type });
 
     // 设置通知
     showNotice(PAGE_ID);
@@ -89,24 +91,21 @@ $Page(PAGE_ID, {
 
   /** 输入框聚焦 */
   focus(event: WechatMiniprogram.InputFocus) {
-    const { id } = event.currentTarget;
     const query = this.createSelectorQuery();
 
     this.setData({ isTyping: true, keyboardHeight: event.detail.height });
 
-    query.select(`#${id}`).boundingClientRect();
-    query.selectViewport().fields({ size: true, scrollOffset: true });
-    query.exec((res: Required<WechatMiniprogram.NodeInfo>[]) => {
-      if (res[0].bottom + event.detail.height > res[1].height)
-        wx.pageScrollTo({
-          scrollTop:
-            res[1].scrollTop +
-            res[0].bottom +
-            event.detail.height -
-            res[1].height +
-            10,
+    if (this.renderer === "skyline") {
+      query
+        .select(".admission-page")
+        .node()
+        .exec((res: [WechatMiniprogram.NodeCallbackResult]) => {
+          (res[0].node as WechatMiniprogram.ScrollViewContext).scrollIntoView(
+            `#${event.currentTarget.id}`,
+            { alignment: "nearest", animated: true },
+          );
         });
-    });
+    }
   },
 
   /** 输入成绩 */
