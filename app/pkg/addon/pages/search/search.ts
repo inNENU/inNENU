@@ -3,7 +3,7 @@ import { $Page, showToast } from "@mptool/all";
 import { appCoverPrefix } from "../../../../config/index.js";
 import type { ContentSearchHit } from "../../../../service/index.js";
 import { getSuggestions, searchContent } from "../../../../service/index.js";
-import { appInfo, info, windowInfo } from "../../../../state/index.js";
+import { info, windowInfo } from "../../../../state/index.js";
 import { getPageColor, showNotice } from "../../../../utils/index.js";
 
 $Page("search", {
@@ -42,7 +42,6 @@ $Page("search", {
       color: getPageColor(true),
       query: options.query || "",
       theme: info.theme,
-      darkmode: appInfo.darkmode,
     });
 
     if (options.query) this.search({ detail: { value: options.query } });
@@ -50,9 +49,10 @@ $Page("search", {
     showNotice("search");
   },
 
-  onPageScroll(options) {
+  onScrollViewScroll(options: WechatMiniprogram.ScrollViewScroll) {
     this.setData({
-      showBackToTop: options.scrollTop > 250 + windowInfo.statusBarHeight,
+      showBackToTop:
+        options.detail.scrollTop > 250 + windowInfo.statusBarHeight,
     });
   },
 

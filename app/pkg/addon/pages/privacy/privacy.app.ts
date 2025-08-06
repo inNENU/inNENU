@@ -88,9 +88,6 @@ $Page("privacy", {
     showNotice("privacy");
   },
 
-  // eslint-disable-next-line @typescript-eslint/no-empty-function
-  onPageScroll() {},
-
   openSetting() {
     wx.openAppAuthorizeSetting();
   },

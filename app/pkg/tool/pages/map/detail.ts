@@ -54,11 +54,6 @@ $Page("map-detail", {
     });
   },
 
-  onPageScroll(options) {
-    // @ts-expect-error: data type is missing
-    this.defaultScroller(options);
-  },
-
   onScrollViewScroll(options: WechatMiniprogram.ScrollViewScroll) {
     // @ts-expect-error: data type is missing
     this.defaultScroller(options.detail);

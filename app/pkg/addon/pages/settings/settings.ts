@@ -108,9 +108,6 @@ $Page(PAGE_ID, {
     this.setStorageStat();
   },
 
-  // eslint-disable-next-line @typescript-eslint/no-empty-function
-  onPageScroll() {},
-
   /** 设置存储信息 */
   setStorageStat() {
     wx.getStorageInfo({

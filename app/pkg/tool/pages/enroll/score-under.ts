@@ -62,9 +62,6 @@ $Page(PAGE_ID, {
     showNotice(PAGE_ID);
   },
 
-  // eslint-disable-next-line @typescript-eslint/no-empty-function
-  onPageScroll() {},
-
   onShareAppMessage: () => ({ title: PAGE_TITLE }),
 
   onShareTimeline: () => ({ title: PAGE_TITLE }),

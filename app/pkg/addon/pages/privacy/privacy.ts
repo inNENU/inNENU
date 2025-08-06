@@ -152,9 +152,6 @@ $Page("privacy", {
     showNotice("privacy");
   },
 
-  // eslint-disable-next-line @typescript-eslint/no-empty-function
-  onPageScroll() {},
-
   /** 定位授权 */
   location() {
     this.authorize(0);

@@ -67,9 +67,6 @@ $Page(PAGE_ID, {
     showNotice(PAGE_ID);
   },
 
-  // eslint-disable-next-line @typescript-eslint/no-empty-function
-  onPageScroll() {},
-
   onShareAppMessage(): WechatMiniprogram.Page.ICustomShareContent {
     return {
       title: PAGE_TITLE,
