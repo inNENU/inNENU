@@ -8,7 +8,6 @@ import { preloadSkyline } from "../../api/index.js";
 import { checkResource } from "../../app/index.js";
 import type { App } from "../../app.js";
 import { DAY, appCoverPrefix } from "../../config/index.js";
-import { searchMiniApp } from "../../service/index.js";
 import { getIdentity, info, menuSpace, windowInfo } from "../../state/index.js";
 import type { EntranceConfig } from "../../utils/index.js";
 import {
@@ -149,27 +148,12 @@ $Page(PAGE_ID, {
   },
 
   /**
-   * 在搜索框中输入时触发的函数
-   *
-   * @param value 输入的搜索词
-   */
-  async searching({ detail: { value } }: WechatMiniprogram.Input) {
-    const words = await searchMiniApp<string[]>({
-      scope: PAGE_ID,
-      type: "word",
-      word: value,
-    });
-
-    this.setData({ words });
-  },
-
-  /**
    * 跳转到搜索页面
    *
    * @param value 输入的搜索词
    */
   search({ detail }: WechatMiniprogram.Input) {
-    this.$go(`search?type=${PAGE_ID}&word=${detail.value}`);
+    this.$go(`search?query=${detail.value}`);
   },
 
   toggleFeature() {
