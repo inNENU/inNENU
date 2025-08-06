@@ -27,11 +27,14 @@
       <block wx:for="{{results}}">
         <!-- 搜索结果标题 -->
         <view class="search-item-title">
-          <block wx:for="{{item.title}}" wx:for-item="titlePart" wx:key="*this">
-            <text class="{{titlePart[1] ? 'highlight' : ''}}"
-              >{{titlePart[0]}}</text
-            >
-          </block>
+          <text>
+            <text
+              wx:for="{{item.title}}"
+              wx:for-item="part"
+              class="{{part[1] ? 'highlighted' : ''}}"
+              >{{part[0]}}</text
+            ></text
+          >
         </view>
 
         <view
@@ -41,29 +44,38 @@
           catch:tap="$bindGo"
         >
           <view wx:if="{{item.header.length}}" class="search-item-header">
-            <text
-              wx:for="{{item.header}}"
-              wx:for-item="part"
-              class="{{part[1] ? 'highlighted' : ''}}"
-              >{{part[0]}}</text
+            <text>
+              <text
+                wx:for="{{item.header}}"
+                wx:for-item="part"
+                class="{{part[1] ? 'highlighted' : ''}}"
+                >{{part[0]}}</text
+              ></text
             >
           </view>
           <view wx:elif="{{!item.content.length}}" class="search-item-header">
-            <text
-              wx:for="{{item.title}}"
-              wx:for-item="part"
-              class="{{part[1] ? 'highlighted' : ''}}"
-              >{{part[0]}}</text
+            <text>
+              <text
+                wx:for="{{item.title}}"
+                wx:for-item="part"
+                class="{{part[1] ? 'highlighted' : ''}}"
+                >{{part[0]}}</text
+              ></text
             >
           </view>
 
           <!-- 搜索结果内容 -->
-          <view wx:if="{{item.content.length }}" class="search-item-content">
+          <view
+            wx:if="{{item.content.length }}"
+            class="search-item-content border-top"
+          >
             <text
-              wx:for="{{item.content}}"
-              wx:for-item="part"
-              class="{{part[1] ? 'highlighted' : ''}}"
-              >{{part[0]}}</text
+              ><text
+                wx:for="{{item.content}}"
+                wx:for-item="part"
+                class="{{part[1] ? 'highlighted' : ''}}"
+                >{{part[0]}}</text
+              ></text
             >
           </view>
         </view>

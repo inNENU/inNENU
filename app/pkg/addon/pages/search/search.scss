@@ -59,7 +59,7 @@
   position: relative;
 
   margin-bottom: 12px;
-  padding: 8px 16px;
+  padding: 8px 12px;
   border: 1px solid var(--border-color);
   border-radius: 12px;
 
@@ -94,9 +94,9 @@
 
 // 搜索结果内容
 .search-item-header {
-  margin-bottom: 8px;
+  margin-bottom: 2px;
   color: var(--text-color);
-  font-size: 15px;
+  font-size: 14px;
 
   &:only-child {
     margin-bottom: 0;
@@ -104,19 +104,10 @@
 }
 
 .search-item-content {
-  // 限制内容长度，避免过长
-  display: -webkit-box;
-
-  overflow: hidden;
-
+  padding-top: 2px;
   color: var(--text-grey);
-
-  font-size: 13px;
+  font-size: 12px;
   line-height: 1.5;
-
-  -webkit-box-orient: vertical;
-  -webkit-line-clamp: 3;
-  line-clamp: 3;
 }
 
 // 空状态
