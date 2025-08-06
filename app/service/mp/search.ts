@@ -1,56 +1,180 @@
-import { showModal } from "@mptool/all";
-
+/* eslint-disable @typescript-eslint/naming-convention */
 import { request } from "../../api/index.js";
-import type { CommonFailedResponse } from "../utils/index.js";
+import type { CommonSuccessResponse } from "../utils/index.js";
 
-export type SearchType = "all" | "guide" | "intro" | "function";
-
-/** 搜索结果 */
-export interface SearchResult {
-  /** 页面标题 */
-  title: string;
-  /** 页面标识 */
-  id?: string;
-  path?: string;
-  icon?: string;
-  /** 搜索内容 */
-  index?: unknown[];
+interface RawMeiliSearchHit {
+  anchor: string;
+  content: string;
+  url: string;
+  lang: string;
+  objectID: string;
+  hierarchy_lvl0: string | null;
+  hierarchy_lvl1: string | null;
+  hierarchy_lvl2: string | null;
+  hierarchy_lvl3: string | null;
+  hierarchy_lvl4: string | null;
+  hierarchy_lvl5: string | null;
+  hierarchy_lvl6: string | null;
+  hierarchy_radio_lvl0: string | null;
+  hierarchy_radio_lvl1: string | null;
+  hierarchy_radio_lvl2: string | null;
+  hierarchy_radio_lvl3: string | null;
+  hierarchy_radio_lvl4: string | null;
+  hierarchy_radio_lvl5: string | null;
+  _formatted: {
+    anchor: string;
+    content: string;
+    url: string;
+    lang: string;
+    objectID: string;
+    hierarchy_lvl0: string | null;
+    hierarchy_lvl1: string | null;
+    hierarchy_lvl2: string | null;
+    hierarchy_lvl3: string | null;
+    hierarchy_lvl4: string | null;
+    hierarchy_lvl5: string | null;
+    hierarchy_lvl6: string | null;
+    hierarchy_radio_lvl0: string | null;
+    hierarchy_radio_lvl1: string | null;
+    hierarchy_radio_lvl2: string | null;
+    hierarchy_radio_lvl3: string | null;
+    hierarchy_radio_lvl4: string | null;
+    hierarchy_radio_lvl5: string | null;
+  };
 }
 
-export interface SearchData {
-  /** 搜索范围 */
-  scope?: SearchType;
-  /** 搜索类型 */
-  type?: "word" | "result";
-  /** 搜索词 */
-  word: string;
+interface RawMeiliSearchResponse {
+  hits: RawMeiliSearchHit[];
+  hitsPerPage: number;
+  page: number;
+  processingTimeMs: number;
+  query: string;
+  totalHits: number;
+  totalPages: number;
 }
 
 /**
- * 搜索词
- *
- * @param searchWord 输入的搜索词
- * @param scope 搜索范围
- *
- * @returns 匹配的候选词列表
+ * 定义高亮内容片段的元组类型。
  */
-export const searchMiniApp = <T extends string[] | SearchResult[]>(
-  data: SearchData,
-): Promise<T> => {
-  // eslint-disable-next-line @typescript-eslint/naming-convention
-  wx.reportEvent?.("search", { search_word: data.word });
+type HighlightInfo = [content: string, isHighlighted: boolean];
 
-  return request<{ success: true; data: T } | CommonFailedResponse>(
-    "/mp/search",
+const EM_REGEXP = /(<em>.*?<\/em>)/;
+
+/**
+ * 将包含 <em> 标签的字符串解析为一个元组数组，专为小程序 setData 优化。
+ *
+ * @param str - 输入的字符串，可能包含 <em>...</em> 标签。
+ * @returns 一个元组数组，格式为 [content: string, isHighlighted: boolean]。
+ */
+export const getHighlightContent = (str?: string): HighlightInfo[] => {
+  if (!str) return [];
+
+  // 使用带捕获组的正则表达式进行分割
+  const parts = str.split(EM_REGEXP);
+
+  const result: HighlightInfo[] = [];
+
+  for (const part of parts) {
+    // skip empty parts
+    if (!part) continue;
+
+    if (part.startsWith("<em>") && part.endsWith("</em>")) {
+      // 提取标签内的文本内容
+      const content = part.slice(4, -5);
+
+      // 推入元组：[内容, true]
+      result.push([content, true]);
+    } else {
+      // 否则，它就是普通文本
+      // 推入元组：[内容, false]
+      result.push([part, false]);
+    }
+  }
+
+  return result;
+};
+
+const VALID_FOLDER = ["apartment", "guide", "intro", "newcomer", "school"];
+
+export interface ContentSearchHit {
+  id: string;
+  title: HighlightInfo[];
+  header?: HighlightInfo[];
+  content?: HighlightInfo[];
+}
+
+export interface ContentSearchResponse {
+  results: ContentSearchHit[];
+  current: number;
+  total: number;
+  totalPages: number;
+}
+
+export const searchContent = async (
+  query: string,
+  page = 1,
+): Promise<ContentSearchResponse> => {
+  wx.reportEvent?.("search", { search_word: query });
+
+  const { data } = await request<RawMeiliSearchResponse>(
+    "https://meilisearch.innenu.com/indexes/innenu/search",
     {
       method: "POST",
-      body: data,
+      body: {
+        q: query,
+        attributesToHighlight: ["*"],
+        attributesToCrop: ["content"],
+        cropLength: 20,
+        filter: ["lang=zh-CN"],
+        showRankingScore: true,
+        rankingScoreThreshold: 0.5,
+        limit: 20,
+        page,
+      },
+      headers: {
+        Authorization: `Bearer 35f2107c9146d9f57fa00454252dce5d40c87c16ee60de6d1ef3f5095c318b50`,
+        "Content-Type": "application/json",
+      },
     },
-  ).then(({ data }) => {
-    if (data.success) return data.data;
+  );
 
-    showModal("搜索失败", data.msg);
+  return {
+    results: data.hits
+      .map(({ _formatted }) => {
+        const id = _formatted.url
+          .substring(19) // length of 'https://innenu.com/'
+          .replace(/#.*$/, "") // remove hash
+          .replace(/\/index.html$/, "/")
+          .replace(/\.html$/, "");
 
-    return [] as unknown as T;
-  });
+        if (VALID_FOLDER.every((item) => !id.startsWith(item))) return null;
+
+        return {
+          id,
+          title: getHighlightContent(
+            _formatted.hierarchy_lvl1 || _formatted.hierarchy_lvl0 || "资料",
+          ),
+          header: getHighlightContent(
+            [
+              _formatted.hierarchy_lvl2,
+              _formatted.hierarchy_lvl3,
+              _formatted.hierarchy_lvl4,
+              _formatted.hierarchy_lvl5,
+            ]
+              .filter(Boolean)
+              .join(" > "),
+          ),
+          content: getHighlightContent(_formatted.content),
+        };
+      })
+      .filter(Boolean) as ContentSearchHit[],
+    current: data.page,
+    total: data.totalHits,
+    totalPages: data.totalPages,
+  };
 };
+
+export const getSuggestions = async (): Promise<string[]> =>
+  request<CommonSuccessResponse<string[]>>("/mp/suggestions", {
+    method: "POST",
+  }).then(({ data }) => data.data);

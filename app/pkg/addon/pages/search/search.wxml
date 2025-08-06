@@ -6,103 +6,134 @@
   background-color-bottom="{{color.bgColorBottom}}"
   root-background-color="{{color.bgColor}}"
 />
-<view class="{{theme}} grey search-wrapper">
+<scroll-view
+  type="list"
+  scroll-y
+  enable-flex
+  class="{{theme}} {{size}} grey search-page"
+  catch:scroll="onScrollViewScroll"
+>
   <navbar nav="{{ { title: '搜索' } }}" />
 
-  <search
-    words="{{words}}"
-    search-word="{{searchWord}}"
-    catch:searching="searching"
-    catch:search="search"
-  />
+  <search search-word="{{query}}" catch:search="search" />
 
-  <view class="search-type">
-    <view
-      class="search-type-item {{type === 'all'? 'active': ''}}"
-      data-type="all"
-      catch:tap="changeSearchType"
-    >
-      <text>全部</text>
-    </view>
-    <view
-      class="search-type-item {{type === 'guide'? 'active': ''}}"
-      data-type="guide"
-      catch:tap="changeSearchType"
-    >
-      <text>指南</text>
-    </view>
-    <view
-      class="search-type-item {{type === 'intro'? 'active': ''}}"
-      data-type="intro"
-      catch:tap="changeSearchType"
-    >
-      <text>介绍</text>
-    </view>
-    <view
-      class="search-type-item {{type === 'function'? 'active': ''}}"
-      data-type="function"
-      catch:tap="changeSearchType"
-    >
-      <text>功能</text>
-    </view>
-  </view>
-  <block wx:if="{{result.length}}">
-    <title config="{{ { text: '搜索结果' } }}" />
-    <block wx:for="{{result}}" wx:key="title">
-      <view
-        wx:if="{{item.indexes}}"
-        class="search-item content-item"
-        hover-class="button-hover"
-        data-url="{{'info?id=' + item.path + '&from=搜索'}}"
-        catch:tap="$bindGo"
-      >
-        <view class="title"><text>{{item.title}}</text></view>
-        <view class="list">
-          <block wx:for="{{item.indexes}}" wx:for-item="config">
-            <view class="title" wx:if="{{config[0] === 'title'}}">
-              <text>{{config[1]}}</text>
-            </view>
-            <view class="heading" wx:elif="{{config[0] === 'heading'}}">
-              <text>{{config[1]}}</text>
-            </view>
-            <view class="text" wx:elif="{{config[0] === 'text'}}">
+  <view class="content">
+    <!-- 搜索结果 -->
+    <block wx:if="{{results.length > 0}}">
+      <view class="search-results-wrapper">
+        <view class="results-header">
+          <view class="results-title">搜索结果</view>
+          <view class="results-count">共 {{total}} 个结果</view>
+        </view>
+
+        <block wx:for="{{results}}">
+          <!-- 搜索结果标题 -->
+          <view class="search-item-title">
+            <text>
               <text
-                >{{config[1].before}}<text class="keyword"
-                  >{{config[1].word}}</text
-                >{{config[1].after}}</text
+                wx:for="{{item.title}}"
+                wx:for-item="part"
+                class="{{part[1] ? 'highlighted' : ''}}"
+                >{{part[0]}}</text
+              ></text
+            >
+          </view>
+
+          <view
+            class="search-item"
+            hover-class="button-hover"
+            data-url="{{'info?id=' + item.id + '&from=搜索'}}"
+            catch:tap="$bindGo"
+          >
+            <view wx:if="{{item.header.length}}" class="search-item-header">
+              <text>
+                <text
+                  wx:for="{{item.header}}"
+                  wx:for-item="part"
+                  class="{{part[1] ? 'highlighted' : ''}}"
+                  >{{part[0]}}</text
+                ></text
               >
             </view>
-            <view class="doc" wx:elif="{{config[0] === 'img'}}">
-              <image class="icon" src="/base/doc/icon/{{config[1].icon}}.svg" />
-              <view class="text"><text>{{config[1].desc}}</text></view>
+            <view wx:elif="{{!item.content.length}}" class="search-item-header">
+              <text>
+                <text
+                  wx:for="{{item.title}}"
+                  wx:for-item="part"
+                  class="{{part[1] ? 'highlighted' : ''}}"
+                  >{{part[0]}}</text
+                ></text
+              >
             </view>
-            <view class="doc" wx:elif="{{config[0] === 'doc'}}">
-              <image class="icon" src="/base/doc/icon/{{config[1].icon}}.svg" />
-              <view class="text"><text>{{config[1].name}}</text></view>
+
+            <!-- 搜索结果内容 -->
+            <view
+              wx:if="{{item.content.length }}"
+              class="search-item-content border-top"
+            >
+              <text
+                ><text
+                  wx:for="{{item.content}}"
+                  wx:for-item="part"
+                  class="{{part[1] ? 'highlighted' : ''}}"
+                  >{{part[0]}}</text
+                ></text
+              >
             </view>
-            <view class="card" wx:elif="{{config[0] === 'card'}}">
-              <view class="title"><text>{{config[1].title}}</text></view>
-              <view class="desc"><text>{{config[1].desc}}</text></view>
-            </view>
-          </block>
-        </view>
-      </view>
-      <view
-        wx:else
-        class="search-item page-item"
-        data-url="{{item.url}}"
-        catch:tap="$bindGo"
-      >
-        <image
-          wx:if="{{icons[item.icon]}}"
-          class="icon"
-          src="{{icons[item.icon]}}"
-        />
-        <view class="title"><text>{{item.title}}</text></view>
+          </view>
+        </block>
       </view>
     </block>
-  </block>
-  <view wx:else class="empty-hint"><text>没有找到任何结果</text></view>
+
+    <!-- 加载状态 -->
+    <view wx:elif="{{searching}}" class="loading-state">
+      <view class="loading-spinner"></view>
+      <text class="loading-text">搜索中...</text>
+    </view>
+
+    <!-- 搜索建议（当没有搜索词时） -->
+    <block wx:elif="{{!query}}">
+      <view class="search-suggestions">
+        <view class="suggestions-title">热门搜索</view>
+        <view class="suggestions-wrapper">
+          <view
+            wx:for="{{suggestions}}"
+            class="suggestion"
+            hover-class="button-hover"
+            data-query="{{item}}"
+            catch:tap="searchSuggestion"
+          >
+            <text>{{item}}</text>
+          </view>
+        </view>
+      </view>
+
+      <view class="empty-state">
+        <view class="empty-icon"></view>
+        <view class="empty-title">开始搜索</view>
+        <view class="empty-description">
+          <text>输入关键词来搜索小程序内容</text>
+        </view>
+      </view>
+    </block>
+
+    <!-- 空结果状态 -->
+    <view wx:else class="empty-state">
+      <view class="empty-icon"></view>
+      <view class="empty-title">没有找到相关内容</view>
+      <view class="empty-description">
+        <text>请尝试使用其他关键词搜索，或检查输入是否正确。</text>
+      </view>
+    </view>
+  </view>
+
+  <pagination
+    wx:if="{{totalPages > 1}}"
+    current="{{current}}"
+    total="{{totalPages}}"
+    wrapper-class="pagination-wrapper"
+    catch:change="changePage"
+  />
 
   <footer />
 
@@ -112,4 +143,4 @@
   >
     <view class="icon" />
   </button>
-</view>
+</scroll-view>

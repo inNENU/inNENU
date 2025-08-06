@@ -1,7 +1,7 @@
 <wxs src="./pagination.wxs" module="panigation" />
 
 <!-- 分页组件 -->
-<view class="pagination">
+<view class="pagination wrapper-class">
   <button
     class="prev-button"
     size="mini"

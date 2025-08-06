@@ -17,7 +17,6 @@
         custom-class="search"
         words="{{words}}"
         placeholder="搜索东师介绍"
-        catch:searching="searching"
         catch:search="search"
       />
     </view>

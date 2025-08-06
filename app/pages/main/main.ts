@@ -10,7 +10,6 @@ import {
   appCoverPrefix,
   appName,
 } from "../../config/index.js";
-import { searchMiniApp } from "../../service/index.js";
 import {
   envName,
   getIdentity,
@@ -167,27 +166,12 @@ $Page(PAGE_ID, {
   },
 
   /**
-   * 在搜索框中输入时触发的函数
-   *
-   * @param value 输入的搜索词
-   */
-  async searching({ detail: { value } }: WechatMiniprogram.Input) {
-    const words = await searchMiniApp<string[]>({
-      scope: "all",
-      type: "word",
-      word: value,
-    });
-
-    this.setData({ words });
-  },
-
-  /**
    * 跳转到搜索页面
    *
    * @param value 输入的搜索词
    */
   search({ detail }: WechatMiniprogram.Input) {
-    this.$go(`search?type=all&word=${detail.value}`);
+    this.$go(`search?query=${detail.value}`);
   },
 
   openOfficial() {

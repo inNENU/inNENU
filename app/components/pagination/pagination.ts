@@ -28,4 +28,6 @@ $Component({
       this.triggerEvent("change", { current: Number(detail.value) + 1 });
     },
   },
+
+  externalClasses: ["wrapper-class"],
 });

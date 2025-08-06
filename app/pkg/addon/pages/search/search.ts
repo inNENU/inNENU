@@ -1,54 +1,59 @@
-import { $Page } from "@mptool/all";
+import { $Page, showToast } from "@mptool/all";
 
 import { appCoverPrefix } from "../../../../config/index.js";
-import type { SearchResult, SearchType } from "../../../../service/index.js";
-import { searchMiniApp } from "../../../../service/index.js";
+import type { ContentSearchHit } from "../../../../service/index.js";
+import { getSuggestions, searchContent } from "../../../../service/index.js";
 import { appInfo, info, windowInfo } from "../../../../state/index.js";
-import {
-  getIconLink,
-  getPageColor,
-  showNotice,
-} from "../../../../utils/index.js";
+import { getPageColor, showNotice } from "../../../../utils/index.js";
 
 $Page("search", {
   data: {
     theme: info.theme,
 
-    /** 搜索类别 */
-    type: "all" as SearchType,
-
-    /** 候选词 */
-    words: [] as string[],
-
     /** 搜索结果 */
-    result: [] as SearchResult[],
+    results: [] as ContentSearchHit[],
+
+    /** 搜索结果总数 */
+    total: 0,
+
+    /** 当前页码 */
+    current: 1,
+
+    /** 总页数 */
+    totalPages: 0,
+
+    /** 当前搜索词 */
+    query: "",
+
+    /** 是否正在搜索 */
+    searching: false,
+
+    /** 是否显示建议的搜索结果（默认搜索） */
+    showDefaultResults: false,
   },
 
   state: {
-    /** 是否正在输入 */
-    typing: false,
     /** 搜索框中的内容 */
     query: "",
   },
 
   onLoad(options) {
-    if (options.word) this.search({ detail: { value: options.word } });
-
     this.setData({
-      type: (options.type as SearchType) || "all",
       color: getPageColor(true),
-      searchWord: options.word || "",
+      query: options.query || "",
       theme: info.theme,
       darkmode: appInfo.darkmode,
     });
 
+    if (options.query) this.search({ detail: { value: options.query } });
+    this.getSuggestions();
     showNotice("search");
   },
 
   onPageScroll(options) {
-    if (options.scrollTop > 250 + windowInfo.statusBarHeight)
-      this.setData({ showBackToTop: true });
-    else this.setData({ showBackToTop: false });
+    this.setData({
+      showBackToTop: options.scrollTop > 250 + windowInfo.statusBarHeight,
+    });
   },
 
   onShareAppMessage(): WechatMiniprogram.Page.ICustomShareContent {
@@ -56,7 +61,7 @@ $Page("search", {
 
     return {
       title: `搜索${query ? `: ${query}` : ""}`,
-      path: `/pkg/addon/pages/search/search?type=${this.data.type}&word=${query}`,
+      path: `/pkg/addon/pages/search/search?query=${query}`,
       imageUrl: `${appCoverPrefix}Share.png`,
     };
   },
@@ -66,7 +71,7 @@ $Page("search", {
 
     return {
       title: `搜索${query ? `: ${query}` : ""}`,
-      query: `type=${this.data.type}&word=${query}`,
+      query: `query=${query}`,
     };
   },
 
@@ -76,69 +81,103 @@ $Page("search", {
     return {
       title: `搜索${query ? `: ${query}` : ""}`,
       imageUrl: `${appCoverPrefix}.jpg`,
-      query: `type=${this.data.type}&word=${query}`,
+      query: `query=${query}`,
     };
-  },
-
-  changeSearchType({
-    currentTarget,
-  }: WechatMiniprogram.TouchEvent<
-    Record<never, never>,
-    Record<never, never>,
-    { type: SearchType }
-  >) {
-    const { query } = this.state;
-
-    this.setData({ type: currentTarget.dataset.type });
-    if (query) this.search({ detail: { value: query } });
   },
 
   scrollTop() {
     wx.pageScrollTo({ scrollTop: 0 });
   },
 
-  /**
-   * 在搜索框中输入时触发的函数
-   *
-   * @param value 输入的搜索词
-   */
-  async searching({ detail: { value } }: WechatMiniprogram.Input) {
-    this.state.typing = true;
-
-    const words = await searchMiniApp<string[]>({
-      word: value,
-      scope: this.data.type,
-      type: "word",
+  async getSuggestions() {
+    this.setData({
+      suggestions: await getSuggestions(),
     });
+  },
 
-    if (this.state.typing) this.setData({ words });
+  /**
+   * 搜索建议点击事件
+   */
+  searchSuggestion(event: WechatMiniprogram.Touch) {
+    const { query } = event.currentTarget.dataset as { query: string };
+
+    this.setData({ query: query });
+    this.search({ detail: { value: query } }, 1);
   },
 
   /**
    * 进行搜索
    *
-   * @param value 搜索词
+   * @param searchEvent 搜索事件
+   * @param page 页码，如果不提供则重置到第一页
    */
-  async search({ detail: { value } }: { detail: { value: string } }) {
-    this.state.typing = false;
-    this.setData({ words: [] });
-    wx.showLoading({ title: "搜索中..." });
+  async search(
+    { detail: { value } }: { detail: { value: string } },
+    page?: number,
+  ) {
+    const current = page ?? 1;
 
-    const searchResults = await searchMiniApp<SearchResult[]>({
-      word: value,
-      scope: this.data.type,
-      type: "result",
-    });
+    // 如果搜索词为空，显示默认搜索结果
+    if (!value.trim()) {
+      this.setData({ query: "", searchWord: "" });
+      this.state.query = "";
+
+      return;
+    }
 
     this.setData({
-      result: searchResults,
-      icons: Object.fromEntries(
-        searchResults
-          .map(({ icon }) => (icon ? [icon, getIconLink(icon)] : null))
-          .filter((item): item is [string, string] => item !== null),
-      ),
+      searching: true,
+      query: value,
+      showDefaultResults: false,
     });
-    this.state.query = value;
-    wx.hideLoading();
+
+    wx.showLoading({ title: "搜索中..." });
+
+    try {
+      const { results, total, totalPages } = await searchContent(
+        value,
+        current,
+      );
+
+      wx.hideLoading();
+
+      this.setData({
+        results,
+        total,
+        current,
+        totalPages,
+        searching: false,
+      });
+      this.state.query = value;
+    } catch (error) {
+      console.error("搜索失败:", error);
+
+      wx.hideLoading();
+      showToast("搜索失败，请重试", 1000, "error");
+
+      this.setData({
+        results: [],
+        total: 0,
+        current: 1,
+        totalPages: 0,
+        searching: false,
+      });
+    }
+  },
+
+  /**
+   * 分页改变事件
+   */
+  changePage({ detail }: { detail: { current: number } }) {
+    const { current } = detail;
+    const { query } = this.state;
+
+    // 滚动到顶部
+    wx.pageScrollTo({ scrollTop: 0 });
+
+    if (query) {
+      // 有搜索词时，执行搜索
+      this.search({ detail: { value: query } }, current);
+    }
   },
 });

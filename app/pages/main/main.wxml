@@ -18,7 +18,6 @@
         custom-class="search"
         words="{{words}}"
         placeholder="搜索{{envName}}"
-        catch:searching="searching"
         catch:search="search"
       />
     </view>
