@@ -1,134 +1,265 @@
-.search-wrapper {
+@import "../../../../styles/lib/icon";
+
+.search-page {
   display: flex;
   flex-direction: column;
+  height: 100vh;
+  text-align: left;
 }
 
-.search-type {
+.search-results-wrapper {
+  flex: 1;
+  margin-top: 8px;
+  padding: 0 16px 16px;
+
+  // NOTE: Skyline does not support media queries
+  //  @media (min-width: 768px) {
+  .medium &,
+  .large & {
+    max-width: 800px;
+    margin: 8px auto 0;
+    padding: 0 24px 24px;
+  }
+}
+
+.results-header {
   display: flex;
   align-items: center;
-  justify-content: start;
-  padding: 2px 16px;
+  justify-content: space-between;
+
+  margin: 16px 0 12px;
+
+  color: var(--text-color);
 }
 
-.search-type-item {
-  margin: 0 4px;
-  padding: 4px 8px;
-  border-radius: 8px;
+.results-title {
+  font-weight: 600;
+  font-size: 18px;
+  line-height: 1.4;
+}
 
-  background-color: var(--bg-block);
-  color: var(--action-color);
+.results-count {
+  color: var(--grey);
+  font-size: 14px;
+}
 
-  &.active {
-    background-color: var(--action-color);
-    color: var(--bg-color);
+@keyframes slide-in-up {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
   }
 }
 
 .search-item {
-  overflow: hidden;
+  position: relative;
 
-  margin: 4px 16px;
-  padding: 4px 8px;
-  border-radius: 8px;
+  margin-bottom: 12px;
+  padding: 8px 16px;
+  border: 1px solid var(--border-color);
+  border-radius: 12px;
 
   background-color: var(--bg-block);
-  box-shadow: 1px 1px 2px 3px var(--soft-shadow);
 
-  text-align: left;
+  transition: all 0.2s ease;
 
-  &.content-item {
-    > .title {
-      margin: 4px 8px;
-      font-weight: 500;
-      font-size: 18px;
-      text-align: left;
-    }
+  // 添加入场动画
+  animation: slide-in-up 0.3s ease-out;
 
-    .list > .title {
-      margin: 4px 8px;
-      color: var(--grey3);
-      font-weight: 500;
-      font-size: 16px;
-    }
-
-    .heading {
-      margin: 4px 8px;
-      color: var(--dark-grey);
-      font-size: 16px;
-    }
-
-    .text {
-      overflow: hidden;
-
-      margin: 4px 8px;
-
-      color: var(--grey);
-
-      font-size: 14px;
-      text-overflow: ellipsis;
-      white-space: nowrap;
-
-      .keyword {
-        color: var(--dark-grey);
-        font-weight: bold;
-      }
-    }
-
-    .doc {
-      display: flex;
-      align-items: center;
-      margin: 4px 8px;
-      font-size: 14px;
-
-      .icon {
-        width: 16px;
-        height: 16px;
-      }
-    }
-
-    .card {
-      margin: 6px 8px;
-      padding: 6px 8px;
-      border-radius: 8px;
-      background-color: var(--bg-grey);
-
-      .title {
-        color: var(--dark-grey);
-        font-size: 15px;
-      }
-
-      .desc {
-        margin-top: 4px;
-        color: var(--grey);
-        font-size: 13px;
-      }
-    }
+  &.button-hover {
+    box-shadow: 0 4px 20px rgb(65 200 138 / 10%);
+    transform: translateY(-1px);
   }
 
-  &.page-item {
-    display: flex;
-    align-items: center;
-
-    .icon {
-      width: 32px;
-      height: 32px;
-      margin: 4px;
-    }
-
-    .title {
-      font-weight: 500;
-      font-size: 18px;
-      line-height: 2;
-    }
+  &:last-child {
+    margin-bottom: 0;
   }
 }
 
-.empty-hint {
-  flex: 1;
+.highlighted {
+  color: var(--theme-color);
+  font-weight: 700;
+}
 
-  margin: 24px auto;
-
-  font-weight: 600;
-  font-size: 18px;
+.search-item-title {
+  margin: 2px 4px;
+  color: var(--dark-grey);
+  font-size: 12px;
   line-height: 1.5;
+}
+
+// 搜索结果内容
+.search-item-header {
+  margin-bottom: 8px;
+  color: var(--text-color);
+  font-size: 15px;
+
+  &:only-child {
+    margin-bottom: 0;
+  }
+}
+
+.search-item-content {
+  // 限制内容长度，避免过长
+  display: -webkit-box;
+
+  overflow: hidden;
+
+  color: var(--text-grey);
+
+  font-size: 13px;
+  line-height: 1.5;
+
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 3;
+  line-clamp: 3;
+}
+
+// 空状态
+.empty-state {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+
+  padding: 60px 16px;
+
+  text-align: center;
+
+  // NOTE: Skyline does not support media queries
+  //  @media (min-width: 768px) {
+  .medium &,
+  .large & {
+    max-width: 600px;
+    margin: 0 auto;
+  }
+
+  .empty-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    width: 80px;
+    height: 80px;
+    margin-bottom: 20px;
+    border-radius: 50%;
+
+    background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+
+    @media (prefers-color-scheme: dark) {
+      background: linear-gradient(135deg, #2d3748 0%, #1a202c 100%);
+    }
+
+    &::before {
+      content: "";
+      width: 32px;
+      height: 32px;
+      background: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='none' stroke='%23999' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3ccircle cx='11' cy='11' r='8'/%3e%3cpath d='m21 21-4.35-4.35'/%3e%3c/svg%3e")
+        center/24px no-repeat;
+
+      @media (prefers-color-scheme: dark) {
+        background: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='none' stroke='%23718096' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3ccircle cx='11' cy='11' r='8'/%3e%3cpath d='m21 21-4.35-4.35'/%3e%3c/svg%3e")
+          center/24px no-repeat;
+      }
+    }
+  }
+
+  .empty-title {
+    margin-bottom: 8px;
+    color: var(--text-color);
+    font-weight: 600;
+    font-size: 18px;
+  }
+
+  .empty-description {
+    max-width: 300px;
+    color: var(--grey);
+    font-size: 14px;
+    line-height: 1.5;
+  }
+}
+
+// 加载状态
+.loading-state {
+  padding: 40px 16px;
+  text-align: center;
+
+  .loading-spinner {
+    display: inline-block;
+    vertical-align: middle;
+
+    width: 20px;
+    height: 20px;
+    margin-right: 8px;
+    border: 2px solid var(--border-color);
+    border-top-color: var(--theme-color);
+    border-radius: 50%;
+
+    animation: spin 1s linear infinite;
+  }
+
+  .loading-text {
+    vertical-align: middle;
+    color: var(--grey);
+    font-size: 14px;
+  }
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+// 搜索建议（当搜索为空时显示）
+.search-suggestions {
+  padding: 16px;
+
+  // 平板和桌面端优化
+  // NOTE: Skyline does not support media queries
+  //  @media (min-width: 768px) {
+  .medium &,
+  .large & {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 24px;
+  }
+
+  .suggestions-title {
+    margin-bottom: 12px;
+    color: var(--text-color);
+    font-weight: 600;
+    font-size: 16px;
+  }
+
+  .suggestion-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+
+    .suggestion-tag {
+      padding: 6px 12px;
+      border: 1px solid var(--border-color);
+      border-radius: 16px;
+
+      background-color: var(--bg-block);
+      color: var(--grey4);
+
+      font-size: 13px;
+
+      transition: all 0.2s ease;
+
+      &.button-hover {
+        border-color: var(--theme-color);
+        background-color: rgb(65 200 138 / 10%);
+        color: var(--theme-color);
+        transform: translateY(-1px);
+      }
+    }
+  }
 }

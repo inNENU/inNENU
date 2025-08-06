@@ -1,5 +1,7 @@
 {
+  "disableScroll": true,
   "navigationBarTitleText": "搜索",
+  "renderer": "skyline",
   "usingComponents": {
     "search": "/components/search/search"
   }
