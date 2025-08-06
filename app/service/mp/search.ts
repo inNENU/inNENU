@@ -45,11 +45,12 @@ interface RawMeiliSearchHit {
 
 interface RawMeiliSearchResponse {
   hits: RawMeiliSearchHit[];
-  offset: number;
-  limit: number;
+  hitsPerPage: number;
+  page: number;
   processingTimeMs: number;
   query: string;
-  estimatedTotalHits: number;
+  totalHits: number;
+  totalPages: number;
 }
 
 export interface PageSearchHit {
@@ -105,7 +106,12 @@ export const getHighlightContent = (str?: string): HighlightInfo[] => {
   return result;
 };
 
-export const meiliSearch = async (query: string): Promise<PageSearchResult> => {
+const VALID_FOLDER = ["apartment", "guide", "intro", "newcomer", "school"];
+
+export const meiliSearch = async (
+  query: string,
+  page = 1,
+): Promise<PageSearchResult> => {
   wx.reportEvent?.("search", { search_word: query });
 
   const { data } = await request<RawMeiliSearchResponse>(
@@ -116,8 +122,12 @@ export const meiliSearch = async (query: string): Promise<PageSearchResult> => {
         q: query,
         attributesToHighlight: ["*"],
         attributesToCrop: ["content"],
-        cropLength: 25,
+        cropLength: 20,
         filter: ["lang=zh-CN"],
+        showRankingScore: true,
+        rankingScoreThreshold: 0.5,
+        limit: 20,
+        page,
       },
       headers: {
         Authorization: `Bearer 35f2107c9146d9f57fa00454252dce5d40c87c16ee60de6d1ef3f5095c318b50`,
@@ -127,27 +137,35 @@ export const meiliSearch = async (query: string): Promise<PageSearchResult> => {
   );
 
   return {
-    total: data.estimatedTotalHits,
-    results: data.hits.map(({ _formatted }) => ({
-      id: _formatted.url
-        .substring(19) // length of 'https://innenu.com/'
-        .replace(/#.*$/, "") // remove hash
-        .replace(/\/index.html$/, "/")
-        .replace(/\.html$/, ""),
-      title: getHighlightContent(
-        _formatted.hierarchy_lvl1 || _formatted.hierarchy_lvl0 || "资料",
-      ),
-      header: getHighlightContent(
-        [
-          _formatted.hierarchy_lvl2,
-          _formatted.hierarchy_lvl3,
-          _formatted.hierarchy_lvl4,
-          _formatted.hierarchy_lvl5,
-        ]
-          .filter(Boolean)
-          .join(" > "),
-      ),
-      content: getHighlightContent(_formatted.content),
-    })),
+    total: data.totalHits,
+    results: data.hits
+      .map(({ _formatted }) => {
+        const id = _formatted.url
+          .substring(19) // length of 'https://innenu.com/'
+          .replace(/#.*$/, "") // remove hash
+          .replace(/\/index.html$/, "/")
+          .replace(/\.html$/, "");
+
+        if (VALID_FOLDER.every((item) => !id.startsWith(item))) return null;
+
+        return {
+          id,
+          title: getHighlightContent(
+            _formatted.hierarchy_lvl1 || _formatted.hierarchy_lvl0 || "资料",
+          ),
+          header: getHighlightContent(
+            [
+              _formatted.hierarchy_lvl2,
+              _formatted.hierarchy_lvl3,
+              _formatted.hierarchy_lvl4,
+              _formatted.hierarchy_lvl5,
+            ]
+              .filter(Boolean)
+              .join(" > "),
+          ),
+          content: getHighlightContent(_formatted.content),
+        };
+      })
+      .filter(Boolean) as PageSearchHit[],
   };
 };
