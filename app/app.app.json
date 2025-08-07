@@ -10,6 +10,7 @@
 
     "pkg/addon/pages/about/about",
     "pkg/addon/pages/action/action",
+    "pkg/addon/pages/ai/ai",
     "pkg/addon/pages/license/license",
     "pkg/addon/pages/privacy/privacy",
     "pkg/addon/pages/qrcode/qrcode",

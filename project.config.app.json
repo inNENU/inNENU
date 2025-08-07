@@ -127,6 +127,13 @@
           "scene": null
         },
         {
+          "name": "智能体",
+          "pathName": "pkg/addon/pages/ai/ai",
+          "query": "",
+          "launchMode": "default",
+          "scene": null
+        },
+        {
           "name": "账户",
           "pathName": "pkg/user/pages/account/login",
           "query": "",

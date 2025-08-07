@@ -1,0 +1,38 @@
+/**
+ * 格式化时间戳为可读的时间字符串
+ */
+function formatTime(timestamp) {
+  var date = getDate(timestamp);
+  var now = getDate();
+  var diff = now.getTime() - date.getTime();
+
+  // 如果是今天
+  if (diff < 24 * 60 * 60 * 1000 && now.getDate() === date.getDate()) {
+    var hours = date.getHours();
+    var minutes = date.getMinutes();
+
+    var hoursStr = hours < 10 ? "0" + hours : "" + hours;
+    var minutesStr = minutes < 10 ? "0" + minutes : "" + minutes;
+
+    return hoursStr + ":" + minutesStr;
+  }
+
+  // 如果是昨天
+  var yesterday = getDate(now.getTime() - 24 * 60 * 60 * 1000);
+  if (date.getDate() === yesterday.getDate()) {
+    return "昨天";
+  }
+
+  // 其他情况显示日期
+  var month = date.getMonth() + 1;
+  var day = date.getDate();
+
+  var monthStr = month < 10 ? "0" + month : "" + month;
+  var dayStr = day < 10 ? "0" + day : "" + day;
+
+  return monthStr + "-" + dayStr;
+}
+
+module.exports = {
+  formatTime: formatTime,
+};

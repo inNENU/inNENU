@@ -15,6 +15,7 @@
       "pages": [
         "pages/about/about",
         "pages/action/action",
+        "pages/ai/ai",
         "pages/license/license",
         "pages/privacy/privacy",
         "pages/qrcode/qrcode",

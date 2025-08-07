@@ -1,0 +1,86 @@
+<wxs module="utils" src="./ai.wxs"></wxs>
+<page-meta
+  background-text-style="{{darkmode ? 'dark' : 'light'}}"
+  background-color="{{color.bgColor}}"
+  background-color-top="{{color.bgColorTop}}"
+  background-color-bottom="{{color.bgColorBottom}}"
+  root-background-color="{{color.bgColor}}"
+/>
+<view class="{{theme}} {{size}} grey ai-page">
+  <navbar nav="{{ { title: '东师智能体' } }}" />
+
+  <!-- 聊天消息列表 -->
+  <scroll-view
+    scroll-y
+    enable-flex
+    class="chat-list"
+    scroll-into-view="msg-{{messages.length - 1}}"
+    scroll-with-animation
+  >
+    <view
+      wx:for="{{messages}}"
+      wx:key="id"
+      class="message-item"
+      id="msg-{{index}}"
+    >
+      <view
+        class="message {{item.type === 'user' ? 'user-message' : 'assistant-message'}}"
+      >
+        <view class="message-avatar">
+          <text class="icon">{{item.type === 'user' ? '👤' : '🤖'}}</text>
+        </view>
+        <view class="message-content">
+          <view class="message-text">{{item.text}}</view>
+          <view class="message-time">{{utils.formatTime(item.timestamp)}}</view>
+        </view>
+      </view>
+    </view>
+
+    <!-- 加载状态 -->
+    <view wx:if="{{loading}}" class="message-item">
+      <view class="message assistant-message">
+        <view class="message-avatar">
+          <text class="icon">🤖</text>
+        </view>
+        <view class="message-content">
+          <view class="message-text loading-text">
+            <text class="loading-dot">●</text>
+            <text class="loading-dot">●</text>
+            <text class="loading-dot">●</text>
+          </view>
+        </view>
+      </view>
+    </view>
+  </scroll-view>
+
+  <!-- 输入区域 -->
+  <view class="input-area">
+    <view class="input-container">
+      <input
+        class="message-input"
+        placeholder="请输入您的问题..."
+        value="{{inputMessage}}"
+        bindinput="onInputChange"
+        confirm-type="send"
+        bindconfirm="sendMessage"
+        disabled="{{loading}}"
+      />
+      <button
+        class="send-button {{inputMessage.length > 0 && !loading ? 'active' : ''}}"
+        bindtap="sendMessage"
+        disabled="{{!inputMessage.length || loading}}"
+      >
+        发送
+      </button>
+    </view>
+
+    <!-- 功能按钮 -->
+    <view class="function-buttons">
+      <button class="function-button" bindtap="clearMessages" size="mini">
+        清空对话
+      </button>
+    </view>
+  </view>
+
+  <footer />
+</view>

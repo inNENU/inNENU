@@ -8,7 +8,7 @@
 
 ### Request 域名
 
-```
+```text
 https://innenu.com
 https://assets.innenu.com
 https://meilisearch.innenu.com
@@ -28,6 +28,8 @@ https://m-443.webvpn.nenu.edu.cn
 https://oa-443.webvpn.nenu.edu.cn
 https://info-443.webvpn.nenu.edu.cn
 
+# Dify AI 服务
+https://search-ai.cn
 
 # 招生
 https://gkcx.nenu.edu.cn
