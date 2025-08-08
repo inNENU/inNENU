@@ -3,6 +3,7 @@ import { compareVersion, env } from "@mptool/all";
 import type { App } from "../../app.js";
 import { appInfo, platform } from "../../state/index.js";
 
+// TODO: Check windows, macOS and SDK support
 /** 是否支持 `redirect: 'manual'` */
 export const supportRedirect =
   env === "wx" &&
