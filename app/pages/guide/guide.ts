@@ -8,7 +8,13 @@ import { preloadSkyline } from "../../api/index.js";
 import { checkResource } from "../../app/index.js";
 import type { App } from "../../app.js";
 import { DAY, appCoverPrefix } from "../../config/index.js";
-import { getIdentity, info, menuSpace, windowInfo } from "../../state/index.js";
+import {
+  envName,
+  getIdentity,
+  info,
+  menuSpace,
+  windowInfo,
+} from "../../state/index.js";
 import type { EntranceConfig } from "../../utils/index.js";
 import {
   getJson,
@@ -35,6 +41,7 @@ $Page(PAGE_ID, {
     theme: info.theme,
     statusBarHeight: windowInfo.statusBarHeight,
     menuSpace,
+    envName,
 
     /** 候选词 */
     words: [] as string[],
