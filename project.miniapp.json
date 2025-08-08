@@ -4,7 +4,7 @@
   "versionCode": 50,
   "miniVersion": "v2",
   "mini-android": {
-    "sdkVersion": "1.6.17",
+    "sdkVersion": "1.6.18",
     "useExtendedSdk": {
       "media": true,
       "bluetooth": false,
@@ -51,7 +51,7 @@
     "appMenuEnable": true
   },
   "mini-ios": {
-    "sdkVersion": "1.6.22",
+    "sdkVersion": "1.6.23",
     "useExtendedSdk": {
       "WeAppOpenFuns": false,
       "WeAppNetwork": false,
