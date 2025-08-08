@@ -10,7 +10,7 @@
     <block wx:if="{{!listItem.hidden}}">
       <!-- 导航链接 -->
       <view
-        wx:if="{{listItem.url || listItem.path}}"
+        wx:if="{{listItem.action || listItem.url || listItem.path}}"
         class="list-item{{listItem.icon? ' has-icon' : ''}}"
         hover-class="button-hover"
         hover-stay-time="100"
@@ -28,7 +28,11 @@
           src="{{listItem.icon}}"
         />
         <view class="list-item-detail list-item-access">
-          <text class="list-item-text">{{listItem.text}}</text>
+          <text
+            class="list-item-text"
+            style="{{listItem.action ? 'color: var(--action-color);' :''}}"
+            >{{listItem.text}}</text
+          >
           <text class="list-item-desc">{{listItem.desc}}</text>
         </view>
       </view>

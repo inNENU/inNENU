@@ -34,7 +34,7 @@
           <!-- 按钮文字为蓝色 -->
           <view
             class="list-item-text"
-            style="{{(listItem.type === 'button' && listItem.handler) ? 'color: #3478f7;' : ''}}"
+            style="{{(listItem.type === 'button' && listItem.handler) ? 'color: var(--action-color);' : ''}}"
           >
             <text>{{listItem.text}}</text>
           </view>
@@ -91,7 +91,7 @@
 
       <!-- 导航链接 -->
       <view
-        wx:elif="{{listItem.url || listItem.path}}"
+        wx:elif="{{listItem.action || listItem.url || listItem.path}}"
         id="{{index}}"
         class="list-item{{listItem.icon? ' has-icon' : ''}}"
         hover-class="button-hover"
@@ -110,7 +110,11 @@
           src="{{listItem.icon}}"
         />
         <view class="list-item-detail list-item-access">
-          <text class="list-item-text">{{listItem.text}}</text>
+          <text
+            class="list-item-text"
+            style="{{listItem.action ? 'color: var(--action-color);' :''}}"
+            >{{listItem.text}}</text
+          >
           <text class="list-item-desc">{{listItem.desc}}</text>
         </view>
       </view>
