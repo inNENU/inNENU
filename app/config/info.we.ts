@@ -4,7 +4,7 @@ import { assets } from "./server.js";
 export const appName = "weNENU";
 export const description = "weNENU，我们的东师";
 /** 小程序版本 */
-export const version = "0.0.250801";
+export const version = "0.0.250809";
 
 export const appCoverPrefix = `${assets}img/weNENU`;
 export const logo = `${assets}img/weNENU.png`;
