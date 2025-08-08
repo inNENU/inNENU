@@ -410,7 +410,7 @@ $Page("music", {
       manager.title = currentSong.title;
       manager.singer = currentSong.singer;
       manager.coverImgUrl = currentSong.cover;
-      musicState.index = Number(index);
+      musicState.index = index;
 
       this.initLyric();
 

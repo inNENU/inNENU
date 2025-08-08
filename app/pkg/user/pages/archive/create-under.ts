@@ -133,12 +133,12 @@ $Page(PAGE_ID, {
 
     if (detail.column === 0)
       this.setData({
-        [`editable[${index}].categoryIndex`]: Number(detail.value),
+        [`editable[${index}].categoryIndex`]: detail.value,
         [`editable[${index}].selectedIndex`]: 0,
       });
     else if (detail.column === 1)
       this.setData({
-        [`editable[${index}].selectedIndex`]: Number(detail.value),
+        [`editable[${index}].selectedIndex`]: detail.value,
       });
   },
 
@@ -146,7 +146,7 @@ $Page(PAGE_ID, {
     const { index } = target.dataset;
 
     this.setData({
-      [`editable[${index}].selectedIndex`]: Number(detail.value[1]),
+      [`editable[${index}].selectedIndex`]: detail.value,
     });
   },
 

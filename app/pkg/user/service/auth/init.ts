@@ -75,7 +75,7 @@ const getAuthInitInfoLocal = async (
       captcha: captchaResponse,
       salt,
       params: {
-        username: id.toString(),
+        username: id,
         lt: "",
         cllt: "usernameLogin",
         dllt: "generalLogin",

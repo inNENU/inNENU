@@ -425,7 +425,7 @@ const underStudyCourseCommentaryLocal = async <
               answers
                 .reduce(
                   (acc, answer, index) =>
-                    acc + Number(questions[index].options[answer].score),
+                    acc + questions[index].options[answer].score,
                   0,
                 )
                 .toString() + ".00",
