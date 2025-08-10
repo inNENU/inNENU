@@ -27,21 +27,21 @@ export const RESOURCE_NAMES = [
 /**
  * 资源下载
  *
- * @param fileName 下载资源名称
+ * @param resourceNames 下载资源名称
  * @param showProgress 是否开启进度提示
  */
 export const downloadResource = async (
-  fileNames: string[],
+  resourceNames: string[],
   showProgress = true,
 ): Promise<void> => {
-  const total = fileNames.length;
+  const total = resourceNames.length;
   let progressNumber = 0;
 
   if (showProgress) wx.showLoading({ title: `更新中(0/${total})`, mask: true });
 
   // 取消下载成功提示并移除对应资源文件
   await Promise.all(
-    fileNames.map((resource) => {
+    resourceNames.map((resource) => {
       wx.setStorageSync(`${resource}-download`, false);
       if (exists(resource)) rm(resource, "dir");
 
@@ -50,19 +50,16 @@ export const downloadResource = async (
           url: `${assets}${resource}.zip`,
           success: ({ statusCode, tempFilePath }) => {
             if (statusCode === 200) {
-              // 判断取消提示
+              // 更新提示
               if (showProgress) {
                 progressNumber += 1;
-                if (progressNumber === total)
-                  wx.showLoading({
-                    title: "解压中",
-                    mask: true,
-                  });
-                else
-                  wx.showLoading({
-                    title: `更新中(${progressNumber}/${total})`,
-                    mask: true,
-                  });
+                wx.showLoading({
+                  title:
+                    progressNumber === total
+                      ? "解压中"
+                      : `更新中(${progressNumber}/${total})`,
+                  mask: true,
+                });
               }
 
               // 保存压缩文件到压缩目录
@@ -70,12 +67,8 @@ export const downloadResource = async (
 
               // 解压文件到根目录
               unzip(`${resource}.zip`, "").then(() => {
-                // 删除压缩包
-                rm(`${resource}.zip`, "file");
-
                 // 将下载成功信息写入存储
                 wx.setStorageSync(`${resource}-download`, true);
-
                 resolve();
               });
             } else {
@@ -94,6 +87,11 @@ export const downloadResource = async (
   );
 
   if (showProgress) wx.hideLoading();
+
+  // 删除压缩包
+  resourceNames.map((resource) => {
+    rm(`${resource}.zip`, "file");
+  });
 };
 
 let hasResPopup = false;
