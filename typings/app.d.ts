@@ -1,4 +1,14 @@
 declare namespace WechatMiniprogram {
+  interface DonutLoginCallbackResult {
+    /** 用户登录凭证 */
+    code: string;
+  }
+
+  interface DonutLoginOptions {
+    /** 成功回调 */
+    success?: (res: DonutLoginCallbackResult) => void;
+  }
+
   interface DonutLaunchMiniProgramCallbackResult {
     /** 返回的数据 */
     data: unknown;
@@ -45,13 +55,17 @@ declare namespace WechatMiniprogram {
     miniappId: string;
     /** 多端应用资源包的 Id ；SDK >= 1.4.X 新增返回该字段 */
     moduleId: string;
-    /** 运行环境，值为 "SAAASDK" */
-    env: string;
+    /** 多端 App 的应用版本，对应的值为 project.miniapp.json 中的 version */
+    appVersion: string;
+    /** App 的 versionCode（对应的值为 project.miniapp.json 中的 versionCode） ；Android SDK >=1.4.8返回；iOS >=1.4.17返回 */
+    versionCode: string;
+    /** 运行环境 */
+    env: "SAAASDK";
     /** 对应 Android 应用的包名，Android 系统时返回 */
     packageName?: string;
     /** 对应 iOS 的 Bundle ID ，iOS 系统时返回 */
     bundleIdentifier?: string;
-    /** SDK 版本 */
+    /** SDK 版本（对应的值为 project.miniapp.json 中的 sdkVersion） */
     sdkVersion: string;
     /** SDK 版本号数字值 */
     version: string;
@@ -67,9 +81,20 @@ declare namespace WechatMiniprogram {
     };
   }
 
+  interface SystemInfo {
+    /** 宿主 App 环境信息，仅在 env=donut 下可用 */
+    host: AppHostBaseInfo;
+    /** 错误消息，仅在 env=donut 下可用 */
+    errMsg: string;
+    /** Android 设备的 CPU 类型，仅在 env=donut 下可用 */
+    abi: string;
+  }
+
   interface Wx {
     /** 多端框架接口 */
     miniapp: {
+      /** App 登录 */
+      login: (options: DonutLoginOptions) => void;
       /** 启动小程序 */
       launchMiniProgram: (options: DonutLaunchMiniProgramOptions) => void;
       /** 安装 Apk，仅 Android */

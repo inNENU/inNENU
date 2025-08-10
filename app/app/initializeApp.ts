@@ -1,4 +1,4 @@
-import { emitter, logger, writeJSON } from "@mptool/all";
+import { emitter, logger, ls, rm, writeJSON } from "@mptool/all";
 
 import { RESOURCE_NAMES, downloadResource } from "./resource.js";
 import type { ResourceVersionInfo } from "../../typings/index.js";
@@ -12,6 +12,9 @@ export const initializeApp = (): void => {
 
   // 提示用户正在初始化
   wx.showLoading({ title: "初始化中...", mask: true });
+
+  // 清除本地文件系统
+  ls("").forEach((filePath) => rm(filePath));
 
   wx.setStorageSync(
     "themeIndex",

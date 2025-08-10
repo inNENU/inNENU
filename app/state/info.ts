@@ -1,8 +1,6 @@
 import { env, getWindowInfo } from "@mptool/all";
 
-const { theme, ...defaultAppInfo } =
-  // eslint-disable-next-line @typescript-eslint/no-deprecated
-  (wx.getAppBaseInfo || wx.getSystemInfoSync)();
+const { theme, ...defaultAppInfo } = wx.getAppBaseInfo();
 
 export const windowInfoState = getWindowInfo();
 
@@ -18,7 +16,7 @@ const accountInfo = wx.getAccountInfoSync();
 /*@__PURE__*/
 export const appId =
   env === "donut"
-    ? // FIXME: Current devtool SDK can not return appid correctly
+    ? // FIXME: devtool can not return appid correctly
       (accountInfo.host.miniappId as AppID) || "wx0009f7cdfeefa3da"
     : (accountInfo.miniProgram.appId as AppID);
 
@@ -30,8 +28,7 @@ export const envName = env === "donut" ? "App" : "小程序";
 
 /** 运行环境名称 */
 /*@__PURE__*/
-// eslint-disable-next-line @typescript-eslint/no-deprecated
-export const { platform } = (wx.getDeviceInfo || wx.getSystemInfoSync)();
+export const { platform } = wx.getDeviceInfo();
 
 export const menuSpace =
   platform !== "windows" && env !== "donut"
@@ -54,9 +51,7 @@ wx.onThemeChange?.(({ theme }) => {
   appInfoState.darkmode = theme === "dark";
 });
 wx.onAppShow(() => {
-  appInfoState.darkmode =
-    // eslint-disable-next-line @typescript-eslint/no-deprecated
-    (wx.getAppBaseInfo || wx.getSystemInfoSync)().theme === "dark";
+  appInfoState.darkmode = wx.getAppBaseInfo().theme === "dark";
 });
 
 export const windowInfo: Readonly<WechatMiniprogram.WindowInfo> =

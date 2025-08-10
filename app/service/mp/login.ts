@@ -34,12 +34,21 @@ const DEFAULT_INFO: LoginInfo = {
   inBlacklist: false,
 };
 
-export const mpLogin = (): Promise<LoginInfo> => {
-  if (user.openid)
-    return request<MPLoginResponse>("/mp/login", {
+export const mpLogin = async (): Promise<LoginInfo> => {
+  if (user.openid) {
+    const { data } = await request<MPLoginResponse>("/mp/login", {
       method: "POST",
-      body: { openid: user.openid },
-    }).then(({ data }) => (data.success ? data.data : DEFAULT_INFO));
+      body: { appId, openid: user.openid },
+    });
+
+    if (!data.success) {
+      logger.error("小程序登录失败", data.msg);
+
+      return DEFAULT_INFO;
+    }
+
+    return data.data;
+  }
 
   if (env === "wx") {
     return new Promise<LoginInfo>((resolve) => {
@@ -68,6 +77,29 @@ export const mpLogin = (): Promise<LoginInfo> => {
       });
     });
   }
+
+  // if (env === "donut") {
+  //   return new Promise<LoginInfo>((resolve) => {
+  //     wx.miniapp.login({
+  //       success: ({ code }) => {
+  //         resolve(
+  //           request<MPLoginResponse>("/mp/login", {
+  //             method: "POST",
+  //             body: { appId, code, env },
+  //           }).then(({ data }) => {
+  //             if (!data.success) {
+  //               logger.error("App 登录失败", data.msg);
+
+  //               return DEFAULT_INFO;
+  //             }
+
+  //             return data.data;
+  //           }),
+  //         );
+  //       },
+  //     });
+  //   });
+  // }
 
   return Promise.resolve(DEFAULT_INFO);
 };
