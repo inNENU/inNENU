@@ -83,7 +83,7 @@
     "gulp-typescript": "6.0.0-alpha.1",
     "gulp5-sass-plugin": "2.0.4",
     "husky": "9.1.7",
-    "innenu-generator": "0.5.7",
+    "innenu-generator": "0.6.0",
     "miniprogram-api-typings": "4.1.0",
     "nano-staged": "0.8.0",
     "postcss": "8.5.6",

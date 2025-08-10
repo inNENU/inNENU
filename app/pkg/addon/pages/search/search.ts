@@ -9,7 +9,7 @@ import {
   getPageColor,
   showNotice,
 } from "../../../../utils/index.js";
-import { searchFunction } from "../../utils/search.js";
+import { searchPage } from "../../utils/search.js";
 
 $Page("search", {
   data: {
@@ -50,7 +50,7 @@ $Page("search", {
     });
 
     if (query) {
-      this.searchFunction(query);
+      this.searchPage(query);
       this.searchContent(query);
     }
     this.getSuggestions();
@@ -97,7 +97,7 @@ $Page("search", {
     const query = event.detail.value;
 
     this.searchContent(query);
-    this.searchFunction(query);
+    this.searchPage(query);
   },
 
   scrollTop() {
@@ -118,17 +118,6 @@ $Page("search", {
 
     this.setData({ query: query });
     this.searchContent(query, 1);
-  },
-
-  async searchFunction(query: string) {
-    const functionResults = await searchFunction(query);
-
-    this.setData({
-      icons: Object.fromEntries(
-        functionResults.map(({ icon }) => [icon, getIconLink(icon)]),
-      ),
-      functionResults,
-    });
   },
 
   async searchContent(query: string, page?: number) {
@@ -180,6 +169,17 @@ $Page("search", {
         searching: false,
       });
     }
+  },
+
+  async searchPage(query: string) {
+    const pageResults = await searchPage(query);
+
+    this.setData({
+      icons: Object.fromEntries(
+        pageResults.map(({ icon }) => [icon, getIconLink(icon)]),
+      ),
+      pageResults,
+    });
   },
 
   /**

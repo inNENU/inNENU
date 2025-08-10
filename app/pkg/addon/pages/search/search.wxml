@@ -18,32 +18,27 @@
   <search search-word="{{query}}" catch:search="onSearch" />
 
   <view class="content">
-    <block wx:if="{{functionResults.length}}">
-      <view class="function-results-wrapper">
+    <block wx:if="{{pageResults.length}}">
+      <view class="page-results-wrapper">
         <view class="results-header">
           <view class="results-title">
             <text>相关功能</text>
           </view>
           <view class="results-count">
-            <text>共 {{functionResults.length}} 个结果</text>
+            <text>共 {{pageResults.length}} 个结果</text>
           </view>
         </view>
-        <scroll-view
-          type="list"
-          scroll-x
-          enable-flex
-          class="function-result-list"
-        >
+        <scroll-view type="list" scroll-x enable-flex class="page-result-list">
           <view
-            wx:for="{{functionResults}}"
-            class="function-result"
+            wx:for="{{pageResults}}"
+            class="page-result"
             hover-class="button-hover"
             data-url="{{item.url}}"
             catch:tap="$bindGo"
           >
-            <image class="function-result-icon" src="{{icons[item.icon]}}" />
-            <text class="function-result-text" overflow="ellipsis"
-              >{{item.text}}</text
+            <image class="page-result-icon" src="{{icons[item.icon]}}" />
+            <text class="page-result-text" overflow="ellipsis"
+              >{{item.name}}</text
             >
           </view>
         </scroll-view>
@@ -161,7 +156,7 @@
       <view class="empty-icon"></view>
       <view class="empty-title">没有找到相关内容</view>
       <view class="empty-description">
-        <text>请尝试使用其他关键词搜索，或检查输入是否正确。</text>
+        <text>请检查搜索词是否准确，或尝试使用更精简的关键词搜索。</text>
       </view>
     </view>
   </view>

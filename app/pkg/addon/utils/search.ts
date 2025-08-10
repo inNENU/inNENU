@@ -1,33 +1,25 @@
+import type { PageIndexes } from "innenu-generator/typings.js";
+
 import { getJson } from "../../../utils/index.js";
 
-export interface FunctionIndexItem {
-  text: string;
-  icon: string;
-  url: string;
-  tags?: string[];
-}
+let pageIndexes: PageIndexes | null = null;
 
-export type FunctionIndex = FunctionIndexItem[];
-
-let functionIndex: FunctionIndex | null = null;
-
-export const loadFunctionIndex = async (): Promise<void> => {
-  if (!functionIndex)
-    functionIndex = await getJson<FunctionIndex>("function/search");
+export const loadPageIndexes = async (): Promise<void> => {
+  if (!pageIndexes) pageIndexes = await getJson<PageIndexes>("function/search");
 };
 
-export const unloadFunctionIndex = (): void => {
-  functionIndex = null;
+export const unloadPageIndexes = (): void => {
+  pageIndexes = null;
 };
 
-export const searchFunction = async (query: string): Promise<FunctionIndex> => {
+export const searchPage = async (query: string): Promise<PageIndexes> => {
   const queries = query.split(" ");
 
-  await loadFunctionIndex();
+  await loadPageIndexes();
 
-  return functionIndex!.filter(({ text, tags }) =>
+  return pageIndexes!.filter(({ name, tags }) =>
     queries.some(
-      (item) => text.includes(item) || tags?.some((tag) => item.includes(tag)),
+      (item) => name.includes(item) || tags?.some((tag) => item.includes(tag)),
     ),
   );
 };

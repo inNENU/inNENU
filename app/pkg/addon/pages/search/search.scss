@@ -19,7 +19,7 @@
   color: var(--text-color);
 }
 
-.function-results-wrapper {
+.page-results-wrapper {
   margin: 8px 16px;
 
   // NOTE: Skyline does not support media queries
@@ -31,12 +31,12 @@
   }
 }
 
-.function-result-list {
+.page-result-list {
   display: flex;
   height: 64px;
 }
 
-.function-result {
+.page-result {
   margin: 0 8px;
   padding: 8px;
   border-radius: 8px;
@@ -49,14 +49,14 @@
   text-align: center;
 }
 
-.function-result-icon {
+.page-result-icon {
   display: block;
   width: 28px;
   height: 28px;
   margin: 0 auto 4px;
 }
 
-.function-result-text {
+.page-result-text {
   text-overflow: ellipsis;
   white-space: nowrap;
 }
