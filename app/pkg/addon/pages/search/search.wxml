@@ -15,22 +15,53 @@
 >
   <navbar nav="{{ { title: '搜索' } }}" />
 
-  <search search-word="{{query}}" catch:search="search" />
+  <search search-word="{{query}}" catch:search="onSearch" />
 
   <view class="content">
-    <!-- 搜索结果 -->
-    <block wx:if="{{results.length > 0}}">
-      <view class="search-results-wrapper">
+    <block wx:if="{{functionResults.length}}">
+      <view class="function-results-wrapper">
         <view class="results-header">
-          <view class="results-title">搜索结果</view>
-          <view class="results-count">共 {{total}} 个结果</view>
+          <view class="results-title">
+            <text>相关功能</text>
+          </view>
+          <view class="results-count">
+            <text>共 {{functionResults.length}} 个结果</text>
+          </view>
+        </view>
+        <scroll-view type="list" scroll-x class="function-result-list">
+          <view
+            wx:for="{{functionResults}}"
+            class="function-result"
+            hover-class="button-hover"
+            data-url="{{item.url}}"
+            catch:tap="$bindGo"
+          >
+            <image class="function-result-icon" src="{{icons[item.icon]}}" />
+            <text class="function-result-text" overflow="ellipsis"
+              >{{item.text}}</text
+            >
+          </view>
+        </scroll-view>
+      </view>
+    </block>
+
+    <!-- 搜索结果 -->
+    <block wx:if="{{contentResults.length}}">
+      <view class="content-results-wrapper">
+        <view class="results-header">
+          <view class="results-title">
+            <text>搜索结果</text>
+          </view>
+          <view class="results-count">
+            <text>共 {{total}} 个结果</text>
+          </view>
         </view>
 
-        <block wx:for="{{results}}">
+        <block wx:for="{{contentResults}}">
           <!-- 搜索结果标题 -->
-          <view class="search-item-title">
-            <text>
-              <text
+          <view class="content-result-title">
+            <text
+              ><text
                 wx:for="{{item.title}}"
                 wx:for-item="part"
                 class="{{part[1] ? 'highlighted' : ''}}"
@@ -40,14 +71,14 @@
           </view>
 
           <view
-            class="search-item"
+            class="content-result"
             hover-class="button-hover"
             data-url="{{'info?id=' + item.id + '&from=搜索'}}"
             catch:tap="$bindGo"
           >
-            <view wx:if="{{item.header.length}}" class="search-item-header">
-              <text>
-                <text
+            <view wx:if="{{item.header.length}}" class="content-result-header">
+              <text
+                ><text
                   wx:for="{{item.header}}"
                   wx:for-item="part"
                   class="{{part[1] ? 'highlighted' : ''}}"
@@ -55,9 +86,12 @@
                 ></text
               >
             </view>
-            <view wx:elif="{{!item.content.length}}" class="search-item-header">
-              <text>
-                <text
+            <view
+              wx:elif="{{!item.content.length}}"
+              class="content-result-header"
+            >
+              <text
+                ><text
                   wx:for="{{item.title}}"
                   wx:for-item="part"
                   class="{{part[1] ? 'highlighted' : ''}}"
@@ -69,7 +103,7 @@
             <!-- 搜索结果内容 -->
             <view
               wx:if="{{item.content.length }}"
-              class="search-item-content border-top"
+              class="content-result-content"
             >
               <text
                 ><text

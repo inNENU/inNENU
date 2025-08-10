@@ -171,7 +171,7 @@
         {
           "name": "指定文字搜索",
           "pathName": "pkg/addon/pages/search/search",
-          "query": "query=浴池",
+          "query": "query=体测",
           "launchMode": "default",
           "scene": null
         },

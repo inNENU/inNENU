@@ -4,14 +4,19 @@ import { appCoverPrefix } from "../../../../config/index.js";
 import type { ContentSearchHit } from "../../../../service/index.js";
 import { getSuggestions, searchContent } from "../../../../service/index.js";
 import { info, windowInfo } from "../../../../state/index.js";
-import { getPageColor, showNotice } from "../../../../utils/index.js";
+import {
+  getIconLink,
+  getPageColor,
+  showNotice,
+} from "../../../../utils/index.js";
+import { searchFunction } from "../../utils/search.js";
 
 $Page("search", {
   data: {
     theme: info.theme,
 
     /** 搜索结果 */
-    results: [] as ContentSearchHit[],
+    contentResults: [] as ContentSearchHit[],
 
     /** 搜索结果总数 */
     total: 0,
@@ -37,14 +42,17 @@ $Page("search", {
     query: "",
   },
 
-  onLoad(options) {
+  onLoad({ query = "" }) {
     this.setData({
       color: getPageColor(true),
-      query: options.query || "",
+      query,
       theme: info.theme,
     });
 
-    if (options.query) this.search({ detail: { value: options.query } });
+    if (query) {
+      this.searchFunction(query);
+      this.searchContent(query);
+    }
     this.getSuggestions();
     showNotice("search");
   },
@@ -85,6 +93,13 @@ $Page("search", {
     };
   },
 
+  onSearch(event: WechatMiniprogram.InputConfirm) {
+    const query = event.detail.value;
+
+    this.searchContent(query);
+    this.searchFunction(query);
+  },
+
   scrollTop() {
     wx.pageScrollTo({ scrollTop: 0 });
   },
@@ -102,23 +117,25 @@ $Page("search", {
     const { query } = event.currentTarget.dataset as { query: string };
 
     this.setData({ query: query });
-    this.search({ detail: { value: query } }, 1);
+    this.searchContent(query, 1);
   },
 
-  /**
-   * 进行搜索
-   *
-   * @param searchEvent 搜索事件
-   * @param page 页码，如果不提供则重置到第一页
-   */
-  async search(
-    { detail: { value } }: { detail: { value: string } },
-    page?: number,
-  ) {
+  async searchFunction(query: string) {
+    const functionResults = await searchFunction(query);
+
+    this.setData({
+      icons: Object.fromEntries(
+        functionResults.map(({ icon }) => [icon, getIconLink(icon)]),
+      ),
+      functionResults,
+    });
+  },
+
+  async searchContent(query: string, page?: number) {
     const current = page ?? 1;
 
     // 如果搜索词为空，显示默认搜索结果
-    if (!value.trim()) {
+    if (!query.trim()) {
       this.setData({ query: "", searchWord: "" });
       this.state.query = "";
 
@@ -127,7 +144,7 @@ $Page("search", {
 
     this.setData({
       searching: true,
-      query: value,
+      query,
       showDefaultResults: false,
     });
 
@@ -135,20 +152,20 @@ $Page("search", {
 
     try {
       const { results, total, totalPages } = await searchContent(
-        value,
+        query,
         current,
       );
 
       wx.hideLoading();
 
       this.setData({
-        results,
+        contentResults: results,
         total,
         current,
         totalPages,
         searching: false,
       });
-      this.state.query = value;
+      this.state.query = query;
     } catch (error) {
       console.error("搜索失败:", error);
 
@@ -156,7 +173,7 @@ $Page("search", {
       showToast("搜索失败，请重试", 1000, "error");
 
       this.setData({
-        results: [],
+        contentResults: [],
         total: 0,
         current: 1,
         totalPages: 0,
@@ -177,7 +194,7 @@ $Page("search", {
 
     if (query) {
       // 有搜索词时，执行搜索
-      this.search({ detail: { value: query } }, current);
+      this.searchContent(query, current);
     }
   },
 });
