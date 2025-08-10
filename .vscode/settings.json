@@ -42,6 +42,8 @@
     "**/dist/**": true,
     "**/.temp/**": true
   },
+  "stylelint.snippet": ["css", "scss"],
+  "stylelint.validate": ["css", "scss"],
   "yaml.schemas": {
     "./res/.vscode/settings.schema.json": ["/res/config/**/settings.yml"],
     "./res/.vscode/wechat.schema.json": ["/res/data/account/*.yml"],

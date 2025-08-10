@@ -25,7 +25,10 @@ $Component({
       this.setFlat = this.setFlat.bind(this);
     },
     attached() {
-      this.setData({ flat: get<boolean>("flat-feature-panel") ?? true });
+      this.setData({
+        flat: get<boolean>("flat-feature-panel") ?? true,
+        renderer: this.renderer,
+      });
       this.$on("feature-panel", this.setFlat);
       this.$on("inited", this.setLogo);
     },
