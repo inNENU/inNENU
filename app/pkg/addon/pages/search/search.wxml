@@ -28,7 +28,12 @@
             <text>共 {{functionResults.length}} 个结果</text>
           </view>
         </view>
-        <scroll-view type="list" scroll-x class="function-result-list">
+        <scroll-view
+          type="list"
+          scroll-x
+          enable-flex
+          class="function-result-list"
+        >
           <view
             wx:for="{{functionResults}}"
             class="function-result"
