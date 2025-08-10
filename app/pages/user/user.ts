@@ -1,9 +1,8 @@
 import { $Page, get, logger, put, set, take } from "@mptool/all";
 
-import { footer } from "./info.js";
 import type { PageStateWithContent } from "../../../typings/index.js";
 import { preloadSkyline } from "../../api/index.js";
-import { checkResource } from "../../app/index.js";
+import { checkResource, syncAppSettings } from "../../app/index.js";
 import type { App } from "../../app.js";
 import {
   DAY,
@@ -11,9 +10,10 @@ import {
   appName,
   description,
   logo,
+  version,
 } from "../../config/index.js";
 import { reportUserInfo } from "../../service/index.js";
-import { info, user, windowInfo } from "../../state/index.js";
+import { envName, info, user, windowInfo } from "../../state/index.js";
 import {
   getPageColor,
   resolvePage,
@@ -56,7 +56,10 @@ $Page(PAGE_ID, {
     logo,
     footer: {
       author: "",
-      desc: footer,
+      desc: `\
+当前版本: ${version}
+${envName}由 Mr.Hope 个人制作，如有错误还请见谅\
+`,
     },
 
     theme: info.theme,
@@ -102,6 +105,7 @@ $Page(PAGE_ID, {
   },
 
   async onPullDownRefresh() {
+    await syncAppSettings(globalData, wx.getStorageSync("test"));
     this.setPage();
     await checkResource();
     wx.stopPullDownRefresh();
@@ -165,23 +169,5 @@ $Page(PAGE_ID, {
 
   reportInfo() {
     reportUserInfo();
-  },
-
-  openOfficial() {
-    if (wx.openOfficialAccountProfile)
-      wx.openOfficialAccountProfile({
-        username: "gh_b4378a2c36ae",
-        fail: () => {
-          this.$go("qrcode");
-        },
-      });
-    else this.$go("qrcode");
-  },
-
-  // Note: For Wechat only
-  openChannel() {
-    wx.openChannelsUserProfile({
-      finderUserName: "sphQlMRqDF84Orm",
-    });
   },
 });

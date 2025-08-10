@@ -7,7 +7,16 @@
   root-background-color="{{color.bgColor}}"
 />
 <license />
-<scroll-view type="list" scroll-y class="{{theme}} {{size}} grey guide-page">
+<scroll-view
+  type="list"
+  scroll-y
+  enhanced
+  refresher-enabled
+  refresher-default-style="{{darkmode? 'white': 'black'}}"
+  refresher-triggered="{{isRefreshing}}"
+  class="{{theme}} {{size}} grey guide-page"
+  catch:refresherrefresh="onRefresh"
+>
   <view
     class="search-navigation-bar"
     style="padding-top:{{statusBarHeight}}px;"

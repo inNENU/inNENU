@@ -11,6 +11,7 @@
     scroll-y
     enable-back-to-top
     enable-flex
+    enhanced
     class="{{theme}} {{size}}{{page.grey ? ' grey' : ''}}"
     wx:scope-data="{{...page.scopeData}}"
     catch:scroll="onScrollViewScroll"

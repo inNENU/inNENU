@@ -1,6 +1,5 @@
 {
   "disableScroll": true,
-  "enablePullDownRefresh": true,
   "initialRenderingCache": "static",
   "navigationBarTitleText": "东师指南",
   "renderer": "skyline",

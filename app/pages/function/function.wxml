@@ -7,7 +7,16 @@
   root-background-color="{{color.bgColor}}"
 />
 <license />
-<view class="{{theme}}  {{size}} function-wrapper grey">
+<scroll-view
+  type="list"
+  scroll-y
+  enhanced
+  refresher-enabled
+  refresher-default-style="{{darkmode? 'white': 'black'}}"
+  refresher-triggered="{{isRefreshing}}"
+  class="{{theme}} {{size}} grey function-page"
+  catch:refresherrefresh="onRefresh"
+>
   <view
     class="search-navigation-bar"
     style="padding-top:{{statusBarHeight}}px;"
@@ -27,10 +36,8 @@
     style="height:{{statusBarHeight + 44}}px;"
   >
   </view>
-  <scroll-view type="list" scroll-y class="functions">
-    <template
-      is="components"
-      data="{{content: page.content, referrer: '功能大厅'}}"
-    />
-  </scroll-view>
-</view>
+  <template
+    is="components"
+    data="{{content: page.content, referrer: '功能大厅'}}"
+  />
+</scroll-view>

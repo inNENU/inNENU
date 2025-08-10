@@ -2,7 +2,7 @@ import { $Page, get, logger, put, set, take } from "@mptool/all";
 
 import type { PageStateWithContent } from "../../../typings/index.js";
 import { preloadSkyline } from "../../api/index.js";
-import { checkResource } from "../../app/index.js";
+import { checkResource, syncAppSettings } from "../../app/index.js";
 import type { App } from "../../app.js";
 import { DAY, appCoverPrefix } from "../../config/index.js";
 import {
@@ -52,6 +52,8 @@ $Page(PAGE_ID, {
     menuSpace,
     envName,
 
+    isRefreshing: false,
+
     /** 页面数据 */
     page: defaultPage,
   },
@@ -86,12 +88,6 @@ $Page(PAGE_ID, {
     // 注册事件监听器
     this.$on("theme", this.setTheme);
     preloadSkyline();
-  },
-
-  async onPullDownRefresh() {
-    this.setPage();
-    await checkResource();
-    wx.stopPullDownRefresh();
   },
 
   onShareAppMessage: () => ({ title: PAGE_TITLE }),
@@ -145,6 +141,14 @@ $Page(PAGE_ID, {
         get(PAGE_ID) || this.data.page,
       );
     }
+  },
+
+  async onRefresh() {
+    this.setData({ isRefreshing: true });
+    await syncAppSettings(globalData, wx.getStorageSync("test"));
+    this.setPage();
+    await checkResource();
+    this.setData({ isRefreshing: false });
   },
 
   /**

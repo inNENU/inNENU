@@ -10,8 +10,12 @@
 <scroll-view
   type="list"
   scroll-y
+  enhanced
   refresher-enabled
+  refresher-default-style="{{darkmode? 'white': 'black'}}"
+  refresher-triggered="{{isRefreshing}}"
   class="{{theme}} {{size}} grey intro-page"
+  catch:refresherrefresh="onRefresh"
 >
   <view
     class="search-navigation-bar"

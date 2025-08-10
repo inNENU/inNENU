@@ -2,7 +2,7 @@ import { $Page, get, logger, set } from "@mptool/all";
 
 import type { PageStateWithContent } from "../../../typings/index.js";
 import { preloadSkyline } from "../../api/index.js";
-import { checkResource } from "../../app/index.js";
+import { checkResource, syncAppSettings } from "../../app/index.js";
 import type { App } from "../../app.js";
 import {
   DAY,
@@ -99,6 +99,7 @@ $Page(PAGE_ID, {
   },
 
   async onPullDownRefresh() {
+    await syncAppSettings(globalData, wx.getStorageSync("test"));
     this.renderPage();
     await checkResource();
     wx.stopPullDownRefresh();
@@ -172,23 +173,5 @@ $Page(PAGE_ID, {
    */
   search({ detail }: WechatMiniprogram.Input) {
     this.$go(`search?query=${detail.value}`);
-  },
-
-  openOfficial() {
-    if (wx.openOfficialAccountProfile)
-      wx.openOfficialAccountProfile({
-        username: "gh_b4378a2c36ae",
-        fail: () => {
-          this.$go("qrcode");
-        },
-      });
-    else this.$go("qrcode");
-  },
-
-  // Note: For Wechat only
-  openChannel() {
-    wx.openChannelsUserProfile({
-      finderUserName: "sphQlMRqDF84Orm",
-    });
   },
 });

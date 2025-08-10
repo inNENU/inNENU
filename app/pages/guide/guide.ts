@@ -5,7 +5,7 @@ import type {
   PageStateWithContent,
 } from "../../../typings/index.js";
 import { preloadSkyline } from "../../api/index.js";
-import { checkResource } from "../../app/index.js";
+import { checkResource, syncAppSettings } from "../../app/index.js";
 import type { App } from "../../app.js";
 import { DAY, appCoverPrefix } from "../../config/index.js";
 import {
@@ -54,6 +54,7 @@ $Page(PAGE_ID, {
     } as PageStateWithContent,
 
     displayMore: false,
+    isRefreshing: false,
     ...defaultData,
   },
 
@@ -71,12 +72,6 @@ $Page(PAGE_ID, {
     // 注册事件监听器
     this.$on("theme", this.setTheme);
     preloadSkyline();
-  },
-
-  async onPullDownRefresh() {
-    this.setPage();
-    await checkResource();
-    wx.stopPullDownRefresh();
   },
 
   // eslint-disable-next-line @typescript-eslint/no-empty-function
@@ -152,6 +147,14 @@ $Page(PAGE_ID, {
 
   toggleMore() {
     this.setData({ displayMore: !this.data.displayMore });
+  },
+
+  async onRefresh() {
+    this.setData({ isRefreshing: true });
+    await syncAppSettings(globalData, wx.getStorageSync("test"));
+    this.setPage();
+    await checkResource();
+    this.setData({ isRefreshing: false });
   },
 
   /**
