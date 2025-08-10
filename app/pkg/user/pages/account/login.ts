@@ -319,9 +319,11 @@ $Page(PAGE_ID, {
   },
 
   async verifyCaptcha() {
+    wx.showLoading({ title: "验证中", mask: true });
     const safeValue = this.state.captchaSafeValue;
 
     if (!safeValue) {
+      wx.hideLoading();
       showModal("验证失败", "验证码信息丢失，请重新获取");
 
       return;
@@ -332,6 +334,8 @@ $Page(PAGE_ID, {
       this.state.sliderTracks,
       safeValue,
     );
+
+    wx.hideLoading();
 
     // Clear captcha
     this.setData({ captchaBg: "", distance: 0 });
@@ -373,7 +377,7 @@ $Page(PAGE_ID, {
       return;
     }
 
-    wx.showLoading({ title: "验证中" });
+    wx.showLoading({ title: "验证中", mask: true });
 
     // 设置协议版本
     wx.setStorageSync("license", (await getLicenseStatus()).version);
@@ -423,7 +427,11 @@ $Page(PAGE_ID, {
   },
 
   async startReAuth() {
+    wx.showLoading({ title: "发送中", mask: true });
+
     const result = await sendReAuthSMS(this.data.id);
+
+    wx.hideLoading();
 
     if (result.success) {
       showModal("需要二次验证", "短信验证码已发送，请注意查收。");
@@ -444,6 +452,7 @@ $Page(PAGE_ID, {
 
       return;
     }
+
     showModal("发送失败", result.msg);
 
     return;
@@ -454,6 +463,8 @@ $Page(PAGE_ID, {
 
     if (!smsCode) return showToast("请输入验证码");
 
+    wx.showLoading({ title: "验证中", mask: true });
+
     const result = await verifyReAuthCaptcha({
       id: Number(id),
       password,
@@ -463,6 +474,8 @@ $Page(PAGE_ID, {
     });
 
     this.setData({ smsCode: "" });
+
+    wx.hideLoading();
 
     if (!result.success) {
       showModal("验证失败", result.msg);
