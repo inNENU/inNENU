@@ -3,7 +3,7 @@
     class="search-{{showInput ? 'input' : 'placeholder'}}-wrapper {{(words.length > 0 && focus) ? 'not-empty' : ''}}"
     catch:tap="showInput"
   >
-    <icon class="search-icon" type="search" size="22" />
+    <view class="base-icon icon-search" />
 
     <block wx:if="{{showInput}}">
       <input
@@ -19,11 +19,9 @@
         catch:confirm="confirm"
       />
 
-      <icon
+      <view
         wx:if="{{value.length > 0}}"
-        class="clear-icon"
-        type="clear"
-        size="18"
+        class="base-icon icon-clear"
         catch:tap="clearInput"
       />
     </block>

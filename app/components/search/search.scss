@@ -1,3 +1,5 @@
+@import "../../styles/lib/icon";
+
 .search-bar {
   position: relative;
 
@@ -7,6 +9,18 @@
   padding: 8px 16px;
 
   color: var(--text-color);
+
+  .icon-search {
+    width: 20px;
+    height: 20px;
+    margin: 0 6px;
+  }
+
+  .icon-clear {
+    width: 18px;
+    height: 18px;
+    margin: 0 6px;
+  }
 }
 
 .search-input-wrapper,
@@ -33,10 +47,6 @@
   line-height: 32px;
 }
 
-.search-icon {
-  margin: 0 6px;
-}
-
 .search-input {
   flex-grow: 1;
 
@@ -48,10 +58,6 @@
   font-size: 14px;
   line-height: 32px;
   text-align: left;
-}
-
-.clear-icon {
-  margin: 0 6px;
 }
 
 .cancel-button {
