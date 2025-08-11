@@ -14,7 +14,7 @@
   }
 
   .grey & {
-    margin: 20px 16px 4px;
+    margin: 16px 16px 4px;
     padding: 0 16px;
 
     color: var(--dark-grey);
@@ -48,6 +48,7 @@
 
     overflow: hidden;
 
+    margin: 4px var(--horizontal-margin);
     padding: 10px 16px;
     border-radius: 8px;
 
