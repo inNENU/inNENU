@@ -5,7 +5,7 @@ module.exports = {
       { tag: "title", text: "Mr.Hope 简介" },
       {
         tag: "text",
-        text: ["Mr.Hope，辽宁人，东北师范大学 2020 届本科毕业生"],
+        text: ["Mr.Hope，东北师范大学 2025 届理论物理研究生"],
       },
       { tag: "title", text: "为什么要开发这个小程序" },
       {
