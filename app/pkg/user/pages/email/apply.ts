@@ -1,13 +1,11 @@
-import { $Page, env, showModal, showToast, writeClipboard } from "@mptool/all";
+import { $Page, env, showModal, writeClipboard } from "@mptool/all";
 
-import { appCoverPrefix, appName, logo } from "../../../../config/index.js";
-import type {
-  ActivateEmailOptions,
-  LoginMethod,
-} from "../../../../service/index.js";
-import { applyEmail, ensureMyLogin } from "../../../../service/index.js";
+import { appCoverPrefix, logo } from "../../../../config/index.js";
+import { ActionFailType } from "../../../../service/index.js";
 import { envName, info, user, windowInfo } from "../../../../state/index.js";
 import { showNotice } from "../../../../utils/index.js";
+import type { ApplyEmailOptions } from "../../service/index.js";
+import { applyEmail, checkEmail } from "../../service/index.js";
 
 const MAIL_LINK = "https://mail.nenu.edu.cn";
 const PAGE_ID = "email-apply";
@@ -24,12 +22,8 @@ $Page(PAGE_ID, {
       from: "返回",
     },
 
-    isCustom: false,
-
     accounts: [] as string[],
     accountIndex: 0,
-    /** 自定义邮箱名称 */
-    name: "",
     /** 邮箱数字后缀 */
     suffix: "",
     /** 密保电话 */
@@ -39,9 +33,7 @@ $Page(PAGE_ID, {
   },
 
   state: {
-    loginMethod: "validate" as LoginMethod,
-    taskId: "",
-    instanceId: "",
+    accounts: [] as { display: string; key: string }[],
   },
 
   onShow() {
@@ -79,80 +71,40 @@ $Page(PAGE_ID, {
 
   picker({ detail }: WechatMiniprogram.PickerChange) {
     const accountIndex = Number(detail.value);
-    const isCustom = this.data.accounts.length - 1 === accountIndex;
 
-    if (isCustom)
-      wx.showModal({
-        title: "自定义提示",
-        content: `学校对学生申请的邮箱格式进行了限制，原则上您只能从上方的账户中进行选择，而不能申请任意邮箱。您正在利用 ${appName} 强行绕过学校的限制。造成的风险与后果请您自负！`,
-        confirmText: "继续操作",
-        cancelText: "正常申请",
-        success: ({ confirm }) => {
-          if (confirm)
-            wx.showModal({
-              title: "风险提示",
-              content: `您正在利用 ${appName} 强行绕过学校的限制自定义邮箱名称，这很可能会造成不可预料的后果。Mr.Hope 建议您按照学校流程申请邮箱，继续操作意味着您已了解并同意自行承担此行为的风险与后果！`,
-              confirmText: "继续操作",
-              cancelText: "正常申请",
-              success: ({ confirm }) => {
-                if (confirm) this.setData({ accountIndex, isCustom });
-              },
-            });
-        },
-      });
-    else this.setData({ accountIndex, isCustom });
+    this.setData({ accountIndex });
   },
 
   async checkEmail() {
     wx.showLoading({ title: "加载中" });
 
-    const err = await ensureMyLogin(user.account!, this.state.loginMethod);
-
-    if (err) {
-      wx.hideLoading();
-      showToast(err.msg);
-      this.state.loginMethod = "force";
-      this.setData({ status: "error" });
-
-      return;
-    }
-
-    const result = await applyEmail({ type: "get" });
+    const result = await checkEmail({
+      type: "init",
+      id: user.info!.id,
+    });
 
     wx.hideLoading();
 
-    if (result.success) {
-      if (result.hasEmail) {
-        this.setData({ status: "success", result });
-
-        return;
-      }
-
-      const { accounts, taskId, instanceId } = result;
-
-      this.state = {
-        ...this.state,
-        loginMethod: "check",
-        taskId,
-        instanceId,
-      };
-      this.state.loginMethod = "check";
-
+    if (!result.success) {
       this.setData({
-        accounts: ["请选择", ...accounts, "自定义"],
+        status: "error",
+        errMsg:
+          result.type === ActionFailType.Existed
+            ? `您已有我校邮箱 ${result.msg}，不能重复申请`
+            : result.msg,
       });
 
       return;
     }
 
-    this.state.loginMethod = "force";
-    this.setData({ status: "error" });
-
-    return;
+    this.setData({
+      accounts: ["请选择", ...result.data.map(({ display }) => display)],
+    });
+    this.state.accounts = result.data;
   },
 
-  apply() {
-    const { accounts, accountIndex, isCustom, name, suffix, phone } = this.data;
+  applyEmail() {
+    const { accounts, accountIndex, suffix, phone } = this.data;
     const { info } = user;
 
     if (!info) {
@@ -167,43 +119,23 @@ $Page(PAGE_ID, {
       return;
     }
 
-    if (isCustom) {
-      if (!name) {
-        showModal("无法申请", "请输入自定义邮箱名称");
+    if (accountIndex === 0 || accountIndex === accounts.length - 1) {
+      showModal("未选择邮箱名称", "请选择一个合适的邮箱名称");
+
+      return;
+    }
+    if (suffix) {
+      const suffixNumber = Number(suffix);
+
+      if (
+        Number.isNaN(suffixNumber) ||
+        suffixNumber < 100 ||
+        suffixNumber > 999 ||
+        Math.floor(suffixNumber) !== suffixNumber
+      ) {
+        showModal("后缀设置有误", "请设置一个 100 到 999 之间的三位数字");
 
         return;
-      }
-
-      if (!/^[a-z][a-z0-9-]*[a-z]$/.test(name)) {
-        showModal("邮箱名字有误", "邮箱名称只能包含小写字母、数字和减号");
-
-        return;
-      }
-
-      if (name.length < 5 || name.length > 15) {
-        showModal("邮箱名长度错误", "邮箱长度需要在 5 - 15 个字符之间。");
-
-        return;
-      }
-    } else {
-      if (accountIndex === 0 || accountIndex === accounts.length - 1) {
-        showModal("未选择邮箱名称", "请选择一个合适的邮箱名称");
-
-        return;
-      }
-      if (suffix) {
-        const suffixNumber = Number(suffix);
-
-        if (
-          Number.isNaN(suffixNumber) ||
-          suffixNumber < 100 ||
-          suffixNumber > 999 ||
-          Math.floor(suffixNumber) !== suffixNumber
-        ) {
-          showModal("后缀设置有误", "请设置一个 100 到 999 之间的三位数字");
-
-          return;
-        }
       }
     }
 
@@ -213,23 +145,19 @@ $Page(PAGE_ID, {
       return;
     }
 
-    const { taskId, instanceId } = this.state;
-
-    const options: ActivateEmailOptions = {
-      type: "set",
-      ...(isCustom
-        ? { name }
-        : { name: accounts[accountIndex], suffix: suffix ?? "" }),
+    const options: ApplyEmailOptions = {
+      type: "apply",
+      account: this.state.accounts[accountIndex - 1].key,
+      suffix: suffix ?? "",
       phone,
-      taskId,
-      instanceId,
+      id: user.info!.id,
     };
 
     showModal(
       "信息确认",
       `\
 您正在申请我校邮箱。
-账号: ${options.name}${options.suffix || ""}@nenu.edu.cn
+账号: ${options.account}${options.suffix || ""}@nenu.edu.cn
 密保手机: ${phone}
 `,
       () => {

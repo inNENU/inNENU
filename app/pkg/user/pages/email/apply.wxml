@@ -8,7 +8,11 @@
 <view class="{{theme}} apply-email">
   <navbar nav="{{nav}}" />
   <view class="content">
-    <error-hint wx:if="{{status === 'error'}}" catch:retry="retry" />
+    <error-hint
+      wx:if="{{status === 'error'}}"
+      hint="{{errMsg}}"
+      catch:retry="retry"
+    />
     <login-hint wx:elif="{{status === 'login'}}" source="申请校园邮箱" />
     <view class="success-wrapper" wx:elif="{{status === 'success'}}">
       <icon type="success" size="120" />
@@ -27,35 +31,29 @@
       <image src="{{logo}}" class="logo" />
       <view class="apply-title">申请校园邮箱</view>
       <view class="input-list-wrapper">
-        <view wx:if="{{isCustom}}" class="input-list-item">
-          <view class="text">自定义邮箱名称</view>
-          <input id="name" class="input" value="{{name}}" catch:input="input" />
+        <view class="input-list-item">
+          <view class="text">邮箱名称</view>
+          <picker
+            id="account"
+            class="input"
+            range="{{accounts}}"
+            value="{{accountIndex}}"
+            catch:change="picker"
+          >
+            {{accounts[accountIndex]}}
+          </picker>
         </view>
-        <block wx:else>
-          <view class="input-list-item">
-            <view class="text">邮箱名称</view>
-            <picker
-              id="account"
-              class="input"
-              range="{{accounts}}"
-              value="{{accountIndex}}"
-              catch:change="picker"
-            >
-              {{accounts[accountIndex]}}
-            </picker>
-          </view>
-          <view class="input-list-item">
-            <view class="text">额外账号后缀</view>
-            <input
-              id="suffix"
-              class="input"
-              type="digit"
-              placeholder="选填，需为三位数字"
-              value="{{suffix}}"
-              catch:input="input"
-            />
-          </view>
-        </block>
+        <view class="input-list-item">
+          <view class="text">额外账号后缀</view>
+          <input
+            id="suffix"
+            class="input"
+            type="digit"
+            placeholder="选填，需为三位数字"
+            value="{{suffix}}"
+            catch:input="input"
+          />
+        </view>
         <view class="input-list-item">
           <view class="text">密保手机</view>
           <input
@@ -67,7 +65,11 @@
           />
         </view>
       </view>
-      <button class="apply-button primary" type="primary" catch:tap="apply">
+      <button
+        class="apply-button primary"
+        type="primary"
+        catch:tap="applyEmail"
+      >
         申请邮箱
       </button>
     </block>
