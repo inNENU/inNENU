@@ -295,6 +295,60 @@ const bundleWeNENU = parallel(
   moveWeNENUConfig,
 );
 
+/* debug wechat with local server */
+
+const getDebugMoveScriptJob = (id) => {
+  const moveScript = () =>
+    src(["app/**/*.ts", "app/**/*.js"], {
+      read: (value) => {
+        if (
+          [`.${id}.ts`, ".d.ts", ".js"].some((ext) => value.path.endsWith(ext))
+        )
+          return true;
+
+        return (
+          !existsSync(
+            resolve(
+              "app",
+              value.path.substring(0, value.path.length - 3) + `.${id}.ts`,
+            ),
+          ) && value.path.split(".").length === 2
+        );
+      },
+    })
+      .pipe(
+        rename((path) => {
+          if (path.basename.endsWith(`.${id}`))
+            path.basename = path.basename.substring(
+              0,
+              path.basename.length - id.length - 1,
+            );
+        }),
+      )
+      .pipe(
+        replace(
+          /export const assets = "https:\/\/assets\.innenu\.com\/";/,
+          'export const assets = "http://localhost:4040/";',
+        ),
+      )
+      .pipe(
+        replace(
+          /export const server = "https:\/\/res\.innenu\.com\/";/,
+          'export const server = "http://localhost:4040/";',
+        ),
+      )
+      .pipe(dest(".temp"));
+
+  return moveScript;
+};
+
+const debugWechat = parallel(
+  buildWechatWXSS,
+  getAssetsJob("wx", { bundle: true }),
+  getDebugMoveScriptJob("wx"),
+  moveWechatConfig,
+);
+
 /* exports */
 
 exports.default = buildWechat;
@@ -306,6 +360,7 @@ exports.bundleApp = bundleApp;
 exports.watchWechat = watchWechat;
 exports.buildWechat = buildWechat;
 exports.bundleWechat = bundleWechat;
+exports.debugWechat = debugWechat;
 
 exports.watchWeNENU = watchWeNENU;
 exports.buildWeNENU = buildWeNENU;

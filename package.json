@@ -26,6 +26,7 @@
     "bundle:wx": "gulp -f gulpfile.cjs bundleWechat && tsx scripts/bundle.ts",
     "changelog": "standard-version --skip.bump --skip.commit --skip.tag",
     "clean": "tsx scripts/del.js",
+    "debug:wx": "gulp -f gulpfile.cjs debugWechat && tsx scripts/bundle.ts",
     "dev:app": "gulp -f gulpfile.cjs watchApp",
     "dev:we": "gulp -f gulpfile.cjs watchWeNENU",
     "dev:wx": "gulp -f gulpfile.cjs watchWechat",
