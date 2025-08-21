@@ -11,4 +11,4 @@ onlyBuiltDependencies:
 
 overrides:
   css: npm:@adobe/css-tools@^4.4.3
-  esbuild: ^0.25.5
+  esbuild: ^0.25.7
