@@ -14,7 +14,12 @@ import {
   version,
 } from "../../../../config/index.js";
 import { reportUserInfo } from "../../../../service/index.js";
-import { appInfo, info, updateSelectable } from "../../../../state/index.js";
+import {
+  appInfo,
+  info,
+  updateSelectable,
+  user,
+} from "../../../../state/index.js";
 import { resolvePage, setPage, showNotice } from "../../../../utils/index.js";
 
 const { globalData } = getApp<App>();
@@ -60,7 +65,7 @@ $Page(PAGE_ID, {
               text: "打开功能页",
               url: "action?action=all",
             },
-            { text: "复制用户APPID", type: "button", handler: "copyAppID" },
+            { text: "复制用户 Open ID", type: "button", handler: "copyOpenID" },
             { text: "退出开发者模式", type: "button", handler: "debugMode" },
           ],
         },
@@ -261,10 +266,10 @@ $Page(PAGE_ID, {
   },
 
   /**
-   * 复制 APPID
+   * 复制 Open ID
    */
-  copyAppID() {
-    writeClipboard(wx.getStorageSync("openid"));
+  copyOpenID() {
+    writeClipboard(user.openid ?? "");
   },
 
   reportInfo() {
