@@ -16,5 +16,6 @@ res/.oss/**
 res/.resource/**
 res/.site/**
 res/.text/**
+res/assets/prompt.md
 res/service/vendor/**
 res/service/composer.lock
