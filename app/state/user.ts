@@ -39,14 +39,10 @@ export interface UserInfo {
   type: string;
   /** 用户层次代码 */
   typeId: "bks" | "yjs" | "lxs" | "jzg";
-  /** 用户类别码 */
-  code: string;
   /** 用户政治面貌 */
   politicalStatus: string;
   /** 用户民族 */
   people: string;
-  /** 用户民族代码 */
-  peopleId: number;
   /** 用户性别 */
   gender: string;
   /** 用户性别代码 */
