@@ -30,6 +30,7 @@
 >
   <image class="icon" src="./icon/satellite.svg" />
 </view>
+<!-- FIXME: Bugs in skyline -->
 <view
   class="filter-button"
   hover-class="button-hover"
