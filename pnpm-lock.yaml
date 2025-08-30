@@ -59,8 +59,8 @@ importers:
         specifier: 9.1.7
         version: 9.1.7
       innenu-generator:
-        specifier: 0.6.3
-        version: 0.6.3
+        specifier: 0.6.5
+        version: 0.6.5
       miniprogram-api-typings:
         specifier: 4.1.0
         version: 4.1.0
@@ -131,8 +131,8 @@ importers:
         specifier: 17.2.1
         version: 17.2.1
       innenu-generator:
-        specifier: 0.6.3
-        version: 0.6.3
+        specifier: 0.6.5
+        version: 0.6.5
       js-yaml:
         specifier: 4.1.0
         version: 4.1.0
@@ -3195,8 +3195,8 @@ packages:
     resolution: {integrity: sha512-QQnnxNyfvmHFIsj7gkPcYymR8Jdw/o7mp5ZFihxn6h8Ci6fh3Dx4E1gPjpQEpIuPo9XVNY/ZUwh4BPMjGyL01g==}
     engines: {node: ^14.17.0 || ^16.13.0 || >=18.0.0}
 
-  innenu-generator@0.6.3:
-    resolution: {integrity: sha512-zsu+kR4jt2ctfDRMlo1yk/njxT0OeCNaoaOaIDthe5HYZEY7Q/NoF9SykAayymqlrAK1FBzh81RkiSsdBZPJVw==}
+  innenu-generator@0.6.5:
+    resolution: {integrity: sha512-DMlHzx60Qg504TL1BBlHiAmnWhoplD6r+egSdHgVQalXyYRqCj/BRrqlc78Mh94m7rKqNl4p5TBP+2OVwHWjug==}
 
   interpret@3.1.1:
     resolution: {integrity: sha512-6xwYfHbajpoF0xLW+iwLkhwgvLoZDfjYfoFNu8ftMoXINzwuymNLd9u/KmwtdT2GbR+/Cz66otEGEVVUHX9QLQ==}
@@ -8911,7 +8911,7 @@ snapshots:
 
   ini@4.1.1: {}
 
-  innenu-generator@0.6.3:
+  innenu-generator@0.6.5:
     dependencies:
       ali-oss: 6.23.0
       js-yaml: 4.1.0
