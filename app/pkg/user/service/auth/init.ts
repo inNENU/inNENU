@@ -20,14 +20,10 @@ import {
   WrongPasswordResponse,
   authEncrypt,
   createService,
-  getMyInfo,
-  myLoginLocal,
   supportRedirect,
 } from "../../../../service/index.js";
 import type { AccountInfo, UserInfo } from "../../../../state/index.js";
 import { appId } from "../../../../state/index.js";
-import { getAvatar } from "../auth-center/index.js";
-import { authCenterLoginLocal } from "../auth-center/login.js";
 
 export type AuthInitInfoSuccessResponse = {
   success: true;
@@ -150,7 +146,7 @@ const authInitLocal = async (
 ): Promise<InitAuthResponse> => {
   if (!supportRedirect) return authInitOnline(options);
 
-  const { id, password, authToken, salt, params } = options;
+  const { password, salt, params } = options;
   const {
     data: content,
     headers: loginHeaders,
@@ -269,46 +265,7 @@ const authInitLocal = async (
         msg: "登录失败，需要二次认证",
       };
 
-    let info: UserInfo | null = null;
-
-    let loginResult = await myLoginLocal({ id, password, authToken });
-
-    if (
-      "type" in loginResult &&
-      loginResult.type === ActionFailType.Forbidden
-    ) {
-      loginResult = await myLoginLocal({ id, password, authToken });
-    }
-
-    // 获得信息
-    if (loginResult.success) {
-      const studentInfo = await getMyInfo();
-
-      if (studentInfo.success) {
-        let avatar = "";
-
-        const authCenterResult = await authCenterLoginLocal({
-          id,
-          password,
-          authToken,
-        });
-
-        if (authCenterResult.success) {
-          const avatarInfo = await getAvatar();
-
-          if (avatarInfo.success) avatar = avatarInfo.data.avatar;
-        }
-
-        info = {
-          avatar,
-          ...studentInfo.data,
-        };
-      }
-
-      logger.debug(`${id} 登录信息:\n`, JSON.stringify(info, null, 2));
-    }
-
-    // TODO: Add blacklist
+    // TODO: Add blacklist and user info
     // if (isInBlackList(id, openid, info))
     //   return {
     //     success: false,
@@ -318,7 +275,7 @@ const authInitLocal = async (
 
     return {
       success: true,
-      info,
+      info: null,
     };
   }
 

@@ -4,7 +4,7 @@ import { assets } from "./server.js";
 export const appName = "inNENU";
 export const description = "在东师，就用 inNENU";
 /** 小程序版本 */
-export const version = "7.4.1";
+export const version = "7.4.2";
 
 export const appCoverPrefix = `${assets}img/inNENU`;
 export const logo = `${assets}img/inNENU.png`;

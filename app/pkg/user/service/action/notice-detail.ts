@@ -11,7 +11,6 @@ import {
   ACTION_SERVER,
   ExpiredResponse,
   INFO_SERVER,
-  MY_SERVER,
   UnknownResponse,
   createService,
   isWebVPNPage,
@@ -88,11 +87,7 @@ export const getNoticeDetailById = async (
           a: (node) => {
             const href = node.attrs?.href;
 
-            if (
-              href &&
-              !href.startsWith(ACTION_SERVER) &&
-              !href.startsWith(MY_SERVER)
-            )
+            if (href && !href.startsWith(ACTION_SERVER))
               node.children?.push({ type: "text", text: ` (${href})` });
 
             return node;
@@ -151,8 +146,7 @@ export const getNoticeDetailByUrl = async (
             if (
               href &&
               !href.startsWith(ACTION_SERVER) &&
-              !href.startsWith(INFO_SERVER) &&
-              !href.startsWith(MY_SERVER)
+              !href.startsWith(INFO_SERVER)
             )
               node.children?.push({ type: "text", text: ` (${href})` });
 
