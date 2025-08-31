@@ -34,7 +34,7 @@
         class="refresh-button"
         type="default"
         size="mini"
-        catch:tap="refreshutils"
+        catch:tap="refreshCourseTable"
       >
         <text class="refresh-button-icon" />
       </button>
