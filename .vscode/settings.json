@@ -46,19 +46,23 @@
   "stylelint.validate": ["css", "scss"],
   "yaml.schemas": {
     "./res/.vscode/settings.schema.json": ["/res/config/**/settings.yml"],
-    "./res/.vscode/wechat.schema.json": ["/res/data/account/*.yml"],
-    "./res/.vscode/qq-account.schema.json": [
+    "./res/.vscode/wechat-account-data.schema.json": [
+      "/res/data/account/*.yml"
+    ],
+    "./res/.vscode/qq-accounts.schema.json": [
       "/res/data/function/account/qq.yml"
     ],
-    "./res/.vscode/wx-account.schema.json": [
+    "./res/.vscode/wx-accounts.schema.json": [
       "/res/data/function/account/wx.yml"
     ],
+    "./res/.vscode/map-markers.schema.json": [
+      "/res/data/function/map/marker/*.yml"
+    ],
     "./res/.vscode/tab-data.schema.json": ["/res/data/function/data/tab.yml"],
-    "./res/.vscode/location.schema.json": [
+    "./res/.vscode/map-page-config.schema.json": [
       "/res/data/function/map/benbu/**/*.yml",
       "/res/data/function/map/jingyue/**/*.yml"
     ],
-    "./res/.vscode/marker.schema.json": ["/res/data/function/map/marker/*.yml"],
-    "./res/.vscode/page.schema.json": ["/res/pages/**/*.yml"]
+    "./res/.vscode/page-config.schema.json": ["/res/pages/**/*.yml"]
   }
 }
