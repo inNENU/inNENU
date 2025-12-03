@@ -21,7 +21,7 @@ $Page("info", {
     resolvePage(option);
   },
 
-  onLoad(option: PageOptions & { path?: string }) {
+  onLoad(option: PageOptions) {
     logger.debug("onLoad options: ", option);
 
     if (option.path) {

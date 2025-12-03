@@ -14,7 +14,6 @@ import type {
   CookieVerifyResponse,
   FailResponse,
   LoginMethod,
-  VPNLoginFailedResponse,
 } from "../../../../service/index.js";
 import {
   MissingCredentialResponse,
@@ -61,9 +60,7 @@ const isOALoggedIn = createService(
   isOALoggedInOnline,
 );
 
-export type OALoginFailedResponse =
-  | AuthLoginFailedResponse
-  | VPNLoginFailedResponse;
+export type OALoginFailedResponse = AuthLoginFailedResponse;
 
 export type OALoginResponse = { success: true } | OALoginFailedResponse;
 

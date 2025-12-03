@@ -9,7 +9,6 @@ import type {
   ComponentData,
   FunctionalListComponentItemConfig,
   GridComponentItemOptions,
-  ListComponentItemOptions,
   PageOptions,
   PageState,
   PageStateWithContent,
@@ -42,17 +41,8 @@ const isEnvMatches = (element: { env?: string[] }): boolean => {
  * @param page 页面内容
  */
 const setListItemState = (
-  listElement:
-    | FunctionalListComponentItemConfig
-    | GridComponentItemOptions
-    | ListComponentItemOptions,
-):
-  | (
-      | FunctionalListComponentItemConfig
-      | GridComponentItemOptions
-      | ListComponentItemOptions
-    )
-  | null => {
+  listElement: FunctionalListComponentItemConfig | GridComponentItemOptions,
+): (FunctionalListComponentItemConfig | GridComponentItemOptions) | null => {
   if (!isEnvMatches(listElement)) return null;
 
   if ("type" in listElement)
@@ -113,8 +103,7 @@ export const setComponentState = (
             (
               listElement:
                 | FunctionalListComponentItemConfig
-                | GridComponentItemOptions
-                | ListComponentItemOptions,
+                | GridComponentItemOptions,
             ) => setListItemState(listElement),
           )
           .filter((listElement) => listElement !== null);
@@ -172,8 +161,7 @@ const preloadPageLinks = (page: PageState): void => {
           (
             element:
               | FunctionalListComponentItemConfig
-              | GridComponentItemOptions
-              | ListComponentItemOptions,
+              | GridComponentItemOptions,
           ) => {
             if (!("type" in element) && "path" in element && element.path)
               ensureJson(element.path);

@@ -21,7 +21,6 @@ import {
   isWebVPNPage,
   supportRedirect,
 } from "../utils/index.js";
-import type { VPNLoginFailedResponse } from "../vpn/index.js";
 import { vpnCASLoginLocal } from "../vpn/index.js";
 
 let currentLogin: Promise<ActionLoginResponse> | null = null;
@@ -74,8 +73,7 @@ export interface ActionLoginSuccessResponse {
 
 export type ActionLoginResponse =
   | ActionLoginSuccessResponse
-  | AuthLoginFailedResponse
-  | VPNLoginFailedResponse;
+  | AuthLoginFailedResponse;
 
 /**
  * @requires "redirect:manual"

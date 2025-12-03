@@ -21,7 +21,6 @@ export type VPNLoginFailedResponse = CommonFailedResponse<
 
 export type VPNLoginResponse =
   | VPNLoginSuccessResponse
-  | VPNLoginFailedResponse
   | AuthLoginFailedResponse;
 
 export const vpnCASLoginLocal = async ({

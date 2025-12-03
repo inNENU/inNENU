@@ -172,6 +172,7 @@ interface RawUnderCourseCommentaryListFailedResult {
 }
 
 type RawUnderCourseCommentarySubmitResult =
+  // eslint-disable-next-line @typescript-eslint/no-redundant-type-constituents
   | RawUnderCourseCommentarySubmitSuccessResult
   | RawUnderCourseCommentaryListFailedResult;
 

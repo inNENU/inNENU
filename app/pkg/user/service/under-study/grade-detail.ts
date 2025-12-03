@@ -3,10 +3,7 @@ import { logger } from "@mptool/all";
 import { withUnderStudyLogin } from "./login.js";
 import { UNDER_STUDY_SERVER } from "./utils.js";
 import { request } from "../../../../api/index.js";
-import type {
-  AuthLoginFailedResponse,
-  CommonFailedResponse,
-} from "../../../../service/index.js";
+import type { AuthLoginFailedResponse } from "../../../../service/index.js";
 import { ActionFailType, createService } from "../../../../service/index.js";
 
 interface RawUnderGradeDetailItem {
@@ -66,8 +63,8 @@ interface RawUnderGradeFailedResult {
 }
 
 type RawUnderGradeResult =
-  | RawUnderGradeSuccessResult
-  | RawUnderGradeFailedResult;
+  // eslint-disable-next-line @typescript-eslint/no-redundant-type-constituents
+  RawUnderGradeSuccessResult | RawUnderGradeFailedResult;
 
 export interface UnderScoreDetail {
   /** 名称 */
@@ -85,8 +82,7 @@ export interface UnderGradeDetailSuccessResponse {
 
 export type UnderGradeDetailResponse =
   | UnderGradeDetailSuccessResponse
-  | AuthLoginFailedResponse
-  | CommonFailedResponse<ActionFailType.Expired>;
+  | AuthLoginFailedResponse;
 
 const getGradeDetail = ({
   cj1,

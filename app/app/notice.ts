@@ -24,12 +24,7 @@ export const syncNotice = (noticeSettings: NoticeSettings): void => {
     );
 
     // 如果通知内容不同或为强制通知，写入通知信息，并重置通知状态
-    if (
-      !oldNotice ||
-      oldNotice.title !== title ||
-      oldNotice.content !== content ||
-      force
-    ) {
+    if (oldNotice?.title !== title || oldNotice.content !== content || force) {
       wx.setStorageSync(`${pageName}-notice`, notice);
       wx.removeStorageSync(`${pageName}-notified`);
     }

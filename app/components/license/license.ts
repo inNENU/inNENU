@@ -30,7 +30,7 @@ $Component({
   },
 
   lifetimes: {
-    async attached() {
+    attached() {
       const { type } = this.data;
 
       if (type === "privacy") {
@@ -40,12 +40,14 @@ $Component({
             this.setData({ show: true });
           });
         } else {
-          this.setData({
-            show: (await getPrivacyStatus()).needAuthorize,
+          getPrivacyStatus().then(({ needAuthorize }) => {
+            this.setData({ show: needAuthorize });
           });
         }
       } else {
-        this.setData({ show: (await getLicenseStatus()).needAuthorize });
+        getLicenseStatus().then(({ needAuthorize }) => {
+          this.setData({ show: needAuthorize });
+        });
       }
     },
   },

@@ -56,7 +56,7 @@ export { cookieStore, request };
  * @param path 请求路径
  */
 export const requestJSON = <
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any, @typescript-eslint/no-redundant-type-constituents
   T extends Record<never, never> | unknown[] | string = Record<string, any>,
 >(
   path: string,

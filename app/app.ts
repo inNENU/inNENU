@@ -94,7 +94,7 @@ $Config({
       (options.onThemeChange as (
         this: TrivialPageInstance,
         { theme }: WechatMiniprogram.OnThemeChangeListenerResult,
-      ) => void | undefined) ||
+      ) => void) ||
       function (
         this: TrivialPageInstance,
         { theme }: WechatMiniprogram.OnThemeChangeListenerResult,

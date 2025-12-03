@@ -9,7 +9,6 @@ import { cookieStore, request } from "../../../../api/index.js";
 import type {
   AuthLoginFailedResponse,
   LoginMethod,
-  VPNLoginFailedResponse,
 } from "../../../../service/index.js";
 import {
   ActionFailType,
@@ -28,8 +27,7 @@ export interface UnderSystemLoginSuccessResponse {
 
 export type UnderSystemLoginResponse =
   | UnderSystemLoginSuccessResponse
-  | AuthLoginFailedResponse
-  | VPNLoginFailedResponse;
+  | AuthLoginFailedResponse;
 
 export const underSystemLoginLocal = async (
   options: AccountInfo,
@@ -117,7 +115,7 @@ const hasCookie = (): boolean =>
 const ensureUnderSystemLoginLocal = async (
   account: AccountInfo,
   status: LoginMethod,
-): Promise<AuthLoginFailedResponse | VPNLoginFailedResponse | null> => {
+): Promise<AuthLoginFailedResponse | null> => {
   if (status !== "force") {
     if (hasCookie()) {
       if (status === "check") return null;
@@ -136,7 +134,7 @@ const ensureUnderSystemLoginLocal = async (
 const ensureUnderSystemLoginOnline = async (
   account: AccountInfo,
   status: LoginMethod,
-): Promise<AuthLoginFailedResponse | VPNLoginFailedResponse | null> => {
+): Promise<AuthLoginFailedResponse | null> => {
   if (status !== "force") {
     if (hasCookie()) {
       if (status === "check") return null;

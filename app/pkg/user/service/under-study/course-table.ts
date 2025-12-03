@@ -5,7 +5,6 @@ import { UNDER_STUDY_SERVER } from "./utils.js";
 import { request } from "../../../../api/index.js";
 import type {
   AuthLoginFailedResponse,
-  CommonFailedResponse,
   CommonSuccessResponse,
 } from "../../../../service/index.js";
 import {
@@ -177,8 +176,8 @@ interface RawUnderCourseTableFailResult {
 }
 
 type RawUnderCourseTableResult =
-  | RawUnderCourseTableSuccessResult
-  | RawUnderCourseTableFailResult;
+  // eslint-disable-next-line @typescript-eslint/no-redundant-type-constituents
+  RawUnderCourseTableSuccessResult | RawUnderCourseTableFailResult;
 
 export type UnderCourseTableSuccessResponse = CommonSuccessResponse<{
   table: CourseTableData;
@@ -187,8 +186,7 @@ export type UnderCourseTableSuccessResponse = CommonSuccessResponse<{
 
 export type UnderCourseTableResponse =
   | UnderCourseTableSuccessResponse
-  | AuthLoginFailedResponse
-  | CommonFailedResponse;
+  | AuthLoginFailedResponse;
 
 const getCourseTable = (
   classes: RawUnderCourseTableItem[],
