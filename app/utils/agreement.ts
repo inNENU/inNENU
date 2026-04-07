@@ -23,17 +23,17 @@ export const getLicenseStatus = (): Promise<LicenseStatus> => {
       version: onlineLicenseVersion,
     });
 
-  return requestJSON<PageConfig & { version: number }>(
-    `config/${appId}/license-data`,
-  ).then(({ version }) => {
-    onlineLicenseVersion = version;
-    needLicense = version !== localLicenseVersion;
+  return requestJSON<PageConfig & { version: number }>(`config/${appId}/license-data`).then(
+    ({ version }) => {
+      onlineLicenseVersion = version;
+      needLicense = version !== localLicenseVersion;
 
-    return {
-      needAuthorize: needLicense,
-      version,
-    };
-  });
+      return {
+        needAuthorize: needLicense,
+        version,
+      };
+    },
+  );
 };
 
 export interface PrivacyStatus {
@@ -60,17 +60,17 @@ export const getPrivacyStatus = (): Promise<PrivacyStatus> => {
       version: onlinePrivacyVersion,
     });
 
-  return requestJSON<PageConfig & { version: number }>(
-    `config/${appId}/privacy-data`,
-  ).then(({ version }) => {
-    onlinePrivacyVersion = version;
-    needPrivacy = version !== localPrivacyVersion;
+  return requestJSON<PageConfig & { version: number }>(`config/${appId}/privacy-data`).then(
+    ({ version }) => {
+      onlinePrivacyVersion = version;
+      needPrivacy = version !== localPrivacyVersion;
 
-    return {
-      needAuthorize: needPrivacy,
-      version,
-    };
-  });
+      return {
+        needAuthorize: needPrivacy,
+        version,
+      };
+    },
+  );
 };
 
 export const agreeLicense = (): void => {

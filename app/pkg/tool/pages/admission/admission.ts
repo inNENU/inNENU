@@ -3,10 +3,7 @@ import { $Page } from "@mptool/all";
 import { appCoverPrefix } from "../../../../config/index.js";
 import { info } from "../../../../state/index.js";
 import { showNotice } from "../../../../utils/index.js";
-import type {
-  UnderAdmissionOptions,
-  UnderAdmissionResponse,
-} from "../../service/index.js";
+import type { UnderAdmissionOptions, UnderAdmissionResponse } from "../../service/index.js";
 import { getUnderAdmission } from "../../service/index.js";
 import { validateIdCard } from "../../utils/index.js";
 
@@ -55,9 +52,7 @@ $Page(PAGE_ID, {
   },
 
   onLoad({ type = "debug" }) {
-    const admissionInfo = wx.getStorageSync<UnderAdmissionOptions | undefined>(
-      "admission-info",
-    );
+    const admissionInfo = wx.getStorageSync<UnderAdmissionOptions | undefined>("admission-info");
 
     if (admissionInfo) this.state.input = admissionInfo;
 
@@ -107,8 +102,7 @@ $Page(PAGE_ID, {
 
   /** 输入成绩 */
   input({ currentTarget, detail }: WechatMiniprogram.Input) {
-    this.state.input[currentTarget.id as keyof UnderAdmissionOptions] =
-      detail.value;
+    this.state.input[currentTarget.id as keyof UnderAdmissionOptions] = detail.value;
   },
 
   blur() {

@@ -2,12 +2,7 @@ import { $Page, showModal, showToast } from "@mptool/all";
 
 import { appCoverPrefix } from "../../../../config/index.js";
 import { info } from "../../../../state/index.js";
-import {
-  ensureJson,
-  getJson,
-  getPageColor,
-  showNotice,
-} from "../../../../utils/index.js";
+import { ensureJson, getJson, getPageColor, showNotice } from "../../../../utils/index.js";
 import type { TimeLineItem } from "../../components/timeline/timeline.js";
 
 const PAGE_ID = "calendar";
@@ -78,10 +73,7 @@ $Page(PAGE_ID, {
           });
         })
         .catch(() => {
-          showModal(
-            "获取失败",
-            "学期详情获取失败，请稍后重试。如果该情况持续发生，请反馈给开发者",
-          );
+          showModal("获取失败", "学期详情获取失败，请稍后重试。如果该情况持续发生，请反馈给开发者");
         });
     else showToast("所选内容暂无详情");
   },

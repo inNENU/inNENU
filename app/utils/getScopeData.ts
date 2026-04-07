@@ -48,9 +48,7 @@ const getImages = (page: PageStateWithContent): string[] =>
         : page.images
     : [`${appCoverPrefix}jpg`];
 
-export const getScopeData = (
-  page: PageStateWithContent,
-): WechatMiniprogram.GeneralScopeData => ({
+export const getScopeData = (page: PageStateWithContent): WechatMiniprogram.GeneralScopeData => ({
   // eslint-disable-next-line @typescript-eslint/naming-convention
   "@type": "general",
   // eslint-disable-next-line @typescript-eslint/naming-convention

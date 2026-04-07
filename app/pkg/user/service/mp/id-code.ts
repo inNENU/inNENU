@@ -72,15 +72,12 @@ export interface IdCodeInfo {
 }
 
 export type CheckIDCodeStatusSuccessResponse = CommonSuccessResponse<
-  | { existed: true; code: string; remark: string }
-  | { existed: false; verifier: string | null }
+  { existed: true; code: string; remark: string } | { existed: false; verifier: string | null }
 >;
 export type CheckIDCodeInfoSuccessResponse = CommonSuccessResponse<IdCodeInfo>;
 
 export type CheckIDCodeResponse<T extends string | void> =
-  | (T extends string
-      ? CheckIDCodeInfoSuccessResponse
-      : CheckIDCodeStatusSuccessResponse)
+  | (T extends string ? CheckIDCodeInfoSuccessResponse : CheckIDCodeStatusSuccessResponse)
   | AuthLoginFailedResponse
   | CommonFailedResponse<
       | ActionFailType.DatabaseError

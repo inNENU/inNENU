@@ -1,6 +1,5 @@
 import { logger } from "@mptool/all";
 
-import { ACTION_DOMAIN, ACTION_MAIN_PAGE, ACTION_SERVER } from "./utils.js";
 import { cookieStore, request } from "../../api/index.js";
 import type { AccountInfo } from "../../state/index.js";
 import { user } from "../../state/index.js";
@@ -15,13 +14,14 @@ import type {
 import {
   ActionFailType,
   MissingCredentialResponse,
-  UnknownResponse,
+  unknownResponse,
   checkAccountStatus,
   createService,
   isWebVPNPage,
   supportRedirect,
 } from "../utils/index.js";
 import { vpnCASLoginLocal } from "../vpn/index.js";
+import { ACTION_DOMAIN, ACTION_MAIN_PAGE, ACTION_SERVER } from "./utils.js";
 
 let currentLogin: Promise<ActionLoginResponse> | null = null;
 let loginMethod: LoginMethod = "validate";
@@ -71,16 +71,12 @@ export interface ActionLoginSuccessResponse {
   success: true;
 }
 
-export type ActionLoginResponse =
-  | ActionLoginSuccessResponse
-  | AuthLoginFailedResponse;
+export type ActionLoginResponse = ActionLoginSuccessResponse | AuthLoginFailedResponse;
 
 /**
  * @requires "redirect:manual"
  */
-const actionLoginLocal = async (
-  options: AccountInfo,
-): Promise<ActionLoginResponse> => {
+const actionLoginLocal = async (options: AccountInfo): Promise<ActionLoginResponse> => {
   if (!supportRedirect) return actionLoginOnline(options);
 
   const vpnLoginResult = await vpnCASLoginLocal(options);
@@ -103,7 +99,7 @@ const actionLoginLocal = async (
     redirect: "manual",
   });
 
-  if (ticketResponse.status !== 302) return UnknownResponse("登录失败");
+  if (ticketResponse.status !== 302) return unknownResponse("登录失败");
 
   const finalLocation = ticketResponse.headers.get("Location");
 
@@ -112,33 +108,23 @@ const actionLoginLocal = async (
       success: true,
     };
 
-  return UnknownResponse("登录失败");
+  return unknownResponse("登录失败");
 };
 
-const actionLoginOnline = (
-  options: AccountInfo,
-): Promise<ActionLoginResponse> =>
+const actionLoginOnline = (options: AccountInfo): Promise<ActionLoginResponse> =>
   request<ActionLoginResponse>("/action/login", {
     method: "POST",
     body: options,
     cookieScope: ACTION_SERVER,
   }).then(({ data }) => data);
 
-const actionLogin = createService(
-  "action-login",
-  actionLoginLocal,
-  actionLoginOnline,
-);
+const actionLogin = createService("action-login", actionLoginLocal, actionLoginOnline);
 
 const hasActionCookies = (): boolean =>
-  cookieStore
-    .getCookies(ACTION_SERVER)
-    .some(({ domain }) => domain.endsWith(ACTION_DOMAIN));
+  cookieStore.getCookies(ACTION_SERVER).some(({ domain }) => domain.endsWith(ACTION_DOMAIN));
 
 export const withActionLogin =
-  <R extends { success: boolean }, T extends (...args: any[]) => Promise<R>>(
-    serviceHandler: T,
-  ) =>
+  <R extends { success: boolean }, T extends (...args: any[]) => Promise<R>>(serviceHandler: T) =>
   async (
     ...args: Parameters<T>
   ): Promise<

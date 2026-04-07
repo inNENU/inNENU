@@ -13,21 +13,13 @@ export const supportRedirect =
 export const isOnlineService = (name: string): boolean => {
   const { globalData } = getApp<App>();
 
-  return (
-    globalData.service[name] === "online" ||
-    globalData.service.forceOnline ||
-    false
-  );
+  return globalData.service[name] === "online" || globalData.service.forceOnline || false;
 };
 
 /*@__NO_SIDE_EFFECTS__*/
 export const createService =
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  <T extends (...args: any) => any>(
-    name: string,
-    localService: T,
-    onlineService: T,
-  ): T =>
+  <T extends (...args: any) => any>(name: string, localService: T, onlineService: T): T =>
     ((...args: Parameters<T>): ReturnType<T> => {
       // eslint-disable-next-line @typescript-eslint/no-unsafe-return
       return (isOnlineService(name) ? onlineService : localService)(...args);

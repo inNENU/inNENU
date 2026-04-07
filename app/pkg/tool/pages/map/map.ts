@@ -1,18 +1,9 @@
 import { $Page, logger, showModal, showToast } from "@mptool/all";
 
-import type {
-  MarkerCategory,
-  MarkerData,
-  MarkersData,
-} from "../../../../../typings/index.js";
+import type { MarkerCategory, MarkerData, MarkersData } from "../../../../../typings/index.js";
 import { appCoverPrefix } from "../../../../config/index.js";
 import { windowInfo } from "../../../../state/index.js";
-import {
-  ensureJson,
-  getJson,
-  getLocation,
-  showNotice,
-} from "../../../../utils/index.js";
+import { ensureJson, getJson, getLocation, showNotice } from "../../../../utils/index.js";
 import type { Area } from "../../utils/index.js";
 import { benbuArea, jingyueArea } from "../../utils/index.js";
 
@@ -109,9 +100,7 @@ $Page(PAGE_ID, {
   onReady() {
     this.setMarker().then(() => {
       // 将地图缩放到对应的校区
-      this.context.includePoints(
-        this.data.area === "benbu" ? benbuArea : jingyueArea,
-      );
+      this.context.includePoints(this.data.area === "benbu" ? benbuArea : jingyueArea);
 
       // 1200ms 之后拿到缩放值和地图中心点坐标，写入地图组件配置
       setTimeout(() => {
@@ -204,9 +193,7 @@ $Page(PAGE_ID, {
     return Promise.all(promises).then(() => {
       const { category, marker } = this.state[this.data.area];
 
-      return new Promise<void>((resolve) =>
-        this.setData({ category, marker }, resolve),
-      );
+      return new Promise<void>((resolve) => this.setData({ category, marker }, resolve));
     });
   },
 
@@ -243,8 +230,7 @@ $Page(PAGE_ID, {
         this.setData({
           map: {
             scale:
-              this.data.map.scale +
-              (event.currentTarget.dataset.action === "zoom-in" ? 1 : -1),
+              this.data.map.scale + (event.currentTarget.dataset.action === "zoom-in" ? 1 : -1),
             latitude,
             longitude,
           },
@@ -333,8 +319,7 @@ $Page(PAGE_ID, {
   },
 
   regionChange(event: WechatMiniprogram.RegionChange) {
-    if (event.causedBy === "gesture" && event.type === "begin")
-      this.state.gestureHold = true;
+    if (event.causedBy === "gesture" && event.type === "begin") this.state.gestureHold = true;
 
     // 用户对地图进行了缩放或移动
     if (

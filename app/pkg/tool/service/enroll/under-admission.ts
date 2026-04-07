@@ -1,10 +1,6 @@
 import { request } from "../../../../api/index.js";
 import type { CommonFailedResponse } from "../../../../service/index.js";
-import {
-  ActionFailType,
-  UnknownResponse,
-  createService,
-} from "../../../../service/index.js";
+import { ActionFailType, unknownResponse, createService } from "../../../../service/index.js";
 
 const QUERY_URL = "https://gkcx.nenu.edu.cn/api/user/admissionQuery";
 
@@ -79,15 +75,10 @@ const getUnderAdmissionLocal = async ({
         msg: "查询通道已关闭",
       };
 
-    return UnknownResponse(data.message);
+    return unknownResponse(data.message);
   }
 
-  const {
-    department,
-    major,
-    mail_code: mailCode,
-    is_mailed: hasMailed,
-  } = data.student;
+  const { department, major, mail_code: mailCode, is_mailed: hasMailed } = data.student;
 
   const info = [
     {
@@ -122,9 +113,7 @@ const getUnderAdmissionLocal = async ({
   };
 };
 
-const getUnderAdmissionOnline = (
-  options: UnderAdmissionOptions,
-): Promise<UnderAdmissionResponse> =>
+const getUnderAdmissionOnline = (options: UnderAdmissionOptions): Promise<UnderAdmissionResponse> =>
   request<UnderAdmissionResponse>("/enroll/under-admission", {
     method: "POST",
     ...(options ? { body: options } : {}),

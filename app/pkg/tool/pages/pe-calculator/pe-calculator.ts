@@ -6,8 +6,7 @@ import { getJson, showNotice } from "../../../../utils/index.js";
 
 /** 分数段设置 */
 const gradeLevels = [
-  10, 20, 30, 40, 50, 60, 62, 64, 66, 68, 70, 72, 74, 76, 78, 80, 85, 90, 95,
-  100,
+  10, 20, 30, 40, 50, 60, 62, 64, 66, 68, 70, 72, 74, 76, 78, 80, 85, 90, 95, 100,
 ];
 /** 特殊项目 */
 const special = [
@@ -137,8 +136,7 @@ $Page("pe-calculator", {
 
       // 写入性别
       // eslint-disable-next-line @typescript-eslint/naming-convention
-      "gender.key":
-        typeof genderIndex === "number" ? genderKeys[genderIndex] : "",
+      "gender.key": typeof genderIndex === "number" ? genderKeys[genderIndex] : "",
 
       // 写入年级
       // eslint-disable-next-line @typescript-eslint/naming-convention
@@ -153,11 +151,9 @@ $Page("pe-calculator", {
       "longRun.picker": longRunPicker,
     });
 
-    if (typeof genderIndex === "number")
-      this.state.gender = this.data.gender.values[genderIndex];
+    if (typeof genderIndex === "number") this.state.gender = this.data.gender.values[genderIndex];
 
-    if (typeof gradeIndex === "number")
-      this.state.grade = this.data.grade.values[gradeIndex];
+    if (typeof gradeIndex === "number") this.state.grade = this.data.grade.values[gradeIndex];
 
     // 设置通知
     showNotice("pe-calculator");
@@ -236,17 +232,14 @@ $Page("pe-calculator", {
     // 设置显示数据
     this.setData({
       // eslint-disable-next-line @typescript-eslint/naming-convention
-      "longRun.value": `${longRunPicker[0][value[0]]} ${
-        longRunPicker[1][value[1]]
-      }`,
+      "longRun.value": `${longRunPicker[0][value[0]]} ${longRunPicker[1][value[1]]}`,
     });
     this.state.result.longRun = (value[0] + 2) * 60 + value[1];
   },
 
   /** 计算 BMI */
   getBMI(result: Record<string, number>): [number, number] {
-    const bmiResult =
-      Math.round((result.weight * 100000) / result.height / result.height) / 10;
+    const bmiResult = Math.round((result.weight * 100000) / result.height / result.height) / 10;
 
     // 计算 BMI 状态与分值
     const [state, bmi] =
@@ -301,72 +294,66 @@ $Page("pe-calculator", {
     }
 
     // 可以计算 BMI
-    if (result.height && result.weight)
-      [peScore.bmi, peScore.passScore] = this.getBMI(result);
+    if (result.height && result.weight) [peScore.bmi, peScore.passScore] = this.getBMI(result);
 
     // 读取相应配置文件
-    getJson<GradeConfig>(`function/pe-calculator/${gender}-${grade}`).then(
-      (config) => {
-        // 以下三项越高越好，进行计算
-        (
-          ["vitalCapacity", "sitAndReach", "standingLongJump"] as (
-            | "vitalCapacity"
-            | "sitAndReach"
-            | "standingLongJump"
-          )[]
-        ).forEach((x) => {
-          if (result[x] && Number(result[x])) {
-            for (let i = length; i >= 0; i -= 1)
-              if (result[x] >= config[x][i]) {
-                peScore[x] = gradeLevels[i];
-                break;
-              } else if (i === 0) {
-                peScore[x] = 0;
-              }
-          } else {
-            peScore[x] = 0;
-          }
-        });
-
-        // 以下两项越低越好
-        (["shortRun", "longRun"] as ("shortRun" | "longRun")[]).forEach((x) => {
-          if (result[x]) {
-            for (let i = length; i >= 0; i -= 1)
-              if (result[x] <= config[x][i]) {
-                peScore[x] = gradeLevels[i];
-                break;
-              } else if (i === 0) {
-                peScore[x] = 0;
-              }
-          } else {
-            peScore[x] = 0;
-          }
-        });
-
-        // 计算特别类项目分数
-        const specialScore = gender === "male" ? "chinning" : "situp";
-
-        if (result[specialScore] && Number(result[specialScore])) {
+    getJson<GradeConfig>(`function/pe-calculator/${gender}-${grade}`).then((config) => {
+      // 以下三项越高越好，进行计算
+      (
+        ["vitalCapacity", "sitAndReach", "standingLongJump"] as (
+          | "vitalCapacity"
+          | "sitAndReach"
+          | "standingLongJump"
+        )[]
+      ).forEach((x) => {
+        if (result[x] && Number(result[x])) {
           for (let i = length; i >= 0; i -= 1)
-            if (
-              config[specialScore]![i] !== "" &&
-              result[specialScore] >= config[specialScore]![i]
-            ) {
-              peScore.special = gradeLevels[i];
+            if (result[x] >= config[x][i]) {
+              peScore[x] = gradeLevels[i];
               break;
             } else if (i === 0) {
-              peScore.special = 0;
+              peScore[x] = 0;
             }
         } else {
-          peScore.special = 0;
+          peScore[x] = 0;
         }
+      });
 
-        // TODO: 计算加分
-        console.info("Score:", peScore);
+      // 以下两项越低越好
+      (["shortRun", "longRun"] as ("shortRun" | "longRun")[]).forEach((x) => {
+        if (result[x]) {
+          for (let i = length; i >= 0; i -= 1)
+            if (result[x] <= config[x][i]) {
+              peScore[x] = gradeLevels[i];
+              break;
+            } else if (i === 0) {
+              peScore[x] = 0;
+            }
+        } else {
+          peScore[x] = 0;
+        }
+      });
 
-        callback(peScore);
-      },
-    );
+      // 计算特别类项目分数
+      const specialScore = gender === "male" ? "chinning" : "situp";
+
+      if (result[specialScore] && Number(result[specialScore])) {
+        for (let i = length; i >= 0; i -= 1)
+          if (config[specialScore]![i] !== "" && result[specialScore] >= config[specialScore]![i]) {
+            peScore.special = gradeLevels[i];
+            break;
+          } else if (i === 0) {
+            peScore.special = 0;
+          }
+      } else {
+        peScore.special = 0;
+      }
+
+      // TODO: 计算加分
+      console.info("Score:", peScore);
+
+      callback(peScore);
+    });
   },
 
   /** 计算最终结果 */

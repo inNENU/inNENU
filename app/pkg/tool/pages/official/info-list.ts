@@ -1,10 +1,7 @@
 import { $Page } from "@mptool/all";
 
 import { appCoverPrefix } from "../../../../config/index.js";
-import type {
-  OfficialInfoItem,
-  OfficialInfoType,
-} from "../../../../service/index.js";
+import type { OfficialInfoItem, OfficialInfoType } from "../../../../service/index.js";
 import { getOfficialInfoList } from "../../../../service/index.js";
 import { info } from "../../../../state/index.js";
 import { getPageColor, showNotice } from "../../../../utils/index.js";

@@ -21,9 +21,7 @@ const getScriptJob = (id) => {
 
         if (name.includes(".")) return name.endsWith(suffix);
 
-        return !existsSync(
-          resolve("app", value.path).replace(/\.ts$/, `.${id}.ts`),
-        );
+        return !existsSync(resolve("app", value.path).replace(/\.ts$/, `.${id}.ts`));
       },
     })
       .pipe(
@@ -50,17 +48,11 @@ const getMoveScriptJob = (id) => {
   const moveScript = () =>
     src(["app/**/*.ts", "app/**/*.js"], {
       read: (value) => {
-        if (
-          [`.${id}.ts`, ".d.ts", ".js"].some((ext) => value.path.endsWith(ext))
-        )
-          return true;
+        if ([`.${id}.ts`, ".d.ts", ".js"].some((ext) => value.path.endsWith(ext))) return true;
 
         return (
           !existsSync(
-            resolve(
-              "app",
-              value.path.substring(0, value.path.length - 3) + `.${id}.ts`,
-            ),
+            resolve("app", value.path.substring(0, value.path.length - 3) + `.${id}.ts`),
           ) && value.path.split(".").length === 2
         );
       },
@@ -68,10 +60,7 @@ const getMoveScriptJob = (id) => {
       .pipe(
         rename((path) => {
           if (path.basename.endsWith(`.${id}`))
-            path.basename = path.basename.substring(
-              0,
-              path.basename.length - id.length - 1,
-            );
+            path.basename = path.basename.substring(0, path.basename.length - id.length - 1);
         }),
       )
       .pipe(dest(".temp"));
@@ -90,9 +79,7 @@ const getStyleJob = (id, ext = "wxss") => {
 
         if (name.includes(".")) return name.endsWith(suffix);
 
-        return !existsSync(
-          resolve("app", value.path).replace(/\.scss$/, `.${id}.scss`),
-        );
+        return !existsSync(resolve("app", value.path).replace(/\.scss$/, `.${id}.scss`));
       },
     })
       .pipe(
@@ -109,15 +96,9 @@ const getStyleJob = (id, ext = "wxss") => {
             // preserve `@import` rules
             {
               canonicalize: (url, { fromImport }) =>
-                fromImport
-                  ? new URL(
-                      `miniapp:import?path=${url.replace(/^import:/, "")}`,
-                    )
-                  : null,
+                fromImport ? new URL(`miniapp:import?path=${url.replace(/^import:/, "")}`) : null,
               load: (canonicalUrl) => ({
-                contents: `@import "${canonicalUrl.searchParams.get(
-                  "path",
-                )}.${ext}"`,
+                contents: `@import "${canonicalUrl.searchParams.get("path")}.${ext}"`,
                 syntax: "css",
               }),
             },
@@ -147,9 +128,7 @@ const getAssetsJob = (id, { bundle = false, wxFiles = true } = {}) => {
 
           if (name.includes(".")) return name.endsWith(`.${id}`);
 
-          return !existsSync(
-            resolve("app", value.path).replace(new RegExp(ext), `.${id}${ext}`),
-          );
+          return !existsSync(resolve("app", value.path).replace(new RegExp(ext), `.${id}${ext}`));
         },
         since: lastRun(assetsJob),
       },
@@ -167,9 +146,7 @@ const getAssetsJob = (id, { bundle = false, wxFiles = true } = {}) => {
 
 const getConfigJob = (id) => {
   const configJob = () =>
-    src(`project.config.${id}.json`)
-      .pipe(rename("project.config.json"))
-      .pipe(dest("."));
+    src(`project.config.${id}.json`).pipe(rename("project.config.json")).pipe(dest("."));
 
   return configJob;
 };
@@ -180,8 +157,7 @@ const watchAppScript = () =>
   watch("{app,typings}/**/*.ts", { ignoreInitial: false }, buildAppScript);
 
 const buildAppWXSS = getStyleJob("app");
-const watchAppWXSS = () =>
-  watch("app/**/*.scss", { ignoreInitial: false }, buildAppWXSS);
+const watchAppWXSS = () => watch("app/**/*.scss", { ignoreInitial: false }, buildAppWXSS);
 
 const moveAppAssets = getAssetsJob("app");
 const watchAppAssets = () =>
@@ -195,18 +171,8 @@ const moveAppConfig = getConfigJob("app");
 const watchAppConfig = () =>
   watch("project.config.app.json", { ignoreInitial: false }, moveAppConfig);
 
-const watchApp = parallel(
-  watchAppScript,
-  watchAppWXSS,
-  watchAppAssets,
-  watchAppConfig,
-);
-const buildApp = parallel(
-  buildAppWXSS,
-  buildAppScript,
-  moveAppAssets,
-  moveAppConfig,
-);
+const watchApp = parallel(watchAppScript, watchAppWXSS, watchAppAssets, watchAppConfig);
+const buildApp = parallel(buildAppWXSS, buildAppScript, moveAppAssets, moveAppConfig);
 const bundleApp = parallel(
   buildAppWXSS,
   getAssetsJob("app", { bundle: true }),
@@ -220,8 +186,7 @@ const watchWechatScript = () =>
   watch("{app,typings}/**/*.ts", { ignoreInitial: false }, buildWechatScript);
 
 const buildWechatWXSS = getStyleJob("wx");
-const watchWechatWXSS = () =>
-  watch("app/**/*.scss", { ignoreInitial: false }, buildWechatWXSS);
+const watchWechatWXSS = () => watch("app/**/*.scss", { ignoreInitial: false }, buildWechatWXSS);
 
 const moveWechatAssets = getAssetsJob("wx");
 const watchWechatAssets = () =>
@@ -261,8 +226,7 @@ const watchWeNENUScript = () =>
   watch("{app,typings}/**/*.ts", { ignoreInitial: false }, buildWeNENUScript);
 
 const buildWeNENUWXSS = getStyleJob("we");
-const watchWeNENUWXSS = () =>
-  watch("app/**/*.scss", { ignoreInitial: false }, buildWeNENUWXSS);
+const watchWeNENUWXSS = () => watch("app/**/*.scss", { ignoreInitial: false }, buildWeNENUWXSS);
 
 const moveWeNENUAssets = getAssetsJob("we");
 const watchWeNENUAssets = () =>
@@ -301,28 +265,18 @@ const getDebugMoveScriptJob = (id) => {
   const moveScript = () =>
     src(["app/**/*.ts", "app/**/*.js"], {
       read: (value) => {
-        if (
-          [`.${id}.ts`, ".d.ts", ".js"].some((ext) => value.path.endsWith(ext))
-        )
-          return true;
+        if ([`.${id}.ts`, ".d.ts", ".js"].some((ext) => value.path.endsWith(ext))) return true;
 
         return (
-          !existsSync(
-            resolve(
-              "app",
-              value.path.substring(0, value.path.length - 3) + `.${id}.ts`,
-            ),
-          ) && value.path.split(".").length === 2
+          !existsSync(resolve("app", value.path.slice(0, -3) + `.${id}.ts`)) &&
+          value.path.split(".").length === 2
         );
       },
     })
       .pipe(
         rename((path) => {
           if (path.basename.endsWith(`.${id}`))
-            path.basename = path.basename.substring(
-              0,
-              path.basename.length - id.length - 1,
-            );
+            path.basename = path.basename.slice(0, path.basename.length - id.length - 1);
         }),
       )
       .pipe(

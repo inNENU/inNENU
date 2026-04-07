@@ -3,12 +3,7 @@ import { $Page } from "@mptool/all";
 import type { PageStateWithContent } from "../../../../../typings/index.js";
 import type { App } from "../../../../app.js";
 import { appInfo, info } from "../../../../state/index.js";
-import {
-  getPrivacyStatus,
-  resolvePage,
-  setPage,
-  showNotice,
-} from "../../../../utils/index.js";
+import { getPrivacyStatus, resolvePage, setPage, showNotice } from "../../../../utils/index.js";
 
 const { globalData } = getApp<App>();
 
@@ -41,9 +36,7 @@ $Page("privacy", {
         {
           tag: "functional-list",
           header: "修改授权",
-          items: [
-            { text: "打开设置页", type: "button", handler: "openSetting" },
-          ],
+          items: [{ text: "打开设置页", type: "button", handler: "openSetting" }],
           footer: " ",
         },
       ],
@@ -78,9 +71,7 @@ $Page("privacy", {
 
     this.setData({
       // eslint-disable-next-line @typescript-eslint/naming-convention
-      "page.content[1].items[0].desc": locationAuthorized
-        ? "已授权✓"
-        : "未授权×",
+      "page.content[1].items[0].desc": locationAuthorized ? "已授权✓" : "未授权×",
       // eslint-disable-next-line @typescript-eslint/naming-convention
       "page.content[1].items[1].desc": albumAuthorized ? "已授权✓" : "未授权×",
     });

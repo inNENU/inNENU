@@ -1,11 +1,6 @@
 import { $Page, get, logger, readFile, set, showModal } from "@mptool/all";
 
-import {
-  INITIALIZED_KEY,
-  MINUTE,
-  WEATHER_KEY,
-  appCoverPrefix,
-} from "../../../../config/index.js";
+import { INITIALIZED_KEY, MINUTE, WEATHER_KEY, appCoverPrefix } from "../../../../config/index.js";
 import type { WeatherAlarm, WeatherData } from "../../../../service/index.js";
 import { getWeather } from "../../../../service/index.js";
 import { windowInfo } from "../../../../state/index.js";
@@ -91,14 +86,8 @@ $Page("weather", {
 
   updateIcon(): void {
     this.setData({
-      weatherIcon: JSON.parse(readFile("./icon/weather") || "{}") as Record<
-        string,
-        string
-      >,
-      hintIcon: JSON.parse(readFile("./icon/weather-hints") || "{}") as Record<
-        string,
-        string
-      >,
+      weatherIcon: JSON.parse(readFile("./icon/weather") || "{}") as Record<string, string>,
+      hintIcon: JSON.parse(readFile("./icon/weather-hints") || "{}") as Record<string, string>,
     });
   },
 
@@ -111,17 +100,13 @@ $Page("weather", {
     this.createSelectorQuery()
       .select(CANVAS_SELECTOR)
       .fields({ node: true, size: true })
-      .exec(
-        ([
-          { node: canvas, width, height },
-        ]: Required<WechatMiniprogram.NodeInfo>[]) => {
-          const dpr = windowInfo.pixelRatio;
+      .exec(([{ node: canvas, width, height }]: Required<WechatMiniprogram.NodeInfo>[]) => {
+        const dpr = windowInfo.pixelRatio;
 
-          canvas.width = width * dpr;
-          canvas.height = height * dpr;
-          this.draw(canvas, weather);
-        },
-      );
+        canvas.width = width * dpr;
+        canvas.height = height * dpr;
+        this.draw(canvas, weather);
+      });
   },
 
   draw(canvas: WechatMiniprogram.Canvas2DNode, weather: WeatherData) {
@@ -244,8 +229,7 @@ $Page("weather", {
   },
 
   showAqi() {
-    const { aqi, aqiLevel, aqiName, co, so2, no2, pm10, pm25, o3 } =
-      this.data.weather.air;
+    const { aqi, aqiLevel, aqiName, co, so2, no2, pm10, pm25, o3 } = this.data.weather.air;
 
     showModal(
       "空气质量",

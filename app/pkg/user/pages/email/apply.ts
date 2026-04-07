@@ -108,13 +108,9 @@ $Page(PAGE_ID, {
     const { info } = user;
 
     if (!info) {
-      showModal(
-        "个人信息缺失",
-        `${envName}本地暂无个人信息，请重新登录`,
-        () => {
-          this.$go(`account-login?update=true`);
-        },
-      );
+      showModal("个人信息缺失", `${envName}本地暂无个人信息，请重新登录`, () => {
+        this.$go(`account-login?update=true`);
+      });
 
       return;
     }
@@ -180,10 +176,7 @@ $Page(PAGE_ID, {
     if (env === "donut") this.$go(`web?url=${encodeURIComponent(MAIL_LINK)}`);
     else {
       writeClipboard(MAIL_LINK).then(() =>
-        showModal(
-          "网址已复制",
-          `小程序暂不支持打开网页，请手动粘贴到浏览器地址栏并访问。`,
-        ),
+        showModal("网址已复制", `小程序暂不支持打开网页，请手动粘贴到浏览器地址栏并访问。`),
       );
     }
   },

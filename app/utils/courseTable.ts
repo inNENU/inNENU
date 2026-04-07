@@ -13,9 +13,7 @@ export const getCurrentTimeCode = (): string => {
 };
 
 export const getWeekIndex = (startTime: string, maxWeek: number): number => {
-  const passedWeeks = Math.floor(
-    (Date.now() - Date.parse(startTime)) / DAY / 7,
-  );
+  const passedWeeks = Math.floor((Date.now() - Date.parse(startTime)) / DAY / 7);
 
   return passedWeeks >= 0 && passedWeeks + 1 <= maxWeek ? passedWeeks + 1 : 0;
 };

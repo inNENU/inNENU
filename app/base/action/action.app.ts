@@ -21,7 +21,9 @@ $Component({
     copy(): void {
       const { content } = this.data.config;
 
-      writeClipboard(content).then(() => logger.debug(`Copied '${content}'`));
+      writeClipboard(content).then(() => {
+        logger.debug(`Copied '${content}'`);
+      });
     },
 
     link(): void {

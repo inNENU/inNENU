@@ -75,9 +75,9 @@
 
 $colors:
   hsl(0deg 67% 45%), hsl(30deg 67% 45%), hsl(60deg 67% 45%), hsl(90deg 67% 45%),
-  hsl(120deg 67% 45%), hsl(150deg 67% 45%), hsl(180deg 67% 45%),
-  hsl(210deg 67% 45%), hsl(240deg 67% 45%), hsl(270deg 67% 45%),
-  hsl(300deg 67% 45%), hsl(330deg 67% 45%), hsl(0deg 0% 0%);
+  hsl(120deg 67% 45%), hsl(150deg 67% 45%), hsl(180deg 67% 45%), hsl(210deg 67% 45%),
+  hsl(240deg 67% 45%), hsl(270deg 67% 45%), hsl(300deg 67% 45%), hsl(330deg 67% 45%),
+  hsl(0deg 0% 0%);
 
 @each $color in $colors {
   $index: list.index($colors, $color) - 1;

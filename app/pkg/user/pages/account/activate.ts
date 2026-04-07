@@ -10,13 +10,7 @@ import { activateAccount } from "../../service/index.js";
 const PAGE_ID = "account-activate";
 const PAGE_TITLE = "账号激活";
 
-const ID_TYPES = [
-  "身份证",
-  "护照",
-  "港澳居民来往内地通行证",
-  "旅行证据",
-  "其他",
-] as const;
+const ID_TYPES = ["身份证", "护照", "港澳居民来往内地通行证", "旅行证据", "其他"] as const;
 
 $Page(PAGE_ID, {
   data: {
@@ -34,9 +28,7 @@ $Page(PAGE_ID, {
       desc: `\
 『激活说明』
 ${envName}严格使用官方激活流程。
-您所填写的信息会${
-        supportRedirect ? "直接发送" : `经${envName}转发`
-      }给官方服务器${
+您所填写的信息会${supportRedirect ? "直接发送" : `经${envName}转发`}给官方服务器${
         supportRedirect ? "" : "，Mr.Hope 不会收集并存储您的任何信息"
       }。\
 `,
@@ -318,10 +310,7 @@ ${envName}严格使用官方激活流程。
         /[!~`@#$%^&*()_+\-=[\]{}\\|;':",./?<>]/.test(password),
       ].filter(Boolean).length < 3
     ) {
-      showModal(
-        "密码格式不合法",
-        "密码至少包含大写字母、小写字母、数字和特殊字符中的三种",
-      );
+      showModal("密码格式不合法", "密码至少包含大写字母、小写字母、数字和特殊字符中的三种");
 
       return;
     }

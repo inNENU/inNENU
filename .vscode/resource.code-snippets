@@ -95,12 +95,7 @@
   "doc component": {
     "scope": "yaml",
     "prefix": "doc",
-    "body": [
-      "  - tag: doc",
-      "${1:    header: $2}",
-      "    name: $3",
-      "    url: \\$file/$0",
-    ],
+    "body": ["  - tag: doc", "${1:    header: $2}", "    name: $3", "    url: \\$file/$0"],
     "description": "inset doc",
   },
   "audio component": {
@@ -124,12 +119,7 @@
   "phone": {
     "scope": "yaml",
     "prefix": ["phone"],
-    "body": [
-      "  - tag: phone",
-      "${1:    header: $2}",
-      "    fName: $3",
-      "    num: $0",
-    ],
+    "body": ["  - tag: phone", "${1:    header: $2}", "    fName: $3", "    num: $0"],
     "description": "inset phone",
   },
   "location": {

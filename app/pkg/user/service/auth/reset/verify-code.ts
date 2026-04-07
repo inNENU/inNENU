@@ -1,8 +1,5 @@
 import { request } from "../../../../../api/index.js";
-import type {
-  CommonFailedResponse,
-  CommonSuccessResponse,
-} from "../../../../../service/index.js";
+import type { CommonFailedResponse, CommonSuccessResponse } from "../../../../../service/index.js";
 import { ActionFailType, authEncrypt } from "../../../../../service/index.js";
 import { getPasswordRule } from "../get-password-rule.js";
 import type { ResetCaptchaInfo } from "../reset-captcha.js";

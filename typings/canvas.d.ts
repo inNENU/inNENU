@@ -49,18 +49,8 @@ type CanvasFontVariantCaps =
 type CanvasLineCap = "butt" | "round" | "square";
 type CanvasLineJoin = "bevel" | "miter" | "round";
 type CanvasTextAlign = "center" | "end" | "left" | "right" | "start";
-type CanvasTextBaseline =
-  | "alphabetic"
-  | "bottom"
-  | "hanging"
-  | "ideographic"
-  | "middle"
-  | "top";
-type CanvasTextRendering =
-  | "auto"
-  | "geometricPrecision"
-  | "optimizeLegibility"
-  | "optimizeSpeed";
+type CanvasTextBaseline = "alphabetic" | "bottom" | "hanging" | "ideographic" | "middle" | "top";
+type CanvasTextRendering = "auto" | "geometricPrecision" | "optimizeLegibility" | "optimizeSpeed";
 type ImageSmoothingQuality = "high" | "low" | "medium";
 type PredefinedColorSpace = "display-p3" | "srgb";
 
@@ -190,12 +180,7 @@ interface DOMMatrixReadOnly {
   /** [MDN Reference](https://developer.mozilla.org/docs/Web/API/DOMMatrixReadOnly/rotate) */
   rotate(rotX?: number, rotY?: number, rotZ?: number): DOMMatrix;
   /** [MDN Reference](https://developer.mozilla.org/docs/Web/API/DOMMatrixReadOnly/rotateAxisAngle) */
-  rotateAxisAngle(
-    x?: number,
-    y?: number,
-    z?: number,
-    angle?: number,
-  ): DOMMatrix;
+  rotateAxisAngle(x?: number, y?: number, z?: number, angle?: number): DOMMatrix;
   /** [MDN Reference](https://developer.mozilla.org/docs/Web/API/DOMMatrixReadOnly/rotateFromVector) */
   rotateFromVector(x?: number, y?: number): DOMMatrix;
   /** [MDN Reference](https://developer.mozilla.org/docs/Web/API/DOMMatrixReadOnly/scale) */
@@ -208,12 +193,7 @@ interface DOMMatrixReadOnly {
     originZ?: number,
   ): DOMMatrix;
   /** [MDN Reference](https://developer.mozilla.org/docs/Web/API/DOMMatrixReadOnly/scale3d) */
-  scale3d(
-    scale?: number,
-    originX?: number,
-    originY?: number,
-    originZ?: number,
-  ): DOMMatrix;
+  scale3d(scale?: number, originX?: number, originY?: number, originZ?: number): DOMMatrix;
   /** [MDN Reference](https://developer.mozilla.org/docs/Web/API/DOMMatrixReadOnly/skewX) */
   skewX(sx?: number): DOMMatrix;
   /** [MDN Reference](https://developer.mozilla.org/docs/Web/API/DOMMatrixReadOnly/skewY) */
@@ -258,21 +238,11 @@ interface DOMMatrix extends DOMMatrixReadOnly {
   invertSelf(): DOMMatrix;
   multiplySelf(other?: DOMMatrixInit): DOMMatrix;
   preMultiplySelf(other?: DOMMatrixInit): DOMMatrix;
-  rotateAxisAngleSelf(
-    x?: number,
-    y?: number,
-    z?: number,
-    angle?: number,
-  ): DOMMatrix;
+  rotateAxisAngleSelf(x?: number, y?: number, z?: number, angle?: number): DOMMatrix;
   rotateFromVectorSelf(x?: number, y?: number): DOMMatrix;
   rotateSelf(rotX?: number, rotY?: number, rotZ?: number): DOMMatrix;
   /** [MDN Reference](https://developer.mozilla.org/docs/Web/API/DOMMatrix/scale3dSelf) */
-  scale3dSelf(
-    scale?: number,
-    originX?: number,
-    originY?: number,
-    originZ?: number,
-  ): DOMMatrix;
+  scale3dSelf(scale?: number, originX?: number, originY?: number, originZ?: number): DOMMatrix;
   /** [MDN Reference](https://developer.mozilla.org/docs/Web/API/DOMMatrix/scaleSelf) */
   scaleSelf(
     scaleX?: number,
@@ -298,13 +268,7 @@ interface CanvasCompositing {
 interface CanvasDrawImage {
   /** [MDN Reference](https://developer.mozilla.org/docs/Web/API/CanvasRenderingContext2D/drawImage) */
   drawImage(image: WechatMiniprogram.Image, dx: number, dy: number): void;
-  drawImage(
-    image: WechatMiniprogram.Image,
-    dx: number,
-    dy: number,
-    dw: number,
-    dh: number,
-  ): void;
+  drawImage(image: WechatMiniprogram.Image, dx: number, dy: number, dw: number, dh: number): void;
   drawImage(
     image: WechatMiniprogram.Image,
     sx: number,
@@ -331,14 +295,7 @@ interface CanvasPath {
   /** [MDN Reference](https://developer.mozilla.org/docs/Web/API/CanvasRenderingContext2D/arcTo) */
   arcTo(x1: number, y1: number, x2: number, y2: number, radius: number): void;
   /** [MDN Reference](https://developer.mozilla.org/docs/Web/API/CanvasRenderingContext2D/bezierCurveTo) */
-  bezierCurveTo(
-    cp1x: number,
-    cp1y: number,
-    cp2x: number,
-    cp2y: number,
-    x: number,
-    y: number,
-  ): void;
+  bezierCurveTo(cp1x: number, cp1y: number, cp2x: number, cp2y: number, x: number, y: number): void;
   /** [MDN Reference](https://developer.mozilla.org/docs/Web/API/CanvasRenderingContext2D/closePath) */
   closePath(): void;
   /** [MDN Reference](https://developer.mozilla.org/docs/Web/API/CanvasRenderingContext2D/ellipse) */
@@ -395,12 +352,7 @@ interface CanvasDrawPath {
   fill(path: Path2D, fillRule?: CanvasFillRule): void;
   /** [MDN Reference](https://developer.mozilla.org/docs/Web/API/CanvasRenderingContext2D/isPointInPath) */
   isPointInPath(x: number, y: number, fillRule?: CanvasFillRule): boolean;
-  isPointInPath(
-    path: Path2D,
-    x: number,
-    y: number,
-    fillRule?: CanvasFillRule,
-  ): boolean;
+  isPointInPath(path: Path2D, x: number, y: number, fillRule?: CanvasFillRule): boolean;
   /** [MDN Reference](https://developer.mozilla.org/docs/Web/API/CanvasRenderingContext2D/isPointInStroke) */
   isPointInStroke(x: number, y: number): boolean;
   isPointInStroke(path: Path2D, x: number, y: number): boolean;
@@ -446,17 +398,9 @@ interface CanvasFillStrokeStyles {
   /** [MDN Reference](https://developer.mozilla.org/docs/Web/API/CanvasRenderingContext2D/createConicGradient) */
   createConicGradient(startAngle: number, x: number, y: number): CanvasGradient;
   /** [MDN Reference](https://developer.mozilla.org/docs/Web/API/CanvasRenderingContext2D/createLinearGradient) */
-  createLinearGradient(
-    x0: number,
-    y0: number,
-    x1: number,
-    y1: number,
-  ): CanvasGradient;
+  createLinearGradient(x0: number, y0: number, x1: number, y1: number): CanvasGradient;
   /** [MDN Reference](https://developer.mozilla.org/docs/Web/API/CanvasRenderingContext2D/createPattern) */
-  createPattern(
-    image: WechatMiniprogram.Image,
-    repetition: string | null,
-  ): CanvasPattern | null;
+  createPattern(image: WechatMiniprogram.Image, repetition: string | null): CanvasPattern | null;
   /** [MDN Reference](https://developer.mozilla.org/docs/Web/API/CanvasRenderingContext2D/createRadialGradient) */
   createRadialGradient(
     x0: number,
@@ -479,11 +423,7 @@ interface ImageDataSettings {
 
 interface CanvasImageData {
   /** [MDN Reference](https://developer.mozilla.org/docs/Web/API/CanvasRenderingContext2D/createImageData) */
-  createImageData(
-    sw: number,
-    sh: number,
-    settings?: ImageDataSettings,
-  ): ImageData;
+  createImageData(sw: number, sh: number, settings?: ImageDataSettings): ImageData;
   createImageData(imagedata: ImageData): ImageData;
   /** [MDN Reference](https://developer.mozilla.org/docs/Web/API/CanvasRenderingContext2D/getImageData) */
   getImageData(
@@ -639,24 +579,10 @@ interface CanvasTransform {
   /** [MDN Reference](https://developer.mozilla.org/docs/Web/API/CanvasRenderingContext2D/scale) */
   scale(x: number, y: number): void;
   /** [MDN Reference](https://developer.mozilla.org/docs/Web/API/CanvasRenderingContext2D/setTransform) */
-  setTransform(
-    a: number,
-    b: number,
-    c: number,
-    d: number,
-    e: number,
-    f: number,
-  ): void;
+  setTransform(a: number, b: number, c: number, d: number, e: number, f: number): void;
   setTransform(transform?: DOMMatrix2DInit): void;
   /** [MDN Reference](https://developer.mozilla.org/docs/Web/API/CanvasRenderingContext2D/transform) */
-  transform(
-    a: number,
-    b: number,
-    c: number,
-    d: number,
-    e: number,
-    f: number,
-  ): void;
+  transform(a: number, b: number, c: number, d: number, e: number, f: number): void;
   /** [MDN Reference](https://developer.mozilla.org/docs/Web/API/CanvasRenderingContext2D/translate) */
   translate(x: number, y: number): void;
 }
@@ -680,7 +606,8 @@ interface CanvasRenderingContext2DSettings {
  * [MDN Reference](https://developer.mozilla.org/docs/Web/API/CanvasRenderingContext2D)
  */
 interface CanvasRenderingContext2D
-  extends CanvasCompositing,
+  extends
+    CanvasCompositing,
     CanvasDrawImage,
     CanvasDrawPath,
     CanvasFillStrokeStyles,

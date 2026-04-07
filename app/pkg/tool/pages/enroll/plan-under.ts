@@ -3,10 +3,7 @@ import { $Page, showModal } from "@mptool/all";
 import { appCoverPrefix } from "../../../../config/index.js";
 import { info } from "../../../../state/index.js";
 import { getPageColor, showNotice } from "../../../../utils/index.js";
-import type {
-  UnderEnrollPlanConfig,
-  UnderEnrollPlanOptionInfo,
-} from "../../service/index.js";
+import type { UnderEnrollPlanConfig, UnderEnrollPlanOptionInfo } from "../../service/index.js";
 import { getUnderEnrollPlan } from "../../service/index.js";
 
 const PAGE_ID = "under-enroll-plan";
@@ -111,12 +108,7 @@ $Page(PAGE_ID, {
   },
 
   setYearOptions() {
-    const {
-      provinceIndex,
-      provinces,
-      years: oldYears,
-      yearIndex: oldYearIndex,
-    } = this.data;
+    const { provinceIndex, provinces, years: oldYears, yearIndex: oldYearIndex } = this.data;
 
     if (provinceIndex !== 0) {
       const province = provinces[provinceIndex - 1];
@@ -270,12 +262,7 @@ $Page(PAGE_ID, {
       classTypeIndex,
     } = this.data;
 
-    if (
-      yearIndex === 0 ||
-      provinceIndex === 0 ||
-      majorTypeIndex === 0 ||
-      classTypeIndex === 0
-    ) {
+    if (yearIndex === 0 || provinceIndex === 0 || majorTypeIndex === 0 || classTypeIndex === 0) {
       showModal("缺少选项", "请补充全部选项");
 
       return;

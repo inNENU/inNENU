@@ -15,13 +15,7 @@ $Page(PAGE_ID, {
     nodes: [] as RichTextNode[],
   },
 
-  onLoad({
-    from = "返回",
-    type = "privacy",
-  }: {
-    type?: "license" | "privacy";
-    from?: string;
-  }) {
+  onLoad({ from = "返回", type = "privacy" }: { type?: "license" | "privacy"; from?: string }) {
     this.setData({
       color: getPageColor(),
       theme: info.theme,

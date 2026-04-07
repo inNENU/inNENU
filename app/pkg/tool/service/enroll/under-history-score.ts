@@ -1,18 +1,14 @@
 /* eslint-disable @typescript-eslint/naming-convention */
 import { logger } from "@mptool/all";
 
-import { UNDER_ENROLL_INFO_URL, UNDER_ENROLL_SERVER } from "./utils.js";
 import { request } from "../../../../api/index.js";
 import type {
   ActionFailType,
   CommonFailedResponse,
   CommonSuccessResponse,
 } from "../../../../service/index.js";
-import {
-  MissingArgResponse,
-  UnknownResponse,
-  createService,
-} from "../../../../service/index.js";
+import { MissingArgResponse, unknownResponse, createService } from "../../../../service/index.js";
+import { UNDER_ENROLL_INFO_URL, UNDER_ENROLL_SERVER } from "./utils.js";
 
 export interface UnderHistoryScoreInfoOptions {
   type: "info";
@@ -30,9 +26,7 @@ export interface UnderHistoryScoreQueryOptions {
   majorType: string;
 }
 
-export type UnderHistoryScoreOptions =
-  | UnderHistoryScoreInfoOptions
-  | UnderHistoryScoreQueryOptions;
+export type UnderHistoryScoreOptions = UnderHistoryScoreInfoOptions | UnderHistoryScoreQueryOptions;
 
 interface RawUnderHistoryScoreOptionConfig {
   major_type: string;
@@ -47,10 +41,7 @@ type RawUnderHistoryScoreOptionInfo = Record<
 
 export type UnderHistoryScoreOptionInfo = Record<
   /* province */ string,
-  Record<
-    /* year */ string,
-    Record</* type */ string, /* major type */ string[]>
-  >
+  Record</* year */ string, Record</* type */ string, /* major type */ string[]>>
 >;
 
 export type UnderHistoryScoreInfoSuccessResponse =
@@ -60,30 +51,29 @@ export type UnderHistoryScoreInfoResponse =
   | UnderHistoryScoreInfoSuccessResponse
   | CommonFailedResponse;
 
-const getUnderHistoryScoreInfo =
-  async (): Promise<UnderHistoryScoreInfoResponse> => {
-    // NOTE: year=2023 does not take any effect
-    const { data } = await request<RawUnderHistoryScoreOptionInfo>(
-      `${UNDER_ENROLL_INFO_URL}?which=score`,
-    );
+const getUnderHistoryScoreInfo = async (): Promise<UnderHistoryScoreInfoResponse> => {
+  // NOTE: year=2023 does not take any effect
+  const { data } = await request<RawUnderHistoryScoreOptionInfo>(
+    `${UNDER_ENROLL_INFO_URL}?which=score`,
+  );
 
-    return {
-      success: true,
-      data: Object.fromEntries(
-        Object.entries(data).map(([province, configs]) => {
-          const result: Record<string, Record<string, string[]>> = {};
+  return {
+    success: true,
+    data: Object.fromEntries(
+      Object.entries(data).map(([province, configs]) => {
+        const result: Record<string, Record<string, string[]>> = {};
 
-          configs.forEach(({ major_type, type, year }) => {
-            const current = ((result[year] ??= {})[type] ??= []);
+        configs.forEach(({ major_type, type, year }) => {
+          const current = ((result[year] ??= {})[type] ??= []);
 
-            if (!current.includes(major_type)) current.push(major_type);
-          });
+          if (!current.includes(major_type)) current.push(major_type);
+        });
 
-          return [province, result];
-        }),
-      ),
-    };
+        return [province, result];
+      }),
+    ),
   };
+};
 
 interface RawUnderHistoryScoreConfig {
   province: string;
@@ -159,21 +149,18 @@ export const queryUnderHistoryScore = async ({
 
   if (!majorType) return MissingArgResponse("majorType");
 
-  const { data } = await request<RawUnderHistoryScoreResult>(
-    UNDER_HISTORY_SCORE_URL,
-    {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json; charset=utf-8",
-      },
-      body: JSON.stringify({
-        province,
-        year,
-        major_type: classType,
-        type: majorType,
-      }),
+  const { data } = await request<RawUnderHistoryScoreResult>(UNDER_HISTORY_SCORE_URL, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json; charset=utf-8",
     },
-  );
+    body: JSON.stringify({
+      province,
+      year,
+      major_type: classType,
+      type: majorType,
+    }),
+  });
 
   const getNumber = (text: string): number | null => {
     const result = Number(text);
@@ -215,16 +202,14 @@ const getUnderHistoryScoreLocal = async <T extends UnderHistoryScoreOptions>(
     const { type } = options;
 
     return (
-      type === "info"
-        ? await getUnderHistoryScoreInfo()
-        : await queryUnderHistoryScore(options)
+      type === "info" ? await getUnderHistoryScoreInfo() : await queryUnderHistoryScore(options)
     ) as UnderHistoryScoreResponse<T>;
   } catch (err) {
     const { message } = err as Error;
 
     logger.error(err);
 
-    return UnknownResponse(message);
+    return unknownResponse(message);
   }
 };
 

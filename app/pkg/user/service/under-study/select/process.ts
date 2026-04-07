@@ -2,11 +2,7 @@ import { URLSearchParams } from "@mptool/all";
 
 import { request } from "../../../../../api/index.js";
 import type { CommonFailedResponse } from "../../../../../service/index.js";
-import {
-  ActionFailType,
-  UnknownResponse,
-  createService,
-} from "../../../../../service/index.js";
+import { ActionFailType, unknownResponse, createService } from "../../../../../service/index.js";
 import { withUnderStudyLogin } from "../login.js";
 import { UNDER_STUDY_SERVER } from "../utils.js";
 
@@ -44,9 +40,7 @@ export interface UnderSelectRemoveOptions {
   classCode?: string;
 }
 
-export type UnderSelectProcessOptions =
-  | UnderSelectAddOptions
-  | UnderSelectRemoveOptions;
+export type UnderSelectProcessOptions = UnderSelectAddOptions | UnderSelectRemoveOptions;
 
 interface RawUnderSelectProcessSuccessResponse {
   data: "";
@@ -70,9 +64,7 @@ export interface UnderSelectProcessSuccessResponse {
 
 export type UnderSelectProcessResponse =
   | UnderSelectProcessSuccessResponse
-  | CommonFailedResponse<
-      ActionFailType.Closed | ActionFailType.Full | ActionFailType.Unknown
-    >;
+  | CommonFailedResponse<ActionFailType.Closed | ActionFailType.Full | ActionFailType.Unknown>;
 
 const processUnderSelectLocal = async (
   options: UnderSelectProcessOptions,
@@ -83,20 +75,17 @@ const processUnderSelectLocal = async (
     const referer = `${UNDER_STUDY_SERVER}${link}`;
 
     if (type === "remove") {
-      const { data } = await request<RawUnderSelectProcessResponse>(
-        `${referer}/cancel`,
-        {
-          method: "POST",
-          headers: {
-            Accept: "application/json, text/javascript, */*; q=0.01",
-          },
-          body: new URLSearchParams({
-            jxbdm: options.classCode ?? "",
-            kcrwdm: options.classId,
-            kcmc: options.name ?? "",
-          }),
+      const { data } = await request<RawUnderSelectProcessResponse>(`${referer}/cancel`, {
+        method: "POST",
+        headers: {
+          Accept: "application/json, text/javascript, */*; q=0.01",
         },
-      );
+        body: new URLSearchParams({
+          jxbdm: options.classCode ?? "",
+          kcrwdm: options.classId,
+          kcmc: options.name ?? "",
+        }),
+      });
 
       if (data.code !== 0) {
         if (data.code === -1 && data.message === "当前不是选课时间")
@@ -116,22 +105,19 @@ const processUnderSelectLocal = async (
       };
     }
 
-    const { data } = await request<RawUnderSelectProcessResponse>(
-      `${referer}/add`,
-      {
-        method: "POST",
-        headers: {
-          Accept: "application/json, text/javascript, */*; q=0.01",
-        },
-        body: new URLSearchParams({
-          kcmc: options.name ?? "",
-          kcrwdm: classId,
-          qz: String(options.weight ?? -1),
-          // NOTE: This is an unknown field, and currently can be omitted
-          hlct: "0",
-        }),
+    const { data } = await request<RawUnderSelectProcessResponse>(`${referer}/add`, {
+      method: "POST",
+      headers: {
+        Accept: "application/json, text/javascript, */*; q=0.01",
       },
-    );
+      body: new URLSearchParams({
+        kcmc: options.name ?? "",
+        kcrwdm: classId,
+        qz: String(options.weight ?? -1),
+        // NOTE: This is an unknown field, and currently can be omitted
+        hlct: "0",
+      }),
+    });
 
     if (data.code !== 0) {
       if (data.code === -1 && data.message === "当前不是选课时间")
@@ -160,7 +146,7 @@ const processUnderSelectLocal = async (
 
     console.error(err);
 
-    return UnknownResponse(message);
+    return unknownResponse(message);
   }
 };
 
@@ -174,9 +160,5 @@ const processUnderSelectOnline = async (
   }).then(({ data }) => data);
 
 export const processUnderSelect = withUnderStudyLogin(
-  createService(
-    "under-select-process",
-    processUnderSelectLocal,
-    processUnderSelectOnline,
-  ),
+  createService("under-select-process", processUnderSelectLocal, processUnderSelectOnline),
 );

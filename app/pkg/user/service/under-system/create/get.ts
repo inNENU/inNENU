@@ -1,5 +1,15 @@
 import { logger } from "@mptool/all";
 
+import { cookieStore, request } from "../../../../../api/index.js";
+import type { CommonFailedResponse } from "../../../../../service/index.js";
+import {
+  ActionFailType,
+  ExpiredResponse,
+  createService,
+  getIETimeStamp,
+  isWebVPNPage,
+} from "../../../../../service/index.js";
+import { UNDER_SYSTEM_SERVER } from "../utils.js";
 import type {
   MultiSelectUnderArchiveInfo,
   ReadonlyUnderArchiveInfo,
@@ -18,16 +28,6 @@ import {
   readonlyRegExp,
   selectRegExp,
 } from "./utils.js";
-import { cookieStore, request } from "../../../../../api/index.js";
-import type { CommonFailedResponse } from "../../../../../service/index.js";
-import {
-  ActionFailType,
-  ExpiredResponse,
-  createService,
-  getIETimeStamp,
-  isWebVPNPage,
-} from "../../../../../service/index.js";
-import { UNDER_SYSTEM_SERVER } from "../utils.js";
 
 export interface UnderCreateStudentArchiveGetInfoSuccessResponse {
   success: true;
@@ -75,10 +75,9 @@ const getCreateUnderStudentArchiveInfoLocal =
           msg: "未找到注册学籍链接",
         };
 
-      const { data: infoContent } = await request<string>(
-        `${UNDER_SYSTEM_SERVER}${link}`,
-        { cookieScope: UNDER_SYSTEM_SERVER },
-      );
+      const { data: infoContent } = await request<string>(`${UNDER_SYSTEM_SERVER}${link}`, {
+        cookieScope: UNDER_SYSTEM_SERVER,
+      });
 
       if (infoContent.includes("不在控制范围内！"))
         return {
@@ -87,20 +86,16 @@ const getCreateUnderStudentArchiveInfoLocal =
           msg: "学籍已建立",
         };
 
-      const info = Array.from(infoContent.matchAll(infoRowRegExp)).map(
-        ([, ...matches]) =>
-          matches.map((item) => item.replace(/&nbsp;/g, " ").trim()),
+      const info = Array.from(infoContent.matchAll(infoRowRegExp)).map(([, ...matches]) =>
+        matches.map((item) => item.replace(/&nbsp;/g, " ").trim()),
       );
 
-      const readonlyFields = info.filter(([, , editable]) =>
-        readonlyRegExp.test(editable),
-      );
+      const readonlyFields = info.filter(([, , editable]) => readonlyRegExp.test(editable));
 
       const editableFields = info
         .filter(([, , editable]) => !readonlyRegExp.test(editable))
         .map(([text, defaultValue, checkBox, inputOrSelect, remark]) => {
-          const [, checkboxValue, checkboxName] =
-            checkBoxRegExp.exec(checkBox)!;
+          const [, checkboxValue, checkboxName] = checkBoxRegExp.exec(checkBox)!;
 
           const name = selectRegExp.exec(inputOrSelect)![1];
 
@@ -109,9 +104,7 @@ const getCreateUnderStudentArchiveInfoLocal =
           );
 
           if (text === "火车到站") {
-            const validOptions = options.filter(
-              ({ value }) => Number(value) > 100,
-            );
+            const validOptions = options.filter(({ value }) => Number(value) > 100);
 
             const { category, values } = validOptions.reduce(
               (result, current) => {
@@ -161,9 +154,9 @@ const getCreateUnderStudentArchiveInfoLocal =
           };
         });
 
-      const hiddenFields = Array.from(
-        infoContent.matchAll(hiddenFieldsRegExp),
-      ).map(([, name, value]) => ({ name, value }));
+      const hiddenFields = Array.from(infoContent.matchAll(hiddenFieldsRegExp)).map(
+        ([, name, value]) => ({ name, value }),
+      );
 
       return {
         success: true,
@@ -190,9 +183,7 @@ const getCreateUnderStudentArchiveInfoLocal =
 
               return null;
             })
-            .filter(
-              (item): item is { name: string; value: string } => item !== null,
-            ),
+            .filter((item): item is { name: string; value: string } => item !== null),
           ...hiddenFields,
         ],
         path: pathRegExp.exec(infoContent)![1],

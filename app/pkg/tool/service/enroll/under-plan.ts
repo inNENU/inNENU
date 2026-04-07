@@ -1,17 +1,13 @@
 import { logger } from "@mptool/all";
 
-import { UNDER_ENROLL_INFO_URL, UNDER_ENROLL_SERVER } from "./utils.js";
 import { request } from "../../../../api/index.js";
 import type {
   ActionFailType,
   CommonFailedResponse,
   CommonSuccessResponse,
 } from "../../../../service/index.js";
-import {
-  MissingArgResponse,
-  UnknownResponse,
-  createService,
-} from "../../../../service/index.js";
+import { MissingArgResponse, unknownResponse, createService } from "../../../../service/index.js";
+import { UNDER_ENROLL_INFO_URL, UNDER_ENROLL_SERVER } from "./utils.js";
 
 export interface UnderEnrollPlanInfoOptions {
   type: "info";
@@ -29,9 +25,7 @@ export interface UnderEnrollPlanQueryOptions {
   majorType: string;
 }
 
-export type UnderEnrollPlanOptions =
-  | UnderEnrollPlanInfoOptions
-  | UnderEnrollPlanQueryOptions;
+export type UnderEnrollPlanOptions = UnderEnrollPlanInfoOptions | UnderEnrollPlanQueryOptions;
 
 interface RawUnderEnrollPlanOptionConfig {
   // eslint-disable-next-line @typescript-eslint/naming-convention
@@ -40,49 +34,39 @@ interface RawUnderEnrollPlanOptionConfig {
   year: string;
 }
 
-type RawUnderEnrollPlanOptionInfo = Record<
-  /* province */ string,
-  RawUnderEnrollPlanOptionConfig[]
->;
+type RawUnderEnrollPlanOptionInfo = Record</* province */ string, RawUnderEnrollPlanOptionConfig[]>;
 
 export type UnderEnrollPlanOptionInfo = Record<
   /* province */ string,
-  Record<
-    /* year */ string,
-    Record</* type */ string, /* major type */ string[]>
-  >
+  Record</* year */ string, Record</* type */ string, /* major type */ string[]>>
 >;
 
-export type UnderEnrollPlanInfoSuccessResponse =
-  CommonSuccessResponse<UnderEnrollPlanOptionInfo>;
+export type UnderEnrollPlanInfoSuccessResponse = CommonSuccessResponse<UnderEnrollPlanOptionInfo>;
 
-export type UnderEnrollPlanInfoResponse =
-  | UnderEnrollPlanInfoSuccessResponse
-  | CommonFailedResponse;
+export type UnderEnrollPlanInfoResponse = UnderEnrollPlanInfoSuccessResponse | CommonFailedResponse;
 
-const getUnderEnrollInfo =
-  async (): Promise<UnderEnrollPlanInfoSuccessResponse> => {
-    // NOTE: year=2024 does not take any effect
-    const { data } = await request<RawUnderEnrollPlanOptionInfo>(
-      `${UNDER_ENROLL_INFO_URL}?which=plan`,
-    );
+const getUnderEnrollInfo = async (): Promise<UnderEnrollPlanInfoSuccessResponse> => {
+  // NOTE: year=2024 does not take any effect
+  const { data } = await request<RawUnderEnrollPlanOptionInfo>(
+    `${UNDER_ENROLL_INFO_URL}?which=plan`,
+  );
 
-    return {
-      success: true,
-      data: Object.fromEntries(
-        Object.entries(data).map(([province, configs]) => {
-          const result: Record<string, Record<string, string[]>> = {};
+  return {
+    success: true,
+    data: Object.fromEntries(
+      Object.entries(data).map(([province, configs]) => {
+        const result: Record<string, Record<string, string[]>> = {};
 
-          // eslint-disable-next-line @typescript-eslint/naming-convention
-          configs.forEach(({ major_type, type, year }) => {
-            ((result[year] ??= {})[type] ??= []).push(major_type);
-          });
+        // eslint-disable-next-line @typescript-eslint/naming-convention
+        configs.forEach(({ major_type, type, year }) => {
+          ((result[year] ??= {})[type] ??= []).push(major_type);
+        });
 
-          return [province, result];
-        }),
-      ),
-    };
+        return [province, result];
+      }),
+    ),
   };
+};
 
 interface RawUnderEnrollPlanConfig {
   // eslint-disable-next-line @typescript-eslint/naming-convention
@@ -119,9 +103,7 @@ export interface UnderEnrollPlanConfig {
   fee: string;
 }
 
-type UnderEnrollPlanQuerySuccessResponse = CommonSuccessResponse<
-  UnderEnrollPlanConfig[]
->;
+type UnderEnrollPlanQuerySuccessResponse = CommonSuccessResponse<UnderEnrollPlanConfig[]>;
 
 type UnderEnrollPlanQueryResponse =
   | UnderEnrollPlanQuerySuccessResponse
@@ -143,33 +125,24 @@ const queryUnderEnrollPlan = async ({
 
   if (!majorType) return MissingArgResponse("majorType");
 
-  const { data } = await request<RawUnderEnrollPlanResult>(
-    UNDER_ENROLL_PLAN_URL,
-    {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json; charset=utf-8",
-      },
-      body: JSON.stringify({
-        province,
-        year,
-        // eslint-disable-next-line @typescript-eslint/naming-convention
-        major_type: classType,
-        type: majorType,
-      }),
+  const { data } = await request<RawUnderEnrollPlanResult>(UNDER_ENROLL_PLAN_URL, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json; charset=utf-8",
     },
-  );
+    body: JSON.stringify({
+      province,
+      year,
+      // eslint-disable-next-line @typescript-eslint/naming-convention
+      major_type: classType,
+      type: majorType,
+    }),
+  });
 
   return {
     success: true,
     data: data.plans.map(
-      ({
-        major,
-        major_attr: majorAttr,
-        number,
-        edu_len: years,
-        edu_cost: fee,
-      }) => ({
+      ({ major, major_attr: majorAttr, number, edu_len: years, edu_cost: fee }) => ({
         major,
         majorAttr,
         count: number,
@@ -181,9 +154,7 @@ const queryUnderEnrollPlan = async ({
 };
 
 export type UnderEnrollPlanResponse<T extends UnderEnrollPlanOptions> =
-  T extends UnderEnrollPlanInfoOptions
-    ? UnderEnrollPlanInfoResponse
-    : UnderEnrollPlanQueryResponse;
+  T extends UnderEnrollPlanInfoOptions ? UnderEnrollPlanInfoResponse : UnderEnrollPlanQueryResponse;
 
 const getUnderEnrollPlanLocal = async <T extends UnderEnrollPlanOptions>(
   options: T,
@@ -192,16 +163,14 @@ const getUnderEnrollPlanLocal = async <T extends UnderEnrollPlanOptions>(
     const { type } = options;
 
     return (
-      type === "info"
-        ? await getUnderEnrollInfo()
-        : await queryUnderEnrollPlan(options)
+      type === "info" ? await getUnderEnrollInfo() : await queryUnderEnrollPlan(options)
     ) as UnderEnrollPlanResponse<T>;
   } catch (err) {
     const { message } = err as Error;
 
     logger.error(err);
 
-    return UnknownResponse(message);
+    return unknownResponse(message);
   }
 };
 

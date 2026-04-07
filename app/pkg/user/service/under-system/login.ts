@@ -1,18 +1,10 @@
 import { logger } from "@mptool/all";
 
-import {
-  checkUnderSystemCookies,
-  checkUnderSystemCookiesOnline,
-} from "./check.js";
-import { UNDER_SYSTEM_DOMAIN, UNDER_SYSTEM_SERVER } from "./utils.js";
 import { cookieStore, request } from "../../../../api/index.js";
-import type {
-  AuthLoginFailedResponse,
-  LoginMethod,
-} from "../../../../service/index.js";
+import type { AuthLoginFailedResponse, LoginMethod } from "../../../../service/index.js";
 import {
   ActionFailType,
-  UnknownResponse,
+  unknownResponse,
   authLogin,
   checkAccountStatus,
   createService,
@@ -20,14 +12,14 @@ import {
   vpnCASLoginLocal,
 } from "../../../../service/index.js";
 import type { AccountInfo } from "../../../../state/index.js";
+import { checkUnderSystemCookies, checkUnderSystemCookiesOnline } from "./check.js";
+import { UNDER_SYSTEM_DOMAIN, UNDER_SYSTEM_SERVER } from "./utils.js";
 
 export interface UnderSystemLoginSuccessResponse {
   success: true;
 }
 
-export type UnderSystemLoginResponse =
-  | UnderSystemLoginSuccessResponse
-  | AuthLoginFailedResponse;
+export type UnderSystemLoginResponse = UnderSystemLoginSuccessResponse | AuthLoginFailedResponse;
 
 export const underSystemLoginLocal = async (
   options: AccountInfo,
@@ -58,7 +50,7 @@ export const underSystemLoginLocal = async (
     redirect: "manual",
   });
 
-  if (ticketResponse.status !== 302) return UnknownResponse("登录失败");
+  if (ticketResponse.status !== 302) return unknownResponse("登录失败");
 
   const finalLocation = ticketResponse.headers.get("Location");
 
@@ -84,20 +76,17 @@ export const underSystemLoginLocal = async (
     };
   }
 
-  return UnknownResponse("登录失败");
+  return unknownResponse("登录失败");
 };
 
 export const underSystemLoginOnline = async (
   options: AccountInfo,
 ): Promise<UnderSystemLoginResponse> => {
-  const { data } = await request<UnderSystemLoginResponse>(
-    "/under-system/login",
-    {
-      method: "POST",
-      body: options,
-      cookieScope: UNDER_SYSTEM_SERVER,
-    },
-  );
+  const { data } = await request<UnderSystemLoginResponse>("/under-system/login", {
+    method: "POST",
+    body: options,
+    cookieScope: UNDER_SYSTEM_SERVER,
+  });
 
   if (!data.success) {
     logger.error("登录失败", data);

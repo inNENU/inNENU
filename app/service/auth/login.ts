@@ -1,5 +1,16 @@
 import { URLSearchParams, logger } from "@mptool/all";
 
+import { cookieStore, request } from "../../api/index.js";
+import type { AccountInfo } from "../../state/index.js";
+import { inBlackList } from "../mp/index.js";
+import type { CommonFailedResponse } from "../utils/index.js";
+import {
+  ActionFailType,
+  unknownResponse,
+  WrongPasswordResponse,
+  createService,
+  supportRedirect,
+} from "../utils/index.js";
 import { authEncrypt } from "./encrypt.js";
 import {
   AUTH_COOKIE_SCOPE,
@@ -9,17 +20,6 @@ import {
   WEB_VPN_AUTH_DOMAIN,
   WEB_VPN_AUTH_SERVER,
 } from "./utils.js";
-import { cookieStore, request } from "../../api/index.js";
-import type { AccountInfo } from "../../state/index.js";
-import { inBlackList } from "../mp/index.js";
-import type { CommonFailedResponse } from "../utils/index.js";
-import {
-  ActionFailType,
-  UnknownResponse,
-  WrongPasswordResponse,
-  createService,
-  supportRedirect,
-} from "../utils/index.js";
 
 export interface AuthLoginOptions extends AccountInfo {
   service?: string;
@@ -44,9 +44,7 @@ export type AuthLoginFailedResponse = CommonFailedResponse<
   | ActionFailType.Unknown
 >;
 
-export type AuthLoginResponse =
-  | AuthLoginSuccessResponse
-  | AuthLoginFailedResponse;
+export type AuthLoginResponse = AuthLoginSuccessResponse | AuthLoginFailedResponse;
 
 const authLoginLocal = async ({
   id,
@@ -87,12 +85,8 @@ const authLoginLocal = async ({
 
   if (loginPageStatus === 302) {
     if (
-      location?.startsWith(
-        `${server}/authserver/reAuthCheck/reAuthSubmit.do`,
-      ) ||
-      location?.startsWith(
-        `${server}/authserver/reAuthCheck/reAuthLoginView.do`,
-      )
+      location?.startsWith(`${server}/authserver/reAuthCheck/reAuthSubmit.do`) ||
+      location?.startsWith(`${server}/authserver/reAuthCheck/reAuthLoginView.do`)
     )
       return {
         success: false,
@@ -118,9 +112,7 @@ const authLoginLocal = async ({
       };
 
     const salt = SALT_REGEXP.exec(loginPageContent)![1];
-    const execution = /name="execution" value="(.*?)"/.exec(
-      loginPageContent,
-    )![1];
+    const execution = /name="execution" value="(.*?)"/.exec(loginPageContent)![1];
 
     cookieStore.set({
       name: "org.springframework.web.servlet.i18n.CookieLocaleResolver.LOCALE",
@@ -130,9 +122,7 @@ const authLoginLocal = async ({
 
     const checkCaptchaLink = `${server}/authserver/checkNeedCaptcha.htl?username=${id}&_=${Date.now()}`;
 
-    const { isNeed: needCaptcha } = (
-      await request<{ isNeed: boolean }>(checkCaptchaLink)
-    ).data;
+    const { isNeed: needCaptcha } = (await request<{ isNeed: boolean }>(checkCaptchaLink)).data;
 
     if (needCaptcha)
       return {
@@ -183,9 +173,7 @@ const authLoginLocal = async ({
           msg: "该帐号已经被禁用",
         };
 
-      const lockedResult = /<span>账号已冻结，预计解冻时间：(.*?)<\/span>/.exec(
-        loginContent,
-      );
+      const lockedResult = /<span>账号已冻结，预计解冻时间：(.*?)<\/span>/.exec(loginContent);
 
       if (lockedResult)
         return {
@@ -196,7 +184,7 @@ const authLoginLocal = async ({
 
       console.error("Unknown login response: ", loginStatus, loginContent);
 
-      return UnknownResponse("未知错误");
+      return unknownResponse("未知错误");
     }
 
     if (loginStatus === 200) {
@@ -230,12 +218,11 @@ const authLoginLocal = async ({
 
       logger.error("Unknown login response: ", loginStatus, loginContent);
 
-      return UnknownResponse("未知错误");
+      return unknownResponse("未知错误");
     }
 
     if (loginStatus === 302) {
-      if (location?.startsWith(`${server}/authserver/login`))
-        return WrongPasswordResponse;
+      if (location?.startsWith(`${server}/authserver/login`)) return WrongPasswordResponse;
 
       return {
         success: true,
@@ -246,26 +233,19 @@ const authLoginLocal = async ({
 
   logger.error("Unknown login page status: ", loginPageStatus);
 
-  return UnknownResponse("未知错误");
+  return unknownResponse("未知错误");
 };
 
-const authLoginOnline = async (
-  options: AuthLoginOptions,
-): Promise<AuthLoginResponse> => {
+const authLoginOnline = async (options: AuthLoginOptions): Promise<AuthLoginResponse> => {
   const { data } = await request<AuthLoginResponse>("/auth/login", {
     method: "POST",
     body: options,
     cookieScope: AUTH_COOKIE_SCOPE,
   });
 
-  if (!data.success)
-    logger.error("登录失败", "captcha" in data ? "需要验证码" : data.msg);
+  if (!data.success) logger.error("登录失败", "captcha" in data ? "需要验证码" : data.msg);
 
   return data;
 };
 
-export const authLogin = createService(
-  "auth-login",
-  authLoginLocal,
-  authLoginOnline,
-);
+export const authLogin = createService("auth-login", authLoginLocal, authLoginOnline);

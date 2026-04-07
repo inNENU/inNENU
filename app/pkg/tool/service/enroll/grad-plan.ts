@@ -33,14 +33,11 @@ export interface GradEnrollSuccessResponse {
   data: GradEnrollSchoolPlan[];
 }
 
-export type GradEnrollResponse =
-  | GradEnrollSuccessResponse
-  | CommonFailedResponse;
+export type GradEnrollResponse = GradEnrollSuccessResponse | CommonFailedResponse;
 
 const getGradPlanLocal = async (): Promise<GradEnrollResponse> => {
   try {
-    const { data: content, status } =
-      await request<string>(GRAD_ENROLL_PLAN_URL);
+    const { data: content, status } = await request<string>(GRAD_ENROLL_PLAN_URL);
 
     if (status !== 200) throw new Error("获取招生计划失败");
 
@@ -58,15 +55,11 @@ const getGradPlanLocal = async (): Promise<GradEnrollResponse> => {
           };
 
           const majorCodes = Array.from(
-            content.matchAll(
-              new RegExp(`cXYName\\['${name}'\\]\\.push\\('([^']+)'\\)`, "g"),
-            ),
+            content.matchAll(new RegExp(`cXYName\\['${name}'\\]\\.push\\('([^']+)'\\)`, "g")),
           );
 
           const majorNameRegExp = Array.from(
-            content.matchAll(
-              new RegExp(`fXYName\\['${name}'\\]\\.push\\('([^']+)'\\)`, "g"),
-            ),
+            content.matchAll(new RegExp(`fXYName\\['${name}'\\]\\.push\\('([^']+)'\\)`, "g")),
           );
 
           info.majors = await Promise.all(
@@ -80,15 +73,11 @@ const getGradPlanLocal = async (): Promise<GradEnrollResponse> => {
               const startLine = `dXYName['${name}']['${code}'].push("<tr>");`;
 
               const start = content.indexOf(startLine) + startLine.length;
-              const end = content.lastIndexOf(
-                `dXYName['${name}']['${code}'].push("</tr>");`,
-              );
+              const end = content.lastIndexOf(`dXYName['${name}']['${code}'].push("</tr>");`);
               const majorContent = content.substring(start, end);
 
               const lines = Array.from(
-                majorContent.matchAll(
-                  /dXYName\['.*?'\]\['[^']+'\]\.push\("(.*)"\)/g,
-                ),
+                majorContent.matchAll(/dXYName\['.*?'\]\['[^']+'\]\.push\("(.*)"\)/g),
               ).map(([, line]) => line.replace(/<\/?center>/g, ""));
 
               return {
@@ -121,12 +110,6 @@ const getGradPlanLocal = async (): Promise<GradEnrollResponse> => {
 };
 
 const getGradPlanOnline = (): Promise<GradEnrollResponse> =>
-  request<GradEnrollResponse>(`/enroll/grad-plan`, { method: "POST" }).then(
-    ({ data }) => data,
-  );
+  request<GradEnrollResponse>(`/enroll/grad-plan`, { method: "POST" }).then(({ data }) => data);
 
-export const getGradPlan = createService(
-  "grad-plan",
-  getGradPlanLocal,
-  getGradPlanOnline,
-);
+export const getGradPlan = createService("grad-plan", getGradPlanLocal, getGradPlanOnline);

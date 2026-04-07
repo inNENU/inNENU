@@ -18,8 +18,7 @@ const getInputOptions = (dir: string): [string, string][] => {
     statSync(resolve(__dirname, "../.temp/", dir, content)).isDirectory(),
   );
   const files = contents.filter(
-    (file) =>
-      (file.endsWith(".ts") && !file.endsWith(".d.ts")) || file.endsWith(".js"),
+    (file) => (file.endsWith(".ts") && !file.endsWith(".d.ts")) || file.endsWith(".js"),
   );
 
   return [
@@ -87,7 +86,7 @@ void rollup({
 
     // this ensures that require files are generated
     manualChunks: (id): string | void => {
-      const normalizedId = sep === "/" ? id : id.replace(/\\/g, "/");
+      const normalizedId = sep === "/" ? id : id.replaceAll("\\", "/");
 
       for (const name of [
         "api",
@@ -103,9 +102,8 @@ void rollup({
         "pkg/tool/utils",
         "pkg/user/service",
         "pkg/user/utils",
-      ]) {
+      ])
         if (normalizedId.includes(`/.temp/${name}/`)) return `${name}/index`;
-      }
 
       if (normalizedId.includes("/.temp/app.ts")) return "app";
     },

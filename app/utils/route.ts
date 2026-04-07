@@ -42,8 +42,7 @@ export const route = (
       case "article": {
         const { url } = options;
 
-        if (wx.openOfficialAccountArticle)
-          wx.openOfficialAccountArticle({ url });
+        if (wx.openOfficialAccountArticle) wx.openOfficialAccountArticle({ url });
         else if (env === "donut") wx.miniapp.openUrl({ url });
         else
           writeClipboard(url).then(() => {
@@ -58,8 +57,7 @@ export const route = (
       case "channel": {
         const { id, username } = options;
 
-        if (wx.openChannelsUserProfile)
-          wx.openChannelsUserProfile({ finderUserName: id });
+        if (wx.openChannelsUserProfile) wx.openChannelsUserProfile({ finderUserName: id });
         else
           writeClipboard(username).then(() => {
             showModal(
@@ -106,8 +104,7 @@ export const route = (
             wx.miniapp.launchMiniProgram({
               userName: appId,
               path,
-              miniprogramType:
-                versionType === "develop" ? 1 : versionType === "trial" ? 2 : 0,
+              miniprogramType: versionType === "develop" ? 1 : versionType === "trial" ? 2 : 0,
             });
           } else {
             showModal("无法打开", "暂不支持打开微信小程序");

@@ -1,12 +1,9 @@
 import { logger } from "@mptool/all";
 
-import { OFFICIAL_URL, getOfficialPageView } from "./utils.js";
 import { request } from "../../api/index.js";
-import type {
-  CommonFailedResponse,
-  CommonListSuccessResponse,
-} from "../utils/index.js";
+import type { CommonFailedResponse, CommonListSuccessResponse } from "../utils/index.js";
 import { createService } from "../utils/index.js";
+import { OFFICIAL_URL, getOfficialPageView } from "./utils.js";
 
 const LIST_REGEXP = /<ul class=".*? dsyw">([^]+?)<\/ul>/;
 const ITEM_REGEXP =
@@ -38,13 +35,9 @@ export interface OfficialInfoItem {
   url: string;
 }
 
-export type OfficialInfoListSuccessResponse = CommonListSuccessResponse<
-  OfficialInfoItem[]
->;
+export type OfficialInfoListSuccessResponse = CommonListSuccessResponse<OfficialInfoItem[]>;
 
-export type OfficialInfoListResponse =
-  | OfficialInfoListSuccessResponse
-  | CommonFailedResponse;
+export type OfficialInfoListResponse = OfficialInfoListSuccessResponse | CommonFailedResponse;
 
 const type2ID = {
   social: "xsyj/rwsk",
@@ -61,8 +54,7 @@ const getOfficialInfoListLocal = async ({
   total = totalPageState[type] || 0,
 }: OfficialInfoListOptions): Promise<OfficialInfoListResponse> => {
   try {
-    if (!["social", "science", "news", "media"].includes(type))
-      throw new Error("type 参数错误");
+    if (!["social", "science", "news", "media"].includes(type)) throw new Error("type 参数错误");
 
     const { data: content, status } = await request<string>(
       total && current !== 1
@@ -72,9 +64,7 @@ const getOfficialInfoListLocal = async ({
 
     if (status !== 200) throw new Error("请求失败");
 
-    totalPageState[type] = Math.ceil(
-      Number(TOTAL_REGEXP.exec(content)![1]) / 10,
-    );
+    totalPageState[type] = Math.ceil(Number(TOTAL_REGEXP.exec(content)![1]) / 10);
 
     const [, pageIds, owner] = PAGEVIEW_PARAMS_REGEXP.exec(content)!;
 
@@ -82,18 +72,16 @@ const getOfficialInfoListLocal = async ({
       pageIds.split(/,\s*/).map((id) => getOfficialPageView(id, owner)),
     );
 
-    const data = Array.from(
-      LIST_REGEXP.exec(content)![1].matchAll(ITEM_REGEXP),
-    ).map(([, url, month, date, year, title, description, cover], index) => ({
-      title,
-      time: `${year}-${month}-${date}`,
-      pageView: pageViews[index],
-      description,
-      url,
-      ...(cover
-        ? { cover: cover.startsWith("/") ? `${OFFICIAL_URL}${cover}` : cover }
-        : {}),
-    }));
+    const data = Array.from(LIST_REGEXP.exec(content)![1].matchAll(ITEM_REGEXP)).map(
+      ([, url, month, date, year, title, description, cover], index) => ({
+        title,
+        time: `${year}-${month}-${date}`,
+        pageView: pageViews[index],
+        description,
+        url,
+        ...(cover ? { cover: cover.startsWith("/") ? `${OFFICIAL_URL}${cover}` : cover } : {}),
+      }),
+    );
 
     return {
       success: true,

@@ -27,9 +27,7 @@ interface RawValidSmsFailedResponse {
   result: null;
 }
 
-type RawValidSmsResponse =
-  | RawValidSmsSuccessResponse
-  | RawValidSmsFailedResponse;
+type RawValidSmsResponse = RawValidSmsSuccessResponse | RawValidSmsFailedResponse;
 
 export type ActivateValidSmsSuccessResponse = CommonSuccessResponse<{
   loginNo: string;

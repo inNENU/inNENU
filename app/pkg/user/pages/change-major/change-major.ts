@@ -1,19 +1,12 @@
 import { $Page, get, retry, set, showModal } from "@mptool/all";
 
-import {
-  CHANGE_MAJOR_DATA_KEY,
-  HOUR,
-  appCoverPrefix,
-} from "../../../../config/index.js";
+import { CHANGE_MAJOR_DATA_KEY, HOUR, appCoverPrefix } from "../../../../config/index.js";
 import type { LoginMethod } from "../../../../service/index.js";
 import { ActionFailType } from "../../../../service/index.js";
 import { envName, info, user } from "../../../../state/index.js";
 import { getPageColor, showNotice } from "../../../../utils/index.js";
 import type { ChangeMajorPlan } from "../../service/index.js";
-import {
-  ensureUnderSystemLogin,
-  getUnderChangeMajorPlans,
-} from "../../service/index.js";
+import { ensureUnderSystemLogin, getUnderChangeMajorPlans } from "../../service/index.js";
 
 const PAGE_ID = "change-major";
 const PAGE_TITLE = "转专业计划";
@@ -59,13 +52,9 @@ $Page(PAGE_ID, {
 
     if (account) {
       if (!info) {
-        showModal(
-          "个人信息缺失",
-          `${envName}本地暂无个人信息，请重新登录`,
-          () => {
-            this.$go("account-login?update=true");
-          },
-        );
+        showModal("个人信息缺失", `${envName}本地暂无个人信息，请重新登录`, () => {
+          this.$go("account-login?update=true");
+        });
 
         return;
       }
@@ -103,10 +92,7 @@ $Page(PAGE_ID, {
   async getPlans() {
     wx.showLoading({ title: "获取中" });
 
-    const err = await ensureUnderSystemLogin(
-      user.account!,
-      this.state.loginMethod,
-    );
+    const err = await ensureUnderSystemLogin(user.account!, this.state.loginMethod);
 
     if (err) {
       wx.hideLoading();
@@ -135,9 +121,7 @@ $Page(PAGE_ID, {
 
   setPlans(data: PlanData) {
     const schools = Array.from(new Set(data.plans.map((plan) => plan.school)));
-    const subjects = Array.from(
-      new Set(data.plans.map((plan) => plan.subject)),
-    );
+    const subjects = Array.from(new Set(data.plans.map((plan) => plan.subject)));
 
     this.state.plans = data.plans;
     this.setData({
@@ -180,13 +164,8 @@ $Page(PAGE_ID, {
 
     this.setData({
       plans: plans
-        .filter(
-          ({ subject }) =>
-            subjectIndex === 0 || subject === subjects[subjectIndex],
-        )
-        .filter(
-          ({ school }) => schoolIndex === 0 || school === schools[schoolIndex],
-        )
+        .filter(({ subject }) => subjectIndex === 0 || subject === subjects[subjectIndex])
+        .filter(({ school }) => schoolIndex === 0 || school === schools[schoolIndex])
         .filter(({ current, plan }) => !notFull || current < plan),
     });
   },

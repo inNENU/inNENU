@@ -1,19 +1,12 @@
 import { $Page, get, retry, set, showModal } from "@mptool/all";
 
-import type { ExamPlace } from "../..//service/index.js";
-import {
-  EXAM_PLACE_DATA_KEY,
-  HOUR,
-  appCoverPrefix,
-} from "../../../../config/index.js";
+import { EXAM_PLACE_DATA_KEY, HOUR, appCoverPrefix } from "../../../../config/index.js";
 import type { LoginMethod } from "../../../../service/index.js";
 import { ActionFailType } from "../../../../service/index.js";
 import { envName, info, user } from "../../../../state/index.js";
 import { getPageColor, showNotice } from "../../../../utils/index.js";
-import {
-  ensureUnderSystemLogin,
-  getUnderExamPlace,
-} from "../../service/index.js";
+import type { ExamPlace } from "../..//service/index.js";
+import { ensureUnderSystemLogin, getUnderExamPlace } from "../../service/index.js";
 
 const PAGE_ID = "exam-place";
 const PAGE_TITLE = "考场查询";
@@ -51,13 +44,9 @@ $Page(PAGE_ID, {
 
     if (account) {
       if (!info) {
-        showModal(
-          "个人信息缺失",
-          `${envName}本地暂无个人信息，请重新登录`,
-          () => {
-            this.$go("account-login?update=true");
-          },
-        );
+        showModal("个人信息缺失", `${envName}本地暂无个人信息，请重新登录`, () => {
+          this.$go("account-login?update=true");
+        });
 
         return;
       }
@@ -95,10 +84,7 @@ $Page(PAGE_ID, {
   async getExamPlace() {
     wx.showLoading({ title: "获取中" });
 
-    const err = await ensureUnderSystemLogin(
-      user.account!,
-      this.state.loginMethod,
-    );
+    const err = await ensureUnderSystemLogin(user.account!, this.state.loginMethod);
 
     if (err) {
       wx.hideLoading();

@@ -1,10 +1,7 @@
 import type { RichTextNode } from "@mptool/all";
 import { getRichTextNodes } from "@mptool/all";
 
-import type {
-  ActionFailType,
-  CommonFailedResponse,
-} from "../../../../../service/index.js";
+import type { ActionFailType, CommonFailedResponse } from "../../../../../service/index.js";
 import type { ResetCaptchaInfo } from "../reset-captcha.js";
 import { getResetCaptchaLocal } from "../reset-captcha.js";
 

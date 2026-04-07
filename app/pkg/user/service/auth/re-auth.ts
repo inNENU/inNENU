@@ -1,19 +1,16 @@
 import { URLSearchParams } from "@mptool/all";
 
-import { RE_AUTH_URL } from "./utils.js";
 import { cookieStore, request } from "../../../../api/index.js";
-import type {
-  CommonFailedResponse,
-  CommonSuccessResponse,
-} from "../../../../service/index.js";
+import type { CommonFailedResponse, CommonSuccessResponse } from "../../../../service/index.js";
 import {
   AUTH_COOKIE_SCOPE,
   AUTH_SERVER,
   ActionFailType,
-  UnknownResponse,
+  unknownResponse,
   createService,
 } from "../../../../service/index.js";
 import type { UserInfo } from "../../../../state/index.js";
+import { RE_AUTH_URL } from "./utils.js";
 
 const RE_AUTH_SMS_URL = `${AUTH_SERVER}/authserver/dynamicCode/getDynamicCodeByReauth.do`;
 
@@ -52,9 +49,7 @@ export type ReAuthSMSResponse =
   | (CommonFailedResponse<ActionFailType.TooFrequent> & { codeTime: number })
   | CommonFailedResponse;
 
-export const sendReAuthSMSLocal = async (
-  id: string,
-): Promise<ReAuthSMSResponse> => {
+export const sendReAuthSMSLocal = async (id: string): Promise<ReAuthSMSResponse> => {
   await request(RE_AUTH_URL);
 
   const { data } = await request<RawReAuthSMSResponse>(RE_AUTH_SMS_URL, {
@@ -73,7 +68,7 @@ export const sendReAuthSMSLocal = async (
       codeTime: data.codeTime,
     };
 
-  if (data.res !== "success") return UnknownResponse(data.returnMessage);
+  if (data.res !== "success") return unknownResponse(data.returnMessage);
 
   return {
     success: true,
@@ -89,11 +84,7 @@ const sendReAuthSMSOnline = async (id: string): Promise<ReAuthSMSResponse> =>
     cookieScope: AUTH_COOKIE_SCOPE,
   }).then(({ data }) => data);
 
-export const sendReAuthSMS = createService(
-  "re-auth",
-  sendReAuthSMSLocal,
-  sendReAuthSMSOnline,
-);
+export const sendReAuthSMS = createService("re-auth", sendReAuthSMSLocal, sendReAuthSMSOnline);
 
 const RE_AUTH_VERIFY_URL = `${AUTH_SERVER}/authserver/reAuthCheck/reAuthSubmit.do`;
 
@@ -136,26 +127,23 @@ export type VerifyReAuthCaptchaResponse =
 const verifyReAuthCaptchaLocal = async ({
   smsCode,
 }: VerifyReAuthCaptchaOptions): Promise<VerifyReAuthCaptchaResponse> => {
-  const { data } = await request<RawVerifyReAuthCaptchaResponse>(
-    RE_AUTH_VERIFY_URL,
-    {
-      method: "POST",
-      body: new URLSearchParams({
-        dynamicCode: smsCode,
-        service: "",
-        reAuthType: "3",
-        isMultifactor: "true",
-        password: "",
-        uuid: "",
-        answer1: "",
-        answer2: "",
-        otpCode: "",
-        skipTmpReAuth: "true",
-      }),
-    },
-  );
+  const { data } = await request<RawVerifyReAuthCaptchaResponse>(RE_AUTH_VERIFY_URL, {
+    method: "POST",
+    body: new URLSearchParams({
+      dynamicCode: smsCode,
+      service: "",
+      reAuthType: "3",
+      isMultifactor: "true",
+      password: "",
+      uuid: "",
+      answer1: "",
+      answer2: "",
+      otpCode: "",
+      skipTmpReAuth: "true",
+    }),
+  });
 
-  if (data.code !== "reAuth_success") return UnknownResponse(data.msg);
+  if (data.code !== "reAuth_success") return unknownResponse(data.msg);
 
   return {
     success: true,

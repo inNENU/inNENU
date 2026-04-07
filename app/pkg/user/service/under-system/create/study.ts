@@ -1,24 +1,16 @@
 import { URLSearchParams, logger } from "@mptool/all";
 
-import type {
-  UnderArchiveFieldInfo,
-  UnderFamilyOptions,
-  UnderStudyOptions,
-} from "./typings.js";
+import { cookieStore, request } from "../../../../../api/index.js";
+import type { CommonFailedResponse } from "../../../../../service/index.js";
+import { ActionFailType, createService, isWebVPNPage } from "../../../../../service/index.js";
+import { UNDER_SYSTEM_SERVER } from "../utils.js";
+import type { UnderArchiveFieldInfo, UnderFamilyOptions, UnderStudyOptions } from "./typings.js";
 import {
   familyDataRegExp,
   hiddenFieldsRegExp,
   onlineUnderStudentArchive,
   pathRegExp,
 } from "./utils.js";
-import { cookieStore, request } from "../../../../../api/index.js";
-import type { CommonFailedResponse } from "../../../../../service/index.js";
-import {
-  ActionFailType,
-  createService,
-  isWebVPNPage,
-} from "../../../../../service/index.js";
-import { UNDER_SYSTEM_SERVER } from "../utils.js";
 
 export interface UnderCreateStudentArchiveSubmitStudyOptions {
   fields: UnderArchiveFieldInfo[];
@@ -44,8 +36,7 @@ const submitUnderStudentArchiveStudyLocal = async ({
 }: UnderCreateStudentArchiveSubmitStudyOptions): Promise<UnderCreateStudentArchiveSubmitStudyResponse> => {
   try {
     if (study.length === 0) throw new Error("至少有1条学习与工作经历记录");
-    if (study.length > 15)
-      throw new Error("最多只能添加15条学习与工作经历记录");
+    if (study.length > 15) throw new Error("最多只能添加15条学习与工作经历记录");
     const params: Record<string, string> = Object.fromEntries(
       fields.map(({ name, value }) => [name, value]),
     );
@@ -53,15 +44,11 @@ const submitUnderStudentArchiveStudyLocal = async ({
     study.forEach(({ startTime, endTime, school, title, witness }, index) => {
       if (startTime === "" || endTime === "" || school === "" || witness === "")
         throw new Error(
-          `第${
-            index + 1
-          }条学习与工作经历信息不完整。所有项目均为必填项，没有职务请填无。`,
+          `第${index + 1}条学习与工作经历信息不完整。所有项目均为必填项，没有职务请填无。`,
         );
 
       if (!/^\d{8}$/.test(startTime) || !/^\d{8}$/.test(endTime))
-        throw new Error(
-          `第${index + 1}条学习与工作经历时间格式不正确，格式应为 20010101`,
-        );
+        throw new Error(`第${index + 1}条学习与工作经历时间格式不正确，格式应为 20010101`);
 
       params[`qsrq${index + 1}`] = startTime;
       params[`zzrq${index + 1}`] = endTime;
@@ -72,17 +59,14 @@ const submitUnderStudentArchiveStudyLocal = async ({
 
     params.jls = `,${study.map((_, index) => index + 1).join(",")}`;
 
-    const { data: content } = await request<string>(
-      `${UNDER_SYSTEM_SERVER}${path}`,
-      {
-        method: "POST",
-        // TODO: Check header
-        headers: {
-          "Content-Type": "application/x-www-form-urlencoded",
-        },
-        body: new URLSearchParams(params),
+    const { data: content } = await request<string>(`${UNDER_SYSTEM_SERVER}${path}`, {
+      method: "POST",
+      // TODO: Check header
+      headers: {
+        "Content-Type": "application/x-www-form-urlencoded",
       },
-    );
+      body: new URLSearchParams(params),
+    });
 
     if (isWebVPNPage(content)) {
       cookieStore.clear();

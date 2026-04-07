@@ -2,18 +2,13 @@ import type { PropType } from "@mptool/all";
 import { $Component, get, set } from "@mptool/all";
 
 import { HOUR, NEWS_LIST_KEY, NOTICE_LIST_KEY } from "../../config/index.js";
-import type {
-  LoginMethod,
-  NoticeInfo,
-  NoticeType,
-} from "../../service/index.js";
+import type { LoginMethod, NoticeInfo, NoticeType } from "../../service/index.js";
 import { getNoticeList } from "../../service/index.js";
 import { user } from "../../state/index.js";
 import type { WidgetSize, WidgetStatus } from "../utils.js";
 import { FILTERED_SOURCES, getSize } from "../utils.js";
 
-const getKey = (type: NoticeType): string =>
-  type === "news" ? NEWS_LIST_KEY : NOTICE_LIST_KEY;
+const getKey = (type: NoticeType): string => (type === "news" ? NEWS_LIST_KEY : NOTICE_LIST_KEY);
 
 $Component({
   props: {

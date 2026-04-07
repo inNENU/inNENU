@@ -12,9 +12,7 @@ export interface CommonListSuccessResponse<T = Record<never, never>> {
   total: number;
 }
 
-export interface CommonFailedResponse<
-  T extends ActionFailType = ActionFailType.Unknown,
-> {
+export interface CommonFailedResponse<T extends ActionFailType = ActionFailType.Unknown> {
   success: false;
   type?: T;
   msg: string;
@@ -33,30 +31,25 @@ export const ExpiredResponse: CommonFailedResponse<ActionFailType.Expired> = {
   msg: "登录信息已过期，请重新登录",
 };
 
-export const MissingCredentialResponse: CommonFailedResponse<ActionFailType.MissingCredential> =
-  {
-    success: false,
-    type: ActionFailType.MissingCredential,
-    msg: "缺少用户凭据",
-  };
+export const MissingCredentialResponse: CommonFailedResponse<ActionFailType.MissingCredential> = {
+  success: false,
+  type: ActionFailType.MissingCredential,
+  msg: "缺少用户凭据",
+};
 
-export const RestrictedResponse: CommonFailedResponse<ActionFailType.Restricted> =
-  {
-    success: false,
-    type: ActionFailType.Restricted,
-    msg: "当前时段系统已关闭，请稍后重试",
-  };
+export const RestrictedResponse: CommonFailedResponse<ActionFailType.Restricted> = {
+  success: false,
+  type: ActionFailType.Restricted,
+  msg: "当前时段系统已关闭，请稍后重试",
+};
 
-export const WrongPasswordResponse: CommonFailedResponse<ActionFailType.WrongPassword> =
-  {
-    success: false,
-    type: ActionFailType.WrongPassword,
-    msg: "用户名或密码错误",
-  };
+export const WrongPasswordResponse: CommonFailedResponse<ActionFailType.WrongPassword> = {
+  success: false,
+  type: ActionFailType.WrongPassword,
+  msg: "用户名或密码错误",
+};
 
-export const InvalidArgResponse = (
-  name = "",
-): CommonFailedResponse<ActionFailType.InvalidArg> => ({
+export const InvalidArgResponse = (name = ""): CommonFailedResponse<ActionFailType.InvalidArg> => ({
   success: false,
   type: ActionFailType.InvalidArg,
   msg: `${name}参数非法`,
@@ -70,7 +63,7 @@ export const MissingArgResponse = (
   msg: `缺少${name}参数`,
 });
 
-export const UnknownResponse = (msg: string): CommonFailedResponse => ({
+export const unknownResponse = (msg: string): CommonFailedResponse => ({
   success: false,
   type: ActionFailType.Unknown,
   msg,

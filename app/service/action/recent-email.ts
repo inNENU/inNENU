@@ -1,20 +1,17 @@
 import { URLSearchParams, logger } from "@mptool/all";
 
-import { withActionLogin } from "./login.js";
-import { ACTION_SERVER } from "./utils.js";
 import { request } from "../../api/index.js";
-import type {
-  CommonFailedResponse,
-  CommonSuccessResponse,
-} from "../utils/index.js";
+import type { CommonFailedResponse, CommonSuccessResponse } from "../utils/index.js";
 import {
   ActionFailType,
   ExpiredResponse,
-  UnknownResponse,
+  unknownResponse,
   createService,
   isWebVPNPage,
   supportRedirect,
 } from "../utils/index.js";
+import { withActionLogin } from "./login.js";
+import { ACTION_SERVER } from "./utils.js";
 
 const EMAIL_INFO_URL = `${ACTION_SERVER}/extract/getEmailInfo`;
 
@@ -68,9 +65,7 @@ interface RawRecentMailFailedResponse {
   };
 }
 
-type RawRecentMailResponse =
-  | RawRecentMailSuccessResponse
-  | RawRecentMailFailedResponse;
+type RawRecentMailResponse = RawRecentMailSuccessResponse | RawRecentMailFailedResponse;
 
 export interface EmailData {
   /** 邮件主题 */
@@ -112,28 +107,23 @@ export interface ActionRecentMailData {
 export type ActionRecentMailResponse =
   | CommonSuccessResponse<ActionRecentMailData>
   | CommonFailedResponse<
-      | ActionFailType.Expired
-      | ActionFailType.NotInitialized
-      | ActionFailType.Unknown
+      ActionFailType.Expired | ActionFailType.NotInitialized | ActionFailType.Unknown
     >;
 
 const getRecentEmailsLocal = async (): Promise<ActionRecentMailResponse> => {
   try {
-    const { data, status } = await request<RawRecentMailResponse>(
-      EMAIL_INFO_URL,
-      {
-        method: "POST",
-        headers: {
-          Accept: "application/json, text/javascript, */*; q=0.01",
-        },
-        body: new URLSearchParams({
-          domain: "nenu.edu.cn",
-          type: "1",
-          format: "json",
-        }),
-        redirect: "manual",
+    const { data, status } = await request<RawRecentMailResponse>(EMAIL_INFO_URL, {
+      method: "POST",
+      headers: {
+        Accept: "application/json, text/javascript, */*; q=0.01",
       },
-    );
+      body: new URLSearchParams({
+        domain: "nenu.edu.cn",
+        type: "1",
+        format: "json",
+      }),
+      redirect: "manual",
+    });
 
     if (
       status === 302 ||
@@ -164,7 +154,7 @@ const getRecentEmailsLocal = async (): Promise<ActionRecentMailResponse> => {
 
     logger.error(err);
 
-    return UnknownResponse(message);
+    return unknownResponse(message);
   }
 };
 

@@ -1,11 +1,5 @@
 import { logger } from "@mptool/all";
 
-import {
-  OA_ENTRANCE_PAGE,
-  OA_MAIN_PAGE,
-  OA_WEB_VPN_DOMAIN,
-  OA_WEB_VPN_SERVER,
-} from "./utils.js";
 import { cookieStore, request } from "../../../../api/index.js";
 import type {
   ActionFailType,
@@ -17,7 +11,7 @@ import type {
 } from "../../../../service/index.js";
 import {
   MissingCredentialResponse,
-  UnknownResponse,
+  unknownResponse,
   authLogin,
   checkAccountStatus,
   createService,
@@ -26,6 +20,7 @@ import {
 } from "../../../../service/index.js";
 import type { AccountInfo } from "../../../../state/index.js";
 import { user } from "../../../../state/index.js";
+import { OA_ENTRANCE_PAGE, OA_MAIN_PAGE, OA_WEB_VPN_DOMAIN, OA_WEB_VPN_SERVER } from "./utils.js";
 
 let currentLogin: Promise<OALoginResponse> | null = null;
 let loginMethod: LoginMethod = "validate";
@@ -54,11 +49,7 @@ export const isOALoggedInOnline = (): Promise<boolean> =>
     cookieScope: OA_WEB_VPN_SERVER,
   }).then(({ data }) => data.valid);
 
-const isOALoggedIn = createService(
-  "oa-check",
-  isOALoggedInLocal,
-  isOALoggedInOnline,
-);
+const isOALoggedIn = createService("oa-check", isOALoggedInLocal, isOALoggedInOnline);
 
 export type OALoginFailedResponse = AuthLoginFailedResponse;
 
@@ -67,9 +58,7 @@ export type OALoginResponse = { success: true } | OALoginFailedResponse;
 /**
  * @requires "redirect:manual"
  */
-export const oaLoginLocal = async (
-  options: AccountInfo,
-): Promise<OALoginResponse> => {
+export const oaLoginLocal = async (options: AccountInfo): Promise<OALoginResponse> => {
   if (!supportRedirect) return oaLoginOnline(options);
 
   const vpnLoginResult = await vpnCASLoginLocal(options);
@@ -93,13 +82,9 @@ export const oaLoginLocal = async (
   });
 
   if (ticketResponse.status !== 302) {
-    console.error(
-      "Login to OA failed",
-      ticketResponse.status,
-      ticketResponse.data,
-    );
+    console.error("Login to OA failed", ticketResponse.status, ticketResponse.data);
 
-    return UnknownResponse("登录失败");
+    return unknownResponse("登录失败");
   }
   const sessionLocation = ticketResponse.headers.get("Location");
 
@@ -108,10 +93,7 @@ export const oaLoginLocal = async (
       redirect: "manual",
     });
 
-    if (
-      sessionResponse.status === 302 &&
-      sessionResponse.headers.get("Location") === OA_MAIN_PAGE
-    )
+    if (sessionResponse.status === 302 && sessionResponse.headers.get("Location") === OA_MAIN_PAGE)
       return {
         success: true,
       };
@@ -119,12 +101,10 @@ export const oaLoginLocal = async (
 
   console.error("login to OA failed", sessionLocation);
 
-  return UnknownResponse("登录失败");
+  return unknownResponse("登录失败");
 };
 
-export const oaLoginOnline = async (
-  options: AccountInfo,
-): Promise<OALoginResponse> =>
+export const oaLoginOnline = async (options: AccountInfo): Promise<OALoginResponse> =>
   request<OALoginResponse>("/oa/login", {
     method: "POST",
     body: options,
@@ -138,9 +118,7 @@ const hasOACookies = (): boolean =>
     .some(({ domain }) => domain.endsWith(OA_WEB_VPN_DOMAIN));
 
 export const withOALogin =
-  <R extends { success: boolean }, T extends (...args: any[]) => Promise<R>>(
-    serviceHandler: T,
-  ) =>
+  <R extends { success: boolean }, T extends (...args: any[]) => Promise<R>>(serviceHandler: T) =>
   async (
     ...args: Parameters<T>
   ): Promise<

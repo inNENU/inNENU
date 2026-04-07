@@ -1,10 +1,6 @@
 import type { PageInstance, PageQuery } from "@mptool/all";
 import { env, logger, readJSON, showModal, writeJSON } from "@mptool/all";
 
-import { getAssetLink } from "./getLink.js";
-import { getScopeData } from "./getScopeData.js";
-import { id2path } from "./id.js";
-import { ensureJson } from "./json.js";
 import type {
   ComponentData,
   FunctionalListComponentItemConfig,
@@ -14,10 +10,14 @@ import type {
   PageStateWithContent,
 } from "../../typings/index.js";
 import { requestJSON } from "../api/index.js";
-import type { NoticeItem } from "../app/index.js";
 import type { App } from "../app.js";
+import type { NoticeItem } from "../app/index.js";
 import { imageWaterMark } from "../config/index.js";
 import { appInfo, info } from "../state/index.js";
+import { getAssetLink } from "./getLink.js";
+import { getScopeData } from "./getScopeData.js";
+import { id2path } from "./id.js";
+import { ensureJson } from "./json.js";
 
 type PageInstanceWithPage = PageInstance<
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -29,9 +29,7 @@ type PageInstanceWithPage = PageInstance<
 const isEnvMatches = (element: { env?: string[] }): boolean => {
   if (!Array.isArray(element.env)) return true;
 
-  return element.env.some((item) =>
-    item === "app" ? env === "donut" : item === env,
-  );
+  return element.env.some((item) => (item === "app" ? env === "donut" : item === env));
 };
 
 /**
@@ -48,10 +46,8 @@ const setListItemState = (
   if ("type" in listElement)
     if (listElement.type === "switch")
       // 设置列表开关与滑块
-      listElement.status =
-        wx.getStorageSync<boolean | undefined>(listElement.key) || false;
-    else if (listElement.type === "slider")
-      listElement.value = wx.getStorageSync(listElement.key);
+      listElement.status = wx.getStorageSync<boolean | undefined>(listElement.key) || false;
+    else if (listElement.type === "slider") listElement.value = wx.getStorageSync(listElement.key);
     // 设置列表选择器
     else if (listElement.type === "picker")
       if (listElement.single) {
@@ -62,16 +58,14 @@ const setListItemState = (
         listElement.currentValue = [selectIndex];
       } else {
         // 多列选择器
-        const selectIndexes: string[] = wx
-          .getStorageSync<string>(listElement.key)
-          .split("-");
+        const selectIndexes: string[] = wx.getStorageSync<string>(listElement.key).split("-");
 
         listElement.currentValue = [];
         listElement.value = [];
         selectIndexes.forEach((pickerElement, index) => {
-          (listElement.value as unknown[])[index] = (
-            listElement.select[index] as unknown[]
-          )[Number(pickerElement)];
+          (listElement.value as unknown[])[index] = (listElement.select[index] as unknown[])[
+            Number(pickerElement)
+          ];
           // eslint-disable-next-line @typescript-eslint/no-explicit-any
           (listElement.currentValue as any[])[index] = Number(pickerElement);
         });
@@ -99,12 +93,8 @@ export const setComponentState = (
       // 设置 list 组件
       if (tag === "list" || tag === "grid" || tag === "functional-list")
         component.items = component.items
-          .map(
-            (
-              listElement:
-                | FunctionalListComponentItemConfig
-                | GridComponentItemOptions,
-            ) => setListItemState(listElement),
+          .map((listElement: FunctionalListComponentItemConfig | GridComponentItemOptions) =>
+            setListItemState(listElement),
           )
           .filter((listElement) => listElement !== null);
 
@@ -120,10 +110,7 @@ export const setComponentState = (
  *
  * @returns 处理之后的page
  */
-const setPageState = (
-  page: PageState | PageStateWithContent,
-  option: PageOptions,
-): PageState => {
+const setPageState = (page: PageState | PageStateWithContent, option: PageOptions): PageState => {
   // 设置界面名称
   page.id = option.id || page.title;
   // 设置页面来源
@@ -152,19 +139,11 @@ const preloadPageLinks = (page: PageState): void => {
     page.content.forEach((component) => {
       const { tag } = component;
 
-      if (
-        "items" in component &&
-        (tag === "list" || tag === "grid" || tag === "functional-list")
-      )
+      if ("items" in component && (tag === "list" || tag === "grid" || tag === "functional-list"))
         // 该组件是列表或九宫格，需要预加载界面，提前获取界面到存储
         component.items.forEach(
-          (
-            element:
-              | FunctionalListComponentItemConfig
-              | GridComponentItemOptions,
-          ) => {
-            if (!("type" in element) && "path" in element && element.path)
-              ensureJson(element.path);
+          (element: FunctionalListComponentItemConfig | GridComponentItemOptions) => {
+            if (!("type" in element) && "path" in element && element.path) ensureJson(element.path);
           },
         );
     });
@@ -375,9 +354,7 @@ export const setPage = (
     } else if (ctx.data.page) {
       logger.debug(`${option.id || "Unknown"} not resolved`);
 
-      const pageData: PageState = handle
-        ? ctx.data.page
-        : setPageState(ctx.data.page, option);
+      const pageData: PageState = handle ? ctx.data.page : setPageState(ctx.data.page, option);
 
       // 设置页面数据
       ctx.setData(

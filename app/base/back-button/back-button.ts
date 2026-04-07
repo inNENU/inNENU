@@ -38,13 +38,7 @@ type BackButtonComponentInstance = ComponentInstance<
   BackButtonInstanceMethod
 >;
 
-$Component<
-  BackButtonData,
-  BackButtonProps,
-  BackButtonMethods,
-  [],
-  BackButtonInstanceMethod
->({
+$Component<BackButtonData, BackButtonProps, BackButtonMethods, [], BackButtonInstanceMethod>({
   props: {
     icon: {
       type: String,

@@ -1,23 +1,13 @@
 import { URLSearchParams } from "@mptool/all";
 
-import { withUnderStudyLogin } from "./login.js";
-import { UNDER_STUDY_SERVER } from "./utils.js";
 import { request } from "../../../../api/index.js";
-import type {
-  AuthLoginFailedResponse,
-  CommonSuccessResponse,
-} from "../../../../service/index.js";
-import {
-  ExpiredResponse,
-  UnknownResponse,
-  createService,
-} from "../../../../service/index.js";
-import type {
-  CourseTableClassData,
-  CourseTableData,
-} from "../../../../typings/index.js";
+import type { AuthLoginFailedResponse, CommonSuccessResponse } from "../../../../service/index.js";
+import { ExpiredResponse, unknownResponse, createService } from "../../../../service/index.js";
+import type { CourseTableClassData, CourseTableData } from "../../../../typings/index.js";
 import { getJson } from "../../../../utils/index.js";
 import { getLegacyUnderCourseTable } from "../under-system/index.js";
+import { withUnderStudyLogin } from "./login.js";
+import { UNDER_STUDY_SERVER } from "./utils.js";
 
 export interface RawUnderCourseTableItem {
   /* ========= 课程基础信息 ========== */
@@ -184,13 +174,9 @@ export type UnderCourseTableSuccessResponse = CommonSuccessResponse<{
   startTime: string;
 }>;
 
-export type UnderCourseTableResponse =
-  | UnderCourseTableSuccessResponse
-  | AuthLoginFailedResponse;
+export type UnderCourseTableResponse = UnderCourseTableSuccessResponse | AuthLoginFailedResponse;
 
-const getCourseTable = (
-  classes: RawUnderCourseTableItem[],
-): CourseTableData => {
+const getCourseTable = (classes: RawUnderCourseTableItem[]): CourseTableData => {
   const tableData = new Array(6).fill(null).map(() =>
     new Array(7).fill(null).map<
       (Omit<CourseTableClassData, "locations"> & {
@@ -259,9 +245,7 @@ const getCourseTable = (
         classIndex: [Number(startClassIndex), Number(endClassIndex)],
       };
 
-      tableData[Math.floor(Number(startClassIndex) / 2)][Number(week) - 1].push(
-        classData,
-      );
+      tableData[Math.floor(Number(startClassIndex) / 2)][Number(week) - 1].push(classData);
       store.set(key, classData);
     },
   );
@@ -277,9 +261,7 @@ const getCourseTable = (
   );
 };
 
-const getUnderCourseTableLocal = async (
-  time: string,
-): Promise<UnderCourseTableResponse> => {
+const getUnderCourseTableLocal = async (time: string): Promise<UnderCourseTableResponse> => {
   const semesterStartTime = await getJson<Record<string, string>>(
     "function/data/semester-start-time",
   );
@@ -293,13 +275,11 @@ const getUnderCourseTableLocal = async (
     body: new URLSearchParams({ xnxqdm: time }),
   });
 
-  if (headers.get("Content-Type")?.includes("text/html"))
-    return ExpiredResponse;
+  if (headers.get("Content-Type")?.includes("text/html")) return ExpiredResponse;
 
   if (data.code !== 0) {
     if (data.message === "尚未登录，请先登录") return ExpiredResponse;
-    if (data.message === "本学期课表未开放!")
-      return UnknownResponse(data.message);
+    if (data.message === "本学期课表未开放!") return unknownResponse(data.message);
 
     throw new Error(data.message);
   }
@@ -315,9 +295,7 @@ const getUnderCourseTableLocal = async (
   };
 };
 
-export const getUnderCourseTableOnline = (
-  time: string,
-): Promise<UnderCourseTableResponse> =>
+export const getUnderCourseTableOnline = (time: string): Promise<UnderCourseTableResponse> =>
   request<UnderCourseTableResponse>("/under-study/course-table", {
     method: "POST",
     body: { time },

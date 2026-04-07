@@ -2,24 +2,12 @@ import { $Page, get, logger, put, set, take } from "@mptool/all";
 
 import type { PageStateWithContent } from "../../../typings/index.js";
 import { preloadSkyline } from "../../api/index.js";
-import { checkResource, syncAppSettings } from "../../app/index.js";
 import type { App } from "../../app.js";
-import {
-  DAY,
-  appCoverPrefix,
-  appName,
-  description,
-  logo,
-  version,
-} from "../../config/index.js";
+import { checkResource, syncAppSettings } from "../../app/index.js";
+import { DAY, appCoverPrefix, appName, description, logo, version } from "../../config/index.js";
 import { reportUserInfo } from "../../service/index.js";
 import { envName, info, user, windowInfo } from "../../state/index.js";
-import {
-  getPageColor,
-  resolvePage,
-  setPage,
-  showNotice,
-} from "../../utils/index.js";
+import { getPageColor, resolvePage, setPage, showNotice } from "../../utils/index.js";
 
 const { globalData } = getApp<App>();
 
@@ -160,10 +148,7 @@ ${envName}由 Mr.Hope 个人制作，如有错误还请见谅\
 
       if (pageData) setPage({ ctx: this, option: { id: PAGE_ID } }, pageData);
     } catch {
-      setPage(
-        { ctx: this, option: { id: PAGE_ID } },
-        get(PAGE_ID) || this.data.page,
-      );
+      setPage({ ctx: this, option: { id: PAGE_ID } }, get(PAGE_ID) || this.data.page);
     }
   },
 

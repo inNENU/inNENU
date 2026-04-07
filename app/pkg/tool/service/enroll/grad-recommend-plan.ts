@@ -5,8 +5,7 @@ import { request } from "../../../../api/index.js";
 import type { CommonFailedResponse } from "../../../../service/index.js";
 import { createService } from "../../../../service/index.js";
 
-const GRAD_RECOMMEND_PLAN_URL =
-  "https://pg.nenu.edu.cn/yjsy/HData/ZSB/ZSJZ2024-TM-1.html";
+const GRAD_RECOMMEND_PLAN_URL = "https://pg.nenu.edu.cn/yjsy/HData/ZSB/ZSJZ2024-TM-1.html";
 const schoolInfoRegExp =
   /bXYName\['.*?']="<tr><td colspan=6><a href='(.*?)' target='_blank'>([^<]+) ([^<]+)<\/a><br>联系方式：(\S+?)，(\S+?)，(\S+?)<\/td><\/tr>";/g;
 
@@ -33,9 +32,7 @@ export interface GradRecommendSuccessResponse {
   data: GradRecommendSchoolPlan[];
 }
 
-export type GradRecommendResponse =
-  | GradRecommendSuccessResponse
-  | CommonFailedResponse;
+export type GradRecommendResponse = GradRecommendSuccessResponse | CommonFailedResponse;
 
 const getGradRecommendPlanLocal = async (): Promise<GradRecommendResponse> => {
   try {
@@ -57,15 +54,11 @@ const getGradRecommendPlanLocal = async (): Promise<GradRecommendResponse> => {
           };
 
           const majorCodes = Array.from(
-            data.matchAll(
-              new RegExp(`cXYName\\['${name}'\\]\\.push\\('([^']+)'\\)`, "g"),
-            ),
+            data.matchAll(new RegExp(`cXYName\\['${name}'\\]\\.push\\('([^']+)'\\)`, "g")),
           );
 
           const majorNameRegExp = Array.from(
-            data.matchAll(
-              new RegExp(`fXYName\\['${name}'\\]\\.push\\('([^']+)'\\)`, "g"),
-            ),
+            data.matchAll(new RegExp(`fXYName\\['${name}'\\]\\.push\\('([^']+)'\\)`, "g")),
           );
 
           info.majors = await Promise.all(
@@ -74,10 +67,7 @@ const getGradRecommendPlanLocal = async (): Promise<GradRecommendResponse> => {
 
               const lines = Array.from(
                 data.matchAll(
-                  new RegExp(
-                    `dXYName\\['${name}'\\]\\['${code}'\\]\\.push\\('(.*)'\\)`,
-                    "g",
-                  ),
+                  new RegExp(`dXYName\\['${name}'\\]\\['${code}'\\]\\.push\\('(.*)'\\)`, "g"),
                 ),
               ).map(([, line]) => line.replace(/<\/?center>/g, ""));
 

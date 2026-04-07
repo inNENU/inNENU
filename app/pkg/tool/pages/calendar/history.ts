@@ -2,12 +2,7 @@ import { $Page, showModal } from "@mptool/all";
 
 import { appCoverPrefix } from "../../../../config/index.js";
 import { info } from "../../../../state/index.js";
-import {
-  ensureJson,
-  getJson,
-  getPageColor,
-  showNotice,
-} from "../../../../utils/index.js";
+import { ensureJson, getJson, getPageColor, showNotice } from "../../../../utils/index.js";
 import type { TimeLineItem } from "../../components/timeline/timeline.js";
 
 const PAGE_ID = "calendar-history";

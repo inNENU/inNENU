@@ -1,10 +1,10 @@
 import { URLSearchParams, logger } from "@mptool/all";
 
-import { withUnderStudyLogin } from "./login.js";
-import { UNDER_STUDY_SERVER } from "./utils.js";
 import { request } from "../../../../api/index.js";
 import type { CommonFailedResponse } from "../../../../service/index.js";
 import { ActionFailType, createService } from "../../../../service/index.js";
+import { withUnderStudyLogin } from "./login.js";
+import { UNDER_STUDY_SERVER } from "./utils.js";
 
 export interface GetUnderCourseCommentaryListOptions {
   type: "list";
@@ -150,8 +150,7 @@ export interface UnderCourseCommentaryInfo {
   };
 }
 
-export interface SubmitUnderCourseCommentaryOptions
-  extends UnderCourseCommentaryInfo {
+export interface SubmitUnderCourseCommentaryOptions extends UnderCourseCommentaryInfo {
   type: "submit";
   /** 选项 */
   answers: number[];
@@ -173,8 +172,7 @@ interface RawUnderCourseCommentaryListFailedResult {
 
 type RawUnderCourseCommentarySubmitResult =
   // eslint-disable-next-line @typescript-eslint/no-redundant-type-constituents
-  | RawUnderCourseCommentarySubmitSuccessResult
-  | RawUnderCourseCommentaryListFailedResult;
+  RawUnderCourseCommentarySubmitSuccessResult | RawUnderCourseCommentaryListFailedResult;
 
 export interface UnderCourseCommentaryGetSuccessResponse {
   success: true;
@@ -199,8 +197,7 @@ const LIST_URL = `${UNDER_STUDY_SERVER}/new/student/teapj/pjDatas`;
 const VIEW_URL = `${UNDER_STUDY_SERVER}/new/student/teapj/viewPjData`;
 const ANSWER_URL = `${UNDER_STUDY_SERVER}/new/student/teapj/pj.page`;
 
-const SELECTED_OPTION_REG =
-  /<option value='([^']*?)' selected>([^<]*?)<\/option>/;
+const SELECTED_OPTION_REG = /<option value='([^']*?)' selected>([^<]*?)<\/option>/;
 
 const getCurrentTime = async (): Promise<{ time: string; value: string }> => {
   const { data: content } = await request<string>(MAIN_URL);
@@ -277,10 +274,7 @@ const getCourseInfo = (html: string): UnderCourseCommentaryInfo => {
         zbdm,
         title,
         options: new Array(optionNumber).fill(null).map((_, index) => {
-          const [name, value, score, text] = items.slice(
-            index * 4,
-            index * 4 + 4,
-          );
+          const [name, value, score, text] = items.slice(index * 4, index * 4 + 4);
 
           return {
             name,
@@ -313,41 +307,37 @@ export type UnderCourseCommentaryOptions =
   | GetUnderCourseCommentaryOptions
   | SubmitUnderCourseCommentaryOptions;
 
-export type UnderCourseCommentaryResponse<
-  T extends UnderCourseCommentaryOptions,
-> = T extends GetUnderCourseCommentaryListOptions
-  ? UnderCourseCommentaryListResponse
-  : T extends ViewUnderCourseCommentaryOptions
-    ? UnderCourseCommentaryViewResponse
-    : T extends GetUnderCourseCommentaryOptions
-      ? UnderCourseCommentaryGetResponse
-      : UnderCourseCommentarySubmitResponse;
+export type UnderCourseCommentaryResponse<T extends UnderCourseCommentaryOptions> =
+  T extends GetUnderCourseCommentaryListOptions
+    ? UnderCourseCommentaryListResponse
+    : T extends ViewUnderCourseCommentaryOptions
+      ? UnderCourseCommentaryViewResponse
+      : T extends GetUnderCourseCommentaryOptions
+        ? UnderCourseCommentaryGetResponse
+        : UnderCourseCommentarySubmitResponse;
 
-const underStudyCourseCommentaryLocal = async <
-  T extends UnderCourseCommentaryOptions,
->(
+const underStudyCourseCommentaryLocal = async <T extends UnderCourseCommentaryOptions>(
   options: T,
 ): Promise<UnderCourseCommentaryResponse<T>> => {
   try {
     if (options.type === "list") {
       const time = options.time ?? (await getCurrentTime()).value;
 
-      const { data, headers } =
-        await request<RawUnderCourseCommentaryListResult>(LIST_URL, {
-          method: "POST",
-          headers: {
-            Accept: "application/json, text/javascript, */*; q=0.01",
-          },
-          body: new URLSearchParams({
-            xnxqdm: time,
-            source: "kccjlist",
-            primarySort: "kcrwdm asc",
-            page: "1",
-            rows: "150",
-            sort: "jkrq",
-            order: "asc",
-          }),
-        });
+      const { data, headers } = await request<RawUnderCourseCommentaryListResult>(LIST_URL, {
+        method: "POST",
+        headers: {
+          Accept: "application/json, text/javascript, */*; q=0.01",
+        },
+        body: new URLSearchParams({
+          xnxqdm: time,
+          source: "kccjlist",
+          primarySort: "kcrwdm asc",
+          page: "1",
+          rows: "150",
+          sort: "jkrq",
+          order: "asc",
+        }),
+      });
 
       if (headers.get("content-type")?.includes("text/html"))
         return {
@@ -400,9 +390,7 @@ const underStudyCourseCommentaryLocal = async <
         _: Date.now().toString(),
       }).toString();
 
-      const { data: content } = await request<string>(
-        `${ANSWER_URL}?${urlParams}`,
-      );
+      const { data: content } = await request<string>(`${ANSWER_URL}?${urlParams}`);
 
       return {
         success: true,
@@ -412,49 +400,43 @@ const underStudyCourseCommentaryLocal = async <
 
     const { params, questions, text, answers } = options;
 
-    const { data, headers } =
-      await request<RawUnderCourseCommentarySubmitResult>(
-        `${UNDER_STUDY_SERVER}/new/student/teapj/savePj`,
-        {
-          method: "POST",
-          headers: {
-            Accept: "application/json; charset=UTF-8",
-          },
-          body: new URLSearchParams({
-            ...params,
-            wtpf:
-              answers
-                .reduce(
-                  (acc, answer, index) =>
-                    acc + questions[index].options[answer].score,
-                  0,
-                )
-                .toString() + ".00",
-            dt: JSON.stringify([
-              ...questions.map(({ txdm, zbdm, title }, index) => {
-                const { text, value, score } =
-                  questions[index].options[answers[index]];
-
-                return {
-                  txdm,
-                  zbdm,
-                  zbmc: title,
-                  zbxmdm: value,
-                  fz: score,
-                  dtjg: text,
-                };
-              }),
-              {
-                txdm: text.txdm,
-                zbdm: text.zbdm,
-                zbmc: text.title,
-                fz: 0,
-                dtjg: options.commentary,
-              },
-            ]),
-          }),
+    const { data, headers } = await request<RawUnderCourseCommentarySubmitResult>(
+      `${UNDER_STUDY_SERVER}/new/student/teapj/savePj`,
+      {
+        method: "POST",
+        headers: {
+          Accept: "application/json; charset=UTF-8",
         },
-      );
+        body: new URLSearchParams({
+          ...params,
+          wtpf:
+            answers
+              .reduce((acc, answer, index) => acc + questions[index].options[answer].score, 0)
+              .toString() + ".00",
+          dt: JSON.stringify([
+            ...questions.map(({ txdm, zbdm, title }, index) => {
+              const { text, value, score } = questions[index].options[answers[index]];
+
+              return {
+                txdm,
+                zbdm,
+                zbmc: title,
+                zbxmdm: value,
+                fz: score,
+                dtjg: text,
+              };
+            }),
+            {
+              txdm: text.txdm,
+              zbdm: text.zbdm,
+              zbmc: text.title,
+              fz: 0,
+              dtjg: options.commentary,
+            },
+          ]),
+        }),
+      },
+    );
 
     if (headers.get("content-type")?.includes("text/html"))
       return {
@@ -493,9 +475,7 @@ const underStudyCourseCommentaryLocal = async <
   }
 };
 
-const underStudyCourseCommentaryOnline = async <
-  T extends UnderCourseCommentaryOptions,
->(
+const underStudyCourseCommentaryOnline = async <T extends UnderCourseCommentaryOptions>(
   options: T,
 ): Promise<UnderCourseCommentaryResponse<T>> =>
   request<UnderCourseCommentaryResponse<T>>("/under-study/course-commentary", {

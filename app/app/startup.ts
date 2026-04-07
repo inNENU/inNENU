@@ -1,10 +1,10 @@
 import { env, getCurrentRoute, logger, reLaunch, showToast } from "@mptool/all";
 
+import { mpLogin } from "../service/index.js";
+import { envName, setOpenid } from "../state/index.js";
 import type { GlobalData } from "./globalData.js";
 import { platformActions } from "./platform.js";
 import { updateApp } from "./update.js";
-import { mpLogin } from "../service/index.js";
-import { envName, setOpenid } from "../state/index.js";
 
 export const handleScreenCapture = (): void => {
   // 监听用户截屏
@@ -13,9 +13,7 @@ export const handleScreenCapture = (): void => {
     let isDisplayingModal = false;
 
     wx.onUserCaptureScreen?.(() => {
-      const status = wx.getStorageSync<"never" | "noticed" | undefined>(
-        "capture-screen",
-      );
+      const status = wx.getStorageSync<"never" | "noticed" | undefined>("capture-screen");
 
       if (status !== "never" && !isDisplayingModal) {
         isDisplayingModal = true;

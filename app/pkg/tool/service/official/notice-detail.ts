@@ -2,19 +2,15 @@ import type { RichTextNode } from "@mptool/all";
 import { getRichTextNodes, logger } from "@mptool/all";
 
 import { request } from "../../../../api/index.js";
-import type {
-  CommonFailedResponse,
-  CommonSuccessResponse,
-} from "../../../../service/index.js";
+import type { CommonFailedResponse, CommonSuccessResponse } from "../../../../service/index.js";
 import {
   OFFICIAL_URL,
-  UnknownResponse,
+  unknownResponse,
   createService,
   getOfficialPageView,
 } from "../../../../service/index.js";
 
-const INFO_REGEXP =
-  /<div class="ar_tit">\s*<h3>([^>]+)<\/h3>\s*<h6>([^]+?)<\/h6>/;
+const INFO_REGEXP = /<div class="ar_tit">\s*<h3>([^>]+)<\/h3>\s*<h6>([^]+?)<\/h6>/;
 const CONTENT_REGEXP =
   /<div class="v_news_content">([^]+?)<\/div>\s*<\/div>\s*<div id="div_vote_id">/;
 
@@ -35,20 +31,15 @@ export interface OfficialNoticeData {
   content: RichTextNode[];
 }
 
-export type OfficialNoticeDetailSuccessResponse =
-  CommonSuccessResponse<OfficialNoticeData>;
+export type OfficialNoticeDetailSuccessResponse = CommonSuccessResponse<OfficialNoticeData>;
 
 export type OfficialNoticeDetailResponse =
   | OfficialNoticeDetailSuccessResponse
   | CommonFailedResponse;
 
-const getOfficialNoticeDetailLocal = async (
-  url: string,
-): Promise<OfficialNoticeDetailResponse> => {
+const getOfficialNoticeDetailLocal = async (url: string): Promise<OfficialNoticeDetailResponse> => {
   try {
-    const { data: text, status } = await request<string>(
-      `${OFFICIAL_URL}/${url}`,
-    );
+    const { data: text, status } = await request<string>(`${OFFICIAL_URL}/${url}`);
 
     if (status !== 200) throw new Error("请求失败");
 
@@ -73,8 +64,7 @@ const getOfficialNoticeDetailLocal = async (
             if (src) {
               if (src.includes("/fileTypeImages/")) return null;
 
-              if (src.startsWith("/"))
-                node.attrs!.src = `${OFFICIAL_URL}${src}`;
+              if (src.startsWith("/")) node.attrs!.src = `${OFFICIAL_URL}${src}`;
             }
 
             return node;
@@ -97,16 +87,14 @@ const getOfficialNoticeDetailLocal = async (
 
     logger.error(err);
 
-    return UnknownResponse(message);
+    return unknownResponse(message);
   }
 };
 
-const getOfficialNoticeDetailOnline = (
-  url: string,
-): Promise<OfficialNoticeDetailResponse> =>
-  request<OfficialNoticeDetailResponse>(
-    `/official/notice-detail?url=${url}`,
-  ).then(({ data }) => data);
+const getOfficialNoticeDetailOnline = (url: string): Promise<OfficialNoticeDetailResponse> =>
+  request<OfficialNoticeDetailResponse>(`/official/notice-detail?url=${url}`).then(
+    ({ data }) => data,
+  );
 
 export const getOfficialNoticeDetail = createService(
   "official-notice-detail",

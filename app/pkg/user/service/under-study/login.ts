@@ -1,6 +1,5 @@
 import { logger } from "@mptool/all";
 
-import { UNDER_STUDY_DOMAIN, UNDER_STUDY_SERVER } from "./utils.js";
 import { cookieStore, request } from "../../../../api/index.js";
 import type {
   ActionFailType,
@@ -13,7 +12,7 @@ import type {
 import {
   MissingCredentialResponse,
   RestrictedResponse,
-  UnknownResponse,
+  unknownResponse,
   authLogin,
   checkAccountStatus,
   createService,
@@ -21,6 +20,7 @@ import {
 } from "../../../../service/index.js";
 import type { AccountInfo } from "../../../../state/index.js";
 import { user } from "../../../../state/index.js";
+import { UNDER_STUDY_DOMAIN, UNDER_STUDY_SERVER } from "./utils.js";
 
 let currentLogin: Promise<UnderStudyLoginResponse> | null = null;
 let loginMethod: LoginMethod = "validate";
@@ -34,8 +34,7 @@ export const isUnderStudyLoggedInLocal = async (): Promise<boolean> => {
     if (response.status === 302) {
       const location = response.headers.get("location");
 
-      if (location?.startsWith(`${UNDER_STUDY_SERVER}/new/welcome.page`))
-        return true;
+      if (location?.startsWith(`${UNDER_STUDY_SERVER}/new/welcome.page`)) return true;
     }
 
     return false;
@@ -87,7 +86,7 @@ export const underStudyLoginLocal = async (
   });
 
   if (ticketResponse.status === 405) return RestrictedResponse;
-  if (ticketResponse.status !== 302) return UnknownResponse("登录失败");
+  if (ticketResponse.status !== 302) return unknownResponse("登录失败");
 
   const finalLocation = ticketResponse.headers.get("Location");
 
@@ -98,16 +97,14 @@ export const underStudyLoginLocal = async (
 
     if (
       ssoResponse.status === 302 &&
-      ssoResponse.headers
-        .get("Location")
-        ?.startsWith(`${UNDER_STUDY_SERVER}/new/welcome.page`)
+      ssoResponse.headers.get("Location")?.startsWith(`${UNDER_STUDY_SERVER}/new/welcome.page`)
     )
       return {
         success: true,
       };
   }
 
-  return UnknownResponse("登录失败");
+  return unknownResponse("登录失败");
 };
 
 export const underStudyLoginOnline = async (
@@ -131,9 +128,7 @@ const hasUnderStudyCookies = (): boolean =>
     .some(({ domain }) => domain.endsWith(UNDER_STUDY_DOMAIN));
 
 export const withUnderStudyLogin =
-  <R extends { success: boolean }, T extends (...args: any[]) => Promise<R>>(
-    serviceHandler: T,
-  ) =>
+  <R extends { success: boolean }, T extends (...args: any[]) => Promise<R>>(serviceHandler: T) =>
   async (
     ...args: Parameters<T>
   ): Promise<

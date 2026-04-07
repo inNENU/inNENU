@@ -60,9 +60,7 @@ $Page("video", {
         const name = decodeURI(options.name);
 
         videoList.forEach((videoGroup, groupIndex) => {
-          const listIndex = videoGroup.list.findIndex(
-            (videoItem) => videoItem.name === name,
-          );
+          const listIndex = videoGroup.list.findIndex((videoItem) => videoItem.name === name);
 
           if (listIndex !== -1) {
             groupID = groupIndex;

@@ -22,22 +22,19 @@ import type {
   VideoComponentOptions,
 } from "innenu-generator/typings";
 
-export interface SwitchListComponentItemConfig
-  extends SwitchListComponentItemOptions {
+export interface SwitchListComponentItemConfig extends SwitchListComponentItemOptions {
   /** 开关状态 */
   status?: boolean;
 }
 
-export interface SliderListComponentItemConfig<T = unknown>
-  extends SliderListComponentItemOptions {
+export interface SliderListComponentItemConfig<T = unknown> extends SliderListComponentItemOptions {
   /** 滑块对应的值*/
   value?: T;
   /** 是否显示滑块 */
   visible?: boolean;
 }
 
-export interface PickerListComponentItemConfig
-  extends PickerListComponentItemOptions {
+export interface PickerListComponentItemConfig extends PickerListComponentItemOptions {
   /** 是否显示选择器 */
   visible?: boolean;
   /** picker 选择器对应的键 */
@@ -45,8 +42,7 @@ export interface PickerListComponentItemConfig
   value?: any; // eslint-disable-line @typescript-eslint/no-explicit-any
 }
 
-export interface ButtonListComponentItemConfig
-  extends ButtonListComponentItemOptions {
+export interface ButtonListComponentItemConfig extends ButtonListComponentItemOptions {
   /**
    * 是否禁用按钮
    *
@@ -63,8 +59,7 @@ export type FunctionalListComponentItemConfig =
   | SliderListComponentItemConfig
   | ButtonListComponentItemConfig;
 
-export interface FunctionalListComponentConfig
-  extends FunctionalListComponentOptions {
+export interface FunctionalListComponentConfig extends FunctionalListComponentOptions {
   /** 列表内容 */
   content: FunctionalListComponentItemConfig[];
 }

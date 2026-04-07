@@ -1,10 +1,6 @@
 import { $Page, get, logger, set, showModal, showToast } from "@mptool/all";
 
-import {
-  STARRED_ACADEMIC_LIST_KEY,
-  appCoverPrefix,
-  service,
-} from "../../../../config/index.js";
+import { STARRED_ACADEMIC_LIST_KEY, appCoverPrefix, service } from "../../../../config/index.js";
 import { appId, info } from "../../../../state/index.js";
 import type { StarredOfficialAcademicData } from "../../../../typings/index.js";
 import { getPageColor, showNotice } from "../../../../utils/index.js";
@@ -27,8 +23,7 @@ $Page(PAGE_ID, {
   },
 
   onLoad({ scene = "", title = "", person = "", url = scene }) {
-    const starredInfos =
-      get<StarredOfficialAcademicData[]>(STARRED_ACADEMIC_LIST_KEY) ?? [];
+    const starredInfos = get<StarredOfficialAcademicData[]>(STARRED_ACADEMIC_LIST_KEY) ?? [];
 
     this.state = {
       ...this.state,
@@ -133,17 +128,14 @@ $Page(PAGE_ID, {
     if (!info) showToast("内容仍在获取", 1500, "error");
 
     if (starred) {
-      const starredAcademics = get<StarredOfficialAcademicData[]>(
-        STARRED_ACADEMIC_LIST_KEY,
-      )!;
+      const starredAcademics = get<StarredOfficialAcademicData[]>(STARRED_ACADEMIC_LIST_KEY)!;
 
       set(
         STARRED_ACADEMIC_LIST_KEY,
         starredAcademics.filter((item) => item.url !== url),
       );
     } else {
-      const starredAcademics =
-        get<StarredOfficialAcademicData[]>(STARRED_ACADEMIC_LIST_KEY) ?? [];
+      const starredAcademics = get<StarredOfficialAcademicData[]>(STARRED_ACADEMIC_LIST_KEY) ?? [];
 
       set(STARRED_ACADEMIC_LIST_KEY, [...starredAcademics, info!]);
     }

@@ -1,15 +1,11 @@
 import { URLSearchParams, logger } from "@mptool/all";
 
-import type { UnderArchiveFieldInfo, UnderFamilyOptions } from "./typings.js";
-import { onlineUnderStudentArchive } from "./utils.js";
 import { cookieStore, request } from "../../../../../api/index.js";
 import type { CommonFailedResponse } from "../../../../../service/index.js";
-import {
-  ActionFailType,
-  createService,
-  isWebVPNPage,
-} from "../../../../../service/index.js";
+import { ActionFailType, createService, isWebVPNPage } from "../../../../../service/index.js";
 import { UNDER_SYSTEM_SERVER } from "../utils.js";
+import type { UnderArchiveFieldInfo, UnderFamilyOptions } from "./typings.js";
+import { onlineUnderStudentArchive } from "./utils.js";
 
 export interface UnderCreateStudentArchiveSubmitFamilyOptions {
   fields: UnderArchiveFieldInfo[];
@@ -39,12 +35,9 @@ const submitUnderStudentArchiveFamilyLocal = async ({
     );
 
     family.forEach(({ name, relation, office, title, phone }, index) => {
-      if (name === "")
-        throw new Error(`第${index + 1}条家庭成员记录姓名缺失。`);
-      if (relation === "")
-        throw new Error(`第${index + 1}条家庭成员记录与本人关系缺失。`);
-      if (office === "")
-        throw new Error(`第${index + 1}条家庭成员记录工作地点缺失。`);
+      if (name === "") throw new Error(`第${index + 1}条家庭成员记录姓名缺失。`);
+      if (relation === "") throw new Error(`第${index + 1}条家庭成员记录与本人关系缺失。`);
+      if (office === "") throw new Error(`第${index + 1}条家庭成员记录工作地点缺失。`);
 
       params[`gxm${index + 1}`] = relation;
       params[`cyxm${index + 1}`] = name;
@@ -55,17 +48,14 @@ const submitUnderStudentArchiveFamilyLocal = async ({
 
     params.jls = `,${family.map((_, index) => index + 1).join(",")}`;
 
-    const { data: content } = await request<string>(
-      `${UNDER_SYSTEM_SERVER}${path}`,
-      {
-        method: "POST",
-        headers: {
-          // TODO
-          "Content-Type": "application/x-www-form-urlencoded",
-        },
-        body: new URLSearchParams(params),
+    const { data: content } = await request<string>(`${UNDER_SYSTEM_SERVER}${path}`, {
+      method: "POST",
+      headers: {
+        // TODO
+        "Content-Type": "application/x-www-form-urlencoded",
       },
-    );
+      body: new URLSearchParams(params),
+    });
 
     if (isWebVPNPage(content)) {
       cookieStore.clear();

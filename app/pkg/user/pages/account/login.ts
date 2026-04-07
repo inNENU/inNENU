@@ -5,14 +5,7 @@ import type { ListComponentOptions } from "../../../../../typings/index.js";
 import { appCoverPrefix, logo } from "../../../../config/index.js";
 import { ActionFailType, mpRemove } from "../../../../service/index.js";
 import type { UserInfo } from "../../../../state/index.js";
-import {
-  appId,
-  envName,
-  info,
-  setUserInfo,
-  user,
-  windowInfo,
-} from "../../../../state/index.js";
+import { appId, envName, info, setUserInfo, user, windowInfo } from "../../../../state/index.js";
 import { getLicenseStatus, showNotice } from "../../../../utils/index.js";
 import type { AuthCaptchaInfo, SliderTrackPoint } from "../../service/index.js";
 import {
@@ -160,12 +153,7 @@ $Page(PAGE_ID, {
     this.setData({ showPassword: !this.data.showPassword });
   },
 
-  onSliderMove({
-    currentTarget,
-    type,
-    touches,
-    changedTouches,
-  }: WechatMiniprogram.Touch) {
+  onSliderMove({ currentTarget, type, touches, changedTouches }: WechatMiniprogram.Touch) {
     const currentTime = Date.now();
 
     switch (type) {
@@ -206,11 +194,7 @@ $Page(PAGE_ID, {
       case "touchend": {
         // Use changedTouches for touchend event as touches array is empty on PC
         const endTouch =
-          changedTouches?.length > 0
-            ? changedTouches[0]
-            : touches?.length > 0
-              ? touches[0]
-              : null;
+          changedTouches?.length > 0 ? changedTouches[0] : touches?.length > 0 ? touches[0] : null;
 
         let finalDistance: number;
         let endY: number;
@@ -220,9 +204,7 @@ $Page(PAGE_ID, {
           finalDistance = endTouch.pageX - this.state.touchPosition;
           endY = endTouch.pageY - (currentTarget.offsetTop ?? 0);
         } else {
-          console.warn(
-            "No touch data available, using current distance as final position",
-          );
+          console.warn("No touch data available, using current distance as final position");
           finalDistance = this.data.distance;
           endY = 0;
         }
@@ -231,13 +213,7 @@ $Page(PAGE_ID, {
 
         // Add final track point
         this.state.sliderTracks.push({
-          a: Math.max(
-            0,
-            Math.min(
-              finalDistance,
-              CAPTCHA_CANVAS_WIDTH - this.data.sliderWidth / 2,
-            ),
-          ),
+          a: Math.max(0, Math.min(finalDistance, CAPTCHA_CANVAS_WIDTH - this.data.sliderWidth / 2)),
           b: endY,
           c: totalTime,
         });
@@ -254,13 +230,7 @@ $Page(PAGE_ID, {
     }
   },
 
-  setCaptchaInfo({
-    slider,
-    bg,
-    sliderWidth,
-    offsetY,
-    safeValue,
-  }: AuthCaptchaInfo) {
+  setCaptchaInfo({ slider, bg, sliderWidth, offsetY, safeValue }: AuthCaptchaInfo) {
     this.setData({
       captchaBg: bg,
       captchaSlider: slider,
@@ -329,11 +299,7 @@ $Page(PAGE_ID, {
       return;
     }
 
-    const result = await verifyAuthCaptcha(
-      this.data.distance,
-      this.state.sliderTracks,
-      safeValue,
-    );
+    const result = await verifyAuthCaptcha(this.data.distance, this.state.sliderTracks, safeValue);
 
     wx.hideLoading();
 
@@ -363,8 +329,7 @@ $Page(PAGE_ID, {
     if (id.length !== 10 || !password)
       return wx.showToast({ title: "请输入完整信息", icon: "error" });
 
-    if (!accept)
-      return wx.showToast({ title: "请同意用户协议", icon: "error" });
+    if (!accept) return wx.showToast({ title: "请同意用户协议", icon: "error" });
 
     const { initId, params, salt } = this.state;
 
@@ -502,10 +467,7 @@ $Page(PAGE_ID, {
 
     showModal("登录成功", "您已成功登录");
 
-    setUserInfo(
-      { id: Number(id), password, authToken: result.authToken },
-      result.info,
-    );
+    setUserInfo({ id: Number(id), password, authToken: result.authToken }, result.info);
 
     if (this.state.shouldNavigateBack) return this.$back();
     this.setData({
@@ -685,11 +647,7 @@ $Page(PAGE_ID, {
 
         if (result.success) {
           showModal("注销成功", "已删除本地和服务器上的全部账号数据信息。");
-        } else
-          showModal(
-            "已请求注销",
-            "已删除本地的账号数据信息，服务器上的数据将在稍后删除",
-          );
+        } else showModal("已请求注销", "已删除本地的账号数据信息，服务器上的数据将在稍后删除");
       },
       () => {
         // do nothing

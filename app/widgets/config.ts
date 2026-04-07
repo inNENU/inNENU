@@ -78,13 +78,7 @@ export const WIDGETS: WidgetInfo[] = [
   {
     tag: "weather",
     name: "学校天气",
-    types: [
-      "今日天气 (小)",
-      "今日天气",
-      "近日天气 (小)",
-      "近日天气",
-      "近日天气 (大)",
-    ],
+    types: ["今日天气 (小)", "今日天气", "近日天气 (小)", "近日天气", "近日天气 (大)"],
   },
   {
     tag: "library-people",

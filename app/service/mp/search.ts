@@ -110,10 +110,7 @@ export interface ContentSearchResponse {
   totalPages: number;
 }
 
-export const searchContent = async (
-  query: string,
-  page = 1,
-): Promise<ContentSearchResponse> => {
+export const searchContent = async (query: string, page = 1): Promise<ContentSearchResponse> => {
   wx.reportEvent?.("search", { search_word: query });
 
   const { data } = await request<RawMeiliSearchResponse>(

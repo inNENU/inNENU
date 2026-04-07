@@ -13,10 +13,7 @@ export const showOfficialQRCode = (id: string): void => {
       .catch(() => showToast("二维码保存失败"));
 };
 
-export const tryOpenOfficialProfile = (
-  id: string,
-  fallback?: () => void,
-): void => {
+export const tryOpenOfficialProfile = (id: string, fallback?: () => void): void => {
   if (wx.openOfficialAccountProfile)
     wx.openOfficialAccountProfile({ username: id, fail: fallback });
   else fallback?.();

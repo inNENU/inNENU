@@ -1,13 +1,6 @@
 import { request } from "../../../../../api/net.js";
-import type {
-  CommonFailedResponse,
-  CommonSuccessResponse,
-} from "../../../../../service/index.js";
-import {
-  ActionFailType,
-  UnknownResponse,
-  createService,
-} from "../../../../../service/index.js";
+import type { CommonFailedResponse, CommonSuccessResponse } from "../../../../../service/index.js";
+import { ActionFailType, unknownResponse, createService } from "../../../../../service/index.js";
 import { withUnderStudyLogin } from "../login.js";
 import { UNDER_STUDY_SERVER } from "../utils.js";
 
@@ -50,15 +43,12 @@ export interface UnderSelectCategoryInfo {
   disallowed: UnderSelectDisallowedCategoryItem[];
 }
 
-export type UnderSelectCategorySuccessResponse =
-  CommonSuccessResponse<UnderSelectCategoryInfo>;
+export type UnderSelectCategorySuccessResponse = CommonSuccessResponse<UnderSelectCategoryInfo>;
 
 export type UnderSelectCategoryResponse =
   | UnderSelectCategorySuccessResponse
   | CommonFailedResponse<
-      | ActionFailType.NotInitialized
-      | ActionFailType.MissingCredential
-      | ActionFailType.Unknown
+      ActionFailType.NotInitialized | ActionFailType.MissingCredential | ActionFailType.Unknown
     >;
 
 const CATEGORY_PAGE = `${UNDER_STUDY_SERVER}/new/student/xsxk/`;
@@ -97,38 +87,36 @@ const getSelectCategories = (content: string): UnderSelectCategoryInfo => ({
   ),
 });
 
-const getUnderSelectCategoriesLocal =
-  async (): Promise<UnderSelectCategoryResponse> => {
-    try {
-      const { data: content } = await request<string>(CATEGORY_PAGE);
+const getUnderSelectCategoriesLocal = async (): Promise<UnderSelectCategoryResponse> => {
+  try {
+    const { data: content } = await request<string>(CATEGORY_PAGE);
 
-      if (content.includes("选课正在初始化")) {
-        return {
-          success: false,
-          type: ActionFailType.NotInitialized,
-          msg: "选课正在初始化，请稍后再试",
-        };
-      }
-
+    if (content.includes("选课正在初始化")) {
       return {
-        success: true,
-        data: getSelectCategories(content),
+        success: false,
+        type: ActionFailType.NotInitialized,
+        msg: "选课正在初始化，请稍后再试",
       };
-    } catch (err) {
-      const { message } = err as Error;
-
-      console.error(err);
-
-      return UnknownResponse(message);
     }
-  };
 
-const getUnderSelectCategoriesOnline =
-  async (): Promise<UnderSelectCategoryResponse> =>
-    request<UnderSelectCategoryResponse>("/under-study/select/category", {
-      method: "POST",
-      cookieScope: UNDER_STUDY_SERVER,
-    }).then(({ data }) => data);
+    return {
+      success: true,
+      data: getSelectCategories(content),
+    };
+  } catch (err) {
+    const { message } = err as Error;
+
+    console.error(err);
+
+    return unknownResponse(message);
+  }
+};
+
+const getUnderSelectCategoriesOnline = async (): Promise<UnderSelectCategoryResponse> =>
+  request<UnderSelectCategoryResponse>("/under-study/select/category", {
+    method: "POST",
+    cookieScope: UNDER_STUDY_SERVER,
+  }).then(({ data }) => data);
 
 export const getUnderSelectCategories = withUnderStudyLogin(
   createService(

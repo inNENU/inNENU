@@ -102,9 +102,7 @@ declare namespace WechatMiniprogram {
       /** openUrl */
       openUrl: (options: DonutOpenUrlOptions) => void;
       /** 监听进入App的事件，并获取参数 */
-      registOpenURL: (
-        callback: (params: DonutRegistOpenUrlParams) => void,
-      ) => void;
+      registOpenURL: (callback: (params: DonutRegistOpenUrlParams) => void) => void;
     };
   }
 }

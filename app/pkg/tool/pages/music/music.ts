@@ -1,19 +1,10 @@
 import { $Page, logger, showToast } from "@mptool/all";
 
-import type {
-  LyricData,
-  MusicInfo,
-  MusicList,
-} from "../../../../../typings/index.js";
+import type { LyricData, MusicInfo, MusicList } from "../../../../../typings/index.js";
 import { loadFZSSJW } from "../../../../api/index.js";
 import { appCoverPrefix, appName } from "../../../../config/index.js";
 import { appInfo } from "../../../../state/index.js";
-import {
-  ensureJson,
-  getAssetLink,
-  getJson,
-  showNotice,
-} from "../../../../utils/index.js";
+import { ensureJson, getAssetLink, getJson, showNotice } from "../../../../utils/index.js";
 import type { MusicState, PlayMode } from "../../utils/index.js";
 
 const musicState: MusicState = { playing: false, index: 0 };
@@ -75,12 +66,8 @@ $Page("music", {
     this.setData({
       playing: musicState.playing,
       mode: mode || "列表循环",
-      indicatorColor: darkmode
-        ? "rgba(255, 255, 255, 0.15)"
-        : "rgba(0, 0, 0, 0.15)",
-      indicatorActiveColor: darkmode
-        ? "rgba(255, 255, 255, 0.45)"
-        : "rgba(0, 0, 0, 0.45)",
+      indicatorColor: darkmode ? "rgba(255, 255, 255, 0.15)" : "rgba(0, 0, 0, 0.15)",
+      indicatorActiveColor: darkmode ? "rgba(255, 255, 255, 0.45)" : "rgba(0, 0, 0, 0.45)",
     });
 
     getJson<MusicList>("function/music/index").then((songData) => {
@@ -99,8 +86,7 @@ $Page("music", {
       } else {
         const name = wx.getStorageSync<string | undefined>("music");
 
-        if (name)
-          musicState.index = songList.findIndex((song) => song.title === name);
+        if (name) musicState.index = songList.findIndex((song) => song.title === name);
       }
 
       const { index } = musicState;
@@ -166,10 +152,8 @@ $Page("music", {
 
   onThemeChange({ theme }: WechatMiniprogram.OnThemeChangeListenerResult) {
     this.setData({
-      indicatorColor:
-        theme === "dark" ? "rgba(255, 255, 255, 0.15)" : "rgba(0, 0, 0, 0.15)",
-      indicatorActiveColor:
-        theme === "dark" ? "rgba(255, 255, 255, 0.45)" : "rgba(0, 0, 0, 0.45)",
+      indicatorColor: theme === "dark" ? "rgba(255, 255, 255, 0.15)" : "rgba(0, 0, 0, 0.15)",
+      indicatorActiveColor: theme === "dark" ? "rgba(255, 255, 255, 0.45)" : "rgba(0, 0, 0, 0.45)",
     });
   },
 
@@ -266,8 +250,7 @@ $Page("music", {
     let id = 0;
 
     /** 如果当前时间大于本项且本项不是最后一项 */
-    while (id < lyrics.length && this.data.currentTime > lyrics[id].time)
-      id += 1;
+    while (id < lyrics.length && this.data.currentTime > lyrics[id].time) id += 1;
 
     if (currentLyricId !== id - 1 && id !== 0)
       this.setData({
@@ -420,13 +403,7 @@ $Page("music", {
 
   /** 切换播放模式 */
   modeSwitch() {
-    const modes: PlayMode[] = [
-      "列表循环",
-      "单曲循环",
-      "顺序播放",
-      "随机播放",
-      "列表循环",
-    ];
+    const modes: PlayMode[] = ["列表循环", "单曲循环", "顺序播放", "随机播放", "列表循环"];
     const mode = modes[modes.indexOf(this.data.mode) + 1];
 
     this.setData({ mode });

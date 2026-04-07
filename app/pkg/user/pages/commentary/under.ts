@@ -27,10 +27,7 @@ const getTimes = (grade: number): { times: string[]; current: string } => {
 
   return {
     times: times.reverse(),
-    current:
-      currentMonth >= 2 && currentMonth < 8
-        ? `${currentYear - 1}02`
-        : `${currentYear}01`,
+    current: currentMonth >= 2 && currentMonth < 8 ? `${currentYear - 1}02` : `${currentYear}01`,
   };
 };
 
@@ -88,13 +85,9 @@ $Page(PAGE_ID, {
 
     if (account) {
       if (!info) {
-        showModal(
-          "个人信息缺失",
-          `${envName}本地暂无个人信息，请重新登录`,
-          () => {
-            this.$go("account-login?update=true");
-          },
-        );
+        showModal("个人信息缺失", `${envName}本地暂无个人信息，请重新登录`, () => {
+          this.$go("account-login?update=true");
+        });
 
         return;
       }
@@ -241,10 +234,7 @@ $Page(PAGE_ID, {
   onRadioChange({
     detail,
     target,
-  }: WechatMiniprogram.RadioGroupChange<
-    Record<string, never>,
-    { questionIndex: number }
-  >) {
+  }: WechatMiniprogram.RadioGroupChange<Record<string, never>, { questionIndex: number }>) {
     const { value } = detail;
     const newAnswers = [...this.data.answers];
 
@@ -261,9 +251,7 @@ $Page(PAGE_ID, {
     const { questions, text, commentary, answers } = this.data;
     const { params } = this.state;
 
-    if (
-      questions.some((_question, index) => typeof answers[index] !== "number")
-    ) {
+    if (questions.some((_question, index) => typeof answers[index] !== "number")) {
       showModal("提交失败", "请完成所有评分项");
 
       return;
@@ -324,13 +312,9 @@ $Page(PAGE_ID, {
             this.refresh();
           });
         else
-          showModal(
-            "一键评教失败",
-            "部分课程评价失败，请尝试手动评价。",
-            () => {
-              this.refresh();
-            },
-          );
+          showModal("一键评教失败", "部分课程评价失败，请尝试手动评价。", () => {
+            this.refresh();
+          });
       }),
     );
   },

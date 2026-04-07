@@ -1,10 +1,6 @@
 import { $Page, get, set, showModal, showToast } from "@mptool/all";
 
-import {
-  STARRED_NOTICE_LIST_KEY,
-  appCoverPrefix,
-  service,
-} from "../../../../config/index.js";
+import { STARRED_NOTICE_LIST_KEY, appCoverPrefix, service } from "../../../../config/index.js";
 import type { NoticeType } from "../../../../service/index.js";
 import { appId, info, user } from "../../../../state/index.js";
 import type { StarredNoticeData } from "../../../../typings/index.js";
@@ -29,8 +25,7 @@ $Page(PAGE_ID, {
   },
 
   onLoad({ scene = "", title = "", id, url = scene, type = "notice" }) {
-    const starredNotices =
-      get<StarredNoticeData[]>(STARRED_NOTICE_LIST_KEY) ?? [];
+    const starredNotices = get<StarredNoticeData[]>(STARRED_NOTICE_LIST_KEY) ?? [];
 
     this.state.type = type as NoticeType;
 
@@ -59,9 +54,7 @@ $Page(PAGE_ID, {
           ? `${service}mp/qrcode?appId=${appId}&page=pkg/user/pages/notice/detail&scene=${url}`
           : null,
       },
-      starred: starredNotices.some(
-        (item) => item.url === url || item.id === id,
-      ),
+      starred: starredNotices.some((item) => item.url === url || item.id === id),
     });
   },
 
@@ -156,8 +149,7 @@ $Page(PAGE_ID, {
         starredNotices.filter((item) => item.url === url || item.id === id),
       );
     } else {
-      const starredNotices =
-        get<StarredNoticeData[]>(STARRED_NOTICE_LIST_KEY) ?? [];
+      const starredNotices = get<StarredNoticeData[]>(STARRED_NOTICE_LIST_KEY) ?? [];
 
       set(STARRED_NOTICE_LIST_KEY, [...starredNotices, notice]);
     }

@@ -1,12 +1,9 @@
 import { logger } from "@mptool/all";
 
-import { OFFICIAL_URL, getOfficialPageView } from "./utils.js";
 import { request } from "../../api/index.js";
-import type {
-  CommonFailedResponse,
-  CommonListSuccessResponse,
-} from "../utils/index.js";
-import { UnknownResponse, createService } from "../utils/index.js";
+import type { CommonFailedResponse, CommonListSuccessResponse } from "../utils/index.js";
+import { unknownResponse, createService } from "../utils/index.js";
+import { OFFICIAL_URL, getOfficialPageView } from "./utils.js";
 
 const ITEM_REGEXP =
   /data-aos="fade-up">\s*<a href="([^"]+)"[^>]+>\s+<div class="time">\s+<h3>(.*?)\.(.*?)<\/h3>\s*<h6>(.*?)<\/h6>\s*<\/div>\s*<div[^>]*>\s*<h4[^>]*>(.*)<\/h4>\s+<h6>(.*?)<span>/g;
@@ -32,13 +29,9 @@ export interface OfficialNoticeInfoItem {
   url: string;
 }
 
-export type OfficialNoticeSuccessResponse = CommonListSuccessResponse<
-  OfficialNoticeInfoItem[]
->;
+export type OfficialNoticeSuccessResponse = CommonListSuccessResponse<OfficialNoticeInfoItem[]>;
 
-export type OfficialNoticeListResponse =
-  | OfficialNoticeSuccessResponse
-  | CommonFailedResponse;
+export type OfficialNoticeListResponse = OfficialNoticeSuccessResponse | CommonFailedResponse;
 
 let totalPageState = 0;
 
@@ -84,7 +77,7 @@ const getOfficialNoticeListLocal = async ({
 
     logger.error("获取官网通知列表失败", err);
 
-    return UnknownResponse(message);
+    return unknownResponse(message);
   }
 };
 

@@ -1,7 +1,5 @@
 import { $Page, showModal, showToast } from "@mptool/all";
 
-import type { ClassData, SortKey } from "./utils.js";
-import { confirmReplace, courseSorter } from "./utils.js";
 import { appCoverPrefix } from "../../../../config/index.js";
 import type {
   AuthLoginFailedResponse,
@@ -30,12 +28,12 @@ import {
 } from "../../service/index.js";
 import { processUnderSelect } from "../../service/under-study/index.js";
 import { createQueue } from "../../utils/index.js";
+import type { ClassData, SortKey } from "./utils.js";
+import { confirmReplace, courseSorter } from "./utils.js";
 
 type ForceSelectResponse =
   | CommonSuccessResponse<string>
-  | CommonFailedResponse<
-      ActionFailType.MissingCredential | ActionFailType.Restricted
-    >
+  | CommonFailedResponse<ActionFailType.MissingCredential | ActionFailType.Restricted>
   | AuthLoginFailedResponse
   | FailResponse<UnderSelectProcessResponse>;
 
@@ -105,13 +103,7 @@ $Page(PAGE_ID, {
     showClasses: false,
     classesResult: [] as ClassData[],
 
-    sortKeys: [
-      "className",
-      "teacher",
-      "spare",
-      "current",
-      "capacity",
-    ] as SortKey[],
+    sortKeys: ["className", "teacher", "spare", "current", "capacity"] as SortKey[],
     sortKeyIndex: 0,
     ascending: true,
   },
@@ -149,13 +141,9 @@ $Page(PAGE_ID, {
     }
 
     if (!info) {
-      showModal(
-        "个人信息缺失",
-        `${envName}本地暂无个人信息，请重新登录`,
-        () => {
-          this.$go("account-login?update=true");
-        },
-      );
+      showModal("个人信息缺失", `${envName}本地暂无个人信息，请重新登录`, () => {
+        this.$go("account-login?update=true");
+      });
 
       return;
     }
@@ -182,10 +170,7 @@ $Page(PAGE_ID, {
     imageUrl: `${appCoverPrefix}.jpg`,
   }),
 
-  onInput({
-    target,
-    detail,
-  }: WechatMiniprogram.Input<Record<never, never>, { key: string }>) {
+  onInput({ target, detail }: WechatMiniprogram.Input<Record<never, never>, { key: string }>) {
     this.setData({ [target.dataset.key]: detail.value });
   },
 
@@ -341,10 +326,7 @@ $Page(PAGE_ID, {
 
     const selectedClasses = result.data;
 
-    const currentCredit = selectedClasses.reduce(
-      (sum, item) => (item ? item.point + sum : sum),
-      0,
-    );
+    const currentCredit = selectedClasses.reduce((sum, item) => (item ? item.point + sum : sum), 0);
 
     this.setData({ currentCredit, selectedClasses });
 
@@ -387,9 +369,7 @@ $Page(PAGE_ID, {
 
     // FIXME: ClassIndex format
     if (classIndex)
-      options.classIndex = ["0102", "0304", "0506", "0708", "0910", "1112"][
-        classIndex - 1
-      ];
+      options.classIndex = ["0102", "0304", "0506", "0708", "0910", "1112"][classIndex - 1];
 
     if (!silent) wx.showLoading({ title: "搜索中" });
 
@@ -408,14 +388,9 @@ $Page(PAGE_ID, {
 
   async loadClasses({
     currentTarget,
-  }: WechatMiniprogram.TouchEvent<
-    Record<never, never>,
-    Record<never, never>,
-    { id?: string }
-  >) {
+  }: WechatMiniprogram.TouchEvent<Record<never, never>, Record<never, never>, { id?: string }>) {
     const courseId = currentTarget.dataset.id || this.state.currentCourseId;
-    const { category, selectedClasses, sortKeys, sortKeyIndex, ascending } =
-      this.data;
+    const { category, selectedClasses, sortKeys, sortKeyIndex, ascending } = this.data;
 
     wx.showLoading({ title: "获取班级信息" });
 
@@ -439,16 +414,13 @@ $Page(PAGE_ID, {
     const classesResult: ClassData[] = result.data.map((item, index) => ({
       ...item,
       isSelected: selectedIndex === index,
-      state:
-        selectedIndex === -1 || selectedIndex === index ? "action" : "replace",
+      state: selectedIndex === -1 || selectedIndex === index ? "action" : "replace",
     }));
 
     this.state.currentCourseId = courseId;
 
     this.setData({
-      classesResult: classesResult.sort(
-        courseSorter(sortKeys[sortKeyIndex], ascending),
-      ),
+      classesResult: classesResult.sort(courseSorter(sortKeys[sortKeyIndex], ascending)),
       showClasses: true,
     });
   },
@@ -459,9 +431,7 @@ $Page(PAGE_ID, {
 
     this.setData({
       sortKeyIndex,
-      classesResult: classesResult.sort(
-        courseSorter(sortKeys[sortKeyIndex], ascending),
-      ),
+      classesResult: classesResult.sort(courseSorter(sortKeys[sortKeyIndex], ascending)),
     });
   },
 
@@ -470,9 +440,7 @@ $Page(PAGE_ID, {
 
     this.setData({
       ascending: !ascending,
-      classesResult: classesResult.sort(
-        courseSorter(sortKeys[sortKeyIndex], !ascending),
-      ),
+      classesResult: classesResult.sort(courseSorter(sortKeys[sortKeyIndex], !ascending)),
     });
   },
 
@@ -488,8 +456,7 @@ $Page(PAGE_ID, {
     { classId: string }
   >) {
     const { classId } = currentTarget.dataset;
-    const { category, selectedClasses, sortKeys, sortKeyIndex, ascending } =
-      this.data;
+    const { category, selectedClasses, sortKeys, sortKeyIndex, ascending } = this.data;
 
     const { id } = selectedClasses.find((item) => item.classId === classId)!;
 
@@ -526,9 +493,7 @@ $Page(PAGE_ID, {
         isSelected: true,
         state: "action",
       },
-      relatedClasses: relatedClasses.sort(
-        courseSorter(sortKeys[sortKeyIndex], ascending),
-      ),
+      relatedClasses: relatedClasses.sort(courseSorter(sortKeys[sortKeyIndex], ascending)),
     });
   },
 
@@ -538,9 +503,7 @@ $Page(PAGE_ID, {
 
     this.setData({
       sortKeyIndex,
-      relatedClasses: relatedClasses.sort(
-        courseSorter(sortKeys[sortKeyIndex], ascending),
-      ),
+      relatedClasses: relatedClasses.sort(courseSorter(sortKeys[sortKeyIndex], ascending)),
     });
   },
 
@@ -549,9 +512,7 @@ $Page(PAGE_ID, {
 
     this.setData({
       ascending: !ascending,
-      relatedClasses: relatedClasses.sort(
-        courseSorter(sortKeys[sortKeyIndex], !ascending),
-      ),
+      relatedClasses: relatedClasses.sort(courseSorter(sortKeys[sortKeyIndex], !ascending)),
     });
   },
 
@@ -767,15 +728,10 @@ $Page(PAGE_ID, {
           });
 
           if (!result.success) {
-            return showModal(
-              "查询剩余课容量失败",
-              "无法确认新课程存在空余名额，取消替换操作",
-            );
+            return showModal("查询剩余课容量失败", "无法确认新课程存在空余名额，取消替换操作");
           }
 
-          const { name, current, capacity } = result.data.find(
-            (item) => item.classId === classId,
-          )!;
+          const { name, current, capacity } = result.data.find((item) => item.classId === classId)!;
 
           if (current >= capacity) {
             return showModal("替换失败", "所选课程已满，无法替换操作");
@@ -792,8 +748,7 @@ $Page(PAGE_ID, {
 
           wx.hideLoading();
 
-          if (!removeResult.success)
-            return showModal("退课失败", removeResult.msg);
+          if (!removeResult.success) return showModal("退课失败", removeResult.msg);
 
           wx.showLoading({ title: "选课中" });
 

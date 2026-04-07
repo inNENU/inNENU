@@ -33,10 +33,7 @@ $Component({
       const { content } = this.data.config;
 
       writeClipboard(content).then(() => {
-        showModal(
-          "功能受限",
-          "小程序无法直接打开网页，链接已复制至剪切板，请打开浏览器粘贴查看。",
-        );
+        showModal("功能受限", "小程序无法直接打开网页，链接已复制至剪切板，请打开浏览器粘贴查看。");
         logger.debug(`Copied '${content}'`);
       });
     },

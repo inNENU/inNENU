@@ -19,10 +19,6 @@ export const resetApp = (): void => {
       // 重启小程序
       wx.restartMiniProgram({ path: "/pages/main/main" });
     // 提示用户重启
-    else
-      showModal(
-        `${envName}重置完成`,
-        `请单击 “退出${envName}按钮” 退出${envName}并重新进入。`,
-      );
+    else showModal(`${envName}重置完成`, `请单击 “退出${envName}按钮” 退出${envName}并重新进入。`);
   });
 };

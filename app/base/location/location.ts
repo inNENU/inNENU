@@ -1,10 +1,7 @@
 import type { PropType } from "@mptool/all";
 import { $Component, showToast } from "@mptool/all";
 
-import type {
-  LocationComponentOptions,
-  LocationConfig,
-} from "../../../typings/index.js";
+import type { LocationComponentOptions, LocationConfig } from "../../../typings/index.js";
 import { isCompany } from "../../state/index.js";
 import { getLocation, startNavigation } from "../../utils/index.js";
 
@@ -47,9 +44,7 @@ $Component({
           .select("#location")
           .context(({ context }) => {
             (context as WechatMiniprogram.MapContext).includePoints({
-              points: this.data.config.points.map(({ loc }) =>
-                getLocation(loc),
-              ),
+              points: this.data.config.points.map(({ loc }) => getLocation(loc)),
               padding: [24, 24, 24, 24],
             });
           })
@@ -95,8 +90,7 @@ $Component({
       const { navigate } = this.data.config;
 
       if (path) this.$go(`map-detail?id=${path}&loc=${loc}`);
-      else if (navigate !== false)
-        this.startNavigation(this.data.markers[detail.markerId]);
+      else if (navigate !== false) this.startNavigation(this.data.markers[detail.markerId]);
     },
 
     startNavigation({ loc, name }: LocationConfig & { id: number }) {

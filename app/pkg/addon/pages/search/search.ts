@@ -4,11 +4,7 @@ import { appCoverPrefix } from "../../../../config/index.js";
 import type { ContentSearchHit } from "../../../../service/index.js";
 import { getSuggestions, searchContent } from "../../../../service/index.js";
 import { info, windowInfo } from "../../../../state/index.js";
-import {
-  getIconLink,
-  getPageColor,
-  showNotice,
-} from "../../../../utils/index.js";
+import { getIconLink, getPageColor, showNotice } from "../../../../utils/index.js";
 import { searchPage } from "../../utils/search.js";
 
 $Page("search", {
@@ -59,8 +55,7 @@ $Page("search", {
 
   onScrollViewScroll(options: WechatMiniprogram.ScrollViewScroll) {
     this.setData({
-      showBackToTop:
-        options.detail.scrollTop > 250 + windowInfo.statusBarHeight,
+      showBackToTop: options.detail.scrollTop > 250 + windowInfo.statusBarHeight,
     });
   },
 
@@ -140,10 +135,7 @@ $Page("search", {
     wx.showLoading({ title: "搜索中..." });
 
     try {
-      const { results, total, totalPages } = await searchContent(
-        query,
-        current,
-      );
+      const { results, total, totalPages } = await searchContent(query, current);
 
       wx.hideLoading();
 
@@ -175,9 +167,7 @@ $Page("search", {
     const pageResults = await searchPage(query);
 
     this.setData({
-      icons: Object.fromEntries(
-        pageResults.map(({ icon }) => [icon, getIconLink(icon)]),
-      ),
+      icons: Object.fromEntries(pageResults.map(({ icon }) => [icon, getIconLink(icon)])),
       pageResults,
     });
   },

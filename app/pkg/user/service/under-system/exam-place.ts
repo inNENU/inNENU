@@ -1,5 +1,8 @@
 import { URLSearchParams, logger } from "@mptool/all";
 
+import { cookieStore, request } from "../../../../api/index.js";
+import type { ActionFailType, CommonFailedResponse } from "../../../../service/index.js";
+import { ExpiredResponse, createService, isWebVPNPage } from "../../../../service/index.js";
 import {
   UNDER_SYSTEM_SERVER,
   fieldRegExp,
@@ -12,16 +15,6 @@ import {
   tableFieldsRegExp,
   totalPagesRegExp,
 } from "./utils.js";
-import { cookieStore, request } from "../../../../api/index.js";
-import type {
-  ActionFailType,
-  CommonFailedResponse,
-} from "../../../../service/index.js";
-import {
-  ExpiredResponse,
-  createService,
-  isWebVPNPage,
-} from "../../../../service/index.js";
 
 const selectRegExp =
   /<select\s+name="kskzid"\s+id="kskzid"[^>]*><option value="">---请选择---<\/option>([\s\S]*?)<\/select>/;
@@ -80,8 +73,7 @@ export const getExamList = async (value: string): Promise<ExamPlace[]> => {
   const totalPages = Number(totalPagesRegExp.exec(content)![1]);
 
   // users are editing them, so the main page must be refetched
-  const shouldRefetch =
-    tableFields !== DEFAULT_TABLE_FIELD || otherFields !== DEFAULT_OTHER_FIELD;
+  const shouldRefetch = tableFields !== DEFAULT_TABLE_FIELD || otherFields !== DEFAULT_OTHER_FIELD;
 
   const exams = shouldRefetch ? [] : getExamPlaces(content);
 
@@ -91,14 +83,12 @@ export const getExamList = async (value: string): Promise<ExamPlace[]> => {
   const printPageSize = String(printPageSizeRegExp.exec(content)?.[1]);
   const keyCode = String(keyCodeRegExp.exec(content)?.[1]);
   const printHQL =
-    String(printHQLInputRegExp.exec(content)?.[1]) ||
-    String(printHQLJSRegExp.exec(content)?.[1]);
+    String(printHQLInputRegExp.exec(content)?.[1]) || String(printHQLJSRegExp.exec(content)?.[1]);
   const sqlString = sqlStringRegExp.exec(content)?.[1];
 
   const pages: number[] = [];
 
-  for (let page = shouldRefetch ? 1 : 2; page <= totalPages; page++)
-    pages.push(page);
+  for (let page = shouldRefetch ? 1 : 2; page <= totalPages; page++) pages.push(page);
 
   await Promise.all(
     pages.map(async (page) => {
@@ -156,9 +146,10 @@ const getUnderExamPlaceLocal = async (): Promise<UnderExamPlaceResponse> => {
 
     const select = selectRegExp.exec(content)![1].trim();
 
-    const options = Array.from(select.matchAll(optionRegExp)).map(
-      ([, value, name]) => ({ value, name }),
-    );
+    const options = Array.from(select.matchAll(optionRegExp)).map(([, value, name]) => ({
+      value,
+      name,
+    }));
 
     const data = await Promise.all(
       options.map(async ({ name, value }) => ({

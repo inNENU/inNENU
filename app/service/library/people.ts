@@ -1,8 +1,5 @@
 import { request } from "../../api/index.js";
-import type {
-  CommonFailedResponse,
-  CommonSuccessResponse,
-} from "../utils/index.js";
+import type { CommonFailedResponse, CommonSuccessResponse } from "../utils/index.js";
 import { createService } from "../utils/index.js";
 
 interface LibraryPeopleRawData {
@@ -24,12 +21,9 @@ export interface LibraryPeopleData {
   jingyueMax: number;
 }
 
-export type LibraryPeopleSuccessResponse =
-  CommonSuccessResponse<LibraryPeopleData>;
+export type LibraryPeopleSuccessResponse = CommonSuccessResponse<LibraryPeopleData>;
 
-export type LibraryPeopleResponse =
-  | LibraryPeopleSuccessResponse
-  | CommonFailedResponse;
+export type LibraryPeopleResponse = LibraryPeopleSuccessResponse | CommonFailedResponse;
 
 const getLibraryPeopleLocal = async (): Promise<LibraryPeopleResponse> => {
   const { data } = await request<LibraryPeopleRawData>(

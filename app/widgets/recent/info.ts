@@ -8,10 +8,7 @@ import {
   SITE_SCIENCE_LIST_KEY,
   SITE_SOCIAL_LIST_KEY,
 } from "../../config/index.js";
-import type {
-  OfficialInfoItem,
-  OfficialInfoType,
-} from "../../service/index.js";
+import type { OfficialInfoItem, OfficialInfoType } from "../../service/index.js";
 import { getOfficialInfoList } from "../../service/index.js";
 import type { WidgetSize, WidgetStatus } from "../utils.js";
 import { getSize } from "../utils.js";
@@ -116,9 +113,7 @@ $Component({
       const { infoType: noticeType } = this.data;
       const { title, url } = currentTarget.dataset.info;
 
-      return this.$go(
-        `official-info-detail?title=${title}&type=${noticeType}&url=${url}`,
-      );
+      return this.$go(`official-info-detail?title=${title}&type=${noticeType}&url=${url}`);
     },
   },
 

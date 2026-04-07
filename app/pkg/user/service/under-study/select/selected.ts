@@ -1,21 +1,12 @@
 import { URLSearchParams } from "@mptool/all";
 
-import type {
-  RawUnderSelectClassItem,
-  UnderSelectClassInfo,
-} from "./typings.js";
-import { getClasses } from "./utils.js";
 import { request } from "../../../../../api/index.js";
-import type {
-  CommonFailedResponse,
-  CommonSuccessResponse,
-} from "../../../../../service/index.js";
-import {
-  UnknownResponse,
-  createService,
-} from "../../../../../service/index.js";
+import type { CommonFailedResponse, CommonSuccessResponse } from "../../../../../service/index.js";
+import { unknownResponse, createService } from "../../../../../service/index.js";
 import { withUnderStudyLogin } from "../login.js";
 import { UNDER_STUDY_SERVER } from "../utils.js";
+import type { RawUnderSelectClassItem, UnderSelectClassInfo } from "./typings.js";
+import { getClasses } from "./utils.js";
 
 interface RawUnderSelectedClassResponse {
   data: "";
@@ -27,9 +18,7 @@ export type UnderSelectSelectedResponse =
   | CommonSuccessResponse<UnderSelectClassInfo[]>
   | CommonFailedResponse;
 
-const getUnderSelectedClassesLocal = async (
-  link: string,
-): Promise<UnderSelectSelectedResponse> => {
+const getUnderSelectedClassesLocal = async (link: string): Promise<UnderSelectSelectedResponse> => {
   try {
     const infoUrl = `${UNDER_STUDY_SERVER}${link}/yxkc`;
 
@@ -57,13 +46,11 @@ const getUnderSelectedClassesLocal = async (
 
     console.error(err);
 
-    return UnknownResponse(message);
+    return unknownResponse(message);
   }
 };
 
-const getUnderSelectedClassesOnline = async (
-  link: string,
-): Promise<UnderSelectSelectedResponse> =>
+const getUnderSelectedClassesOnline = async (link: string): Promise<UnderSelectSelectedResponse> =>
   request<UnderSelectSelectedResponse>("/under-study/select/selected", {
     method: "POST",
     body: { link },

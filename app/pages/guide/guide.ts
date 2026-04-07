@@ -1,27 +1,13 @@
 import { $Page, get, set } from "@mptool/all";
 
-import type {
-  GridComponentOptions,
-  PageStateWithContent,
-} from "../../../typings/index.js";
+import type { GridComponentOptions, PageStateWithContent } from "../../../typings/index.js";
 import { preloadSkyline } from "../../api/index.js";
-import { checkResource, syncAppSettings } from "../../app/index.js";
 import type { App } from "../../app.js";
+import { checkResource, syncAppSettings } from "../../app/index.js";
 import { DAY, appCoverPrefix } from "../../config/index.js";
-import {
-  envName,
-  getIdentity,
-  info,
-  menuSpace,
-  windowInfo,
-} from "../../state/index.js";
+import { envName, getIdentity, info, menuSpace, windowInfo } from "../../state/index.js";
 import type { EntranceConfig } from "../../utils/index.js";
-import {
-  getJson,
-  getPageColor,
-  getTabData,
-  showNotice,
-} from "../../utils/index.js";
+import { getJson, getPageColor, getTabData, showNotice } from "../../utils/index.js";
 
 const { globalData } = getApp<App>();
 

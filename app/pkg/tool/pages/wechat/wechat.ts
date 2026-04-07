@@ -1,16 +1,6 @@
-import {
-  $Page,
-  env,
-  savePhoto,
-  showModal,
-  showToast,
-  writeClipboard,
-} from "@mptool/all";
+import { $Page, env, savePhoto, showModal, showToast, writeClipboard } from "@mptool/all";
 
-import type {
-  WechatAccountData,
-  WechatArticle,
-} from "../../../../../typings/index.js";
+import type { WechatAccountData, WechatArticle } from "../../../../../typings/index.js";
 import { request } from "../../../../api/index.js";
 import { appCoverPrefix, server } from "../../../../config/index.js";
 import { info, windowInfo } from "../../../../state/index.js";
@@ -109,8 +99,7 @@ $Page(PAGE_ID, {
   },
 
   onPageScroll(options) {
-    if (options.scrollTop > 250 + windowInfo.statusBarHeight)
-      this.setData({ showBackToTop: true });
+    if (options.scrollTop > 250 + windowInfo.statusBarHeight) this.setData({ showBackToTop: true });
     else this.setData({ showBackToTop: false });
   },
 
@@ -170,16 +159,11 @@ $Page(PAGE_ID, {
 
   navigate({
     currentTarget,
-  }: WechatMiniprogram.TouchEvent<
-    never,
-    never,
-    { title: string; url: string }
-  >) {
+  }: WechatMiniprogram.TouchEvent<never, never, { title: string; url: string }>) {
     const { url } = currentTarget.dataset;
 
     if (env === "donut") wx.miniapp.openUrl({ url });
-    else if (wx.openOfficialAccountArticle)
-      wx.openOfficialAccountArticle({ url });
+    else if (wx.openOfficialAccountArticle) wx.openOfficialAccountArticle({ url });
     else
       writeClipboard(url).then(() => {
         showModal(
@@ -206,7 +190,5 @@ $Page(PAGE_ID, {
     wx.pageScrollTo({ scrollTop: 0 });
   },
 
-  ctx: null as unknown as ReturnType<
-    typeof createRecycleContext<WechatArticle>
-  >,
+  ctx: null as unknown as ReturnType<typeof createRecycleContext<WechatArticle>>,
 });

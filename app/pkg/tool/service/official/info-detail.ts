@@ -2,19 +2,15 @@ import type { RichTextNode } from "@mptool/all";
 import { getRichTextNodes, logger } from "@mptool/all";
 
 import { request } from "../../../../api/index.js";
-import type {
-  CommonFailedResponse,
-  CommonSuccessResponse,
-} from "../../../../service/index.js";
+import type { CommonFailedResponse, CommonSuccessResponse } from "../../../../service/index.js";
 import {
   OFFICIAL_URL,
-  UnknownResponse,
+  unknownResponse,
   createService,
   getOfficialPageView,
 } from "../../../../service/index.js";
 
-const INFO_REGEXP =
-  /<div class="ar_tit">\s*<h3>([^>]+)<\/h3>\s*<h6>([^]+?)<\/h6>/;
+const INFO_REGEXP = /<div class="ar_tit">\s*<h3>([^>]+)<\/h3>\s*<h6>([^]+?)<\/h6>/;
 const CONTENT_REGEXP =
   /<div class="v_news_content">([^]+?)<\/div>[^]+?<\/div>\s*<div id="div_vote_id">/;
 
@@ -41,20 +37,13 @@ export interface OfficialInfoData {
   content: RichTextNode[];
 }
 
-export type OfficialInfoDetailSuccessResponse =
-  CommonSuccessResponse<OfficialInfoData>;
+export type OfficialInfoDetailSuccessResponse = CommonSuccessResponse<OfficialInfoData>;
 
-export type OfficialInfoDetailResponse =
-  | OfficialInfoDetailSuccessResponse
-  | CommonFailedResponse;
+export type OfficialInfoDetailResponse = OfficialInfoDetailSuccessResponse | CommonFailedResponse;
 
-const getOfficialInfoDetailLocal = async (
-  url: string,
-): Promise<OfficialInfoDetailResponse> => {
+const getOfficialInfoDetailLocal = async (url: string): Promise<OfficialInfoDetailResponse> => {
   try {
-    const { data: text, status } = await request<string>(
-      `${OFFICIAL_URL}/${url}`,
-    );
+    const { data: text, status } = await request<string>(`${OFFICIAL_URL}/${url}`);
 
     if (status !== 200) throw new Error("请求失败");
 
@@ -78,10 +67,7 @@ const getOfficialInfoDetailLocal = async (
         transform: {
           // trim text node in p
           p: (node) => {
-            if (
-              node.children?.length === 1 &&
-              node.children[0].type === "text"
-            ) {
+            if (node.children?.length === 1 && node.children[0].type === "text") {
               node.children[0].text = node.children[0].text.trim();
             }
 
@@ -118,16 +104,12 @@ const getOfficialInfoDetailLocal = async (
 
     logger.error(err);
 
-    return UnknownResponse(message);
+    return unknownResponse(message);
   }
 };
 
-const getOfficialInfoDetailOnline = (
-  url: string,
-): Promise<OfficialInfoDetailResponse> =>
-  request<OfficialInfoDetailResponse>(`/official/info-detail?url=${url}`).then(
-    ({ data }) => data,
-  );
+const getOfficialInfoDetailOnline = (url: string): Promise<OfficialInfoDetailResponse> =>
+  request<OfficialInfoDetailResponse>(`/official/info-detail?url=${url}`).then(({ data }) => data);
 
 export const getOfficialInfoDetail = createService(
   "official-info-detail",

@@ -1,11 +1,6 @@
 import { $Page, get, retry, set, showModal } from "@mptool/all";
 
-import {
-  COURSE_DATA_KEY,
-  DAY,
-  MONTH,
-  appCoverPrefix,
-} from "../../../../config/index.js";
+import { COURSE_DATA_KEY, DAY, MONTH, appCoverPrefix } from "../../../../config/index.js";
 import type { LoginMethod } from "../../../../service/index.js";
 import { ActionFailType } from "../../../../service/index.js";
 import { envName, info, user } from "../../../../state/index.js";
@@ -29,9 +24,7 @@ const PAGE_TITLE = "本科课程表";
 const getDisplayTime = (time: string): string => {
   const startYear = Number(time.substring(0, 4));
 
-  return time.endsWith("1")
-    ? `${startYear}年秋季学期`
-    : `${startYear + 1}年春季学期`;
+  return time.endsWith("1") ? `${startYear}年秋季学期` : `${startYear + 1}年春季学期`;
 };
 
 const getTimes = (grade: number): string[] => {
@@ -57,8 +50,7 @@ const getMaxWeek = (courseTable: CourseTableData): number =>
           (currentMaxWeek, cell) =>
             Math.max(
               cell.reduce(
-                (currentMaxWeek, { weeks }) =>
-                  Math.max(currentMaxWeek, weeks[weeks.length - 1]),
+                (currentMaxWeek, { weeks }) => Math.max(currentMaxWeek, weeks[weeks.length - 1]),
                 1,
               ),
               currentMaxWeek,
@@ -117,13 +109,9 @@ $Page(PAGE_ID, {
 
     if (account) {
       if (!info) {
-        showModal(
-          "个人信息缺失",
-          `${envName}本地暂无个人信息，请重新登录`,
-          () => {
-            this.$go("account-login?update=true");
-          },
-        );
+        showModal("个人信息缺失", `${envName}本地暂无个人信息，请重新登录`, () => {
+          this.$go("account-login?update=true");
+        });
 
         return;
       }
@@ -265,8 +253,7 @@ $Page(PAGE_ID, {
     { info: CourseTableClassData }
   >) {
     const { maxWeek, weekIndex } = this.data;
-    const { name, teachers, locations, time, weeks, classIndex } =
-      currentTarget.dataset.info;
+    const { name, teachers, locations, time, weeks, classIndex } = currentTarget.dataset.info;
 
     let location = Array.from(new Set(locations)).join("，");
 

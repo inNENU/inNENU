@@ -1,12 +1,4 @@
-import {
-  dirname,
-  exists,
-  logger,
-  mkdir,
-  readJSON,
-  rm,
-  saveOnlineFile,
-} from "@mptool/all";
+import { dirname, exists, logger, mkdir, readJSON, rm, saveOnlineFile } from "@mptool/all";
 
 import { server } from "../config/index.js";
 
@@ -16,10 +8,7 @@ import { server } from "../config/index.js";
  * @param onlinePath JSON 的在线路径，不带 `.json` 后缀
  * @param localPath JSON 的保存路径，不带 `.json` 后缀
  */
-export const saveJson = (
-  onlinePath: string,
-  localPath = onlinePath,
-): Promise<void> => {
+export const saveJson = (onlinePath: string, localPath = onlinePath): Promise<void> => {
   mkdir(dirname(localPath));
 
   return saveOnlineFile(`${server}${onlinePath}.json`, `${localPath}.json`)

@@ -19,9 +19,7 @@ const { request, cookieStore } = createRequest({
       logger.debug(
         `Request ${url} ends with ${status}: `,
         headers.toObject(),
-        typeof data === "string" && data.length > 200
-          ? data.slice(0, 200)
-          : data,
+        typeof data === "string" && data.length > 200 ? data.slice(0, 200) : data,
       );
 
       return { data, headers, status };
@@ -74,9 +72,7 @@ export const requestJSON = <
           resolve(data);
         } else {
           // 调试
-          logger.warn(
-            `Request ${path}.json failed with statusCode: ${statusCode}`,
-          );
+          logger.warn(`Request ${path}.json failed with statusCode: ${statusCode}`);
 
           wx.reportEvent?.("resource_load_failed", {
             // eslint-disable-next-line @typescript-eslint/naming-convention

@@ -292,11 +292,7 @@ export interface WeatherData {
   hints: WeatherHint[];
 }
 
-const getWeatherData = ({
-  air,
-  alarm,
-  ...data
-}: WeatherRawData): WeatherData => {
+const getWeatherData = ({ air, alarm, ...data }: WeatherRawData): WeatherData => {
   const {
     aqi,
     aqi_level: aqiLevel,
@@ -344,9 +340,7 @@ const getWeatherData = ({
     .sort(([keyA], [keyB]) => Number(keyA) - Number(keyB))
     .map(([, value]) => value)
     .map(({ degree, update_time: updateTime, weather_code: weatherCode }) => {
-      const { sunrise, sunset } = rise.find(
-        (item) => item.time === updateTime.substring(0, 8),
-      )!;
+      const { sunrise, sunset } = rise.find((item) => item.time === updateTime.substring(0, 8))!;
       const hour = Number(updateTime.substring(8, 10));
       const sunriseHour = Number(sunrise.substring(0, 2));
       const sunsetHour = Number(sunset.substring(0, 2));
@@ -445,13 +439,11 @@ const getWeatherData = ({
       pm25: Number(pm25),
       so2: Number(so2),
     },
-    alarm: Object.entries(alarm).map(
-      ([, { detail, level_name: level, type_name: type }]) => ({
-        level,
-        type,
-        text: detail,
-      }),
-    ),
+    alarm: Object.entries(alarm).map(([, { detail, level_name: level, type_name: type }]) => ({
+      level,
+      type,
+      text: detail,
+    })),
     dayForecast,
     hourForecast,
     hints,
@@ -484,8 +476,4 @@ const getWeatherLocal = async (): Promise<WeatherData> => {
 const getWeatherOnline = async (): Promise<WeatherData> =>
   request<WeatherData>("/weather").then(({ data }) => data);
 
-export const getWeather = createService(
-  "weather",
-  getWeatherLocal,
-  getWeatherOnline,
-);
+export const getWeather = createService("weather", getWeatherLocal, getWeatherOnline);

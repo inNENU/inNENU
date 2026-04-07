@@ -18,7 +18,7 @@ export const updateApp = async (): Promise<void> => {
   const onlineVersion = await requestJSON<string>(`config/${appId}/version`);
 
   if (compareVersion(onlineVersion, version) > 0) {
-    if (platform === "android")
+    if (platform === "android") {
       wx.showModal({
         title: "发现新版本",
         content: `已发现新版本 ${onlineVersion}，是否更新？`,
@@ -27,17 +27,18 @@ export const updateApp = async (): Promise<void> => {
         success: ({ confirm }) => {
           if (confirm) {
             // avoid downloading the same file
-            if (apkFilePath) wx.miniapp.installApp({ filePath: apkFilePath });
-            else
-              download(`${assets}innenu-v${onlineVersion}.apk`).then(
-                (filePath) => {
-                  apkFilePath = filePath;
-                  wx.miniapp.installApp({ filePath });
-                },
-              );
+            if (apkFilePath) {
+              wx.miniapp.installApp({ filePath: apkFilePath });
+            } else {
+              download(`${assets}innenu-v${onlineVersion}.apk`).then((filePath) => {
+                apkFilePath = filePath;
+                wx.miniapp.installApp({ filePath });
+              });
+            }
           }
         },
       });
+    }
 
     // TODO: Complete iOS logic
   }

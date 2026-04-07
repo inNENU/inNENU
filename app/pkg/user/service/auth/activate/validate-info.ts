@@ -1,13 +1,6 @@
 import { request } from "../../../../../api/index.js";
-import type {
-  CommonFailedResponse,
-  CommonSuccessResponse,
-} from "../../../../../service/index.js";
-import {
-  ActionFailType,
-  UnknownResponse,
-  authEncrypt,
-} from "../../../../../service/index.js";
+import type { CommonFailedResponse, CommonSuccessResponse } from "../../../../../service/index.js";
+import { ActionFailType, unknownResponse, authEncrypt } from "../../../../../service/index.js";
 import type { ResetCaptchaInfo } from "../reset-captcha.js";
 import { getResetCaptchaLocal } from "../reset-captcha.js";
 import { RESET_PREFIX, RESET_SALT } from "../utils.js";
@@ -31,9 +24,7 @@ interface RawValidationFailResponse {
   messages: string;
 }
 
-type RawValidationResponse =
-  | RawValidationSuccessResponse
-  | RawValidationFailResponse;
+type RawValidationResponse = RawValidationSuccessResponse | RawValidationFailResponse;
 
 export interface ActivateValidationOptions {
   type: "validate-info";
@@ -93,7 +84,7 @@ export const validAccountInfo = async ({
       };
     }
 
-    return UnknownResponse(data.message);
+    return unknownResponse(data.message);
   }
 
   const captchaResponse = await getResetCaptchaLocal();

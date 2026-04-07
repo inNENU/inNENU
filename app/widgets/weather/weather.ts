@@ -10,11 +10,7 @@ $Component({
   props: {
     type: {
       type: String as PropType<
-        | "今日天气 (小)"
-        | "今日天气"
-        | "近日天气 (小)"
-        | "近日天气"
-        | "近日天气 (大)"
+        "今日天气 (小)" | "今日天气" | "近日天气 (小)" | "近日天气" | "近日天气 (大)"
       >,
       default: "今日天气",
     },
@@ -74,15 +70,9 @@ $Component({
 
     updateIcon() {
       this.setData({
-        weatherIcon: JSON.parse(readFile("./icon/weather")!) as Record<
-          string,
-          string
-        >,
+        weatherIcon: JSON.parse(readFile("./icon/weather")!) as Record<string, string>,
 
-        hintIcon: JSON.parse(readFile("./icon/weather-hints")!) as Record<
-          string,
-          string
-        >,
+        hintIcon: JSON.parse(readFile("./icon/weather-hints")!) as Record<string, string>,
       });
     },
   },

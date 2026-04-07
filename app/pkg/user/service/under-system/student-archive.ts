@@ -1,6 +1,5 @@
 import { logger } from "@mptool/all";
 
-import { UNDER_SYSTEM_SERVER } from "./utils.js";
 import { cookieStore, request } from "../../../../api/index.js";
 import type { CommonFailedResponse } from "../../../../service/index.js";
 import {
@@ -10,9 +9,9 @@ import {
   getIETimeStamp,
   isWebVPNPage,
 } from "../../../../service/index.js";
+import { UNDER_SYSTEM_SERVER } from "./utils.js";
 
-const infoRegExp =
-  /<td>(\S+)<\/td>\s+<td colspan="\d">(?:&nbsp;)*(.*?)(?:&nbsp;)*<\/td>/g;
+const infoRegExp = /<td>(\S+)<\/td>\s+<td colspan="\d">(?:&nbsp;)*(.*?)(?:&nbsp;)*<\/td>/g;
 const studyRegExp =
   /<td {2}>(\S+)<\/td>\s*<td {2}>(\S+)<\/td>\s*<td\scolspan="4">(\S+)<\/td>\s*<td {2}>(\S+)<\/td>\s*<td\scolspan="2">(\S+)<\/td>\s*<td {2}>(\S+)<\/td>/g;
 const familyRegExp =
@@ -77,18 +76,14 @@ export interface UnderStudentArchiveInfo {
   path: string;
 }
 
-const getStudentArchive = async (
-  content: string,
-): Promise<UnderStudentArchiveInfo> => {
+const getStudentArchive = async (content: string): Promise<UnderStudentArchiveInfo> => {
   const [baseInfo, tableInfo] = content.split("本人学历及社会经历");
   const [studyInfo, familyInfo] = tableInfo.split("家庭成员及主要社会关系");
 
-  const basic = Array.from(baseInfo.matchAll(infoRegExp)).map(
-    ([, text, value]) => ({
-      text: text.replace(/&nbsp;/g, ""),
-      value,
-    }),
-  );
+  const basic = Array.from(baseInfo.matchAll(infoRegExp)).map(([, text, value]) => ({
+    text: text.replace(/&nbsp;/g, ""),
+    value,
+  }));
   const study = Array.from(studyInfo.matchAll(studyRegExp))
     .map(([, startTime, endTime, school, title, witness, remark]) => ({
       startTime: startTime.replace(/&nbsp;/g, ""),
@@ -165,48 +160,46 @@ export type UnderGetStudentArchiveResponse =
   | UnderGetStudentArchiveSuccessResponse
   | CommonFailedResponse<ActionFailType.Expired>;
 
-const getUnderStudentArchiveLocal =
-  async (): Promise<UnderGetStudentArchiveResponse> => {
-    const { data: content, status } = await request<string>(
-      `${UNDER_STUDENT_ARCHIVE_QUERY_URL}&tktime=${getIETimeStamp()}`,
-      { redirect: "manual" },
-    );
+const getUnderStudentArchiveLocal = async (): Promise<UnderGetStudentArchiveResponse> => {
+  const { data: content, status } = await request<string>(
+    `${UNDER_STUDENT_ARCHIVE_QUERY_URL}&tktime=${getIETimeStamp()}`,
+    { redirect: "manual" },
+  );
 
-    if (status === 302 || isWebVPNPage(content)) {
-      cookieStore.clear();
-
-      return {
-        success: false,
-        type: ActionFailType.Expired,
-        msg: "登录已过期，请重新登录",
-      };
-    }
-
-    if (content.includes("学生学籍卡片")) {
-      const info = await getStudentArchive(content);
-
-      return {
-        success: true,
-        info,
-      };
-    }
+  if (status === 302 || isWebVPNPage(content)) {
+    cookieStore.clear();
 
     return {
       success: false,
-      msg: "获取学籍信息失败",
+      type: ActionFailType.Expired,
+      msg: "登录已过期，请重新登录",
     };
+  }
+
+  if (content.includes("学生学籍卡片")) {
+    const info = await getStudentArchive(content);
+
+    return {
+      success: true,
+      info,
+    };
+  }
+
+  return {
+    success: false,
+    msg: "获取学籍信息失败",
   };
+};
 
-const getUnderStudentArchiveOnline =
-  (): Promise<UnderGetStudentArchiveResponse> =>
-    request<UnderGetStudentArchiveResponse>("/under-system/student-archive", {
-      method: "POST",
-      cookieScope: UNDER_SYSTEM_SERVER,
-    }).then(({ data }) => {
-      if (!data.success) logger.error("获取失败", data.msg);
+const getUnderStudentArchiveOnline = (): Promise<UnderGetStudentArchiveResponse> =>
+  request<UnderGetStudentArchiveResponse>("/under-system/student-archive", {
+    method: "POST",
+    cookieScope: UNDER_SYSTEM_SERVER,
+  }).then(({ data }) => {
+    if (!data.success) logger.error("获取失败", data.msg);
 
-      return data;
-    });
+    return data;
+  });
 
 export const getUnderStudentArchive = createService(
   "view-under-archive",
@@ -257,14 +250,11 @@ const registerUnderStudentArchiveLocal = async (
 const registerUnderStudentArchiveOnline = (
   path: string,
 ): Promise<UnderRegisterStudentArchiveResponse> =>
-  request<UnderRegisterStudentArchiveResponse>(
-    "/under-system/student-archive",
-    {
-      method: "POST",
-      body: { type: "register", path },
-      cookieScope: UNDER_SYSTEM_SERVER,
-    },
-  ).then(({ data }) => {
+  request<UnderRegisterStudentArchiveResponse>("/under-system/student-archive", {
+    method: "POST",
+    body: { type: "register", path },
+    cookieScope: UNDER_SYSTEM_SERVER,
+  }).then(({ data }) => {
     if (!data.success) logger.error("获取失败", data.msg);
 
     return data;

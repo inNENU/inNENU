@@ -4,10 +4,7 @@ import { $Page, env, showModal, showToast, writeClipboard } from "@mptool/all";
 import { appCoverPrefix } from "../../../../config/index.js";
 import { info } from "../../../../state/index.js";
 import { getPageColor, showNotice } from "../../../../utils/index.js";
-import type {
-  GradEnrollSchoolPlan,
-  GradRecommendSchoolPlan,
-} from "../../service/index.js";
+import type { GradEnrollSchoolPlan, GradRecommendSchoolPlan } from "../../service/index.js";
 import { getGradPlan, getGradRecommendPlan } from "../../service/index.js";
 
 const PAGE_ID = "grad-enroll-plan";
@@ -93,20 +90,13 @@ $Page(PAGE_ID, {
 
     this.setData({
       schoolIndex: index,
-      plans:
-        index === 0
-          ? this.state.plans
-          : [this.state.plans[Number(detail.value) - 1]],
+      plans: index === 0 ? this.state.plans : [this.state.plans[Number(detail.value) - 1]],
     });
   },
 
   openSite({
     currentTarget,
-  }: WechatMiniprogram.TouchEvent<
-    Record<string, never>,
-    Record<string, never>,
-    { site: string }
-  >) {
+  }: WechatMiniprogram.TouchEvent<Record<string, never>, Record<string, never>, { site: string }>) {
     const { site } = currentTarget.dataset;
 
     if (env === "donut") wx.miniapp.openUrl({ url: site });

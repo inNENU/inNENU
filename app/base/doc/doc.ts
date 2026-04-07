@@ -58,8 +58,7 @@ $Component({
           });
       }
       // 保存图片至相册
-      else if (IMAGE_ICONS.includes(icon))
-        savePhoto(link).then(() => showToast("已保存至相册"));
+      else if (IMAGE_ICONS.includes(icon)) savePhoto(link).then(() => showToast("已保存至相册"));
     },
   },
 });

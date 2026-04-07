@@ -64,9 +64,7 @@ $Page("map-detail", {
 
     return {
       title: page.title,
-      path: `/pkg/tool/pages/map/detail?id=${this.state.id}${
-        loc ? `&loc=${loc}` : ""
-      }`,
+      path: `/pkg/tool/pages/map/detail?id=${this.state.id}${loc ? `&loc=${loc}` : ""}`,
     };
   },
 

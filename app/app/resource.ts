@@ -54,10 +54,7 @@ export const downloadResource = async (
               if (showProgress) {
                 progressNumber += 1;
                 wx.showLoading({
-                  title:
-                    progressNumber === total
-                      ? "解压中"
-                      : `更新中(${progressNumber}/${total})`,
+                  title: progressNumber === total ? "解压中" : `更新中(${progressNumber}/${total})`,
                   mask: true,
                 });
               }
@@ -106,16 +103,12 @@ let hasResPopup = false;
 
 export const checkResource = (): Promise<void> => {
   /** 资源提醒状态 */
-  let disableNotify = wx.getStorageSync<boolean | undefined>(
-    "disableResourceNotify",
-  );
+  let disableNotify = wx.getStorageSync<boolean | undefined>("disableResourceNotify");
   /** 本地资源版本 */
-  const localVersion: Record<string, number> =
-    readJSON("resource-version") || {};
+  // oxlint-disable-next-line typescript/prefer-nullish-coalescing
+  const localVersion: Record<string, number> = readJSON("resource-version") || {};
   /** 上次更新时间 */
-  const localTime = wx.getStorageSync<number | undefined>(
-    `resource-update-time`,
-  );
+  const localTime = wx.getStorageSync<number | undefined>(`resource-update-time`);
   /** 当前时间 */
   const currentTime = Math.round(Date.now() / 1000);
 
@@ -130,7 +123,7 @@ export const checkResource = (): Promise<void> => {
   }
 
   // 需要检查更新
-  if (!disableNotify && !hasResPopup)
+  if (!disableNotify && !hasResPopup) {
     return request<ResourceVersionInfo>(`${server}service/version.php`, {
       method: "POST",
     })
@@ -145,10 +138,7 @@ export const checkResource = (): Promise<void> => {
           // 调试
           logger.debug("New resource detected");
 
-          const size = updateList.reduce(
-            (sum, item) => sum + data.size[item],
-            0,
-          );
+          const size = updateList.reduce((sum, item) => sum + data.size[item], 0);
 
           hasResPopup = true;
 
@@ -162,13 +152,14 @@ export const checkResource = (): Promise<void> => {
             theme: "day",
             success: ({ confirm, cancel }) => {
               // 用户确认，下载更新
-              if (confirm)
+              if (confirm) {
                 downloadResource(updateList).then(() => {
                   writeJSON("resource-version", data.version);
                   hasResPopup = false;
                 });
+              }
               // 用户取消，警告用户
-              else if (cancel)
+              else if (cancel) {
                 wx.showModal({
                   title: "更新已取消",
                   content: "您会错过本次新增与修正的内容，导致的后果请您自负!",
@@ -177,6 +168,7 @@ export const checkResource = (): Promise<void> => {
                   showCancel: false,
                   theme: "day",
                 });
+              }
             },
           });
         }
@@ -189,6 +181,7 @@ export const checkResource = (): Promise<void> => {
         logger.error("资源检查失败", err);
         showToast("服务器出现问题");
       });
+  }
 
   return Promise.resolve();
 };

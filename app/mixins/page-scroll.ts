@@ -2,9 +2,7 @@ import { getCurrentPage } from "@mptool/all";
 
 type Scroller = (event: WechatMiniprogram.Page.IPageScrollOption) => void;
 
-const onPageScroll = (
-  event: WechatMiniprogram.Page.IPageScrollOption,
-): void => {
+const onPageScroll = (event: WechatMiniprogram.Page.IPageScrollOption): void => {
   const { $scrollHandler = [] } =
     getCurrentPage<{
       $scrollHandler?: Scroller[];
@@ -69,8 +67,7 @@ export const pageScrollMixin = (scroller: Scroller): string =>
       const page = getCurrentPage();
 
       if (page) {
-        if (Array.isArray(page.$scrollHandler))
-          page.$scrollHandler.push(scroller.bind(this));
+        if (Array.isArray(page.$scrollHandler)) page.$scrollHandler.push(scroller.bind(this));
         else
           page.$scrollHandler =
             typeof page.onPageScroll === "function"
@@ -81,9 +78,7 @@ export const pageScrollMixin = (scroller: Scroller): string =>
           arg?: WechatMiniprogram.Page.IPageScrollOption,
         ) => void;
 
-        page.onScrollViewScroll = function (
-          event: WechatMiniprogram.ScrollViewScroll,
-        ): void {
+        page.onScrollViewScroll = function (event: WechatMiniprogram.ScrollViewScroll): void {
           this.onPageScroll(event.detail);
         };
       }
@@ -97,8 +92,6 @@ export const pageScrollMixin = (scroller: Scroller): string =>
       }>();
 
       if (page)
-        page.$scrollHandler = (page.$scrollHandler || []).filter(
-          (item) => item !== scroller,
-        );
+        page.$scrollHandler = (page.$scrollHandler || []).filter((item) => item !== scroller);
     },
   });

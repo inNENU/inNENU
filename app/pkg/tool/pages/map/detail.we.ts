@@ -5,12 +5,7 @@ import type { App } from "../../../../app.js";
 import { appCoverPrefix } from "../../../../config/index.js";
 import { defaultScroller } from "../../../../mixins/index.js";
 import { windowInfo } from "../../../../state/index.js";
-import {
-  getJson,
-  resolvePage,
-  setPage,
-  startNavigation,
-} from "../../../../utils/index.js";
+import { getJson, resolvePage, setPage, startNavigation } from "../../../../utils/index.js";
 
 const { globalData } = getApp<App>();
 
@@ -67,9 +62,7 @@ $Page("map-detail", {
 
     return {
       title: page.title,
-      path: `/pkg/tool/pages/map/detail?id=${this.state.id}${
-        loc ? `&loc=${loc}` : ""
-      }`,
+      path: `/pkg/tool/pages/map/detail?id=${this.state.id}${loc ? `&loc=${loc}` : ""}`,
     };
   },
 

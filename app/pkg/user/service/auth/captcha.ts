@@ -1,6 +1,5 @@
 import { URLSearchParams, decodeBase64 } from "@mptool/all";
 
-import { AUTH_CAPTCHA_URL } from "./utils.js";
 import { request } from "../../../../api/index.js";
 import type { CommonFailedResponse } from "../../../../service/index.js";
 import {
@@ -9,6 +8,7 @@ import {
   authEncrypt,
   createService,
 } from "../../../../service/index.js";
+import { AUTH_CAPTCHA_URL } from "./utils.js";
 
 interface RawAuthCaptchaResponse {
   smallImage: string;
@@ -30,25 +30,18 @@ export interface AuthCaptchaSuccessResponse {
   data: AuthCaptchaInfo;
 }
 
-export type AuthCaptchaResponse =
-  | AuthCaptchaSuccessResponse
-  | CommonFailedResponse;
+export type AuthCaptchaResponse = AuthCaptchaSuccessResponse | CommonFailedResponse;
 
-export const getAuthCaptchaLocal = async (
-  id: string,
-): Promise<AuthCaptchaResponse> => {
+export const getAuthCaptchaLocal = async (id: string): Promise<AuthCaptchaResponse> => {
   const {
     data: { bigImage, smallImage, tagWidth, yHeight },
-  } = await request<RawAuthCaptchaResponse>(
-    `${AUTH_CAPTCHA_URL}?_=${Date.now()}`,
-    {
-      method: "POST",
-      body: new URLSearchParams({
-        userName: id,
-        authCodeTypeName: "reAuthDynamicCodeType",
-      }),
-    },
-  );
+  } = await request<RawAuthCaptchaResponse>(`${AUTH_CAPTCHA_URL}?_=${Date.now()}`, {
+    method: "POST",
+    body: new URLSearchParams({
+      userName: id,
+      authCodeTypeName: "reAuthDynamicCodeType",
+    }),
+  });
 
   // Extract safeValue from smallImage
   let safeValue = "";
@@ -122,22 +115,19 @@ const verifyAuthCaptchaLocal = async (
   safeValue: string,
 ): Promise<{ success: boolean }> => {
   // Prepare the verification data
-  const { data } = await request<RawVerifyAuthCaptchaResponse>(
-    VERIFY_CAPTCHA_URL,
-    {
-      method: "POST",
-      body: new URLSearchParams({
-        sign: authEncrypt(
-          JSON.stringify({
-            canvasLength: CAPTCHA_CANVAS_WIDTH,
-            moveLength,
-            tracks,
-          }),
-          safeValue,
-        ),
-      }),
-    },
-  );
+  const { data } = await request<RawVerifyAuthCaptchaResponse>(VERIFY_CAPTCHA_URL, {
+    method: "POST",
+    body: new URLSearchParams({
+      sign: authEncrypt(
+        JSON.stringify({
+          canvasLength: CAPTCHA_CANVAS_WIDTH,
+          moveLength,
+          tracks,
+        }),
+        safeValue,
+      ),
+    }),
+  });
 
   return {
     success: data.errorMsg === "success",

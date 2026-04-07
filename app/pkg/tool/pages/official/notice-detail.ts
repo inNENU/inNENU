@@ -122,9 +122,7 @@ $Page(PAGE_ID, {
     if (!info) showToast("内容仍在获取", 1500, "error");
 
     if (starred) {
-      const starredAcademics = get<StarredOfficialNoticeData[]>(
-        STARRED_ANNOUNCEMENT_LIST_KEY,
-      )!;
+      const starredAcademics = get<StarredOfficialNoticeData[]>(STARRED_ANNOUNCEMENT_LIST_KEY)!;
 
       set(
         STARRED_ANNOUNCEMENT_LIST_KEY,

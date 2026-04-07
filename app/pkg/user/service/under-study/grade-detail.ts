@@ -1,10 +1,10 @@
 import { logger } from "@mptool/all";
 
-import { withUnderStudyLogin } from "./login.js";
-import { UNDER_STUDY_SERVER } from "./utils.js";
 import { request } from "../../../../api/index.js";
 import type { AuthLoginFailedResponse } from "../../../../service/index.js";
 import { ActionFailType, createService } from "../../../../service/index.js";
+import { withUnderStudyLogin } from "./login.js";
+import { UNDER_STUDY_SERVER } from "./utils.js";
 
 interface RawUnderGradeDetailItem {
   /** 总成绩 */
@@ -80,9 +80,7 @@ export interface UnderGradeDetailSuccessResponse {
   data: UnderScoreDetail[];
 }
 
-export type UnderGradeDetailResponse =
-  | UnderGradeDetailSuccessResponse
-  | AuthLoginFailedResponse;
+export type UnderGradeDetailResponse = UnderGradeDetailSuccessResponse | AuthLoginFailedResponse;
 
 const getGradeDetail = ({
   cj1,
@@ -112,9 +110,7 @@ const getGradeDetail = ({
   return results;
 };
 
-const getUnderGradeDetailLocal = async (
-  gradeCode: string,
-): Promise<UnderGradeDetailResponse> => {
+const getUnderGradeDetailLocal = async (gradeCode: string): Promise<UnderGradeDetailResponse> => {
   try {
     const queryUrl = `${UNDER_STUDY_SERVER}/new/student/xskccj/getDetail?cjdm=${gradeCode}`;
 
@@ -127,9 +123,7 @@ const getUnderGradeDetailLocal = async (
     }
 
     if (data.code === 0) {
-      const gradeDetail = getGradeDetail(
-        (data.data as RawUnderGradeDetailItem[])[0],
-      );
+      const gradeDetail = getGradeDetail((data.data as RawUnderGradeDetailItem[])[0]);
 
       return {
         success: true,
@@ -160,9 +154,7 @@ const getUnderGradeDetailLocal = async (
   }
 };
 
-const getUnderGradeDetailOnline = async (
-  gradeCode: string,
-): Promise<UnderGradeDetailResponse> =>
+const getUnderGradeDetailOnline = async (gradeCode: string): Promise<UnderGradeDetailResponse> =>
   request<UnderGradeDetailResponse>("/under-study/grade-detail", {
     method: "POST",
     body: { gradeCode },
@@ -170,9 +162,5 @@ const getUnderGradeDetailOnline = async (
   }).then(({ data }) => data);
 
 export const getUnderGradeDetail = withUnderStudyLogin(
-  createService(
-    "under-grade-detail",
-    getUnderGradeDetailLocal,
-    getUnderGradeDetailOnline,
-  ),
+  createService("under-grade-detail", getUnderGradeDetailLocal, getUnderGradeDetailOnline),
 );

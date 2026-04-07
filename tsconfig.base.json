@@ -1,13 +1,10 @@
 {
   "compilerOptions": {
-    "allowSyntheticDefaultImports": false,
     "allowUnreachableCode": false,
     "allowUnusedLabels": false,
     "alwaysStrict": true,
     "declaration": false,
     "diagnostics": false,
-    "downlevelIteration": false,
-    "esModuleInterop": false,
     "experimentalDecorators": true,
     "forceConsistentCasingInFileNames": true,
     "importHelpers": false,

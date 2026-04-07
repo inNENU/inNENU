@@ -17,8 +17,7 @@ export const confirmReplace = (): Promise<boolean> =>
         const confirmReading = (): void =>
           wx.showModal({
             title: "阅读确认",
-            content:
-              "我已阅读前页内容并理解我可能通过此操作丢失课程。\n请输入“我已确认”。",
+            content: "我已阅读前页内容并理解我可能通过此操作丢失课程。\n请输入“我已确认”。",
             editable: true,
             confirmText: "输入完成",
             cancelText: "取消",
@@ -31,12 +30,16 @@ export const confirmReplace = (): Promise<boolean> =>
                 } else confirmReading();
               } else resolve(false);
             },
-            fail: () => resolve(false),
+            fail: () => {
+              resolve(false);
+            },
           });
 
         confirmReading();
       },
-      () => resolve(false),
+      () => {
+        resolve(false);
+      },
     );
   });
 
@@ -45,35 +48,19 @@ export interface ClassData extends UnderSelectClassInfo {
   isSelected: boolean;
 }
 
-export type SortKey =
-  | "className"
-  | "teacher"
-  | "current"
-  | "spare"
-  | "capacity";
+export type SortKey = "className" | "teacher" | "current" | "spare" | "capacity";
 
 export const courseSorter =
-  (
-    sortKey: SortKey,
-    ascending: boolean,
-  ): ((courseA: ClassData, courseB: ClassData) => number) =>
+  (sortKey: SortKey, ascending: boolean): ((courseA: ClassData, courseB: ClassData) => number) =>
   (courseA, courseB) => {
     if (courseA.isSelected) return -1;
     if (courseB.isSelected) return 1;
 
-    const aVal =
-      sortKey === "spare"
-        ? courseA.capacity - courseA.current
-        : courseA[sortKey];
-    const bVal =
-      sortKey === "spare"
-        ? courseB.capacity - courseB.current
-        : courseB[sortKey];
+    const aVal = sortKey === "spare" ? courseA.capacity - courseA.current : courseA[sortKey];
+    const bVal = sortKey === "spare" ? courseB.capacity - courseB.current : courseB[sortKey];
 
     if (typeof aVal === "number")
       return ascending ? aVal - (bVal as number) : (bVal as number) - aVal;
 
-    return ascending
-      ? aVal.localeCompare(bVal as string)
-      : (bVal as string).localeCompare(aVal);
+    return ascending ? aVal.localeCompare(bVal as string) : (bVal as string).localeCompare(aVal);
   };

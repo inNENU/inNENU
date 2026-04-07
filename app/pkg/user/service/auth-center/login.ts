@@ -1,6 +1,5 @@
 import { logger } from "@mptool/all";
 
-import { CENTER_PAGE, CENTER_PREFIX } from "./utils.js";
 import { cookieStore, request } from "../../../../api/index.js";
 import type {
   ActionFailType,
@@ -12,7 +11,7 @@ import type {
 } from "../../../../service/index.js";
 import {
   MissingCredentialResponse,
-  UnknownResponse,
+  unknownResponse,
   authLogin,
   checkAccountStatus,
   createService,
@@ -20,6 +19,7 @@ import {
 } from "../../../../service/index.js";
 import type { AccountInfo } from "../../../../state/index.js";
 import { user } from "../../../../state/index.js";
+import { CENTER_PAGE, CENTER_PREFIX } from "./utils.js";
 
 let currentLogin: Promise<AuthCenterLoginResponse> | null = null;
 let loginMethod: LoginMethod = "validate";
@@ -52,9 +52,7 @@ const isAuthCenterLoggedIn = createService(
   isAuthCenterLoggedInOnline,
 );
 
-export type AuthCenterLoginResponse =
-  | { success: true }
-  | AuthLoginFailedResponse;
+export type AuthCenterLoginResponse = { success: true } | AuthLoginFailedResponse;
 
 /**
  * @requires "redirect:manual"
@@ -81,7 +79,7 @@ export const authCenterLoginLocal = async (
     redirect: "manual",
   });
 
-  if (ticketResponse.status !== 302) return UnknownResponse("登录失败");
+  if (ticketResponse.status !== 302) return unknownResponse("登录失败");
 
   const finalLocation = ticketResponse.headers.get("Location");
 
@@ -89,7 +87,7 @@ export const authCenterLoginLocal = async (
     return { success: true };
   }
 
-  return UnknownResponse("登录失败");
+  return unknownResponse("登录失败");
 };
 
 export const authCenterLoginOnline = async (
@@ -108,14 +106,10 @@ const authCenterLogin = createService(
 );
 
 const hasAuthCenterCookies = (): boolean =>
-  cookieStore
-    .getCookies(CENTER_PREFIX)
-    .some(({ domain }) => domain.endsWith(CENTER_PREFIX));
+  cookieStore.getCookies(CENTER_PREFIX).some(({ domain }) => domain.endsWith(CENTER_PREFIX));
 
 export const withAuthCenterLogin =
-  <R extends { success: boolean }, T extends (...args: any[]) => Promise<R>>(
-    serviceHandler: T,
-  ) =>
+  <R extends { success: boolean }, T extends (...args: any[]) => Promise<R>>(serviceHandler: T) =>
   async (
     ...args: Parameters<T>
   ): Promise<

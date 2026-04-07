@@ -27,9 +27,7 @@ $Component({
       const size = getSize(type);
 
       this.setData({ size }, () => {
-        const data = get<{ title: string; url: string }[]>(
-          SITE_ANNOUNCEMENT_LIST_KEY,
-        );
+        const data = get<{ title: string; url: string }[]>(SITE_ANNOUNCEMENT_LIST_KEY);
 
         if (data)
           this.setData({

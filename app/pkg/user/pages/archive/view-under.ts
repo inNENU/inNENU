@@ -43,13 +43,9 @@ $Page(PAGE_ID, {
 
     if (account) {
       if (!info) {
-        showModal(
-          "个人信息缺失",
-          `${envName}本地暂无个人信息，请重新登录`,
-          () => {
-            this.$go("account-login?update=true");
-          },
-        );
+        showModal("个人信息缺失", `${envName}本地暂无个人信息，请重新登录`, () => {
+          this.$go("account-login?update=true");
+        });
 
         return;
       }
@@ -79,10 +75,7 @@ $Page(PAGE_ID, {
   async getStudyArchive() {
     wx.showLoading({ title: "获取中" });
 
-    const err = await ensureUnderSystemLogin(
-      user.account!,
-      this.state.loginMethod,
-    );
+    const err = await ensureUnderSystemLogin(user.account!, this.state.loginMethod);
 
     if (err) {
       wx.hideLoading();
@@ -111,10 +104,7 @@ $Page(PAGE_ID, {
   async registerStudentArchive() {
     wx.showLoading({ title: "注册中" });
 
-    const err = await ensureUnderSystemLogin(
-      user.account!,
-      this.state.loginMethod,
-    );
+    const err = await ensureUnderSystemLogin(user.account!, this.state.loginMethod);
 
     if (err) {
       wx.hideLoading();

@@ -1,10 +1,6 @@
 import { $Page, get, set, showModal } from "@mptool/all";
 
-import {
-  HOUR,
-  SPECIAL_EXAM_DATA_KEY,
-  appCoverPrefix,
-} from "../../../../config/index.js";
+import { HOUR, SPECIAL_EXAM_DATA_KEY, appCoverPrefix } from "../../../../config/index.js";
 import { envName, info, user } from "../../../../state/index.js";
 import { getPageColor, showNotice } from "../../../../utils/index.js";
 import type { UnderSpecialExamResult } from "../../service/index.js";
@@ -40,13 +36,9 @@ $Page(PAGE_ID, {
 
     if (account) {
       if (!info) {
-        showModal(
-          "个人信息缺失",
-          `${envName}本地暂无个人信息，请重新登录`,
-          () => {
-            this.$go("account-login?update=true");
-          },
-        );
+        showModal("个人信息缺失", `${envName}本地暂无个人信息，请重新登录`, () => {
+          this.$go("account-login?update=true");
+        });
 
         return;
       }
@@ -98,9 +90,7 @@ $Page(PAGE_ID, {
     set(SPECIAL_EXAM_DATA_KEY, result.data, 3 * HOUR);
 
     this.setData({
-      data: result.data.sort(
-        (a, b) => new Date(b.time).getTime() - new Date(a.time).getTime(),
-      ),
+      data: result.data.sort((a, b) => new Date(b.time).getTime() - new Date(a.time).getTime()),
     });
   },
 });

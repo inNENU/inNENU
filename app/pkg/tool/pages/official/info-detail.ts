@@ -1,10 +1,6 @@
 import { $Page, get, set, showModal, showToast } from "@mptool/all";
 
-import {
-  STARRED_INFO_LIST_KEY,
-  appCoverPrefix,
-  service,
-} from "../../../../config/index.js";
+import { STARRED_INFO_LIST_KEY, appCoverPrefix, service } from "../../../../config/index.js";
 import type { OfficialInfoType } from "../../../../service/index.js";
 import { appId, info } from "../../../../state/index.js";
 import type { StarredOfficialInfoData } from "../../../../typings/index.js";
@@ -34,8 +30,7 @@ $Page(PAGE_ID, {
     url = scene.split("@")[0],
     type = scene.split("@")[1] || "news",
   }) {
-    const starredInfos =
-      get<StarredOfficialInfoData[]>(STARRED_INFO_LIST_KEY) ?? [];
+    const starredInfos = get<StarredOfficialInfoData[]>(STARRED_INFO_LIST_KEY) ?? [];
 
     this.state.title = title;
     this.state.type = type as OfficialInfoType;
@@ -102,8 +97,7 @@ $Page(PAGE_ID, {
 
     wx.hideLoading();
     if (result.success) {
-      const { title, time, pageView, author, editor, from, content } =
-        result.data;
+      const { title, time, pageView, author, editor, from, content } = result.data;
 
       this.setData({
         status: "success",
@@ -140,17 +134,14 @@ $Page(PAGE_ID, {
     if (!info) showToast("内容仍在获取", 1500, "error");
 
     if (starred) {
-      const starredInfos = get<StarredOfficialInfoData[]>(
-        STARRED_INFO_LIST_KEY,
-      )!;
+      const starredInfos = get<StarredOfficialInfoData[]>(STARRED_INFO_LIST_KEY)!;
 
       set(
         STARRED_INFO_LIST_KEY,
         starredInfos.filter((item) => item.url !== url),
       );
     } else {
-      const starredInfos =
-        get<StarredOfficialInfoData[]>(STARRED_INFO_LIST_KEY) ?? [];
+      const starredInfos = get<StarredOfficialInfoData[]>(STARRED_INFO_LIST_KEY) ?? [];
 
       set(STARRED_INFO_LIST_KEY, [...starredInfos, info!]);
     }

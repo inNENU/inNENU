@@ -1,16 +1,6 @@
-import {
-  $Page,
-  env,
-  savePhoto,
-  showModal,
-  showToast,
-  writeClipboard,
-} from "@mptool/all";
+import { $Page, env, savePhoto, showModal, showToast, writeClipboard } from "@mptool/all";
 
-import type {
-  QQAccounts,
-  WechatAccounts,
-} from "../../../../../typings/index.js";
+import type { QQAccounts, WechatAccounts } from "../../../../../typings/index.js";
 import { appCoverPrefix } from "../../../../config/index.js";
 import { info, windowInfo } from "../../../../state/index.js";
 import {
@@ -85,9 +75,7 @@ $Page(PAGE_ID, {
   },
 
   async updateType(type: AccountType) {
-    const config = await getJson<QQAccounts | WechatAccounts>(
-      `function/account/${type}`,
-    );
+    const config = await getJson<QQAccounts | WechatAccounts>(`function/account/${type}`);
 
     this.setData({
       type,

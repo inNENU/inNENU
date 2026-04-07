@@ -1,5 +1,13 @@
 import { URLSearchParams, logger } from "@mptool/all";
 
+import { cookieStore, request } from "../../../../api/index.js";
+import type { ActionFailType, CommonFailedResponse } from "../../../../service/index.js";
+import {
+  ExpiredResponse,
+  createService,
+  getIETimeStamp,
+  isWebVPNPage,
+} from "../../../../service/index.js";
 import {
   UNDER_SYSTEM_SERVER,
   fieldRegExp,
@@ -12,17 +20,6 @@ import {
   tableFieldsRegExp,
   totalPagesRegExp,
 } from "./utils.js";
-import { cookieStore, request } from "../../../../api/index.js";
-import type {
-  ActionFailType,
-  CommonFailedResponse,
-} from "../../../../service/index.js";
-import {
-  ExpiredResponse,
-  createService,
-  getIETimeStamp,
-  isWebVPNPage,
-} from "../../../../service/index.js";
 
 const headerRegExp = /<title>(.*)<\/title>/;
 const planRegExp =
@@ -101,8 +98,7 @@ const getPlanList = async (content: string): Promise<ChangeMajorPlan[]> => {
   const totalPages = Number(totalPagesRegExp.exec(content)![1]);
 
   // users are editing them, so the main page must be refetched
-  const shouldRefetch =
-    tableFields !== DEFAULT_TABLE_FIELD || otherFields !== DEFAULT_OTHER_FIELD;
+  const shouldRefetch = tableFields !== DEFAULT_TABLE_FIELD || otherFields !== DEFAULT_OTHER_FIELD;
 
   const plans = shouldRefetch ? [] : getPlans(content);
 
@@ -112,14 +108,12 @@ const getPlanList = async (content: string): Promise<ChangeMajorPlan[]> => {
   const printPageSize = String(printPageSizeRegExp.exec(content)?.[1]);
   const keyCode = String(keyCodeRegExp.exec(content)?.[1]);
   const printHQL =
-    String(printHQLInputRegExp.exec(content)?.[1]) ||
-    String(printHQLJSRegExp.exec(content)?.[1]);
+    String(printHQLInputRegExp.exec(content)?.[1]) || String(printHQLJSRegExp.exec(content)?.[1]);
   const sqlString = sqlStringRegExp.exec(content)?.[1];
 
   const pages: number[] = [];
 
-  for (let page = shouldRefetch ? 1 : 2; page <= totalPages; page++)
-    pages.push(page);
+  for (let page = shouldRefetch ? 1 : 2; page <= totalPages; page++) pages.push(page);
 
   await Promise.all(
     pages.map(async (page) => {
@@ -155,57 +149,52 @@ export interface UnderChangeMajorPlanSuccessResponse {
   plans: ChangeMajorPlan[];
 }
 
-export type UnderChangeMajorPlanFailedResponse =
-  CommonFailedResponse<ActionFailType.Expired>;
+export type UnderChangeMajorPlanFailedResponse = CommonFailedResponse<ActionFailType.Expired>;
 
 export type UnderChangeMajorPlanResponse =
   | UnderChangeMajorPlanSuccessResponse
   | UnderChangeMajorPlanFailedResponse;
 
-const getUnderChangeMajorPlansLocal =
-  async (): Promise<UnderChangeMajorPlanResponse> => {
-    try {
-      const { data: content } = await request<string>(
-        `${QUERY_URL}?tktime=${getIETimeStamp()}`,
-      );
+const getUnderChangeMajorPlansLocal = async (): Promise<UnderChangeMajorPlanResponse> => {
+  try {
+    const { data: content } = await request<string>(`${QUERY_URL}?tktime=${getIETimeStamp()}`);
 
-      if (isWebVPNPage(content)) {
-        cookieStore.clear();
+    if (isWebVPNPage(content)) {
+      cookieStore.clear();
 
-        return ExpiredResponse;
-      }
-
-      const header = headerRegExp.exec(content)![1].trim();
-
-      const plans = await getPlanList(content);
-
-      return {
-        success: true,
-        header,
-        plans,
-      } as UnderChangeMajorPlanSuccessResponse;
-    } catch (err) {
-      const { message } = err as Error;
-
-      logger.error(err);
-
-      return {
-        success: false,
-        msg: message,
-      };
+      return ExpiredResponse;
     }
-  };
 
-const getUnderChangeMajorPlansOnline =
-  (): Promise<UnderChangeMajorPlanResponse> =>
-    request<UnderChangeMajorPlanResponse>("/under-system/change-major-plan", {
-      method: "POST",
-      cookieScope: UNDER_SYSTEM_SERVER,
-    }).then(({ data }) => {
-      if (!data.success) logger.error("获取转专业计划失败", data.msg);
+    const header = headerRegExp.exec(content)![1].trim();
 
-      return data;
-    });
+    const plans = await getPlanList(content);
+
+    return {
+      success: true,
+      header,
+      plans,
+    } as UnderChangeMajorPlanSuccessResponse;
+  } catch (err) {
+    const { message } = err as Error;
+
+    logger.error(err);
+
+    return {
+      success: false,
+      msg: message,
+    };
+  }
+};
+
+const getUnderChangeMajorPlansOnline = (): Promise<UnderChangeMajorPlanResponse> =>
+  request<UnderChangeMajorPlanResponse>("/under-system/change-major-plan", {
+    method: "POST",
+    cookieScope: UNDER_SYSTEM_SERVER,
+  }).then(({ data }) => {
+    if (!data.success) logger.error("获取转专业计划失败", data.msg);
+
+    return data;
+  });
 
 export const getUnderChangeMajorPlans = createService(
   "under-change-major-plan",

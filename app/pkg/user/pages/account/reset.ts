@@ -163,12 +163,7 @@ ${envName}严格使用官方密码重置服务流程。
       return this.getCaptcha();
     }
 
-    const {
-      hideCellphone,
-      hideEmail,
-      captcha: captchaImage,
-      ...args
-    } = result.data;
+    const { hideCellphone, hideEmail, captcha: captchaImage, ...args } = result.data;
 
     this.state = {
       ...this.state,
@@ -238,8 +233,7 @@ ${envName}严格使用官方密码重置服务流程。
 
   async verifyCode() {
     const { id, cellphone, hideCellphone, hideEmail, code } = this.data;
-    const { oldCaptcha, oldCaptchaId, isAppealFlag, appealSign, sign } =
-      this.state;
+    const { oldCaptcha, oldCaptchaId, isAppealFlag, appealSign, sign } = this.state;
 
     if (!code) {
       showModal("未填写验证码", "请点击发送验证码后输入验证码");
@@ -298,17 +292,8 @@ ${envName}严格使用官方密码重置服务流程。
   },
 
   async setPassword() {
-    const {
-      id,
-      cellphone,
-      hideCellphone,
-      hideEmail,
-      code,
-      password,
-      confirmPassword,
-    } = this.data;
-    const { oldCaptcha, oldCaptchaId, isAppealFlag, appealSign, sign } =
-      this.state;
+    const { id, cellphone, hideCellphone, hideEmail, code, password, confirmPassword } = this.data;
+    const { oldCaptcha, oldCaptchaId, isAppealFlag, appealSign, sign } = this.state;
 
     if (!password) {
       showModal("密码缺失", "请输入拟设定的密码");

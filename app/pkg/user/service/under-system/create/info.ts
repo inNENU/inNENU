@@ -1,9 +1,10 @@
 import { URLSearchParams, logger } from "@mptool/all";
 
-import type {
-  InputUnderArchiveInfo,
-  UnderArchiveFieldInfo,
-} from "./typings.js";
+import { cookieStore, request } from "../../../../../api/index.js";
+import type { CommonFailedResponse } from "../../../../../service/index.js";
+import { ActionFailType, createService, isWebVPNPage } from "../../../../../service/index.js";
+import { UNDER_SYSTEM_SERVER } from "../utils.js";
+import type { InputUnderArchiveInfo, UnderArchiveFieldInfo } from "./typings.js";
 import {
   fieldsRegExp,
   hiddenFieldsRegExp,
@@ -12,14 +13,6 @@ import {
   pathRegExp,
   requiredRegExp,
 } from "./utils.js";
-import { cookieStore, request } from "../../../../../api/index.js";
-import type { CommonFailedResponse } from "../../../../../service/index.js";
-import {
-  ActionFailType,
-  createService,
-  isWebVPNPage,
-} from "../../../../../service/index.js";
-import { UNDER_SYSTEM_SERVER } from "../utils.js";
 
 export interface UnderCreateStudentArchiveSubmitInfoOptions {
   fields: UnderArchiveFieldInfo[];
@@ -42,18 +35,13 @@ const submitUnderStudentArchiveInfoLocal = async ({
   fields,
 }: UnderCreateStudentArchiveSubmitInfoOptions): Promise<UnderCreateStudentArchiveSubmitInfoResponse> => {
   try {
-    const { data: content } = await request<string>(
-      `${UNDER_SYSTEM_SERVER}${path}`,
-      {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/x-www-form-urlencoded",
-        },
-        body: new URLSearchParams(
-          fields.map<[string, string]>(({ name, value }) => [name, value]),
-        ),
+    const { data: content } = await request<string>(`${UNDER_SYSTEM_SERVER}${path}`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/x-www-form-urlencoded",
       },
-    );
+      body: new URLSearchParams(fields.map<[string, string]>(({ name, value }) => [name, value])),
+    });
 
     if (isWebVPNPage(content)) {
       cookieStore.clear();
@@ -66,9 +54,7 @@ const submitUnderStudentArchiveInfoLocal = async ({
     }
 
     const inputs = Array.from(content.matchAll(info2RowRegExp))
-      .map(([, ...matches]) =>
-        matches.map((item) => item.replace(/&nbsp;/g, " ").trim()),
-      )
+      .map(([, ...matches]) => matches.map((item) => item.replace(/&nbsp;/g, " ").trim()))
       .map(([text, input, remark]) => {
         const [, name, value] = Array.from(input.matchAll(fieldsRegExp))[0];
         const required = requiredRegExp.test(input);

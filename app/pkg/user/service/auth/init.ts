@@ -1,13 +1,5 @@
 import { URLSearchParams, logger } from "@mptool/all";
 
-import type { AuthCaptchaResponse } from "./captcha.js";
-import { getAuthCaptchaLocal } from "./captcha.js";
-import {
-  AUTH_LOGIN_URL,
-  IMPROVE_INFO_URL,
-  RE_AUTH_URL,
-  UPDATE_INFO_URL,
-} from "./utils.js";
 import { cookieStore, request } from "../../../../api/index.js";
 import type { CommonFailedResponse } from "../../../../service/index.js";
 import {
@@ -16,7 +8,7 @@ import {
   AUTH_SERVER,
   ActionFailType,
   SALT_REGEXP,
-  UnknownResponse,
+  unknownResponse,
   WrongPasswordResponse,
   authEncrypt,
   createService,
@@ -24,26 +16,22 @@ import {
 } from "../../../../service/index.js";
 import type { AccountInfo, UserInfo } from "../../../../state/index.js";
 import { appId } from "../../../../state/index.js";
+import type { AuthCaptchaResponse } from "./captcha.js";
+import { getAuthCaptchaLocal } from "./captcha.js";
+import { AUTH_LOGIN_URL, IMPROVE_INFO_URL, RE_AUTH_URL, UPDATE_INFO_URL } from "./utils.js";
 
 export type AuthInitInfoSuccessResponse = {
   success: true;
   salt: string;
   params: Record<string, string>;
-} & (
-  | { needCaptcha: true; captcha: AuthCaptchaResponse }
-  | { needCaptcha: false; captcha: null }
-);
+} & ({ needCaptcha: true; captcha: AuthCaptchaResponse } | { needCaptcha: false; captcha: null });
 
-export type AuthInitInfoResponse =
-  | AuthInitInfoSuccessResponse
-  | CommonFailedResponse;
+export type AuthInitInfoResponse = AuthInitInfoSuccessResponse | CommonFailedResponse;
 
 /**
  * FIXME: This function is now outdated
  */
-const getAuthInitInfoLocal = async (
-  id: string,
-): Promise<AuthInitInfoResponse> => {
+const getAuthInitInfoLocal = async (id: string): Promise<AuthInitInfoResponse> => {
   try {
     cookieStore.clear();
 
@@ -85,19 +73,16 @@ const getAuthInitInfoLocal = async (
 
     logger.error(err);
 
-    return UnknownResponse(message);
+    return unknownResponse(message);
   }
 };
 
-const getAuthInitInfoOnline = async (
-  id: string,
-): Promise<AuthInitInfoResponse> => {
+const getAuthInitInfoOnline = async (id: string): Promise<AuthInitInfoResponse> => {
   cookieStore.clear();
 
-  const { data: result } = await request<AuthInitInfoResponse>(
-    `/auth/init?id=${id}`,
-    { cookieScope: AUTH_COOKIE_SCOPE },
-  );
+  const { data: result } = await request<AuthInitInfoResponse>(`/auth/init?id=${id}`, {
+    cookieScope: AUTH_COOKIE_SCOPE,
+  });
 
   if (!result.success) logger.error("初始化失败");
 
@@ -141,9 +126,7 @@ export type InitAuthResponse = InitAuthSuccessResponse | InitAuthFailedResponse;
 /**
  * FIXME: This function is now outdated
  */
-const authInitLocal = async (
-  options: InitAuthOptions,
-): Promise<InitAuthResponse> => {
+const authInitLocal = async (options: InitAuthOptions): Promise<InitAuthResponse> => {
   if (!supportRedirect) return authInitOnline(options);
 
   const { password, salt, params } = options;
@@ -190,9 +173,7 @@ const authInitLocal = async (
         msg: "该帐号已经被禁用",
       };
 
-    const lockedResult = /<span>账号已冻结，预计解冻时间：(.*?)<\/span>/.exec(
-      content,
-    );
+    const lockedResult = /<span>账号已冻结，预计解冻时间：(.*?)<\/span>/.exec(content);
 
     if (lockedResult)
       return {
@@ -203,7 +184,7 @@ const authInitLocal = async (
 
     console.error("Unknown login response: ", loginStatus, content);
 
-    return UnknownResponse("未知错误");
+    return unknownResponse("未知错误");
   }
 
   if (loginStatus === 200) {
@@ -221,11 +202,7 @@ const authInitLocal = async (
         msg: "会话已过期，请重新登录",
       };
 
-    if (
-      content.includes(
-        "当前存在其他用户使用同一帐号登录，是否注销其他使用同一帐号的用户。",
-      )
-    )
+    if (content.includes("当前存在其他用户使用同一帐号登录，是否注销其他使用同一帐号的用户。"))
       return {
         success: false,
         type: ActionFailType.EnabledSSO,
@@ -281,12 +258,10 @@ const authInitLocal = async (
 
   logger.error("Unknown login response: ", loginStatus, content);
 
-  return UnknownResponse("登录失败");
+  return unknownResponse("登录失败");
 };
 
-const authInitOnline = async (
-  options: InitAuthOptions,
-): Promise<InitAuthResponse> => {
+const authInitOnline = async (options: InitAuthOptions): Promise<InitAuthResponse> => {
   const { data: result } = await request<InitAuthResponse>("/auth/init", {
     method: "POST",
     body: { ...options, appId },
@@ -298,8 +273,4 @@ const authInitOnline = async (
   return result;
 };
 
-export const authInit = createService(
-  "auth-init",
-  authInitLocal,
-  authInitOnline,
-);
+export const authInit = createService("auth-init", authInitLocal, authInitOnline);

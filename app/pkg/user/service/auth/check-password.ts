@@ -1,14 +1,7 @@
-import { RESET_PREFIX, RESET_SALT } from "./utils.js";
 import { request } from "../../../../api/index.js";
-import type {
-  CommonFailedResponse,
-  CommonSuccessResponse,
-} from "../../../../service/index.js";
-import {
-  ActionFailType,
-  UnknownResponse,
-  authEncrypt,
-} from "../../../../service/index.js";
+import type { CommonFailedResponse, CommonSuccessResponse } from "../../../../service/index.js";
+import { ActionFailType, unknownResponse, authEncrypt } from "../../../../service/index.js";
+import { RESET_PREFIX, RESET_SALT } from "./utils.js";
 
 export interface CheckPasswordOptions {
   type: "check-password";
@@ -29,13 +22,9 @@ interface RawCheckPasswordFailResponse {
   message: string;
 }
 
-type RawCheckPasswordResponse =
-  | RawCheckPasswordSuccessResponse
-  | RawCheckPasswordFailResponse;
+type RawCheckPasswordResponse = RawCheckPasswordSuccessResponse | RawCheckPasswordFailResponse;
 
-export type CheckPasswordResponse =
-  | CommonSuccessResponse
-  | CommonFailedResponse;
+export type CheckPasswordResponse = CommonSuccessResponse | CommonFailedResponse;
 
 export const checkPasswordLocal = async (
   { sign, password }: CheckPasswordOptions,
@@ -54,12 +43,9 @@ export const checkPasswordLocal = async (
     },
   );
 
-  if (data.code !== "0" || data.message !== "SUCCESS")
-    return UnknownResponse(data.message);
+  if (data.code !== "0" || data.message !== "SUCCESS") return unknownResponse(data.message);
 
-  const warnings = Object.entries(
-    (data as RawCheckPasswordSuccessResponse).datas.rules,
-  )
+  const warnings = Object.entries((data as RawCheckPasswordSuccessResponse).datas.rules)
     .filter(([, value]) => !value)
     .map(([key]) => key);
 

@@ -1,10 +1,7 @@
 import type { PropType } from "@mptool/all";
 import { $Component } from "@mptool/all";
 
-import type {
-  ListComponentItemOptions,
-  ListComponentOptions,
-} from "../../../typings/index.js";
+import type { ListComponentItemOptions, ListComponentOptions } from "../../../typings/index.js";
 import { info } from "../../state/index.js";
 import { getIconLink, route } from "../../utils/index.js";
 
@@ -30,9 +27,7 @@ $Component({
     // 设置图标
     setLogo(items?: ListComponentItemOptions[]) {
       this.setData({
-        icons: (items || this.data.config.items || []).map(({ icon }) =>
-          getIconLink(icon),
-        ),
+        icons: (items || this.data.config.items || []).map(({ icon }) => getIconLink(icon)),
       });
     },
 

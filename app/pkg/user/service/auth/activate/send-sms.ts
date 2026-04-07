@@ -1,13 +1,6 @@
 import { request } from "../../../../../api/index.js";
-import type {
-  CommonFailedResponse,
-  CommonSuccessResponse,
-} from "../../../../../service/index.js";
-import {
-  ActionFailType,
-  UnknownResponse,
-  authEncrypt,
-} from "../../../../../service/index.js";
+import type { CommonFailedResponse, CommonSuccessResponse } from "../../../../../service/index.js";
+import { ActionFailType, unknownResponse, authEncrypt } from "../../../../../service/index.js";
 import type { ResetCaptchaInfo } from "../reset-captcha.js";
 import { getResetCaptchaLocal } from "../reset-captcha.js";
 import { RESET_PREFIX, RESET_SALT } from "../utils.js";
@@ -84,7 +77,7 @@ export const sendActivateSms = async ({
       };
     }
 
-    return UnknownResponse(data.message);
+    return unknownResponse(data.message);
   }
 
   return {

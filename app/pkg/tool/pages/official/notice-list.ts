@@ -91,8 +91,6 @@ $Page(PAGE_ID, {
     const { index } = currentTarget.dataset;
     const { title, url } = this.data.items[index];
 
-    return this.$go(
-      `official-notice-detail?from=${this.data.title}&title=${title}&url=${url}`,
-    );
+    return this.$go(`official-notice-detail?from=${this.data.title}&title=${title}&url=${url}`);
   },
 });

@@ -1,8 +1,4 @@
-import {
-  defaultNamingConventionRules,
-  globals,
-  hope,
-} from "eslint-config-mister-hope";
+import { defaultNamingConventionRules, globals, hope } from "eslint-config-mister-hope";
 
 export default hope(
   {

@@ -1,5 +1,5 @@
-import type { AppSettings, ServiceSettings } from "./settings.js";
 import type { PageState } from "../../typings/index.js";
+import type { AppSettings, ServiceSettings } from "./settings.js";
 
 export interface PageInfo {
   /** 页面数据 */

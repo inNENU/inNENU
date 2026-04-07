@@ -36,8 +36,7 @@ $Page(PAGE_ID, {
 
   onShow() {
     if (user.account) {
-      if (this.data.status === "login" || !this.state.inited)
-        this.getNoticeList(1);
+      if (this.data.status === "login" || !this.state.inited) this.getNoticeList(1);
     } else {
       this.setData({ status: "login" });
     }
