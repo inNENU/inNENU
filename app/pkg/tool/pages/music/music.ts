@@ -228,7 +228,7 @@ $Page("music", {
   initLyric() {
     const { lyric } = this.data.currentSong;
 
-    if (lyric)
+    if (lyric) {
       getJson<LyricData>(`function/music/${lyric}`).then((lyrics) => {
         this.setData({
           currentLyric: "",
@@ -236,12 +236,13 @@ $Page("music", {
           lyrics,
         });
       });
-    else
+    } else {
       this.setData({
         currentLyric: "",
         currentLyricId: -1,
         lyrics: [] as LyricData,
       });
+    }
   },
 
   /** 设置歌词 */
@@ -252,11 +253,12 @@ $Page("music", {
     /** 如果当前时间大于本项且本项不是最后一项 */
     while (id < lyrics.length && this.data.currentTime > lyrics[id].time) id += 1;
 
-    if (currentLyricId !== id - 1 && id !== 0)
+    if (currentLyricId !== id - 1 && id !== 0) {
       this.setData({
         currentLyricId: id - 1,
         currentLyric: lyrics[id - 1].text || " ",
       });
+    }
   },
 
   loadCover(event: WechatMiniprogram.ImageLoad) {
@@ -297,20 +299,24 @@ $Page("music", {
     let result: number | "stop";
 
     switch (this.data.mode) {
-      case "随机播放":
+      case "随机播放": {
         do result = Math.round(Math.random() * total - 0.5);
         while (index === result);
         break;
-      case "顺序播放":
+      }
+      case "顺序播放": {
         result = index + 1 === total ? "stop" : index + 1;
         showToast("播放完毕");
         break;
-      case "单曲循环":
+      }
+      case "单曲循环": {
         result = index;
         break;
+      }
       case "列表循环":
-      default:
+      default: {
         result = index + 1 === total ? 0 : index + 1;
+      }
     }
 
     this.switchSong(result);
@@ -323,11 +329,12 @@ $Page("music", {
     let result: number | "nothing";
 
     switch (this.data.mode) {
-      case "随机播放":
+      case "随机播放": {
         do result = Math.round(Math.random() * total - 0.5);
         while (index === result);
         break;
-      case "顺序播放":
+      }
+      case "顺序播放": {
         if (index + 1 === total) {
           result = "nothing";
           showToast("已是最后一曲");
@@ -335,10 +342,12 @@ $Page("music", {
           result = index + 1;
         }
         break;
+      }
       case "单曲循环":
       case "列表循环":
-      default:
+      default: {
         result = index + 1 === total ? 0 : index + 1;
+      }
     }
 
     this.switchSong(result);
@@ -351,11 +360,12 @@ $Page("music", {
     let result: number | "nothing";
 
     switch (this.data.mode) {
-      case "随机播放":
+      case "随机播放": {
         do result = Math.round(Math.random() * total - 0.5);
         while (index === result);
         break;
-      case "顺序播放":
+      }
+      case "顺序播放": {
         if (index === 0) {
           result = "nothing";
           showToast("已是第一曲");
@@ -363,10 +373,12 @@ $Page("music", {
           result = index - 1;
         }
         break;
+      }
       case "单曲循环":
       case "列表循环":
-      default:
+      default: {
         result = index === 0 ? total - 1 : index - 1;
+      }
     }
     this.switchSong(result);
   },

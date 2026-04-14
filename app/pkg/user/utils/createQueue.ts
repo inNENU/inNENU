@@ -26,7 +26,11 @@ export const createQueue = <T>(
 
         /** 执行下一个函数 */
         const next = (): void => {
-          if (shouldCancel) return resolve({ interrupted: true, msg: stopMsg as T });
+          if (shouldCancel) {
+            resolve({ interrupted: true, msg: stopMsg as T });
+
+            return;
+          }
 
           /** 即将执行的任务 */
           const task = queue.shift();
@@ -37,7 +41,9 @@ export const createQueue = <T>(
               running -= 1;
               next();
             });
-          } else if (running === 0) resolve({ interrupted: false });
+          } else if (running === 0) {
+            resolve({ interrupted: false });
+          }
         };
 
         let counter = 0;

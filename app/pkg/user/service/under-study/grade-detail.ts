@@ -131,12 +131,13 @@ const getUnderGradeDetailLocal = async (gradeCode: string): Promise<UnderGradeDe
       };
     }
 
-    if (data.message === "尚未登录，请先登录")
+    if (data.message === "尚未登录，请先登录") {
       return {
         success: false,
         type: ActionFailType.Expired,
         msg: "登录过期，请重新登录",
       };
+    }
 
     return {
       success: false,

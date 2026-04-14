@@ -52,8 +52,10 @@ export const getJson = <T>(path: string, url = path): Promise<T> =>
     .then(() => {
       const data = readJSON<T>(path);
 
-      if (typeof data !== "undefined") return data;
+      if (data !== undefined) return data;
 
-      return Promise.reject(new Error("Data returned with undefined"));
+      throw new Error("Data returned with undefined");
     })
-    .catch((err: unknown) => Promise.reject(err as Error));
+    .catch((err: unknown) => {
+      throw err as Error;
+    });

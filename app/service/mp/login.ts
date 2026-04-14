@@ -99,5 +99,5 @@ export const mpLogin = async (): Promise<LoginInfo> => {
   //   });
   // }
 
-  return Promise.resolve(DEFAULT_INFO);
+  return DEFAULT_INFO;
 };

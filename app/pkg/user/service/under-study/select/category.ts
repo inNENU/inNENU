@@ -59,7 +59,8 @@ const DISALLOWED_CATEGORY_ITEM_REGEXP =
   /<div id="bb1"[^]+?lay-tips="选课学期:(.*?)\s*<br>\s*([^"]+?)\s*"\s+lay-iframe="(.*?)"\s+data-href="(.*?)"/g;
 
 const getSelectCategories = (content: string): UnderSelectCategoryInfo => ({
-  allowed: Array.from(content.matchAll(ALLOWED_CATEGORY_ITEM_REGEXP)).map(
+  allowed: [...content.matchAll(ALLOWED_CATEGORY_ITEM_REGEXP)].map(
+    // oxlint-disable-next-line typescript/no-deprecated
     ([, term, stage, canRemoveText, name, link, startTime, endTime]) => ({
       term,
       stage,
@@ -72,7 +73,8 @@ const getSelectCategories = (content: string): UnderSelectCategoryInfo => ({
       isPublic: name.includes("公共课程"),
     }),
   ),
-  disallowed: Array.from(content.matchAll(DISALLOWED_CATEGORY_ITEM_REGEXP)).map(
+  disallowed: [...content.matchAll(DISALLOWED_CATEGORY_ITEM_REGEXP)].map(
+    // oxlint-disable-next-line typescript/no-deprecated
     ([, term, description, name, link]) => ({
       term,
       description: description

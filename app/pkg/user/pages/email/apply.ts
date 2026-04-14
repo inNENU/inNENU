@@ -173,15 +173,16 @@ $Page(PAGE_ID, {
   },
 
   initEmail() {
-    if (env === "donut") this.$go(`web?url=${encodeURIComponent(MAIL_LINK)}`);
-    else {
-      writeClipboard(MAIL_LINK).then(() =>
-        showModal("网址已复制", `小程序暂不支持打开网页，请手动粘贴到浏览器地址栏并访问。`),
-      );
+    if (env === "donut") {
+      this.$go(`web?url=${encodeURIComponent(MAIL_LINK)}`);
+    } else {
+      writeClipboard(MAIL_LINK).then(() => {
+        showModal("网址已复制", `小程序暂不支持打开网页，请手动粘贴到浏览器地址栏并访问。`);
+      });
     }
   },
 
-  retry() {
+  async retry() {
     return this.checkEmail();
   },
 });

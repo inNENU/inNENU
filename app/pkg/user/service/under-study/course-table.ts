@@ -240,7 +240,7 @@ const getCourseTable = (classes: RawUnderCourseTableItem[]): CourseTableData => 
         name,
         teachers: teachersName.split(","),
         time: `${startTime} - ${endTime}`,
-        weeks: weeks,
+        weeks,
         locations: location,
         classIndex: [Number(startClassIndex), Number(endClassIndex)],
       };
@@ -303,10 +303,10 @@ export const getUnderCourseTableOnline = (time: string): Promise<UnderCourseTabl
   }).then(({ data }) => data);
 
 export const getUnderCourseTable = withUnderStudyLogin(async (time: string) => {
-  const semesterYear = Number(time.substring(0, 4));
+  const semesterYear = Number(time.slice(0, 4));
 
   if (semesterYear < 2023) {
-    const legacyTime = `${semesterYear}-${semesterYear + 1}-${time.substring(6)}`;
+    const legacyTime = `${semesterYear}-${semesterYear + 1}-${time.slice(6)}`;
 
     // eslint-disable-next-line @typescript-eslint/no-deprecated
     return getLegacyUnderCourseTable(legacyTime);

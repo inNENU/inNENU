@@ -1,3 +1,5 @@
+// FIXME: node options?
+// oxlint-disable import/no-nodejs-modules
 const { existsSync } = require("node:fs");
 const { parse, resolve } = require("node:path");
 
@@ -51,16 +53,15 @@ const getMoveScriptJob = (id) => {
         if ([`.${id}.ts`, ".d.ts", ".js"].some((ext) => value.path.endsWith(ext))) return true;
 
         return (
-          !existsSync(
-            resolve("app", value.path.substring(0, value.path.length - 3) + `.${id}.ts`),
-          ) && value.path.split(".").length === 2
+          !existsSync(resolve("app", `${value.path.slice(0, -3)}.${id}.ts`)) &&
+          value.path.split(".").length === 2
         );
       },
     })
       .pipe(
         rename((path) => {
           if (path.basename.endsWith(`.${id}`))
-            path.basename = path.basename.substring(0, path.basename.length - id.length - 1);
+            path.basename = path.basename.slice(0, -id.length - 1);
         }),
       )
       .pipe(dest(".temp"));
@@ -268,7 +269,7 @@ const getDebugMoveScriptJob = (id) => {
         if ([`.${id}.ts`, ".d.ts", ".js"].some((ext) => value.path.endsWith(ext))) return true;
 
         return (
-          !existsSync(resolve("app", value.path.slice(0, -3) + `.${id}.ts`)) &&
+          !existsSync(resolve("app", `${value.path.slice(0, -3)}.${id}.ts`)) &&
           value.path.split(".").length === 2
         );
       },

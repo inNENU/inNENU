@@ -57,7 +57,7 @@ export interface ChangeMajorPlan {
 }
 
 const getPlans = (content: string): ChangeMajorPlan[] =>
-  Array.from(content.matchAll(planRegExp)).map(
+  [...content.matchAll(planRegExp)].map(
     ([
       ,
       ,

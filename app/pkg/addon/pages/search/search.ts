@@ -111,13 +111,11 @@ $Page("search", {
   searchSuggestion(event: WechatMiniprogram.Touch) {
     const { query } = event.currentTarget.dataset as { query: string };
 
-    this.setData({ query: query });
+    this.setData({ query });
     this.searchContent(query, 1);
   },
 
-  async searchContent(query: string, page?: number) {
-    const current = page ?? 1;
-
+  async searchContent(query: string, current = 1) {
     // 如果搜索词为空，显示默认搜索结果
     if (!query.trim()) {
       this.setData({ query: "", searchWord: "" });
@@ -147,8 +145,8 @@ $Page("search", {
         searching: false,
       });
       this.state.query = query;
-    } catch (error) {
-      console.error("搜索失败:", error);
+    } catch (err) {
+      console.error("搜索失败:", err);
 
       wx.hideLoading();
       showToast("搜索失败，请重试", 1000, "error");

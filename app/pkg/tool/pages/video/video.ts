@@ -42,7 +42,7 @@ $Page("video", {
       let listID = 0;
       const videoList =
         // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-        // @ts-ignore: The import can be changed by build target
+        // @ts-expect-error: The import can be changed by build target
         appName === "weNENU"
           ? list
           : list
@@ -93,11 +93,12 @@ $Page("video", {
     showNotice("video");
 
     // FIXME: Now skyline has bugs in setPassiveEvent
-    if (this.renderer !== "skyline")
+    if (this.renderer !== "skyline") {
       this.setPassiveEvent?.({
         touchstart: false,
         touchmove: false,
       });
+    }
   },
 
   onReady() {

@@ -70,7 +70,9 @@ ${envName}由 Mr.Hope 个人制作，如有错误还请见谅\
       preloadData || this.data.page,
     );
 
-    this.$on("settings", () => this.setPage());
+    this.$on("settings", () => {
+      this.setPage();
+    });
   },
 
   onShow() {

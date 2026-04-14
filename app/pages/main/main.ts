@@ -60,7 +60,9 @@ $Page(PAGE_ID, {
       this.data.page,
     );
 
-    this.$on("settings", () => this.renderPage());
+    this.$on("settings", () => {
+      this.renderPage();
+    });
   },
 
   onShow() {

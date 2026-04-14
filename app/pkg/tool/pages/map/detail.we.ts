@@ -28,8 +28,9 @@ $Page("map-detail", {
     const { id, loc } = option;
 
     if (id) {
-      if (globalData.page.id === id) setPage({ option, ctx: this });
-      else
+      if (globalData.page.id === id) {
+        setPage({ option, ctx: this });
+      } else {
         getJson<PageState>(`function/map/${id}`)
           .then((data) => {
             setPage({ option, ctx: this }, data);
@@ -37,6 +38,7 @@ $Page("map-detail", {
           .catch(() => {
             setPage({ option, ctx: this }, { error: true });
           });
+      }
 
       this.state.id = id;
     }

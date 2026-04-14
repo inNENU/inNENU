@@ -1,6 +1,3 @@
-type Component = any;
-type Page = any;
-
 interface SizeInfo {
   width: number;
   height: number;
@@ -11,10 +8,11 @@ type SizeGetter<T> = (item: T, index: number) => SizeInfo;
 interface RecycleContextOptions<T> {
   id: string;
   dataKey: string;
-  page: Component | Page;
+  // oxlint-disable-next-line typescript/no-redundant-type-constituents
+  page: WechatMiniprogram.Page.TrivialInstance | WechatMiniprogram.Component.TrivialInstance;
   itemSize: SizeGetter<T> | SizeInfo;
   useInPage?: boolean;
-  root?: Page;
+  root?: WechatMiniprogram.Page.TrivialInstance;
   placeholderClass?: string;
 }
 

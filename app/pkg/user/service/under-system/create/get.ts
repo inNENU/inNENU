@@ -60,33 +60,36 @@ const getCreateUnderStudentArchiveInfoLocal =
         /<input type="button" class="button" value="查看学籍信息"\s+onclick/.test(
           welcomePageContent,
         )
-      )
+      ) {
         return {
           success: false,
           type: ActionFailType.Existed,
           msg: "学籍已建立",
         };
+      }
 
       const link = welcomePageContent.match(nextLinkRegExp)?.[1];
 
-      if (!link)
+      if (!link) {
         return {
           success: false,
           msg: "未找到注册学籍链接",
         };
+      }
 
       const { data: infoContent } = await request<string>(`${UNDER_SYSTEM_SERVER}${link}`, {
         cookieScope: UNDER_SYSTEM_SERVER,
       });
 
-      if (infoContent.includes("不在控制范围内！"))
+      if (infoContent.includes("不在控制范围内！")) {
         return {
           success: false,
           type: ActionFailType.Existed,
           msg: "学籍已建立",
         };
+      }
 
-      const info = Array.from(infoContent.matchAll(infoRowRegExp)).map(([, ...matches]) =>
+      const info = [...infoContent.matchAll(infoRowRegExp)].map(([, ...matches]) =>
         matches.map((item) => item.replace(/&nbsp;/g, " ").trim()),
       );
 
@@ -99,9 +102,10 @@ const getCreateUnderStudentArchiveInfoLocal =
 
           const name = selectRegExp.exec(inputOrSelect)![1];
 
-          const options = Array.from(inputOrSelect.matchAll(optionRegExp)).map(
-            ([, value, text]) => ({ value, text }),
-          );
+          const options = [...inputOrSelect.matchAll(optionRegExp)].map(([, value, text]) => ({
+            value,
+            text,
+          }));
 
           if (text === "火车到站") {
             const validOptions = options.filter(({ value }) => Number(value) > 100);
@@ -154,9 +158,10 @@ const getCreateUnderStudentArchiveInfoLocal =
           };
         });
 
-      const hiddenFields = Array.from(infoContent.matchAll(hiddenFieldsRegExp)).map(
-        ([, name, value]) => ({ name, value }),
-      );
+      const hiddenFields = [...infoContent.matchAll(hiddenFieldsRegExp)].map(([, name, value]) => ({
+        name,
+        value,
+      }));
 
       return {
         success: true,

@@ -40,7 +40,7 @@ export type UnderSelectSearchResponse =
   | CommonFailedResponse;
 
 const searchUnderCoursesLocal = async ({
-  link = "",
+  link,
   name = "",
   area = "",
   grade,

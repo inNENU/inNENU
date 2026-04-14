@@ -35,7 +35,11 @@ $Component({
         size: getSize(type),
       });
 
-      if (!user.account) return this.setData({ status: "login" });
+      if (!user.account) {
+        this.setData({ status: "login" });
+
+        return;
+      }
 
       const emails = get<Mail[]>(EMAIL_DATA_KEY);
 
@@ -55,7 +59,11 @@ $Component({
 
   pageLifetimes: {
     show(): void {
-      if (!user.account) return this.setData({ status: "login" });
+      if (!user.account) {
+        this.setData({ status: "login" });
+
+        return;
+      }
 
       if (this.data.status === "login") {
         this.setData({ status: "loading" });
@@ -91,7 +99,7 @@ $Component({
 
       this.setData({
         status: "success",
-        unread: unread,
+        unread,
         recent: type.includes("未读") ? recent.filter(({ unread }) => unread) : recent,
       });
       set(EMAIL_DATA_KEY, recent, 5 * MINUTE);
@@ -99,6 +107,7 @@ $Component({
 
     async openEmail({
       currentTarget,
+      // oxlint-disable-next-line typescript/no-unnecessary-type-arguments
     }: WechatMiniprogram.TouchEvent<Record<never, never>, Record<never, never>, { mid?: string }>) {
       const { status } = this.data;
 

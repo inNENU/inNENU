@@ -307,13 +307,14 @@ $Page("pe-calculator", {
         )[]
       ).forEach((x) => {
         if (result[x] && Number(result[x])) {
-          for (let i = length; i >= 0; i -= 1)
+          for (let i = length; i >= 0; i -= 1) {
             if (result[x] >= config[x][i]) {
               peScore[x] = gradeLevels[i];
               break;
             } else if (i === 0) {
               peScore[x] = 0;
             }
+          }
         } else {
           peScore[x] = 0;
         }
@@ -322,13 +323,14 @@ $Page("pe-calculator", {
       // 以下两项越低越好
       (["shortRun", "longRun"] as ("shortRun" | "longRun")[]).forEach((x) => {
         if (result[x]) {
-          for (let i = length; i >= 0; i -= 1)
+          for (let i = length; i >= 0; i -= 1) {
             if (result[x] <= config[x][i]) {
               peScore[x] = gradeLevels[i];
               break;
             } else if (i === 0) {
               peScore[x] = 0;
             }
+          }
         } else {
           peScore[x] = 0;
         }
@@ -338,13 +340,14 @@ $Page("pe-calculator", {
       const specialScore = gender === "male" ? "chinning" : "situp";
 
       if (result[specialScore] && Number(result[specialScore])) {
-        for (let i = length; i >= 0; i -= 1)
+        for (let i = length; i >= 0; i -= 1) {
           if (config[specialScore]![i] !== "" && result[specialScore] >= config[specialScore]![i]) {
             peScore.special = gradeLevels[i];
             break;
           } else if (i === 0) {
             peScore.special = 0;
           }
+        }
       } else {
         peScore.special = 0;
       }
@@ -362,7 +365,7 @@ $Page("pe-calculator", {
     const { gender, grade } = this.state;
 
     wx.showLoading({ title: "计算中...", mask: true });
-    console.info("Input data: ", result);
+    console.info("Input data:", result);
 
     // 可以计算
     if (gender && grade) {

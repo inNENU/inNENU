@@ -13,8 +13,8 @@ import type { DocComponentData } from "../../../typings/index.js";
 import { envName } from "../../state/index.js";
 import { getAssetLink } from "../../utils/index.js";
 
-const DOC_ICONS = ["doc", "ppt", "xls", "pdf"];
-const IMAGE_ICONS = ["jpg", "png", "gif"];
+const DOC_ICONS = new Set(["doc", "ppt", "xls", "pdf"]);
+const IMAGE_ICONS = new Set(["jpg", "png", "gif"]);
 
 $Component({
   props: {
@@ -31,13 +31,14 @@ $Component({
       const link = getAssetLink(url);
 
       // 检测到文档
-      if (DOC_ICONS.includes(icon)) {
+      if (DOC_ICONS.has(icon)) {
         // compatible with pc wechat
         if (wx.canIUse("openDocument")) openDocument(link);
         else this.download();
-      } else if (IMAGE_ICONS.includes(icon))
-        // 检测到图片，开始图片浏览
+      } else if (IMAGE_ICONS.has(icon)) // 检测到图片，开始图片浏览
+      {
         wx.previewImage({ urls: [link] });
+      }
     },
 
     /** 下载文档 */
@@ -45,20 +46,25 @@ $Component({
       const { icon, name, url } = this.data.config;
       const link = getAssetLink(url);
 
-      if (DOC_ICONS.includes(icon)) {
+      if (DOC_ICONS.has(icon)) {
         // 首选添加到收藏
-        if (wx.canIUse("addFileToFavorites")) saveDocument(link, name);
+        if (wx.canIUse("addFileToFavorites")) {
+          saveDocument(link, name);
+        }
         // 将链接复制到剪切板
-        else
+        else {
           writeClipboard(link).then(() => {
             showModal(
               "复制成功",
               `下载链接已复制到您的剪切板。受${envName}限制，请您自行打开浏览器粘贴在地址栏中以下载。`,
             );
           });
+        }
       }
       // 保存图片至相册
-      else if (IMAGE_ICONS.includes(icon)) savePhoto(link).then(() => showToast("已保存至相册"));
+      else if (IMAGE_ICONS.has(icon)) {
+        savePhoto(link).then(() => showToast("已保存至相册"));
+      }
     },
   },
 });

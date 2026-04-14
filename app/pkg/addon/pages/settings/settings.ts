@@ -152,7 +152,7 @@ $Page(PAGE_ID, {
 
   /** 刷新所有资源 */
   updateResource() {
-    confirm("更新资源文件", "", () => {
+    confirm("更新资源文件", () => {
       downloadResource(RESOURCE_NAMES);
     });
   },

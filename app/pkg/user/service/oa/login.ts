@@ -93,10 +93,14 @@ export const oaLoginLocal = async (options: AccountInfo): Promise<OALoginRespons
       redirect: "manual",
     });
 
-    if (sessionResponse.status === 302 && sessionResponse.headers.get("Location") === OA_MAIN_PAGE)
+    if (
+      sessionResponse.status === 302 &&
+      sessionResponse.headers.get("Location") === OA_MAIN_PAGE
+    ) {
       return {
         success: true,
       };
+    }
   }
 
   console.error("login to OA failed", sessionLocation);
@@ -133,15 +137,13 @@ export const withOALogin =
       let response: Awaited<ReturnType<T>> | null = null;
 
       // assuming login state is valid if cookies exist
-      if (loginMethod === "check") {
+      if (loginMethod === "check")
         response = (await serviceHandler(...args)) as Awaited<ReturnType<T>>;
-      }
 
       // validate login state with actual API
       if (loginMethod === "validate") {
-        if (await isOALoggedIn()) {
+        if (await isOALoggedIn())
           response = (await serviceHandler(...args)) as Awaited<ReturnType<T>>;
-        }
       }
 
       if (response) {

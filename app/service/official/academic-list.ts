@@ -57,7 +57,7 @@ const getOfficialAcademicListLocal = async ({
       pageIds.split(/,\s*/).map((id) => getOfficialPageView(id, owner)),
     );
 
-    const data = Array.from(LIST_REGEXP.exec(content)![1].matchAll(ITEM_REGEXP)).map(
+    const data = [...LIST_REGEXP.exec(content)![1].matchAll(ITEM_REGEXP)].map(
       ([, url, subject, person, time, location], index) => ({
         subject,
         person,

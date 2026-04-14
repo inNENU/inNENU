@@ -265,27 +265,25 @@ const getCourseInfo = (html: string): UnderCourseCommentaryInfo => {
       .map(([, key, value]) => [key, value]),
   );
 
-  const questions = Array.from(html.matchAll(OPTIONS_REGEXP)).map(
-    ([, txdm, zbdm, title, ...items]) => {
-      const optionNumber = items.length / 4;
+  const questions = [...html.matchAll(OPTIONS_REGEXP)].map(([, txdm, zbdm, title, ...items]) => {
+    const optionNumber = items.length / 4;
 
-      return {
-        txdm,
-        zbdm,
-        title,
-        options: new Array(optionNumber).fill(null).map((_, index) => {
-          const [name, value, score, text] = items.slice(index * 4, index * 4 + 4);
+    return {
+      txdm,
+      zbdm,
+      title,
+      options: new Array(optionNumber).fill(null).map((_, index) => {
+        const [name, value, score, text] = items.slice(index * 4, index * 4 + 4);
 
-          return {
-            name,
-            value,
-            score: Number(score),
-            text,
-          };
-        }),
-      };
-    },
-  );
+        return {
+          name,
+          value,
+          score: Number(score),
+          text,
+        };
+      }),
+    };
+  });
 
   const [, txdm, zbdm, title, name] = TEXT_REGEXP.exec(html)!;
 
@@ -339,20 +337,22 @@ const underStudyCourseCommentaryLocal = async <T extends UnderCourseCommentaryOp
         }),
       });
 
-      if (headers.get("content-type")?.includes("text/html"))
+      if (headers.get("content-type")?.includes("text/html")) {
         return {
           success: false,
           type: ActionFailType.Expired,
           msg: "登录过期，请重新登录",
         } as UnderCourseCommentaryResponse<T>;
+      }
 
       if ("code" in data) {
-        if (data.message === "尚未登录，请先登录")
+        if (data.message === "尚未登录，请先登录") {
           return {
             success: false,
             type: ActionFailType.Expired,
             msg: "登录过期，请重新登录",
           } as UnderCourseCommentaryResponse<T>;
+        }
 
         return {
           success: false,
@@ -438,12 +438,13 @@ const underStudyCourseCommentaryLocal = async <T extends UnderCourseCommentaryOp
       },
     );
 
-    if (headers.get("content-type")?.includes("text/html"))
+    if (headers.get("content-type")?.includes("text/html")) {
       return {
         success: false,
         type: ActionFailType.Expired,
         msg: "登录过期，请重新登录",
       } as UnderCourseCommentaryResponse<T>;
+    }
 
     if (data.code === 0) {
       return {
@@ -452,12 +453,13 @@ const underStudyCourseCommentaryLocal = async <T extends UnderCourseCommentaryOp
       } as UnderCourseCommentaryResponse<T>;
     }
 
-    if (data.message === "尚未登录，请先登录")
+    if (data.message === "尚未登录，请先登录") {
       return {
         success: false,
         type: ActionFailType.Expired,
         msg: "登录过期，请重新登录",
       } as UnderCourseCommentaryResponse<T>;
+    }
 
     return {
       success: false,

@@ -88,12 +88,13 @@ const processUnderSelectLocal = async (
       });
 
       if (data.code !== 0) {
-        if (data.code === -1 && data.message === "当前不是选课时间")
+        if (data.code === -1 && data.message === "当前不是选课时间") {
           return {
             success: false,
             msg: data.message,
             type: ActionFailType.Closed,
           };
+        }
 
         // TODO: Add forbidden type
 
@@ -120,12 +121,13 @@ const processUnderSelectLocal = async (
     });
 
     if (data.code !== 0) {
-      if (data.code === -1 && data.message === "当前不是选课时间")
+      if (data.code === -1 && data.message === "当前不是选课时间") {
         return {
           success: false,
           msg: data.message,
           type: ActionFailType.Closed,
         };
+      }
 
       if (data.message === "选课人数超出，请选其他课程") {
         return {

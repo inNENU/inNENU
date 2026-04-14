@@ -2,7 +2,7 @@ import type {
   RawUnderSelectClassItem,
   UnderSelectClassInfo,
   UnderSelectCourseInfo,
-} from "./typings";
+} from "./typings.js";
 
 export const getCourses = (records: RawUnderSelectClassItem[]): UnderSelectCourseInfo[] =>
   records.map(({ kcmc, jc, kcdlmc, kcflmc, kkyxmc, xf, zxs, kcbh, kcptdm }) => ({

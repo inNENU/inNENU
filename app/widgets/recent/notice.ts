@@ -36,19 +36,25 @@ $Component({
       this.setData({ noticeType, size }, () => {
         const data = get<NoticeInfo[]>(getKey(noticeType));
 
-        if (data)
+        if (data) {
           this.setData({
             status: "success",
             data: size === "large" ? data : data.slice(0, 5),
           });
-        else this.getNoticeList();
+        } else {
+          this.getNoticeList();
+        }
       });
     },
   },
 
   pageLifetimes: {
     show(): void {
-      if (!user.account) return this.setData({ status: "login" });
+      if (!user.account) {
+        this.setData({ status: "login" });
+
+        return;
+      }
 
       if (this.data.status === "login") {
         this.setData({ status: "loading" });
@@ -92,7 +98,7 @@ $Component({
       set(getKey(noticeType), data, HOUR);
     },
 
-    viewNotice({
+    async viewNotice({
       currentTarget,
     }: WechatMiniprogram.TouchEvent<
       Record<string, never>,

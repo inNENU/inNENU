@@ -53,6 +53,7 @@ export type UnderHistoryScoreInfoResponse =
 
 const getUnderHistoryScoreInfo = async (): Promise<UnderHistoryScoreInfoResponse> => {
   // NOTE: year=2023 does not take any effect
+  // oxlint-disable-next-line typescript/no-unnecessary-type-arguments
   const { data } = await request<RawUnderHistoryScoreOptionInfo>(
     `${UNDER_ENROLL_INFO_URL}?which=score`,
   );

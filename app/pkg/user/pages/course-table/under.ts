@@ -22,7 +22,7 @@ const PAGE_ID = "under-course-table";
 const PAGE_TITLE = "本科课程表";
 
 const getDisplayTime = (time: string): string => {
-  const startYear = Number(time.substring(0, 4));
+  const startYear = Number(time.slice(0, 4));
 
   return time.endsWith("1") ? `${startYear}年秋季学期` : `${startYear + 1}年春季学期`;
 };
@@ -238,7 +238,7 @@ $Page(PAGE_ID, {
     });
   },
 
-  refreshCourseTable() {
+  async refreshCourseTable() {
     const { times, timeIndex } = this.data;
     const time = times[timeIndex];
 
@@ -255,7 +255,7 @@ $Page(PAGE_ID, {
     const { maxWeek, weekIndex } = this.data;
     const { name, teachers, locations, time, weeks, classIndex } = currentTarget.dataset.info;
 
-    let location = Array.from(new Set(locations)).join("，");
+    let location = [...new Set(locations)].join("，");
 
     if (weekIndex !== 0) {
       const index = weeks.findIndex((week) => week === weekIndex);

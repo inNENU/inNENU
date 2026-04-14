@@ -35,7 +35,7 @@ $Component({
       });
     },
 
-    viewNotice({
+    async viewNotice({
       currentTarget,
     }: WechatMiniprogram.TouchEvent<
       Record<string, never>,

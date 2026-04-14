@@ -179,12 +179,11 @@ $Page(PAGE_ID, {
       if (
         item.grade >= 60 &&
         (!gradeMap.has(item.cid) || item.grade > gradeMap.get(item.cid)!.grade)
-      ) {
+      )
         gradeMap.set(item.cid, item);
-      }
     });
 
-    const filteredData = Array.from(gradeMap.values());
+    const filteredData = [...gradeMap.values()];
 
     const totalPoint = filteredData.reduce((total, { point }) => total + point, 0);
     const totalCommonRequiredPoint = filteredData
@@ -265,10 +264,11 @@ $Page(PAGE_ID, {
           if (!itemA[key]) return 1;
           if (!itemB[key]) return -1;
 
-          if (numberValueIndex.includes(index))
+          if (numberValueIndex.includes(index)) {
             return ascending
               ? Number(itemA[key]) - Number(itemB[key])
               : Number(itemB[key]) - Number(itemA[key]);
+          }
 
           return ascending
             ? (itemA[key] as string)?.localeCompare(itemB[key] as string)
@@ -286,14 +286,16 @@ $Page(PAGE_ID, {
     const { name, gradeCode, mark } = grades[index];
 
     getUnderGradeDetail(gradeCode).then((res) => {
-      if (res.success)
+      if (res.success) {
         showModal(
           `${name}成绩详情`,
           `${mark ? `${mark}\n` : ""}${res.data
             .map(({ name, percent, score }) => `${name}: ${score}分，占比${percent}%`)
             .join("\n")}`,
         );
-      else showModal("获取失败", res.msg);
+      } else {
+        showModal("获取失败", res.msg);
+      }
     });
   },
 });

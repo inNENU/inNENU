@@ -41,7 +41,7 @@ const getGradRecommendPlanLocal = async (): Promise<GradRecommendResponse> => {
     if (status !== 200) throw new Error("获取推免计划失败");
 
     const schoolInfo: GradRecommendSchoolPlan[] = await Promise.all(
-      Array.from(data.matchAll(schoolInfoRegExp)).map(
+      [...data.matchAll(schoolInfoRegExp)].map(
         async ([, site, code, name, contact, phone, mail]) => {
           const info: GradRecommendSchoolPlan = {
             name,
@@ -53,23 +53,23 @@ const getGradRecommendPlanLocal = async (): Promise<GradRecommendResponse> => {
             majors: [],
           };
 
-          const majorCodes = Array.from(
-            data.matchAll(new RegExp(`cXYName\\['${name}'\\]\\.push\\('([^']+)'\\)`, "g")),
-          );
+          const majorCodes = [
+            ...data.matchAll(new RegExp(`cXYName\\['${name}'\\]\\.push\\('([^']+)'\\)`, "g")),
+          ];
 
-          const majorNameRegExp = Array.from(
-            data.matchAll(new RegExp(`fXYName\\['${name}'\\]\\.push\\('([^']+)'\\)`, "g")),
-          );
+          const majorNameRegExp = [
+            ...data.matchAll(new RegExp(`fXYName\\['${name}'\\]\\.push\\('([^']+)'\\)`, "g")),
+          ];
 
           info.majors = await Promise.all(
             majorCodes.map(async ([, code], index) => {
               const [, majorName] = majorNameRegExp[index];
 
-              const lines = Array.from(
-                data.matchAll(
+              const lines = [
+                ...data.matchAll(
                   new RegExp(`dXYName\\['${name}'\\]\\['${code}'\\]\\.push\\('(.*)'\\)`, "g"),
                 ),
-              ).map(([, line]) => line.replace(/<\/?center>/g, ""));
+              ].map(([, line]) => line.replace(/<\/?center>/g, ""));
 
               return {
                 name: majorName,

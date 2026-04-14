@@ -49,12 +49,13 @@ export const checkPasswordLocal = async (
     .filter(([, value]) => !value)
     .map(([key]) => key);
 
-  if (warnings.length > 0)
+  if (warnings.length > 0) {
     return {
       success: false,
       type: ActionFailType.Unknown,
       msg: `密码不满足要求: ${warnings.join(", ")}`,
     };
+  }
 
   return {
     success: true,

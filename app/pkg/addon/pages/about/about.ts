@@ -69,10 +69,11 @@ $Page(PAGE_ID, {
     // 读取开发者模式并对页面显示做相应改变
     developMode = wx.getStorageSync<boolean | undefined>("developMode") ?? false;
 
-    if (!developMode)
+    if (!developMode) {
       (page.content[0] as FunctionalListComponentConfig).items.forEach((x, y) => {
         x.hidden = y !== 0;
       });
+    }
 
     resolvePage(res, page);
   },
@@ -86,15 +87,18 @@ $Page(PAGE_ID, {
       // 读取开发者模式并对页面显示做相应改变
       developMode = wx.getStorageSync<boolean | undefined>("developMode") ?? false;
 
-      if (!developMode)
+      if (!developMode) {
         (page.content[0] as FunctionalListComponentConfig).items.forEach((x, y) => {
           x.hidden = y !== 0;
         });
+      }
 
       setPage({ option: { id: "about" }, ctx: this }, page);
     }
 
-    this.$on("settings", () => this.setPage());
+    this.$on("settings", () => {
+      this.setPage();
+    });
   },
 
   onShow() {
@@ -162,11 +166,11 @@ $Page(PAGE_ID, {
     }
     // 启用开发者模式
     else {
-      this.setData({ debug: true }, () =>
+      this.setData({ debug: true }, () => {
         wx.nextTick(() => {
           this.setData({ focus: true });
-        }),
-      );
+        });
+      });
     }
   },
 

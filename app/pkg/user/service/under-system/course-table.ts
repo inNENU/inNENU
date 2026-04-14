@@ -19,7 +19,7 @@ const classRegExp =
   /<a[^>]*?>(.+?)\s*<br>(.+?)<br>\s*<nobr>\s*(\S+?)<nobr><br>(.+?)<br><br>\s*<\/a>/g;
 
 const getWeekRange = (timeText: string): number[] => {
-  const match = Array.from(timeText.matchAll(/([\d,-]+)[^\d]*周/g));
+  const match = [...timeText.matchAll(/([\d,-]+)[^\d]*周/g)];
 
   return match
     .map(([, time]) =>
@@ -35,7 +35,7 @@ const getWeekRange = (timeText: string): number[] => {
 };
 
 const getClassIndex = (timeText: string): [number, number] => {
-  const match = Array.from(timeText.matchAll(/\[(\d+)-(\d+)节\]/g));
+  const match = [...timeText.matchAll(/\[(\d+)-(\d+)节\]/g)];
 
   return match
     .map(([, startIndex, endIndex]) => [Number(startIndex), Number(endIndex)])
@@ -82,7 +82,7 @@ const getLegacyCourses = (content: string): LegacyCourseTableData =>
           teacher: item.teachers.join("，"),
           weeks: weeks.sort((a, b) => a - b),
           locations,
-          location: Array.from(new Set(locations)).join("，"),
+          location: [...new Set(locations)].join("，"),
         };
       });
     }),
@@ -130,11 +130,12 @@ const getLegacyUnderCourseTableLocal = async (
       return ExpiredResponse;
     }
 
-    if (content.includes("评教未完成，不能查看课表！"))
+    if (content.includes("评教未完成，不能查看课表！")) {
       return {
         success: false,
         msg: "上学期评教未完成，不能查看本学期课表",
       };
+    }
 
     const tableData = getLegacyCourses(content);
 

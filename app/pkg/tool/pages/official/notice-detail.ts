@@ -32,10 +32,11 @@ $Page(PAGE_ID, {
     this.state.title = title;
     this.state.url = url;
 
-    if (!url)
+    if (!url) {
       showModal("无法获取", "请提供 ID", () => {
         this.$back();
       });
+    }
 
     this.getInfo();
     this.setData({

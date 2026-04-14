@@ -105,16 +105,19 @@ $Component({
           })),
       );
 
-      if (todayCourses.some((item) => item.length))
+      if (todayCourses.some((item) => item.length)) {
         this.setData({
           isTomorrow,
           todayCourses,
           empty: false,
           missing: false,
         });
-      else this.setData({ isTomorrow, empty: true, missing: false });
+      } else {
+        this.setData({ isTomorrow, empty: true, missing: false });
+      }
     },
 
+    // oxlint-disable-next-line complexity, max-statements
     setNextCourse(table: CourseTableData, currentWeekIndex: number, maxWeek: number) {
       const now = new Date();
       const hours = now.getHours();
@@ -189,7 +192,7 @@ $Component({
               : `${
                   currentWeekIndex === weekIndex
                     ? ""
-                    : new Array(weekIndex - currentWeekIndex).fill("下").join()
+                    : Array.from({ length: weekIndex - currentWeekIndex }, () => "下").join()
                 }${["周一", "周二", "周三", "周四", "周五", "周六", "周日"][dayIndex]}`
       }${["8:00", "10:00", "13:30", "15:30", "17:30", "19:30"][classIndex]}`;
 

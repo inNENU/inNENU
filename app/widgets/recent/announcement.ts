@@ -29,12 +29,14 @@ $Component({
       this.setData({ size }, () => {
         const data = get<{ title: string; url: string }[]>(SITE_ANNOUNCEMENT_LIST_KEY);
 
-        if (data)
+        if (data) {
           this.setData({
             status: "success",
             data: size === "large" ? data : data.slice(0, 5),
           });
-        else this.getNoticeList();
+        } else {
+          this.getNoticeList();
+        }
       });
     },
   },
@@ -66,7 +68,7 @@ $Component({
       set(SITE_ANNOUNCEMENT_LIST_KEY, data, HOUR);
     },
 
-    viewInfo({
+    async viewInfo({
       currentTarget,
     }: WechatMiniprogram.TouchEvent<
       Record<string, never>,

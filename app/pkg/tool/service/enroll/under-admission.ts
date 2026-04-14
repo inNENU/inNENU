@@ -60,20 +60,22 @@ const getUnderAdmissionLocal = async ({
     }),
   });
 
-  if (!headers.get("content-type")?.includes("application/json"))
+  if (!headers.get("content-type")?.includes("application/json")) {
     return {
       success: false,
       type: ActionFailType.Closed,
       msg: "查询通道已关闭",
     };
+  }
 
   if (data.student === null) {
-    if (data.message === "Admission query is not available")
+    if (data.message === "Admission query is not available") {
       return {
         success: false,
         type: ActionFailType.Closed,
         msg: "查询通道已关闭",
       };
+    }
 
     return unknownResponse(data.message);
   }

@@ -17,11 +17,12 @@ export interface LicenseStatus {
 }
 
 export const getLicenseStatus = (): Promise<LicenseStatus> => {
-  if (onlineLicenseVersion)
+  if (onlineLicenseVersion) {
     return Promise.resolve({
       needAuthorize: needLicense!,
       version: onlineLicenseVersion,
     });
+  }
 
   return requestJSON<PageConfig & { version: number }>(`config/${appId}/license-data`).then(
     ({ version }) => {
@@ -42,7 +43,7 @@ export interface PrivacyStatus {
 }
 
 export const getPrivacyStatus = (): Promise<PrivacyStatus> => {
-  if (typeof wx.getPrivacySetting === "function")
+  if (typeof wx.getPrivacySetting === "function") {
     return new Promise<PrivacyStatus>((resolve) => {
       wx.getPrivacySetting({
         success: ({ needAuthorization }) => {
@@ -53,12 +54,14 @@ export const getPrivacyStatus = (): Promise<PrivacyStatus> => {
         },
       });
     });
+  }
 
-  if (onlinePrivacyVersion)
+  if (onlinePrivacyVersion) {
     return Promise.resolve({
       needAuthorize: needPrivacy!,
       version: onlinePrivacyVersion,
     });
+  }
 
   return requestJSON<PageConfig & { version: number }>(`config/${appId}/privacy-data`).then(
     ({ version }) => {

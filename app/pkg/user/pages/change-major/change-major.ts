@@ -120,8 +120,8 @@ $Page(PAGE_ID, {
   },
 
   setPlans(data: PlanData) {
-    const schools = Array.from(new Set(data.plans.map((plan) => plan.school)));
-    const subjects = Array.from(new Set(data.plans.map((plan) => plan.subject)));
+    const schools = [...new Set(data.plans.map((plan) => plan.school))];
+    const subjects = [...new Set(data.plans.map((plan) => plan.subject))];
 
     this.state.plans = data.plans;
     this.setData({

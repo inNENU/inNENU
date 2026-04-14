@@ -139,7 +139,7 @@ export const searchContent = async (query: string, page = 1): Promise<ContentSea
     results: data.hits
       .map(({ _formatted }) => {
         const id = _formatted.url
-          .substring(19) // length of 'https://innenu.com/'
+          .slice(19) // length of 'https://innenu.com/'
           .replace(/#.*$/, "") // remove hash
           .replace(/\/index.html$/, "/")
           .replace(/\.html$/, "");

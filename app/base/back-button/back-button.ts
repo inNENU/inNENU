@@ -80,11 +80,8 @@ $Component<BackButtonData, BackButtonProps, BackButtonMethods, [], BackButtonIns
     },
 
     onTap() {
-      if (this.data.action) {
-        this.$call(this.data.action);
-      } else {
-        this.$back();
-      }
+      if (this.data.action) this.$call(this.data.action);
+      else this.$back();
     },
   },
 

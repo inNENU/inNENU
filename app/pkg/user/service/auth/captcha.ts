@@ -53,11 +53,10 @@ export const getAuthCaptchaLocal = async (id: string): Promise<AuthCaptchaRespon
     const dataLength = uint8Array.length;
 
     // Extract last 16 bytes as safeValue
-    for (let i = dataLength - 16; i < dataLength; i++) {
-      safeValue += String.fromCharCode(uint8Array[i]);
-    }
-  } catch (error) {
-    console.error("Failed to extract safeValue:", error);
+    for (let i = dataLength - 16; i < dataLength; i++)
+      safeValue += String.fromCodePoint(uint8Array[i]);
+  } catch (err) {
+    console.error("Failed to extract safeValue:", err);
     safeValue = "";
   }
 

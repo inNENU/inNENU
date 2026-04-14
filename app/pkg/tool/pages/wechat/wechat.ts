@@ -162,27 +162,33 @@ $Page(PAGE_ID, {
   }: WechatMiniprogram.TouchEvent<never, never, { title: string; url: string }>) {
     const { url } = currentTarget.dataset;
 
-    if (env === "donut") wx.miniapp.openUrl({ url });
-    else if (wx.openOfficialAccountArticle) wx.openOfficialAccountArticle({ url });
-    else
+    if (env === "donut") {
+      wx.miniapp.openUrl({ url });
+    } else if (wx.openOfficialAccountArticle) {
+      wx.openOfficialAccountArticle({ url });
+    } else {
       writeClipboard(url).then(() => {
         showModal(
           "无法跳转",
           "目前暂不支持跳转到该微信公众号图文，链接地址已复制至剪切板。请打开浏览器粘贴查看",
         );
       });
+    }
   },
 
   follow() {
     const { follow, id } = this.data;
 
     tryOpenOfficialProfile(id, () => {
-      if (env === "donut")
+      if (env === "donut") {
         savePhoto(`https://open.weixin.qq.com/qr/code?username=${id}`)
           .then(() => showToast("二维码已存至相册"))
           .catch(() => showToast("二维码保存失败"));
-      else if (follow) this.$go(`web?url=${follow}&title=欢迎关注`);
-      else showOfficialQRCode(id);
+      } else if (follow) {
+        this.$go(`web?url=${follow}&title=欢迎关注`);
+      } else {
+        showOfficialQRCode(id);
+      }
     });
   },
 

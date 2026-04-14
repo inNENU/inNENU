@@ -43,13 +43,15 @@ const setListItemState = (
 ): (FunctionalListComponentItemConfig | GridComponentItemOptions) | null => {
   if (!isEnvMatches(listElement)) return null;
 
-  if ("type" in listElement)
-    if (listElement.type === "switch")
-      // 设置列表开关与滑块
+  if ("type" in listElement) {
+    if (listElement.type === "switch") // 设置列表开关与滑块
+    {
       listElement.status = wx.getStorageSync<boolean | undefined>(listElement.key) || false;
-    else if (listElement.type === "slider") listElement.value = wx.getStorageSync(listElement.key);
+    } else if (listElement.type === "slider") {
+      listElement.value = wx.getStorageSync(listElement.key);
+    }
     // 设置列表选择器
-    else if (listElement.type === "picker")
+    else if (listElement.type === "picker") {
       if (listElement.single) {
         // 单列选择器
         const selectIndex = wx.getStorageSync<number>(listElement.key);
@@ -70,6 +72,8 @@ const setListItemState = (
           (listElement.currentValue as any[])[index] = Number(pickerElement);
         });
       }
+    }
+  }
 
   return listElement;
 };
@@ -91,12 +95,13 @@ export const setComponentState = (
       }
 
       // 设置 list 组件
-      if (tag === "list" || tag === "grid" || tag === "functional-list")
+      if (tag === "list" || tag === "grid" || tag === "functional-list") {
         component.items = component.items
           .map((listElement: FunctionalListComponentItemConfig | GridComponentItemOptions) =>
             setListItemState(listElement),
           )
           .filter((listElement) => listElement !== null);
+      }
 
       return component;
     })
@@ -135,19 +140,25 @@ const setPageState = (page: PageState | PageStateWithContent, option: PageOption
  * @param page 页面数据
  */
 const preloadPageLinks = (page: PageState): void => {
-  if (page.content)
+  if (page.content) {
     page.content.forEach((component) => {
       const { tag } = component;
 
-      if ("items" in component && (tag === "list" || tag === "grid" || tag === "functional-list"))
-        // 该组件是列表或九宫格，需要预加载界面，提前获取界面到存储
+      if (
+        "items" in component &&
+        (tag === "list" || tag === "grid" || tag === "functional-list")
+      ) // 该组件是列表或九宫格，需要预加载界面，提前获取界面到存储
+      {
         component.items.forEach(
           (element: FunctionalListComponentItemConfig | GridComponentItemOptions) => {
             if (!("type" in element) && "path" in element && element.path) ensureJson(element.path);
           },
         );
+      }
     });
-  else logger.warn("页面为空");
+  } else {
+    logger.warn("页面为空");
+  }
 };
 
 /**
@@ -226,50 +237,63 @@ export const getPageColor = (grey = false): PageColors => {
   let temp: [string, string, string];
 
   if (appInfo.darkmode) {
-    if (grey)
+    if (grey) {
       switch (info.theme) {
-        case "Android":
+        case "Android": {
           temp = ["#10110b", "#10110b", "#10110b"];
           break;
-        case "ios":
+        }
+        case "ios": {
           temp = ["#000000", "#000000", "#000000"];
           break;
-        case "nenu":
-        default:
+        }
+        // case "nenu":
+        default: {
           temp = ["#070707", "#070707", "#070707"];
+        }
       }
-    else
+    } else {
       switch (info.theme) {
-        case "ios":
-        case "Android":
-        case "nenu":
-        default:
+        // case "ios":
+        // case "Android":
+        // case "nenu":
+        default: {
           temp = ["#000000", "#000000", "#000000"];
+        }
       }
-  } else if (grey)
+    }
+  } else if (grey) {
     switch (info.theme) {
-      case "Android":
+      case "Android": {
         temp = ["#f8f8f8", "#f8f8f8", "#f8f8f8"];
         break;
-      case "nenu":
+      }
+      case "nenu": {
         temp = ["#f0f0f0", "#f0f0f0", "#f0f0f0"];
         break;
-      case "ios":
-      default:
+      }
+      // case "ios":
+      default: {
         temp = ["#f4f4f4", "#efeef4", "#efeef4"];
+      }
     }
-  else
+  } else {
     switch (info.theme) {
-      case "Android":
+      case "Android": {
         temp = ["#f8f8f8", "#f8f8f8", "#f8f8f8"];
         break;
-      case "nenu":
-        temp = ["#ffffff", "#ffffff", "#ffffff"];
-        break;
-      case "ios":
-      default:
+      }
+
+      case "ios": {
         temp = ["#f4f4f4", "#ffffff", "#ffffff"];
+        break;
+      }
+      // case "nenu":
+      default: {
+        temp = ["#ffffff", "#ffffff", "#ffffff"];
+      }
     }
+  }
 
   return {
     bgColorTop: temp[0],
@@ -418,7 +442,7 @@ export const setOnlinePage = (
   const { globalData } = getApp<App>();
   const { id } = option;
 
-  if (id)
+  if (id) {
     if (globalData.page.id === id) {
       // 页面已经预处理完毕，立即写入 page 并执行本界面的预加载
       logger.debug(`${id} has been resolved`);
@@ -460,6 +484,7 @@ export const setOnlinePage = (
       }
       // 请求页面Json
       else {
+        // oxlint-disable-next-line typescript/no-unnecessary-type-arguments
         requestJSON<PageState>(id)
           .then((data) => {
             // 非分享界面下将页面数据写入存储
@@ -497,7 +522,9 @@ export const setOnlinePage = (
           });
       }
     }
-  else logger.error("无页面 ID");
+  } else {
+    logger.error("无页面 ID");
+  }
 };
 
 /**
@@ -523,6 +550,7 @@ export const loadOnlinePage = (
     logger.debug(`${option.path} onLoad starts with options:`, option);
 
     // 需要在线获取界面
+    // oxlint-disable-next-line typescript/no-unnecessary-type-arguments
     requestJSON<PageState>(option.id)
       .then((page) => {
         if (page) {
@@ -531,7 +559,7 @@ export const loadOnlinePage = (
           logger.debug(`${option.path} onLoad succeed:`, ctx.data);
         }
       })
-      .catch((errMsg: unknown) => {
+      .catch((err: unknown) => {
         // 设置 error 页面并弹出通知
         setPage(
           { option, ctx },
@@ -544,7 +572,7 @@ export const loadOnlinePage = (
         showNotice(option.id || "");
 
         // 调试
-        logger.error(`页面 ${option.path} 加载失败`, errMsg);
+        logger.error(`页面 ${option.path} 加载失败`, err);
       });
   } else {
     logger.error("无页面路径");

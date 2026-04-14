@@ -33,11 +33,12 @@ $Component({
       this.setData({ renderer: this.renderer });
 
       // FIXME: Skyline has bugs in setPassiveEvent
-      if (this.renderer !== "skyline")
+      if (this.renderer !== "skyline") {
         this.setPassiveEvent?.({
           touchstart: false,
           touchmove: false,
         });
+      }
     },
   },
 
@@ -128,21 +129,23 @@ $Component({
           },
         );
 
-        if (config.qrcode !== false)
+        if (config.qrcode !== false) {
           actions.push({
             icon: "./icon/qrcode",
             text: "下载二维码",
             action: "download",
           });
+        }
       }
 
-      if (config.contact !== false)
+      if (config.contact !== false) {
         actions.push({
           icon: "./icon/contact",
           text: "联系 Mr.Hope",
           openType: "contact",
           action: "reportInfo",
         });
+      }
 
       this.setData({ actions });
     },

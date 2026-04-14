@@ -292,6 +292,7 @@ export interface WeatherData {
   hints: WeatherHint[];
 }
 
+// oxlint-disable-next-line max-lines-per-function
 const getWeatherData = ({ air, alarm, ...data }: WeatherRawData): WeatherData => {
   const {
     aqi,
@@ -324,10 +325,10 @@ const getWeatherData = ({ air, alarm, ...data }: WeatherRawData): WeatherData =>
   const hints = [
     ...Object.entries(data.index)
       .filter(([id]) => id !== "time")
-      .map(([id, value]) => ({
-        id,
-        ...(value as { name: string; info: string; detail: string }),
-      })),
+      .map(([id, value]) =>
+        // oxlint-disable-next-line prefer-object-spread
+        Object.assign({ id }, value as { name: string; info: string; detail: string }),
+      ),
     {
       id: "tailnumber",
       name: "尾号限行",
@@ -339,20 +340,20 @@ const getWeatherData = ({ air, alarm, ...data }: WeatherRawData): WeatherData =>
   const hourForecast = Object.entries(data.forecast_1h)
     .sort(([keyA], [keyB]) => Number(keyA) - Number(keyB))
     .map(([, value]) => value)
-    .map(({ degree, update_time: updateTime, weather_code: weatherCode }) => {
-      const { sunrise, sunset } = rise.find((item) => item.time === updateTime.substring(0, 8))!;
-      const hour = Number(updateTime.substring(8, 10));
-      const sunriseHour = Number(sunrise.substring(0, 2));
-      const sunsetHour = Number(sunset.substring(0, 2));
+    .flatMap(({ degree, update_time: updateTime, weather_code: weatherCode }) => {
+      const { sunrise, sunset } = rise.find((item) => item.time === updateTime.slice(0, 8))!;
+      const hour = Number(updateTime.slice(8, 10));
+      const sunriseHour = Number(sunrise.slice(0, 2));
+      const sunsetHour = Number(sunset.slice(0, 2));
       const isDay = sunriseHour < hour && hour <= sunsetHour;
 
       const weather = {
         degree: `${degree}°`,
         weatherCode: getWeatherCode(weatherCode, isDay),
-        time: `${updateTime.substring(8, 10)}:${updateTime.substring(10, 12)}`,
+        time: `${updateTime.slice(8, 10)}:${updateTime.slice(10, 12)}`,
       };
 
-      if (hour === sunriseHour)
+      if (hour === sunriseHour) {
         return [
           weather,
           {
@@ -361,8 +362,9 @@ const getWeatherData = ({ air, alarm, ...data }: WeatherRawData): WeatherData =>
             time: sunrise,
           },
         ];
+      }
 
-      if (hour === sunsetHour)
+      if (hour === sunsetHour) {
         return [
           weather,
           {
@@ -371,10 +373,10 @@ const getWeatherData = ({ air, alarm, ...data }: WeatherRawData): WeatherData =>
             time: sunset,
           },
         ];
+      }
 
       return weather;
-    })
-    .flat();
+    });
 
   const dayForecast = Object.entries(data.forecast_24h)
     .sort(([keyA], [keyB]) => Number(keyA) - Number(keyB))
@@ -397,7 +399,7 @@ const getWeatherData = ({ air, alarm, ...data }: WeatherRawData): WeatherData =>
           time,
         },
       ]) => ({
-        date: `${time.substring(5, 7)}/${time.substring(8, 10)}`,
+        date: `${time.slice(5, 7)}/${time.slice(8, 10)}`,
         weekday:
           index === "0"
             ? "昨天"

@@ -42,7 +42,7 @@ const getGradPlanLocal = async (): Promise<GradEnrollResponse> => {
     if (status !== 200) throw new Error("获取招生计划失败");
 
     const schoolInfo: GradEnrollSchoolPlan[] = await Promise.all(
-      Array.from(content.matchAll(schoolInfoRegExp)).map(
+      [...content.matchAll(schoolInfoRegExp)].map(
         async ([, site, code, name, contact, phone, mail]) => {
           const info: GradEnrollSchoolPlan = {
             name,
@@ -54,13 +54,13 @@ const getGradPlanLocal = async (): Promise<GradEnrollResponse> => {
             majors: [],
           };
 
-          const majorCodes = Array.from(
-            content.matchAll(new RegExp(`cXYName\\['${name}'\\]\\.push\\('([^']+)'\\)`, "g")),
-          );
+          const majorCodes = [
+            ...content.matchAll(new RegExp(`cXYName\\['${name}'\\]\\.push\\('([^']+)'\\)`, "g")),
+          ];
 
-          const majorNameRegExp = Array.from(
-            content.matchAll(new RegExp(`fXYName\\['${name}'\\]\\.push\\('([^']+)'\\)`, "g")),
-          );
+          const majorNameRegExp = [
+            ...content.matchAll(new RegExp(`fXYName\\['${name}'\\]\\.push\\('([^']+)'\\)`, "g")),
+          ];
 
           info.majors = await Promise.all(
             majorCodes.map(async ([, code], index) => {
@@ -74,11 +74,11 @@ const getGradPlanLocal = async (): Promise<GradEnrollResponse> => {
 
               const start = content.indexOf(startLine) + startLine.length;
               const end = content.lastIndexOf(`dXYName['${name}']['${code}'].push("</tr>");`);
-              const majorContent = content.substring(start, end);
+              const majorContent = content.slice(start, end);
 
-              const lines = Array.from(
-                majorContent.matchAll(/dXYName\['.*?'\]\['[^']+'\]\.push\("(.*)"\)/g),
-              ).map(([, line]) => line.replace(/<\/?center>/g, ""));
+              const lines = [
+                ...majorContent.matchAll(/dXYName\['.*?'\]\['[^']+'\]\.push\("(.*)"\)/g),
+              ].map(([, line]) => line.replace(/<\/?center>/g, ""));
 
               return {
                 name: majorName,

@@ -170,7 +170,7 @@ $Page(PAGE_ID, {
   },
 
   /** 生成点位 */
-  setMarker() {
+  async setMarker() {
     const promises = ["benbu", "jingyue"].map((path) =>
       getJson<MarkersData>(`function/map/marker/${path}`)
         .then(({ category, marker }) => {
@@ -199,7 +199,9 @@ $Page(PAGE_ID, {
     return Promise.all(promises).then(() => {
       const { category, marker } = this.state[this.data.area];
 
-      return new Promise<void>((resolve) => this.setData({ category, marker }, resolve));
+      return new Promise<void>((resolve) => {
+        this.setData({ category, marker }, resolve);
+      });
     });
   },
 
@@ -283,11 +285,8 @@ $Page(PAGE_ID, {
     if (event.type === "markertap") {
       if (path) this.$preload(`map-detail?id=${area}/${path}`);
     } else if (event.type === "callouttap") {
-      if (path) {
-        this.$go(`map-detail?id=${area}/${path}&loc=${loc}`);
-      } else {
-        showToast("该地点暂无详情");
-      }
+      if (path) this.$go(`map-detail?id=${area}/${path}&loc=${loc}`);
+      else showToast("该地点暂无详情");
     }
   },
 
@@ -314,11 +313,8 @@ $Page(PAGE_ID, {
       (item) => item.id === currentTarget.dataset.id,
     )!;
 
-    if (path) {
-      this.$go(`map-detail?id=${area}/${path}&loc=${loc}`);
-    } else {
-      showToast("该地点暂无详情");
-    }
+    if (path) this.$go(`map-detail?id=${area}/${path}&loc=${loc}`);
+    else showToast("该地点暂无详情");
   },
 
   regionChange(event: WechatMiniprogram.RegionChange) {

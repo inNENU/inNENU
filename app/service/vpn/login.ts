@@ -45,12 +45,13 @@ export const vpnCASLoginLocal = async ({
       redirect: "manual",
     });
 
-    if (callbackResponse.status === 500)
+    if (callbackResponse.status === 500) {
       return {
         success: false,
         type: ActionFailType.Unknown,
         msg: "学校 WebVPN 服务崩溃，请稍后重试。",
       };
+    }
 
     const location = callbackResponse.headers.get("Location");
 
@@ -63,12 +64,13 @@ export const vpnCASLoginLocal = async ({
     }
   }
 
-  if (status === 500)
+  if (status === 500) {
     return {
       success: false,
       type: ActionFailType.Unknown,
       msg: "学校 WebVPN 服务崩溃，请稍后重试。",
     };
+  }
 
   return unknownResponse("登录失败");
 };

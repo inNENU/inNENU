@@ -388,6 +388,7 @@ $Page(PAGE_ID, {
 
   async loadClasses({
     currentTarget,
+    // oxlint-disable-next-line typescript/no-unnecessary-type-arguments
   }: WechatMiniprogram.TouchEvent<Record<never, never>, Record<never, never>, { id?: string }>) {
     const courseId = currentTarget.dataset.id || this.state.currentCourseId;
     const { category, selectedClasses, sortKeys, sortKeyIndex, ascending } = this.data;
@@ -520,7 +521,7 @@ $Page(PAGE_ID, {
     this.setData({ classData: null, relatedClasses: [] });
   },
 
-  selectCourse({
+  async selectCourse({
     currentTarget,
   }: WechatMiniprogram.TouchEvent<
     Record<never, never>,
@@ -534,7 +535,7 @@ $Page(PAGE_ID, {
       showModal(
         "选课确认",
         "您确认选择此课程?",
-        () =>
+        () => {
           resolve(
             processUnderSelect({
               type: "add",
@@ -564,8 +565,11 @@ $Page(PAGE_ID, {
 
               return false;
             }),
-          ),
-        () => resolve(false),
+          );
+        },
+        () => {
+          resolve(false);
+        },
       );
     });
   },
@@ -591,7 +595,11 @@ $Page(PAGE_ID, {
           classId,
         });
 
-        if (!result.success) return showModal("退课失败", result.msg);
+        if (!result.success) {
+          showModal("退课失败", result.msg);
+
+          return;
+        }
 
         showToast("退课成功", 1000, "success");
         // 关闭任何可能的弹窗
@@ -612,7 +620,7 @@ $Page(PAGE_ID, {
     );
   },
 
-  trySelectingCourse(classId: string, name: string, times = 100) {
+  async trySelectingCourse(classId: string, name: string, times = 100) {
     // eslint-disable-next-line prefer-const
     let stop: (msg: ForceSelectResponse) => void;
 
@@ -623,18 +631,20 @@ $Page(PAGE_ID, {
         name,
         classId,
       }).then((res) => {
-        if (res.success)
+        if (res.success) {
           stop({
             success: true,
             data: `已成功强制选课${name}`,
           });
-        else if (res.type !== ActionFailType.Full) stop(res);
+        } else if (res.type !== ActionFailType.Full) {
+          stop(res);
+        }
       }),
     );
 
     const selectQueue = createQueue<ForceSelectResponse>(queue);
 
-    stop = selectQueue.stop;
+    ({ stop } = selectQueue);
 
     return selectQueue.run();
   },
@@ -651,7 +661,7 @@ $Page(PAGE_ID, {
     const times = 100;
     let completeTimes = 0;
 
-    if (!this.state.isForceSelecting)
+    if (!this.state.isForceSelecting) {
       showModal(
         "连续选课",
         "您确认连续选课?",
@@ -670,7 +680,7 @@ $Page(PAGE_ID, {
             completeTimes += 1;
             this.state.isForceSelecting = false;
 
-            if (result.interrupted)
+            if (result.interrupted) {
               if (result.msg.success) {
                 showModal("选课成功", result.msg.data);
 
@@ -679,7 +689,9 @@ $Page(PAGE_ID, {
               } else {
                 showModal("选课失败", result.msg.msg);
               }
-            else requestForceSelect();
+            } else {
+              requestForceSelect();
+            }
           };
 
           const requestForceSelect = (): void => {
@@ -703,6 +715,7 @@ $Page(PAGE_ID, {
           // cancel
         },
       );
+    }
   },
 
   async replaceCourse({
@@ -728,13 +741,15 @@ $Page(PAGE_ID, {
           });
 
           if (!result.success) {
-            return showModal("查询剩余课容量失败", "无法确认新课程存在空余名额，取消替换操作");
+            showModal("查询剩余课容量失败", "无法确认新课程存在空余名额，取消替换操作");
+            return;
           }
 
           const { name, current, capacity } = result.data.find((item) => item.classId === classId)!;
 
           if (current >= capacity) {
-            return showModal("替换失败", "所选课程已满，无法替换操作");
+            showModal("替换失败", "所选课程已满，无法替换操作");
+            return;
           }
 
           wx.showLoading({ title: "退课中" });
@@ -748,7 +763,10 @@ $Page(PAGE_ID, {
 
           wx.hideLoading();
 
-          if (!removeResult.success) return showModal("退课失败", removeResult.msg);
+          if (!removeResult.success) {
+            showModal("退课失败", removeResult.msg);
+            return;
+          }
 
           wx.showLoading({ title: "选课中" });
 
@@ -772,16 +790,18 @@ $Page(PAGE_ID, {
             wx.hideLoading();
 
             if (!reSelectResult.success) {
-              return showModal(
+              showModal(
                 "替换课程失败",
                 "由于退课后待选课程人数已满，且原课程人数也满，您丢失了此课程。",
               );
+              return;
             }
 
-            return showModal(
+            showModal(
               "替换课程失败",
               "由于退课后新课程人数已满，所选课程选课失败。由于原课程人数未满，已成功为您选回原课程。",
             );
+            return;
           }
 
           wx.hideLoading();

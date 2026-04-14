@@ -69,12 +69,14 @@ $Component({
         () => {
           const data = get<OfficialInfoItem[]>(getKey(infoType));
 
-          if (data)
+          if (data) {
             this.setData({
               status: "success",
               data: size === "large" ? data : data.slice(0, 5),
             });
-          else this.getInfoList();
+          } else {
+            this.getInfoList();
+          }
         },
       );
     },
@@ -103,7 +105,7 @@ $Component({
       set(getKey(infoType), data, HOUR);
     },
 
-    viewInfo({
+    async viewInfo({
       currentTarget,
     }: WechatMiniprogram.TouchEvent<
       Record<string, never>,

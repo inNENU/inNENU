@@ -60,13 +60,14 @@ export const sendReAuthSMSLocal = async (id: string): Promise<ReAuthSMSResponse>
     }),
   });
 
-  if (data.res === "code_time_fail")
+  if (data.res === "code_time_fail") {
     return {
       success: false,
       type: ActionFailType.TooFrequent,
       msg: data.returnMessage,
       codeTime: data.codeTime,
     };
+  }
 
   if (data.res !== "success") return unknownResponse(data.returnMessage);
 

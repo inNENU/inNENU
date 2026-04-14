@@ -34,9 +34,8 @@ export const getResetCaptchaLocal = async (): Promise<ResetCaptchaResponse> => {
 
   if (headers.get("Content-Type") === "text/html") return RestrictedResponse;
 
-  if (!headers.get("Content-Type")?.startsWith("image/jpeg")) {
+  if (!headers.get("Content-Type")?.startsWith("image/jpeg"))
     return unknownResponse("获取验证码失败");
-  }
 
   return {
     success: true,

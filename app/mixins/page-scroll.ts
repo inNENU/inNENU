@@ -13,6 +13,7 @@ const onPageScroll = (event: WechatMiniprogram.Page.IPageScrollOption): void => 
   });
 };
 
+// oxlint-disable-next-line func-style
 export function defaultScroller(
   this: {
     data: {
@@ -39,10 +40,14 @@ export function defaultScroller(
 
   // 判断结果并更新界面数据
   if (
+    // oxlint-disable-next-line oxc/no-this-in-exported-function
     this.data.titleDisplay !== nav.titleDisplay ||
+    // oxlint-disable-next-line oxc/no-this-in-exported-function
     this.data.borderDisplay !== nav.borderDisplay ||
+    // oxlint-disable-next-line oxc/no-this-in-exported-function
     this.data.shadow !== nav.shadow
   )
+    // oxlint-disable-next-line oxc/no-this-in-exported-function
     this.setData(nav);
 }
 
@@ -51,7 +56,7 @@ export const pageScrollMixin = (scroller: Scroller): string =>
     { disableScroll?: boolean },
     Record<string, never>,
     Record<string, never>,
-    WechatMiniprogram.Behavior.BehaviorIdentifier[]
+    WechatMiniprogram.Behavior.Identifier[]
   >({
     attached() {
       if (this.data.disableScroll) {
@@ -67,12 +72,14 @@ export const pageScrollMixin = (scroller: Scroller): string =>
       const page = getCurrentPage();
 
       if (page) {
-        if (Array.isArray(page.$scrollHandler)) page.$scrollHandler.push(scroller.bind(this));
-        else
+        if (Array.isArray(page.$scrollHandler)) {
+          page.$scrollHandler.push(scroller.bind(this));
+        } else {
           page.$scrollHandler =
             typeof page.onPageScroll === "function"
               ? [page.onPageScroll.bind(page), scroller.bind(this)]
               : [scroller.bind(this)];
+        }
 
         page.onPageScroll = onPageScroll as (
           arg?: WechatMiniprogram.Page.IPageScrollOption,

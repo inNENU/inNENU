@@ -98,10 +98,11 @@ export const underStudyLoginLocal = async (
     if (
       ssoResponse.status === 302 &&
       ssoResponse.headers.get("Location")?.startsWith(`${UNDER_STUDY_SERVER}/new/welcome.page`)
-    )
+    ) {
       return {
         success: true,
       };
+    }
   }
 
   return unknownResponse("登录失败");
@@ -143,15 +144,13 @@ export const withUnderStudyLogin =
       let response: Awaited<ReturnType<T>> | null = null;
 
       // assuming login state is valid if cookies exist
-      if (loginMethod === "check") {
+      if (loginMethod === "check")
         response = (await serviceHandler(...args)) as Awaited<ReturnType<T>>;
-      }
 
       // validate login state with actual API
       if (loginMethod === "validate") {
-        if (await isUnderStudyLoggedIn()) {
+        if (await isUnderStudyLoggedIn())
           response = (await serviceHandler(...args)) as Awaited<ReturnType<T>>;
-        }
       }
 
       if (response) {

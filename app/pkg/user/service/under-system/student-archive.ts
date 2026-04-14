@@ -80,11 +80,11 @@ const getStudentArchive = async (content: string): Promise<UnderStudentArchiveIn
   const [baseInfo, tableInfo] = content.split("本人学历及社会经历");
   const [studyInfo, familyInfo] = tableInfo.split("家庭成员及主要社会关系");
 
-  const basic = Array.from(baseInfo.matchAll(infoRegExp)).map(([, text, value]) => ({
+  const basic = [...baseInfo.matchAll(infoRegExp)].map(([, text, value]) => ({
     text: text.replace(/&nbsp;/g, ""),
     value,
   }));
-  const study = Array.from(studyInfo.matchAll(studyRegExp))
+  const study = [...studyInfo.matchAll(studyRegExp)]
     .map(([, startTime, endTime, school, title, witness, remark]) => ({
       startTime: startTime.replace(/&nbsp;/g, ""),
       endTime: endTime.replace(/&nbsp;/g, ""),
@@ -97,7 +97,7 @@ const getStudentArchive = async (content: string): Promise<UnderStudentArchiveIn
       ({ startTime, endTime, school, title, witness, remark }) =>
         startTime || endTime || school || title || witness || remark,
     );
-  const family = Array.from(familyInfo.matchAll(familyRegExp))
+  const family = [...familyInfo.matchAll(familyRegExp)]
     .map(([, name, relation, office, title, phone, remark]) => ({
       name: name.replace(/&nbsp;/g, ""),
       relation: relation.replace(/&nbsp;/g, ""),
@@ -111,9 +111,9 @@ const getStudentArchive = async (content: string): Promise<UnderStudentArchiveIn
         name || relation || office || title || phone || remark,
     );
 
-  const [examImageLink, archiveImageLink] = Array.from(
-    content.matchAll(/var url\s*=\s*"(.*)"/g),
-  ).map(([, url]) => url);
+  const [examImageLink, archiveImageLink] = [...content.matchAll(/var url\s*=\s*"(.*)"/g)].map(
+    ([, url]) => url,
+  );
 
   const [archiveImage, examImage] = await Promise.all([
     archiveImageLink

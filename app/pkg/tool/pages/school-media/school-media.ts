@@ -122,13 +122,14 @@ $Page(PAGE_ID, {
   ) {
     const { id, qrcode } = event.currentTarget.dataset;
 
-    if (qrcode)
+    if (qrcode) {
       savePhoto(qrcode)
         .then(() => showToast("二维码已保存至相册"))
         .catch(() => showToast("二维码下载失败"));
-    else
+    } else {
       writeClipboard(id.toString()).then(() => {
         showModal("复制成功", "由于暂无二维码，QQ号已复制至您的剪切板");
       });
+    }
   },
 });

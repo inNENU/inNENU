@@ -67,9 +67,8 @@ const getOfficialInfoDetailLocal = async (url: string): Promise<OfficialInfoDeta
         transform: {
           // trim text node in p
           p: (node) => {
-            if (node.children?.length === 1 && node.children[0].type === "text") {
+            if (node.children?.length === 1 && node.children[0].type === "text")
               node.children[0].text = node.children[0].text.trim();
-            }
 
             return node;
           },

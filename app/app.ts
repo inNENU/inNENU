@@ -89,6 +89,7 @@ $Config({
       };
 
     options.onLoad = wrapFunction(
+      // oxlint-disable-next-line typescript/no-misused-promises
       options.onLoad,
       function (this: TrivialPageInstance & { onThemeChange: () => void }) {
         this.setData({
@@ -100,6 +101,7 @@ $Config({
     );
 
     options.onUnload = wrapFunction(
+      // oxlint-disable-next-line typescript/no-misused-promises
       options.onUnload,
       function (this: TrivialPageInstance & { onThemeChange: () => void }) {
         wx.offThemeChange?.(this.onThemeChange);
@@ -107,6 +109,7 @@ $Config({
     );
 
     options.onResize = wrapFunction(
+      // oxlint-disable-next-line typescript/no-misused-promises
       options.onResize,
       function (this: TrivialPageInstance, { size }: WechatMiniprogram.Page.IResizeOption) {
         this.setData({

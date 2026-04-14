@@ -1,2 +1,2 @@
-export * from "./courseTable.js";
-export * from "./starred.js";
+export type * from "./courseTable.js";
+export type * from "./starred.js";

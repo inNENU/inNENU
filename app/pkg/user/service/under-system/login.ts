@@ -54,12 +54,13 @@ export const underSystemLoginLocal = async (
 
   const finalLocation = ticketResponse.headers.get("Location");
 
-  if (finalLocation?.includes("http://wafnenu.nenu.edu.cn/offCampus.html"))
+  if (finalLocation?.includes("http://wafnenu.nenu.edu.cn/offCampus.html")) {
     return {
       success: false,
       type: ActionFailType.Forbidden,
       msg: "此账户无法登录本科教学服务系统",
     };
+  }
 
   if (finalLocation?.includes(";jsessionid=")) {
     const ssoUrl = `${UNDER_SYSTEM_SERVER}/Logon.do?method=logonBySSO`;

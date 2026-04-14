@@ -4,7 +4,6 @@ import { appCoverPrefix, logo } from "../../../../config/index.js";
 import { ActionFailType, supportRedirect } from "../../../../service/index.js";
 import { envName, info, user, windowInfo } from "../../../../state/index.js";
 import { getPageColor, showNotice } from "../../../../utils/index.js";
-import type {} from "../../service/index.js";
 import { activateAccount } from "../../service/index.js";
 
 const PAGE_ID = "account-activate";
@@ -61,11 +60,13 @@ ${envName}严格使用官方激活流程。
   },
 
   onLoad() {
-    if (user.account)
+    if (user.account) {
       showModal("无需激活", "当前已登录统一身份认证账户", () => {
         this.$back();
       });
-    else this.init();
+    } else {
+      this.init();
+    }
 
     this.setData({ color: getPageColor() });
   },

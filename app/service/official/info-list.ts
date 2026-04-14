@@ -72,15 +72,13 @@ const getOfficialInfoListLocal = async ({
       pageIds.split(/,\s*/).map((id) => getOfficialPageView(id, owner)),
     );
 
-    const data = Array.from(LIST_REGEXP.exec(content)![1].matchAll(ITEM_REGEXP)).map(
-      ([, url, month, date, year, title, description, cover], index) => ({
-        title,
-        time: `${year}-${month}-${date}`,
-        pageView: pageViews[index],
-        description,
-        url,
-        ...(cover ? { cover: cover.startsWith("/") ? `${OFFICIAL_URL}${cover}` : cover } : {}),
-      }),
+    const data = [...LIST_REGEXP.exec(content)![1].matchAll(ITEM_REGEXP)].map(
+      ([, url, month, date, year, title, description, cover], index) =>
+        // oxlint-disable-next-line prefer-object-spread
+        Object.assign(
+          { title, time: `${year}-${month}-${date}`, pageView: pageViews[index], description, url },
+          cover ? { cover: cover.startsWith(`/`) ? `${OFFICIAL_URL}${cover}` : cover } : {},
+        ),
     );
 
     return {

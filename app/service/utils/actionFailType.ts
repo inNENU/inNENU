@@ -1,3 +1,4 @@
+// oxlint-disable-next-line oxc/no-const-enum
 export const enum ActionFailType {
   /** 缺少登录凭据 */
   MissingCredential = "missing-credential",

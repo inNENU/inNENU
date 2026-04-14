@@ -13,7 +13,7 @@ $Page("qrcode", {
 
   getInfo(type?: string) {
     switch (type) {
-      default:
+      default: {
         return {
           header: "关注公众号",
           title: "添加 inNENU 公众号",
@@ -25,6 +25,7 @@ $Page("qrcode", {
           tags: ["公众号", "运行动态", "开发者吐槽"],
           hint: "长按二维码关注",
         };
+      }
     }
   },
 });

@@ -102,9 +102,7 @@ $Page(PAGE_ID, {
   classTypeChange({ detail }: WechatMiniprogram.PickerChange) {
     const classTypeIndex = Number(detail.value);
 
-    if (classTypeIndex !== this.data.classTypeIndex) {
-      this.setData({ classTypeIndex });
-    }
+    if (classTypeIndex !== this.data.classTypeIndex) this.setData({ classTypeIndex });
   },
 
   setYearOptions() {
@@ -250,7 +248,7 @@ $Page(PAGE_ID, {
     return;
   },
 
-  getPlan() {
+  async getPlan() {
     const {
       provinces,
       provinceIndex,
@@ -270,20 +268,17 @@ $Page(PAGE_ID, {
 
     wx.showLoading({ title: "查询中" });
 
-    return getUnderEnrollPlan({
+    const result = await getUnderEnrollPlan({
       type: "query",
       year: years[yearIndex - 1],
       province: provinces[provinceIndex - 1],
       majorType: majorTypes[majorTypeIndex - 1],
       classType: classTypes[classTypeIndex - 1],
-    }).then((result) => {
-      wx.hideLoading();
-      if (result.success) {
-        this.setData({ results: result.data });
-      } else {
-        showModal("查询失败", result.msg);
-      }
     });
+
+    wx.hideLoading();
+    if (result.success) this.setData({ results: result.data });
+    else showModal("查询失败", result.msg);
   },
 
   close() {

@@ -68,7 +68,7 @@ const submitUnderStudentArchiveAddressLocal = async ({
         }))
       : [];
 
-    if (!study.length)
+    if (!study.length) {
       study.push({
         startTime: "",
         endTime: "",
@@ -76,8 +76,9 @@ const submitUnderStudentArchiveAddressLocal = async ({
         title: "",
         witness: "",
       });
+    }
 
-    const newFields = Array.from(content.matchAll(hiddenFieldsRegExp))
+    const newFields = [...content.matchAll(hiddenFieldsRegExp)]
       .map(([, name, value]) => ({ name, value }))
       .filter((item) => item.name !== "jls");
 

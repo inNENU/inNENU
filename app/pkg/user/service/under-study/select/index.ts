@@ -4,4 +4,4 @@ export * from "./info.js";
 export * from "./process.js";
 export * from "./search.js";
 export * from "./selected.js";
-export * from "./typings.js";
+export type * from "./typings.js";

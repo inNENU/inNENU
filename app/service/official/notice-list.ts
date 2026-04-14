@@ -56,7 +56,7 @@ const getOfficialNoticeListLocal = async ({
       pageIds.split(/,\s*/).map((id) => getOfficialPageView(id, owner)),
     );
 
-    const data = Array.from(content.matchAll(ITEM_REGEXP)).map(
+    const data = [...content.matchAll(ITEM_REGEXP)].map(
       ([, url, month, date, year, title, from], index) => ({
         title,
         time: `${year}-${month}-${date}`,

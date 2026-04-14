@@ -44,7 +44,7 @@ export interface ExamPlace {
 }
 
 const getExamPlaces = (content: string): ExamPlace[] =>
-  Array.from(content.matchAll(examRegExp)).map((item) => {
+  [...content.matchAll(examRegExp)].map((item) => {
     const [, course, time, campus, building, classroom] = item.map((text) =>
       text.replace(/&nbsp;/g, "").trim(),
     );
@@ -146,7 +146,7 @@ const getUnderExamPlaceLocal = async (): Promise<UnderExamPlaceResponse> => {
 
     const select = selectRegExp.exec(content)![1].trim();
 
-    const options = Array.from(select.matchAll(optionRegExp)).map(([, value, name]) => ({
+    const options = [...select.matchAll(optionRegExp)].map(([, value, name]) => ({
       value,
       name,
     }));

@@ -103,8 +103,9 @@ $Page(PAGE_ID, {
     if (result.success) {
       const { data } = result;
 
-      if (env === "donut") this.$go(`web?url=${encodeURIComponent(data)}`);
-      else {
+      if (env === "donut") {
+        this.$go(`web?url=${encodeURIComponent(data)}`);
+      } else {
         await writeClipboard(data);
         showModal("复制成功", "相关链接已复制到剪切板。受小程序限制，请使用浏览器打开。");
       }

@@ -42,10 +42,10 @@ $Page(PAGE_ID, {
     imageUrl: `${appCoverPrefix}.jpg`,
   }),
 
-  getPlan(isRecommend: boolean, school: string) {
+  async getPlan(isRecommend: boolean, school: string) {
     wx.showLoading({ title: "获取中" });
 
-    if (isRecommend)
+    if (isRecommend) {
       return getGradRecommendPlan().then((res) => {
         wx.hideLoading();
 
@@ -64,6 +64,7 @@ $Page(PAGE_ID, {
           });
         }
       });
+    }
 
     return getGradPlan().then((res) => {
       wx.hideLoading();

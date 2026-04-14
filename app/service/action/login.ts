@@ -45,9 +45,8 @@ const isActionLoggedInLocal = async (): Promise<boolean> => {
       // Note: If the env does not support "redirect: manual", the response will be a 302 redirect to WebVPN login page
       // In this case, the response.status will be 200 and the response body will be the WebVPN login page
       (!supportRedirect && isWebVPNPage(data))
-    ) {
+    )
       return false;
-    }
 
     return data.success;
   } catch {
@@ -103,10 +102,11 @@ const actionLoginLocal = async (options: AccountInfo): Promise<ActionLoginRespon
 
   const finalLocation = ticketResponse.headers.get("Location");
 
-  if (finalLocation?.startsWith(ACTION_MAIN_PAGE))
+  if (finalLocation?.startsWith(ACTION_MAIN_PAGE)) {
     return {
       success: true,
     };
+  }
 
   return unknownResponse("登录失败");
 };
@@ -139,15 +139,13 @@ export const withActionLogin =
       let response: Awaited<ReturnType<T>> | null = null;
 
       // assuming login state is valid if cookies exist
-      if (loginMethod === "check") {
+      if (loginMethod === "check")
         response = (await serviceHandler(...args)) as Awaited<ReturnType<T>>;
-      }
 
       // validate login state with actual API
       if (loginMethod === "validate") {
-        if (await isActionLoggedIn()) {
+        if (await isActionLoggedIn())
           response = (await serviceHandler(...args)) as Awaited<ReturnType<T>>;
-        }
       }
 
       if (response) {

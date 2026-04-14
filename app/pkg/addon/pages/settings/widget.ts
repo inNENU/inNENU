@@ -97,7 +97,7 @@ $Page(PAGE_ID, {
   removeWidget({
     currentTarget,
   }: WechatMiniprogram.TouchEvent<Record<never, never>, Record<never, never>, { index: number }>) {
-    confirm("移除此组件", "", () => {
+    confirm("移除此组件", () => {
       const { index } = currentTarget.dataset;
       const { widgets } = this.data;
 

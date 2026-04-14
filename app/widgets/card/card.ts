@@ -46,7 +46,11 @@ $Component({
     show(): void {
       const { enableBalance, status } = this.data;
 
-      if (!user.account) return this.setData({ status: "login" });
+      if (!user.account) {
+        this.setData({ status: "login" });
+
+        return;
+      }
 
       if (status === "login") {
         this.setData({ status: "loading" });

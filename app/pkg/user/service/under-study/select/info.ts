@@ -100,23 +100,21 @@ const getSelectInfo = (content: string): UnderSelectInfo => {
 
   const areaText = AREAS_REGEXP.exec(content)![1];
 
-  const areas = Array.from(areaText.matchAll(AREA_ITEM_REGEXP)).map(([, value, name]) => ({
+  const areas = [...areaText.matchAll(AREA_ITEM_REGEXP)].map(([, value, name]) => ({
     value,
     name,
   }));
 
   const courseTypeText = COURSE_TYPES_REGEXP.exec(content)![1];
 
-  const types = Array.from(courseTypeText.matchAll(COURSE_TYPE_ITEM_REGEXP)).map(
-    ([, value, name]) => ({
-      value,
-      name,
-    }),
-  );
+  const types = [...courseTypeText.matchAll(COURSE_TYPE_ITEM_REGEXP)].map(([, value, name]) => ({
+    value,
+    name,
+  }));
 
   const courseOfficeText = COURSE_OFFICES_REGEXP.exec(content)![1];
 
-  const offices = Array.from(courseOfficeText.matchAll(COURSE_OFFICE_ITEM_REGEXP)).map(
+  const offices = [...courseOfficeText.matchAll(COURSE_OFFICE_ITEM_REGEXP)].map(
     ([, value, name]) => ({
       value,
       name,
@@ -125,7 +123,7 @@ const getSelectInfo = (content: string): UnderSelectInfo => {
 
   const majorText = MAJORS_REGEXP.exec(content)![2];
 
-  const majors = Array.from(majorText.matchAll(MAJOR_ITEM_REGEXP)).map(([, value, name]) => ({
+  const majors = [...majorText.matchAll(MAJOR_ITEM_REGEXP)].map(([, value, name]) => ({
     value,
     name,
   }));
@@ -198,9 +196,7 @@ const checkCourseCommentary = async (
   if (status !== 200) throw new Error("评教检查失败");
 
   try {
-    if (content.includes("评价已完成")) {
-      return { completed: true, msg: "已完成评教" };
-    }
+    if (content.includes("评价已完成")) return { completed: true, msg: "已完成评教" };
 
     if (content.includes("下次可检查时间为：")) {
       const time = /\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2}/.exec(content)?.[0];
@@ -208,9 +204,7 @@ const checkCourseCommentary = async (
       return { completed: false, msg: `检查过于频繁，请于 ${time} 后重试` };
     }
 
-    if (content.includes("评价未完成")) {
-      return { completed: false, msg: "未完成评教" };
-    }
+    if (content.includes("评价未完成")) return { completed: false, msg: "未完成评教" };
 
     console.debug(content);
 
@@ -221,7 +215,7 @@ const checkCourseCommentary = async (
   } catch (err) {
     console.error(err);
 
-    throw new Error("评教检查失败");
+    throw new Error("评教检查失败", { cause: err });
   }
 };
 
@@ -236,7 +230,7 @@ const getUnderSelectInfoLocal = async (link: string): Promise<UnderSelectInfoRes
       },
     });
 
-    if (/<title>.*?评教检查<\/title>/.exec(content)) {
+    if (/<title>.*?评教检查<\/title>/.test(content)) {
       const { completed } = await checkCourseCommentary(/xnxqdm=(\d+)'/.exec(content)![1]);
 
       if (!completed) {

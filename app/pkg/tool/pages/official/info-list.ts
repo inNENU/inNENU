@@ -82,15 +82,15 @@ $Page(PAGE_ID, {
     }
   },
 
-  retry() {
+  async retry() {
     return this.getInfoList(1);
   },
 
-  changePage({ detail }: WechatMiniprogram.CustomEvent<{ current: number }>) {
+  async changePage({ detail }: WechatMiniprogram.CustomEvent<{ current: number }>) {
     return this.getInfoList(detail.current);
   },
 
-  viewItem({
+  async viewItem({
     currentTarget,
   }: WechatMiniprogram.TouchEvent<
     Record<string, never>,

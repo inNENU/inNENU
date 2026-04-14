@@ -20,10 +20,9 @@ export const isOnlineService = (name: string): boolean => {
 export const createService =
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   <T extends (...args: any) => any>(name: string, localService: T, onlineService: T): T =>
-    ((...args: Parameters<T>): ReturnType<T> => {
-      // eslint-disable-next-line @typescript-eslint/no-unsafe-return
-      return (isOnlineService(name) ? onlineService : localService)(...args);
-    }) as T;
+    ((...args: Parameters<T>): ReturnType<T> =>
+      // oxlint-disable-next-line typescript/no-unsafe-return
+      (isOnlineService(name) ? onlineService : localService)(...args)) as T;
 
 export const getIETimeStamp = (): number => {
   const time = new Date().getMilliseconds();

@@ -152,69 +152,77 @@ const authInitLocal = async (options: InitAuthOptions): Promise<InitAuthResponse
     )
       return WrongPasswordResponse;
 
-    if (content.includes("该帐号未激活，请先完成帐号激活再登录"))
+    if (content.includes("该帐号未激活，请先完成帐号激活再登录")) {
       return {
         success: false,
         type: ActionFailType.AccountLocked,
         msg: "该帐号未激活，请先完成帐号激活再登录",
       };
+    }
 
-    if (content.includes("图形动态码错误"))
+    if (content.includes("图形动态码错误")) {
       return {
         success: false,
         type: ActionFailType.WrongCaptcha,
         msg: "图形动态码错误，请重试",
       };
+    }
 
-    if (content.includes("该帐号已经被禁用"))
+    if (content.includes("该帐号已经被禁用")) {
       return {
         success: false,
         type: ActionFailType.Forbidden,
         msg: "该帐号已经被禁用",
       };
+    }
 
     const lockedResult = /<span>账号已冻结，预计解冻时间：(.*?)<\/span>/.exec(content);
 
-    if (lockedResult)
+    if (lockedResult) {
       return {
         success: false,
         type: ActionFailType.AccountLocked,
         msg: `账号已冻结，预计解冻时间：${lockedResult[1]}`,
       };
+    }
 
-    console.error("Unknown login response: ", loginStatus, content);
+    console.error("Unknown login response:", loginStatus, content);
 
     return unknownResponse("未知错误");
   }
 
   if (loginStatus === 200) {
-    if (content.includes("无效的验证码"))
+    if (content.includes("无效的验证码")) {
       return {
         success: false,
         type: ActionFailType.WrongCaptcha,
         msg: "验证码错误",
       };
+    }
 
-    if (content.includes("会话已失效，请刷新页面再登录"))
+    if (content.includes("会话已失效，请刷新页面再登录")) {
       return {
         success: false,
         type: ActionFailType.Expired,
         msg: "会话已过期，请重新登录",
       };
+    }
 
-    if (content.includes("当前存在其他用户使用同一帐号登录，是否注销其他使用同一帐号的用户。"))
+    if (content.includes("当前存在其他用户使用同一帐号登录，是否注销其他使用同一帐号的用户。")) {
       return {
         success: false,
         type: ActionFailType.EnabledSSO,
         msg: "您已开启单点登录，请访问学校统一身份认证官网，在个人设置中关闭单点登录后重试。",
       };
+    }
 
-    if (content.includes("<span>请输入验证码</span>"))
+    if (content.includes("<span>请输入验证码</span>")) {
       return {
         success: false,
         type: ActionFailType.NeedCaptcha,
         msg: "登录失败，需要验证码",
       };
+    }
   }
 
   if (loginStatus === 302) {
@@ -235,12 +243,13 @@ const authInitLocal = async (options: InitAuthOptions): Promise<InitAuthResponse
       };
     }
 
-    if (location?.startsWith(RE_AUTH_URL))
+    if (location?.startsWith(RE_AUTH_URL)) {
       return {
         success: false,
         type: ActionFailType.NeedReAuth,
         msg: "登录失败，需要二次认证",
       };
+    }
 
     // TODO: Add blacklist and user info
     // if (isInBlackList(id, openid, info))

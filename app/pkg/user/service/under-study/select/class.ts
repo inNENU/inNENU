@@ -43,9 +43,7 @@ const getUnderCourseClassesLocal = async ({
       }),
     });
 
-    if (typeof data === "string") {
-      throw new Error("获取失败");
-    }
+    if (typeof data === "string") throw new Error("获取失败");
 
     return {
       success: true,

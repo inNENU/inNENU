@@ -14,11 +14,12 @@ export const checkUnderSystemCookies = async (): Promise<CookieVerifyResponse> =
     if (response.status === 200) {
       const text = response.data;
 
-      if (text.includes("您登录后过长时间没有操作或您的用户名已经在别处登录！"))
+      if (text.includes("您登录后过长时间没有操作或您的用户名已经在别处登录！")) {
         return {
           success: true,
           valid: false,
         };
+      }
 
       return {
         success: true,

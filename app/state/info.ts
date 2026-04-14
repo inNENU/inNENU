@@ -54,14 +54,15 @@ wx.onAppShow(() => {
 export const windowInfo: Readonly<WechatMiniprogram.WindowInfo> = windowInfoState;
 
 // Note: App does not support this API
-if (env !== "donut")
-  // 更新窗口大小
+if (env !== "donut") // 更新窗口大小
+{
   wx.onWindowResize(({ size }) => {
     const { windowHeight, windowWidth } = size;
 
     windowInfoState.windowHeight = windowHeight;
     windowInfoState.windowWidth = windowWidth;
   });
+}
 
 export interface InfoState {
   /** 启动时间 */

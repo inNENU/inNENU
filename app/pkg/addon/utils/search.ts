@@ -1,4 +1,4 @@
-import type { PageIndexes } from "innenu-generator/typings.js";
+import type { PageIndexes } from "innenu-generator/typings";
 
 import { getJson } from "../../../utils/index.js";
 

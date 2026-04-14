@@ -42,10 +42,11 @@ const submitUnderStudentArchiveStudyLocal = async ({
     );
 
     study.forEach(({ startTime, endTime, school, title, witness }, index) => {
-      if (startTime === "" || endTime === "" || school === "" || witness === "")
+      if (startTime === "" || endTime === "" || school === "" || witness === "") {
         throw new Error(
           `第${index + 1}条学习与工作经历信息不完整。所有项目均为必填项，没有职务请填无。`,
         );
+      }
 
       if (!/^\d{8}$/.test(startTime) || !/^\d{8}$/.test(endTime))
         throw new Error(`第${index + 1}条学习与工作经历时间格式不正确，格式应为 20010101`);
@@ -98,7 +99,7 @@ const submitUnderStudentArchiveStudyLocal = async ({
         }))
       : [];
 
-    if (!family.length)
+    if (!family.length) {
       family.push({
         relation: "",
         name: "",
@@ -106,8 +107,9 @@ const submitUnderStudentArchiveStudyLocal = async ({
         title: "",
         phone: "",
       });
+    }
 
-    const newFields = Array.from(content.matchAll(hiddenFieldsRegExp))
+    const newFields = [...content.matchAll(hiddenFieldsRegExp)]
       .map(([, name, value]) => ({ name, value }))
       .filter((item) => item.name !== "jls");
 

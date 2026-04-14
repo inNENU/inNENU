@@ -37,10 +37,11 @@ $Page(PAGE_ID, {
       this.state.id = id;
 
       this.getNotice();
-    } else
+    } else {
       showModal("无法获取", "请提供公告信息", () => {
         this.$back();
       });
+    }
 
     this.setData({
       color: getPageColor(),

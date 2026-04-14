@@ -7,7 +7,7 @@ import { platform } from "../state/index.js";
 import { RESOURCE_NAMES, downloadResource } from "./resource.js";
 
 /** 初始化小程序 */
-export const initializeApp = (): void => {
+export const initializeApp = async (): Promise<void> => {
   logger.debug("First launch");
 
   // 提示用户正在初始化
@@ -20,19 +20,16 @@ export const initializeApp = (): void => {
 
   wx.setStorageSync("themeIndex", platform === "android" ? 1 : platform === "windows" ? 3 : 0);
 
-  downloadResource(RESOURCE_NAMES, false)
-    .then(() => {
-      // 下载资源文件并写入更新时间
-      wx.setStorageSync("resource-update-time", Math.round(Date.now() / 1000));
+  await downloadResource(RESOURCE_NAMES, false);
+  // 下载资源文件并写入更新时间
+  wx.setStorageSync("resource-update-time", Math.round(Date.now() / 1000));
 
-      return request<ResourceVersionInfo>(`${server}service/version.php`).then(({ data }) => data);
-    })
-    .then((data) => {
-      logger.debug("Version info", data);
-      writeJSON("resource-version", data.version);
-      // 成功初始化
-      wx.setStorageSync(INITIALIZED_KEY, true);
-      emitter.emit("inited");
-      wx.hideLoading();
-    });
+  const { data } = await request<ResourceVersionInfo>(`${server}service/version.php`);
+
+  logger.debug("Version info", data);
+  writeJSON("resource-version", data.version);
+  // 成功初始化
+  wx.setStorageSync(INITIALIZED_KEY, true);
+  emitter.emit("inited");
+  wx.hideLoading();
 };

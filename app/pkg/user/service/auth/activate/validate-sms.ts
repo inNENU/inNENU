@@ -57,12 +57,13 @@ export const validateActivateSms = async ({
     },
   );
 
-  if (!data.success)
+  if (!data.success) {
     return {
       success: false,
       type: ActionFailType.WrongCaptcha,
       msg: data.messages,
     };
+  }
 
   const result = await getPasswordRule();
 

@@ -83,9 +83,7 @@ export const authCenterLoginLocal = async (
 
   const finalLocation = ticketResponse.headers.get("Location");
 
-  if (finalLocation === CENTER_PAGE) {
-    return { success: true };
-  }
+  if (finalLocation === CENTER_PAGE) return { success: true };
 
   return unknownResponse("登录失败");
 };
@@ -124,15 +122,13 @@ export const withAuthCenterLogin =
       let response: Awaited<ReturnType<T>> | null = null;
 
       // assuming login state is valid if cookies exist
-      if (loginMethod === "check") {
+      if (loginMethod === "check")
         response = (await serviceHandler(...args)) as Awaited<ReturnType<T>>;
-      }
 
       // validate login state with actual API
       if (loginMethod === "validate") {
-        if (await isAuthCenterLoggedIn()) {
+        if (await isAuthCenterLoggedIn())
           response = (await serviceHandler(...args)) as Awaited<ReturnType<T>>;
-        }
       }
 
       if (response) {

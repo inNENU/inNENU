@@ -103,17 +103,18 @@ $Page(PAGE_ID, {
     const from = options.from ?? "返回";
     const scene = decodeURIComponent(options.scene ?? "");
 
-    if (account)
+    if (account) {
       this.setData({
         id: account.id.toString(),
         password: account.password,
         isSaved: true,
         isAdmin: wx.getStorageSync<boolean>("isAdmin"),
       });
+    }
 
     if (info) this.setData({ info });
     if (options.update) this.state.shouldNavigateBack = true;
-    if (scene.startsWith("verify:")) this.verifyIDCode(scene.substring(7));
+    if (scene.startsWith("verify:")) this.verifyIDCode(scene.slice(7));
 
     this.setData({
       // eslint-disable-next-line @typescript-eslint/naming-convention
@@ -645,9 +646,8 @@ $Page(PAGE_ID, {
           isSaved: false,
         });
 
-        if (result.success) {
-          showModal("注销成功", "已删除本地和服务器上的全部账号数据信息。");
-        } else showModal("已请求注销", "已删除本地的账号数据信息，服务器上的数据将在稍后删除");
+        if (result.success) showModal("注销成功", "已删除本地和服务器上的全部账号数据信息。");
+        else showModal("已请求注销", "已删除本地的账号数据信息，服务器上的数据将在稍后删除");
       },
       () => {
         // do nothing

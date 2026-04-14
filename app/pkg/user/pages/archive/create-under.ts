@@ -1,6 +1,5 @@
 import { $Page, retry, showModal } from "@mptool/all";
 
-import {} from "../../../../api/index.js";
 import { appCoverPrefix } from "../../../../config/index.js";
 import type { LoginMethod } from "../../../../service/index.js";
 import { ActionFailType } from "../../../../service/index.js";
@@ -118,15 +117,16 @@ $Page(PAGE_ID, {
   onMultiPickerColumnChange({ target, detail }: WechatMiniprogram.PickerColumnChange) {
     const { index } = target.dataset;
 
-    if (detail.column === 0)
+    if (detail.column === 0) {
       this.setData({
         [`editable[${index}].categoryIndex`]: detail.value,
         [`editable[${index}].selectedIndex`]: 0,
       });
-    else if (detail.column === 1)
+    } else if (detail.column === 1) {
       this.setData({
         [`editable[${index}].selectedIndex`]: detail.value,
       });
+    }
   },
 
   onMultiPickerChange({ target, detail }: WechatMiniprogram.PickerChange) {
@@ -254,7 +254,7 @@ $Page(PAGE_ID, {
 
             if (index !== -1) selectedIndex = index;
 
-            return index >= 0;
+            return index !== -1;
           }),
           0,
         );

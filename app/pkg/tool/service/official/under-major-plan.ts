@@ -21,7 +21,7 @@ export const getUnderMajorPlanLocal = async (): Promise<UnderMajorPlanResponse> 
 
     if (!listContent) throw new Error("未找到列表");
 
-    const list = Array.from(listContent.matchAll(MAJOR_PLAN_ITEM_REGEXP)).map(([, url, name]) => ({
+    const list = [...listContent.matchAll(MAJOR_PLAN_ITEM_REGEXP)].map(([, url, name]) => ({
       name,
       url: `${OFFICIAL_URL}${url}`,
     }));

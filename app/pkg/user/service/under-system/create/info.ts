@@ -53,10 +53,10 @@ const submitUnderStudentArchiveInfoLocal = async ({
       };
     }
 
-    const inputs = Array.from(content.matchAll(info2RowRegExp))
+    const inputs = [...content.matchAll(info2RowRegExp)]
       .map(([, ...matches]) => matches.map((item) => item.replace(/&nbsp;/g, " ").trim()))
       .map(([text, input, remark]) => {
-        const [, name, value] = Array.from(input.matchAll(fieldsRegExp))[0];
+        const [, name, value] = [...input.matchAll(fieldsRegExp)][0];
         const required = requiredRegExp.test(input);
 
         return {
@@ -68,9 +68,10 @@ const submitUnderStudentArchiveInfoLocal = async ({
         };
       });
 
-    const hiddenFields = Array.from(content.matchAll(hiddenFieldsRegExp)).map(
-      ([, name, value]) => ({ name, value }),
-    );
+    const hiddenFields = [...content.matchAll(hiddenFieldsRegExp)].map(([, name, value]) => ({
+      name,
+      value,
+    }));
 
     return {
       success: true,
