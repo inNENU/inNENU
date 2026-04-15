@@ -136,6 +136,12 @@ export type UnderHistoryScoreQueryResponse =
 
 const UNDER_HISTORY_SCORE_URL = `${UNDER_ENROLL_SERVER}/api/user/queryScore`;
 
+const getNumber = (text: string): number | null => {
+  const result = Number(text);
+
+  return Number.isNaN(result) || result < 0 ? null : result;
+};
+
 export const queryUnderHistoryScore = async ({
   province,
   year,
@@ -162,12 +168,6 @@ export const queryUnderHistoryScore = async ({
       type: majorType,
     }),
   });
-
-  const getNumber = (text: string): number | null => {
-    const result = Number(text);
-
-    return Number.isNaN(result) || result < 0 ? null : result;
-  };
 
   return {
     success: true,

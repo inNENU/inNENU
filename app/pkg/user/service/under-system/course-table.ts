@@ -106,6 +106,7 @@ export type LegacyUnderCourseTableResponse =
   | LegacyUnderCourseTableFailedResponse;
 
 /** @deprecated */
+// oxlint-disable-next-line jsdoc/require-returns, jsdoc/require-param
 const getLegacyUnderCourseTableLocal = async (
   time: string,
 ): Promise<LegacyUnderCourseTableResponse> => {
@@ -159,6 +160,7 @@ const getLegacyUnderCourseTableLocal = async (
 };
 
 /** @deprecated */
+// oxlint-disable-next-line jsdoc/require-returns, jsdoc/require-param
 const getLegacyUnderCourseTableOnline = (time: string): Promise<LegacyUnderCourseTableResponse> =>
   request<LegacyUnderCourseTableResponse>("/under-system/course-table", {
     method: "POST",
