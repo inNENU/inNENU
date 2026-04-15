@@ -15,12 +15,10 @@ interface RawEnrollSuccessResult {
     name: string;
     department: string;
     major: string;
-    // eslint-disable-next-line @typescript-eslint/naming-convention
     mail_code?: {
       String: string;
       Valid: true;
     };
-    // eslint-disable-next-line @typescript-eslint/naming-convention
     is_mailed: string;
   };
 }
@@ -53,9 +51,7 @@ const getUnderAdmissionLocal = async ({
     },
     body: JSON.stringify({
       name,
-      // eslint-disable-next-line @typescript-eslint/naming-convention
       id_code: id,
-      // eslint-disable-next-line @typescript-eslint/naming-convention
       student_code: testId,
     }),
   });
@@ -68,7 +64,7 @@ const getUnderAdmissionLocal = async ({
     };
   }
 
-  if (data.student === null) {
+  if (data.student == null) {
     if (data.message === "Admission query is not available") {
       return {
         success: false,

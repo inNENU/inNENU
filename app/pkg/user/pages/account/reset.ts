@@ -179,8 +179,6 @@ ${envName}严格使用官方密码重置服务流程。
       hideCellphone,
       hideEmail,
     });
-
-    return;
   },
 
   async sendCode() {
@@ -279,8 +277,6 @@ ${envName}严格使用官方密码重置服务流程。
 
     this.state.sign = result.data.sign;
     this.setData({ stage: "password", rules: result.data.rules });
-
-    return;
   },
 
   togglePassword() {
@@ -350,7 +346,5 @@ ${envName}严格使用官方密码重置服务流程。
 
     showToast("设置成功", 1000, "success");
     this.setData({ stage: "success" });
-
-    return;
   },
 });

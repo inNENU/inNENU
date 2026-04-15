@@ -75,7 +75,6 @@ export const requestJSON = <
           logger.warn(`Request ${path}.json failed with statusCode: ${statusCode}`);
 
           wx.reportEvent?.("resource_load_failed", {
-            // eslint-disable-next-line @typescript-eslint/naming-convention
             broken_url: path,
           });
 

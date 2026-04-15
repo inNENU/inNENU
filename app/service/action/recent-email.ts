@@ -46,7 +46,6 @@ interface RawRecentMailSuccessResponse {
     suc: true;
     ver: 0;
     /** 账户名称 */
-    // eslint-disable-next-line @typescript-eslint/naming-convention
     account_name: string;
     con: {
       /** 总数 */
@@ -60,7 +59,6 @@ interface RawRecentMailFailedResponse {
   emailList: {
     suc: false;
     ver: 0;
-    // eslint-disable-next-line @typescript-eslint/naming-convention
     error_code: string;
   };
 }

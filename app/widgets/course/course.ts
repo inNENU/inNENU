@@ -64,11 +64,8 @@ $Component({
 
         return;
       }
-      if (type.includes("课程表")) {
-        this.setCourses(table, weekIndex);
 
-        return;
-      }
+      if (type.includes("课程表")) this.setCourses(table, weekIndex);
     },
 
     setCourses(tableData: CourseTableData, weekIndex: number) {
@@ -170,16 +167,16 @@ $Component({
 
             classIndex = 0;
             dayIndex = 0;
-            weekIndex++;
+            weekIndex += 1;
             continue;
           }
 
           classIndex = 0;
-          dayIndex++;
+          dayIndex += 1;
           continue;
         }
 
-        classIndex++;
+        classIndex += 1;
       }
 
       const time = `${
@@ -192,7 +189,7 @@ $Component({
               : `${
                   currentWeekIndex === weekIndex
                     ? ""
-                    : Array.from({ length: weekIndex - currentWeekIndex }, () => "下").join()
+                    : Array.from({ length: weekIndex - currentWeekIndex }, () => "下").join("")
                 }${["周一", "周二", "周三", "周四", "周五", "周六", "周日"][dayIndex]}`
       }${["8:00", "10:00", "13:30", "15:30", "17:30", "19:30"][classIndex]}`;
 

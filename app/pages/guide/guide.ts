@@ -90,10 +90,8 @@ $Page(PAGE_ID, {
 
       const guideConfig = guidePageConfig[id] || guidePageConfig.default;
 
-      const config = Object.entries(data);
-
       const more = guideConfig.more.map((item) => {
-        const record = config.find(([key]) => key === item)![1];
+        const record = data[item];
 
         return {
           header: record.name,
@@ -104,7 +102,7 @@ $Page(PAGE_ID, {
 
       const guideData = {
         items: guideConfig.items.map((item) => {
-          const record = config.find(([key]) => key === item)![1];
+          const record = data[item];
 
           return {
             header: record.name,

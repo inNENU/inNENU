@@ -56,11 +56,10 @@ $Page(PAGE_ID, {
     });
   },
 
-  copy({
+  async copy({
     currentTarget,
   }: WechatMiniprogram.TouchEvent<Record<string, never>, Record<string, never>, { link: string }>) {
-    writeClipboard(currentTarget.dataset.link).then(() => {
-      showModal("功能受限", "受到小程序限制，无法直接打开网页，网址已复制到剪切板");
-    });
+    await writeClipboard(currentTarget.dataset.link);
+    showModal("功能受限", "受到小程序限制，无法直接打开网页，网址已复制到剪切板");
   },
 });

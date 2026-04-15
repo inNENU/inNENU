@@ -20,9 +20,7 @@ export interface AppUpdateSettings {
 }
 
 export interface AppSettings {
-  // eslint-disable-next-line @typescript-eslint/naming-convention
   "main-page": Record<string, string>;
-  // eslint-disable-next-line @typescript-eslint/naming-convention
   "intro-page": Record<
     string,
     {
@@ -30,7 +28,6 @@ export interface AppSettings {
       more: string[];
     }
   >;
-  // eslint-disable-next-line @typescript-eslint/naming-convention
   "guide-page": Record<
     string,
     {
@@ -38,11 +35,8 @@ export interface AppSettings {
       more: string[];
     }
   >;
-  // eslint-disable-next-line @typescript-eslint/naming-convention
   "function-page": Record<string, string>;
-  // eslint-disable-next-line @typescript-eslint/naming-convention
   "main-presets": Record<string, ComponentData[]>;
-  // eslint-disable-next-line @typescript-eslint/naming-convention
   "function-presets": Record<string, ComponentData[]>;
   user: ComponentData[];
   about: ComponentData[];

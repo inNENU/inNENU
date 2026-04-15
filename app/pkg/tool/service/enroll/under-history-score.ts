@@ -7,7 +7,7 @@ import type {
   CommonFailedResponse,
   CommonSuccessResponse,
 } from "../../../../service/index.js";
-import { MissingArgResponse, unknownResponse, createService } from "../../../../service/index.js";
+import { missingArgResponse, unknownResponse, createService } from "../../../../service/index.js";
 import { UNDER_ENROLL_INFO_URL, UNDER_ENROLL_SERVER } from "./utils.js";
 
 export interface UnderHistoryScoreInfoOptions {
@@ -142,13 +142,13 @@ export const queryUnderHistoryScore = async ({
   classType,
   majorType,
 }: UnderHistoryScoreQueryOptions): Promise<UnderHistoryScoreQueryResponse> => {
-  if (!province) return MissingArgResponse("province");
+  if (!province) return missingArgResponse("province");
 
-  if (!year) return MissingArgResponse("year");
+  if (!year) return missingArgResponse("year");
 
-  if (!classType) return MissingArgResponse("classType");
+  if (!classType) return missingArgResponse("classType");
 
-  if (!majorType) return MissingArgResponse("majorType");
+  if (!majorType) return missingArgResponse("majorType");
 
   const { data } = await request<RawUnderHistoryScoreResult>(UNDER_HISTORY_SCORE_URL, {
     method: "POST",

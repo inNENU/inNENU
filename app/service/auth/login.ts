@@ -46,6 +46,7 @@ export type AuthLoginFailedResponse = CommonFailedResponse<
 
 export type AuthLoginResponse = AuthLoginSuccessResponse | AuthLoginFailedResponse;
 
+// oxlint-disable-next-line complexity, max-lines-per-function, max-statements
 const authLoginLocal = async ({
   id,
   password,

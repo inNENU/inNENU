@@ -28,7 +28,6 @@ export const isAuthCenterLoggedInLocal = async (): Promise<boolean> => {
   try {
     const response = await request<string>(CENTER_PAGE, {
       headers: {
-        // eslint-disable-next-line @typescript-eslint/naming-convention
         "Cache-Control": "no-cache",
       },
       redirect: "manual",
@@ -55,7 +54,7 @@ const isAuthCenterLoggedIn = createService(
 export type AuthCenterLoginResponse = { success: true } | AuthLoginFailedResponse;
 
 /**
- * @requires "redirect:manual"
+ * requires "redirect:manual"
  */
 export const authCenterLoginLocal = async (
   options: AccountInfo,

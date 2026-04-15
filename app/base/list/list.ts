@@ -61,7 +61,6 @@ $Component({
   },
 
   observers: {
-    // eslint-disable-next-line @typescript-eslint/naming-convention
     "config.items"(value: ListComponentItemOptions[]): void {
       this.setLogo(value);
     },

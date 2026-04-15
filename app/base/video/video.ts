@@ -48,7 +48,6 @@ $Component({
     error(): void {
       showToast("视频加载出错");
       wx.reportEvent?.("resource_load_failed", {
-        // eslint-disable-next-line @typescript-eslint/naming-convention
         broken_url: this.data.src,
       });
     },

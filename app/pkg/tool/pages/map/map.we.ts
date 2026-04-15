@@ -170,10 +170,12 @@ $Page(PAGE_ID, {
   },
 
   /** 生成点位 */
-  async setMarker() {
-    const promises = ["benbu", "jingyue"].map((path) =>
-      getJson<MarkersData>(`function/map/marker/${path}`)
-        .then(({ category, marker }) => {
+  async setMarker(): Promise<void> {
+    await Promise.all(
+      ["benbu", "jingyue"].map(async (path) => {
+        try {
+          const { category, marker } = await getJson<MarkersData>(`function/map/marker/${path}`);
+
           this.state[path as Area] = {
             category,
             marker: Object.fromEntries(
@@ -183,8 +185,7 @@ $Page(PAGE_ID, {
               ]),
             ),
           };
-        })
-        .catch((err: unknown) => {
+        } catch (err) {
           logger.error("加载地图点位失败", err);
           showModal(
             "获取失败",
@@ -193,15 +194,14 @@ $Page(PAGE_ID, {
               this.$back();
             },
           );
-        }),
+        }
+      }),
     );
 
-    return Promise.all(promises).then(() => {
-      const { category, marker } = this.state[this.data.area];
+    const { category, marker } = this.state[this.data.area];
 
-      return new Promise<void>((resolve) => {
-        this.setData({ category, marker }, resolve);
-      });
+    await new Promise<void>((resolve) => {
+      this.setData({ category, marker }, resolve);
     });
   },
 
@@ -266,7 +266,6 @@ $Page(PAGE_ID, {
 
     this.setData({
       currentCategory: path,
-      // eslint-disable-next-line @typescript-eslint/naming-convention
       "locationPopup.title": name,
     });
     this.context.includePoints({

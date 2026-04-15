@@ -135,19 +135,15 @@ $Page("pe-calculator", {
       renderer: this.renderer,
 
       // 写入性别
-      // eslint-disable-next-line @typescript-eslint/naming-convention
       "gender.key": typeof genderIndex === "number" ? genderKeys[genderIndex] : "",
 
       // 写入年级
-      // eslint-disable-next-line @typescript-eslint/naming-convention
       "grade.key": typeof gradeIndex === "number" ? gradeKeys[gradeIndex] : "",
 
       // 改变特别项目和长跑的名称
-      // eslint-disable-next-line @typescript-eslint/naming-convention
       "longRun.text": longRunText[genderIndex || 0],
       special: special[genderIndex || 0],
       // 设置长跑选择器数据
-      // eslint-disable-next-line @typescript-eslint/naming-convention
       "longRun.picker": longRunPicker,
     });
 
@@ -174,10 +170,8 @@ $Page("pe-calculator", {
 
     // 改变特别项目和长跑的名称
     this.setData({
-      // eslint-disable-next-line @typescript-eslint/naming-convention
       "gender.key": this.data.gender.keys[index],
       special: special[index],
-      // eslint-disable-next-line @typescript-eslint/naming-convention
       "longRun.text": longRunText[index],
     });
     this.state.gender = this.data.gender.values[index];
@@ -190,7 +184,6 @@ $Page("pe-calculator", {
 
     // 设置年级
     this.setData({
-      // eslint-disable-next-line @typescript-eslint/naming-convention
       "grade.key": this.data.grade.keys[index],
     });
     this.state.grade = this.data.grade.values[index];
@@ -231,7 +224,6 @@ $Page("pe-calculator", {
 
     // 设置显示数据
     this.setData({
-      // eslint-disable-next-line @typescript-eslint/naming-convention
       "longRun.value": `${longRunPicker[0][value[0]]} ${longRunPicker[1][value[1]]}`,
     });
     this.state.result.longRun = (value[0] + 2) * 60 + value[1];

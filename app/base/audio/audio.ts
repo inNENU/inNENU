@@ -80,8 +80,6 @@ $Component<AudioData, AudioProps, AudioMethods, [], AudioInstanceMethod>({
       }.bind(this);
 
       const onTimeUpdate = function (this: AudioComponentInstance): void {
-        const instance = this.instance!;
-
         console.log("time update");
 
         this.setData({
@@ -97,7 +95,7 @@ $Component<AudioData, AudioProps, AudioMethods, [], AudioInstanceMethod>({
       ): void {
         logger.error("音频组件错误", errMsg);
         showToast("获取音频出错，请稍后重试");
-      }.bind(this);
+      };
 
       instance.onPlay(onPlay);
       instance.onPause(onPause);

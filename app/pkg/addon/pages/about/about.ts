@@ -125,7 +125,7 @@ $Page(PAGE_ID, {
 
     const aboutPage = {
       ...this.data.page,
-      content: this.data.page.content.slice(0, 1).concat(about),
+      content: [this.data.page.content[0], ...about],
     };
 
     set(PAGE_ID, aboutPage, 3 * DAY);
@@ -179,8 +179,9 @@ $Page(PAGE_ID, {
    * 用于判断密码是否正确并启用开发者模式
    *
    * @param event 输入事件
+   * @returns 输入框当前值
    */
-  onInput(event: WechatMiniprogram.Input) {
+  onInput(event: WechatMiniprogram.Input): string {
     if (event.detail.value.length === 7) {
       // 密码正确
       if (event.detail.value === "5201314") {

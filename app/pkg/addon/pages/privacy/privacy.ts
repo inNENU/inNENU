@@ -121,7 +121,6 @@ $Page("privacy", {
   onShow() {
     getPrivacyStatus().then(({ needAuthorize }) => {
       this.setData({
-        // eslint-disable-next-line @typescript-eslint/naming-convention
         "page.content[0].items[1].desc": needAuthorize ? "否" : "是",
       });
     });
@@ -138,7 +137,6 @@ $Page("privacy", {
         });
 
         this.setData({
-          // eslint-disable-next-line @typescript-eslint/naming-convention
           "page.content[1].items": items,
         });
       },
@@ -223,7 +221,6 @@ $Page("privacy", {
                   });
 
                   this.setData({
-                    // eslint-disable-next-line @typescript-eslint/naming-convention
                     "page.content[1].items": items,
                   });
                 },
@@ -249,7 +246,6 @@ $Page("privacy", {
             });
 
             this.setData({
-              // eslint-disable-next-line @typescript-eslint/naming-convention
               "page.content[1].items": items,
             });
           },

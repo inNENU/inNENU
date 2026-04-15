@@ -156,15 +156,15 @@ $Page(PAGE_ID, {
 账号: ${options.account}${options.suffix || ""}@nenu.edu.cn
 密保手机: ${phone}
 `,
-      () => {
+      async () => {
         wx.showLoading({ title: "申请中" });
 
-        applyEmail(options).then((result) => {
-          wx.hideLoading();
+        const result = await applyEmail(options);
 
-          if (result.success) this.setData({ status: "success", result });
-          else showModal("申请邮箱失败", result.msg);
-        });
+        wx.hideLoading();
+
+        if (result.success) this.setData({ status: "success", result });
+        else showModal("申请邮箱失败", result.msg);
       },
       () => {
         // do nothing
@@ -172,13 +172,12 @@ $Page(PAGE_ID, {
     );
   },
 
-  initEmail() {
+  async initEmail() {
     if (env === "donut") {
       this.$go(`web?url=${encodeURIComponent(MAIL_LINK)}`);
     } else {
-      writeClipboard(MAIL_LINK).then(() => {
-        showModal("网址已复制", `小程序暂不支持打开网页，请手动粘贴到浏览器地址栏并访问。`);
-      });
+      await writeClipboard(MAIL_LINK);
+      showModal("网址已复制", `小程序暂不支持打开网页，请手动粘贴到浏览器地址栏并访问。`);
     }
   },
 

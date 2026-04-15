@@ -100,12 +100,12 @@ export const setComponentState = (
           .map((listElement: FunctionalListComponentItemConfig | GridComponentItemOptions) =>
             setListItemState(listElement),
           )
-          .filter((listElement) => listElement !== null);
+          .filter((listElement) => listElement != null);
       }
 
       return component;
     })
-    .filter((component) => component !== null);
+    .filter((component) => component != null);
 
 /**
  * 获得界面数据，生成正确的界面数据
@@ -186,7 +186,7 @@ const preloadPageLinks = (page: PageState): void => {
  */
 export const resolvePage = (
   options: PageQuery,
-  page?: PageState,
+  page?: PageState | null,
   setGlobal = true,
 ): PageState | null => {
   // 控制台输出参数
@@ -325,6 +325,8 @@ interface SetPageOptions {
  * - handle 页面是否已经被处理
  * @param page 页面数据
  * @param preload 是否预加载子页面
+ *
+ * @returns Promise<void>
  */
 export const setPage = (
   { option, ctx, handle = false }: SetPageOptions,

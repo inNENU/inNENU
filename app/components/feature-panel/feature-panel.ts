@@ -50,7 +50,6 @@ $Component({
   },
 
   observers: {
-    // eslint-disable-next-line @typescript-eslint/naming-convention
     "config.items"(value: GridComponentItemOptions[]): void {
       this.setLogo(value);
     },

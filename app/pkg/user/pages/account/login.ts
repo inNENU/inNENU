@@ -117,7 +117,6 @@ $Page(PAGE_ID, {
     if (scene.startsWith("verify:")) this.verifyIDCode(scene.slice(7));
 
     this.setData({
-      // eslint-disable-next-line @typescript-eslint/naming-convention
       "nav.from": from,
     });
   },
@@ -154,6 +153,7 @@ $Page(PAGE_ID, {
     this.setData({ showPassword: !this.data.showPassword });
   },
 
+  // oxlint-disable-next-line max-statements
   onSliderMove({ currentTarget, type, touches, changedTouches }: WechatMiniprogram.Touch) {
     const currentTime = Date.now();
 
@@ -162,6 +162,7 @@ $Page(PAGE_ID, {
         this.state.touchPosition = touches[0].pageX - currentTarget.offsetLeft;
         this.state.slideStartTime = currentTime;
         this.state.lastTrackTime = currentTime;
+        // oxlint-disable-next-line id-length
         this.state.sliderTracks = [{ a: 0, b: 0, c: 0 }];
         break;
       }
@@ -183,6 +184,7 @@ $Page(PAGE_ID, {
           this.state.sliderTracks.push({
             a: distance,
             b: offsetY,
+            // oxlint-disable-next-line id-length
             c: timeDiff,
           });
           this.state.lastTrackTime = currentTime;
@@ -216,6 +218,7 @@ $Page(PAGE_ID, {
         this.state.sliderTracks.push({
           a: Math.max(0, Math.min(finalDistance, CAPTCHA_CANVAS_WIDTH - this.data.sliderWidth / 2)),
           b: endY,
+          // oxlint-disable-next-line id-length
           c: totalTime,
         });
 
@@ -228,6 +231,7 @@ $Page(PAGE_ID, {
         this.verifyCaptcha();
         break;
       }
+      default:
     }
   },
 
@@ -269,8 +273,6 @@ $Page(PAGE_ID, {
         return;
       }
       this.setCaptchaInfo(captcha.data);
-
-      return;
     }
   },
 
@@ -284,9 +286,8 @@ $Page(PAGE_ID, {
 
       return;
     }
-    this.setCaptchaInfo(result.data);
 
-    return;
+    this.setCaptchaInfo(result.data);
   },
 
   async verifyCaptcha() {
@@ -388,8 +389,6 @@ $Page(PAGE_ID, {
       isSaved: true,
       info: result.info,
     });
-
-    return;
   },
 
   async startReAuth() {
@@ -420,8 +419,6 @@ $Page(PAGE_ID, {
     }
 
     showModal("发送失败", result.msg);
-
-    return;
   },
 
   async verifyReAuth() {
@@ -471,12 +468,11 @@ $Page(PAGE_ID, {
     setUserInfo({ id: Number(id), password, authToken: result.authToken }, result.info);
 
     if (this.state.shouldNavigateBack) return this.$back();
+
     this.setData({
       isSaved: true,
       info: result.info,
     });
-
-    return;
   },
 
   cancelReAuth() {

@@ -153,8 +153,6 @@ $Page(PAGE_ID, {
       classTypes: [],
       classTypeIndex: 0,
     });
-
-    return;
   },
 
   setMajorTypeOptions() {
@@ -206,8 +204,6 @@ $Page(PAGE_ID, {
       classTypes: [],
       classTypeIndex: 0,
     });
-
-    return;
   },
 
   setClassTypeOptions() {
@@ -244,8 +240,6 @@ $Page(PAGE_ID, {
     }
 
     this.setData({ classTypes: [], classTypeIndex: 0 });
-
-    return;
   },
 
   async getPlan() {

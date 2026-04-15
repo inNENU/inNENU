@@ -43,7 +43,6 @@ const getEmailPageLocal = async (mid = ""): Promise<ActionEmailPageResponse> => 
       },
       body: new URLSearchParams({
         ...(mid ? { domain: "nenu.edu.cn", mid } : {}),
-        // eslint-disable-next-line @typescript-eslint/naming-convention
         account_name: "",
       }),
       redirect: "manual",

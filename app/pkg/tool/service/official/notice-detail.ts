@@ -45,11 +45,11 @@ const getOfficialNoticeDetailLocal = async (url: string): Promise<OfficialNotice
 
     const [, title, info] = INFO_REGEXP.exec(text)!;
 
-    const time = TIME_REGEXP.exec(info)![1];
+    const [, time] = TIME_REGEXP.exec(info)!;
     const from = FROM_REGEXP.exec(info)?.[1];
 
     const [, owner, id] = PAGEVIEW_PARAMS_REGEXP.exec(info)!;
-    const content = CONTENT_REGEXP.exec(text)![1];
+    const [, content] = CONTENT_REGEXP.exec(text)!;
 
     const data: OfficialNoticeData = {
       title,

@@ -91,10 +91,8 @@ $Page(PAGE_ID, {
 
       const introConfig = introPageConfig[id] || introPageConfig.default;
 
-      const config = Object.entries(data);
-
       const more = introConfig.more.map((item) => {
-        const record = config.find(([key]) => key === item)![1];
+        const record = data[item];
 
         return {
           header: record.name,
@@ -105,7 +103,7 @@ $Page(PAGE_ID, {
 
       const introData = {
         items: introConfig.items.map((item) => {
-          const record = config.find(([key]) => key === item)![1];
+          const record = data[item];
 
           return {
             header: record.name,

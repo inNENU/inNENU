@@ -91,7 +91,7 @@ $Page(PAGE_ID, {
           follow,
         });
 
-        ctx.append(article.map(this.appendSize));
+        ctx.append(article.map((item) => this.appendSize(item)));
       })
       .catch(() => {
         showToast("服务器出现问题");
@@ -105,7 +105,10 @@ $Page(PAGE_ID, {
 
   onResize({ size }) {
     this.setData(size);
-    this.ctx.updateList(0, this.ctx.getList().map(this.appendSize));
+    this.ctx.updateList(
+      0,
+      this.ctx.getList().map((item) => this.appendSize(item)),
+    );
     this.ctx.forceUpdate(() => {
       // do nothing
     }, false);

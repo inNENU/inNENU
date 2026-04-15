@@ -225,7 +225,6 @@ const getUnderSelectInfoLocal = async (link: string): Promise<UnderSelectInfoRes
 
     let { data: content } = await request<string>(categoryUrl, {
       headers: {
-        // eslint-disable-next-line @typescript-eslint/naming-convention
         "Cache-Control": "max-age=0",
       },
     });
@@ -245,7 +244,6 @@ const getUnderSelectInfoLocal = async (link: string): Promise<UnderSelectInfoRes
       content = (
         await request<string>(categoryUrl, {
           headers: {
-            // eslint-disable-next-line @typescript-eslint/naming-convention
             "Cache-Control": "max-age=0",
           },
         })

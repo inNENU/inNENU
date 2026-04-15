@@ -49,12 +49,12 @@ const getOfficialInfoDetailLocal = async (url: string): Promise<OfficialInfoDeta
 
     const [, title, info] = INFO_REGEXP.exec(text)!;
 
-    const time = TIME_REGEXP.exec(info)![1];
+    const [, time] = TIME_REGEXP.exec(info)!;
     const from = FROM_REGEXP.exec(info)?.[1];
     const author = AUTHOR_REGEXP.exec(info)?.[1];
     const editor = EDITOR_REGEXP.exec(info)?.[1];
     const [, owner, id] = PAGEVIEW_PARAMS_REGEXP.exec(info)!;
-    const content = CONTENT_REGEXP.exec(text)![1];
+    const [, content] = CONTENT_REGEXP.exec(text)!;
 
     const data = {
       title,
@@ -66,6 +66,7 @@ const getOfficialInfoDetailLocal = async (url: string): Promise<OfficialInfoDeta
       content: await getRichTextNodes(content, {
         transform: {
           // trim text node in p
+          // oxlint-disable-next-line id-length
           p: (node) => {
             if (node.children?.length === 1 && node.children[0].type === "text")
               node.children[0].text = node.children[0].text.trim();

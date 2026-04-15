@@ -278,7 +278,11 @@ $Page("music", {
     }
   },
 
-  /** 拖拽进度 */
+  /**
+   * 拖拽进度
+   *
+   * @param event 事件对象
+   */
   drag(event: WechatMiniprogram.SliderChange) {
     if (this.state.interrupted) {
       manager.src = this.data.currentSong.src;
@@ -313,7 +317,7 @@ $Page("music", {
         result = index;
         break;
       }
-      case "列表循环":
+      // case "列表循环":
       default: {
         result = index + 1 === total ? 0 : index + 1;
       }
@@ -343,8 +347,8 @@ $Page("music", {
         }
         break;
       }
-      case "单曲循环":
-      case "列表循环":
+      // case "单曲循环":
+      // case "列表循环":
       default: {
         result = index + 1 === total ? 0 : index + 1;
       }
@@ -374,8 +378,8 @@ $Page("music", {
         }
         break;
       }
-      case "单曲循环":
-      case "列表循环":
+      // case "单曲循环":
+      // case "列表循环":
       default: {
         result = index === 0 ? total - 1 : index - 1;
       }
@@ -383,7 +387,11 @@ $Page("music", {
     this.switchSong(result);
   },
 
-  /** 切换歌曲 */
+  /**
+   * 切换歌曲
+   *
+   * @param index 歌曲序号，"stop" 代表停止播放，"nothing" 代表不切歌
+   */
   switchSong(index: "stop" | "nothing" | number) {
     if (index === "stop") {
       this.setData({ playing: false, canPlay: false });

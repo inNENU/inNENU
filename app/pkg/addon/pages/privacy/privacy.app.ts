@@ -59,7 +59,6 @@ $Page("privacy", {
   onShow() {
     getPrivacyStatus().then(({ needAuthorize }) => {
       this.setData({
-        // eslint-disable-next-line @typescript-eslint/naming-convention
         "page.content[0].items[1].desc": needAuthorize ? "否" : "是",
       });
     });
@@ -70,9 +69,7 @@ $Page("privacy", {
     const { locationAuthorized, albumAuthorized } = wx.getAppAuthorizeSetting();
 
     this.setData({
-      // eslint-disable-next-line @typescript-eslint/naming-convention
       "page.content[1].items[0].desc": locationAuthorized ? "已授权✓" : "未授权×",
-      // eslint-disable-next-line @typescript-eslint/naming-convention
       "page.content[1].items[1].desc": albumAuthorized ? "已授权✓" : "未授权×",
     });
 

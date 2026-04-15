@@ -117,7 +117,6 @@ $Page(PAGE_ID, {
     this.setData({
       status: "success",
       title,
-      // eslint-disable-next-line @typescript-eslint/naming-convention
       "share.title": title,
       time,
       pageView,

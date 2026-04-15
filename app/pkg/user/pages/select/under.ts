@@ -1,3 +1,4 @@
+// oxlint-disable max-lines
 import { $Page, showModal, showToast } from "@mptool/all";
 
 import { appCoverPrefix } from "../../../../config/index.js";
@@ -255,7 +256,13 @@ $Page(PAGE_ID, {
     this.setData({ category: null, selectedClasses: [] });
   },
 
-  /** 加载用户信息 */
+  /**
+   * 加载用户信息
+   *
+   * @param link 选课入口链接
+   * @param silent 是否静默加载（不显示 loading）
+   * @returns 是否成功
+   */
   async loadInfo(link: string, silent = false) {
     if (!silent) wx.showLoading({ title: "获取信息", mask: true });
 
@@ -297,7 +304,7 @@ $Page(PAGE_ID, {
       types,
       grades,
 
-      gradeIndex: grades.findIndex((item) => item === currentGrade) + 1,
+      gradeIndex: grades.indexOf(currentGrade) + 1,
       majorIndex: majors.findIndex((item) => item.name === currentMajor) + 1,
       officeIndex: 0,
       categoryIndex: 0,
@@ -624,23 +631,23 @@ $Page(PAGE_ID, {
     // eslint-disable-next-line prefer-const
     let stop: (msg: ForceSelectResponse) => void;
 
-    const queue = Array<() => Promise<void>>(times).fill(() =>
-      processUnderSelect({
+    const queue = Array.from({ length: times }, () => async (): Promise<void> => {
+      const result = await processUnderSelect({
         type: "add",
         link: this.data.category!.link,
         name,
         classId,
-      }).then((res) => {
-        if (res.success) {
-          stop({
-            success: true,
-            data: `已成功强制选课${name}`,
-          });
-        } else if (res.type !== ActionFailType.Full) {
-          stop(res);
-        }
-      }),
-    );
+      });
+
+      if (result.success) {
+        stop({
+          success: true,
+          data: `已成功强制选课${name}`,
+        });
+      } else if (result.type !== ActionFailType.Full) {
+        stop(result);
+      }
+    });
 
     const selectQueue = createQueue<ForceSelectResponse>(queue);
 
@@ -690,6 +697,7 @@ $Page(PAGE_ID, {
                 showModal("选课失败", result.msg.msg);
               }
             } else {
+              // oxlint-disable-next-line no-use-before-define
               requestForceSelect();
             }
           };

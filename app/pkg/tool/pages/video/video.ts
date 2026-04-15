@@ -53,7 +53,7 @@ $Page("video", {
               .filter((item) => item.list.length);
 
       if (options.scene) {
-        const ids = options.scene.split("-").map((id) => Number(id));
+        const ids = options.scene.split("-").map(Number);
 
         [groupID, listID] = ids;
       } else if (options.name) {
@@ -178,7 +178,6 @@ $Page("video", {
     showToast("视频加载出错");
     // 调试
     wx.reportEvent?.("resource_load_failed", {
-      // eslint-disable-next-line @typescript-eslint/naming-convention
       broken_url: this.data.src,
     });
   },

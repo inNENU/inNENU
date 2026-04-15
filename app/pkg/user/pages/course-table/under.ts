@@ -130,7 +130,7 @@ $Page(PAGE_ID, {
 
       const grade = Math.floor(account.id / 1000000);
       const times = getTimes(grade);
-      const timeDisplays = times.map(getDisplayTime);
+      const timeDisplays = times.map((time) => getDisplayTime(time));
       const time = getCurrentTimeCode();
       const timeIndex = times.indexOf(time);
 
@@ -258,7 +258,7 @@ $Page(PAGE_ID, {
     let location = [...new Set(locations)].join("，");
 
     if (weekIndex !== 0) {
-      const index = weeks.findIndex((week) => week === weekIndex);
+      const index = weeks.indexOf(weekIndex);
 
       if (index !== -1) location = locations[index];
     }

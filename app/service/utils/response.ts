@@ -55,7 +55,7 @@ export const InvalidArgResponse = (name = ""): CommonFailedResponse<ActionFailTy
   msg: `${name}参数非法`,
 });
 
-export const MissingArgResponse = (
+export const missingArgResponse = (
   name = "必要",
 ): CommonFailedResponse<ActionFailType.MissingArg> => ({
   success: false,

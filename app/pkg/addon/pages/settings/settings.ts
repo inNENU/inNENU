@@ -109,7 +109,6 @@ $Page(PAGE_ID, {
       success: ({ currentSize }) => {
         // 写入存储大小
         this.setData({
-          // eslint-disable-next-line @typescript-eslint/naming-convention
           "page.content[2].items[1].desc": `${(currentSize / 1024).toFixed(2)}MB/10MB`,
         });
       },
@@ -126,7 +125,6 @@ $Page(PAGE_ID, {
 
         // 写入文件大小
         this.setData({
-          // eslint-disable-next-line @typescript-eslint/naming-convention
           "page.content[2].items[2].desc": `${(fileSize / 1024 / 1024).toFixed(2)}MB/10MB`,
         });
       },

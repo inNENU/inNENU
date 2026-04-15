@@ -112,6 +112,7 @@ $Page("weather", {
       });
   },
 
+  // oxlint-disable-next-line max-statements
   draw(canvas: WechatMiniprogram.Canvas2DNode, weather: WeatherData) {
     const highTemperature: number[] = [];
     const lowTemperature: number[] = [];

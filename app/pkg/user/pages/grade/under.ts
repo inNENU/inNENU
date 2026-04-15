@@ -161,7 +161,7 @@ $Page(PAGE_ID, {
 
     const numberValueIndex = keys
       .map((key, index) => (grades.some((item) => Number.isNaN(Number(item[key]))) ? null : index))
-      .filter((item): item is number => item !== null);
+      .filter((item): item is number => item != null);
 
     this.state.numberValueIndex = numberValueIndex;
 
@@ -213,7 +213,7 @@ $Page(PAGE_ID, {
     const gpa = Math.round((totalGradePoint / totalPoint) * 100) / 100;
     const numberValueIndex = keys
       .map((key, index) => (grades.some((item) => Number.isNaN(Number(item[key]))) ? null : index))
-      .filter((item): item is number => item !== null);
+      .filter((item): item is number => item != null);
 
     this.state.numberValueIndex = numberValueIndex;
 

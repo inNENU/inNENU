@@ -19,6 +19,7 @@ export default defineHopeConfig(
       ],
       // we need console
       "no-console": "off",
+      "no-warning-comments": "off",
       // short return is preferred
       "typescript/consistent-return": "off",
       // a lot of wx api use promisify results
@@ -34,13 +35,24 @@ export default defineHopeConfig(
       // we do not guarantee the compatibility of env
       "unicorn/prefer-string-replace-all": "off",
 
+      "no-shadow": "off",
+      "promise/catch-or-return": "off",
+
+      // TODO: disable the rule upstream
       "typescript/prefer-readonly-parameter-types": "off",
     },
   },
   {
-    files: ["components/**/*.ts"],
+    files: ["**/components/**/*.ts"],
     rules: {
       "typescript/unbound-method": "off",
+    },
+  },
+  {
+    files: ["**/base/**/*.ts", "**/components/**/*.ts", "**/pages/**/*.ts"],
+    rules: {
+      "jsdoc/require-param": "off",
+      "jsdoc/require-returns": "off",
     },
   },
   {

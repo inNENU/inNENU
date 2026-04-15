@@ -42,7 +42,7 @@ $Component({
     },
 
     /** 下载文档 */
-    download(): void {
+    async download(): Promise<void> {
       const { icon, name, url } = this.data.config;
       const link = getAssetLink(url);
 
@@ -53,17 +53,18 @@ $Component({
         }
         // 将链接复制到剪切板
         else {
-          writeClipboard(link).then(() => {
-            showModal(
-              "复制成功",
-              `下载链接已复制到您的剪切板。受${envName}限制，请您自行打开浏览器粘贴在地址栏中以下载。`,
-            );
-          });
+          await writeClipboard(link);
+
+          showModal(
+            "复制成功",
+            `下载链接已复制到您的剪切板。受${envName}限制，请您自行打开浏览器粘贴在地址栏中以下载。`,
+          );
         }
       }
       // 保存图片至相册
       else if (IMAGE_ICONS.has(icon)) {
-        savePhoto(link).then(() => showToast("已保存至相册"));
+        await savePhoto(link);
+        showToast("已保存至相册");
       }
     },
   },

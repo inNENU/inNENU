@@ -21,26 +21,23 @@ $Component({
   },
 
   methods: {
-    copy(): void {
+    async copy(): Promise<void> {
       const { content } = this.data.config;
 
-      writeClipboard(content).then(() => {
-        logger.debug(`Copied '${content}'`);
-      });
+      await writeClipboard(content);
+      logger.debug(`Copied '${content}'`);
     },
 
-    link(): void {
+    async link(): Promise<void> {
       const { content } = this.data.config;
 
-      writeClipboard(content).then(() => {
-        showModal("功能受限", "小程序无法直接打开网页，链接已复制至剪切板，请打开浏览器粘贴查看。");
-        logger.debug(`Copied '${content}'`);
-      });
+      await writeClipboard(content);
+      showModal("功能受限", "小程序无法直接打开网页，链接已复制至剪切板，请打开浏览器粘贴查看。");
+      logger.debug(`Copied '${content}'`);
     },
   },
 
   observers: {
-    // eslint-disable-next-line @typescript-eslint/naming-convention
     "config.content"(value: string) {
       const isLink = /^https?:\/\//.test(value);
 

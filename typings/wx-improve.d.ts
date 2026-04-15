@@ -75,14 +75,12 @@ declare namespace WechatMiniprogram {
   >;
 
   interface GeneralScopeData {
-    // eslint-disable-next-line @typescript-eslint/naming-convention
     "@type": "general";
     /**
      * 内容标识
      *
      * appid下全局唯一，长度不大于256字符
      */
-    // eslint-disable-next-line @typescript-eslint/naming-convention
     uniq_id: string;
     /**
      * 内容标题

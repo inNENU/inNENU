@@ -76,24 +76,23 @@ $Component({
       showModal("功能受限", `受到微信客户端限制，请您点击右上角菜单(···)以${msg}。`);
     },
 
-    copyWechatLink() {
-      request<LinkData>(`${server}service/share-link.php`, {
+    async copyWechatLink() {
+      const { data } = await request<LinkData>(`${server}service/share-link.php`, {
         method: "POST",
         body: { appId, id: this.data.config.id! },
-      }).then(({ data }) => {
-        if (data.error) showModal("链接尚未生成", "请使用小程序右上角菜单(···)来复制链接。");
-        else this.copy(data.link);
       });
+
+      if (data.error) showModal("链接尚未生成", "请使用小程序右上角菜单(···)来复制链接。");
+      else this.copy(data.link);
     },
 
-    copy(link: string) {
+    async copy(link: string) {
       const { title } = this.data.config;
       const content = `${title ? `${appName}查看『${title}』:` : ""}${link}`;
 
-      writeClipboard(content).then(() => {
-        showToast("链接已复制");
-        logger.debug(`Share content is copied: ${content}`);
-      });
+      await writeClipboard(content);
+      showToast("链接已复制");
+      logger.debug(`Share content is copied: ${content}`);
     },
 
     reportInfo() {

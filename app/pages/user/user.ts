@@ -79,9 +79,9 @@ ${envName}由 Mr.Hope 个人制作，如有错误还请见谅\
     const { account, info } = user;
 
     this.setData({
-      login: account !== null,
+      login: account != null,
       userName: info?.name || (account ? appName : "未登录"),
-      desc: account === null ? description : "以下是你的今日概览",
+      desc: account == null ? description : "以下是你的今日概览",
     });
     showNotice(PAGE_ID);
 

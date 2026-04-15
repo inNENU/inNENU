@@ -28,7 +28,7 @@ export type AuthInitInfoSuccessResponse = {
 
 export type AuthInitInfoResponse = AuthInitInfoSuccessResponse | CommonFailedResponse;
 
-/**
+/*
  * FIXME: This function is now outdated
  */
 const getAuthInitInfoLocal = async (id: string): Promise<AuthInitInfoResponse> => {
@@ -123,9 +123,22 @@ export type InitAuthFailedResponse = CommonFailedResponse<
 
 export type InitAuthResponse = InitAuthSuccessResponse | InitAuthFailedResponse;
 
+const authInitOnline = async (options: InitAuthOptions): Promise<InitAuthResponse> => {
+  const { data: result } = await request<InitAuthResponse>("/auth/init", {
+    method: "POST",
+    body: { ...options, appId },
+    cookieScope: AUTH_COOKIE_SCOPE,
+  });
+
+  if (!result.success) logger.error("初始化失败");
+
+  return result;
+};
+
 /**
  * FIXME: This function is now outdated
  */
+// oxlint-disable-next-line complexity, max-statements
 const authInitLocal = async (options: InitAuthOptions): Promise<InitAuthResponse> => {
   if (!supportRedirect) return authInitOnline(options);
 
@@ -268,18 +281,6 @@ const authInitLocal = async (options: InitAuthOptions): Promise<InitAuthResponse
   logger.error("Unknown login response: ", loginStatus, content);
 
   return unknownResponse("登录失败");
-};
-
-const authInitOnline = async (options: InitAuthOptions): Promise<InitAuthResponse> => {
-  const { data: result } = await request<InitAuthResponse>("/auth/init", {
-    method: "POST",
-    body: { ...options, appId },
-    cookieScope: AUTH_COOKIE_SCOPE,
-  });
-
-  if (!result.success) logger.error("初始化失败");
-
-  return result;
 };
 
 export const authInit = createService("auth-init", authInitLocal, authInitOnline);

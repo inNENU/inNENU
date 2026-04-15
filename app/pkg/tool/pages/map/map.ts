@@ -97,18 +97,18 @@ $Page(PAGE_ID, {
     wx.requirePrivacyAuthorize?.({});
   },
 
-  onReady() {
-    this.setMarker().then(() => {
-      // 将地图缩放到对应的校区
-      this.context.includePoints(this.data.area === "benbu" ? benbuArea : jingyueArea);
+  async onReady() {
+    await this.setMarker();
 
-      // 1200ms 之后拿到缩放值和地图中心点坐标，写入地图组件配置
-      setTimeout(() => {
-        this.setMap();
-      }, 1200);
+    // 将地图缩放到对应的校区
+    this.context.includePoints(this.data.area === "benbu" ? benbuArea : jingyueArea);
 
-      wx.hideLoading();
-    });
+    // 1200ms 之后拿到缩放值和地图中心点坐标，写入地图组件配置
+    setTimeout(() => {
+      this.setMap();
+    }, 1200);
+
+    wx.hideLoading();
   },
 
   onShareAppMessage(): WechatMiniprogram.Page.ICustomShareContent {
@@ -164,10 +164,12 @@ $Page(PAGE_ID, {
   },
 
   /** 生成点位 */
-  async setMarker() {
-    const promises = ["benbu", "jingyue"].map((path) =>
-      getJson<MarkersData>(`function/map/marker/${path}`)
-        .then(({ category, marker }) => {
+  async setMarker(): Promise<void> {
+    await Promise.all(
+      ["benbu", "jingyue"].map(async (path) => {
+        try {
+          const { category, marker } = await getJson<MarkersData>(`function/map/marker/${path}`);
+
           this.state[path as Area] = {
             category,
             marker: Object.fromEntries(
@@ -177,8 +179,7 @@ $Page(PAGE_ID, {
               ]),
             ),
           };
-        })
-        .catch((err: unknown) => {
+        } catch (err) {
           logger.error("加载地图点位失败", err);
           showModal(
             "获取失败",
@@ -187,15 +188,14 @@ $Page(PAGE_ID, {
               this.$back();
             },
           );
-        }),
+        }
+      }),
     );
 
-    return Promise.all(promises).then(() => {
-      const { category, marker } = this.state[this.data.area];
+    const { category, marker } = this.state[this.data.area];
 
-      return new Promise<void>((resolve) => {
-        this.setData({ category, marker }, resolve);
-      });
+    await new Promise<void>((resolve) => {
+      this.setData({ category, marker }, resolve);
     });
   },
 
@@ -260,7 +260,6 @@ $Page(PAGE_ID, {
 
     this.setData({
       currentCategory: path,
-      // eslint-disable-next-line @typescript-eslint/naming-convention
       "locationPopup.title": name,
     });
     this.context.includePoints({
@@ -273,7 +272,7 @@ $Page(PAGE_ID, {
     const { area, currentCategory } = this.data;
 
     const item = this.data.marker[currentCategory].find(
-      (item) => item.id === event.detail.markerId,
+      (location) => location.id === event.detail.markerId,
     )!;
 
     if (event.type === "markertap") {

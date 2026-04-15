@@ -28,7 +28,7 @@ $Page("map-detail", {
     const { id } = options;
     const page = readJSON(`function/map/${id}`);
 
-    resolvePage({ id }, page ? this.convertPage(page) : undefined);
+    resolvePage({ id }, page ? this.convertPage(page) : null);
   },
 
   onLoad(option) {

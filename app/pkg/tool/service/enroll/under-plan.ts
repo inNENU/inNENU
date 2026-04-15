@@ -6,7 +6,7 @@ import type {
   CommonFailedResponse,
   CommonSuccessResponse,
 } from "../../../../service/index.js";
-import { MissingArgResponse, unknownResponse, createService } from "../../../../service/index.js";
+import { missingArgResponse, unknownResponse, createService } from "../../../../service/index.js";
 import { UNDER_ENROLL_INFO_URL, UNDER_ENROLL_SERVER } from "./utils.js";
 
 export interface UnderEnrollPlanInfoOptions {
@@ -28,7 +28,6 @@ export interface UnderEnrollPlanQueryOptions {
 export type UnderEnrollPlanOptions = UnderEnrollPlanInfoOptions | UnderEnrollPlanQueryOptions;
 
 interface RawUnderEnrollPlanOptionConfig {
-  // eslint-disable-next-line @typescript-eslint/naming-convention
   major_type: string;
   type: string;
   year: string;
@@ -58,7 +57,6 @@ const getUnderEnrollInfo = async (): Promise<UnderEnrollPlanInfoSuccessResponse>
       Object.entries(data).map(([province, configs]) => {
         const result: Record<string, Record<string, string[]>> = {};
 
-        // eslint-disable-next-line @typescript-eslint/naming-convention
         configs.forEach(({ major_type, type, year }) => {
           ((result[year] ??= {})[type] ??= []).push(major_type);
         });
@@ -70,14 +68,10 @@ const getUnderEnrollInfo = async (): Promise<UnderEnrollPlanInfoSuccessResponse>
 };
 
 interface RawUnderEnrollPlanConfig {
-  // eslint-disable-next-line @typescript-eslint/naming-convention
   edu_cost: string;
-  // eslint-disable-next-line @typescript-eslint/naming-convention
   edu_len: string;
   major: string;
-  // eslint-disable-next-line @typescript-eslint/naming-convention
   major_attr: string;
-  // eslint-disable-next-line @typescript-eslint/naming-convention
   major_type: string;
   number: string;
   province: string;
@@ -118,13 +112,13 @@ const queryUnderEnrollPlan = async ({
   classType,
   majorType,
 }: UnderEnrollPlanQueryOptions): Promise<UnderEnrollPlanQueryResponse> => {
-  if (!province) return MissingArgResponse("province");
+  if (!province) return missingArgResponse("province");
 
-  if (!year) return MissingArgResponse("year");
+  if (!year) return missingArgResponse("year");
 
-  if (!classType) return MissingArgResponse("classType");
+  if (!classType) return missingArgResponse("classType");
 
-  if (!majorType) return MissingArgResponse("majorType");
+  if (!majorType) return missingArgResponse("majorType");
 
   const { data } = await request<RawUnderEnrollPlanResult>(UNDER_ENROLL_PLAN_URL, {
     method: "POST",
@@ -134,7 +128,6 @@ const queryUnderEnrollPlan = async ({
     body: JSON.stringify({
       province,
       year,
-      // eslint-disable-next-line @typescript-eslint/naming-convention
       major_type: classType,
       type: majorType,
     }),

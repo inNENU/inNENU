@@ -129,6 +129,7 @@ ${envName}严格使用官方激活流程。
     else showModal("未确认协议", '请先勾选"我已阅读并同意"');
   },
 
+  // oxlint-disable-next-line max-statements
   async verify() {
     const { name, id, idTypeIndex, schoolId, captcha } = this.data;
     const { captchaId } = this.state;
@@ -246,8 +247,6 @@ ${envName}严格使用官方激活流程。
 
     showToast("发送成功", 1000, "success");
     this.state.sign = result.data.sign;
-
-    return;
   },
 
   async verifySMS() {
