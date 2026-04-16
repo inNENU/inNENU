@@ -1,5 +1,3 @@
-// FIXME: node options?
-// oxlint-disable import/no-nodejs-modules
 const { existsSync } = require("node:fs");
 const { parse, resolve } = require("node:path");
 

@@ -2,7 +2,7 @@ import { defineHopeConfig } from "oxc-config-hope/oxlint";
 
 export default defineHopeConfig(
   {
-    node: ["scripts/**/*.ts", ".gulpfile.cjs"],
+    node: ["scripts/**/*.ts", "gulpfile.cjs"],
     ignore: [
       "app/service/auth/encrypt.js",
       "app/service/auth/encrypt.d.ts",
