@@ -73,6 +73,9 @@ importers:
       postcss:
         specifier: 8.5.10
         version: 8.5.10
+      prettier:
+        specifier: 3.8.3
+        version: 3.8.3
       rollup:
         specifier: 4.60.1
         version: 4.60.1
@@ -2695,6 +2698,11 @@ packages:
   presentable-error@0.0.1:
     resolution: {integrity: sha512-E6rsNU1QNJgB3sjj7OANinGncFKuK+164sLXw1/CqBjj/EkXSoSdHCtWQGBNlREIGLnL7IEUEGa08YFVUbrhVg==}
     engines: {node: '>=16'}
+
+  prettier@3.8.3:
+    resolution: {integrity: sha512-7igPTM53cGHMW8xWuVTydi2KO233VFiTNyF5hLJqpilHfmn8C8gPf+PS7dUT64YcXFbiMGZxS9pCSxL/Dxm/Jw==}
+    engines: {node: '>=14'}
+    hasBin: true
 
   process-nextick-args@2.0.1:
     resolution: {integrity: sha512-3ouUOpQhtgrbOa17J7+uxOTpITYWaGP7/AhoR3+A+/1e9skrzelGi/dXzEYyvbxubEF6Wn2ypscTKiKJFFn1ag==}
@@ -5781,6 +5789,8 @@ snapshots:
       source-map-js: 1.2.1
 
   presentable-error@0.0.1: {}
+
+  prettier@3.8.3: {}
 
   process-nextick-args@2.0.1: {}
 
