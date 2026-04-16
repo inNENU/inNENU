@@ -48,12 +48,8 @@ const getImages = (page: PageStateWithContent): string[] =>
         : page.images
     : [`${appCoverPrefix}jpg`];
 
-export const getScopeData = (
-  page: PageStateWithContent,
-): WechatMiniprogram.GeneralScopeData => ({
-  // eslint-disable-next-line @typescript-eslint/naming-convention
+export const getScopeData = (page: PageStateWithContent): WechatMiniprogram.GeneralScopeData => ({
   "@type": "general",
-  // eslint-disable-next-line @typescript-eslint/naming-convention
   uniq_id: page.id!,
   title: page.title || appName,
   ...(page.images ? { cover: page.images[0] } : {}),

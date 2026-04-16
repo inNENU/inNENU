@@ -1,10 +1,7 @@
 import type { PropType } from "@mptool/all";
 import { $Component, showToast } from "@mptool/all";
 
-import type {
-  LocationComponentOptions,
-  LocationConfig,
-} from "../../../typings/index.js";
+import type { LocationComponentOptions, LocationConfig } from "../../../typings/index.js";
 import { isCompany } from "../../state/index.js";
 import { getLocation, startNavigation } from "../../utils/index.js";
 
@@ -30,13 +27,14 @@ $Component({
 
       this.setData({
         header: config.header,
-        markers: config.points.map((point, index) => ({
-          name: config.header,
-          detail: point.path ? "详情" : "",
-          id: index,
-          ...getLocation(point.loc),
-          ...point,
-        })),
+        markers: config.points.map((point, index) =>
+          // oxlint-disable-next-line prefer-object-spread
+          Object.assign(
+            { name: config.header, detail: point.path ? "详情" : "", id: index },
+            getLocation(point.loc),
+            point,
+          ),
+        ),
       });
     },
 
@@ -47,9 +45,7 @@ $Component({
           .select("#location")
           .context(({ context }) => {
             (context as WechatMiniprogram.MapContext).includePoints({
-              points: this.data.config.points.map(({ loc }) =>
-                getLocation(loc),
-              ),
+              points: this.data.config.points.map(({ loc }) => getLocation(loc)),
               padding: [24, 24, 24, 24],
             });
           })
@@ -59,7 +55,7 @@ $Component({
   },
 
   methods: {
-    navigate() {
+    async navigate() {
       const { config, id, markers } = this.data;
 
       if (config.navigate === false) return;
@@ -67,8 +63,6 @@ $Component({
       if (id === -1 && markers.length !== 1) return showToast("请选择一个点");
 
       this.startNavigation(markers[id === -1 ? 0 : id]);
-
-      return;
     },
 
     detail() {
@@ -95,13 +89,13 @@ $Component({
       const { navigate } = this.data.config;
 
       if (path) this.$go(`map-detail?id=${path}&loc=${loc}`);
-      else if (navigate !== false)
-        this.startNavigation(this.data.markers[detail.markerId]);
+      else if (navigate !== false) this.startNavigation(this.data.markers[detail.markerId]);
     },
 
     startNavigation({ loc, name }: LocationConfig & { id: number }) {
-      if (isCompany) startNavigation({ name, loc });
-      else
+      if (isCompany) {
+        startNavigation({ name, loc });
+      } else {
         this.createSelectorQuery()
           .select("#location")
           .context(({ context }) => {
@@ -111,6 +105,7 @@ $Component({
             });
           })
           .exec();
+      }
     },
   },
 });

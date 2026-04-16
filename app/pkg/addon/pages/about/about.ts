@@ -5,21 +5,11 @@ import type {
   PageStateWithContent,
   SwitchListComponentItemConfig,
 } from "../../../../../typings/index.js";
-import { syncAppSettings } from "../../../../app/index.js";
 import type { App } from "../../../../app.js";
-import {
-  DAY,
-  appCoverPrefix,
-  appName,
-  version,
-} from "../../../../config/index.js";
+import { syncAppSettings } from "../../../../app/index.js";
+import { DAY, appCoverPrefix, appName, version } from "../../../../config/index.js";
 import { reportUserInfo } from "../../../../service/index.js";
-import {
-  appInfo,
-  info,
-  updateSelectable,
-  user,
-} from "../../../../state/index.js";
+import { appInfo, info, updateSelectable, user } from "../../../../state/index.js";
 import { resolvePage, setPage, showNotice } from "../../../../utils/index.js";
 
 const { globalData } = getApp<App>();
@@ -77,15 +67,13 @@ $Page(PAGE_ID, {
     const { page } = this.data;
 
     // 读取开发者模式并对页面显示做相应改变
-    developMode =
-      wx.getStorageSync<boolean | undefined>("developMode") ?? false;
+    developMode = wx.getStorageSync<boolean | undefined>("developMode") ?? false;
 
-    if (!developMode)
-      (page.content[0] as FunctionalListComponentConfig).items.forEach(
-        (x, y) => {
-          x.hidden = y !== 0;
-        },
-      );
+    if (!developMode) {
+      (page.content[0] as FunctionalListComponentConfig).items.forEach((x, y) => {
+        x.hidden = y !== 0;
+      });
+    }
 
     resolvePage(res, page);
   },
@@ -97,20 +85,20 @@ $Page(PAGE_ID, {
       const { page } = this.data;
 
       // 读取开发者模式并对页面显示做相应改变
-      developMode =
-        wx.getStorageSync<boolean | undefined>("developMode") ?? false;
+      developMode = wx.getStorageSync<boolean | undefined>("developMode") ?? false;
 
-      if (!developMode)
-        (page.content[0] as FunctionalListComponentConfig).items.forEach(
-          (x, y) => {
-            x.hidden = y !== 0;
-          },
-        );
+      if (!developMode) {
+        (page.content[0] as FunctionalListComponentConfig).items.forEach((x, y) => {
+          x.hidden = y !== 0;
+        });
+      }
 
       setPage({ option: { id: "about" }, ctx: this }, page);
     }
 
-    this.$on("settings", () => this.setPage());
+    this.$on("settings", () => {
+      this.setPage();
+    });
   },
 
   onShow() {
@@ -137,7 +125,7 @@ $Page(PAGE_ID, {
 
     const aboutPage = {
       ...this.data.page,
-      content: this.data.page.content.slice(0, 1).concat(about),
+      content: [this.data.page.content[0], ...about],
     };
 
     set(PAGE_ID, aboutPage, 3 * DAY);
@@ -160,9 +148,7 @@ $Page(PAGE_ID, {
     // 关闭开发者模式
     if (developMode) {
       wx.setStorageSync("developMode", false);
-      (
-        this.data.page.content[0] as FunctionalListComponentConfig
-      ).items.forEach((x, y) => {
+      (this.data.page.content[0] as FunctionalListComponentConfig).items.forEach((x, y) => {
         x.hidden = y !== 0;
       });
       this.setData({ page: this.data.page });
@@ -180,28 +166,26 @@ $Page(PAGE_ID, {
     }
     // 启用开发者模式
     else {
-      this.setData({ debug: true }, () =>
+      this.setData({ debug: true }, () => {
         wx.nextTick(() => {
           this.setData({ focus: true });
-        }),
-      );
+        });
+      });
     }
   },
 
   /**
-   * 接管密码输入
-   * 用于判断密码是否正确并启用开发者模式
+   * 接管密码输入 用于判断密码是否正确并启用开发者模式
    *
    * @param event 输入事件
+   * @returns 输入框当前值
    */
-  onInput(event: WechatMiniprogram.Input) {
+  onInput(event: WechatMiniprogram.Input): string {
     if (event.detail.value.length === 7) {
       // 密码正确
       if (event.detail.value === "5201314") {
         showToast("已启用开发者模式");
-        (
-          this.data.page.content[0] as FunctionalListComponentConfig
-        ).items.forEach((x) => {
+        (this.data.page.content[0] as FunctionalListComponentConfig).items.forEach((x) => {
           x.hidden = false;
         });
         this.setData({ page: this.data.page, debug: false });
@@ -265,9 +249,7 @@ $Page(PAGE_ID, {
     syncAppSettings(globalData, value);
   },
 
-  /**
-   * 复制 Open ID
-   */
+  /** 复制 Open ID */
   copyOpenID() {
     writeClipboard(user.openid ?? "");
   },

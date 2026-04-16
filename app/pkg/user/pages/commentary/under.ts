@@ -27,16 +27,13 @@ const getTimes = (grade: number): { times: string[]; current: string } => {
 
   return {
     times: times.reverse(),
-    current:
-      currentMonth >= 2 && currentMonth < 8
-        ? `${currentYear - 1}02`
-        : `${currentYear}01`,
+    current: currentMonth >= 2 && currentMonth < 8 ? `${currentYear - 1}02` : `${currentYear}01`,
   };
 };
 
 const getDisplayTime = (time: string): string => {
-  const year = Number(time.substring(0, 4));
-  const isFirstTerm = time.substring(4) === "01";
+  const year = Number(time.slice(0, 4));
+  const isFirstTerm = time.slice(4) === "01";
 
   return `${isFirstTerm ? year : year + 1}年${isFirstTerm ? "秋季" : "春季"}`;
 };
@@ -88,13 +85,9 @@ $Page(PAGE_ID, {
 
     if (account) {
       if (!info) {
-        showModal(
-          "个人信息缺失",
-          `${envName}本地暂无个人信息，请重新登录`,
-          () => {
-            this.$go("account-login?update=true");
-          },
-        );
+        showModal("个人信息缺失", `${envName}本地暂无个人信息，请重新登录`, () => {
+          this.$go("account-login?update=true");
+        });
 
         return;
       }
@@ -110,7 +103,7 @@ $Page(PAGE_ID, {
 
         const grade = Math.floor(account.id / 1000000);
         const { times, current } = getTimes(grade);
-        const timeDisplays = times.map(getDisplayTime);
+        const timeDisplays = times.map((time) => getDisplayTime(time));
 
         this.setData({
           times,
@@ -241,10 +234,7 @@ $Page(PAGE_ID, {
   onRadioChange({
     detail,
     target,
-  }: WechatMiniprogram.RadioGroupChange<
-    Record<string, never>,
-    { questionIndex: number }
-  >) {
+  }: WechatMiniprogram.RadioGroupChange<Record<string, never>, { questionIndex: number }>) {
     const { value } = detail;
     const newAnswers = [...this.data.answers];
 
@@ -261,9 +251,7 @@ $Page(PAGE_ID, {
     const { questions, text, commentary, answers } = this.data;
     const { params } = this.state;
 
-    if (
-      questions.some((_question, index) => typeof answers[index] !== "number")
-    ) {
+    if (questions.some((_question, index) => typeof answers[index] !== "number")) {
       showModal("提交失败", "请完成所有评分项");
 
       return;
@@ -273,7 +261,7 @@ $Page(PAGE_ID, {
       type: "submit",
       params,
       questions,
-      text: text,
+      text,
       answers,
       commentary,
     });
@@ -287,51 +275,52 @@ $Page(PAGE_ID, {
     }
   },
 
+  async comment100(teacherCode: string, courseCode: string): Promise<boolean> {
+    const getResult = await underStudyCourseCommentary({
+      type: "get",
+      courseCode,
+      teacherCode,
+    });
+
+    if (getResult.success) {
+      const { params, text, questions } = getResult.data;
+
+      const submitResult = await underStudyCourseCommentary({
+        type: "submit",
+        params,
+        questions,
+        text,
+        answers: Array.from({ length: questions.length }, () => 0),
+        commentary: "",
+      });
+
+      if (submitResult.success) return true;
+    }
+
+    return false;
+  },
+
   commentAll() {
     const { list } = this.data;
 
-    confirm("一键评教", "此操作将一键评价所有未评价的课程为 100 分。", () =>
-      Promise.all(
-        list.map(async ({ teacherCode, courseCode }) => {
-          const getResult = await underStudyCourseCommentary({
-            type: "get",
-            courseCode,
-            teacherCode,
-          });
+    confirm("一键评教", async () => {
+      const results = await Promise.all(
+        list.map(
+          // oxlint-disable-next-line unicorn/no-array-method-this-argument
+          async ({ teacherCode, courseCode }) => this.comment100(teacherCode, courseCode),
+          "此操作将一键评价所有未评价的课程为 100 分。",
+        ),
+      );
 
-          if (getResult.success) {
-            const { params, text, questions } = getResult.data;
-
-            const submitResult = await underStudyCourseCommentary({
-              type: "submit",
-              params,
-              questions,
-              text: text,
-              answers: Array(questions.length).fill(0),
-              commentary: "",
-            });
-
-            if (submitResult.success) {
-              return true;
-            }
-          }
-
-          return false;
-        }),
-      ).then((results) => {
-        if (results.every(Boolean))
-          showModal("一键评教成功", "已评价所有课程为 100 分。", () => {
-            this.refresh();
-          });
-        else
-          showModal(
-            "一键评教失败",
-            "部分课程评价失败，请尝试手动评价。",
-            () => {
-              this.refresh();
-            },
-          );
-      }),
-    );
+      if (results.every(Boolean)) {
+        showModal("一键评教成功", "已评价所有课程为 100 分。", () => {
+          this.refresh();
+        });
+      } else {
+        showModal("一键评教失败", "部分课程评价失败，请尝试手动评价。", () => {
+          this.refresh();
+        });
+      }
+    });
   },
 });

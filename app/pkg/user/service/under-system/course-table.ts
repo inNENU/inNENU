@@ -1,33 +1,25 @@
-/* eslint-disable @typescript-eslint/no-deprecated */
+/* oxlint-disable typescript/no-deprecated */
 import { URLSearchParams, logger } from "@mptool/all";
 
-import { UNDER_SYSTEM_SERVER } from "./utils.js";
 import { cookieStore, request } from "../../../../api/index.js";
-import type {
-  ActionFailType,
-  CommonFailedResponse,
-} from "../../../../service/index.js";
-import {
-  ExpiredResponse,
-  createService,
-  isWebVPNPage,
-} from "../../../../service/index.js";
+import type { ActionFailType, CommonFailedResponse } from "../../../../service/index.js";
+import { ExpiredResponse, createService, isWebVPNPage } from "../../../../service/index.js";
 import type {
   LegacyCourseTableClassData,
   LegacyCourseTableData,
 } from "../../../../typings/index.js";
 import { getJson } from "../../../../utils/index.js";
+import { UNDER_SYSTEM_SERVER } from "./utils.js";
 
 const courseRowRegExp =
   /<tr>\s+<td[^>]*>\s+\d+\s+<\/td>\s+((?:<td[^>]*>[\s\S]+?<\/td>\s*?)+)\s+<\/tr>/g;
-const courseCellRegExp =
-  /<td .*?>\s+<div id="\d-\d-\d"\s?>([\s\S]+?)<\/div>[\s\S]+?<\/td>/g;
+const courseCellRegExp = /<td .*?>\s+<div id="\d-\d-\d"\s?>([\s\S]+?)<\/div>[\s\S]+?<\/td>/g;
 
 const classRegExp =
   /<a[^>]*?>(.+?)\s*<br>(.+?)<br>\s*<nobr>\s*(\S+?)<nobr><br>(.+?)<br><br>\s*<\/a>/g;
 
 const getWeekRange = (timeText: string): number[] => {
-  const match = Array.from(timeText.matchAll(/([\d,-]+)[^\d]*周/g));
+  const match = [...timeText.matchAll(/([\d,-]+)[^\d]*周/g)];
 
   return match
     .map(([, time]) =>
@@ -36,61 +28,51 @@ const getWeekRange = (timeText: string): number[] => {
 
         if (range.length === 1) return range;
 
-        return Array.from(
-          { length: range[1] - range[0] + 1 },
-          (_, index) => index + range[0],
-        );
+        return Array.from({ length: range[1] - range[0] + 1 }, (_, index) => index + range[0]);
       }),
     )
-    .flat(2);
+    .flat(/** Two level nesting */ 2);
 };
 
 const getClassIndex = (timeText: string): [number, number] => {
-  const match = Array.from(timeText.matchAll(/\[(\d+)-(\d+)节\]/g));
+  const match = [...timeText.matchAll(/\[(\d+)-(\d+)节\]/g)];
 
   return match
     .map(([, startIndex, endIndex]) => [Number(startIndex), Number(endIndex)])
-    .flat(2) as [number, number];
+    .flat(/** Two level nesting */ 2) as [number, number];
 };
 
 const getLegacyCourses = (content: string): LegacyCourseTableData =>
   [...content.matchAll(courseRowRegExp)].map(([, rowContent]) =>
     [...rowContent.matchAll(courseCellRegExp)].map(([, cell]) => {
-      const result: (Omit<
-        LegacyCourseTableClassData,
-        "teacher" | "location" | "locations"
-      > & {
+      const result: (Omit<LegacyCourseTableClassData, "teacher" | "location" | "locations"> & {
         locations: Record<string, string>;
       })[] = [];
 
-      [...cell.matchAll(classRegExp)].forEach(
-        ([, name, teacher, time, location]) => {
-          const weeks = getWeekRange(time);
-          const locations = Object.fromEntries(
-            new Array(weeks.length)
-              .fill(null)
-              .map((_, i) => [weeks[i].toString(), location]),
-          );
-          const existingClass = result.find((item) => item.name === name);
+      [...cell.matchAll(classRegExp)].forEach(([, name, teacher, time, location]) => {
+        const weeks = getWeekRange(time);
+        const locations = Object.fromEntries(
+          Array.from({ length: weeks.length }, (_, i) => [weeks[i].toString(), location]),
+        );
+        const existingClass = result.find((item) => item.name === name);
 
-          if (existingClass) {
-            existingClass.weeks.push(...weeks);
-            existingClass.locations = {
-              ...existingClass.locations,
-              ...locations,
-            };
-          }
+        if (existingClass) {
+          existingClass.weeks.push(...weeks);
+          existingClass.locations = {
+            ...existingClass.locations,
+            ...locations,
+          };
+        }
 
-          result.push({
-            name,
-            teachers: [teacher],
-            time,
-            locations,
-            weeks: getWeekRange(time),
-            classIndex: getClassIndex(time),
-          });
-        },
-      );
+        result.push({
+          name,
+          teachers: [teacher],
+          time,
+          locations,
+          weeks: getWeekRange(time),
+          classIndex: getClassIndex(time),
+        });
+      });
 
       return result.map(({ weeks, ...item }) => {
         const locations = weeks.map((week) => item.locations[week.toString()]);
@@ -100,7 +82,7 @@ const getLegacyCourses = (content: string): LegacyCourseTableData =>
           teacher: item.teachers.join("，"),
           weeks: weeks.sort((a, b) => a - b),
           locations,
-          location: Array.from(new Set(locations)).join("，"),
+          location: [...new Set(locations)].join("，"),
         };
       });
     }),
@@ -116,8 +98,7 @@ export interface LegacyUnderCourseTableSuccessResponse {
 }
 
 /** @deprecated */
-export type LegacyUnderCourseTableFailedResponse =
-  CommonFailedResponse<ActionFailType.Expired>;
+export type LegacyUnderCourseTableFailedResponse = CommonFailedResponse<ActionFailType.Expired>;
 
 /** @deprecated */
 export type LegacyUnderCourseTableResponse =
@@ -125,21 +106,21 @@ export type LegacyUnderCourseTableResponse =
   | LegacyUnderCourseTableFailedResponse;
 
 /** @deprecated */
+// oxlint-disable-next-line jsdoc/require-returns
 const getLegacyUnderCourseTableLocal = async (
+  // oxlint-disable-next-line jsdoc/require-param
   time: string,
 ): Promise<LegacyUnderCourseTableResponse> => {
   try {
     const semesterStartTime = await getJson<Record<string, string>>(
       "function/data/semester-start-time",
     );
-    const QUERY_URL = `${UNDER_SYSTEM_SERVER}/tkglAction.do?${new URLSearchParams(
-      {
-        method: "goListKbByXs",
-        istsxx: "no",
-        xnxqh: time,
-        zc: "",
-      },
-    ).toString()}`;
+    const QUERY_URL = `${UNDER_SYSTEM_SERVER}/tkglAction.do?${new URLSearchParams({
+      method: "goListKbByXs",
+      istsxx: "no",
+      xnxqh: time,
+      zc: "",
+    }).toString()}`;
 
     const { data: content, status } = await request<string>(QUERY_URL, {
       redirect: "manual",
@@ -151,11 +132,12 @@ const getLegacyUnderCourseTableLocal = async (
       return ExpiredResponse;
     }
 
-    if (content.includes("评教未完成，不能查看课表！"))
+    if (content.includes("评教未完成，不能查看课表！")) {
       return {
         success: false,
         msg: "上学期评教未完成，不能查看本学期课表",
       };
+    }
 
     const tableData = getLegacyCourses(content);
 
@@ -179,9 +161,8 @@ const getLegacyUnderCourseTableLocal = async (
 };
 
 /** @deprecated */
-const getLegacyUnderCourseTableOnline = (
-  time: string,
-): Promise<LegacyUnderCourseTableResponse> =>
+// oxlint-disable-next-line jsdoc/require-returns, jsdoc/require-param
+const getLegacyUnderCourseTableOnline = (time: string): Promise<LegacyUnderCourseTableResponse> =>
   request<LegacyUnderCourseTableResponse>("/under-system/course-table", {
     method: "POST",
     body: { time },

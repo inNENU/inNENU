@@ -43,11 +43,7 @@ $Page("website", {
 
   copy({
     currentTarget,
-  }: WechatMiniprogram.TouchEvent<
-    Record<string, never>,
-    Record<string, never>,
-    { link: string }
-  >) {
+  }: WechatMiniprogram.TouchEvent<Record<string, never>, Record<string, never>, { link: string }>) {
     wx.miniapp.openUrl({ url: currentTarget.dataset.link });
   },
 });

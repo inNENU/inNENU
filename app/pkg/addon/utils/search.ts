@@ -1,4 +1,4 @@
-import type { PageIndexes } from "innenu-generator/typings.js";
+import type { PageIndexes } from "innenu-generator/typings";
 
 import { getJson } from "../../../utils/index.js";
 
@@ -18,8 +18,6 @@ export const searchPage = async (query: string): Promise<PageIndexes> => {
   await loadPageIndexes();
 
   return pageIndexes!.filter(({ name, tags }) =>
-    queries.some(
-      (item) => name.includes(item) || tags?.some((tag) => item.includes(tag)),
-    ),
+    queries.some((item) => name.includes(item) || tags?.some((tag) => item.includes(tag))),
   );
 };

@@ -7,5 +7,4 @@ const officialTitleMap: Record<OfficialInfoType, string> = {
   science: "自然科学",
 };
 
-export const getOfficialTitle = (type: OfficialInfoType): string =>
-  officialTitleMap[type];
+export const getOfficialTitle = (type: OfficialInfoType): string => officialTitleMap[type];

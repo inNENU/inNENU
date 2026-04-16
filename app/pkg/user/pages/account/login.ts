@@ -5,14 +5,7 @@ import type { ListComponentOptions } from "../../../../../typings/index.js";
 import { appCoverPrefix, logo } from "../../../../config/index.js";
 import { ActionFailType, mpRemove } from "../../../../service/index.js";
 import type { UserInfo } from "../../../../state/index.js";
-import {
-  appId,
-  envName,
-  info,
-  setUserInfo,
-  user,
-  windowInfo,
-} from "../../../../state/index.js";
+import { appId, envName, info, setUserInfo, user, windowInfo } from "../../../../state/index.js";
 import { getLicenseStatus, showNotice } from "../../../../utils/index.js";
 import type { AuthCaptchaInfo, SliderTrackPoint } from "../../service/index.js";
 import {
@@ -110,20 +103,20 @@ $Page(PAGE_ID, {
     const from = options.from ?? "返回";
     const scene = decodeURIComponent(options.scene ?? "");
 
-    if (account)
+    if (account) {
       this.setData({
         id: account.id.toString(),
         password: account.password,
         isSaved: true,
         isAdmin: wx.getStorageSync<boolean>("isAdmin"),
       });
+    }
 
     if (info) this.setData({ info });
     if (options.update) this.state.shouldNavigateBack = true;
-    if (scene.startsWith("verify:")) this.verifyIDCode(scene.substring(7));
+    if (scene.startsWith("verify:")) this.verifyIDCode(scene.slice(7));
 
     this.setData({
-      // eslint-disable-next-line @typescript-eslint/naming-convention
       "nav.from": from,
     });
   },
@@ -132,7 +125,7 @@ $Page(PAGE_ID, {
     showNotice(PAGE_ID);
   },
 
-  // eslint-disable-next-line @typescript-eslint/no-empty-function
+  // oxlint-disable-next-line typescript/no-empty-function
   onPageScroll() {},
 
   onShareAppMessage: () => ({
@@ -160,12 +153,8 @@ $Page(PAGE_ID, {
     this.setData({ showPassword: !this.data.showPassword });
   },
 
-  onSliderMove({
-    currentTarget,
-    type,
-    touches,
-    changedTouches,
-  }: WechatMiniprogram.Touch) {
+  // oxlint-disable-next-line max-statements
+  onSliderMove({ currentTarget, type, touches, changedTouches }: WechatMiniprogram.Touch) {
     const currentTime = Date.now();
 
     switch (type) {
@@ -173,6 +162,7 @@ $Page(PAGE_ID, {
         this.state.touchPosition = touches[0].pageX - currentTarget.offsetLeft;
         this.state.slideStartTime = currentTime;
         this.state.lastTrackTime = currentTime;
+        // oxlint-disable-next-line id-length
         this.state.sliderTracks = [{ a: 0, b: 0, c: 0 }];
         break;
       }
@@ -194,6 +184,7 @@ $Page(PAGE_ID, {
           this.state.sliderTracks.push({
             a: distance,
             b: offsetY,
+            // oxlint-disable-next-line id-length
             c: timeDiff,
           });
           this.state.lastTrackTime = currentTime;
@@ -206,11 +197,7 @@ $Page(PAGE_ID, {
       case "touchend": {
         // Use changedTouches for touchend event as touches array is empty on PC
         const endTouch =
-          changedTouches?.length > 0
-            ? changedTouches[0]
-            : touches?.length > 0
-              ? touches[0]
-              : null;
+          changedTouches?.length > 0 ? changedTouches[0] : touches?.length > 0 ? touches[0] : null;
 
         let finalDistance: number;
         let endY: number;
@@ -220,9 +207,7 @@ $Page(PAGE_ID, {
           finalDistance = endTouch.pageX - this.state.touchPosition;
           endY = endTouch.pageY - (currentTarget.offsetTop ?? 0);
         } else {
-          console.warn(
-            "No touch data available, using current distance as final position",
-          );
+          console.warn("No touch data available, using current distance as final position");
           finalDistance = this.data.distance;
           endY = 0;
         }
@@ -231,14 +216,9 @@ $Page(PAGE_ID, {
 
         // Add final track point
         this.state.sliderTracks.push({
-          a: Math.max(
-            0,
-            Math.min(
-              finalDistance,
-              CAPTCHA_CANVAS_WIDTH - this.data.sliderWidth / 2,
-            ),
-          ),
+          a: Math.max(0, Math.min(finalDistance, CAPTCHA_CANVAS_WIDTH - this.data.sliderWidth / 2)),
           b: endY,
+          // oxlint-disable-next-line id-length
           c: totalTime,
         });
 
@@ -251,16 +231,11 @@ $Page(PAGE_ID, {
         this.verifyCaptcha();
         break;
       }
+      default:
     }
   },
 
-  setCaptchaInfo({
-    slider,
-    bg,
-    sliderWidth,
-    offsetY,
-    safeValue,
-  }: AuthCaptchaInfo) {
+  setCaptchaInfo({ slider, bg, sliderWidth, offsetY, safeValue }: AuthCaptchaInfo) {
     this.setData({
       captchaBg: bg,
       captchaSlider: slider,
@@ -298,8 +273,6 @@ $Page(PAGE_ID, {
         return;
       }
       this.setCaptchaInfo(captcha.data);
-
-      return;
     }
   },
 
@@ -313,9 +286,8 @@ $Page(PAGE_ID, {
 
       return;
     }
-    this.setCaptchaInfo(result.data);
 
-    return;
+    this.setCaptchaInfo(result.data);
   },
 
   async verifyCaptcha() {
@@ -329,11 +301,7 @@ $Page(PAGE_ID, {
       return;
     }
 
-    const result = await verifyAuthCaptcha(
-      this.data.distance,
-      this.state.sliderTracks,
-      safeValue,
-    );
+    const result = await verifyAuthCaptcha(this.data.distance, this.state.sliderTracks, safeValue);
 
     wx.hideLoading();
 
@@ -363,8 +331,7 @@ $Page(PAGE_ID, {
     if (id.length !== 10 || !password)
       return wx.showToast({ title: "请输入完整信息", icon: "error" });
 
-    if (!accept)
-      return wx.showToast({ title: "请同意用户协议", icon: "error" });
+    if (!accept) return wx.showToast({ title: "请同意用户协议", icon: "error" });
 
     const { initId, params, salt } = this.state;
 
@@ -422,8 +389,6 @@ $Page(PAGE_ID, {
       isSaved: true,
       info: result.info,
     });
-
-    return;
   },
 
   async startReAuth() {
@@ -454,8 +419,6 @@ $Page(PAGE_ID, {
     }
 
     showModal("发送失败", result.msg);
-
-    return;
   },
 
   async verifyReAuth() {
@@ -502,18 +465,14 @@ $Page(PAGE_ID, {
 
     showModal("登录成功", "您已成功登录");
 
-    setUserInfo(
-      { id: Number(id), password, authToken: result.authToken },
-      result.info,
-    );
+    setUserInfo({ id: Number(id), password, authToken: result.authToken }, result.info);
 
     if (this.state.shouldNavigateBack) return this.$back();
+
     this.setData({
       isSaved: true,
       info: result.info,
     });
-
-    return;
   },
 
   cancelReAuth() {
@@ -683,13 +642,8 @@ $Page(PAGE_ID, {
           isSaved: false,
         });
 
-        if (result.success) {
-          showModal("注销成功", "已删除本地和服务器上的全部账号数据信息。");
-        } else
-          showModal(
-            "已请求注销",
-            "已删除本地的账号数据信息，服务器上的数据将在稍后删除",
-          );
+        if (result.success) showModal("注销成功", "已删除本地和服务器上的全部账号数据信息。");
+        else showModal("已请求注销", "已删除本地的账号数据信息，服务器上的数据将在稍后删除");
       },
       () => {
         // do nothing

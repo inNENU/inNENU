@@ -1,16 +1,12 @@
-import { withAuthCenterLogin } from "./login.js";
-import { CENTER_PREFIX } from "./utils.js";
 import { request } from "../../../../api/index.js";
 import type {
   ActionFailType,
   CommonFailedResponse,
   CommonSuccessResponse,
 } from "../../../../service/index.js";
-import {
-  ExpiredResponse,
-  UnknownResponse,
-  createService,
-} from "../../../../service/index.js";
+import { ExpiredResponse, unknownResponse, createService } from "../../../../service/index.js";
+import { withAuthCenterLogin } from "./login.js";
+import { CENTER_PREFIX } from "./utils.js";
 
 const USER_CONF_URL = `${CENTER_PREFIX}/common/getUserConf`;
 
@@ -56,7 +52,7 @@ export const getAvatarLocal = async (): Promise<AvatarResponse> => {
   } catch (err) {
     console.error(err);
 
-    return UnknownResponse((err as Error).message);
+    return unknownResponse((err as Error).message);
   }
 };
 

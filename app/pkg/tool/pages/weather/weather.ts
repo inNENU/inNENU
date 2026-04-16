@@ -1,11 +1,6 @@
 import { $Page, get, logger, readFile, set, showModal } from "@mptool/all";
 
-import {
-  INITIALIZED_KEY,
-  MINUTE,
-  WEATHER_KEY,
-  appCoverPrefix,
-} from "../../../../config/index.js";
+import { INITIALIZED_KEY, MINUTE, WEATHER_KEY, appCoverPrefix } from "../../../../config/index.js";
 import type { WeatherAlarm, WeatherData } from "../../../../service/index.js";
 import { getWeather } from "../../../../service/index.js";
 import { windowInfo } from "../../../../state/index.js";
@@ -60,11 +55,12 @@ $Page("weather", {
     this.backgroundChange();
 
     // FIXME: Now skyline has bugs in setPassiveEvent
-    if (this.renderer !== "skyline")
+    if (this.renderer !== "skyline") {
       this.setPassiveEvent?.({
         touchstart: false,
         touchmove: false,
       });
+    }
   },
 
   onShareAppMessage: () => ({ title: PAGE_TITLE }),
@@ -79,7 +75,9 @@ $Page("weather", {
   onUnload() {
     /** 移除旋转屏幕与加速度计监听 */
     wx.stopAccelerometer({
-      success: () => logger.debug("Stopped accelerometer listening"),
+      success: () => {
+        logger.debug("Stopped accelerometer listening");
+      },
     });
     this.$off("inited", this.updateIcon);
   },
@@ -91,14 +89,8 @@ $Page("weather", {
 
   updateIcon(): void {
     this.setData({
-      weatherIcon: JSON.parse(readFile("./icon/weather") || "{}") as Record<
-        string,
-        string
-      >,
-      hintIcon: JSON.parse(readFile("./icon/weather-hints") || "{}") as Record<
-        string,
-        string
-      >,
+      weatherIcon: JSON.parse(readFile("./icon/weather") || "{}") as Record<string, string>,
+      hintIcon: JSON.parse(readFile("./icon/weather-hints") || "{}") as Record<string, string>,
     });
   },
 
@@ -111,19 +103,16 @@ $Page("weather", {
     this.createSelectorQuery()
       .select(CANVAS_SELECTOR)
       .fields({ node: true, size: true })
-      .exec(
-        ([
-          { node: canvas, width, height },
-        ]: Required<WechatMiniprogram.NodeInfo>[]) => {
-          const dpr = windowInfo.pixelRatio;
+      .exec(([{ node: canvas, width, height }]: Required<WechatMiniprogram.NodeInfo>[]) => {
+        const dpr = windowInfo.pixelRatio;
 
-          canvas.width = width * dpr;
-          canvas.height = height * dpr;
-          this.draw(canvas, weather);
-        },
-      );
+        canvas.width = width * dpr;
+        canvas.height = height * dpr;
+        this.draw(canvas, weather);
+      });
   },
 
+  // oxlint-disable-next-line max-statements
   draw(canvas: WechatMiniprogram.Canvas2DNode, weather: WeatherData) {
     const highTemperature: number[] = [];
     const lowTemperature: number[] = [];
@@ -227,7 +216,9 @@ $Page("weather", {
 
     wx.startAccelerometer({
       interval: "normal",
-      success: () => logger.debug("Starts accelerometer listening"),
+      success: () => {
+        logger.debug("Starts accelerometer listening");
+      },
     });
 
     wx.onAccelerometerChange(({ x }) => {
@@ -244,8 +235,7 @@ $Page("weather", {
   },
 
   showAqi() {
-    const { aqi, aqiLevel, aqiName, co, so2, no2, pm10, pm25, o3 } =
-      this.data.weather.air;
+    const { aqi, aqiLevel, aqiName, co, so2, no2, pm10, pm25, o3 } = this.data.weather.air;
 
     showModal(
       "空气质量",

@@ -1,10 +1,6 @@
 import { request } from "../../../../api/index.js";
 import type { CommonFailedResponse } from "../../../../service/index.js";
-import {
-  ActionFailType,
-  UnknownResponse,
-  createService,
-} from "../../../../service/index.js";
+import { ActionFailType, unknownResponse, createService } from "../../../../service/index.js";
 
 const QUERY_URL = "https://gkcx.nenu.edu.cn/api/user/admissionQuery";
 
@@ -19,12 +15,10 @@ interface RawEnrollSuccessResult {
     name: string;
     department: string;
     major: string;
-    // eslint-disable-next-line @typescript-eslint/naming-convention
     mail_code?: {
       String: string;
       Valid: true;
     };
-    // eslint-disable-next-line @typescript-eslint/naming-convention
     is_mailed: string;
   };
 }
@@ -57,37 +51,32 @@ const getUnderAdmissionLocal = async ({
     },
     body: JSON.stringify({
       name,
-      // eslint-disable-next-line @typescript-eslint/naming-convention
       id_code: id,
-      // eslint-disable-next-line @typescript-eslint/naming-convention
       student_code: testId,
     }),
   });
 
-  if (!headers.get("content-type")?.includes("application/json"))
+  if (!headers.get("content-type")?.includes("application/json")) {
     return {
       success: false,
       type: ActionFailType.Closed,
       msg: "查询通道已关闭",
     };
+  }
 
-  if (data.student === null) {
-    if (data.message === "Admission query is not available")
+  if (data.student == null) {
+    if (data.message === "Admission query is not available") {
       return {
         success: false,
         type: ActionFailType.Closed,
         msg: "查询通道已关闭",
       };
+    }
 
-    return UnknownResponse(data.message);
+    return unknownResponse(data.message);
   }
 
-  const {
-    department,
-    major,
-    mail_code: mailCode,
-    is_mailed: hasMailed,
-  } = data.student;
+  const { department, major, mail_code: mailCode, is_mailed: hasMailed } = data.student;
 
   const info = [
     {
@@ -122,9 +111,7 @@ const getUnderAdmissionLocal = async ({
   };
 };
 
-const getUnderAdmissionOnline = (
-  options: UnderAdmissionOptions,
-): Promise<UnderAdmissionResponse> =>
+const getUnderAdmissionOnline = (options: UnderAdmissionOptions): Promise<UnderAdmissionResponse> =>
   request<UnderAdmissionResponse>("/enroll/under-admission", {
     method: "POST",
     ...(options ? { body: options } : {}),

@@ -17,23 +17,24 @@ export interface LicenseStatus {
 }
 
 export const getLicenseStatus = (): Promise<LicenseStatus> => {
-  if (onlineLicenseVersion)
+  if (onlineLicenseVersion) {
     return Promise.resolve({
       needAuthorize: needLicense!,
       version: onlineLicenseVersion,
     });
+  }
 
-  return requestJSON<PageConfig & { version: number }>(
-    `config/${appId}/license-data`,
-  ).then(({ version }) => {
-    onlineLicenseVersion = version;
-    needLicense = version !== localLicenseVersion;
+  return requestJSON<PageConfig & { version: number }>(`config/${appId}/license-data`).then(
+    ({ version }) => {
+      onlineLicenseVersion = version;
+      needLicense = version !== localLicenseVersion;
 
-    return {
-      needAuthorize: needLicense,
-      version,
-    };
-  });
+      return {
+        needAuthorize: needLicense,
+        version,
+      };
+    },
+  );
 };
 
 export interface PrivacyStatus {
@@ -42,7 +43,7 @@ export interface PrivacyStatus {
 }
 
 export const getPrivacyStatus = (): Promise<PrivacyStatus> => {
-  if (typeof wx.getPrivacySetting === "function")
+  if (typeof wx.getPrivacySetting === "function") {
     return new Promise<PrivacyStatus>((resolve) => {
       wx.getPrivacySetting({
         success: ({ needAuthorization }) => {
@@ -53,24 +54,26 @@ export const getPrivacyStatus = (): Promise<PrivacyStatus> => {
         },
       });
     });
+  }
 
-  if (onlinePrivacyVersion)
+  if (onlinePrivacyVersion) {
     return Promise.resolve({
       needAuthorize: needPrivacy!,
       version: onlinePrivacyVersion,
     });
+  }
 
-  return requestJSON<PageConfig & { version: number }>(
-    `config/${appId}/privacy-data`,
-  ).then(({ version }) => {
-    onlinePrivacyVersion = version;
-    needPrivacy = version !== localPrivacyVersion;
+  return requestJSON<PageConfig & { version: number }>(`config/${appId}/privacy-data`).then(
+    ({ version }) => {
+      onlinePrivacyVersion = version;
+      needPrivacy = version !== localPrivacyVersion;
 
-    return {
-      needAuthorize: needPrivacy,
-      version,
-    };
-  });
+      return {
+        needAuthorize: needPrivacy,
+        version,
+      };
+    },
+  );
 };
 
 export const agreeLicense = (): void => {

@@ -1,13 +1,11 @@
 packages:
   - app/
-  - res/
 
-onlyBuiltDependencies:
-  - "@alicloud/openapi-core"
-  - "@parcel/watcher"
-  - es5-ext
-  - esbuild
-  - unrs-resolver
+allowBuilds:
+  "@parcel/watcher": true
+  es5-ext: true
+  esbuild: true
+  unrs-resolver: true
 
 overrides:
   css: npm:@adobe/css-tools@^4.4.3

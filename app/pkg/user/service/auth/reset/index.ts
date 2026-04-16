@@ -1,36 +1,21 @@
-import type {
-  ResetPasswordGetInfoOptions,
-  ResetPasswordGetInfoResponse,
-} from "./get-info.js";
+import { request } from "../../../../../api/index.js";
+import { unknownResponse, createService } from "../../../../../service/index.js";
+import type { CheckPasswordOptions, CheckPasswordResponse } from "../check-password.js";
+import { checkPasswordLocal } from "../check-password.js";
+import type { ResetCaptchaResponse } from "../reset-captcha.js";
+import { getResetCaptchaLocal } from "../reset-captcha.js";
+import { RESET_PREFIX } from "../utils.js";
+import type { ResetPasswordGetInfoOptions, ResetPasswordGetInfoResponse } from "./get-info.js";
 import { getInfo } from "./get-info.js";
-import type {
-  ResetPasswordSetOptions,
-  ResetPasswordSetResponse,
-} from "./reset-password.js";
+import type { ResetPasswordSetOptions, ResetPasswordSetResponse } from "./reset-password.js";
 import { setPassword } from "./reset-password.js";
-import type {
-  ResetPasswordSendCodeOptions,
-  ResetPasswordSendCodeResponse,
-} from "./send-code.js";
+import type { ResetPasswordSendCodeOptions, ResetPasswordSendCodeResponse } from "./send-code.js";
 import { sendCode } from "./send-code.js";
 import type {
   ResetPasswordValidateCodeOptions,
   ResetPasswordValidateCodeResponse,
 } from "./verify-code.js";
 import { verifyCode } from "./verify-code.js";
-import { request } from "../../../../../api/index.js";
-import {
-  UnknownResponse,
-  createService,
-} from "../../../../../service/index.js";
-import type {
-  CheckPasswordOptions,
-  CheckPasswordResponse,
-} from "../check-password.js";
-import { checkPasswordLocal } from "../check-password.js";
-import type { ResetCaptchaResponse } from "../reset-captcha.js";
-import { getResetCaptchaLocal } from "../reset-captcha.js";
-import { RESET_PREFIX } from "../utils.js";
 
 export type ResetPasswordOptions =
   | { type: "init" }
@@ -78,7 +63,7 @@ const resetPasswordLocal = async <T extends ResetPasswordOptions>(
 
     console.error(err);
 
-    return UnknownResponse(message) as ResetPasswordResponse<T>;
+    return unknownResponse(message) as ResetPasswordResponse<T>;
   }
 };
 

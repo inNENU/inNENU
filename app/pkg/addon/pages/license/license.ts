@@ -15,19 +15,13 @@ $Page(PAGE_ID, {
     nodes: [] as RichTextNode[],
   },
 
-  onLoad({
-    from = "返回",
-    type = "privacy",
-  }: {
-    type?: "license" | "privacy";
-    from?: string;
-  }) {
+  onLoad({ from = "返回", type = "privacy" }: { type?: "license" | "privacy"; from?: string }) {
     this.setData({
       color: getPageColor(),
       theme: info.theme,
     });
 
-    return requestJSON<{
+    requestJSON<{
       title: string;
       version: number;
       nodes: RichTextNode[];
@@ -36,7 +30,7 @@ $Page(PAGE_ID, {
     });
   },
 
-  // eslint-disable-next-line @typescript-eslint/no-empty-function
+  // oxlint-disable-next-line typescript/no-empty-function
   onPageScroll() {},
 
   onShareAppMessage(): WechatMiniprogram.Page.ICustomShareContent {

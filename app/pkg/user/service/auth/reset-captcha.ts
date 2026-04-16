@@ -1,17 +1,14 @@
 import { encodeBase64 } from "@mptool/all";
 
-import { RESET_PREFIX } from "./utils.js";
 import { request } from "../../../../api/index.js";
 import type {
   ActionFailType,
   CommonFailedResponse,
   CommonSuccessResponse,
 } from "../../../../service/index.js";
-import {
-  RestrictedResponse,
-  UnknownResponse,
-} from "../../../../service/index.js";
+import { RestrictedResponse, unknownResponse } from "../../../../service/index.js";
 import { generateRandomString } from "../../utils/index.js";
+import { RESET_PREFIX } from "./utils.js";
 
 const CAPTCHA_URL = `${RESET_PREFIX}/generateCaptcha`;
 
@@ -22,8 +19,7 @@ export interface ResetCaptchaInfo {
   captchaId: string;
 }
 
-export type ResetCaptchaSuccessResponse =
-  CommonSuccessResponse<ResetCaptchaInfo>;
+export type ResetCaptchaSuccessResponse = CommonSuccessResponse<ResetCaptchaInfo>;
 
 export type ResetCaptchaResponse =
   | ResetCaptchaSuccessResponse
@@ -38,9 +34,8 @@ export const getResetCaptchaLocal = async (): Promise<ResetCaptchaResponse> => {
 
   if (headers.get("Content-Type") === "text/html") return RestrictedResponse;
 
-  if (!headers.get("Content-Type")?.startsWith("image/jpeg")) {
-    return UnknownResponse("获取验证码失败");
-  }
+  if (!headers.get("Content-Type")?.startsWith("image/jpeg"))
+    return unknownResponse("获取验证码失败");
 
   return {
     success: true,

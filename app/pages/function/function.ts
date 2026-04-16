@@ -2,22 +2,11 @@ import { $Page, get, logger, put, set, take } from "@mptool/all";
 
 import type { PageStateWithContent } from "../../../typings/index.js";
 import { preloadSkyline } from "../../api/index.js";
-import { checkResource, syncAppSettings } from "../../app/index.js";
 import type { App } from "../../app.js";
+import { checkResource, syncAppSettings } from "../../app/index.js";
 import { DAY, appCoverPrefix } from "../../config/index.js";
-import {
-  envName,
-  getIdentity,
-  info,
-  menuSpace,
-  windowInfo,
-} from "../../state/index.js";
-import {
-  getPageColor,
-  resolvePage,
-  setPage,
-  showNotice,
-} from "../../utils/index.js";
+import { envName, getIdentity, info, menuSpace, windowInfo } from "../../state/index.js";
+import { getPageColor, resolvePage, setPage, showNotice } from "../../utils/index.js";
 
 const { globalData } = getApp<App>();
 
@@ -63,9 +52,7 @@ $Page(PAGE_ID, {
 
     if (data) put(PAGE_ID, resolvePage({ id: PAGE_ID }, data));
 
-    logger.debug(
-      `Function page loading time: ${Date.now() - info.startupTime}ms`,
-    );
+    logger.debug(`Function page loading time: ${Date.now() - info.startupTime}ms`);
   },
 
   onLoad() {
@@ -76,7 +63,9 @@ $Page(PAGE_ID, {
       preloadData || this.data.page,
     );
 
-    this.$on("settings", () => this.setPage());
+    this.$on("settings", () => {
+      this.setPage();
+    });
   },
 
   onShow() {
@@ -111,10 +100,8 @@ $Page(PAGE_ID, {
     if (!globalData.settings) return null;
 
     const { id } = getIdentity();
-    const {
-      "function-page": functionConfig,
-      "function-presets": functionPresets,
-    } = globalData.settings;
+    const { "function-page": functionConfig, "function-presets": functionPresets } =
+      globalData.settings;
 
     const configName = functionConfig[id] || functionConfig.default;
 
@@ -136,10 +123,7 @@ $Page(PAGE_ID, {
 
       if (pageData) setPage({ ctx: this, option: { id: PAGE_ID } }, pageData);
     } catch {
-      setPage(
-        { ctx: this, option: { id: PAGE_ID } },
-        get(PAGE_ID) || this.data.page,
-      );
+      setPage({ ctx: this, option: { id: PAGE_ID } }, get(PAGE_ID) || this.data.page);
     }
   },
 

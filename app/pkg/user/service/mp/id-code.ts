@@ -61,26 +61,19 @@ export interface IdCodeInfo {
   major: string;
   createTime: string;
 
-  /**
-   * @description Only available for admin
-   */
+  /** Only available for admin */
   id: number | null;
-  /**
-   * @description Only available for admin
-   */
+  /** Only available for admin */
   gender: string | null;
 }
 
 export type CheckIDCodeStatusSuccessResponse = CommonSuccessResponse<
-  | { existed: true; code: string; remark: string }
-  | { existed: false; verifier: string | null }
+  { existed: true; code: string; remark: string } | { existed: false; verifier: string | null }
 >;
 export type CheckIDCodeInfoSuccessResponse = CommonSuccessResponse<IdCodeInfo>;
 
 export type CheckIDCodeResponse<T extends string | void> =
-  | (T extends string
-      ? CheckIDCodeInfoSuccessResponse
-      : CheckIDCodeStatusSuccessResponse)
+  | (T extends string ? CheckIDCodeInfoSuccessResponse : CheckIDCodeStatusSuccessResponse)
   | AuthLoginFailedResponse
   | CommonFailedResponse<
       | ActionFailType.DatabaseError

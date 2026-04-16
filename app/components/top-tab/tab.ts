@@ -30,14 +30,11 @@ $Component({
     transition({ detail }: WechatMiniprogram.SwiperTransition): void {
       this.setData({
         barleft:
-          (detail.dx + windowInfo.windowWidth * this.data.currentSwipe) /
-          this.data.navList.length,
+          (detail.dx + windowInfo.windowWidth * this.data.currentSwipe) / this.data.navList.length,
       });
     },
 
-    aminationFinish({
-      detail: { current },
-    }: WechatMiniprogram.SwiperAnimationFinish): void {
+    aminationFinish({ detail: { current } }: WechatMiniprogram.SwiperAnimationFinish): void {
       this.setData({ currentSwipe: current });
       if (!this.data.immediate) this.setData({ current });
     },

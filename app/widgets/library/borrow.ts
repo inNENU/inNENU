@@ -35,7 +35,11 @@ $Component({
 
   pageLifetimes: {
     show(): void {
-      if (!user.account) return this.setData({ status: "login" });
+      if (!user.account) {
+        this.setData({ status: "login" });
+
+        return;
+      }
 
       if (this.data.status === "login") {
         this.setData({ status: "loading" });
@@ -90,7 +94,7 @@ $Component({
     showBooks() {
       const { books } = this.data;
 
-      if (books.length)
+      if (books.length) {
         showModal(
           "借阅书目",
           books
@@ -110,6 +114,7 @@ ${
             )
             .join("\n---\n"),
         );
+      }
     },
 
     viewBookDetail({

@@ -54,10 +54,7 @@ export const downloadResource = async (
               if (showProgress) {
                 progressNumber += 1;
                 wx.showLoading({
-                  title:
-                    progressNumber === total
-                      ? "解压中"
-                      : `更新中(${progressNumber}/${total})`,
+                  title: progressNumber === total ? "解压中" : `更新中(${progressNumber}/${total})`,
                   mask: true,
                 });
               }
@@ -89,7 +86,7 @@ export const downloadResource = async (
   if (showProgress) wx.hideLoading();
 
   // 删除压缩包
-  resourceNames.map((resource) => {
+  resourceNames.forEach((resource) => {
     rm(`${resource}.zip`, "file");
   });
 };
@@ -104,18 +101,13 @@ let hasResPopup = false;
  * @param dataUsage 消耗的数据流量
  */
 
-export const checkResource = (): Promise<void> => {
+export const checkResource = async (): Promise<void> => {
   /** 资源提醒状态 */
-  let disableNotify = wx.getStorageSync<boolean | undefined>(
-    "disableResourceNotify",
-  );
+  let disableNotify = wx.getStorageSync<boolean | undefined>("disableResourceNotify");
   /** 本地资源版本 */
-  const localVersion: Record<string, number> =
-    readJSON("resource-version") || {};
+  const localVersion: Record<string, number> = readJSON("resource-version") || {};
   /** 上次更新时间 */
-  const localTime = wx.getStorageSync<number | undefined>(
-    `resource-update-time`,
-  );
+  const localTime = wx.getStorageSync<number | undefined>(`resource-update-time`);
   /** 当前时间 */
   const currentTime = Math.round(Date.now() / 1000);
 
@@ -129,66 +121,63 @@ export const checkResource = (): Promise<void> => {
     logger.debug("Enable resource notify after 7 days");
   }
 
+  if (disableNotify || hasResPopup) return;
+
   // 需要检查更新
-  if (!disableNotify && !hasResPopup)
-    return request<ResourceVersionInfo>(`${server}service/version.php`, {
+  try {
+    const { data } = await request<ResourceVersionInfo>(`${server}service/version.php`, {
       method: "POST",
-    })
-      .then(({ data }) => {
-        const updateList: string[] = [];
+    });
+    const updateList: string[] = [];
 
-        for (const key in data.version)
-          if (data.version[key] !== localVersion[key]) updateList.push(key);
+    for (const key in data.version)
+      if (data.version[key] !== localVersion[key]) updateList.push(key);
 
-        // 需要更新
-        if (updateList.length > 0) {
-          // 调试
-          logger.debug("New resource detected");
+    // 需要更新
+    if (updateList.length > 0) {
+      // 调试
+      logger.debug("New resource detected");
 
-          const size = updateList.reduce(
-            (sum, item) => sum + data.size[item],
-            0,
-          );
+      const size = updateList.reduce((sum, item) => sum + data.size[item], 0);
 
-          hasResPopup = true;
+      hasResPopup = true;
 
-          // 需要提醒
-          wx.showModal({
-            title: "内容更新",
-            content: `请更新资源以获得最新内容 (大小${size}KB)`,
-            cancelText: "取消",
-            cancelColor: "#ff0000",
-            confirmText: "更新",
-            theme: "day",
-            success: ({ confirm, cancel }) => {
-              // 用户确认，下载更新
-              if (confirm)
-                downloadResource(updateList).then(() => {
-                  writeJSON("resource-version", data.version);
-                  hasResPopup = false;
-                });
-              // 用户取消，警告用户
-              else if (cancel)
-                wx.showModal({
-                  title: "更新已取消",
-                  content: "您会错过本次新增与修正的内容，导致的后果请您自负!",
-                  confirmColor: "#ff0000",
-                  confirmText: "确定",
-                  showCancel: false,
-                  theme: "day",
-                });
-            },
-          });
-        }
-        // 调试
-        else {
-          logger.debug("Resource up to date");
-        }
-      })
-      .catch((err: unknown) => {
-        logger.error("资源检查失败", err);
-        showToast("服务器出现问题");
+      // 需要提醒
+      wx.showModal({
+        title: "内容更新",
+        content: `请更新资源以获得最新内容 (大小${size}KB)`,
+        cancelText: "取消",
+        cancelColor: "#ff0000",
+        confirmText: "更新",
+        theme: "day",
+        success: ({ confirm, cancel }) => {
+          // 用户确认，下载更新
+          if (confirm) {
+            downloadResource(updateList).then(() => {
+              writeJSON("resource-version", data.version);
+              hasResPopup = false;
+            });
+          }
+          // 用户取消，警告用户
+          else if (cancel) {
+            wx.showModal({
+              title: "更新已取消",
+              content: "您会错过本次新增与修正的内容，导致的后果请您自负!",
+              confirmColor: "#ff0000",
+              confirmText: "确定",
+              showCancel: false,
+              theme: "day",
+            });
+          }
+        },
       });
-
-  return Promise.resolve();
+    }
+    // 调试
+    else {
+      logger.debug("Resource up to date");
+    }
+  } catch (err) {
+    logger.error("资源检查失败", err);
+    showToast("服务器出现问题");
+  }
 };

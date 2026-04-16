@@ -1,9 +1,9 @@
 import { logger, ls, rm, showToast } from "@mptool/all";
 
-import type { AppSettings } from "./settings.js";
 import { request } from "../api/index.js";
 import { server } from "../config/index.js";
 import { appId } from "../state/index.js";
+import type { AppSettings } from "./settings.js";
 
 export interface UpdateInfo {
   /** 是否进行强制更新 */
@@ -65,7 +65,9 @@ export const updateApp = (): void => {
                     wx.showLoading({ title: "初始化中", mask: true });
 
                     // 清除文件系统文件与数据存储
-                    ls("").forEach((filePath) => rm(filePath));
+                    ls("").forEach((filePath) => {
+                      rm(filePath);
+                    });
                     wx.clearStorageSync();
 
                     // 隐藏提示
@@ -79,6 +81,7 @@ export const updateApp = (): void => {
             });
           }),
         )
+        // oxlint-disable-next-line promise/prefer-await-to-callbacks
         .catch((err: unknown) => {
           // 调试信息
           logger.error("版本配置文件错误", err);

@@ -1,19 +1,10 @@
 import { $Page, logger, showToast } from "@mptool/all";
 
-import type {
-  LyricData,
-  MusicInfo,
-  MusicList,
-} from "../../../../../typings/index.js";
+import type { LyricData, MusicInfo, MusicList } from "../../../../../typings/index.js";
 import { loadFZSSJW } from "../../../../api/index.js";
 import { appCoverPrefix, appName } from "../../../../config/index.js";
 import { appInfo } from "../../../../state/index.js";
-import {
-  ensureJson,
-  getAssetLink,
-  getJson,
-  showNotice,
-} from "../../../../utils/index.js";
+import { ensureJson, getAssetLink, getJson, showNotice } from "../../../../utils/index.js";
 import type { MusicState, PlayMode } from "../../utils/index.js";
 
 const musicState: MusicState = { playing: false, index: 0 };
@@ -75,12 +66,8 @@ $Page("music", {
     this.setData({
       playing: musicState.playing,
       mode: mode || "列表循环",
-      indicatorColor: darkmode
-        ? "rgba(255, 255, 255, 0.15)"
-        : "rgba(0, 0, 0, 0.15)",
-      indicatorActiveColor: darkmode
-        ? "rgba(255, 255, 255, 0.45)"
-        : "rgba(0, 0, 0, 0.45)",
+      indicatorColor: darkmode ? "rgba(255, 255, 255, 0.15)" : "rgba(0, 0, 0, 0.15)",
+      indicatorActiveColor: darkmode ? "rgba(255, 255, 255, 0.45)" : "rgba(0, 0, 0, 0.45)",
     });
 
     getJson<MusicList>("function/music/index").then((songData) => {
@@ -99,8 +86,7 @@ $Page("music", {
       } else {
         const name = wx.getStorageSync<string | undefined>("music");
 
-        if (name)
-          musicState.index = songList.findIndex((song) => song.title === name);
+        if (name) musicState.index = songList.findIndex((song) => song.title === name);
       }
 
       const { index } = musicState;
@@ -166,10 +152,8 @@ $Page("music", {
 
   onThemeChange({ theme }: WechatMiniprogram.OnThemeChangeListenerResult) {
     this.setData({
-      indicatorColor:
-        theme === "dark" ? "rgba(255, 255, 255, 0.15)" : "rgba(0, 0, 0, 0.15)",
-      indicatorActiveColor:
-        theme === "dark" ? "rgba(255, 255, 255, 0.45)" : "rgba(0, 0, 0, 0.45)",
+      indicatorColor: theme === "dark" ? "rgba(255, 255, 255, 0.15)" : "rgba(0, 0, 0, 0.15)",
+      indicatorActiveColor: theme === "dark" ? "rgba(255, 255, 255, 0.45)" : "rgba(0, 0, 0, 0.45)",
     });
   },
 
@@ -244,7 +228,7 @@ $Page("music", {
   initLyric() {
     const { lyric } = this.data.currentSong;
 
-    if (lyric)
+    if (lyric) {
       getJson<LyricData>(`function/music/${lyric}`).then((lyrics) => {
         this.setData({
           currentLyric: "",
@@ -252,12 +236,13 @@ $Page("music", {
           lyrics,
         });
       });
-    else
+    } else {
       this.setData({
         currentLyric: "",
         currentLyricId: -1,
         lyrics: [] as LyricData,
       });
+    }
   },
 
   /** 设置歌词 */
@@ -266,14 +251,14 @@ $Page("music", {
     let id = 0;
 
     /** 如果当前时间大于本项且本项不是最后一项 */
-    while (id < lyrics.length && this.data.currentTime > lyrics[id].time)
-      id += 1;
+    while (id < lyrics.length && this.data.currentTime > lyrics[id].time) id += 1;
 
-    if (currentLyricId !== id - 1 && id !== 0)
+    if (currentLyricId !== id - 1 && id !== 0) {
       this.setData({
         currentLyricId: id - 1,
         currentLyric: lyrics[id - 1].text || " ",
       });
+    }
   },
 
   loadCover(event: WechatMiniprogram.ImageLoad) {
@@ -293,7 +278,11 @@ $Page("music", {
     }
   },
 
-  /** 拖拽进度 */
+  /**
+   * 拖拽进度
+   *
+   * @param event 事件对象
+   */
   drag(event: WechatMiniprogram.SliderChange) {
     if (this.state.interrupted) {
       manager.src = this.data.currentSong.src;
@@ -314,20 +303,24 @@ $Page("music", {
     let result: number | "stop";
 
     switch (this.data.mode) {
-      case "随机播放":
+      case "随机播放": {
         do result = Math.round(Math.random() * total - 0.5);
         while (index === result);
         break;
-      case "顺序播放":
+      }
+      case "顺序播放": {
         result = index + 1 === total ? "stop" : index + 1;
         showToast("播放完毕");
         break;
-      case "单曲循环":
+      }
+      case "单曲循环": {
         result = index;
         break;
-      case "列表循环":
-      default:
+      }
+      // case "列表循环":
+      default: {
         result = index + 1 === total ? 0 : index + 1;
+      }
     }
 
     this.switchSong(result);
@@ -340,11 +333,12 @@ $Page("music", {
     let result: number | "nothing";
 
     switch (this.data.mode) {
-      case "随机播放":
+      case "随机播放": {
         do result = Math.round(Math.random() * total - 0.5);
         while (index === result);
         break;
-      case "顺序播放":
+      }
+      case "顺序播放": {
         if (index + 1 === total) {
           result = "nothing";
           showToast("已是最后一曲");
@@ -352,10 +346,12 @@ $Page("music", {
           result = index + 1;
         }
         break;
-      case "单曲循环":
-      case "列表循环":
-      default:
+      }
+      // case "单曲循环":
+      // case "列表循环":
+      default: {
         result = index + 1 === total ? 0 : index + 1;
+      }
     }
 
     this.switchSong(result);
@@ -368,11 +364,12 @@ $Page("music", {
     let result: number | "nothing";
 
     switch (this.data.mode) {
-      case "随机播放":
+      case "随机播放": {
         do result = Math.round(Math.random() * total - 0.5);
         while (index === result);
         break;
-      case "顺序播放":
+      }
+      case "顺序播放": {
         if (index === 0) {
           result = "nothing";
           showToast("已是第一曲");
@@ -380,15 +377,21 @@ $Page("music", {
           result = index - 1;
         }
         break;
-      case "单曲循环":
-      case "列表循环":
-      default:
+      }
+      // case "单曲循环":
+      // case "列表循环":
+      default: {
         result = index === 0 ? total - 1 : index - 1;
+      }
     }
     this.switchSong(result);
   },
 
-  /** 切换歌曲 */
+  /**
+   * 切换歌曲
+   *
+   * @param index 歌曲序号，"stop" 代表停止播放，"nothing" 代表不切歌
+   */
   switchSong(index: "stop" | "nothing" | number) {
     if (index === "stop") {
       this.setData({ playing: false, canPlay: false });
@@ -420,13 +423,7 @@ $Page("music", {
 
   /** 切换播放模式 */
   modeSwitch() {
-    const modes: PlayMode[] = [
-      "列表循环",
-      "单曲循环",
-      "顺序播放",
-      "随机播放",
-      "列表循环",
-    ];
+    const modes: PlayMode[] = ["列表循环", "单曲循环", "顺序播放", "随机播放", "列表循环"];
     const mode = modes[modes.indexOf(this.data.mode) + 1];
 
     this.setData({ mode });

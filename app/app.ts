@@ -23,34 +23,23 @@ $Config({
 
   getPath: (pageName) => {
     // handle main package
-    if (
-      ["main", "function", "guide", "intro", "user", "info"].includes(pageName)
-    )
+    if (["main", "function", "guide", "intro", "user", "info"].includes(pageName))
       return `/pages/${pageName}/${pageName}`;
 
     // handle addon sub package
     if (
-      [
-        "about",
-        "action",
-        "license",
-        "privacy",
-        "qrcode",
-        "search",
-        "settings",
-        "web",
-      ].includes(pageName)
+      ["about", "action", "license", "privacy", "qrcode", "search", "settings", "web"].includes(
+        pageName,
+      )
     )
       return `/pkg/addon/pages/${pageName}/${pageName}`;
-    if (pageName === "widget-settings")
-      return `/pkg/addon/pages/settings/widget`;
+    if (pageName === "widget-settings") return `/pkg/addon/pages/settings/widget`;
 
     // handle multi-word path in account sub package
     if (["change-major", "exam-place"].includes(pageName))
       return `/pkg/user/pages/${pageName}/${pageName}`;
 
-    if (pageName === "under-major-plan")
-      return "/pkg/tool/pages/major-plan/under";
+    if (pageName === "under-major-plan") return "/pkg/tool/pages/major-plan/under";
 
     // handle info sub package
     if (
@@ -70,18 +59,15 @@ $Config({
     )
       return `/pkg/tool/pages/${pageName}/${pageName}`;
 
-    if (pageName === "under-course-table")
-      return "/pkg/user/pages/course-table/under";
+    if (pageName === "under-course-table") return "/pkg/user/pages/course-table/under";
 
     const name = pageName.startsWith("under-")
-      ? pageName.slice(6) + "-under"
+      ? `${pageName.slice(6)}-under`
       : pageName.startsWith("grad-")
-        ? pageName.slice(5) + "-grad"
+        ? `${pageName.slice(5)}-grad`
         : pageName;
 
-    const [, dir, file] = name.includes("-")
-      ? /^([^-]+)-(.*)$/.exec(name)!
-      : [null, name, name];
+    const [, dir, file] = name.includes("-") ? /^([^-]+)-(.*)$/.exec(name)! : [null, name, name];
 
     if (["calendar", "enroll", "map", "official"].includes(dir))
       return `/pkg/tool/pages/${dir}/${file}`;
@@ -103,6 +89,7 @@ $Config({
       };
 
     options.onLoad = wrapFunction(
+      // oxlint-disable-next-line typescript/no-misused-promises
       options.onLoad,
       function (this: TrivialPageInstance & { onThemeChange: () => void }) {
         this.setData({
@@ -114,6 +101,7 @@ $Config({
     );
 
     options.onUnload = wrapFunction(
+      // oxlint-disable-next-line typescript/no-misused-promises
       options.onUnload,
       function (this: TrivialPageInstance & { onThemeChange: () => void }) {
         wx.offThemeChange?.(this.onThemeChange);
@@ -121,11 +109,9 @@ $Config({
     );
 
     options.onResize = wrapFunction(
+      // oxlint-disable-next-line typescript/no-misused-promises
       options.onResize,
-      function (
-        this: TrivialPageInstance,
-        { size }: WechatMiniprogram.Page.IResizeOption,
-      ) {
+      function (this: TrivialPageInstance, { size }: WechatMiniprogram.Page.IResizeOption) {
         this.setData({
           size: getSizeClass(size.windowWidth),
         });

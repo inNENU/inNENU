@@ -1,6 +1,5 @@
 import { logger } from "@mptool/all";
 
-import { UNDER_STUDY_DOMAIN, UNDER_STUDY_SERVER } from "./utils.js";
 import { cookieStore, request } from "../../../../api/index.js";
 import type {
   ActionFailType,
@@ -13,7 +12,7 @@ import type {
 import {
   MissingCredentialResponse,
   RestrictedResponse,
-  UnknownResponse,
+  unknownResponse,
   authLogin,
   checkAccountStatus,
   createService,
@@ -21,6 +20,7 @@ import {
 } from "../../../../service/index.js";
 import type { AccountInfo } from "../../../../state/index.js";
 import { user } from "../../../../state/index.js";
+import { UNDER_STUDY_DOMAIN, UNDER_STUDY_SERVER } from "./utils.js";
 
 let currentLogin: Promise<UnderStudyLoginResponse> | null = null;
 let loginMethod: LoginMethod = "validate";
@@ -34,8 +34,7 @@ export const isUnderStudyLoggedInLocal = async (): Promise<boolean> => {
     if (response.status === 302) {
       const location = response.headers.get("location");
 
-      if (location?.startsWith(`${UNDER_STUDY_SERVER}/new/welcome.page`))
-        return true;
+      if (location?.startsWith(`${UNDER_STUDY_SERVER}/new/welcome.page`)) return true;
     }
 
     return false;
@@ -63,8 +62,20 @@ export type UnderStudyLoginResponse =
 
 const SSO_LOGIN_URL = `${UNDER_STUDY_SERVER}/new/ssoLogin`;
 
+export const underStudyLoginOnline = async (
+  options: AccountInfo,
+): Promise<UnderStudyLoginResponse> =>
+  request<UnderStudyLoginResponse>("/under-study/login", {
+    method: "POST",
+    body: options,
+    cookieScope: UNDER_STUDY_SERVER,
+  }).then(({ data }) => data);
+
 /**
- * @requires "redirect:manual"
+ * Requires "redirect:manual"
+ *
+ * @param options Account information for login
+ * @returns Login response
  */
 export const underStudyLoginLocal = async (
   options: AccountInfo,
@@ -87,7 +98,7 @@ export const underStudyLoginLocal = async (
   });
 
   if (ticketResponse.status === 405) return RestrictedResponse;
-  if (ticketResponse.status !== 302) return UnknownResponse("登录失败");
+  if (ticketResponse.status !== 302) return unknownResponse("登录失败");
 
   const finalLocation = ticketResponse.headers.get("Location");
 
@@ -98,26 +109,16 @@ export const underStudyLoginLocal = async (
 
     if (
       ssoResponse.status === 302 &&
-      ssoResponse.headers
-        .get("Location")
-        ?.startsWith(`${UNDER_STUDY_SERVER}/new/welcome.page`)
-    )
+      ssoResponse.headers.get("Location")?.startsWith(`${UNDER_STUDY_SERVER}/new/welcome.page`)
+    ) {
       return {
         success: true,
       };
+    }
   }
 
-  return UnknownResponse("登录失败");
+  return unknownResponse("登录失败");
 };
-
-export const underStudyLoginOnline = async (
-  options: AccountInfo,
-): Promise<UnderStudyLoginResponse> =>
-  request<UnderStudyLoginResponse>("/under-study/login", {
-    method: "POST",
-    body: options,
-    cookieScope: UNDER_STUDY_SERVER,
-  }).then(({ data }) => data);
 
 const underStudyLogin = createService(
   "under-study-login",
@@ -131,68 +132,65 @@ const hasUnderStudyCookies = (): boolean =>
     .some(({ domain }) => domain.endsWith(UNDER_STUDY_DOMAIN));
 
 export const withUnderStudyLogin =
-  <R extends { success: boolean }, T extends (...args: any[]) => Promise<R>>(
+  // oxlint-disable-next-line typescript/no-explicit-any
+  <Returns extends { success: boolean }, T extends (...args: any[]) => Promise<Returns>>(
     serviceHandler: T,
   ) =>
-  async (
-    ...args: Parameters<T>
-  ): Promise<
-    | CommonFailedResponse<ActionFailType.MissingCredential>
-    | FailResponse<UnderStudyLoginResponse>
-    | Awaited<ReturnType<T>>
-  > => {
-    if (!user.account) return MissingCredentialResponse;
+    async (
+      ...args: Parameters<T>
+    ): Promise<
+      | CommonFailedResponse<ActionFailType.MissingCredential>
+      | FailResponse<UnderStudyLoginResponse>
+      | Awaited<ReturnType<T>>
+    > => {
+      if (!user.account) return MissingCredentialResponse;
 
-    // check whether cookies exist and avoid re-login if the login state is not expired
-    if (hasUnderStudyCookies()) {
-      let response: Awaited<ReturnType<T>> | null = null;
+      // check whether cookies exist and avoid re-login if the login state is not expired
+      if (hasUnderStudyCookies()) {
+        let response: Awaited<ReturnType<T>> | null = null;
 
-      // assuming login state is valid if cookies exist
-      if (loginMethod === "check") {
-        response = (await serviceHandler(...args)) as Awaited<ReturnType<T>>;
-      }
-
-      // validate login state with actual API
-      if (loginMethod === "validate") {
-        if (await isUnderStudyLoggedIn()) {
+        // assuming login state is valid if cookies exist
+        if (loginMethod === "check")
           response = (await serviceHandler(...args)) as Awaited<ReturnType<T>>;
+
+        // validate login state with actual API
+        if (loginMethod === "validate" && (await isUnderStudyLoggedIn()))
+          response = (await serviceHandler(...args)) as Awaited<ReturnType<T>>;
+
+        if (response) {
+          // check if action is successful
+          if (response.success) {
+            loginMethod = "check";
+
+            return response;
+          }
+
+          // validate login state next time to ensure the login state is correct
+          // @ts-expect-error: Response untyped
+          if (response.type !== ActionFailType.Expired) {
+            loginMethod = "validate";
+
+            return response;
+          }
         }
       }
 
-      if (response) {
-        // check if action is successful
-        if (response.success) {
-          loginMethod = "check";
+      // ensure only one login action is running
+      const response = await (currentLogin ??= underStudyLogin(user.account));
 
-          return response;
-        }
+      // clear the current login promise after log in
+      currentLogin = null;
 
-        // validate login state next time to ensure the login state is correct
-        // @ts-expect-error: Response untyped
-        if (response.type !== ActionFailType.Expired) {
-          loginMethod = "validate";
+      // successfully logged in
+      if (response.success) {
+        loginMethod = "check";
 
-          return response;
-        }
+        return (await serviceHandler(...args)) as Awaited<ReturnType<T>>;
       }
-    }
 
-    // ensure only one login action is running
-    const response = await (currentLogin ??= underStudyLogin(user.account));
+      logger.error("Under study login failed", response);
+      loginMethod = "force";
+      checkAccountStatus(response);
 
-    // clear the current login promise after log in
-    currentLogin = null;
-
-    // successfully logged in
-    if (response.success) {
-      loginMethod = "check";
-
-      return (await serviceHandler(...args)) as Awaited<ReturnType<T>>;
-    }
-
-    logger.error("Under study login failed", response);
-    loginMethod = "force";
-    checkAccountStatus(response);
-
-    return response;
-  };
+      return response;
+    };

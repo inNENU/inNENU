@@ -1,5 +1,15 @@
 import { logger } from "@mptool/all";
 
+import { cookieStore, request } from "../../../../../api/index.js";
+import type { CommonFailedResponse } from "../../../../../service/index.js";
+import {
+  ActionFailType,
+  ExpiredResponse,
+  createService,
+  getIETimeStamp,
+  isWebVPNPage,
+} from "../../../../../service/index.js";
+import { UNDER_SYSTEM_SERVER } from "../utils.js";
 import type {
   MultiSelectUnderArchiveInfo,
   ReadonlyUnderArchiveInfo,
@@ -18,16 +28,6 @@ import {
   readonlyRegExp,
   selectRegExp,
 } from "./utils.js";
-import { cookieStore, request } from "../../../../../api/index.js";
-import type { CommonFailedResponse } from "../../../../../service/index.js";
-import {
-  ActionFailType,
-  ExpiredResponse,
-  createService,
-  getIETimeStamp,
-  isWebVPNPage,
-} from "../../../../../service/index.js";
-import { UNDER_SYSTEM_SERVER } from "../utils.js";
 
 export interface UnderCreateStudentArchiveGetInfoSuccessResponse {
   success: true;
@@ -42,6 +42,7 @@ export type UnderCreateStudentArchiveGetInfoResponse =
   | CommonFailedResponse<ActionFailType.Expired | ActionFailType.Existed>;
 
 const getCreateUnderStudentArchiveInfoLocal =
+  // oxlint-disable-next-line max-lines-per-function
   async (): Promise<UnderCreateStudentArchiveGetInfoResponse> => {
     try {
       const { data: welcomePageContent } = await request<string>(
@@ -60,58 +61,57 @@ const getCreateUnderStudentArchiveInfoLocal =
         /<input type="button" class="button" value="查看学籍信息"\s+onclick/.test(
           welcomePageContent,
         )
-      )
+      ) {
         return {
           success: false,
           type: ActionFailType.Existed,
           msg: "学籍已建立",
         };
+      }
 
       const link = welcomePageContent.match(nextLinkRegExp)?.[1];
 
-      if (!link)
+      if (!link) {
         return {
           success: false,
           msg: "未找到注册学籍链接",
         };
+      }
 
-      const { data: infoContent } = await request<string>(
-        `${UNDER_SYSTEM_SERVER}${link}`,
-        { cookieScope: UNDER_SYSTEM_SERVER },
-      );
+      const { data: infoContent } = await request<string>(`${UNDER_SYSTEM_SERVER}${link}`, {
+        cookieScope: UNDER_SYSTEM_SERVER,
+      });
 
-      if (infoContent.includes("不在控制范围内！"))
+      if (infoContent.includes("不在控制范围内！")) {
         return {
           success: false,
           type: ActionFailType.Existed,
           msg: "学籍已建立",
         };
+      }
 
-      const info = Array.from(infoContent.matchAll(infoRowRegExp)).map(
-        ([, ...matches]) =>
-          matches.map((item) => item.replace(/&nbsp;/g, " ").trim()),
+      const info = [...infoContent.matchAll(infoRowRegExp)].map(([, ...matches]) =>
+        matches.map((item) => item.replace(/&nbsp;/g, " ").trim()),
       );
 
-      const readonlyFields = info.filter(([, , editable]) =>
-        readonlyRegExp.test(editable),
-      );
+      // oxlint-disable-next-line unicorn/no-unreadable-array-destructuring
+      const readonlyFields = info.filter(([, , editable]) => readonlyRegExp.test(editable));
 
       const editableFields = info
+        // oxlint-disable-next-line unicorn/no-unreadable-array-destructuring
         .filter(([, , editable]) => !readonlyRegExp.test(editable))
         .map(([text, defaultValue, checkBox, inputOrSelect, remark]) => {
-          const [, checkboxValue, checkboxName] =
-            checkBoxRegExp.exec(checkBox)!;
+          const [, checkboxValue, checkboxName] = checkBoxRegExp.exec(checkBox)!;
 
-          const name = selectRegExp.exec(inputOrSelect)![1];
+          const [, name] = selectRegExp.exec(inputOrSelect)!;
 
-          const options = Array.from(inputOrSelect.matchAll(optionRegExp)).map(
-            ([, value, text]) => ({ value, text }),
-          );
+          const options = [...inputOrSelect.matchAll(optionRegExp)].map(([, value, text]) => ({
+            value,
+            text,
+          }));
 
           if (text === "火车到站") {
-            const validOptions = options.filter(
-              ({ value }) => Number(value) > 100,
-            );
+            const validOptions = options.filter(({ value }) => Number(value) > 100);
 
             const { category, values } = validOptions.reduce(
               (result, current) => {
@@ -161,12 +161,14 @@ const getCreateUnderStudentArchiveInfoLocal =
           };
         });
 
-      const hiddenFields = Array.from(
-        infoContent.matchAll(hiddenFieldsRegExp),
-      ).map(([, name, value]) => ({ name, value }));
+      const hiddenFields = [...infoContent.matchAll(hiddenFieldsRegExp)].map(([, name, value]) => ({
+        name,
+        value,
+      }));
 
       return {
         success: true,
+        // oxlint-disable-next-line unicorn/no-unreadable-array-destructuring
         readonly: readonlyFields.map(([text, value, , , remark]) => {
           const realValue = /<font[^>]*>(.*)<\/font>/.exec(value)?.[1] || value;
 
@@ -179,6 +181,7 @@ const getCreateUnderStudentArchiveInfoLocal =
         editable: editableFields,
         fields: [
           ...readonlyFields
+            // oxlint-disable-next-line unicorn/no-unreadable-array-destructuring
             .map(([, , , inputOrSelect]) => {
               let result = inputRegExp.exec(inputOrSelect);
 
@@ -190,9 +193,7 @@ const getCreateUnderStudentArchiveInfoLocal =
 
               return null;
             })
-            .filter(
-              (item): item is { name: string; value: string } => item !== null,
-            ),
+            .filter((item): item is { name: string; value: string } => item != null),
           ...hiddenFields,
         ],
         path: pathRegExp.exec(infoContent)![1],

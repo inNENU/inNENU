@@ -43,12 +43,8 @@ $Page(PAGE_ID, {
     this.setData({
       theme,
       color: getPageColor(),
-      indicatorColor: darkmode
-        ? "rgba(255, 255, 255, 0.15)"
-        : "rgba(0, 0, 0, 0.15)",
-      indicatorActiveColor: darkmode
-        ? "rgba(255, 255, 255, 0.45)"
-        : "rgba(0, 0, 0, 0.45)",
+      indicatorColor: darkmode ? "rgba(255, 255, 255, 0.15)" : "rgba(0, 0, 0, 0.15)",
+      indicatorActiveColor: darkmode ? "rgba(255, 255, 255, 0.45)" : "rgba(0, 0, 0, 0.45)",
       widgets,
     });
   },
@@ -57,7 +53,7 @@ $Page(PAGE_ID, {
     showNotice(PAGE_ID);
   },
 
-  // eslint-disable-next-line @typescript-eslint/no-empty-function
+  // oxlint-disable-next-line typescript/no-empty-function
   onPageScroll() {},
 
   showPopup() {
@@ -66,11 +62,7 @@ $Page(PAGE_ID, {
 
   selectWidget({
     currentTarget,
-  }: WechatMiniprogram.TouchEvent<
-    Record<never, never>,
-    Record<never, never>,
-    { index: number }
-  >) {
+  }: WechatMiniprogram.TouchEvent<Record<never, never>, Record<never, never>, { index: number }>) {
     const { index } = currentTarget.dataset;
 
     this.setData({
@@ -104,12 +96,8 @@ $Page(PAGE_ID, {
 
   removeWidget({
     currentTarget,
-  }: WechatMiniprogram.TouchEvent<
-    Record<never, never>,
-    Record<never, never>,
-    { index: number }
-  >) {
-    confirm("移除此组件", "", () => {
+  }: WechatMiniprogram.TouchEvent<Record<never, never>, Record<never, never>, { index: number }>) {
+    confirm("移除此组件", () => {
       const { index } = currentTarget.dataset;
       const { widgets } = this.data;
 

@@ -1,6 +1,5 @@
 import { logger } from "@mptool/all";
 
-import { ACTION_DOMAIN, ACTION_MAIN_PAGE, ACTION_SERVER } from "./utils.js";
 import { cookieStore, request } from "../../api/index.js";
 import type { AccountInfo } from "../../state/index.js";
 import { user } from "../../state/index.js";
@@ -15,13 +14,14 @@ import type {
 import {
   ActionFailType,
   MissingCredentialResponse,
-  UnknownResponse,
+  unknownResponse,
   checkAccountStatus,
   createService,
   isWebVPNPage,
   supportRedirect,
 } from "../utils/index.js";
 import { vpnCASLoginLocal } from "../vpn/index.js";
+import { ACTION_DOMAIN, ACTION_MAIN_PAGE, ACTION_SERVER } from "./utils.js";
 
 let currentLogin: Promise<ActionLoginResponse> | null = null;
 let loginMethod: LoginMethod = "validate";
@@ -45,9 +45,8 @@ const isActionLoggedInLocal = async (): Promise<boolean> => {
       // Note: If the env does not support "redirect: manual", the response will be a 302 redirect to WebVPN login page
       // In this case, the response.status will be 200 and the response body will be the WebVPN login page
       (!supportRedirect && isWebVPNPage(data))
-    ) {
+    )
       return false;
-    }
 
     return data.success;
   } catch {
@@ -71,16 +70,19 @@ export interface ActionLoginSuccessResponse {
   success: true;
 }
 
-export type ActionLoginResponse =
-  | ActionLoginSuccessResponse
-  | AuthLoginFailedResponse;
+export type ActionLoginResponse = ActionLoginSuccessResponse | AuthLoginFailedResponse;
 
-/**
- * @requires "redirect:manual"
+const actionLoginOnline = (options: AccountInfo): Promise<ActionLoginResponse> =>
+  request<ActionLoginResponse>("/action/login", {
+    method: "POST",
+    body: options,
+    cookieScope: ACTION_SERVER,
+  }).then(({ data }) => data);
+
+/*
+ * requires "redirect:manual"
  */
-const actionLoginLocal = async (
-  options: AccountInfo,
-): Promise<ActionLoginResponse> => {
+const actionLoginLocal = async (options: AccountInfo): Promise<ActionLoginResponse> => {
   if (!supportRedirect) return actionLoginOnline(options);
 
   const vpnLoginResult = await vpnCASLoginLocal(options);
@@ -103,101 +105,84 @@ const actionLoginLocal = async (
     redirect: "manual",
   });
 
-  if (ticketResponse.status !== 302) return UnknownResponse("登录失败");
+  if (ticketResponse.status !== 302) return unknownResponse("登录失败");
 
   const finalLocation = ticketResponse.headers.get("Location");
 
-  if (finalLocation?.startsWith(ACTION_MAIN_PAGE))
+  if (finalLocation?.startsWith(ACTION_MAIN_PAGE)) {
     return {
       success: true,
     };
+  }
 
-  return UnknownResponse("登录失败");
+  return unknownResponse("登录失败");
 };
 
-const actionLoginOnline = (
-  options: AccountInfo,
-): Promise<ActionLoginResponse> =>
-  request<ActionLoginResponse>("/action/login", {
-    method: "POST",
-    body: options,
-    cookieScope: ACTION_SERVER,
-  }).then(({ data }) => data);
-
-const actionLogin = createService(
-  "action-login",
-  actionLoginLocal,
-  actionLoginOnline,
-);
+const actionLogin = createService("action-login", actionLoginLocal, actionLoginOnline);
 
 const hasActionCookies = (): boolean =>
-  cookieStore
-    .getCookies(ACTION_SERVER)
-    .some(({ domain }) => domain.endsWith(ACTION_DOMAIN));
+  cookieStore.getCookies(ACTION_SERVER).some(({ domain }) => domain.endsWith(ACTION_DOMAIN));
 
 export const withActionLogin =
-  <R extends { success: boolean }, T extends (...args: any[]) => Promise<R>>(
+  // oxlint-disable-next-line typescript/no-explicit-any
+  <Returns extends { success: boolean }, T extends (...args: any[]) => Promise<Returns>>(
     serviceHandler: T,
   ) =>
-  async (
-    ...args: Parameters<T>
-  ): Promise<
-    | CommonFailedResponse<ActionFailType.MissingCredential>
-    | FailResponse<ActionLoginResponse>
-    | Awaited<ReturnType<T>>
-  > => {
-    if (!user.account) return MissingCredentialResponse;
+    async (
+      ...args: Parameters<T>
+    ): Promise<
+      | CommonFailedResponse<ActionFailType.MissingCredential>
+      | FailResponse<ActionLoginResponse>
+      | Awaited<ReturnType<T>>
+    > => {
+      if (!user.account) return MissingCredentialResponse;
 
-    // check whether cookies exist and avoid re-login if the login state is not expired
-    if (hasActionCookies()) {
-      let response: Awaited<ReturnType<T>> | null = null;
+      // check whether cookies exist and avoid re-login if the login state is not expired
+      if (hasActionCookies()) {
+        let response: Awaited<ReturnType<T>> | null = null;
 
-      // assuming login state is valid if cookies exist
-      if (loginMethod === "check") {
-        response = (await serviceHandler(...args)) as Awaited<ReturnType<T>>;
-      }
-
-      // validate login state with actual API
-      if (loginMethod === "validate") {
-        if (await isActionLoggedIn()) {
+        // assuming login state is valid if cookies exist
+        if (loginMethod === "check")
           response = (await serviceHandler(...args)) as Awaited<ReturnType<T>>;
+
+        // validate login state with actual API
+        if (loginMethod === "validate" && (await isActionLoggedIn()))
+          response = (await serviceHandler(...args)) as Awaited<ReturnType<T>>;
+
+        if (response) {
+          // check if action is successful
+          if (response.success) {
+            loginMethod = "check";
+
+            return response;
+          }
+
+          // validate login state next time to ensure the login state is correct
+          // @ts-expect-error: Response untyped
+          if (response.type !== ActionFailType.Expired) {
+            loginMethod = "validate";
+
+            return response;
+          }
         }
       }
 
-      if (response) {
-        // check if action is successful
-        if (response.success) {
-          loginMethod = "check";
+      // ensure only one login action is running
+      const response = await (currentLogin ??= actionLogin(user.account));
 
-          return response;
-        }
+      // clear the current login promise after log in
+      currentLogin = null;
 
-        // validate login state next time to ensure the login state is correct
-        // @ts-expect-error: Response untyped
-        if (response.type !== ActionFailType.Expired) {
-          loginMethod = "validate";
+      // successfully logged in
+      if (response.success) {
+        loginMethod = "check";
 
-          return response;
-        }
+        return (await serviceHandler(...args)) as Awaited<ReturnType<T>>;
       }
-    }
 
-    // ensure only one login action is running
-    const response = await (currentLogin ??= actionLogin(user.account));
+      logger.error("Action login failed", response);
+      loginMethod = "force";
+      checkAccountStatus(response);
 
-    // clear the current login promise after log in
-    currentLogin = null;
-
-    // successfully logged in
-    if (response.success) {
-      loginMethod = "check";
-
-      return (await serviceHandler(...args)) as Awaited<ReturnType<T>>;
-    }
-
-    logger.error("Action login failed", response);
-    loginMethod = "force";
-    checkAccountStatus(response);
-
-    return response;
-  };
+      return response;
+    };

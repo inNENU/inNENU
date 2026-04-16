@@ -31,8 +31,7 @@ $Component({
   methods: {
     setAnnouncement() {
       const { size } = this.data;
-      const announcements =
-        get<StarredOfficialNoticeData[]>(STARRED_ANNOUNCEMENT_LIST_KEY) || [];
+      const announcements = get<StarredOfficialNoticeData[]>(STARRED_ANNOUNCEMENT_LIST_KEY) || [];
 
       this.setData({
         data:
@@ -45,15 +44,14 @@ $Component({
       });
     },
 
-    viewNotice({
+    async viewNotice({
       currentTarget,
     }: WechatMiniprogram.TouchEvent<
       Record<string, never>,
       Record<string, never>,
       { index: number }
     >) {
-      const announcements =
-        get<StarredOfficialNoticeData[]>(STARRED_ANNOUNCEMENT_LIST_KEY) || [];
+      const announcements = get<StarredOfficialNoticeData[]>(STARRED_ANNOUNCEMENT_LIST_KEY) || [];
       const { index } = currentTarget.dataset;
       const { title, url } = announcements[index];
 

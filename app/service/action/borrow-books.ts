@@ -1,8 +1,5 @@
-/* eslint-disable @typescript-eslint/naming-convention */
 import { logger } from "@mptool/all";
 
-import { withActionLogin } from "./login.js";
-import { ACTION_SERVER } from "./utils.js";
 import { request } from "../../api/index.js";
 import type {
   ActionFailType,
@@ -11,11 +8,13 @@ import type {
 } from "../utils/index.js";
 import {
   ExpiredResponse,
-  UnknownResponse,
+  unknownResponse,
   createService,
   isWebVPNPage,
   supportRedirect,
 } from "../utils/index.js";
+import { withActionLogin } from "./login.js";
+import { ACTION_SERVER } from "./utils.js";
 
 const BORROW_BOOKS_URL = `${ACTION_SERVER}/basicInfo/getBookBorrow`;
 
@@ -111,15 +110,12 @@ export type BorrowBooksResponse =
 
 const getBorrowBooksLocal = async (): Promise<BorrowBooksResponse> => {
   try {
-    const { data, status } = await request<RawBorrowBooksData>(
-      BORROW_BOOKS_URL,
-      {
-        headers: {
-          Accept: "application/json, text/javascript, */*; q=0.01",
-        },
-        redirect: "manual",
+    const { data, status } = await request<RawBorrowBooksData>(BORROW_BOOKS_URL, {
+      headers: {
+        Accept: "application/json, text/javascript, */*; q=0.01",
       },
-    );
+      redirect: "manual",
+    });
 
     if (
       status === 302 ||
@@ -138,7 +134,7 @@ const getBorrowBooksLocal = async (): Promise<BorrowBooksResponse> => {
 
     logger.error("获取借阅书籍出错", err);
 
-    return UnknownResponse(message);
+    return unknownResponse(message);
   }
 };
 

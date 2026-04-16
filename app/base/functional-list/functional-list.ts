@@ -77,10 +77,7 @@ $Component({
 
     /** 控制选择器改变 */
     onPickerChange(
-      event: WechatMiniprogram.PickerChange<
-        Record<string, never>,
-        { id: string }
-      >,
+      event: WechatMiniprogram.PickerChange<Record<string, never>, { id: string }>,
     ): void {
       const { id, item } = this.getDetail<PickerListComponentItemConfig>(event);
 
@@ -90,9 +87,7 @@ $Component({
         // 判断为多列选择器，遍历每一列更新页面数据、并存储选择器值
         if (Array.isArray(value)) {
           value.forEach((x: string | number, y: number) => {
-            (item.value as unknown[])[y] = (item.select as unknown[][])[y][
-              Number(x)
-            ];
+            (item.value as unknown[])[y] = (item.select as unknown[][])[y][Number(x)];
             (item.currentValue as number[])[y] = Number(x);
           });
           wx.setStorageSync(item.key, value.join("-"));
@@ -113,20 +108,14 @@ $Component({
 
     /** 开关改变 */
     onToggleSwitch(
-      event: WechatMiniprogram.SwitchChange<
-        Record<string, never>,
-        { id: string }
-      >,
+      event: WechatMiniprogram.SwitchChange<Record<string, never>, { id: string }>,
     ): void {
       const { id, item } = this.getDetail<SwitchListComponentItemConfig>(event);
 
       // 更新页面数据
-      this.setData(
-        { [`config.items[${id}].status`]: event.detail.value },
-        () => {
-          if (item.handler) this.$call(item.handler, event.detail.value);
-        },
-      );
+      this.setData({ [`config.items[${id}].status`]: event.detail.value }, () => {
+        if (item.handler) this.$call(item.handler, event.detail.value);
+      });
 
       // 将开关值写入存储的 key 变量中
       wx.setStorageSync(item.key, event.detail.value);
@@ -134,10 +123,7 @@ $Component({
 
     /** 控制滑块显隐 */
     onSliderTap(
-      event: WechatMiniprogram.PickerChange<
-        Record<string, never>,
-        { id: string }
-      >,
+      event: WechatMiniprogram.PickerChange<Record<string, never>, { id: string }>,
     ): void {
       const { id, item } = this.getDetail<SliderListComponentItemConfig>(event);
 
@@ -147,10 +133,7 @@ $Component({
 
     /** 滑块改变 */
     sliderChange(
-      event: WechatMiniprogram.SliderChange<
-        Record<string, never>,
-        { id: string }
-      >,
+      event: WechatMiniprogram.SliderChange<Record<string, never>, { id: string }>,
     ): void {
       const { id, item } = this.getDetail<SliderListComponentItemConfig>(event);
       const { value } = event.detail;
@@ -167,10 +150,7 @@ $Component({
     },
 
     /** 获得选择器位置与内容 */
-    getDetail<
-      T extends
-        FunctionalListComponentItemOptions = FunctionalListComponentItemOptions,
-    >({
+    getDetail<T extends FunctionalListComponentItemOptions = FunctionalListComponentItemOptions>({
       currentTarget,
     }: WechatMiniprogram.CustomEvent<
       Record<string, unknown>,
@@ -188,9 +168,7 @@ $Component({
     /** 设置图标 */
     setLogo(items?: FunctionalListComponentItemOptions[]) {
       this.setData({
-        icons: (items || this.data.config.items || []).map(({ icon }) =>
-          getIconLink(icon),
-        ),
+        icons: (items || this.data.config.items || []).map(({ icon }) => getIconLink(icon)),
       });
     },
   },
@@ -212,7 +190,6 @@ $Component({
   },
 
   observers: {
-    // eslint-disable-next-line @typescript-eslint/naming-convention
     "config.items"(value: FunctionalListComponentItemOptions[]): void {
       this.setLogo(value);
     },

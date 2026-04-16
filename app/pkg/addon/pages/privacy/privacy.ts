@@ -7,12 +7,7 @@ import type {
 } from "../../../../../typings/index.js";
 import type { App } from "../../../../app.js";
 import { appInfo, info } from "../../../../state/index.js";
-import {
-  getPrivacyStatus,
-  resolvePage,
-  setPage,
-  showNotice,
-} from "../../../../utils/index.js";
+import { getPrivacyStatus, resolvePage, setPage, showNotice } from "../../../../utils/index.js";
 
 const { globalData } = getApp<App>();
 
@@ -126,7 +121,6 @@ $Page("privacy", {
   onShow() {
     getPrivacyStatus().then(({ needAuthorize }) => {
       this.setData({
-        // eslint-disable-next-line @typescript-eslint/naming-convention
         "page.content[0].items[1].desc": needAuthorize ? "否" : "是",
       });
     });
@@ -143,7 +137,6 @@ $Page("privacy", {
         });
 
         this.setData({
-          // eslint-disable-next-line @typescript-eslint/naming-convention
           "page.content[1].items": items,
         });
       },
@@ -211,35 +204,30 @@ $Page("privacy", {
       fail: () => {
         // 用户拒绝权限，提示用户开启权限
         wx.hideLoading();
-        showModal(
-          "权限被拒",
-          "您拒绝了权限授予，请在小程序设置页允许权限",
-          () => {
-            wx.openSetting({
-              success: ({ authSetting }) => {
-                if (authSetting[authorizeList[type]]) showToast("授权成功");
-                else showToast("授权失败，您没有授权");
+        showModal("权限被拒", "您拒绝了权限授予，请在小程序设置页允许权限", () => {
+          wx.openSetting({
+            success: ({ authSetting }) => {
+              if (authSetting[authorizeList[type]]) showToast("授权成功");
+              else showToast("授权失败，您没有授权");
 
-                wx.getSetting({
-                  success: ({ authSetting }) => {
-                    const { items } = this.data.page
-                      .content[1] as ListComponentOptions;
+              wx.getSetting({
+                success: ({ authSetting }) => {
+                  const { items } = this.data.page.content[1] as ListComponentOptions;
 
-                    authorizeList.forEach((type2, index) => {
-                      (items as ButtonListComponentItemConfig[])[index].desc =
-                        authSetting[type2] ? "已授权✓" : "未授权×";
-                    });
+                  authorizeList.forEach((type2, index) => {
+                    (items as ButtonListComponentItemConfig[])[index].desc = authSetting[type2]
+                      ? "已授权✓"
+                      : "未授权×";
+                  });
 
-                    this.setData({
-                      // eslint-disable-next-line @typescript-eslint/naming-convention
-                      "page.content[1].items": items,
-                    });
-                  },
-                });
-              },
-            });
-          },
-        );
+                  this.setData({
+                    "page.content[1].items": items,
+                  });
+                },
+              });
+            },
+          });
+        });
       },
     });
   },
@@ -252,12 +240,12 @@ $Page("privacy", {
             const { items } = this.data.page.content[1] as ListComponentOptions;
 
             authorizeList.forEach((type2, index) => {
-              (items as ButtonListComponentItemConfig[])[index].desc =
-                authSetting[type2] ? "已授权✓" : "未授权×";
+              (items as ButtonListComponentItemConfig[])[index].desc = authSetting[type2]
+                ? "已授权✓"
+                : "未授权×";
             });
 
             this.setData({
-              // eslint-disable-next-line @typescript-eslint/naming-convention
               "page.content[1].items": items,
             });
           },

@@ -32,12 +32,14 @@ $Page(PAGE_ID, {
     this.state.title = title;
     this.state.url = url;
 
-    if (!url)
+    if (url) {
+      this.getInfo();
+    } else {
       showModal("无法获取", "请提供 ID", () => {
         this.$back();
       });
+    }
 
-    this.getInfo();
     this.setData({
       color: getPageColor(),
       theme: info.theme,
@@ -95,7 +97,6 @@ $Page(PAGE_ID, {
       this.setData({
         status: "success",
         title,
-        // eslint-disable-next-line @typescript-eslint/naming-convention
         "share.title": title,
         time,
         from,
@@ -122,9 +123,7 @@ $Page(PAGE_ID, {
     if (!info) showToast("内容仍在获取", 1500, "error");
 
     if (starred) {
-      const starredAcademics = get<StarredOfficialNoticeData[]>(
-        STARRED_ANNOUNCEMENT_LIST_KEY,
-      )!;
+      const starredAcademics = get<StarredOfficialNoticeData[]>(STARRED_ANNOUNCEMENT_LIST_KEY)!;
 
       set(
         STARRED_ANNOUNCEMENT_LIST_KEY,

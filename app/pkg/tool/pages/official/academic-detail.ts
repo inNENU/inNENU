@@ -1,10 +1,6 @@
 import { $Page, get, logger, set, showModal, showToast } from "@mptool/all";
 
-import {
-  STARRED_ACADEMIC_LIST_KEY,
-  appCoverPrefix,
-  service,
-} from "../../../../config/index.js";
+import { STARRED_ACADEMIC_LIST_KEY, appCoverPrefix, service } from "../../../../config/index.js";
 import { appId, info } from "../../../../state/index.js";
 import type { StarredOfficialAcademicData } from "../../../../typings/index.js";
 import { getPageColor, showNotice } from "../../../../utils/index.js";
@@ -27,8 +23,7 @@ $Page(PAGE_ID, {
   },
 
   onLoad({ scene = "", title = "", person = "", url = scene }) {
-    const starredInfos =
-      get<StarredOfficialAcademicData[]>(STARRED_ACADEMIC_LIST_KEY) ?? [];
+    const starredInfos = get<StarredOfficialAcademicData[]>(STARRED_ACADEMIC_LIST_KEY) ?? [];
 
     this.state = {
       ...this.state,
@@ -37,12 +32,14 @@ $Page(PAGE_ID, {
       person,
     };
 
-    if (!url)
+    if (url) {
+      this.getInfo();
+    } else {
       showModal("无法获取", "请提供 ID", () => {
         this.$back();
       });
+    }
 
-    this.getInfo();
     this.setData({
       color: getPageColor(),
       theme: info.theme,
@@ -104,7 +101,6 @@ $Page(PAGE_ID, {
       this.setData({
         status: "success",
         title,
-        // eslint-disable-next-line @typescript-eslint/naming-convention
         "share.title": title,
         time,
         pageView,
@@ -133,17 +129,14 @@ $Page(PAGE_ID, {
     if (!info) showToast("内容仍在获取", 1500, "error");
 
     if (starred) {
-      const starredAcademics = get<StarredOfficialAcademicData[]>(
-        STARRED_ACADEMIC_LIST_KEY,
-      )!;
+      const starredAcademics = get<StarredOfficialAcademicData[]>(STARRED_ACADEMIC_LIST_KEY)!;
 
       set(
         STARRED_ACADEMIC_LIST_KEY,
         starredAcademics.filter((item) => item.url !== url),
       );
     } else {
-      const starredAcademics =
-        get<StarredOfficialAcademicData[]>(STARRED_ACADEMIC_LIST_KEY) ?? [];
+      const starredAcademics = get<StarredOfficialAcademicData[]>(STARRED_ACADEMIC_LIST_KEY) ?? [];
 
       set(STARRED_ACADEMIC_LIST_KEY, [...starredAcademics, info!]);
     }

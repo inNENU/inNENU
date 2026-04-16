@@ -36,8 +36,7 @@ $Page(PAGE_ID, {
 
   onShow() {
     if (user.account) {
-      if (this.data.status === "login" || !this.state.inited)
-        this.getNoticeList(1);
+      if (this.data.status === "login" || !this.state.inited) this.getNoticeList(1);
     } else {
       this.setData({ status: "login" });
     }
@@ -45,7 +44,7 @@ $Page(PAGE_ID, {
     showNotice(PAGE_ID);
   },
 
-  // eslint-disable-next-line @typescript-eslint/no-empty-function
+  // oxlint-disable-next-line typescript/no-empty-function
   onPageScroll() {},
 
   onShareAppMessage(): WechatMiniprogram.Page.ICustomShareContent {
@@ -98,15 +97,15 @@ $Page(PAGE_ID, {
     }
   },
 
-  retry() {
+  async retry() {
     return this.getNoticeList(1);
   },
 
-  changePage({ detail }: WechatMiniprogram.CustomEvent<{ current: number }>) {
+  async changePage({ detail }: WechatMiniprogram.CustomEvent<{ current: number }>) {
     return this.getNoticeList(detail.current);
   },
 
-  viewNotice({
+  async viewNotice({
     currentTarget,
   }: WechatMiniprogram.TouchEvent<
     Record<string, never>,

@@ -1,21 +1,11 @@
 {
-  "extends": "./tsconfig.base.json",
+  "extends": "@mr-hope/tsconfig/bundler.json",
   "compilerOptions": {
-    "allowJs": true,
+    "lib": ["ESNext"],
     "target": "ES2017",
-    "module": "CommonJS",
-    "moduleResolution": "Node10",
     "moduleSuffixes": ["", ".wx", ".we", ".app"],
     "noEmit": true,
     "types": ["miniprogram-api-typings"]
   },
-  "include": [
-    "app/**/*.ts",
-    "app/**/*.wxs",
-    "scripts/**/*.ts",
-    "typings/**/*.ts",
-    "commitlint.config.ts",
-    "eslint.config.js",
-    "gulpfile.cjs"
-  ]
+  "include": ["app/**/*.ts", "scripts/**/*.ts", "typings/**/*.ts", "*.config.ts"]
 }

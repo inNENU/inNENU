@@ -1,17 +1,10 @@
 import { URLSearchParams, logger } from "@mptool/all";
 
+import { request } from "../../../../api/index.js";
+import type { ActionFailType, CommonFailedResponse } from "../../../../service/index.js";
+import { ExpiredResponse, unknownResponse, createService } from "../../../../service/index.js";
 import { withUnderStudyLogin } from "./login.js";
 import { UNDER_STUDY_SERVER } from "./utils.js";
-import { request } from "../../../../api/index.js";
-import type {
-  ActionFailType,
-  CommonFailedResponse,
-} from "../../../../service/index.js";
-import {
-  ExpiredResponse,
-  UnknownResponse,
-  createService,
-} from "../../../../service/index.js";
 
 export interface UnderGradeListOptions {
   /** 查询时间 */
@@ -100,9 +93,7 @@ interface RawUnderGradeFailedResult {
   message: string;
 }
 
-type RawUnderGradeResult =
-  | RawUnderGradeSuccessResult
-  | RawUnderGradeFailedResult;
+type RawUnderGradeResult = RawUnderGradeSuccessResult | RawUnderGradeFailedResult;
 
 export interface UnderGradeResult {
   /** 修读时间 */
@@ -143,9 +134,7 @@ export type UnderGradeListResponse =
 
 const QUERY_URL = `${UNDER_STUDY_SERVER}/new/student/xskccj/kccjDatas`;
 
-const getGradeLists = (
-  records: RawUnderGradeResultItem[],
-): UnderGradeResult[] =>
+const getGradeLists = (records: RawUnderGradeResultItem[]): UnderGradeResult[] =>
   records.map(
     ({
       xnxqmc,
@@ -209,7 +198,7 @@ const getUnderGradeListLocal = async ({
     if ("code" in data) {
       if (data.message === "尚未登录，请先登录") return ExpiredResponse;
 
-      return UnknownResponse(data.message);
+      return unknownResponse(data.message);
     }
 
     const gradeList = getGradeLists(data.rows);
@@ -223,7 +212,7 @@ const getUnderGradeListLocal = async ({
 
     logger.error(err);
 
-    return UnknownResponse(message);
+    return unknownResponse(message);
   }
 };
 
@@ -237,9 +226,5 @@ const getUnderGradeListOnline = async (
   }).then(({ data }) => data);
 
 export const getUnderGradeList = withUnderStudyLogin(
-  createService(
-    "under-grade-list",
-    getUnderGradeListLocal,
-    getUnderGradeListOnline,
-  ),
+  createService("under-grade-list", getUnderGradeListLocal, getUnderGradeListOnline),
 );

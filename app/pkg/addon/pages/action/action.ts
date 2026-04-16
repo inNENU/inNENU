@@ -16,9 +16,7 @@ $Page(PAGE_ID, {
 
   onLoad(options) {
     const { theme } = info;
-    const action = options.scene
-      ? decodeURIComponent(options.scene)
-      : options.action;
+    const action = options.scene ? decodeURIComponent(options.scene) : options.action;
 
     this.setData({
       darkmode: appInfo.darkmode,

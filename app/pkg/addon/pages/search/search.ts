@@ -4,11 +4,7 @@ import { appCoverPrefix } from "../../../../config/index.js";
 import type { ContentSearchHit } from "../../../../service/index.js";
 import { getSuggestions, searchContent } from "../../../../service/index.js";
 import { info, windowInfo } from "../../../../state/index.js";
-import {
-  getIconLink,
-  getPageColor,
-  showNotice,
-} from "../../../../utils/index.js";
+import { getIconLink, getPageColor, showNotice } from "../../../../utils/index.js";
 import { searchPage } from "../../utils/search.js";
 
 $Page("search", {
@@ -59,8 +55,7 @@ $Page("search", {
 
   onScrollViewScroll(options: WechatMiniprogram.ScrollViewScroll) {
     this.setData({
-      showBackToTop:
-        options.detail.scrollTop > 250 + windowInfo.statusBarHeight,
+      showBackToTop: options.detail.scrollTop > 250 + windowInfo.statusBarHeight,
     });
   },
 
@@ -110,19 +105,15 @@ $Page("search", {
     });
   },
 
-  /**
-   * 搜索建议点击事件
-   */
+  /** 搜索建议点击事件 */
   searchSuggestion(event: WechatMiniprogram.Touch) {
     const { query } = event.currentTarget.dataset as { query: string };
 
-    this.setData({ query: query });
+    this.setData({ query });
     this.searchContent(query, 1);
   },
 
-  async searchContent(query: string, page?: number) {
-    const current = page ?? 1;
-
+  async searchContent(query: string, current = 1) {
     // 如果搜索词为空，显示默认搜索结果
     if (!query.trim()) {
       this.setData({ query: "", searchWord: "" });
@@ -140,10 +131,7 @@ $Page("search", {
     wx.showLoading({ title: "搜索中..." });
 
     try {
-      const { results, total, totalPages } = await searchContent(
-        query,
-        current,
-      );
+      const { results, total, totalPages } = await searchContent(query, current);
 
       wx.hideLoading();
 
@@ -155,8 +143,8 @@ $Page("search", {
         searching: false,
       });
       this.state.query = query;
-    } catch (error) {
-      console.error("搜索失败:", error);
+    } catch (err) {
+      console.error("搜索失败:", err);
 
       wx.hideLoading();
       showToast("搜索失败，请重试", 1000, "error");
@@ -175,16 +163,12 @@ $Page("search", {
     const pageResults = await searchPage(query);
 
     this.setData({
-      icons: Object.fromEntries(
-        pageResults.map(({ icon }) => [icon, getIconLink(icon)]),
-      ),
+      icons: Object.fromEntries(pageResults.map(({ icon }) => [icon, getIconLink(icon)])),
       pageResults,
     });
   },
 
-  /**
-   * 分页改变事件
-   */
+  /** 分页改变事件 */
   changePage({ detail }: { detail: { current: number } }) {
     const { current } = detail;
     const { query } = this.state;

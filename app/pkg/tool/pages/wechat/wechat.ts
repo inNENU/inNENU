@@ -1,16 +1,6 @@
-import {
-  $Page,
-  env,
-  savePhoto,
-  showModal,
-  showToast,
-  writeClipboard,
-} from "@mptool/all";
+import { $Page, env, savePhoto, showModal, showToast, writeClipboard } from "@mptool/all";
 
-import type {
-  WechatAccountData,
-  WechatArticle,
-} from "../../../../../typings/index.js";
+import type { WechatAccountData, WechatArticle } from "../../../../../typings/index.js";
 import { request } from "../../../../api/index.js";
 import { appCoverPrefix, server } from "../../../../config/index.js";
 import { info, windowInfo } from "../../../../state/index.js";
@@ -101,7 +91,7 @@ $Page(PAGE_ID, {
           follow,
         });
 
-        ctx.append(article.map(this.appendSize));
+        ctx.append(article.map((item) => this.appendSize(item)));
       })
       .catch(() => {
         showToast("服务器出现问题");
@@ -109,14 +99,16 @@ $Page(PAGE_ID, {
   },
 
   onPageScroll(options) {
-    if (options.scrollTop > 250 + windowInfo.statusBarHeight)
-      this.setData({ showBackToTop: true });
+    if (options.scrollTop > 250 + windowInfo.statusBarHeight) this.setData({ showBackToTop: true });
     else this.setData({ showBackToTop: false });
   },
 
   onResize({ size }) {
     this.setData(size);
-    this.ctx.updateList(0, this.ctx.getList().map(this.appendSize));
+    this.ctx.updateList(
+      0,
+      this.ctx.getList().map((item) => this.appendSize(item)),
+    );
     this.ctx.forceUpdate(() => {
       // do nothing
     }, false);
@@ -170,35 +162,36 @@ $Page(PAGE_ID, {
 
   navigate({
     currentTarget,
-  }: WechatMiniprogram.TouchEvent<
-    never,
-    never,
-    { title: string; url: string }
-  >) {
+  }: WechatMiniprogram.TouchEvent<never, never, { title: string; url: string }>) {
     const { url } = currentTarget.dataset;
 
-    if (env === "donut") wx.miniapp.openUrl({ url });
-    else if (wx.openOfficialAccountArticle)
+    if (env === "donut") {
+      wx.miniapp.openUrl({ url });
+    } else if (wx.openOfficialAccountArticle) {
       wx.openOfficialAccountArticle({ url });
-    else
+    } else {
       writeClipboard(url).then(() => {
         showModal(
           "无法跳转",
           "目前暂不支持跳转到该微信公众号图文，链接地址已复制至剪切板。请打开浏览器粘贴查看",
         );
       });
+    }
   },
 
   follow() {
     const { follow, id } = this.data;
 
     tryOpenOfficialProfile(id, () => {
-      if (env === "donut")
+      if (env === "donut") {
         savePhoto(`https://open.weixin.qq.com/qr/code?username=${id}`)
           .then(() => showToast("二维码已存至相册"))
           .catch(() => showToast("二维码保存失败"));
-      else if (follow) this.$go(`web?url=${follow}&title=欢迎关注`);
-      else showOfficialQRCode(id);
+      } else if (follow) {
+        this.$go(`web?url=${follow}&title=欢迎关注`);
+      } else {
+        showOfficialQRCode(id);
+      }
     });
   },
 
@@ -206,7 +199,5 @@ $Page(PAGE_ID, {
     wx.pageScrollTo({ scrollTop: 0 });
   },
 
-  ctx: null as unknown as ReturnType<
-    typeof createRecycleContext<WechatArticle>
-  >,
+  ctx: null as unknown as ReturnType<typeof createRecycleContext<WechatArticle>>,
 });

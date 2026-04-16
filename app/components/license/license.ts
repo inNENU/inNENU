@@ -73,8 +73,7 @@ $Component({
     refuse() {
       const { type } = this.data;
 
-      if (type === "privacy" && resolvePrivacy)
-        resolvePrivacy({ event: "disagree" });
+      if (type === "privacy" && resolvePrivacy) resolvePrivacy({ event: "disagree" });
 
       this.setData({ show: false });
       this.$back();

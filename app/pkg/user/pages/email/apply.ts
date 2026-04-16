@@ -47,7 +47,7 @@ $Page(PAGE_ID, {
     showNotice(PAGE_ID);
   },
 
-  // eslint-disable-next-line @typescript-eslint/no-empty-function
+  // oxlint-disable-next-line typescript/no-empty-function
   onPageScroll() {},
 
   onShareAppMessage: () => ({
@@ -108,13 +108,9 @@ $Page(PAGE_ID, {
     const { info } = user;
 
     if (!info) {
-      showModal(
-        "个人信息缺失",
-        `${envName}本地暂无个人信息，请重新登录`,
-        () => {
-          this.$go(`account-login?update=true`);
-        },
-      );
+      showModal("个人信息缺失", `${envName}本地暂无个人信息，请重新登录`, () => {
+        this.$go(`account-login?update=true`);
+      });
 
       return;
     }
@@ -160,15 +156,15 @@ $Page(PAGE_ID, {
 账号: ${options.account}${options.suffix || ""}@nenu.edu.cn
 密保手机: ${phone}
 `,
-      () => {
+      async () => {
         wx.showLoading({ title: "申请中" });
 
-        applyEmail(options).then((result) => {
-          wx.hideLoading();
+        const result = await applyEmail(options);
 
-          if (result.success) this.setData({ status: "success", result });
-          else showModal("申请邮箱失败", result.msg);
-        });
+        wx.hideLoading();
+
+        if (result.success) this.setData({ status: "success", result });
+        else showModal("申请邮箱失败", result.msg);
       },
       () => {
         // do nothing
@@ -176,19 +172,16 @@ $Page(PAGE_ID, {
     );
   },
 
-  initEmail() {
-    if (env === "donut") this.$go(`web?url=${encodeURIComponent(MAIL_LINK)}`);
-    else {
-      writeClipboard(MAIL_LINK).then(() =>
-        showModal(
-          "网址已复制",
-          `小程序暂不支持打开网页，请手动粘贴到浏览器地址栏并访问。`,
-        ),
-      );
+  async initEmail() {
+    if (env === "donut") {
+      this.$go(`web?url=${encodeURIComponent(MAIL_LINK)}`);
+    } else {
+      await writeClipboard(MAIL_LINK);
+      showModal("网址已复制", `小程序暂不支持打开网页，请手动粘贴到浏览器地址栏并访问。`);
     }
   },
 
-  retry() {
+  async retry() {
     return this.checkEmail();
   },
 });

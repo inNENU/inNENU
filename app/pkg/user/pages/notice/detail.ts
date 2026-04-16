@@ -1,10 +1,6 @@
 import { $Page, get, set, showModal, showToast } from "@mptool/all";
 
-import {
-  STARRED_NOTICE_LIST_KEY,
-  appCoverPrefix,
-  service,
-} from "../../../../config/index.js";
+import { STARRED_NOTICE_LIST_KEY, appCoverPrefix, service } from "../../../../config/index.js";
 import type { NoticeType } from "../../../../service/index.js";
 import { appId, info, user } from "../../../../state/index.js";
 import type { StarredNoticeData } from "../../../../typings/index.js";
@@ -29,8 +25,7 @@ $Page(PAGE_ID, {
   },
 
   onLoad({ scene = "", title = "", id, url = scene, type = "notice" }) {
-    const starredNotices =
-      get<StarredNoticeData[]>(STARRED_NOTICE_LIST_KEY) ?? [];
+    const starredNotices = get<StarredNoticeData[]>(STARRED_NOTICE_LIST_KEY) ?? [];
 
     this.state.type = type as NoticeType;
 
@@ -42,10 +37,11 @@ $Page(PAGE_ID, {
       this.state.id = id;
 
       this.getNotice();
-    } else
+    } else {
       showModal("无法获取", "请提供公告信息", () => {
         this.$back();
       });
+    }
 
     this.setData({
       color: getPageColor(),
@@ -59,9 +55,7 @@ $Page(PAGE_ID, {
           ? `${service}mp/qrcode?appId=${appId}&page=pkg/user/pages/notice/detail&scene=${url}`
           : null,
       },
-      starred: starredNotices.some(
-        (item) => item.url === url || item.id === id,
-      ),
+      starred: starredNotices.some((item) => item.url === url || item.id === id),
     });
   },
 
@@ -123,7 +117,6 @@ $Page(PAGE_ID, {
     this.setData({
       status: "success",
       title,
-      // eslint-disable-next-line @typescript-eslint/naming-convention
       "share.title": title,
       time,
       pageView,
@@ -153,11 +146,10 @@ $Page(PAGE_ID, {
 
       set(
         STARRED_NOTICE_LIST_KEY,
-        starredNotices.filter((item) => item.url === url || item.id === id),
+        starredNotices.filter((item) => item.url !== url && item.id !== id),
       );
     } else {
-      const starredNotices =
-        get<StarredNoticeData[]>(STARRED_NOTICE_LIST_KEY) ?? [];
+      const starredNotices = get<StarredNoticeData[]>(STARRED_NOTICE_LIST_KEY) ?? [];
 
       set(STARRED_NOTICE_LIST_KEY, [...starredNotices, notice]);
     }

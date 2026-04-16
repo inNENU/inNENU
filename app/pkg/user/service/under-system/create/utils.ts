@@ -13,14 +13,12 @@ export const info2RowRegExp =
 export const requiredRegExp = /<font color="red">\*<\/font>/;
 export const readonlyRegExp = /<font[^>]+>ø<\/font>/;
 export const inputRegExp = /<input[^>]*name="(.*?)"[^>]*value="(.*?)"[^>]*\/>/;
-export const checkBoxRegExp =
-  /<input type="checkbox" value="(.*?)" id="gx" name="(.*?)"[^>]+\/>/;
+export const checkBoxRegExp = /<input type="checkbox" value="(.*?)" id="gx" name="(.*?)"[^>]+\/>/;
 export const selectRegExp = /<select[^>]+name="(.*?)"/;
 export const optionRegExp = /<option value="([^"]+)">([^<]*?)<\/option>/g;
 export const fieldsRegExp =
   /<input\s+type="text"[^>]+name="(.*?)"\s+id=".*?"\s+value="(.*?)"[^>]+\/>/g;
-export const hiddenFieldsRegExp =
-  /<input\s+type="hidden"[^>]+name="(.*?)"\s*value="(.*?)"\s*\/>/g;
+export const hiddenFieldsRegExp = /<input\s+type="hidden"[^>]+name="(.*?)"\s*value="(.*?)"\s*\/>/g;
 export const studyDataRegExp = /"brjl"\s*:\s*(\[.*?\])/;
 export const familyDataRegExp = /"jtcy"\s*:\s*(\[.*?\])/;
 

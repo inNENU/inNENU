@@ -9,9 +9,7 @@ import { getSize } from "../utils.js";
 $Component({
   props: {
     type: {
-      type: String as PropType<
-        "校园卡 (小)" | "校园卡余额 (小)" | "校园卡二维码 (小)"
-      >,
+      type: String as PropType<"校园卡 (小)" | "校园卡余额 (小)" | "校园卡二维码 (小)">,
       default: "校园卡 (小)",
     },
   },
@@ -48,7 +46,11 @@ $Component({
     show(): void {
       const { enableBalance, status } = this.data;
 
-      if (!user.account) return this.setData({ status: "login" });
+      if (!user.account) {
+        this.setData({ status: "login" });
+
+        return;
+      }
 
       if (status === "login") {
         this.setData({ status: "loading" });

@@ -1,8 +1,8 @@
 import type { PropType } from "@mptool/all";
 import { $Component, getWindowInfo } from "@mptool/all";
 
-import type { PopupConfig } from "./typings.js";
 import { appInfo } from "../../state/index.js";
+import type { PopupConfig } from "./typings.js";
 
 $Component({
   props: {

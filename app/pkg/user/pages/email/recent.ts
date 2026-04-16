@@ -1,11 +1,7 @@
 import { $Page, env, showModal, showToast, writeClipboard } from "@mptool/all";
 
 import { appCoverPrefix, logo } from "../../../../config/index.js";
-import {
-  ActionFailType,
-  getEmailPage,
-  getRecentEmails,
-} from "../../../../service/index.js";
+import { ActionFailType, getEmailPage, getRecentEmails } from "../../../../service/index.js";
 import { info, user, windowInfo } from "../../../../state/index.js";
 import { showNotice } from "../../../../utils/index.js";
 
@@ -90,21 +86,14 @@ $Page(PAGE_ID, {
       this.setData({ status: "error" });
     } else {
       console.error(result.msg);
-      showModal(
-        "获取邮件失败",
-        "请确认已手动登录邮箱，完成开启手机密保与修改初始密码工作。",
-      );
+      showModal("获取邮件失败", "请确认已手动登录邮箱，完成开启手机密保与修改初始密码工作。");
       this.setData({ status: "error" });
     }
   },
 
   async openEmail({
     currentTarget,
-  }: WechatMiniprogram.TouchEvent<
-    Record<never, never>,
-    Record<never, never>,
-    { mid: string }
-  >) {
+  }: WechatMiniprogram.TouchEvent<Record<never, never>, Record<never, never>, { mid: string }>) {
     wx.showLoading({ title: "加载中" });
 
     const result = await getEmailPage(currentTarget.dataset.mid);
@@ -114,13 +103,11 @@ $Page(PAGE_ID, {
     if (result.success) {
       const { data } = result;
 
-      if (env === "donut") this.$go(`web?url=${encodeURIComponent(data)}`);
-      else {
+      if (env === "donut") {
+        this.$go(`web?url=${encodeURIComponent(data)}`);
+      } else {
         await writeClipboard(data);
-        showModal(
-          "复制成功",
-          "相关链接已复制到剪切板。受小程序限制，请使用浏览器打开。",
-        );
+        showModal("复制成功", "相关链接已复制到剪切板。受小程序限制，请使用浏览器打开。");
       }
     } else {
       showToast("加载页面失败");

@@ -1,10 +1,6 @@
 import type { PageInstance, PageQuery } from "@mptool/all";
 import { env, logger, readJSON, showModal, writeJSON } from "@mptool/all";
 
-import { getAssetLink } from "./getLink.js";
-import { getScopeData } from "./getScopeData.js";
-import { id2path } from "./id.js";
-import { ensureJson } from "./json.js";
 import type {
   ComponentData,
   FunctionalListComponentItemConfig,
@@ -14,46 +10,48 @@ import type {
   PageStateWithContent,
 } from "../../typings/index.js";
 import { requestJSON } from "../api/index.js";
-import type { NoticeItem } from "../app/index.js";
 import type { App } from "../app.js";
+import type { NoticeItem } from "../app/index.js";
 import { imageWaterMark } from "../config/index.js";
 import { appInfo, info } from "../state/index.js";
+import { getAssetLink } from "./getLink.js";
+import { getScopeData } from "./getScopeData.js";
+import { id2path } from "./id.js";
+import { ensureJson } from "./json.js";
 
 type PageInstanceWithPage = PageInstance<
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  // oxlint-disable-next-line typescript/no-explicit-any
   Record<string, any> & { page?: PageState },
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  // oxlint-disable-next-line typescript/no-explicit-any
   Record<string, any>
 >;
 
 const isEnvMatches = (element: { env?: string[] }): boolean => {
   if (!Array.isArray(element.env)) return true;
 
-  return element.env.some((item) =>
-    item === "app" ? env === "donut" : item === env,
-  );
+  return element.env.some((item) => (item === "app" ? env === "donut" : item === env));
 };
 
 /**
- * 处理详情内容
+ * 处理列表状态
  *
- * @param element 列表的内容
- * @param page 页面内容
+ * @param listElement 列表的内容
+ * @returns 处理后的列表内容，如果不满足环境要求则返回 null
  */
 const setListItemState = (
   listElement: FunctionalListComponentItemConfig | GridComponentItemOptions,
 ): (FunctionalListComponentItemConfig | GridComponentItemOptions) | null => {
   if (!isEnvMatches(listElement)) return null;
 
-  if ("type" in listElement)
-    if (listElement.type === "switch")
-      // 设置列表开关与滑块
-      listElement.status =
-        wx.getStorageSync<boolean | undefined>(listElement.key) || false;
-    else if (listElement.type === "slider")
+  if ("type" in listElement) {
+    if (listElement.type === "switch") // 设置列表开关与滑块
+    {
+      listElement.status = wx.getStorageSync<boolean | undefined>(listElement.key) || false;
+    } else if (listElement.type === "slider") {
       listElement.value = wx.getStorageSync(listElement.key);
+    }
     // 设置列表选择器
-    else if (listElement.type === "picker")
+    else if (listElement.type === "picker") {
       if (listElement.single) {
         // 单列选择器
         const selectIndex = wx.getStorageSync<number>(listElement.key);
@@ -62,20 +60,20 @@ const setListItemState = (
         listElement.currentValue = [selectIndex];
       } else {
         // 多列选择器
-        const selectIndexes: string[] = wx
-          .getStorageSync<string>(listElement.key)
-          .split("-");
+        const selectIndexes: string[] = wx.getStorageSync<string>(listElement.key).split("-");
 
         listElement.currentValue = [];
         listElement.value = [];
         selectIndexes.forEach((pickerElement, index) => {
-          (listElement.value as unknown[])[index] = (
-            listElement.select[index] as unknown[]
-          )[Number(pickerElement)];
-          // eslint-disable-next-line @typescript-eslint/no-explicit-any
+          (listElement.value as unknown[])[index] = (listElement.select[index] as unknown[])[
+            Number(pickerElement)
+          ];
+          // oxlint-disable-next-line typescript/no-explicit-any
           (listElement.currentValue as any[])[index] = Number(pickerElement);
         });
       }
+    }
+  }
 
   return listElement;
 };
@@ -97,33 +95,26 @@ export const setComponentState = (
       }
 
       // 设置 list 组件
-      if (tag === "list" || tag === "grid" || tag === "functional-list")
+      if (tag === "list" || tag === "grid" || tag === "functional-list") {
         component.items = component.items
-          .map(
-            (
-              listElement:
-                | FunctionalListComponentItemConfig
-                | GridComponentItemOptions,
-            ) => setListItemState(listElement),
+          .map((listElement: FunctionalListComponentItemConfig | GridComponentItemOptions) =>
+            setListItemState(listElement),
           )
-          .filter((listElement) => listElement !== null);
+          .filter((listElement) => listElement != null);
+      }
 
       return component;
     })
-    .filter((component) => component !== null);
+    .filter((component) => component != null);
 
 /**
  * 获得界面数据，生成正确的界面数据
  *
  * @param page 页面数据
  * @param option 页面传参
- *
  * @returns 处理之后的page
  */
-const setPageState = (
-  page: PageState | PageStateWithContent,
-  option: PageOptions,
-): PageState => {
+const setPageState = (page: PageState | PageStateWithContent, option: PageOptions): PageState => {
   // 设置界面名称
   page.id = option.id || page.title;
   // 设置页面来源
@@ -148,55 +139,48 @@ const setPageState = (
  * @param page 页面数据
  */
 const preloadPageLinks = (page: PageState): void => {
-  if (page.content)
+  if (page.content) {
     page.content.forEach((component) => {
       const { tag } = component;
 
       if (
         "items" in component &&
         (tag === "list" || tag === "grid" || tag === "functional-list")
-      )
-        // 该组件是列表或九宫格，需要预加载界面，提前获取界面到存储
+      ) // 该组件是列表或九宫格，需要预加载界面，提前获取界面到存储
+      {
         component.items.forEach(
-          (
-            element:
-              | FunctionalListComponentItemConfig
-              | GridComponentItemOptions,
-          ) => {
-            if (!("type" in element) && "path" in element && element.path)
-              ensureJson(element.path);
+          (element: FunctionalListComponentItemConfig | GridComponentItemOptions) => {
+            if (!("type" in element) && "path" in element && element.path) ensureJson(element.path);
           },
         );
+      }
     });
-  else logger.warn("页面为空");
+  } else {
+    logger.warn("页面为空");
+  }
 };
 
 /**
  * **简介:**
  *
  * - 描述: 预处理页面数据写入全局数据
- *
  * - 用法: 在页面 `onNavigate` 时调用
- *
  * - 性质: 同步函数
  *
  * @param options 页面跳转参数
- * @param page page 数组
+ * @param page Page 数组
  * @param setGlobal 是否将处理后的数据写入到全局数据中
- *
  * @returns 处理后的 page 配置
- *
  * **案例:**
- *
  * ```ts
- *   onNavigate(option) {
- *     resolvePage(option);
- *   }
+ * onNavigate(option) {
+ * resolvePage(option);
+ * }
  * ```
  */
 export const resolvePage = (
   options: PageQuery,
-  page?: PageState,
+  page?: PageState | null,
   setGlobal = true,
 ): PageState | null => {
   // 控制台输出参数
@@ -234,63 +218,73 @@ export interface PageColors {
  * **简介:**
  *
  * - 描述: 设置胶囊与背景颜色
- *
  * - 用法: 在页面 `onShow` 时调用
- *
  * - 性质: 同步函数
  *
  * @param grey 页面是否为灰色背景
- *
  * @returns 页面实际的胶囊与背景颜色
  */
 export const getPageColor = (grey = false): PageColors => {
   let temp: [string, string, string];
 
   if (appInfo.darkmode) {
-    if (grey)
+    if (grey) {
       switch (info.theme) {
-        case "Android":
+        case "Android": {
           temp = ["#10110b", "#10110b", "#10110b"];
           break;
-        case "ios":
+        }
+        case "ios": {
           temp = ["#000000", "#000000", "#000000"];
           break;
-        case "nenu":
-        default:
+        }
+        // case "nenu":
+        default: {
           temp = ["#070707", "#070707", "#070707"];
+        }
       }
-    else
+    } else {
       switch (info.theme) {
-        case "ios":
-        case "Android":
-        case "nenu":
-        default:
+        // case "ios":
+        // case "Android":
+        // case "nenu":
+        default: {
           temp = ["#000000", "#000000", "#000000"];
+        }
       }
-  } else if (grey)
+    }
+  } else if (grey) {
     switch (info.theme) {
-      case "Android":
+      case "Android": {
         temp = ["#f8f8f8", "#f8f8f8", "#f8f8f8"];
         break;
-      case "nenu":
+      }
+      case "nenu": {
         temp = ["#f0f0f0", "#f0f0f0", "#f0f0f0"];
         break;
-      case "ios":
-      default:
+      }
+      // case "ios":
+      default: {
         temp = ["#f4f4f4", "#efeef4", "#efeef4"];
+      }
     }
-  else
+  } else {
     switch (info.theme) {
-      case "Android":
+      case "Android": {
         temp = ["#f8f8f8", "#f8f8f8", "#f8f8f8"];
         break;
-      case "nenu":
-        temp = ["#ffffff", "#ffffff", "#ffffff"];
-        break;
-      case "ios":
-      default:
+      }
+
+      case "ios": {
         temp = ["#f4f4f4", "#ffffff", "#ffffff"];
+        break;
+      }
+      // case "nenu":
+      default: {
+        temp = ["#ffffff", "#ffffff", "#ffffff"];
+      }
     }
+  }
 
   return {
     bgColorTop: temp[0],
@@ -306,22 +300,22 @@ interface SetPageOptions {
 }
 
 /**
- *  **简介:**
+ * **简介:**
  *
  * - 描述: 设置本地界面数据，如果传入 `page` 参数，则根据 `handle` 的值决定是否在 `setData` 前处理 `page`。
  *
  *   如果没有传入 `page`，则使用 `PageOption.data.page`。之后根据 `preload` 的值决定是否对页面链接进行预加载。
- *
  * - 用法: 在页面 `onLoad` 时调用
- *
  * - 性质: 同步函数
  *
  * @param object 配置对象
- * - option 页面传参
- * - ctx 页面指针
- * - handle 页面是否已经被处理
+ *
+ *   - option 页面传参
+ *   - ctx 页面指针
+ *   - handle 页面是否已经被处理
  * @param page 页面数据
  * @param preload 是否预加载子页面
+ * @returns Promise<void>
  */
 export const setPage = (
   { option, ctx, handle = false }: SetPageOptions,
@@ -375,9 +369,7 @@ export const setPage = (
     } else if (ctx.data.page) {
       logger.debug(`${option.id || "Unknown"} not resolved`);
 
-      const pageData: PageState = handle
-        ? ctx.data.page
-        : setPageState(ctx.data.page, option);
+      const pageData: PageState = handle ? ctx.data.page : setPageState(ctx.data.page, option);
 
       // 设置页面数据
       ctx.setData(
@@ -396,9 +388,7 @@ export const setPage = (
  * **简介:**
  *
  * - 描述: 弹出通知
- *
  * - 用法: 在页面 `onLoad` 时调用
- *
  * - 性质: 同步函数
  *
  * @param id 当前界面的标识符
@@ -424,9 +414,7 @@ export const showNotice = (id: string): void => {
  * **简介:**
  *
  * - 描述: 设置在线界面数据
- *
  * - 用法: 在页面 `onLoad` 时调用
- *
  * - 性质: 同步函数
  *
  * @param option 页面传参
@@ -441,7 +429,7 @@ export const setOnlinePage = (
   const { globalData } = getApp<App>();
   const { id } = option;
 
-  if (id)
+  if (id) {
     if (globalData.page.id === id) {
       // 页面已经预处理完毕，立即写入 page 并执行本界面的预加载
       logger.debug(`${id} has been resolved`);
@@ -483,6 +471,7 @@ export const setOnlinePage = (
       }
       // 请求页面Json
       else {
+        // oxlint-disable-next-line typescript/no-unnecessary-type-arguments
         requestJSON<PageState>(id)
           .then((data) => {
             // 非分享界面下将页面数据写入存储
@@ -503,6 +492,7 @@ export const setOnlinePage = (
             // 调试
             logger.debug(`${id} onLoad Succeed`);
           })
+          // oxlint-disable-next-line promise/prefer-await-to-callbacks
           .catch((err: unknown) => {
             // 设置 error 页面并弹出通知
             setPage(
@@ -520,16 +510,16 @@ export const setOnlinePage = (
           });
       }
     }
-  else logger.error("无页面 ID");
+  } else {
+    logger.error("无页面 ID");
+  }
 };
 
 /**
  * **简介:**
  *
  * - 描述: 载入在线界面数据
- *
  * - 用法: 在页面 `onLoad` 时调用
- *
  * - 性质: 同步函数
  *
  * @param option 页面传参
@@ -546,6 +536,7 @@ export const loadOnlinePage = (
     logger.debug(`${option.path} onLoad starts with options:`, option);
 
     // 需要在线获取界面
+    // oxlint-disable-next-line typescript/no-unnecessary-type-arguments
     requestJSON<PageState>(option.id)
       .then((page) => {
         if (page) {
@@ -554,7 +545,8 @@ export const loadOnlinePage = (
           logger.debug(`${option.path} onLoad succeed:`, ctx.data);
         }
       })
-      .catch((errMsg: unknown) => {
+      // oxlint-disable-next-line promise/prefer-await-to-callbacks
+      .catch((err: unknown) => {
         // 设置 error 页面并弹出通知
         setPage(
           { option, ctx },
@@ -567,7 +559,7 @@ export const loadOnlinePage = (
         showNotice(option.id || "");
 
         // 调试
-        logger.error(`页面 ${option.path} 加载失败`, errMsg);
+        logger.error(`页面 ${option.path} 加载失败`, err);
       });
   } else {
     logger.error("无页面路径");

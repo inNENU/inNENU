@@ -31,20 +31,18 @@ $Component({
   methods: {
     setAnnouncement() {
       this.setData({
-        data:
-          get<StarredOfficialAcademicData[]>(STARRED_ACADEMIC_LIST_KEY) || [],
+        data: get<StarredOfficialAcademicData[]>(STARRED_ACADEMIC_LIST_KEY) || [],
       });
     },
 
-    viewNotice({
+    async viewNotice({
       currentTarget,
     }: WechatMiniprogram.TouchEvent<
       Record<string, never>,
       Record<string, never>,
       { index: number }
     >) {
-      const academics =
-        get<StarredOfficialAcademicData[]>(STARRED_ACADEMIC_LIST_KEY) || [];
+      const academics = get<StarredOfficialAcademicData[]>(STARRED_ACADEMIC_LIST_KEY) || [];
       const { index } = currentTarget.dataset;
       const { title, url } = academics[index];
 

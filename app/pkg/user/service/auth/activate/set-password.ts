@@ -1,9 +1,6 @@
 import { request } from "../../../../../api/index.js";
-import type {
-  CommonFailedResponse,
-  CommonSuccessResponse,
-} from "../../../../../service/index.js";
-import { UnknownResponse, authEncrypt } from "../../../../../service/index.js";
+import type { CommonFailedResponse, CommonSuccessResponse } from "../../../../../service/index.js";
+import { unknownResponse, authEncrypt } from "../../../../../service/index.js";
 import { RESET_PREFIX, RESET_SALT } from "../utils.js";
 
 export interface ActivateSetPasswordOptions {
@@ -23,13 +20,9 @@ interface RawSetPasswordFailResponse {
   message: string;
 }
 
-type RawSetPasswordResponse =
-  | RawSetPasswordSuccessResponse
-  | RawSetPasswordFailResponse;
+type RawSetPasswordResponse = RawSetPasswordSuccessResponse | RawSetPasswordFailResponse;
 
-export type ActivateSetPasswordResponse =
-  | CommonSuccessResponse
-  | CommonFailedResponse;
+export type ActivateSetPasswordResponse = CommonSuccessResponse | CommonFailedResponse;
 
 export const setPassword = async ({
   sign,
@@ -48,7 +41,7 @@ export const setPassword = async ({
   );
 
   if (data.code !== "0" || !data.success)
-    return UnknownResponse((data as RawSetPasswordFailResponse).message);
+    return unknownResponse((data as RawSetPasswordFailResponse).message);
 
   return {
     success: true,

@@ -1,32 +1,17 @@
-import type { ActivateInfoResponse } from "./get-info.js";
-import { getActivateInfo } from "./get-info.js";
-import type {
-  ActivateSendSmsOptions,
-  ActivateSendSmsResponse,
-} from "./send-sms.js";
-import { sendActivateSms } from "./send-sms.js";
-import type {
-  ActivateSetPasswordOptions,
-  ActivateSetPasswordResponse,
-} from "./set-password.js";
-import { setPassword } from "./set-password.js";
-import type {
-  ActivateValidationOptions,
-  ActivateValidationResponse,
-} from "./validate-info.js";
-import { validAccountInfo } from "./validate-info.js";
-import type {
-  ActivateValidSmsOptions,
-  ActivateValidSmsResponse,
-} from "./validate-sms.js";
-import { validateActivateSms } from "./validate-sms.js";
 import { request } from "../../../../../api/index.js";
 import { createService } from "../../../../../service/index.js";
-import type {
-  CheckPasswordOptions,
-  CheckPasswordResponse,
-} from "../check-password.js";
+import type { CheckPasswordOptions, CheckPasswordResponse } from "../check-password.js";
 import { checkPasswordLocal } from "../check-password.js";
+import type { ActivateInfoResponse } from "./get-info.js";
+import { getActivateInfo } from "./get-info.js";
+import type { ActivateSendSmsOptions, ActivateSendSmsResponse } from "./send-sms.js";
+import { sendActivateSms } from "./send-sms.js";
+import type { ActivateSetPasswordOptions, ActivateSetPasswordResponse } from "./set-password.js";
+import { setPassword } from "./set-password.js";
+import type { ActivateValidationOptions, ActivateValidationResponse } from "./validate-info.js";
+import { validAccountInfo } from "./validate-info.js";
+import type { ActivateValidSmsOptions, ActivateValidSmsResponse } from "./validate-sms.js";
+import { validateActivateSms } from "./validate-sms.js";
 
 export type ActivateOptions =
   | { type: "get-info" }
@@ -36,20 +21,21 @@ export type ActivateOptions =
   | CheckPasswordOptions
   | ActivateSetPasswordOptions;
 
-export type ActivateResponse<T extends ActivateOptions = ActivateOptions> =
-  T extends { type: "get-info" }
-    ? ActivateInfoResponse
-    : T extends { type: "validate-info" }
-      ? ActivateValidationResponse
-      : T extends { type: "send-sms" }
-        ? ActivateSendSmsResponse
-        : T extends { type: "validate-sms" }
-          ? ActivateValidSmsResponse
-          : T extends { type: "check-password" }
-            ? CheckPasswordResponse
-            : T extends { type: "set-password" }
-              ? ActivateSetPasswordResponse
-              : never;
+export type ActivateResponse<T extends ActivateOptions = ActivateOptions> = T extends {
+  type: "get-info";
+}
+  ? ActivateInfoResponse
+  : T extends { type: "validate-info" }
+    ? ActivateValidationResponse
+    : T extends { type: "send-sms" }
+      ? ActivateSendSmsResponse
+      : T extends { type: "validate-sms" }
+        ? ActivateValidSmsResponse
+        : T extends { type: "check-password" }
+          ? CheckPasswordResponse
+          : T extends { type: "set-password" }
+            ? ActivateSetPasswordResponse
+            : never;
 
 const activateAccountLocal = async <T extends ActivateOptions>(
   options: T,
@@ -71,6 +57,7 @@ const activateAccountOnline = async <T extends ActivateOptions>(
 ): Promise<ActivateResponse<T>> =>
   request<ActivateResponse<T>>("/user/activate", {
     method: options.type === "get-info" ? "GET" : "POST",
+    // oxlint-disable-next-line no-undefined
     body: options.type === "get-info" ? undefined : JSON.stringify(options),
   }).then(({ data }) => data);
 

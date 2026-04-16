@@ -1,8 +1,5 @@
 import { request } from "../../../../../api/index.js";
-import type {
-  CommonFailedResponse,
-  CommonSuccessResponse,
-} from "../../../../../service/index.js";
+import type { CommonFailedResponse, CommonSuccessResponse } from "../../../../../service/index.js";
 import { ActionFailType } from "../../../../../service/index.js";
 import type { ResetCaptchaInfo } from "../reset-captcha.js";
 import { getResetCaptchaLocal } from "../reset-captcha.js";
@@ -108,8 +105,9 @@ export const getInfo = async ({
 
   if (!captchaResponse.success) return captchaResponse;
 
-  const { isAppealFlag, hideCellphone, hideEmail, sign, appealSign } =
-    JSON.parse(data.datas) as RawResetPasswordGetInfoParsedData;
+  const { isAppealFlag, hideCellphone, hideEmail, sign, appealSign } = JSON.parse(
+    data.datas,
+  ) as RawResetPasswordGetInfoParsedData;
 
   return {
     success: true,

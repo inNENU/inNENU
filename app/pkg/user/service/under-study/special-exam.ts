@@ -1,13 +1,10 @@
 import { URLSearchParams, logger } from "@mptool/all";
 
+import { request } from "../../../../api/index.js";
+import type { ActionFailType, CommonFailedResponse } from "../../../../service/index.js";
+import { ExpiredResponse, createService } from "../../../../service/index.js";
 import { withUnderStudyLogin } from "./login.js";
 import { UNDER_STUDY_SERVER } from "./utils.js";
-import { request } from "../../../../api/index.js";
-import type {
-  ActionFailType,
-  CommonFailedResponse,
-} from "../../../../service/index.js";
-import { ExpiredResponse, createService } from "../../../../service/index.js";
 
 interface RawUnderSpecialExamItem {
   /** 考试成绩 */
@@ -59,9 +56,7 @@ interface RawUnderSpecialExamFailedResult {
   message: string;
 }
 
-type RawUnderSpecialExamResult =
-  | RawUnderSpecialExamSuccessResult
-  | RawUnderSpecialExamFailedResult;
+type RawUnderSpecialExamResult = RawUnderSpecialExamSuccessResult | RawUnderSpecialExamFailedResult;
 
 export interface UnderSpecialExamResult {
   /** 修复学期 */
@@ -87,9 +82,7 @@ export type UnderSpecialExamResponse =
 
 const QUERY_URL = `${UNDER_STUDY_SERVER}/new/student/xskjcj/datas`;
 
-const getSpecialExamResults = (
-  records: RawUnderSpecialExamItem[],
-): UnderSpecialExamResult[] =>
+const getSpecialExamResults = (records: RawUnderSpecialExamItem[]): UnderSpecialExamResult[] =>
   records.map(({ zcj, kssj, xnxqmc, kjkcmc, kjcjdm }) => ({
     semester: xnxqmc.replace(/^20/, "").replace(/季学期$/, ""),
     time: kssj,
@@ -98,48 +91,47 @@ const getSpecialExamResults = (
     gradeCode: kjcjdm,
   }));
 
-const getUnderSpecialExamLocal =
-  async (): Promise<UnderSpecialExamResponse> => {
-    try {
-      const { data } = await request<RawUnderSpecialExamResult>(QUERY_URL, {
-        method: "POST",
-        headers: {
-          Accept: "application/json, text/javascript, */*; q=0.01",
-        },
-        body: new URLSearchParams({
-          page: "1",
-          rows: "50",
-          sort: "xnxqdm",
-          order: "asc",
-        }),
-      });
+const getUnderSpecialExamLocal = async (): Promise<UnderSpecialExamResponse> => {
+  try {
+    const { data } = await request<RawUnderSpecialExamResult>(QUERY_URL, {
+      method: "POST",
+      headers: {
+        Accept: "application/json, text/javascript, */*; q=0.01",
+      },
+      body: new URLSearchParams({
+        page: "1",
+        rows: "50",
+        sort: "xnxqdm",
+        order: "asc",
+      }),
+    });
 
-      if ("code" in data) {
-        if (data.message === "尚未登录，请先登录") return ExpiredResponse;
-
-        return {
-          success: false,
-          msg: data.message,
-        };
-      }
-
-      const records = getSpecialExamResults(data.rows);
-
-      return {
-        success: true,
-        data: records,
-      };
-    } catch (err) {
-      const { message } = err as Error;
-
-      logger.error(err);
+    if ("code" in data) {
+      if (data.message === "尚未登录，请先登录") return ExpiredResponse;
 
       return {
         success: false,
-        msg: message,
+        msg: data.message,
       };
     }
-  };
+
+    const records = getSpecialExamResults(data.rows);
+
+    return {
+      success: true,
+      data: records,
+    };
+  } catch (err) {
+    const { message } = err as Error;
+
+    logger.error(err);
+
+    return {
+      success: false,
+      msg: message,
+    };
+  }
+};
 
 const getUnderSpecialExamOnline = async (): Promise<UnderSpecialExamResponse> =>
   request<UnderSpecialExamResponse>("/under-study/special-exam", {
@@ -148,9 +140,5 @@ const getUnderSpecialExamOnline = async (): Promise<UnderSpecialExamResponse> =>
   }).then(({ data }) => data);
 
 export const getUnderSpecialExam = withUnderStudyLogin(
-  createService(
-    "under-special-exam",
-    getUnderSpecialExamLocal,
-    getUnderSpecialExamOnline,
-  ),
+  createService("under-special-exam", getUnderSpecialExamLocal, getUnderSpecialExamOnline),
 );

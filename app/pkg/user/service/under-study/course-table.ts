@@ -1,23 +1,13 @@
 import { URLSearchParams } from "@mptool/all";
 
-import { withUnderStudyLogin } from "./login.js";
-import { UNDER_STUDY_SERVER } from "./utils.js";
 import { request } from "../../../../api/index.js";
-import type {
-  AuthLoginFailedResponse,
-  CommonSuccessResponse,
-} from "../../../../service/index.js";
-import {
-  ExpiredResponse,
-  UnknownResponse,
-  createService,
-} from "../../../../service/index.js";
-import type {
-  CourseTableClassData,
-  CourseTableData,
-} from "../../../../typings/index.js";
+import type { AuthLoginFailedResponse, CommonSuccessResponse } from "../../../../service/index.js";
+import { ExpiredResponse, unknownResponse, createService } from "../../../../service/index.js";
+import type { CourseTableClassData, CourseTableData } from "../../../../typings/index.js";
 import { getJson } from "../../../../utils/index.js";
 import { getLegacyUnderCourseTable } from "../under-system/index.js";
+import { withUnderStudyLogin } from "./login.js";
+import { UNDER_STUDY_SERVER } from "./utils.js";
 
 export interface RawUnderCourseTableItem {
   /* ========= 课程基础信息 ========== */
@@ -25,21 +15,23 @@ export interface RawUnderCourseTableItem {
   /**
    * 课程名称
    *
-   * @example "习近平新时代中国特色社会主义思想概论"
+   * @example
+   *   "习近平新时代中国特色社会主义思想概论";
    */
   kcmc: string;
 
   /**
    * 学时
    *
-   * @example 2
+   * @example
+   *   2;
    */
   xs: 2;
 
   /**
    * 课程编号
    *
-   * @description 可用于查询指定课程
+   * 可用于查询指定课程
    */
   kcbh: string;
   /** 课程代码 */
@@ -50,49 +42,56 @@ export interface RawUnderCourseTableItem {
   /**
    * 班级名称，可能为空
    *
-   * @example "理科1班"
+   * @example
+   *   "理科1班";
    */
   jxbmc: string;
 
   /**
    * 课容量
    *
-   * @example 125
+   * @example
+   *   125;
    */
   pkrs: number;
 
   /**
    * 教师姓名 (多个)，用英文逗号分隔
    *
-   * @example "王庆勇,单桂晔,郭晋芝,周亚洲,邢海军,王玲玲,高志华,曹峻鸣"
+   * @example
+   *   "王庆勇,单桂晔,郭晋芝,周亚洲,邢海军,王玲玲,高志华,曹峻鸣";
    */
   teaxms: string;
 
   /**
    * 教师代码 (多个)，用英文逗号分隔
    *
-   * @example "11300640,11841840,12432672"
+   * @example
+   *   "11300640,11841840,12432672";
    */
   teadms: "11300640,11841840,12432672";
 
   /**
    * 上课地址
    *
-   * @example "逸夫教学楼401室"
+   * @example
+   *   "逸夫教学楼401室";
    */
   jxcdmc: "逸夫教学楼401室";
 
   /**
    * 每周上课地址，用英文逗号分隔
    *
-   * @example "逸夫教学楼401室-17,逸夫教学楼401室-12,逸夫教学楼401室-13,逸夫教学楼401室-14,逸夫教学楼401室-15,逸夫教学楼401室-16,逸夫教学楼401室-18,逸夫教学楼401室-19,逸夫教学楼401室-4,逸夫教学楼401室-5,逸夫教学楼401室-6,逸夫教学楼401室-7,逸夫教学楼401室-8,逸夫教学楼401室-9,逸夫教学楼401室-10,逸夫教学楼401室-11,逸夫教学楼401室-2,逸夫教学楼401室-3"
+   * @example
+   *   "逸夫教学楼401室-17,逸夫教学楼401室-12,逸夫教学楼401室-13,逸夫教学楼401室-14,逸夫教学楼401室-15,逸夫教学楼401室-16,逸夫教学楼401室-18,逸夫教学楼401室-19,逸夫教学楼401室-4,逸夫教学楼401室-5,逸夫教学楼401室-6,逸夫教学楼401室-7,逸夫教学楼401室-8,逸夫教学楼401室-9,逸夫教学楼401室-10,逸夫教学楼401室-11,逸夫教学楼401室-2,逸夫教学楼401室-3";
    */
   jxcdmc2: string;
 
   /**
    * 周次，用英文逗号分隔
    *
-   * @example "17,12,13,14,15,16,18,19,4,5,6,7,8,9,10,11,2,3"
+   * @example
+   *   "17,12,13,14,15,16,18,19,4,5,6,7,8,9,10,11,2,3";
    */
   zc: string;
 
@@ -104,37 +103,43 @@ export interface RawUnderCourseTableItem {
   /**
    * 学期代码
    *
-   * @example "202301"
+   * @example
+   *   "202301";
    */
   xnxqdm: string;
   /**
    * 星期
    *
-   * @example "3"
+   * @example
+   *   "3";
    */
   xq: string;
   /**
    * 开始课时
    *
-   * @example "01"
+   * @example
+   *   "01";
    */
   ps: string;
   /**
    * 结束课时
    *
-   * @example "02"
+   * @example
+   *   "02";
    */
   pe: string;
   /**
    * 开始时间
    *
-   * @example "08:00:00"
+   * @example
+   *   "08:00:00";
    */
   qssj: string;
   /**
    * 结束时间
    *
-   * @example "09:30:00"
+   * @example
+   *   "09:30:00";
    */
   jssj: string;
 
@@ -175,28 +180,23 @@ interface RawUnderCourseTableFailResult {
   message: string;
 }
 
-type RawUnderCourseTableResult =
-  // eslint-disable-next-line @typescript-eslint/no-redundant-type-constituents
-  RawUnderCourseTableSuccessResult | RawUnderCourseTableFailResult;
+type RawUnderCourseTableResult = RawUnderCourseTableSuccessResult | RawUnderCourseTableFailResult;
 
 export type UnderCourseTableSuccessResponse = CommonSuccessResponse<{
   table: CourseTableData;
   startTime: string;
 }>;
 
-export type UnderCourseTableResponse =
-  | UnderCourseTableSuccessResponse
-  | AuthLoginFailedResponse;
+export type UnderCourseTableResponse = UnderCourseTableSuccessResponse | AuthLoginFailedResponse;
 
-const getCourseTable = (
-  classes: RawUnderCourseTableItem[],
-): CourseTableData => {
-  const tableData = new Array(6).fill(null).map(() =>
-    new Array(7).fill(null).map<
-      (Omit<CourseTableClassData, "locations"> & {
+const getCourseTable = (classes: RawUnderCourseTableItem[]): CourseTableData => {
+  const tableData = Array.from({ length: 6 }, () =>
+    Array.from(
+      { length: 7 },
+      (): (Omit<CourseTableClassData, "locations"> & {
         locations: Record<string, string>;
-      })[]
-    >(() => []),
+      })[] => [],
+    ),
   );
 
   const store = new Map<
@@ -254,14 +254,12 @@ const getCourseTable = (
         name,
         teachers: teachersName.split(","),
         time: `${startTime} - ${endTime}`,
-        weeks: weeks,
+        weeks,
         locations: location,
         classIndex: [Number(startClassIndex), Number(endClassIndex)],
       };
 
-      tableData[Math.floor(Number(startClassIndex) / 2)][Number(week) - 1].push(
-        classData,
-      );
+      tableData[Math.floor(Number(startClassIndex) / 2)][Number(week) - 1].push(classData);
       store.set(key, classData);
     },
   );
@@ -277,9 +275,7 @@ const getCourseTable = (
   );
 };
 
-const getUnderCourseTableLocal = async (
-  time: string,
-): Promise<UnderCourseTableResponse> => {
+const getUnderCourseTableLocal = async (time: string): Promise<UnderCourseTableResponse> => {
   const semesterStartTime = await getJson<Record<string, string>>(
     "function/data/semester-start-time",
   );
@@ -293,13 +289,11 @@ const getUnderCourseTableLocal = async (
     body: new URLSearchParams({ xnxqdm: time }),
   });
 
-  if (headers.get("Content-Type")?.includes("text/html"))
-    return ExpiredResponse;
+  if (headers.get("Content-Type")?.includes("text/html")) return ExpiredResponse;
 
   if (data.code !== 0) {
     if (data.message === "尚未登录，请先登录") return ExpiredResponse;
-    if (data.message === "本学期课表未开放!")
-      return UnknownResponse(data.message);
+    if (data.message === "本学期课表未开放!") return unknownResponse(data.message);
 
     throw new Error(data.message);
   }
@@ -315,9 +309,7 @@ const getUnderCourseTableLocal = async (
   };
 };
 
-export const getUnderCourseTableOnline = (
-  time: string,
-): Promise<UnderCourseTableResponse> =>
+export const getUnderCourseTableOnline = (time: string): Promise<UnderCourseTableResponse> =>
   request<UnderCourseTableResponse>("/under-study/course-table", {
     method: "POST",
     body: { time },
@@ -325,12 +317,12 @@ export const getUnderCourseTableOnline = (
   }).then(({ data }) => data);
 
 export const getUnderCourseTable = withUnderStudyLogin(async (time: string) => {
-  const semesterYear = Number(time.substring(0, 4));
+  const semesterYear = Number(time.slice(0, 4));
 
   if (semesterYear < 2023) {
-    const legacyTime = `${semesterYear}-${semesterYear + 1}-${time.substring(6)}`;
+    const legacyTime = `${semesterYear}-${semesterYear + 1}-${time.slice(6)}`;
 
-    // eslint-disable-next-line @typescript-eslint/no-deprecated
+    // oxlint-disable-next-line typescript/no-deprecated
     return getLegacyUnderCourseTable(legacyTime);
   }
 

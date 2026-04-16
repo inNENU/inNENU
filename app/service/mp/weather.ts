@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/naming-convention */
 import { request } from "../../api/index.js";
 import { createService } from "../utils/index.js";
 
@@ -147,6 +146,7 @@ interface WeatherRawResponse {
  *
  * @param icon 天气代码
  * @param isDay 当前是否是白天
+ * @returns 天气图标代码
  */
 const getWeatherCode = (icon: string, isDay: boolean): string =>
   icon === "00" || icon === "01" || icon === "03" || icon === "13"
@@ -292,11 +292,8 @@ export interface WeatherData {
   hints: WeatherHint[];
 }
 
-const getWeatherData = ({
-  air,
-  alarm,
-  ...data
-}: WeatherRawData): WeatherData => {
+// oxlint-disable-next-line max-lines-per-function
+const getWeatherData = ({ air, alarm, ...data }: WeatherRawData): WeatherData => {
   const {
     aqi,
     aqi_level: aqiLevel,
@@ -328,10 +325,10 @@ const getWeatherData = ({
   const hints = [
     ...Object.entries(data.index)
       .filter(([id]) => id !== "time")
-      .map(([id, value]) => ({
-        id,
-        ...(value as { name: string; info: string; detail: string }),
-      })),
+      .map(([id, value]) =>
+        // oxlint-disable-next-line prefer-object-spread
+        Object.assign({ id }, value as { name: string; info: string; detail: string }),
+      ),
     {
       id: "tailnumber",
       name: "尾号限行",
@@ -343,22 +340,20 @@ const getWeatherData = ({
   const hourForecast = Object.entries(data.forecast_1h)
     .sort(([keyA], [keyB]) => Number(keyA) - Number(keyB))
     .map(([, value]) => value)
-    .map(({ degree, update_time: updateTime, weather_code: weatherCode }) => {
-      const { sunrise, sunset } = rise.find(
-        (item) => item.time === updateTime.substring(0, 8),
-      )!;
-      const hour = Number(updateTime.substring(8, 10));
-      const sunriseHour = Number(sunrise.substring(0, 2));
-      const sunsetHour = Number(sunset.substring(0, 2));
+    .flatMap(({ degree, update_time: updateTime, weather_code: weatherCode }) => {
+      const { sunrise, sunset } = rise.find((item) => item.time === updateTime.slice(0, 8))!;
+      const hour = Number(updateTime.slice(8, 10));
+      const sunriseHour = Number(sunrise.slice(0, 2));
+      const sunsetHour = Number(sunset.slice(0, 2));
       const isDay = sunriseHour < hour && hour <= sunsetHour;
 
       const weather = {
         degree: `${degree}°`,
         weatherCode: getWeatherCode(weatherCode, isDay),
-        time: `${updateTime.substring(8, 10)}:${updateTime.substring(10, 12)}`,
+        time: `${updateTime.slice(8, 10)}:${updateTime.slice(10, 12)}`,
       };
 
-      if (hour === sunriseHour)
+      if (hour === sunriseHour) {
         return [
           weather,
           {
@@ -367,8 +362,9 @@ const getWeatherData = ({
             time: sunrise,
           },
         ];
+      }
 
-      if (hour === sunsetHour)
+      if (hour === sunsetHour) {
         return [
           weather,
           {
@@ -377,10 +373,10 @@ const getWeatherData = ({
             time: sunset,
           },
         ];
+      }
 
       return weather;
-    })
-    .flat();
+    });
 
   const dayForecast = Object.entries(data.forecast_24h)
     .sort(([keyA], [keyB]) => Number(keyA) - Number(keyB))
@@ -403,7 +399,7 @@ const getWeatherData = ({
           time,
         },
       ]) => ({
-        date: `${time.substring(5, 7)}/${time.substring(8, 10)}`,
+        date: `${time.slice(5, 7)}/${time.slice(8, 10)}`,
         weekday:
           index === "0"
             ? "昨天"
@@ -445,13 +441,11 @@ const getWeatherData = ({
       pm25: Number(pm25),
       so2: Number(so2),
     },
-    alarm: Object.entries(alarm).map(
-      ([, { detail, level_name: level, type_name: type }]) => ({
-        level,
-        type,
-        text: detail,
-      }),
-    ),
+    alarm: Object.entries(alarm).map(([, { detail, level_name: level, type_name: type }]) => ({
+      level,
+      type,
+      text: detail,
+    })),
     dayForecast,
     hourForecast,
     hints,
@@ -484,8 +478,4 @@ const getWeatherLocal = async (): Promise<WeatherData> => {
 const getWeatherOnline = async (): Promise<WeatherData> =>
   request<WeatherData>("/weather").then(({ data }) => data);
 
-export const getWeather = createService(
-  "weather",
-  getWeatherLocal,
-  getWeatherOnline,
-);
+export const getWeather = createService("weather", getWeatherLocal, getWeatherOnline);

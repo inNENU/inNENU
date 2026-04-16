@@ -1,5 +1,5 @@
-import { RESET_PREFIX } from "./utils.js";
 import { request } from "../../../../api/index.js";
+import { RESET_PREFIX } from "./utils.js";
 
 const GET_PASSWORD_RULE = `${RESET_PREFIX}/getAllPwdRules`;
 

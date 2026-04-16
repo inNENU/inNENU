@@ -28,15 +28,16 @@ $Page("map-detail", {
     const { id } = options;
     const page = readJSON(`function/map/${id}`);
 
-    resolvePage({ id }, page ? this.convertPage(page) : undefined);
+    resolvePage({ id }, page ? this.convertPage(page) : null);
   },
 
   onLoad(option) {
     const { id, loc = "" } = option;
 
     if (id) {
-      if (globalData.page.id === id) setPage({ option, ctx: this });
-      else
+      if (globalData.page.id === id) {
+        setPage({ option, ctx: this });
+      } else {
         getJson<PageState>(`function/map/${id}`)
           .then((data) => {
             setPage({ option, ctx: this }, this.convertPage(data));
@@ -44,6 +45,7 @@ $Page("map-detail", {
           .catch(() => {
             setPage({ option, ctx: this }, { error: true });
           });
+      }
 
       this.state.id = id;
     }
@@ -64,9 +66,7 @@ $Page("map-detail", {
 
     return {
       title: page.title,
-      path: `/pkg/tool/pages/map/detail?id=${this.state.id}${
-        loc ? `&loc=${loc}` : ""
-      }`,
+      path: `/pkg/tool/pages/map/detail?id=${this.state.id}${loc ? `&loc=${loc}` : ""}`,
     };
   },
 

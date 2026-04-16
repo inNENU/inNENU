@@ -43,13 +43,9 @@ $Page(PAGE_ID, {
 
     if (account) {
       if (!info) {
-        showModal(
-          "个人信息缺失",
-          `${envName}本地暂无个人信息，请重新登录`,
-          () => {
-            this.$go("account-login?update=true");
-          },
-        );
+        showModal("个人信息缺失", `${envName}本地暂无个人信息，请重新登录`, () => {
+          this.$go("account-login?update=true");
+        });
 
         return;
       }
@@ -79,10 +75,7 @@ $Page(PAGE_ID, {
   async getStudyArchive() {
     wx.showLoading({ title: "获取中" });
 
-    const err = await ensureUnderSystemLogin(
-      user.account!,
-      this.state.loginMethod,
-    );
+    const err = await ensureUnderSystemLogin(user.account!, this.state.loginMethod);
 
     if (err) {
       wx.hideLoading();
@@ -111,10 +104,7 @@ $Page(PAGE_ID, {
   async registerStudentArchive() {
     wx.showLoading({ title: "注册中" });
 
-    const err = await ensureUnderSystemLogin(
-      user.account!,
-      this.state.loginMethod,
-    );
+    const err = await ensureUnderSystemLogin(user.account!, this.state.loginMethod);
 
     if (err) {
       wx.hideLoading();
@@ -129,11 +119,11 @@ $Page(PAGE_ID, {
     this.state.inited = true;
 
     if (result.success) {
-      showModal("注册成功", "本年度学籍注册成功", () =>
+      showModal("注册成功", "本年度学籍注册成功", () => {
         this.setData({ stage: "loading" }, () => {
           this.getStudyArchive();
-        }),
-      );
+        });
+      });
       this.state.loginMethod = "check";
     } else if (result.type === ActionFailType.Expired) {
       this.handleExpired(result.msg);
@@ -143,9 +133,13 @@ $Page(PAGE_ID, {
   },
 
   confirmRegister() {
-    confirm("注册学籍", "您应已核对信息全部准确，注册后将无法修改！", () => {
-      this.registerStudentArchive();
-    });
+    confirm(
+      "注册学籍",
+      () => {
+        this.registerStudentArchive();
+      },
+      "您应已核对信息全部准确，注册后将无法修改！",
+    );
   },
 
   createStudentArchive() {

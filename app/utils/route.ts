@@ -12,6 +12,7 @@ import type {
 
 import { showOfficialQRCode } from "./wechat.js";
 
+// oxlint-disable-next-line max-lines-per-function, max-statements
 export const route = (
   options:
     | PathOptions
@@ -30,62 +31,70 @@ export const route = (
       case "official": {
         const { username } = options;
 
-        if (wx.openOfficialAccountProfile)
+        if (wx.openOfficialAccountProfile) {
           wx.openOfficialAccountProfile({
             username,
-            fail: () => showOfficialQRCode(username),
+            fail: () => {
+              showOfficialQRCode(username);
+            },
           });
-        else showOfficialQRCode(username);
+        } else {
+          showOfficialQRCode(username);
+        }
         break;
       }
 
       case "article": {
         const { url } = options;
 
-        if (wx.openOfficialAccountArticle)
+        if (wx.openOfficialAccountArticle) {
           wx.openOfficialAccountArticle({ url });
-        else if (env === "donut") wx.miniapp.openUrl({ url });
-        else
+        } else if (env === "donut") {
+          wx.miniapp.openUrl({ url });
+        } else {
           writeClipboard(url).then(() => {
             showModal(
               "无法打开",
               "暂不支持打开微信图文，链接已复制至剪切板，请打开浏览器粘贴查看。",
             );
           });
+        }
         break;
       }
 
       case "channel": {
         const { id, username } = options;
 
-        if (wx.openChannelsUserProfile)
+        if (wx.openChannelsUserProfile) {
           wx.openChannelsUserProfile({ finderUserName: id });
-        else
+        } else {
           writeClipboard(username).then(() => {
             showModal(
               "暂不支持",
               `暂不支持打开微信视频号，视频号名称 ${username} 已复制，请自行搜索。`,
             );
           });
+        }
         break;
       }
 
       case "video": {
         const { id, username } = options;
 
-        if (wx.openChannelsActivity)
+        if (wx.openChannelsActivity) {
           wx.openChannelsActivity({
             finderUserName: username,
             feedId: id,
             nonceId: "",
           });
-        else
+        } else {
           writeClipboard(username).then(() => {
             showModal(
               "暂不支持",
               `暂不支持打开微信视频，视频号名称 ${username} 已复制，请自行搜索。`,
             );
           });
+        }
         break;
       }
 
@@ -106,8 +115,7 @@ export const route = (
             wx.miniapp.launchMiniProgram({
               userName: appId,
               path,
-              miniprogramType:
-                versionType === "develop" ? 1 : versionType === "trial" ? 2 : 0,
+              miniprogramType: versionType === "develop" ? 1 : versionType === "trial" ? 2 : 0,
             });
           } else {
             showModal("无法打开", "暂不支持打开微信小程序");

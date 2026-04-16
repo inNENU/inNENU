@@ -1,6 +1,6 @@
-import { id2path } from "./id.js";
 import type { GridComponentItemOptions } from "../../typings/index.js";
 import { getIdentity } from "../state/index.js";
+import { id2path } from "./id.js";
 
 export type EntranceItemOptions = GridComponentItemOptions & {
   path?: string;
@@ -11,8 +11,7 @@ export type EntranceItemOptions = GridComponentItemOptions & {
   jingyue?: string | false;
 };
 
-export interface EntranceItemData
-  extends Omit<GridComponentItemOptions, "path"> {
+export interface EntranceItemData extends Omit<GridComponentItemOptions, "path"> {
   url: string;
 }
 
@@ -32,10 +31,7 @@ export interface EntranceData {
 
 export type EntranceConfig = Record<string, EntranceOptions>;
 
-export const getTabData = (
-  items: EntranceItemOptions[],
-  title: string,
-): EntranceItemData[] => {
+export const getTabData = (items: EntranceItemOptions[], title: string): EntranceItemData[] => {
   const { location, type } = getIdentity();
 
   return items
@@ -65,5 +61,5 @@ export const getTabData = (
           )}&from=${title}`,
       };
     })
-    .filter((item) => item !== null);
+    .filter((item) => item != null);
 };

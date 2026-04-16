@@ -5,12 +5,7 @@ import type { App } from "../../../../app.js";
 import { appCoverPrefix } from "../../../../config/index.js";
 import { defaultScroller } from "../../../../mixins/index.js";
 import { windowInfo } from "../../../../state/index.js";
-import {
-  getJson,
-  resolvePage,
-  setPage,
-  startNavigation,
-} from "../../../../utils/index.js";
+import { getJson, resolvePage, setPage, startNavigation } from "../../../../utils/index.js";
 
 const { globalData } = getApp<App>();
 
@@ -33,8 +28,9 @@ $Page("map-detail", {
     const { id, loc } = option;
 
     if (id) {
-      if (globalData.page.id === id) setPage({ option, ctx: this });
-      else
+      if (globalData.page.id === id) {
+        setPage({ option, ctx: this });
+      } else {
         getJson<PageState>(`function/map/${id}`)
           .then((data) => {
             setPage({ option, ctx: this }, data);
@@ -42,6 +38,7 @@ $Page("map-detail", {
           .catch(() => {
             setPage({ option, ctx: this }, { error: true });
           });
+      }
 
       this.state.id = id;
     }
@@ -67,9 +64,7 @@ $Page("map-detail", {
 
     return {
       title: page.title,
-      path: `/pkg/tool/pages/map/detail?id=${this.state.id}${
-        loc ? `&loc=${loc}` : ""
-      }`,
+      path: `/pkg/tool/pages/map/detail?id=${this.state.id}${loc ? `&loc=${loc}` : ""}`,
     };
   },
 

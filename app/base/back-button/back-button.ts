@@ -3,7 +3,7 @@ import { $Component } from "@mptool/all";
 
 import { appInfo, windowInfo } from "../../state/index.js";
 
-// eslint-disable-next-line @typescript-eslint/consistent-type-definitions
+// oxlint-disable-next-line typescript/consistent-type-definitions
 type BackButtonProps = {
   icon: {
     type: StringConstructor;
@@ -20,7 +20,7 @@ interface BackButtonData {
   src?: string;
 }
 
-// eslint-disable-next-line @typescript-eslint/consistent-type-definitions
+// oxlint-disable-next-line typescript/consistent-type-definitions
 type BackButtonMethods = {
   setImageLink(isDarkMode: boolean): void;
   onTap(): void;
@@ -38,13 +38,7 @@ type BackButtonComponentInstance = ComponentInstance<
   BackButtonInstanceMethod
 >;
 
-$Component<
-  BackButtonData,
-  BackButtonProps,
-  BackButtonMethods,
-  [],
-  BackButtonInstanceMethod
->({
+$Component<BackButtonData, BackButtonProps, BackButtonMethods, [], BackButtonInstanceMethod>({
   props: {
     icon: {
       type: String,
@@ -86,11 +80,8 @@ $Component<
     },
 
     onTap() {
-      if (this.data.action) {
-        this.$call(this.data.action);
-      } else {
-        this.$back();
-      }
+      if (this.data.action) this.$call(this.data.action);
+      else this.$back();
     },
   },
 

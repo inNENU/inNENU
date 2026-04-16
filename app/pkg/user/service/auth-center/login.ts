@@ -1,6 +1,5 @@
 import { logger } from "@mptool/all";
 
-import { CENTER_PAGE, CENTER_PREFIX } from "./utils.js";
 import { cookieStore, request } from "../../../../api/index.js";
 import type {
   ActionFailType,
@@ -12,7 +11,7 @@ import type {
 } from "../../../../service/index.js";
 import {
   MissingCredentialResponse,
-  UnknownResponse,
+  unknownResponse,
   authLogin,
   checkAccountStatus,
   createService,
@@ -20,6 +19,7 @@ import {
 } from "../../../../service/index.js";
 import type { AccountInfo } from "../../../../state/index.js";
 import { user } from "../../../../state/index.js";
+import { CENTER_PAGE, CENTER_PREFIX } from "./utils.js";
 
 let currentLogin: Promise<AuthCenterLoginResponse> | null = null;
 let loginMethod: LoginMethod = "validate";
@@ -28,7 +28,6 @@ export const isAuthCenterLoggedInLocal = async (): Promise<boolean> => {
   try {
     const response = await request<string>(CENTER_PAGE, {
       headers: {
-        // eslint-disable-next-line @typescript-eslint/naming-convention
         "Cache-Control": "no-cache",
       },
       redirect: "manual",
@@ -52,12 +51,19 @@ const isAuthCenterLoggedIn = createService(
   isAuthCenterLoggedInOnline,
 );
 
-export type AuthCenterLoginResponse =
-  | { success: true }
-  | AuthLoginFailedResponse;
+export type AuthCenterLoginResponse = { success: true } | AuthLoginFailedResponse;
 
-/**
- * @requires "redirect:manual"
+export const authCenterLoginOnline = async (
+  options: AccountInfo,
+): Promise<AuthCenterLoginResponse> =>
+  request<AuthCenterLoginResponse>("/auth-center/login", {
+    method: "POST",
+    body: options,
+    cookieScope: CENTER_PREFIX,
+  }).then(({ data }) => data);
+
+/*
+ * requires "redirect:manual"
  */
 export const authCenterLoginLocal = async (
   options: AccountInfo,
@@ -81,25 +87,14 @@ export const authCenterLoginLocal = async (
     redirect: "manual",
   });
 
-  if (ticketResponse.status !== 302) return UnknownResponse("登录失败");
+  if (ticketResponse.status !== 302) return unknownResponse("登录失败");
 
   const finalLocation = ticketResponse.headers.get("Location");
 
-  if (finalLocation === CENTER_PAGE) {
-    return { success: true };
-  }
+  if (finalLocation === CENTER_PAGE) return { success: true };
 
-  return UnknownResponse("登录失败");
+  return unknownResponse("登录失败");
 };
-
-export const authCenterLoginOnline = async (
-  options: AccountInfo,
-): Promise<AuthCenterLoginResponse> =>
-  request<AuthCenterLoginResponse>("/auth-center/login", {
-    method: "POST",
-    body: options,
-    cookieScope: CENTER_PREFIX,
-  }).then(({ data }) => data);
 
 const authCenterLogin = createService(
   "auth-center-login",
@@ -108,73 +103,68 @@ const authCenterLogin = createService(
 );
 
 const hasAuthCenterCookies = (): boolean =>
-  cookieStore
-    .getCookies(CENTER_PREFIX)
-    .some(({ domain }) => domain.endsWith(CENTER_PREFIX));
+  cookieStore.getCookies(CENTER_PREFIX).some(({ domain }) => domain.endsWith(CENTER_PREFIX));
 
 export const withAuthCenterLogin =
-  <R extends { success: boolean }, T extends (...args: any[]) => Promise<R>>(
+  // oxlint-disable-next-line typescript/no-explicit-any
+  <Returns extends { success: boolean }, T extends (...args: any[]) => Promise<Returns>>(
     serviceHandler: T,
   ) =>
-  async (
-    ...args: Parameters<T>
-  ): Promise<
-    | CommonFailedResponse<ActionFailType.MissingCredential>
-    | FailResponse<AuthCenterLoginResponse>
-    | Awaited<ReturnType<T>>
-  > => {
-    if (!user.account) return MissingCredentialResponse;
+    async (
+      ...args: Parameters<T>
+    ): Promise<
+      | CommonFailedResponse<ActionFailType.MissingCredential>
+      | FailResponse<AuthCenterLoginResponse>
+      | Awaited<ReturnType<T>>
+    > => {
+      if (!user.account) return MissingCredentialResponse;
 
-    // check whether cookies exist and avoid re-login if the login state is not expired
-    if (hasAuthCenterCookies()) {
-      let response: Awaited<ReturnType<T>> | null = null;
+      // check whether cookies exist and avoid re-login if the login state is not expired
+      if (hasAuthCenterCookies()) {
+        let response: Awaited<ReturnType<T>> | null = null;
 
-      // assuming login state is valid if cookies exist
-      if (loginMethod === "check") {
-        response = (await serviceHandler(...args)) as Awaited<ReturnType<T>>;
-      }
-
-      // validate login state with actual API
-      if (loginMethod === "validate") {
-        if (await isAuthCenterLoggedIn()) {
+        // assuming login state is valid if cookies exist
+        if (loginMethod === "check")
           response = (await serviceHandler(...args)) as Awaited<ReturnType<T>>;
+
+        // validate login state with actual API
+        if (loginMethod === "validate" && (await isAuthCenterLoggedIn()))
+          response = (await serviceHandler(...args)) as Awaited<ReturnType<T>>;
+
+        if (response) {
+          // check if action is successful
+          if (response.success) {
+            loginMethod = "check";
+
+            return response;
+          }
+
+          // validate login state next time to ensure the login state is correct
+          // @ts-expect-error: Response untyped
+          if (response.type !== ActionFailType.Expired) {
+            loginMethod = "validate";
+
+            return response;
+          }
         }
       }
 
-      if (response) {
-        // check if action is successful
-        if (response.success) {
-          loginMethod = "check";
+      // ensure only one login action is running
+      const response = await (currentLogin ??= authCenterLogin(user.account));
 
-          return response;
-        }
+      // clear the current login promise after log in
+      currentLogin = null;
 
-        // validate login state next time to ensure the login state is correct
-        // @ts-expect-error: Response untyped
-        if (response.type !== ActionFailType.Expired) {
-          loginMethod = "validate";
+      // successfully logged in
+      if (response.success) {
+        loginMethod = "check";
 
-          return response;
-        }
+        return (await serviceHandler(...args)) as Awaited<ReturnType<T>>;
       }
-    }
 
-    // ensure only one login action is running
-    const response = await (currentLogin ??= authCenterLogin(user.account));
+      logger.error("Under study login failed", response);
+      loginMethod = "force";
+      checkAccountStatus(response);
 
-    // clear the current login promise after log in
-    currentLogin = null;
-
-    // successfully logged in
-    if (response.success) {
-      loginMethod = "check";
-
-      return (await serviceHandler(...args)) as Awaited<ReturnType<T>>;
-    }
-
-    logger.error("Under study login failed", response);
-    loginMethod = "force";
-    checkAccountStatus(response);
-
-    return response;
-  };
+      return response;
+    };

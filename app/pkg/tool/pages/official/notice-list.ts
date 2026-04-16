@@ -73,15 +73,15 @@ $Page(PAGE_ID, {
     }
   },
 
-  retry() {
+  async retry() {
     return this.getOfficialNoticeList(1);
   },
 
-  changePage({ detail }: WechatMiniprogram.CustomEvent<{ current: number }>) {
+  async changePage({ detail }: WechatMiniprogram.CustomEvent<{ current: number }>) {
     return this.getOfficialNoticeList(detail.current);
   },
 
-  viewItem({
+  async viewItem({
     currentTarget,
   }: WechatMiniprogram.TouchEvent<
     Record<string, never>,
@@ -91,8 +91,6 @@ $Page(PAGE_ID, {
     const { index } = currentTarget.dataset;
     const { title, url } = this.data.items[index];
 
-    return this.$go(
-      `official-notice-detail?from=${this.data.title}&title=${title}&url=${url}`,
-    );
+    return this.$go(`official-notice-detail?from=${this.data.title}&title=${title}&url=${url}`);
   },
 });

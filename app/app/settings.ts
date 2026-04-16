@@ -1,19 +1,16 @@
 import { logger } from "@mptool/all";
 
-import type { GlobalData } from "./globalData.js";
-import type { NoticeSettings } from "./notice.js";
-import { syncNotice } from "./notice.js";
 import type { ComponentData } from "../../typings/components.js";
 import { request } from "../api/index.js";
 import { server, version } from "../config/index.js";
 import { appId } from "../state/index.js";
+import type { GlobalData } from "./globalData.js";
+import type { NoticeSettings } from "./notice.js";
+import { syncNotice } from "./notice.js";
 
 export type ServiceStatus = "local" | "online";
 
-export type ServiceSettings = { forceOnline?: boolean } & Record<
-  string,
-  ServiceStatus
->;
+export type ServiceSettings = { forceOnline?: boolean } & Record<string, ServiceStatus>;
 
 export interface AppUpdateSettings {
   /** 是否进行强制更新 */
@@ -23,9 +20,7 @@ export interface AppUpdateSettings {
 }
 
 export interface AppSettings {
-  // eslint-disable-next-line @typescript-eslint/naming-convention
   "main-page": Record<string, string>;
-  // eslint-disable-next-line @typescript-eslint/naming-convention
   "intro-page": Record<
     string,
     {
@@ -33,7 +28,6 @@ export interface AppSettings {
       more: string[];
     }
   >;
-  // eslint-disable-next-line @typescript-eslint/naming-convention
   "guide-page": Record<
     string,
     {
@@ -41,11 +35,8 @@ export interface AppSettings {
       more: string[];
     }
   >;
-  // eslint-disable-next-line @typescript-eslint/naming-convention
   "function-page": Record<string, string>;
-  // eslint-disable-next-line @typescript-eslint/naming-convention
   "main-presets": Record<string, ComponentData[]>;
-  // eslint-disable-next-line @typescript-eslint/naming-convention
   "function-presets": Record<string, ComponentData[]>;
   user: ComponentData[];
   about: ComponentData[];
@@ -54,10 +45,7 @@ export interface AppSettings {
   update: AppUpdateSettings;
 }
 
-export const syncAppSettings = async (
-  globalData: GlobalData,
-  isTest = false,
-): Promise<void> => {
+export const syncAppSettings = async (globalData: GlobalData, isTest = false): Promise<void> => {
   try {
     const {
       data: { service, notice, ...data },

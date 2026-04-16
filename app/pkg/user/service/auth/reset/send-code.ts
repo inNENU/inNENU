@@ -1,8 +1,5 @@
 import { request } from "../../../../../api/net.js";
-import type {
-  CommonFailedResponse,
-  CommonSuccessResponse,
-} from "../../../../../service/index.js";
+import type { CommonFailedResponse, CommonSuccessResponse } from "../../../../../service/index.js";
 import { ActionFailType, authEncrypt } from "../../../../../service/index.js";
 import type { ResetCaptchaInfo } from "../reset-captcha.js";
 import { getResetCaptchaLocal } from "../reset-captcha.js";

@@ -6,8 +6,7 @@ import { getJson, showNotice } from "../../../../utils/index.js";
 
 /** 分数段设置 */
 const gradeLevels = [
-  10, 20, 30, 40, 50, 60, 62, 64, 66, 68, 70, 72, 74, 76, 78, 80, 85, 90, 95,
-  100,
+  10, 20, 30, 40, 50, 60, 62, 64, 66, 68, 70, 72, 74, 76, 78, 80, 85, 90, 95, 100,
 ];
 /** 特殊项目 */
 const special = [
@@ -136,28 +135,21 @@ $Page("pe-calculator", {
       renderer: this.renderer,
 
       // 写入性别
-      // eslint-disable-next-line @typescript-eslint/naming-convention
-      "gender.key":
-        typeof genderIndex === "number" ? genderKeys[genderIndex] : "",
+      "gender.key": typeof genderIndex === "number" ? genderKeys[genderIndex] : "",
 
       // 写入年级
-      // eslint-disable-next-line @typescript-eslint/naming-convention
       "grade.key": typeof gradeIndex === "number" ? gradeKeys[gradeIndex] : "",
 
       // 改变特别项目和长跑的名称
-      // eslint-disable-next-line @typescript-eslint/naming-convention
       "longRun.text": longRunText[genderIndex || 0],
       special: special[genderIndex || 0],
       // 设置长跑选择器数据
-      // eslint-disable-next-line @typescript-eslint/naming-convention
       "longRun.picker": longRunPicker,
     });
 
-    if (typeof genderIndex === "number")
-      this.state.gender = this.data.gender.values[genderIndex];
+    if (typeof genderIndex === "number") this.state.gender = this.data.gender.values[genderIndex];
 
-    if (typeof gradeIndex === "number")
-      this.state.grade = this.data.grade.values[gradeIndex];
+    if (typeof gradeIndex === "number") this.state.grade = this.data.grade.values[gradeIndex];
 
     // 设置通知
     showNotice("pe-calculator");
@@ -178,10 +170,8 @@ $Page("pe-calculator", {
 
     // 改变特别项目和长跑的名称
     this.setData({
-      // eslint-disable-next-line @typescript-eslint/naming-convention
       "gender.key": this.data.gender.keys[index],
       special: special[index],
-      // eslint-disable-next-line @typescript-eslint/naming-convention
       "longRun.text": longRunText[index],
     });
     this.state.gender = this.data.gender.values[index];
@@ -194,7 +184,6 @@ $Page("pe-calculator", {
 
     // 设置年级
     this.setData({
-      // eslint-disable-next-line @typescript-eslint/naming-convention
       "grade.key": this.data.grade.keys[index],
     });
     this.state.grade = this.data.grade.values[index];
@@ -235,18 +224,14 @@ $Page("pe-calculator", {
 
     // 设置显示数据
     this.setData({
-      // eslint-disable-next-line @typescript-eslint/naming-convention
-      "longRun.value": `${longRunPicker[0][value[0]]} ${
-        longRunPicker[1][value[1]]
-      }`,
+      "longRun.value": `${longRunPicker[0][value[0]]} ${longRunPicker[1][value[1]]}`,
     });
     this.state.result.longRun = (value[0] + 2) * 60 + value[1];
   },
 
   /** 计算 BMI */
   getBMI(result: Record<string, number>): [number, number] {
-    const bmiResult =
-      Math.round((result.weight * 100000) / result.height / result.height) / 10;
+    const bmiResult = Math.round((result.weight * 100000) / result.height / result.height) / 10;
 
     // 计算 BMI 状态与分值
     const [state, bmi] =
@@ -278,8 +263,8 @@ $Page("pe-calculator", {
   },
 
   /** 获得最终成绩 */
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  getResult(result: Record<string, any>, callback: (peScore: PEScore) => void) {
+  // oxlint-disable-next-line typescript/no-explicit-any
+  async getResult(result: Record<string, any>): Promise<PEScore> {
     const { length } = gradeLevels;
     const { gender, grade } = this.state;
     const peScore: PEScore = {
@@ -293,6 +278,83 @@ $Page("pe-calculator", {
       passScore: 60,
     };
 
+    // 可以计算 BMI
+    if (result.height && result.weight) [peScore.bmi, peScore.passScore] = this.getBMI(result);
+
+    // 读取相应配置文件
+    const config = await getJson<GradeConfig>(`function/pe-calculator/${gender}-${grade}`);
+
+    // 以下三项越高越好，进行计算
+    (
+      ["vitalCapacity", "sitAndReach", "standingLongJump"] as (
+        | "vitalCapacity"
+        | "sitAndReach"
+        | "standingLongJump"
+      )[]
+    ).forEach((x) => {
+      if (result[x] && Number(result[x])) {
+        for (let i = length; i >= 0; i -= 1) {
+          if (result[x] >= config[x][i]) {
+            peScore[x] = gradeLevels[i];
+            break;
+          } else if (i === 0) {
+            peScore[x] = 0;
+          }
+        }
+      } else {
+        peScore[x] = 0;
+      }
+    });
+
+    // 以下两项越低越好
+    (["shortRun", "longRun"] as ("shortRun" | "longRun")[]).forEach((x) => {
+      if (result[x]) {
+        for (let i = length; i >= 0; i -= 1) {
+          if (result[x] <= config[x][i]) {
+            peScore[x] = gradeLevels[i];
+            break;
+          } else if (i === 0) {
+            peScore[x] = 0;
+          }
+        }
+      } else {
+        peScore[x] = 0;
+      }
+    });
+
+    // 计算特别类项目分数
+    const specialScore = gender === "male" ? "chinning" : "situp";
+
+    if (result[specialScore] && Number(result[specialScore])) {
+      for (let i = length; i >= 0; i -= 1) {
+        if (config[specialScore]![i] !== "" && result[specialScore] >= config[specialScore]![i]) {
+          peScore.special = gradeLevels[i];
+          break;
+        } else if (i === 0) {
+          peScore.special = 0;
+        }
+      }
+    } else {
+      peScore.special = 0;
+    }
+
+    // TODO: 计算加分
+    console.info("Score:", peScore);
+
+    return peScore;
+  },
+
+  /** 计算最终结果 */
+  async calculate(): Promise<void> {
+    const { result } = this.state;
+    const { gender, grade } = this.state;
+
+    if (!gender || !grade) {
+      showModal("请选择性别年级", "计算前需要选择性别和年级");
+
+      return;
+    }
+
     // 校验数据的合法性
     if (result.height < 2) {
       showModal("请输入正确的身高", "身高的单位是厘米");
@@ -300,117 +362,34 @@ $Page("pe-calculator", {
       return;
     }
 
-    // 可以计算 BMI
-    if (result.height && result.weight)
-      [peScore.bmi, peScore.passScore] = this.getBMI(result);
-
-    // 读取相应配置文件
-    getJson<GradeConfig>(`function/pe-calculator/${gender}-${grade}`).then(
-      (config) => {
-        // 以下三项越高越好，进行计算
-        (
-          ["vitalCapacity", "sitAndReach", "standingLongJump"] as (
-            | "vitalCapacity"
-            | "sitAndReach"
-            | "standingLongJump"
-          )[]
-        ).forEach((x) => {
-          if (result[x] && Number(result[x])) {
-            for (let i = length; i >= 0; i -= 1)
-              if (result[x] >= config[x][i]) {
-                peScore[x] = gradeLevels[i];
-                break;
-              } else if (i === 0) {
-                peScore[x] = 0;
-              }
-          } else {
-            peScore[x] = 0;
-          }
-        });
-
-        // 以下两项越低越好
-        (["shortRun", "longRun"] as ("shortRun" | "longRun")[]).forEach((x) => {
-          if (result[x]) {
-            for (let i = length; i >= 0; i -= 1)
-              if (result[x] <= config[x][i]) {
-                peScore[x] = gradeLevels[i];
-                break;
-              } else if (i === 0) {
-                peScore[x] = 0;
-              }
-          } else {
-            peScore[x] = 0;
-          }
-        });
-
-        // 计算特别类项目分数
-        const specialScore = gender === "male" ? "chinning" : "situp";
-
-        if (result[specialScore] && Number(result[specialScore])) {
-          for (let i = length; i >= 0; i -= 1)
-            if (
-              config[specialScore]![i] !== "" &&
-              result[specialScore] >= config[specialScore]![i]
-            ) {
-              peScore.special = gradeLevels[i];
-              break;
-            } else if (i === 0) {
-              peScore.special = 0;
-            }
-        } else {
-          peScore.special = 0;
-        }
-
-        // TODO: 计算加分
-        console.info("Score:", peScore);
-
-        callback(peScore);
-      },
-    );
-  },
-
-  /** 计算最终结果 */
-  calculate() {
-    const { result } = this.state;
-    const { gender, grade } = this.state;
+    console.info("Input data:", result);
 
     wx.showLoading({ title: "计算中...", mask: true });
-    console.info("Input data: ", result);
 
-    // 可以计算
-    if (gender && grade) {
-      this.getResult(result, (peScore) => {
-        // 计算最终成绩
-        const finalScore =
-          Math.round(
-            peScore.vitalCapacity * 15 +
-              peScore.shortRun * 20 +
-              peScore.sitAndReach * 10 +
-              peScore.standingLongJump * 10 +
-              peScore.special * 10 +
-              peScore.longRun * 20 +
-              peScore.bmi * 15,
-          ) / 100;
+    const peScore = await this.getResult(result);
 
-        this.setData({
-          peScore,
-          showScore: true,
-          pe: {
-            score: finalScore,
-            state: finalScore >= peScore.passScore ? "及格" : "不及格",
-          },
-        });
-      });
+    // 计算最终成绩
+    const finalScore =
+      Math.round(
+        peScore.vitalCapacity * 15 +
+          peScore.shortRun * 20 +
+          peScore.sitAndReach * 10 +
+          peScore.standingLongJump * 10 +
+          peScore.special * 10 +
+          peScore.longRun * 20 +
+          peScore.bmi * 15,
+      ) / 100;
 
-      wx.hideLoading();
-    } else {
-      wx.hideLoading();
-      wx.showToast({
-        title: "请选择性别年级",
-        duration: 2500,
-        image: "/icon/close.png",
-      });
-    }
+    this.setData({
+      peScore,
+      showScore: true,
+      pe: {
+        score: finalScore,
+        state: finalScore >= peScore.passScore ? "及格" : "不及格",
+      },
+    });
+
+    wx.hideLoading();
   },
 
   close() {

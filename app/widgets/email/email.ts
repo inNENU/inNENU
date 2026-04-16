@@ -1,13 +1,5 @@
 import type { PropType } from "@mptool/all";
-import {
-  $Component,
-  env,
-  get,
-  set,
-  showModal,
-  showToast,
-  writeClipboard,
-} from "@mptool/all";
+import { $Component, env, get, set, showModal, showToast, writeClipboard } from "@mptool/all";
 
 import { EMAIL_DATA_KEY, MINUTE } from "../../config/index.js";
 import type { EmailData } from "../../service/index.js";
@@ -24,9 +16,7 @@ interface Mail extends Exclude<EmailData, "receivedDate"> {
 $Component({
   props: {
     type: {
-      type: String as PropType<
-        "未读邮件 (小)" | "最近邮件 (小)" | "最近邮件" | "最近邮件 (大)"
-      >,
+      type: String as PropType<"未读邮件 (小)" | "最近邮件 (小)" | "最近邮件" | "最近邮件 (大)">,
       default: "最近邮件",
     },
   },
@@ -45,7 +35,11 @@ $Component({
         size: getSize(type),
       });
 
-      if (!user.account) return this.setData({ status: "login" });
+      if (!user.account) {
+        this.setData({ status: "login" });
+
+        return;
+      }
 
       const emails = get<Mail[]>(EMAIL_DATA_KEY);
 
@@ -65,7 +59,11 @@ $Component({
 
   pageLifetimes: {
     show(): void {
-      if (!user.account) return this.setData({ status: "login" });
+      if (!user.account) {
+        this.setData({ status: "login" });
+
+        return;
+      }
 
       if (this.data.status === "login") {
         this.setData({ status: "loading" });
@@ -101,21 +99,16 @@ $Component({
 
       this.setData({
         status: "success",
-        unread: unread,
-        recent: type.includes("未读")
-          ? recent.filter(({ unread }) => unread)
-          : recent,
+        unread,
+        recent: type.includes("未读") ? recent.filter(({ unread }) => unread) : recent,
       });
       set(EMAIL_DATA_KEY, recent, 5 * MINUTE);
     },
 
     async openEmail({
       currentTarget,
-    }: WechatMiniprogram.TouchEvent<
-      Record<never, never>,
-      Record<never, never>,
-      { mid?: string }
-    >) {
+      // oxlint-disable-next-line typescript/no-unnecessary-type-arguments
+    }: WechatMiniprogram.TouchEvent<Record<never, never>, Record<never, never>, { mid?: string }>) {
       const { status } = this.data;
 
       if (status === "error") return this.$go("email-recent");
@@ -127,15 +120,11 @@ $Component({
       if (result.success) {
         const { data } = result;
 
-        if (env === "donut")
-          return this.$go(`web?url=${encodeURIComponent(data)}`);
+        if (env === "donut") return this.$go(`web?url=${encodeURIComponent(data)}`);
 
         await writeClipboard(data);
 
-        showModal(
-          "复制成功",
-          "相关链接已复制到剪切板。受小程序限制，请使用浏览器打开。",
-        );
+        showModal("复制成功", "相关链接已复制到剪切板。受小程序限制，请使用浏览器打开。");
 
         return;
       }

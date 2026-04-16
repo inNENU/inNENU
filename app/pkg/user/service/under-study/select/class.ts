@@ -1,21 +1,12 @@
 import { URLSearchParams } from "@mptool/all";
 
-import type {
-  RawUnderSearchClassResponse,
-  UnderSelectClassInfo,
-} from "./typings.js";
-import { getClasses } from "./utils.js";
 import { request } from "../../../../../api/index.js";
-import type {
-  CommonFailedResponse,
-  CommonSuccessResponse,
-} from "../../../../../service/index.js";
-import {
-  UnknownResponse,
-  createService,
-} from "../../../../../service/index.js";
+import type { CommonFailedResponse, CommonSuccessResponse } from "../../../../../service/index.js";
+import { unknownResponse, createService } from "../../../../../service/index.js";
 import { withUnderStudyLogin } from "../login.js";
 import { UNDER_STUDY_SERVER } from "../utils.js";
+import type { RawUnderSearchClassResponse, UnderSelectClassInfo } from "./typings.js";
+import { getClasses } from "./utils.js";
 
 export interface UnderSelectClassesOptions {
   /** 选课链接 */
@@ -52,9 +43,7 @@ const getUnderCourseClassesLocal = async ({
       }),
     });
 
-    if (typeof data === "string") {
-      throw new Error("获取失败");
-    }
+    if (typeof data === "string") throw new Error("获取失败");
 
     return {
       success: true,
@@ -65,7 +54,7 @@ const getUnderCourseClassesLocal = async ({
 
     console.error(err);
 
-    return UnknownResponse(message);
+    return unknownResponse(message);
   }
 };
 
@@ -79,9 +68,5 @@ const getUnderCourseClassesOnline = async (
   }).then(({ data }) => data);
 
 export const getUnderCourseClasses = withUnderStudyLogin(
-  createService(
-    "under-select-class",
-    getUnderCourseClassesLocal,
-    getUnderCourseClassesOnline,
-  ),
+  createService("under-select-class", getUnderCourseClassesLocal, getUnderCourseClassesOnline),
 );

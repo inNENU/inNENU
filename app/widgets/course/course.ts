@@ -7,19 +7,13 @@ import type {
   CourseTableData,
   CourseTableInfo,
 } from "../../typings/index.js";
-import {
-  getCurrentTimeCode,
-  getWeekIndex,
-  getWeekName,
-} from "../../utils/index.js";
+import { getCurrentTimeCode, getWeekIndex, getWeekName } from "../../utils/index.js";
 import { getSize } from "../utils.js";
 
 $Component({
   props: {
     type: {
-      type: String as PropType<
-        "今日课程 (小)" | "下节课程 (小)" | "今日课程" | "课程表 (大)"
-      >,
+      type: String as PropType<"今日课程 (小)" | "下节课程 (小)" | "今日课程" | "课程表 (大)">,
       default: "今日课程",
     },
   },
@@ -70,11 +64,8 @@ $Component({
 
         return;
       }
-      if (type.includes("课程表")) {
-        this.setCourses(table, weekIndex);
 
-        return;
-      }
+      if (type.includes("课程表")) this.setCourses(table, weekIndex);
     },
 
     setCourses(tableData: CourseTableData, weekIndex: number) {
@@ -111,21 +102,20 @@ $Component({
           })),
       );
 
-      if (todayCourses.some((item) => item.length))
+      if (todayCourses.some((item) => item.length)) {
         this.setData({
           isTomorrow,
           todayCourses,
           empty: false,
           missing: false,
         });
-      else this.setData({ isTomorrow, empty: true, missing: false });
+      } else {
+        this.setData({ isTomorrow, empty: true, missing: false });
+      }
     },
 
-    setNextCourse(
-      table: CourseTableData,
-      currentWeekIndex: number,
-      maxWeek: number,
-    ) {
+    // oxlint-disable-next-line complexity, max-statements
+    setNextCourse(table: CourseTableData, currentWeekIndex: number, maxWeek: number) {
       const now = new Date();
       const hours = now.getHours();
       const minutes = now.getMinutes();
@@ -157,9 +147,9 @@ $Component({
       }
 
       while (true) {
-        const currentCell = table[classIndex][dayIndex].filter((course) =>
-          course.weeks.includes(weekIndex),
-        );
+        const dayCourses = table[classIndex][dayIndex];
+        // oxlint-disable-next-line no-loop-func
+        const currentCell = dayCourses.filter((course) => course.weeks.includes(weekIndex));
 
         if (currentCell.length) {
           nextCourses = currentCell;
@@ -177,16 +167,16 @@ $Component({
 
             classIndex = 0;
             dayIndex = 0;
-            weekIndex++;
+            weekIndex += 1;
             continue;
           }
 
           classIndex = 0;
-          dayIndex++;
+          dayIndex += 1;
           continue;
         }
 
-        classIndex++;
+        classIndex += 1;
       }
 
       const time = `${
@@ -199,12 +189,8 @@ $Component({
               : `${
                   currentWeekIndex === weekIndex
                     ? ""
-                    : new Array(weekIndex - currentWeekIndex).fill("下").join()
-                }${
-                  ["周一", "周二", "周三", "周四", "周五", "周六", "周日"][
-                    dayIndex
-                  ]
-                }`
+                    : Array.from({ length: weekIndex - currentWeekIndex }, () => "下").join("")
+                }${["周一", "周二", "周三", "周四", "周五", "周六", "周日"][dayIndex]}`
       }${["8:00", "10:00", "13:30", "15:30", "17:30", "19:30"][classIndex]}`;
 
       this.setData({
@@ -229,8 +215,7 @@ $Component({
       }
     >) {
       const { maxWeek } = this.data;
-      const { name, teachers, location, weeks, classIndex, time } =
-        currentTarget.dataset.info;
+      const { name, teachers, location, weeks, classIndex, time } = currentTarget.dataset.info;
 
       showModal(
         name,

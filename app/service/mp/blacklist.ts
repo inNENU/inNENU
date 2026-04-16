@@ -6,6 +6,4 @@ export type BlacklistResponse = CommonSuccessResponse<{
 }>;
 
 export const inBlackList = (id: number): Promise<boolean> =>
-  request<BlacklistResponse>(`/mp/blacklist?id=${id}`).then(
-    ({ data }) => data.data.inBlacklist,
-  );
+  request<BlacklistResponse>(`/mp/blacklist?id=${id}`).then(({ data }) => data.data.inBlacklist);

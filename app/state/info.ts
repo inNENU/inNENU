@@ -5,10 +5,7 @@ const { theme, ...defaultAppInfo } = wx.getAppBaseInfo();
 export const windowInfoState = getWindowInfo();
 
 /** 小程序 appid */
-export type AppID =
-  | "wx33acb831ee1831a5"
-  | "wx2550e3fd373b79a8"
-  | "wx0009f7cdfeefa3da";
+export type AppID = "wx33acb831ee1831a5" | "wx2550e3fd373b79a8" | "wx0009f7cdfeefa3da";
 
 const accountInfo = wx.getAccountInfoSync();
 
@@ -54,18 +51,18 @@ wx.onAppShow(() => {
   appInfoState.darkmode = wx.getAppBaseInfo().theme === "dark";
 });
 
-export const windowInfo: Readonly<WechatMiniprogram.WindowInfo> =
-  windowInfoState;
+export const windowInfo: Readonly<WechatMiniprogram.WindowInfo> = windowInfoState;
 
 // Note: App does not support this API
-if (env !== "donut")
-  // 更新窗口大小
+if (env !== "donut") // 更新窗口大小
+{
   wx.onWindowResize(({ size }) => {
     const { windowHeight, windowWidth } = size;
 
     windowInfoState.windowHeight = windowHeight;
     windowInfoState.windowWidth = windowWidth;
   });
+}
 
 export interface InfoState {
   /** 启动时间 */

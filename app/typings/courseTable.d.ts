@@ -24,18 +24,18 @@ export interface LegacyCourseTableClassData extends CourseTableClassData {
 }
 
 /** @deprecated */
-// eslint-disable-next-line @typescript-eslint/no-deprecated
+// oxlint-disable-next-line typescript/no-deprecated
 export type LegacyCourseTableCellData = LegacyCourseTableClassData[];
 /** @deprecated */
-// eslint-disable-next-line @typescript-eslint/no-deprecated
+// oxlint-disable-next-line typescript/no-deprecated
 export type LegacyCourseTableRowData = LegacyCourseTableCellData[];
 /** @deprecated */
-// eslint-disable-next-line @typescript-eslint/no-deprecated
+// oxlint-disable-next-line typescript/no-deprecated
 export type LegacyCourseTableData = LegacyCourseTableRowData[];
 
 /** @deprecated */
 export interface LegacyCourseTableInfo {
-  // eslint-disable-next-line @typescript-eslint/no-deprecated
+  // oxlint-disable-next-line typescript/no-deprecated
   table: LegacyCourseTableData;
   maxWeek: number;
   startTime: string;

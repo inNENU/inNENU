@@ -8,12 +8,7 @@ import type {
 import { RESOURCE_NAMES, downloadResource } from "../../../../app/index.js";
 import { THEMES, size, version } from "../../../../config/index.js";
 import { supportRedirect } from "../../../../service/index.js";
-import {
-  appInfo,
-  envName,
-  info,
-  updateTheme,
-} from "../../../../state/index.js";
+import { appInfo, envName, info, updateTheme } from "../../../../state/index.js";
 import { getPageColor, setPage, showNotice } from "../../../../utils/index.js";
 import { resetApp } from "../../utils/index.js";
 
@@ -114,10 +109,7 @@ $Page(PAGE_ID, {
       success: ({ currentSize }) => {
         // 写入存储大小
         this.setData({
-          // eslint-disable-next-line @typescript-eslint/naming-convention
-          "page.content[2].items[1].desc": `${(currentSize / 1024).toFixed(
-            2,
-          )}MB/10MB`,
+          "page.content[2].items[1].desc": `${(currentSize / 1024).toFixed(2)}MB/10MB`,
         });
       },
     });
@@ -133,10 +125,7 @@ $Page(PAGE_ID, {
 
         // 写入文件大小
         this.setData({
-          // eslint-disable-next-line @typescript-eslint/naming-convention
-          "page.content[2].items[2].desc": `${(fileSize / 1024 / 1024).toFixed(
-            2,
-          )}MB/10MB`,
+          "page.content[2].items[2].desc": `${(fileSize / 1024 / 1024).toFixed(2)}MB/10MB`,
         });
       },
     });
@@ -161,7 +150,7 @@ $Page(PAGE_ID, {
 
   /** 刷新所有资源 */
   updateResource() {
-    confirm("更新资源文件", "", () => {
+    confirm("更新资源文件", () => {
       downloadResource(RESOURCE_NAMES);
     });
   },

@@ -1,3 +1,3 @@
 export type * from "innenu-generator/typings";
-export * from "./components.js";
-export * from "./pageState.js";
+export type * from "./components.js";
+export type * from "./pageState.js";

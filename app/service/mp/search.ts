@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/naming-convention */
 import { request } from "../../api/index.js";
 import type { CommonSuccessResponse } from "../utils/index.js";
 
@@ -53,9 +52,7 @@ interface RawMeiliSearchResponse {
   totalPages: number;
 }
 
-/**
- * 定义高亮内容片段的元组类型。
- */
+/** 定义高亮内容片段的元组类型。 */
 type HighlightInfo = [content: string, isHighlighted: boolean];
 
 const EM_REGEXP = /(<em>.*?<\/em>)/;
@@ -110,10 +107,7 @@ export interface ContentSearchResponse {
   totalPages: number;
 }
 
-export const searchContent = async (
-  query: string,
-  page = 1,
-): Promise<ContentSearchResponse> => {
+export const searchContent = async (query: string, page = 1): Promise<ContentSearchResponse> => {
   wx.reportEvent?.("search", { search_word: query });
 
   const { data } = await request<RawMeiliSearchResponse>(
@@ -121,6 +115,7 @@ export const searchContent = async (
     {
       method: "POST",
       body: {
+        // oxlint-disable-next-line id-length
         q: query,
         attributesToHighlight: ["*"],
         attributesToCrop: ["content"],
@@ -142,7 +137,7 @@ export const searchContent = async (
     results: data.hits
       .map(({ _formatted }) => {
         const id = _formatted.url
-          .substring(19) // length of 'https://innenu.com/'
+          .slice(19) // length of 'https://innenu.com/'
           .replace(/#.*$/, "") // remove hash
           .replace(/\/index.html$/, "/")
           .replace(/\.html$/, "");

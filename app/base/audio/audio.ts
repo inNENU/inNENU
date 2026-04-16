@@ -5,7 +5,7 @@ import type { AudioComponentOptions } from "../../../typings/index.js";
 import { appInfo } from "../../state/index.js";
 import { getAssetLink } from "../../utils/index.js";
 
-// eslint-disable-next-line @typescript-eslint/consistent-type-definitions
+// oxlint-disable-next-line typescript/consistent-type-definitions
 type AudioProps = {
   config: {
     type: PropType<AudioComponentOptions>;
@@ -20,7 +20,7 @@ interface AudioData {
   totalTime: number;
 }
 
-// eslint-disable-next-line @typescript-eslint/consistent-type-definitions
+// oxlint-disable-next-line typescript/consistent-type-definitions
 type AudioMethods = {
   toggle(): void;
 };
@@ -80,8 +80,6 @@ $Component<AudioData, AudioProps, AudioMethods, [], AudioInstanceMethod>({
       }.bind(this);
 
       const onTimeUpdate = function (this: AudioComponentInstance): void {
-        const instance = this.instance!;
-
         console.log("time update");
 
         this.setData({
@@ -97,7 +95,7 @@ $Component<AudioData, AudioProps, AudioMethods, [], AudioInstanceMethod>({
       ): void {
         logger.error("音频组件错误", errMsg);
         showToast("获取音频出错，请稍后重试");
-      }.bind(this);
+      };
 
       instance.onPlay(onPlay);
       instance.onPause(onPause);

@@ -24,7 +24,7 @@ $Component({
   },
 
   methods: {
-    copyCite({
+    async copyCite({
       currentTarget,
     }: WechatMiniprogram.TouchEvent<
       Record<string, never>,
@@ -36,12 +36,11 @@ $Component({
       if (env === "donut") {
         wx.miniapp.openUrl({ url });
       } else {
-        writeClipboard(url).then(() => {
-          showModal(
-            "无法直接打开",
-            "小程序无法直接打开网页，链接已复制至剪切板，请打开浏览器粘贴查看。",
-          );
-        });
+        await writeClipboard(url);
+        showModal(
+          "无法直接打开",
+          "小程序无法直接打开网页，链接已复制至剪切板，请打开浏览器粘贴查看。",
+        );
       }
     },
   },

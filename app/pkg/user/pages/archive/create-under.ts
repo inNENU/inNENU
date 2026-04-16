@@ -1,6 +1,5 @@
 import { $Page, retry, showModal } from "@mptool/all";
 
-import {} from "../../../../api/index.js";
 import { appCoverPrefix } from "../../../../config/index.js";
 import type { LoginMethod } from "../../../../service/index.js";
 import { ActionFailType } from "../../../../service/index.js";
@@ -30,13 +29,7 @@ $Page(PAGE_ID, {
   data: {
     title: PAGE_TITLE,
 
-    stage: "loading" as
-      | "loading"
-      | "info"
-      | "address"
-      | "study"
-      | "family"
-      | "success",
+    stage: "loading" as "loading" | "info" | "address" | "study" | "family" | "success",
 
     inputs: [] as InputUnderArchiveInfo[],
 
@@ -79,13 +72,9 @@ $Page(PAGE_ID, {
 
     if (account) {
       if (!info) {
-        showModal(
-          "个人信息缺失",
-          `${envName}本地暂无个人信息，请重新登录`,
-          () => {
-            this.$go("account-login?update=true");
-          },
-        );
+        showModal("个人信息缺失", `${envName}本地暂无个人信息，请重新登录`, () => {
+          this.$go("account-login?update=true");
+        });
 
         return;
       }
@@ -125,21 +114,19 @@ $Page(PAGE_ID, {
     });
   },
 
-  onMultiPickerColumnChange({
-    target,
-    detail,
-  }: WechatMiniprogram.PickerColumnChange) {
+  onMultiPickerColumnChange({ target, detail }: WechatMiniprogram.PickerColumnChange) {
     const { index } = target.dataset;
 
-    if (detail.column === 0)
+    if (detail.column === 0) {
       this.setData({
         [`editable[${index}].categoryIndex`]: detail.value,
         [`editable[${index}].selectedIndex`]: 0,
       });
-    else if (detail.column === 1)
+    } else if (detail.column === 1) {
       this.setData({
         [`editable[${index}].selectedIndex`]: detail.value,
       });
+    }
   },
 
   onMultiPickerChange({ target, detail }: WechatMiniprogram.PickerChange) {
@@ -175,11 +162,7 @@ $Page(PAGE_ID, {
 
   removeStudy({
     currentTarget,
-  }: WechatMiniprogram.TouchEvent<
-    Record<never, never>,
-    Record<never, never>,
-    { index: number }
-  >) {
+  }: WechatMiniprogram.TouchEvent<Record<never, never>, Record<never, never>, { index: number }>) {
     const { index } = currentTarget.dataset;
 
     this.setData({
@@ -204,11 +187,7 @@ $Page(PAGE_ID, {
 
   removeFamily({
     currentTarget,
-  }: WechatMiniprogram.TouchEvent<
-    Record<never, never>,
-    Record<never, never>,
-    { index: number }
-  >) {
+  }: WechatMiniprogram.TouchEvent<Record<never, never>, Record<never, never>, { index: number }>) {
     const { index } = currentTarget.dataset;
 
     this.setData({
@@ -219,10 +198,7 @@ $Page(PAGE_ID, {
   async getCreateArchiveInfo() {
     wx.showLoading({ title: "获取中" });
 
-    const err = await ensureUnderSystemLogin(
-      user.account!,
-      this.state.loginMethod,
-    );
+    const err = await ensureUnderSystemLogin(user.account!, this.state.loginMethod);
 
     if (err) {
       wx.hideLoading();
@@ -274,13 +250,11 @@ $Page(PAGE_ID, {
         let selectedIndex = 0;
         const categoryIndex = Math.max(
           item.values.findIndex((category) => {
-            const index = category.findIndex(
-              ({ text }) => text === item.defaultValue,
-            );
+            const index = category.findIndex(({ text }) => text === item.defaultValue);
 
             if (index !== -1) selectedIndex = index;
 
-            return index >= 0;
+            return index !== -1;
           }),
           0,
         );
@@ -331,10 +305,7 @@ $Page(PAGE_ID, {
 
     wx.showLoading({ title: "提交中" });
 
-    const err = await ensureUnderSystemLogin(
-      user.account!,
-      this.state.loginMethod,
-    );
+    const err = await ensureUnderSystemLogin(user.account!, this.state.loginMethod);
 
     if (err) {
       wx.hideLoading();
@@ -347,14 +318,12 @@ $Page(PAGE_ID, {
     const changedFields: string[] = [];
 
     editable.forEach((item) => {
-      const { name, defaultValue, checkboxName, checkboxValue, selectedIndex } =
-        item;
+      const { name, defaultValue, checkboxName, checkboxValue, selectedIndex } = item;
 
       if ("values" in item) {
         const { categoryIndex, values } = item;
 
-        if (values[categoryIndex][selectedIndex].text === item.defaultValue)
-          return;
+        if (values[categoryIndex][selectedIndex].text === item.defaultValue) return;
 
         fields.push(
           { name: checkboxName, value: checkboxValue },
@@ -379,8 +348,7 @@ $Page(PAGE_ID, {
       changedFields.push(item.name);
     });
 
-    fields.find(({ name }) => name === "gxstr")!.value =
-      changedFields.join(",");
+    fields.find(({ name }) => name === "gxstr")!.value = changedFields.join(",");
 
     const result = await submitUnderStudentArchiveInfo({
       fields,
@@ -415,10 +383,7 @@ $Page(PAGE_ID, {
 
     wx.showLoading({ title: "提交中" });
 
-    const err = await ensureUnderSystemLogin(
-      user.account!,
-      this.state.loginMethod,
-    );
+    const err = await ensureUnderSystemLogin(user.account!, this.state.loginMethod);
 
     if (err) {
       wx.hideLoading();
@@ -464,10 +429,7 @@ $Page(PAGE_ID, {
 
     wx.showLoading({ title: "提交中" });
 
-    const err = await ensureUnderSystemLogin(
-      user.account!,
-      this.state.loginMethod,
-    );
+    const err = await ensureUnderSystemLogin(user.account!, this.state.loginMethod);
 
     if (err) {
       wx.hideLoading();
@@ -508,10 +470,7 @@ $Page(PAGE_ID, {
 
     wx.showLoading({ title: "提交中" });
 
-    const err = await ensureUnderSystemLogin(
-      user.account!,
-      this.state.loginMethod,
-    );
+    const err = await ensureUnderSystemLogin(user.account!, this.state.loginMethod);
 
     if (err) {
       wx.hideLoading();

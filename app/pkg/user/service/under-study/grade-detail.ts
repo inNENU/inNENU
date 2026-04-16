@@ -1,10 +1,10 @@
 import { logger } from "@mptool/all";
 
-import { withUnderStudyLogin } from "./login.js";
-import { UNDER_STUDY_SERVER } from "./utils.js";
 import { request } from "../../../../api/index.js";
 import type { AuthLoginFailedResponse } from "../../../../service/index.js";
 import { ActionFailType, createService } from "../../../../service/index.js";
+import { withUnderStudyLogin } from "./login.js";
+import { UNDER_STUDY_SERVER } from "./utils.js";
 
 interface RawUnderGradeDetailItem {
   /** 总成绩 */
@@ -62,9 +62,7 @@ interface RawUnderGradeFailedResult {
   message: string;
 }
 
-type RawUnderGradeResult =
-  // eslint-disable-next-line @typescript-eslint/no-redundant-type-constituents
-  RawUnderGradeSuccessResult | RawUnderGradeFailedResult;
+type RawUnderGradeResult = RawUnderGradeSuccessResult | RawUnderGradeFailedResult;
 
 export interface UnderScoreDetail {
   /** 名称 */
@@ -80,9 +78,7 @@ export interface UnderGradeDetailSuccessResponse {
   data: UnderScoreDetail[];
 }
 
-export type UnderGradeDetailResponse =
-  | UnderGradeDetailSuccessResponse
-  | AuthLoginFailedResponse;
+export type UnderGradeDetailResponse = UnderGradeDetailSuccessResponse | AuthLoginFailedResponse;
 
 const getGradeDetail = ({
   cj1,
@@ -112,9 +108,7 @@ const getGradeDetail = ({
   return results;
 };
 
-const getUnderGradeDetailLocal = async (
-  gradeCode: string,
-): Promise<UnderGradeDetailResponse> => {
+const getUnderGradeDetailLocal = async (gradeCode: string): Promise<UnderGradeDetailResponse> => {
   try {
     const queryUrl = `${UNDER_STUDY_SERVER}/new/student/xskccj/getDetail?cjdm=${gradeCode}`;
 
@@ -127,9 +121,7 @@ const getUnderGradeDetailLocal = async (
     }
 
     if (data.code === 0) {
-      const gradeDetail = getGradeDetail(
-        (data.data as RawUnderGradeDetailItem[])[0],
-      );
+      const gradeDetail = getGradeDetail((data.data as RawUnderGradeDetailItem[])[0]);
 
       return {
         success: true,
@@ -137,12 +129,13 @@ const getUnderGradeDetailLocal = async (
       };
     }
 
-    if (data.message === "尚未登录，请先登录")
+    if (data.message === "尚未登录，请先登录") {
       return {
         success: false,
         type: ActionFailType.Expired,
         msg: "登录过期，请重新登录",
       };
+    }
 
     return {
       success: false,
@@ -160,9 +153,7 @@ const getUnderGradeDetailLocal = async (
   }
 };
 
-const getUnderGradeDetailOnline = async (
-  gradeCode: string,
-): Promise<UnderGradeDetailResponse> =>
+const getUnderGradeDetailOnline = async (gradeCode: string): Promise<UnderGradeDetailResponse> =>
   request<UnderGradeDetailResponse>("/under-study/grade-detail", {
     method: "POST",
     body: { gradeCode },
@@ -170,9 +161,5 @@ const getUnderGradeDetailOnline = async (
   }).then(({ data }) => data);
 
 export const getUnderGradeDetail = withUnderStudyLogin(
-  createService(
-    "under-grade-detail",
-    getUnderGradeDetailLocal,
-    getUnderGradeDetailOnline,
-  ),
+  createService("under-grade-detail", getUnderGradeDetailLocal, getUnderGradeDetailOnline),
 );

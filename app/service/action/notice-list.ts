@@ -1,7 +1,5 @@
 import { URLSearchParams, logger } from "@mptool/all";
 
-import { withActionLogin } from "./login.js";
-import { ACTION_SERVER, INFO_BASE_SERVER } from "./utils.js";
 import { request } from "../../api/index.js";
 import type {
   ActionFailType,
@@ -10,11 +8,13 @@ import type {
 } from "../utils/index.js";
 import {
   ExpiredResponse,
-  UnknownResponse,
+  unknownResponse,
   createService,
   isWebVPNPage,
   supportRedirect,
 } from "../utils/index.js";
+import { withActionLogin } from "./login.js";
+import { ACTION_SERVER, INFO_BASE_SERVER } from "./utils.js";
 
 const NOTICE_LIST_QUERY_URL = `${ACTION_SERVER}/page/queryList`;
 
@@ -43,21 +43,20 @@ export interface NoticeListOptions {
 
 interface RawNoticeItem {
   LLCS: number;
-  /** time */
+  /** Time */
   FBSJ: string;
-  /** title */
+  /** Title */
   KEYWORDS_: string;
-  /** id */
-  // eslint-disable-next-line @typescript-eslint/naming-convention
+  /** Id */
   ID__: string;
   SFZD: string;
   FLAG: string;
-  /** index */
+  /** Index */
   RN: number;
-  /** from */
+  /** From */
   CJBM: string;
   TYPE: "notice" | "news";
-  /** url */
+  /** Url */
   URL: string | null;
 }
 
@@ -93,8 +92,7 @@ const getNoticeItem = ({
     : {}),
 });
 
-export interface NoticeListSuccessResponse
-  extends CommonListSuccessResponse<NoticeInfo[]> {
+export interface NoticeListSuccessResponse extends CommonListSuccessResponse<NoticeInfo[]> {
   size: number;
   count: number;
 }
@@ -109,42 +107,37 @@ const getNoticeListLocal = async ({
   current = 1,
 }: NoticeListOptions = {}): Promise<NoticeListResponse> => {
   try {
-    const { data: noticeData, status } = await request<RawNoticeListData>(
-      NOTICE_LIST_QUERY_URL,
-      {
-        method: "POST",
-        headers: {
-          Accept: "application/json, text/javascript, */*; q=0.01",
-          "Content-Type": "application/x-www-form-urlencoded; charset=UTF-8",
-        },
-        body: new URLSearchParams({
-          type,
-          _search: "false",
-          nd: Date.now().toString(),
-          limit: size.toString(),
-          page: current.toString(),
-        }),
-        redirect: "manual",
+    const { data: noticeData, status } = await request<RawNoticeListData>(NOTICE_LIST_QUERY_URL, {
+      method: "POST",
+      headers: {
+        Accept: "application/json, text/javascript, */*; q=0.01",
+        "Content-Type": "application/x-www-form-urlencoded; charset=UTF-8",
       },
-    );
+      body: new URLSearchParams({
+        type,
+        _search: "false",
+        nd: Date.now().toString(),
+        limit: size.toString(),
+        page: current.toString(),
+      }),
+      redirect: "manual",
+    });
 
     if (
       status === 302 ||
       // Note: If the env does not support "redirect: manual", the response will be a 302 redirect to WebVPN login page
       // In this case, the response.status will be 200 and the response body will be the WebVPN login page
       (!supportRedirect && isWebVPNPage(noticeData))
-    ) {
+    )
       return ExpiredResponse;
-    }
 
     const { data, pageIndex, pageSize, totalCount, totalPage } = noticeData;
 
-    if (!data.length)
-      throw new Error(`获取公告列表失败: ${JSON.stringify(data, null, 2)}`);
+    if (!data.length) throw new Error(`获取公告列表失败: ${JSON.stringify(data, null, 2)}`);
 
     return {
       success: true,
-      data: data.map(getNoticeItem),
+      data: data.map((item) => getNoticeItem(item)),
       count: totalCount,
       size: pageSize,
       current: pageIndex,
@@ -155,13 +148,11 @@ const getNoticeListLocal = async ({
 
     logger.error(err);
 
-    return UnknownResponse(message);
+    return unknownResponse(message);
   }
 };
 
-const getNoticeListOnline = (
-  options: NoticeListOptions = {},
-): Promise<NoticeListResponse> =>
+const getNoticeListOnline = (options: NoticeListOptions = {}): Promise<NoticeListResponse> =>
   request<NoticeListResponse>("/action/notice-list", {
     method: "POST",
     body: options,

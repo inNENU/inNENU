@@ -1,11 +1,6 @@
 import { $Page, get, retry, set, showModal } from "@mptool/all";
 
-import {
-  COURSE_DATA_KEY,
-  DAY,
-  MONTH,
-  appCoverPrefix,
-} from "../../../../config/index.js";
+import { COURSE_DATA_KEY, DAY, MONTH, appCoverPrefix } from "../../../../config/index.js";
 import type { LoginMethod } from "../../../../service/index.js";
 import { ActionFailType } from "../../../../service/index.js";
 import { envName, info, user } from "../../../../state/index.js";
@@ -27,11 +22,9 @@ const PAGE_ID = "under-course-table";
 const PAGE_TITLE = "本科课程表";
 
 const getDisplayTime = (time: string): string => {
-  const startYear = Number(time.substring(0, 4));
+  const startYear = Number(time.slice(0, 4));
 
-  return time.endsWith("1")
-    ? `${startYear}年秋季学期`
-    : `${startYear + 1}年春季学期`;
+  return time.endsWith("1") ? `${startYear}年秋季学期` : `${startYear + 1}年春季学期`;
 };
 
 const getTimes = (grade: number): string[] => {
@@ -57,8 +50,7 @@ const getMaxWeek = (courseTable: CourseTableData): number =>
           (currentMaxWeek, cell) =>
             Math.max(
               cell.reduce(
-                (currentMaxWeek, { weeks }) =>
-                  Math.max(currentMaxWeek, weeks[weeks.length - 1]),
+                (currentMaxWeek, { weeks }) => Math.max(currentMaxWeek, weeks[weeks.length - 1]),
                 1,
               ),
               currentMaxWeek,
@@ -117,13 +109,9 @@ $Page(PAGE_ID, {
 
     if (account) {
       if (!info) {
-        showModal(
-          "个人信息缺失",
-          `${envName}本地暂无个人信息，请重新登录`,
-          () => {
-            this.$go("account-login?update=true");
-          },
-        );
+        showModal("个人信息缺失", `${envName}本地暂无个人信息，请重新登录`, () => {
+          this.$go("account-login?update=true");
+        });
 
         return;
       }
@@ -142,7 +130,7 @@ $Page(PAGE_ID, {
 
       const grade = Math.floor(account.id / 1000000);
       const times = getTimes(grade);
-      const timeDisplays = times.map(getDisplayTime);
+      const timeDisplays = times.map((time) => getDisplayTime(time));
       const time = getCurrentTimeCode();
       const timeIndex = times.indexOf(time);
 
@@ -250,7 +238,7 @@ $Page(PAGE_ID, {
     });
   },
 
-  refreshCourseTable() {
+  async refreshCourseTable() {
     const { times, timeIndex } = this.data;
     const time = times[timeIndex];
 
@@ -265,13 +253,12 @@ $Page(PAGE_ID, {
     { info: CourseTableClassData }
   >) {
     const { maxWeek, weekIndex } = this.data;
-    const { name, teachers, locations, time, weeks, classIndex } =
-      currentTarget.dataset.info;
+    const { name, teachers, locations, time, weeks, classIndex } = currentTarget.dataset.info;
 
-    let location = Array.from(new Set(locations)).join("，");
+    let location = [...new Set(locations)].join("，");
 
     if (weekIndex !== 0) {
-      const index = weeks.findIndex((week) => week === weekIndex);
+      const index = weeks.indexOf(weekIndex);
 
       if (index !== -1) location = locations[index];
     }

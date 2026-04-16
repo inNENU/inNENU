@@ -2,27 +2,11 @@ import { $Page, get, logger, set } from "@mptool/all";
 
 import type { PageStateWithContent } from "../../../typings/index.js";
 import { preloadSkyline } from "../../api/index.js";
-import { checkResource, syncAppSettings } from "../../app/index.js";
 import type { App } from "../../app.js";
-import {
-  DAY,
-  WIDGET_KEY,
-  appCoverPrefix,
-  appName,
-} from "../../config/index.js";
-import {
-  envName,
-  getIdentity,
-  info,
-  menuSpace,
-  windowInfo,
-} from "../../state/index.js";
-import {
-  getPageColor,
-  resolvePage,
-  setPage,
-  showNotice,
-} from "../../utils/index.js";
+import { checkResource, syncAppSettings } from "../../app/index.js";
+import { DAY, WIDGET_KEY, appCoverPrefix, appName } from "../../config/index.js";
+import { envName, getIdentity, info, menuSpace, windowInfo } from "../../state/index.js";
+import { getPageColor, resolvePage, setPage, showNotice } from "../../utils/index.js";
 import { DEFAULT_WIDGETS } from "../../widgets/config.js";
 import type { WidgetConfig } from "../../widgets/utils.js";
 
@@ -76,7 +60,9 @@ $Page(PAGE_ID, {
       this.data.page,
     );
 
-    this.$on("settings", () => this.renderPage());
+    this.$on("settings", () => {
+      this.renderPage();
+    });
   },
 
   onShow() {
@@ -105,7 +91,7 @@ $Page(PAGE_ID, {
     wx.stopPullDownRefresh();
   },
 
-  // eslint-disable-next-line @typescript-eslint/no-empty-function
+  // oxlint-disable-next-line typescript/no-empty-function
   onPageScroll() {},
 
   onShareAppMessage: () => ({
@@ -134,8 +120,7 @@ $Page(PAGE_ID, {
     if (!globalData.settings) return null;
 
     const { id } = getIdentity();
-    const { "main-page": mainConfig, "main-presets": mainPresets } =
-      globalData.settings;
+    const { "main-page": mainConfig, "main-presets": mainPresets } = globalData.settings;
 
     const configName = mainConfig[id] || mainConfig.default;
 
@@ -157,10 +142,7 @@ $Page(PAGE_ID, {
 
       if (pageData) setPage({ ctx: this, option: { id: PAGE_ID } }, pageData);
     } catch {
-      setPage(
-        { ctx: this, option: { id: PAGE_ID } },
-        get(PAGE_ID) || this.data.page,
-      );
+      setPage({ ctx: this, option: { id: PAGE_ID } }, get(PAGE_ID) || this.data.page);
     }
 
     this.setData({ id: getIdentity().id });

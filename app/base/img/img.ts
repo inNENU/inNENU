@@ -46,7 +46,6 @@ $Component({
 
       logger.warn("图片加载失败", src);
       wx.reportEvent?.("resource_load_failed", {
-        // eslint-disable-next-line @typescript-eslint/naming-convention
         broken_url: src,
       });
     },

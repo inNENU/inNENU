@@ -7,13 +7,13 @@ import { info, windowInfo } from "../../state/index.js";
 const FONT_SIZE = 14;
 const PADDING_HORIZONTAL = 12 * 2; // 单元格的水平内边距总和 (padding-left + padding-right)
 
-const CHINESE_CHAR_REGEX = /[\u4e00-\u9fa5]/;
+const CHINESE_CHAR_REGEX = /[\u4E00-\u9FA5]/;
 const LATIN_UPPER_REGEX = /[A-Z]/;
 const LATIN_LOWER_REGEX = /[a-z]/;
 const NUMBER_REGEX = /[0-9]/;
 
 const CHAR_WEIGHTS = {
-  CHINESE: 1.0,
+  CHINESE: 1,
   LATIN_UPPER: 0.8,
   LATIN_LOWER: 0.6,
   NUMBER: 0.6,
@@ -24,17 +24,11 @@ const estimateTextWidth = (text: string): number => {
   let width = 0;
 
   for (const char of text) {
-    if (CHINESE_CHAR_REGEX.test(char)) {
-      width += CHAR_WEIGHTS.CHINESE;
-    } else if (LATIN_UPPER_REGEX.test(char)) {
-      width += CHAR_WEIGHTS.LATIN_UPPER;
-    } else if (LATIN_LOWER_REGEX.test(char)) {
-      width += CHAR_WEIGHTS.LATIN_LOWER;
-    } else if (NUMBER_REGEX.test(char)) {
-      width += CHAR_WEIGHTS.NUMBER;
-    } else {
-      width += CHAR_WEIGHTS.OTHER;
-    }
+    if (CHINESE_CHAR_REGEX.test(char)) width += CHAR_WEIGHTS.CHINESE;
+    else if (LATIN_UPPER_REGEX.test(char)) width += CHAR_WEIGHTS.LATIN_UPPER;
+    else if (LATIN_LOWER_REGEX.test(char)) width += CHAR_WEIGHTS.LATIN_LOWER;
+    else if (NUMBER_REGEX.test(char)) width += CHAR_WEIGHTS.NUMBER;
+    else width += CHAR_WEIGHTS.OTHER;
   }
 
   return width * FONT_SIZE;
@@ -70,18 +64,14 @@ $Component({
 
         const headerWidth = estimateTextWidth(config.header[i]);
 
-        if (headerWidth > maxEstimatedWidth) {
-          maxEstimatedWidth = headerWidth;
-        }
+        if (headerWidth > maxEstimatedWidth) maxEstimatedWidth = headerWidth;
 
         if (config.body) {
           for (const row of config.body) {
             // 确保行数据不全时不会出错
             const cellWidth = estimateTextWidth(row[i] || "");
 
-            if (cellWidth > maxEstimatedWidth) {
-              maxEstimatedWidth = cellWidth;
-            }
+            if (cellWidth > maxEstimatedWidth) maxEstimatedWidth = cellWidth;
           }
         }
 
@@ -91,7 +81,7 @@ $Component({
         columnWidths.push(finalWidth);
       }
 
-      this.setData({ columnWidths: columnWidths });
+      this.setData({ columnWidths });
 
       wx.nextTick(async () => {
         const selectQuery = this.createSelectorQuery();

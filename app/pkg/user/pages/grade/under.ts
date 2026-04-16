@@ -1,29 +1,14 @@
 import { $Page, get, set, showModal } from "@mptool/all";
 
-import {
-  GRADE_DATA_KEY,
-  HOUR,
-  appCoverPrefix,
-} from "../../../../config/index.js";
+import { GRADE_DATA_KEY, HOUR, appCoverPrefix } from "../../../../config/index.js";
 import { envName, info, user } from "../../../../state/index.js";
 import { getPageColor, showNotice } from "../../../../utils/index.js";
-import type {
-  UnderGradeListOptions,
-  UnderGradeResult,
-} from "../../service/index.js";
+import type { UnderGradeListOptions, UnderGradeResult } from "../../service/index.js";
 import { getUnderGradeDetail, getUnderGradeList } from "../../service/index.js";
 
 const PAGE_ID = "under-grade";
 const PAGE_TITLE = "本科成绩查询";
-const keys = [
-  "name",
-  "grade",
-  "point",
-  "shortCourseType",
-  "time",
-  "hours",
-  "examType",
-] as const;
+const keys = ["name", "grade", "point", "shortCourseType", "time", "hours", "examType"] as const;
 
 interface TimeConfig {
   under: string[];
@@ -107,13 +92,9 @@ $Page(PAGE_ID, {
 
     if (account) {
       if (!info) {
-        showModal(
-          "个人信息缺失",
-          `${envName}本地暂无个人信息，请重新登录`,
-          () => {
-            this.$go("account-login?update=true");
-          },
-        );
+        showModal("个人信息缺失", `${envName}本地暂无个人信息，请重新登录`, () => {
+          this.$go("account-login?update=true");
+        });
 
         return;
       }
@@ -170,11 +151,7 @@ $Page(PAGE_ID, {
       return;
     }
 
-    set(
-      `${GRADE_DATA_KEY}${options.time ? `-${options.time}` : ""}`,
-      result.data,
-      3 * HOUR,
-    );
+    set(`${GRADE_DATA_KEY}${options.time ? `-${options.time}` : ""}`, result.data, 3 * HOUR);
     this.setGradeData(result.data);
     if (!options.time) this.setStatistics(result.data);
   },
@@ -183,18 +160,14 @@ $Page(PAGE_ID, {
     const showMark = grades.some((item) => item.mark);
 
     const numberValueIndex = keys
-      .map((key, index) =>
-        grades.some((item) => Number.isNaN(Number(item[key]))) ? null : index,
-      )
-      .filter((item): item is number => item !== null);
+      .map((key, index) => (grades.some((item) => Number.isNaN(Number(item[key]))) ? null : index))
+      .filter((item): item is number => item != null);
 
     this.state.numberValueIndex = numberValueIndex;
 
     this.setData({
       // 默认通过时间排序
-      grades: grades.sort((itemA, itemB) =>
-        itemB.time?.localeCompare(itemA.time),
-      ),
+      grades: grades.sort((itemA, itemB) => itemB.time?.localeCompare(itemA.time)),
       showMark,
     });
   },
@@ -206,17 +179,13 @@ $Page(PAGE_ID, {
       if (
         item.grade >= 60 &&
         (!gradeMap.has(item.cid) || item.grade > gradeMap.get(item.cid)!.grade)
-      ) {
+      )
         gradeMap.set(item.cid, item);
-      }
     });
 
-    const filteredData = Array.from(gradeMap.values());
+    const filteredData = [...gradeMap.values()];
 
-    const totalPoint = filteredData.reduce(
-      (total, { point }) => total + point,
-      0,
-    );
+    const totalPoint = filteredData.reduce((total, { point }) => total + point, 0);
     const totalCommonRequiredPoint = filteredData
       .filter(({ shortCourseType }) => shortCourseType === "通修")
       .reduce((total, { point }) => total + point, 0);
@@ -243,10 +212,8 @@ $Page(PAGE_ID, {
 
     const gpa = Math.round((totalGradePoint / totalPoint) * 100) / 100;
     const numberValueIndex = keys
-      .map((key, index) =>
-        grades.some((item) => Number.isNaN(Number(item[key]))) ? null : index,
-      )
-      .filter((item): item is number => item !== null);
+      .map((key, index) => (grades.some((item) => Number.isNaN(Number(item[key]))) ? null : index))
+      .filter((item): item is number => item != null);
 
     this.state.numberValueIndex = numberValueIndex;
 
@@ -278,11 +245,7 @@ $Page(PAGE_ID, {
 
   sortResults({
     currentTarget,
-  }: WechatMiniprogram.TouchEvent<
-    Record<never, never>,
-    Record<never, never>,
-    { index: number }
-  >) {
+  }: WechatMiniprogram.TouchEvent<Record<never, never>, Record<never, never>, { index: number }>) {
     const { index } = currentTarget.dataset;
     const { ascending, sortIndex, grades } = this.data;
     const { numberValueIndex } = this.state;
@@ -301,10 +264,11 @@ $Page(PAGE_ID, {
           if (!itemA[key]) return 1;
           if (!itemB[key]) return -1;
 
-          if (numberValueIndex.includes(index))
+          if (numberValueIndex.includes(index)) {
             return ascending
               ? Number(itemA[key]) - Number(itemB[key])
               : Number(itemB[key]) - Number(itemA[key]);
+          }
 
           return ascending
             ? (itemA[key] as string)?.localeCompare(itemB[key] as string)
@@ -316,27 +280,22 @@ $Page(PAGE_ID, {
 
   showScoreDetail({
     currentTarget,
-  }: WechatMiniprogram.TouchEvent<
-    Record<never, never>,
-    Record<never, never>,
-    { index: number }
-  >) {
+  }: WechatMiniprogram.TouchEvent<Record<never, never>, Record<never, never>, { index: number }>) {
     const { index } = currentTarget.dataset;
     const { grades } = this.data;
     const { name, gradeCode, mark } = grades[index];
 
     getUnderGradeDetail(gradeCode).then((res) => {
-      if (res.success)
+      if (res.success) {
         showModal(
           `${name}成绩详情`,
           `${mark ? `${mark}\n` : ""}${res.data
-            .map(
-              ({ name, percent, score }) =>
-                `${name}: ${score}分，占比${percent}%`,
-            )
+            .map(({ name, percent, score }) => `${name}: ${score}分，占比${percent}%`)
             .join("\n")}`,
         );
-      else showModal("获取失败", res.msg);
+      } else {
+        showModal("获取失败", res.msg);
+      }
     });
   },
 });

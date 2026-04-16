@@ -1,18 +1,9 @@
 import { $Page, logger, showModal, showToast } from "@mptool/all";
 
-import type {
-  MarkerCategory,
-  MarkerData,
-  MarkersData,
-} from "../../../../../typings/index.js";
+import type { MarkerCategory, MarkerData, MarkersData } from "../../../../../typings/index.js";
 import { appCoverPrefix } from "../../../../config/index.js";
 import { windowInfo } from "../../../../state/index.js";
-import {
-  ensureJson,
-  getJson,
-  getLocation,
-  showNotice,
-} from "../../../../utils/index.js";
+import { ensureJson, getJson, getLocation, showNotice } from "../../../../utils/index.js";
 import type { Area } from "../../utils/index.js";
 import { benbuArea, jingyueArea } from "../../utils/index.js";
 
@@ -106,20 +97,18 @@ $Page(PAGE_ID, {
     wx.requirePrivacyAuthorize?.({});
   },
 
-  onReady() {
-    this.setMarker().then(() => {
-      // 将地图缩放到对应的校区
-      this.context.includePoints(
-        this.data.area === "benbu" ? benbuArea : jingyueArea,
-      );
+  async onReady() {
+    await this.setMarker();
 
-      // 1200ms 之后拿到缩放值和地图中心点坐标，写入地图组件配置
-      setTimeout(() => {
-        this.setMap();
-      }, 1200);
+    // 将地图缩放到对应的校区
+    this.context.includePoints(this.data.area === "benbu" ? benbuArea : jingyueArea);
 
-      wx.hideLoading();
-    });
+    // 1200ms 之后拿到缩放值和地图中心点坐标，写入地图组件配置
+    setTimeout(() => {
+      this.setMap();
+    }, 1200);
+
+    wx.hideLoading();
   },
 
   onShareAppMessage(): WechatMiniprogram.Page.ICustomShareContent {
@@ -175,10 +164,12 @@ $Page(PAGE_ID, {
   },
 
   /** 生成点位 */
-  setMarker() {
-    const promises = ["benbu", "jingyue"].map((path) =>
-      getJson<MarkersData>(`function/map/marker/${path}`)
-        .then(({ category, marker }) => {
+  async setMarker(): Promise<void> {
+    await Promise.all(
+      ["benbu", "jingyue"].map(async (path) => {
+        try {
+          const { category, marker } = await getJson<MarkersData>(`function/map/marker/${path}`);
+
           this.state[path as Area] = {
             category,
             marker: Object.fromEntries(
@@ -188,8 +179,7 @@ $Page(PAGE_ID, {
               ]),
             ),
           };
-        })
-        .catch((err: unknown) => {
+        } catch (err) {
           logger.error("加载地图点位失败", err);
           showModal(
             "获取失败",
@@ -198,15 +188,14 @@ $Page(PAGE_ID, {
               this.$back();
             },
           );
-        }),
+        }
+      }),
     );
 
-    return Promise.all(promises).then(() => {
-      const { category, marker } = this.state[this.data.area];
+    const { category, marker } = this.state[this.data.area];
 
-      return new Promise<void>((resolve) =>
-        this.setData({ category, marker }, resolve),
-      );
+    await new Promise<void>((resolve) => {
+      this.setData({ category, marker }, resolve);
     });
   },
 
@@ -243,8 +232,7 @@ $Page(PAGE_ID, {
         this.setData({
           map: {
             scale:
-              this.data.map.scale +
-              (event.currentTarget.dataset.action === "zoom-in" ? 1 : -1),
+              this.data.map.scale + (event.currentTarget.dataset.action === "zoom-in" ? 1 : -1),
             latitude,
             longitude,
           },
@@ -272,7 +260,6 @@ $Page(PAGE_ID, {
 
     this.setData({
       currentCategory: path,
-      // eslint-disable-next-line @typescript-eslint/naming-convention
       "locationPopup.title": name,
     });
     this.context.includePoints({
@@ -285,17 +272,14 @@ $Page(PAGE_ID, {
     const { area, currentCategory } = this.data;
 
     const item = this.data.marker[currentCategory].find(
-      (item) => item.id === event.detail.markerId,
+      (location) => location.id === event.detail.markerId,
     )!;
 
     if (event.type === "markertap") {
       if (item.path) this.$preload(`map-detail?id=${area}/${item.path}`);
     } else if (event.type === "callouttap") {
-      if (item.path) {
-        this.$go(`map-detail?id=${area}/${item.path}&loc=${item.loc}`);
-      } else {
-        showToast("该地点暂无详情");
-      }
+      if (item.path) this.$go(`map-detail?id=${area}/${item.path}&loc=${item.loc}`);
+      else showToast("该地点暂无详情");
     }
   },
 
@@ -325,16 +309,12 @@ $Page(PAGE_ID, {
       (item) => item.id === currentTarget.dataset.id,
     )!;
 
-    if (path) {
-      this.$go(`map-detail?id=${area}/${path}&loc=${loc}`);
-    } else {
-      showToast("该地点暂无详情");
-    }
+    if (path) this.$go(`map-detail?id=${area}/${path}&loc=${loc}`);
+    else showToast("该地点暂无详情");
   },
 
   regionChange(event: WechatMiniprogram.RegionChange) {
-    if (event.causedBy === "gesture" && event.type === "begin")
-      this.state.gestureHold = true;
+    if (event.causedBy === "gesture" && event.type === "begin") this.state.gestureHold = true;
 
     // 用户对地图进行了缩放或移动
     if (

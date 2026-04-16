@@ -14,7 +14,7 @@ export interface TimeLineItem {
   color: "green" | "red" | "blue";
   /** 跳转详情的名称 */
   path?: string;
-  /** class 名称 */
+  /** Class 名称 */
   class?: string;
 }
 

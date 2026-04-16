@@ -21,9 +21,7 @@ export type MPLoginSuccessResponse = CommonSuccessResponse<{
 }>;
 
 export type MPloginFailResponse = CommonFailedResponse<
-  | ActionFailType.MissingArg
-  | ActionFailType.DatabaseError
-  | ActionFailType.Unknown
+  ActionFailType.MissingArg | ActionFailType.DatabaseError | ActionFailType.Unknown
 >;
 
 export type MPLoginResponse = MPLoginSuccessResponse | MPloginFailResponse;
@@ -101,5 +99,5 @@ export const mpLogin = async (): Promise<LoginInfo> => {
   //   });
   // }
 
-  return Promise.resolve(DEFAULT_INFO);
+  return DEFAULT_INFO;
 };

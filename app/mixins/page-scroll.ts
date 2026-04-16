@@ -2,9 +2,7 @@ import { getCurrentPage } from "@mptool/all";
 
 type Scroller = (event: WechatMiniprogram.Page.IPageScrollOption) => void;
 
-const onPageScroll = (
-  event: WechatMiniprogram.Page.IPageScrollOption,
-): void => {
+const onPageScroll = (event: WechatMiniprogram.Page.IPageScrollOption): void => {
   const { $scrollHandler = [] } =
     getCurrentPage<{
       $scrollHandler?: Scroller[];
@@ -15,6 +13,7 @@ const onPageScroll = (
   });
 };
 
+// oxlint-disable-next-line func-style
 export function defaultScroller(
   this: {
     data: {
@@ -41,10 +40,14 @@ export function defaultScroller(
 
   // 判断结果并更新界面数据
   if (
+    // oxlint-disable-next-line oxc/no-this-in-exported-function
     this.data.titleDisplay !== nav.titleDisplay ||
+    // oxlint-disable-next-line oxc/no-this-in-exported-function
     this.data.borderDisplay !== nav.borderDisplay ||
+    // oxlint-disable-next-line oxc/no-this-in-exported-function
     this.data.shadow !== nav.shadow
   )
+    // oxlint-disable-next-line oxc/no-this-in-exported-function
     this.setData(nav);
 }
 
@@ -53,7 +56,7 @@ export const pageScrollMixin = (scroller: Scroller): string =>
     { disableScroll?: boolean },
     Record<string, never>,
     Record<string, never>,
-    WechatMiniprogram.Behavior.BehaviorIdentifier[]
+    WechatMiniprogram.Behavior.Identifier[]
   >({
     attached() {
       if (this.data.disableScroll) {
@@ -69,21 +72,20 @@ export const pageScrollMixin = (scroller: Scroller): string =>
       const page = getCurrentPage();
 
       if (page) {
-        if (Array.isArray(page.$scrollHandler))
+        if (Array.isArray(page.$scrollHandler)) {
           page.$scrollHandler.push(scroller.bind(this));
-        else
+        } else {
           page.$scrollHandler =
             typeof page.onPageScroll === "function"
               ? [page.onPageScroll.bind(page), scroller.bind(this)]
               : [scroller.bind(this)];
+        }
 
         page.onPageScroll = onPageScroll as (
           arg?: WechatMiniprogram.Page.IPageScrollOption,
         ) => void;
 
-        page.onScrollViewScroll = function (
-          event: WechatMiniprogram.ScrollViewScroll,
-        ): void {
+        page.onScrollViewScroll = function (event: WechatMiniprogram.ScrollViewScroll): void {
           this.onPageScroll(event.detail);
         };
       }
@@ -97,8 +99,6 @@ export const pageScrollMixin = (scroller: Scroller): string =>
       }>();
 
       if (page)
-        page.$scrollHandler = (page.$scrollHandler || []).filter(
-          (item) => item !== scroller,
-        );
+        page.$scrollHandler = (page.$scrollHandler || []).filter((item) => item !== scroller);
     },
   });

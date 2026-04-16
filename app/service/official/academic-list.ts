@@ -1,12 +1,9 @@
 import { logger } from "@mptool/all";
 
-import { OFFICIAL_URL, getOfficialPageView } from "./utils.js";
 import { request } from "../../api/index.js";
-import type {
-  CommonFailedResponse,
-  CommonListSuccessResponse,
-} from "../utils/index.js";
+import type { CommonFailedResponse, CommonListSuccessResponse } from "../utils/index.js";
 import { createService } from "../utils/index.js";
+import { OFFICIAL_URL, getOfficialPageView } from "./utils.js";
 
 const LIST_REGEXP = /<ul class=".*? xsyg">([^]+?)<\/ul>/;
 const ITEM_REGEXP =
@@ -60,16 +57,16 @@ const getOfficialAcademicListLocal = async ({
       pageIds.split(/,\s*/).map((id) => getOfficialPageView(id, owner)),
     );
 
-    const data = Array.from(
-      LIST_REGEXP.exec(content)![1].matchAll(ITEM_REGEXP),
-    ).map(([, url, subject, person, time, location], index) => ({
-      subject,
-      person,
-      time,
-      location,
-      pageView: pageViews[index],
-      url,
-    }));
+    const data = [...LIST_REGEXP.exec(content)![1].matchAll(ITEM_REGEXP)].map(
+      ([, url, subject, person, time, location], index) => ({
+        subject,
+        person,
+        time,
+        location,
+        pageView: pageViews[index],
+        url,
+      }),
+    );
 
     return {
       success: true,

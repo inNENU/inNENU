@@ -28,12 +28,14 @@ $Component({
       const data = get<OfficialAcademicInfoItem[]>(SITE_ACADEMIC_LIST_KEY);
 
       this.setData({ size });
-      if (data)
+      if (data) {
         this.setData({
           status: "success",
           data: size === "large" ? data : data.slice(0, 5),
         });
-      else this.getOfficialAcademicList();
+      } else {
+        this.getOfficialAcademicList();
+      }
     },
   },
 
@@ -58,7 +60,7 @@ $Component({
       set(SITE_ACADEMIC_LIST_KEY, data, HOUR);
     },
 
-    viewInfo({
+    async viewInfo({
       currentTarget,
     }: WechatMiniprogram.TouchEvent<
       Record<string, never>,

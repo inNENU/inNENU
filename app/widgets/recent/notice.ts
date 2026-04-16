@@ -2,18 +2,13 @@ import type { PropType } from "@mptool/all";
 import { $Component, get, set } from "@mptool/all";
 
 import { HOUR, NEWS_LIST_KEY, NOTICE_LIST_KEY } from "../../config/index.js";
-import type {
-  LoginMethod,
-  NoticeInfo,
-  NoticeType,
-} from "../../service/index.js";
+import type { LoginMethod, NoticeInfo, NoticeType } from "../../service/index.js";
 import { getNoticeList } from "../../service/index.js";
 import { user } from "../../state/index.js";
 import type { WidgetSize, WidgetStatus } from "../utils.js";
 import { FILTERED_SOURCES, getSize } from "../utils.js";
 
-const getKey = (type: NoticeType): string =>
-  type === "news" ? NEWS_LIST_KEY : NOTICE_LIST_KEY;
+const getKey = (type: NoticeType): string => (type === "news" ? NEWS_LIST_KEY : NOTICE_LIST_KEY);
 
 $Component({
   props: {
@@ -41,19 +36,25 @@ $Component({
       this.setData({ noticeType, size }, () => {
         const data = get<NoticeInfo[]>(getKey(noticeType));
 
-        if (data)
+        if (data) {
           this.setData({
             status: "success",
             data: size === "large" ? data : data.slice(0, 5),
           });
-        else this.getNoticeList();
+        } else {
+          this.getNoticeList();
+        }
       });
     },
   },
 
   pageLifetimes: {
     show(): void {
-      if (!user.account) return this.setData({ status: "login" });
+      if (!user.account) {
+        this.setData({ status: "login" });
+
+        return;
+      }
 
       if (this.data.status === "login") {
         this.setData({ status: "loading" });
@@ -97,7 +98,7 @@ $Component({
       set(getKey(noticeType), data, HOUR);
     },
 
-    viewNotice({
+    async viewNotice({
       currentTarget,
     }: WechatMiniprogram.TouchEvent<
       Record<string, never>,

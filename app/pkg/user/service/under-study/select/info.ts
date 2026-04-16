@@ -1,8 +1,5 @@
 import { request } from "../../../../../api/index.js";
-import type {
-  CommonFailedResponse,
-  CommonSuccessResponse,
-} from "../../../../../service/index.js";
+import type { CommonFailedResponse, CommonSuccessResponse } from "../../../../../service/index.js";
 import { ActionFailType, createService } from "../../../../../service/index.js";
 import { withUnderStudyLogin } from "../login.js";
 import { UNDER_STUDY_SERVER } from "../utils.js";
@@ -60,16 +57,12 @@ export interface UnderSelectDisallowedInfo extends UnderSelectBaseInfo {
   canSelect: false;
 }
 
-export type UnderSelectInfo =
-  | UnderSelectAllowedInfo
-  | UnderSelectDisallowedInfo;
+export type UnderSelectInfo = UnderSelectAllowedInfo | UnderSelectDisallowedInfo;
 
 export type UnderSelectInfoResponse =
   | CommonSuccessResponse<UnderSelectInfo>
   | CommonFailedResponse<
-      | ActionFailType.NotInitialized
-      | ActionFailType.MissingCommentary
-      | ActionFailType.Unknown
+      ActionFailType.NotInitialized | ActionFailType.MissingCommentary | ActionFailType.Unknown
     >;
 
 const COURSE_OFFICES_REGEXP =
@@ -84,10 +77,8 @@ const COURSE_TYPE_ITEM_REGEXP = /<option value='(.+?)' >(.*?)<\/option>/g;
 const CURRENT_GRADE_REGEXP = /<option value='(\d+)' selected>\1<\/option>/;
 const MAJORS_REGEXP =
   /<select id='zydm' name='zydm'.*?><option value=''>\(全部\)<\/option>(.*?)<\/select>/;
-const MAJOR_ITEM_REGEXP =
-  /<option value='(\d+?)' (?:selected)?>\d+-(.*?)<\/option>/g;
-const CURRENT_MAJOR_REGEXP =
-  /<option value='(\d{6,7})' selected>\d+-(.*?)<\/option>/g;
+const MAJOR_ITEM_REGEXP = /<option value='(\d+?)' (?:selected)?>\d+-(.*?)<\/option>/g;
+const CURRENT_MAJOR_REGEXP = /<option value='(\d{6,7})' selected>\d+-(.*?)<\/option>/g;
 const INFO_TITLE_REGEXP =
   /<span id="title">(.*?)学期&nbsp;&nbsp;(.*?)&nbsp;&nbsp;(?:<span.*?>(.*?)<\/span>)?<\/span>/;
 const ALLOWED_INFO_REGEXP =
@@ -98,58 +89,45 @@ const getSelectInfo = (content: string): UnderSelectInfo => {
 
   const canSelect = !content.includes("现在不是选课时间");
 
-  const currentArea = name.includes("本部")
-    ? "本部"
-    : name.includes("净月")
-      ? "净月"
-      : "";
+  const currentArea = name.includes("本部") ? "本部" : name.includes("净月") ? "净月" : "";
   const currentGrade = Number(CURRENT_GRADE_REGEXP.exec(content)![1]);
-  const currentMajor = content.match(CURRENT_MAJOR_REGEXP)![1];
+  const [, currentMajor] = content.match(CURRENT_MAJOR_REGEXP)!;
 
   const currentYear = new Date().getFullYear();
-  const grades = Array(6)
-    .fill(null)
-    .map((_, i) => currentYear - i);
+  const grades = Array.from({ length: 6 }, (_, i) => currentYear - i);
 
-  const areaText = AREAS_REGEXP.exec(content)![1];
+  const [, areaText] = AREAS_REGEXP.exec(content)!;
 
-  const areas = Array.from(areaText.matchAll(AREA_ITEM_REGEXP)).map(
+  const areas = [...areaText.matchAll(AREA_ITEM_REGEXP)].map(([, value, name]) => ({
+    value,
+    name,
+  }));
+
+  const [, courseTypeText] = COURSE_TYPES_REGEXP.exec(content)!;
+
+  const types = [...courseTypeText.matchAll(COURSE_TYPE_ITEM_REGEXP)].map(([, value, name]) => ({
+    value,
+    name,
+  }));
+
+  const [, courseOfficeText] = COURSE_OFFICES_REGEXP.exec(content)!;
+
+  const offices = [...courseOfficeText.matchAll(COURSE_OFFICE_ITEM_REGEXP)].map(
     ([, value, name]) => ({
       value,
       name,
     }),
   );
 
-  const courseTypeText = COURSE_TYPES_REGEXP.exec(content)![1];
-
-  const types = Array.from(
-    courseTypeText.matchAll(COURSE_TYPE_ITEM_REGEXP),
-  ).map(([, value, name]) => ({
-    value,
-    name,
-  }));
-
-  const courseOfficeText = COURSE_OFFICES_REGEXP.exec(content)![1];
-
-  const offices = Array.from(
-    courseOfficeText.matchAll(COURSE_OFFICE_ITEM_REGEXP),
-  ).map(([, value, name]) => ({
-    value,
-    name,
-  }));
-
+  // oxlint-disable-next-line prefer-destructuring
   const majorText = MAJORS_REGEXP.exec(content)![2];
 
-  const majors = Array.from(majorText.matchAll(MAJOR_ITEM_REGEXP)).map(
-    ([, value, name]) => ({
-      value,
-      name,
-    }),
-  );
+  const majors = [...majorText.matchAll(MAJOR_ITEM_REGEXP)].map(([, value, name]) => ({
+    value,
+    name,
+  }));
 
-  const currentMajorConfig = majors.find(
-    (major) => major.name === currentMajor,
-  )!;
+  const currentMajorConfig = majors.find((major) => major.name === currentMajor)!;
 
   const state = {
     term,
@@ -217,9 +195,7 @@ const checkCourseCommentary = async (
   if (status !== 200) throw new Error("评教检查失败");
 
   try {
-    if (content.includes("评价已完成")) {
-      return { completed: true, msg: "已完成评教" };
-    }
+    if (content.includes("评价已完成")) return { completed: true, msg: "已完成评教" };
 
     if (content.includes("下次可检查时间为：")) {
       const time = /\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2}/.exec(content)?.[0];
@@ -227,9 +203,7 @@ const checkCourseCommentary = async (
       return { completed: false, msg: `检查过于频繁，请于 ${time} 后重试` };
     }
 
-    if (content.includes("评价未完成")) {
-      return { completed: false, msg: "未完成评教" };
-    }
+    if (content.includes("评价未完成")) return { completed: false, msg: "未完成评教" };
 
     console.debug(content);
 
@@ -240,27 +214,22 @@ const checkCourseCommentary = async (
   } catch (err) {
     console.error(err);
 
-    throw new Error("评教检查失败");
+    throw new Error("评教检查失败", { cause: err });
   }
 };
 
-const getUnderSelectInfoLocal = async (
-  link: string,
-): Promise<UnderSelectInfoResponse> => {
+const getUnderSelectInfoLocal = async (link: string): Promise<UnderSelectInfoResponse> => {
   try {
     const categoryUrl = `${UNDER_STUDY_SERVER}${link}`;
 
     let { data: content } = await request<string>(categoryUrl, {
       headers: {
-        // eslint-disable-next-line @typescript-eslint/naming-convention
         "Cache-Control": "max-age=0",
       },
     });
 
-    if (/<title>.*?评教检查<\/title>/.exec(content)) {
-      const { completed } = await checkCourseCommentary(
-        /xnxqdm=(\d+)'/.exec(content)![1],
-      );
+    if (/<title>.*?评教检查<\/title>/.test(content)) {
+      const { completed } = await checkCourseCommentary(/xnxqdm=(\d+)'/.exec(content)![1]);
 
       if (!completed) {
         return {
@@ -274,7 +243,6 @@ const getUnderSelectInfoLocal = async (
       content = (
         await request<string>(categoryUrl, {
           headers: {
-            // eslint-disable-next-line @typescript-eslint/naming-convention
             "Cache-Control": "max-age=0",
           },
         })
@@ -305,9 +273,7 @@ const getUnderSelectInfoLocal = async (
   }
 };
 
-const getUnderSelectInfoOnline = async (
-  link: string,
-): Promise<UnderSelectInfoResponse> =>
+const getUnderSelectInfoOnline = async (link: string): Promise<UnderSelectInfoResponse> =>
   request<UnderSelectInfoResponse>("/under-study/select/info", {
     method: "POST",
     body: { link },
@@ -315,9 +281,5 @@ const getUnderSelectInfoOnline = async (
   }).then(({ data }) => data);
 
 export const getUnderSelectInfo = withUnderStudyLogin(
-  createService(
-    "under-select-info",
-    getUnderSelectInfoLocal,
-    getUnderSelectInfoOnline,
-  ),
+  createService("under-select-info", getUnderSelectInfoLocal, getUnderSelectInfoOnline),
 );

@@ -1,12 +1,10 @@
 import { existsSync, readdirSync, statSync } from "node:fs";
-import { dirname, join, resolve, sep } from "node:path";
-import { fileURLToPath } from "node:url";
+import { join, resolve, sep } from "node:path";
 
 import { rollup } from "rollup";
 import esbuild from "rollup-plugin-esbuild";
 
-// @ts-expect-error: tsconfig is not correct
-const __dirname = dirname(fileURLToPath(import.meta.url));
+const __dirname = import.meta.dirname;
 
 const getInputOptions = (dir: string): [string, string][] => {
   const dirPath = resolve(__dirname, "../.temp/", dir);
@@ -18,8 +16,7 @@ const getInputOptions = (dir: string): [string, string][] => {
     statSync(resolve(__dirname, "../.temp/", dir, content)).isDirectory(),
   );
   const files = contents.filter(
-    (file) =>
-      (file.endsWith(".ts") && !file.endsWith(".d.ts")) || file.endsWith(".js"),
+    (file) => (file.endsWith(".ts") && !file.endsWith(".d.ts")) || file.endsWith(".js"),
   );
 
   return [
@@ -41,7 +38,7 @@ const toolPages = getInputOptions("pkg/tool/pages");
 const userPages = getInputOptions("pkg/user/pages");
 
 // repack miniapp
-void rollup({
+await rollup({
   input: {
     app: resolve(__dirname, `../.temp/app.ts`),
     ...Object.fromEntries(base),
@@ -87,7 +84,7 @@ void rollup({
 
     // this ensures that require files are generated
     manualChunks: (id): string | void => {
-      const normalizedId = sep === "/" ? id : id.replace(/\\/g, "/");
+      const normalizedId = sep === "/" ? id : id.replaceAll("\\", "/");
 
       for (const name of [
         "api",
@@ -103,9 +100,8 @@ void rollup({
         "pkg/tool/utils",
         "pkg/user/service",
         "pkg/user/utils",
-      ]) {
+      ])
         if (normalizedId.includes(`/.temp/${name}/`)) return `${name}/index`;
-      }
 
       if (normalizedId.includes("/.temp/app.ts")) return "app";
     },

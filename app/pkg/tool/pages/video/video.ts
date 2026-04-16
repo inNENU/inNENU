@@ -41,7 +41,7 @@ $Page("video", {
       let groupID = 0;
       let listID = 0;
       const videoList =
-        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+        // oxlint-disable-next-line typescript/ban-ts-comment, typescript/prefer-ts-expect-error
         // @ts-ignore: The import can be changed by build target
         appName === "weNENU"
           ? list
@@ -53,16 +53,14 @@ $Page("video", {
               .filter((item) => item.list.length);
 
       if (options.scene) {
-        const ids = options.scene.split("-").map((id) => Number(id));
+        const ids = options.scene.split("-").map(Number);
 
         [groupID, listID] = ids;
       } else if (options.name) {
         const name = decodeURI(options.name);
 
         videoList.forEach((videoGroup, groupIndex) => {
-          const listIndex = videoGroup.list.findIndex(
-            (videoItem) => videoItem.name === name,
-          );
+          const listIndex = videoGroup.list.findIndex((videoItem) => videoItem.name === name);
 
           if (listIndex !== -1) {
             groupID = groupIndex;
@@ -95,11 +93,12 @@ $Page("video", {
     showNotice("video");
 
     // FIXME: Now skyline has bugs in setPassiveEvent
-    if (this.renderer !== "skyline")
+    if (this.renderer !== "skyline") {
       this.setPassiveEvent?.({
         touchstart: false,
         touchmove: false,
       });
+    }
   },
 
   onReady() {
@@ -179,7 +178,6 @@ $Page("video", {
     showToast("视频加载出错");
     // 调试
     wx.reportEvent?.("resource_load_failed", {
-      // eslint-disable-next-line @typescript-eslint/naming-convention
       broken_url: this.data.src,
     });
   },

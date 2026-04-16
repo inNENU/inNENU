@@ -2,24 +2,12 @@ import { $Page, get, logger, put, set, take } from "@mptool/all";
 
 import type { PageStateWithContent } from "../../../typings/index.js";
 import { preloadSkyline } from "../../api/index.js";
-import { checkResource, syncAppSettings } from "../../app/index.js";
 import type { App } from "../../app.js";
-import {
-  DAY,
-  appCoverPrefix,
-  appName,
-  description,
-  logo,
-  version,
-} from "../../config/index.js";
+import { checkResource, syncAppSettings } from "../../app/index.js";
+import { DAY, appCoverPrefix, appName, description, logo, version } from "../../config/index.js";
 import { reportUserInfo } from "../../service/index.js";
 import { envName, info, user, windowInfo } from "../../state/index.js";
-import {
-  getPageColor,
-  resolvePage,
-  setPage,
-  showNotice,
-} from "../../utils/index.js";
+import { getPageColor, resolvePage, setPage, showNotice } from "../../utils/index.js";
 
 const { globalData } = getApp<App>();
 
@@ -82,16 +70,18 @@ ${envName}由 Mr.Hope 个人制作，如有错误还请见谅\
       preloadData || this.data.page,
     );
 
-    this.$on("settings", () => this.setPage());
+    this.$on("settings", () => {
+      this.setPage();
+    });
   },
 
   onShow() {
     const { account, info } = user;
 
     this.setData({
-      login: account !== null,
+      login: account != null,
       userName: info?.name || (account ? appName : "未登录"),
-      desc: account === null ? description : "以下是你的今日概览",
+      desc: account == null ? description : "以下是你的今日概览",
     });
     showNotice(PAGE_ID);
 
@@ -111,7 +101,7 @@ ${envName}由 Mr.Hope 个人制作，如有错误还请见谅\
     wx.stopPullDownRefresh();
   },
 
-  // eslint-disable-next-line @typescript-eslint/no-empty-function
+  // oxlint-disable-next-line typescript/no-empty-function
   onPageScroll() {},
 
   onShareAppMessage: () => ({
@@ -160,10 +150,7 @@ ${envName}由 Mr.Hope 个人制作，如有错误还请见谅\
 
       if (pageData) setPage({ ctx: this, option: { id: PAGE_ID } }, pageData);
     } catch {
-      setPage(
-        { ctx: this, option: { id: PAGE_ID } },
-        get(PAGE_ID) || this.data.page,
-      );
+      setPage({ ctx: this, option: { id: PAGE_ID } }, get(PAGE_ID) || this.data.page);
     }
   },
 

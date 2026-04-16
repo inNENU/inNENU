@@ -1,12 +1,5 @@
 import type { PropType } from "@mptool/all";
-import {
-  $Component,
-  env,
-  savePhoto,
-  showModal,
-  showToast,
-  writeClipboard,
-} from "@mptool/all";
+import { $Component, env, savePhoto, showModal, showToast, writeClipboard } from "@mptool/all";
 
 import type { AccountComponentData } from "../../../typings/index.js";
 import { isCompany } from "../../state/index.js";
@@ -33,7 +26,7 @@ $Component({
 
   methods: {
     /** 添加 QQ */
-    addQQ(): void {
+    async addQQ(): Promise<void> {
       const { qq, qqcode = "" } = this.data.config;
 
       if (qqcode) {
@@ -43,44 +36,43 @@ $Component({
         savePhoto(realQQCodePath)
           .then(() => showToast("二维码已存至相册"))
           .catch(() => showToast("二维码保存失败"));
-      } else if (qq)
-        writeClipboard(qq.toString()).then(() => {
-          showModal("复制成功", "由于暂无二维码，QQ号已复制至您的剪切板");
-        });
+      } else if (qq) {
+        await writeClipboard(qq.toString());
+        showModal("复制成功", "由于暂无二维码，QQ号已复制至您的剪切板");
+      }
     },
 
     /** 微信 */
     addWechat(): void {
       const { account, wxid } = this.data.config;
 
-      if (wxid)
+      if (wxid) {
         tryOpenOfficialProfile(wxid, () => {
           if (account) this.$go(`wechat?path=${account}`);
           else showOfficialQRCode(wxid);
         });
-      else if (account) this.$go(`wechat?path=${account}`);
+      } else if (account) {
+        this.$go(`wechat?path=${account}`);
+      }
     },
 
-    openSite(): void {
+    async openSite(): Promise<void> {
       const { site } = this.data.config;
 
       // app 可直接打开网址
-      if (env === "donut") wx.miniapp.openUrl({ url: site! });
-      else
-        writeClipboard(site).then(() => {
-          showModal(
-            "功能受限",
-            "小程序无法直接打开网页，链接已复制至剪切板，请打开浏览器粘贴查看。",
-          );
-        });
+      if (env === "donut") {
+        wx.miniapp.openUrl({ url: site! });
+      } else {
+        await writeClipboard(site);
+        showModal("功能受限", "小程序无法直接打开网页，链接已复制至剪切板，请打开浏览器粘贴查看。");
+      }
     },
 
-    copyEmail(): void {
+    async copyEmail(): Promise<void> {
       const { mail } = this.data.config;
 
-      writeClipboard(mail).then(() =>
-        showModal("复制成功", `邮箱地址 ${mail!} 已成功复制至剪切板`),
-      );
+      await writeClipboard(mail);
+      showModal("复制成功", `邮箱地址 ${mail!} 已成功复制至剪切板`);
     },
 
     navigate(): void {

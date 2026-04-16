@@ -4,12 +4,7 @@ import type { PageOptions, PageState } from "../../../typings/index.js";
 import { preloadSkyline } from "../../api/index.js";
 import { appCoverPrefix } from "../../config/index.js";
 import { windowInfo } from "../../state/index.js";
-import {
-  id2path,
-  loadOnlinePage,
-  resolvePage,
-  setOnlinePage,
-} from "../../utils/index.js";
+import { id2path, loadOnlinePage, resolvePage, setOnlinePage } from "../../utils/index.js";
 
 $Page("info", {
   data: {
@@ -28,9 +23,7 @@ $Page("info", {
       loadOnlinePage(option as PageOptions & { path: string }, this);
     } else {
       // 生成页面 ID
-      option.id = id2path(
-        option.scene ? decodeURIComponent(option.scene) : option.id,
-      );
+      option.id = id2path(option.scene ? decodeURIComponent(option.scene) : option.id);
       setOnlinePage(option, this);
     }
 
@@ -42,7 +35,7 @@ $Page("info", {
     preloadSkyline();
   },
 
-  // eslint-disable-next-line @typescript-eslint/no-empty-function
+  // oxlint-disable-next-line typescript/no-empty-function
   onPageScroll() {},
 
   onShareAppMessage(): WechatMiniprogram.Page.ICustomShareContent {

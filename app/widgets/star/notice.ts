@@ -24,13 +24,19 @@ $Component({
     attached() {
       const { type } = this.data;
 
-      this.setData({ size: getSize(type) }, () => this.setNotice());
+      this.setData({ size: getSize(type) }, () => {
+        this.setNotice();
+      });
     },
   },
 
   pageLifetimes: {
     show(): void {
-      if (!user.account) return this.setData({ status: "login" });
+      if (!user.account) {
+        this.setData({ status: "login" });
+
+        return;
+      }
 
       this.setData({ status: "success" });
       this.setNotice();
@@ -53,7 +59,7 @@ $Component({
       });
     },
 
-    viewNotice({
+    async viewNotice({
       currentTarget,
     }: WechatMiniprogram.TouchEvent<
       Record<string, never>,

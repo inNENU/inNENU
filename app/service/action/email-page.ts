@@ -1,7 +1,5 @@
 import { URLSearchParams, logger } from "@mptool/all";
 
-import { withActionLogin } from "./login.js";
-import { ACTION_SERVER } from "./utils.js";
 import { request } from "../../api/index.js";
 import type {
   ActionFailType,
@@ -10,11 +8,13 @@ import type {
 } from "../utils/index.js";
 import {
   ExpiredResponse,
-  UnknownResponse,
+  unknownResponse,
   createService,
   isWebVPNPage,
   supportRedirect,
 } from "../utils/index.js";
+import { withActionLogin } from "./login.js";
+import { ACTION_SERVER } from "./utils.js";
 
 const EMAIL_PAGE_URL = `${ACTION_SERVER}/extract/sendRedirect2Email`;
 const EMAIL_URL = `${ACTION_SERVER}/extract/sendRedirect2EmailPage`;
@@ -33,26 +33,20 @@ export type ActionEmailPageResponse =
   | CommonSuccessResponse<string>
   | CommonFailedResponse<ActionFailType.Expired | ActionFailType.Unknown>;
 
-const getEmailPageLocal = async (
-  mid = "",
-): Promise<ActionEmailPageResponse> => {
+const getEmailPageLocal = async (mid = ""): Promise<ActionEmailPageResponse> => {
   try {
-    const { data, status } = await request<RawEmailPageResponse>(
-      mid ? EMAIL_PAGE_URL : EMAIL_URL,
-      {
-        method: "POST",
-        headers: {
-          Accept: "application/json, text/javascript, */*; q=0.01",
-          "Content-Type": "application/x-www-form-urlencoded; charset=UTF-8",
-        },
-        body: new URLSearchParams({
-          ...(mid ? { domain: "nenu.edu.cn", mid } : {}),
-          // eslint-disable-next-line @typescript-eslint/naming-convention
-          account_name: "",
-        }),
-        redirect: "manual",
+    const { data, status } = await request<RawEmailPageResponse>(mid ? EMAIL_PAGE_URL : EMAIL_URL, {
+      method: "POST",
+      headers: {
+        Accept: "application/json, text/javascript, */*; q=0.01",
+        "Content-Type": "application/x-www-form-urlencoded; charset=UTF-8",
       },
-    );
+      body: new URLSearchParams({
+        ...(mid ? { domain: "nenu.edu.cn", mid } : {}),
+        account_name: "",
+      }),
+      redirect: "manual",
+    });
 
     if (
       status === 302 ||
@@ -73,15 +67,14 @@ const getEmailPageLocal = async (
 
     logger.error(err);
 
-    return UnknownResponse(message);
+    return unknownResponse(message);
   }
 };
 
 const getEmailPageOnline = (mid = ""): Promise<ActionEmailPageResponse> =>
-  request<ActionEmailPageResponse>(
-    `/action/email-page${mid ? `?mid=${mid}` : ""}`,
-    { cookieScope: ACTION_SERVER },
-  ).then(({ data }) => {
+  request<ActionEmailPageResponse>(`/action/email-page${mid ? `?mid=${mid}` : ""}`, {
+    cookieScope: ACTION_SERVER,
+  }).then(({ data }) => {
     if (!data.success) logger.error("获取最近邮件失败", data);
 
     return data;

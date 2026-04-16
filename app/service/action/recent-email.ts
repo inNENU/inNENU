@@ -1,20 +1,17 @@
 import { URLSearchParams, logger } from "@mptool/all";
 
-import { withActionLogin } from "./login.js";
-import { ACTION_SERVER } from "./utils.js";
 import { request } from "../../api/index.js";
-import type {
-  CommonFailedResponse,
-  CommonSuccessResponse,
-} from "../utils/index.js";
+import type { CommonFailedResponse, CommonSuccessResponse } from "../utils/index.js";
 import {
   ActionFailType,
   ExpiredResponse,
-  UnknownResponse,
+  unknownResponse,
   createService,
   isWebVPNPage,
   supportRedirect,
 } from "../utils/index.js";
+import { withActionLogin } from "./login.js";
+import { ACTION_SERVER } from "./utils.js";
 
 const EMAIL_INFO_URL = `${ACTION_SERVER}/extract/getEmailInfo`;
 
@@ -49,7 +46,6 @@ interface RawRecentMailSuccessResponse {
     suc: true;
     ver: 0;
     /** 账户名称 */
-    // eslint-disable-next-line @typescript-eslint/naming-convention
     account_name: string;
     con: {
       /** 总数 */
@@ -63,14 +59,11 @@ interface RawRecentMailFailedResponse {
   emailList: {
     suc: false;
     ver: 0;
-    // eslint-disable-next-line @typescript-eslint/naming-convention
     error_code: string;
   };
 }
 
-type RawRecentMailResponse =
-  | RawRecentMailSuccessResponse
-  | RawRecentMailFailedResponse;
+type RawRecentMailResponse = RawRecentMailSuccessResponse | RawRecentMailFailedResponse;
 
 export interface EmailData {
   /** 邮件主题 */
@@ -112,37 +105,31 @@ export interface ActionRecentMailData {
 export type ActionRecentMailResponse =
   | CommonSuccessResponse<ActionRecentMailData>
   | CommonFailedResponse<
-      | ActionFailType.Expired
-      | ActionFailType.NotInitialized
-      | ActionFailType.Unknown
+      ActionFailType.Expired | ActionFailType.NotInitialized | ActionFailType.Unknown
     >;
 
 const getRecentEmailsLocal = async (): Promise<ActionRecentMailResponse> => {
   try {
-    const { data, status } = await request<RawRecentMailResponse>(
-      EMAIL_INFO_URL,
-      {
-        method: "POST",
-        headers: {
-          Accept: "application/json, text/javascript, */*; q=0.01",
-        },
-        body: new URLSearchParams({
-          domain: "nenu.edu.cn",
-          type: "1",
-          format: "json",
-        }),
-        redirect: "manual",
+    const { data, status } = await request<RawRecentMailResponse>(EMAIL_INFO_URL, {
+      method: "POST",
+      headers: {
+        Accept: "application/json, text/javascript, */*; q=0.01",
       },
-    );
+      body: new URLSearchParams({
+        domain: "nenu.edu.cn",
+        type: "1",
+        format: "json",
+      }),
+      redirect: "manual",
+    });
 
     if (
       status === 302 ||
       // Note: If the env does not support "redirect: manual", the response will be a 302 redirect to WebVPN login page
       // In this case, the response.status will be 200 and the response body will be the WebVPN login page
       (!supportRedirect && isWebVPNPage(data))
-    ) {
+    )
       return ExpiredResponse;
-    }
 
     if ("success" in data && data.success && data.emailList.con) {
       return {
@@ -164,7 +151,7 @@ const getRecentEmailsLocal = async (): Promise<ActionRecentMailResponse> => {
 
     logger.error(err);
 
-    return UnknownResponse(message);
+    return unknownResponse(message);
   }
 };
 

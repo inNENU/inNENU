@@ -15,9 +15,7 @@ interface RawResetPasswordSetFailedData {
   datas: null;
 }
 
-type RawResetPasswordSetData =
-  | RawResetPasswordSetSuccessData
-  | RawResetPasswordSetFailedData;
+type RawResetPasswordSetData = RawResetPasswordSetSuccessData | RawResetPasswordSetFailedData;
 
 export interface ResetPasswordSetOptions {
   type: "reset-password";

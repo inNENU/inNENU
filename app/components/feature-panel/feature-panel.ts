@@ -1,10 +1,7 @@
 import type { PropType } from "@mptool/all";
 import { $Component, get, readFile } from "@mptool/all";
 
-import type {
-  GridComponentItemOptions,
-  GridComponentOptions,
-} from "../../../typings/index.js";
+import type { GridComponentItemOptions, GridComponentOptions } from "../../../typings/index.js";
 
 $Component({
   props: {
@@ -43,9 +40,7 @@ $Component({
     setLogo(items?: GridComponentItemOptions[]) {
       this.setData({
         icons: (items || this.data.config.items || []).map((item) =>
-          item.icon && !item.icon.includes("/")
-            ? readFile(`icon/${item.icon}`) || ""
-            : "",
+          item.icon && !item.icon.includes("/") ? readFile(`icon/${item.icon}`) || "" : "",
         ),
       });
     },
@@ -55,7 +50,6 @@ $Component({
   },
 
   observers: {
-    // eslint-disable-next-line @typescript-eslint/naming-convention
     "config.items"(value: GridComponentItemOptions[]): void {
       this.setLogo(value);
     },

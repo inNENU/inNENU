@@ -11,7 +11,7 @@ import {
   ACTION_SERVER,
   ExpiredResponse,
   INFO_SERVER,
-  UnknownResponse,
+  unknownResponse,
   createService,
   isWebVPNPage,
   supportRedirect,
@@ -24,15 +24,13 @@ const ID_TIME_REGEXP =
   /<span style="margin: 0 10px;font-size: 13px;color: #787878;font-family: 'Microsoft YaHei';">\s+时间：(.*?)(?:&nbsp;)*?\s+<\/span>/;
 const ID_PAGEVIEW_REGEXP =
   /<span style="margin: 0 10px;font-size: 13px;color: #787878;font-family: 'Microsoft YaHei';">\s+阅览：(\d+)\s+<\/span>/;
-const ID_CONTENT_REGEXP =
-  /<div class="read" id="WBNR">\s+([^]*?)\s+<\/div>\s+<p id="zrbj"/;
+const ID_CONTENT_REGEXP = /<div class="read" id="WBNR">\s+([^]*?)\s+<\/div>\s+<p id="zrbj"/;
 
 const TITLE_REGEXP = /name="pageTitle" content="(.*)"/;
 const FROM_REGEXP = /<span>(?:发布单位|供稿单位)：(.*)<\/span>/;
 const TIME_REGEXP = /<span>发布时间：(.*)<\/span>/;
 const PAGEVIEW_REGEXP = /_showDynClicks\("wbnews", (\d+), (\d+)\)/;
-const CONTENT_REGEXP =
-  /<div id="vsb_content.*?>([^]*?)\s*<\/div>\s*<div id="div_vote_id"/;
+const CONTENT_REGEXP = /<div id="vsb_content.*?>([^]*?)\s*<\/div>\s*<div id="div_vote_id"/;
 
 export interface NoticeOptions {
   noticeID: string;
@@ -53,9 +51,7 @@ export type NoticeResponse =
   | NoticeSuccessResponse
   | CommonFailedResponse<ActionFailType.Expired | ActionFailType.Unknown>;
 
-export const getNoticeDetailById = async (
-  noticeID: string,
-): Promise<NoticeResponse> => {
+export const getNoticeDetailById = async (noticeID: string): Promise<NoticeResponse> => {
   try {
     const { data: text, status } = await request<string>(
       `${ACTION_SERVER}/page/viewNews?ID=${noticeID}`,
@@ -67,15 +63,14 @@ export const getNoticeDetailById = async (
       // Note: If the env does not support "redirect: manual", the response will be a 302 redirect to WebVPN login page
       // In this case, the response.status will be 200 and the response body will be the WebVPN login page
       (!supportRedirect && isWebVPNPage(text))
-    ) {
+    )
       return ExpiredResponse;
-    }
 
-    const title = ID_TITLE_REGEXP.exec(text)![1];
-    const time = ID_TIME_REGEXP.exec(text)![1];
-    const from = ID_FROM_REGEXP.exec(text)![1];
-    const pageView = ID_PAGEVIEW_REGEXP.exec(text)![1];
-    const content = ID_CONTENT_REGEXP.exec(text)![1];
+    const [, title] = ID_TITLE_REGEXP.exec(text)!;
+    const [, time] = ID_TIME_REGEXP.exec(text)!;
+    const [, from] = ID_FROM_REGEXP.exec(text)!;
+    const [, pageView] = ID_PAGEVIEW_REGEXP.exec(text)!;
+    const [, content] = ID_CONTENT_REGEXP.exec(text)!;
 
     const data = {
       title,
@@ -107,26 +102,23 @@ export const getNoticeDetailById = async (
 
     logger.error(err);
 
-    return UnknownResponse(message);
+    return unknownResponse(message);
   }
 };
 
-export const getNoticeDetailByUrl = async (
-  noticeUrl: string,
-): Promise<NoticeResponse> => {
+export const getNoticeDetailByUrl = async (noticeUrl: string): Promise<NoticeResponse> => {
   try {
-    const { data: text, status } = await request<string>(
-      `${INFO_SERVER}${noticeUrl}`,
-      { redirect: "manual" },
-    );
+    const { data: text, status } = await request<string>(`${INFO_SERVER}${noticeUrl}`, {
+      redirect: "manual",
+    });
 
     if (status === 302) return ExpiredResponse;
 
-    const title = TITLE_REGEXP.exec(text)![1];
-    const time = TIME_REGEXP.exec(text)![1];
-    const from = FROM_REGEXP.exec(text)![1];
+    const [, title] = TITLE_REGEXP.exec(text)!;
+    const [, time] = TIME_REGEXP.exec(text)!;
+    const [, from] = FROM_REGEXP.exec(text)!;
     const [, owner, clickId] = PAGEVIEW_REGEXP.exec(text)!;
-    const content = CONTENT_REGEXP.exec(text)![1];
+    const [, content] = CONTENT_REGEXP.exec(text)!;
 
     const { data: pageview } = await request<string>(
       `${INFO_SERVER}/system/resource/code/news/click/dynclicks.jsp?clickid=${clickId}&owner=${owner}&clicktype=wbnews`,
@@ -143,11 +135,7 @@ export const getNoticeDetailByUrl = async (
           a: (node) => {
             const href = node.attrs?.href;
 
-            if (
-              href &&
-              !href.startsWith(ACTION_SERVER) &&
-              !href.startsWith(INFO_SERVER)
-            )
+            if (href && !href.startsWith(ACTION_SERVER) && !href.startsWith(INFO_SERVER))
               node.children?.push({ type: "text", text: ` (${href})` });
 
             return node;
@@ -190,22 +178,17 @@ export const getNoticeDetailByUrl = async (
 
     logger.error(err);
 
-    return UnknownResponse(message);
+    return unknownResponse(message);
   }
 };
 
-const getNoticeDetailLocal = ({
-  noticeUrl,
-  noticeID,
-}: NoticeOptions): Promise<NoticeResponse> => {
+const getNoticeDetailLocal = ({ noticeUrl, noticeID }: NoticeOptions): Promise<NoticeResponse> => {
   if (noticeUrl) return getNoticeDetailByUrl(noticeUrl);
 
   return getNoticeDetailById(noticeID);
 };
 
-const getNoticeDetailOnline = (
-  options: NoticeOptions,
-): Promise<NoticeResponse> =>
+const getNoticeDetailOnline = (options: NoticeOptions): Promise<NoticeResponse> =>
   request<NoticeResponse>("/action/notice-detail", {
     method: "POST",
     body: options,

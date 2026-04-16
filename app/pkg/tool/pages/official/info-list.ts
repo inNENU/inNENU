@@ -1,10 +1,7 @@
 import { $Page } from "@mptool/all";
 
 import { appCoverPrefix } from "../../../../config/index.js";
-import type {
-  OfficialInfoItem,
-  OfficialInfoType,
-} from "../../../../service/index.js";
+import type { OfficialInfoItem, OfficialInfoType } from "../../../../service/index.js";
 import { getOfficialInfoList } from "../../../../service/index.js";
 import { info } from "../../../../state/index.js";
 import { getPageColor, showNotice } from "../../../../utils/index.js";
@@ -85,15 +82,15 @@ $Page(PAGE_ID, {
     }
   },
 
-  retry() {
+  async retry() {
     return this.getInfoList(1);
   },
 
-  changePage({ detail }: WechatMiniprogram.CustomEvent<{ current: number }>) {
+  async changePage({ detail }: WechatMiniprogram.CustomEvent<{ current: number }>) {
     return this.getInfoList(detail.current);
   },
 
-  viewItem({
+  async viewItem({
     currentTarget,
   }: WechatMiniprogram.TouchEvent<
     Record<string, never>,

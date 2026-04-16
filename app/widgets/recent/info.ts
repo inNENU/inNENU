@@ -8,10 +8,7 @@ import {
   SITE_SCIENCE_LIST_KEY,
   SITE_SOCIAL_LIST_KEY,
 } from "../../config/index.js";
-import type {
-  OfficialInfoItem,
-  OfficialInfoType,
-} from "../../service/index.js";
+import type { OfficialInfoItem, OfficialInfoType } from "../../service/index.js";
 import { getOfficialInfoList } from "../../service/index.js";
 import type { WidgetSize, WidgetStatus } from "../utils.js";
 import { getSize } from "../utils.js";
@@ -72,12 +69,14 @@ $Component({
         () => {
           const data = get<OfficialInfoItem[]>(getKey(infoType));
 
-          if (data)
+          if (data) {
             this.setData({
               status: "success",
               data: size === "large" ? data : data.slice(0, 5),
             });
-          else this.getInfoList();
+          } else {
+            this.getInfoList();
+          }
         },
       );
     },
@@ -106,7 +105,7 @@ $Component({
       set(getKey(infoType), data, HOUR);
     },
 
-    viewInfo({
+    async viewInfo({
       currentTarget,
     }: WechatMiniprogram.TouchEvent<
       Record<string, never>,
@@ -116,9 +115,7 @@ $Component({
       const { infoType: noticeType } = this.data;
       const { title, url } = currentTarget.dataset.info;
 
-      return this.$go(
-        `official-info-detail?title=${title}&type=${noticeType}&url=${url}`,
-      );
+      return this.$go(`official-info-detail?title=${title}&type=${noticeType}&url=${url}`);
     },
   },
 

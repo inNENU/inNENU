@@ -18,10 +18,11 @@ $Component({
   },
 
   methods: {
-    copy(): void {
+    async copy(): Promise<void> {
       const { content } = this.data.config;
 
-      writeClipboard(content).then(() => logger.debug(`Copied '${content}'`));
+      await writeClipboard(content);
+      logger.debug(`Copied '${content}'`);
     },
 
     link(): void {
@@ -32,7 +33,6 @@ $Component({
   },
 
   observers: {
-    // eslint-disable-next-line @typescript-eslint/naming-convention
     "config.content"(value: string) {
       const isLink = /^https?:\/\//.test(value);
 
