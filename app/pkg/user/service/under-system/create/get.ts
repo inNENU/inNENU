@@ -42,6 +42,7 @@ export type UnderCreateStudentArchiveGetInfoResponse =
   | CommonFailedResponse<ActionFailType.Expired | ActionFailType.Existed>;
 
 const getCreateUnderStudentArchiveInfoLocal =
+  // oxlint-disable-next-line max-lines-per-function
   async (): Promise<UnderCreateStudentArchiveGetInfoResponse> => {
     try {
       const { data: welcomePageContent } = await request<string>(
@@ -93,14 +94,16 @@ const getCreateUnderStudentArchiveInfoLocal =
         matches.map((item) => item.replace(/&nbsp;/g, " ").trim()),
       );
 
+      // oxlint-disable-next-line unicorn/no-unreadable-array-destructuring
       const readonlyFields = info.filter(([, , editable]) => readonlyRegExp.test(editable));
 
       const editableFields = info
+        // oxlint-disable-next-line unicorn/no-unreadable-array-destructuring
         .filter(([, , editable]) => !readonlyRegExp.test(editable))
         .map(([text, defaultValue, checkBox, inputOrSelect, remark]) => {
           const [, checkboxValue, checkboxName] = checkBoxRegExp.exec(checkBox)!;
 
-          const name = selectRegExp.exec(inputOrSelect)![1];
+          const [, name] = selectRegExp.exec(inputOrSelect)!;
 
           const options = [...inputOrSelect.matchAll(optionRegExp)].map(([, value, text]) => ({
             value,
@@ -165,6 +168,7 @@ const getCreateUnderStudentArchiveInfoLocal =
 
       return {
         success: true,
+        // oxlint-disable-next-line unicorn/no-unreadable-array-destructuring
         readonly: readonlyFields.map(([text, value, , , remark]) => {
           const realValue = /<font[^>]*>(.*)<\/font>/.exec(value)?.[1] || value;
 
@@ -177,6 +181,7 @@ const getCreateUnderStudentArchiveInfoLocal =
         editable: editableFields,
         fields: [
           ...readonlyFields
+            // oxlint-disable-next-line unicorn/no-unreadable-array-destructuring
             .map(([, , , inputOrSelect]) => {
               let result = inputRegExp.exec(inputOrSelect);
 
@@ -188,7 +193,7 @@ const getCreateUnderStudentArchiveInfoLocal =
 
               return null;
             })
-            .filter((item): item is { name: string; value: string } => item !== null),
+            .filter((item): item is { name: string; value: string } => item != null),
           ...hiddenFields,
         ],
         path: pathRegExp.exec(infoContent)![1],

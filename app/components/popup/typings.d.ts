@@ -11,6 +11,6 @@ export interface PopupConfig {
   more?: boolean;
   /** 取消按钮文字，填入 `false` 不显示取消按钮，默认为 '取消 */
   cancel?: string | false;
-  /** 确认按钮文字 (默认: '确认')*/
+  /** 确认按钮文字 (默认: '确认') */
   confirm?: string | false;
 }

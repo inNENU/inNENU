@@ -46,6 +46,18 @@ export type AuthLoginFailedResponse = CommonFailedResponse<
 
 export type AuthLoginResponse = AuthLoginSuccessResponse | AuthLoginFailedResponse;
 
+const authLoginOnline = async (options: AuthLoginOptions): Promise<AuthLoginResponse> => {
+  const { data } = await request<AuthLoginResponse>("/auth/login", {
+    method: "POST",
+    body: options,
+    cookieScope: AUTH_COOKIE_SCOPE,
+  });
+
+  if (!data.success) logger.error("登录失败", "captcha" in data ? "需要验证码" : data.msg);
+
+  return data;
+};
+
 // oxlint-disable-next-line complexity, max-lines-per-function, max-statements
 const authLoginLocal = async ({
   id,
@@ -115,8 +127,8 @@ const authLoginLocal = async ({
       };
     }
 
-    const salt = SALT_REGEXP.exec(loginPageContent)![1];
-    const execution = /name="execution" value="(.*?)"/.exec(loginPageContent)![1];
+    const [, salt] = SALT_REGEXP.exec(loginPageContent)!;
+    const [, execution] = /name="execution" value="(.*?)"/.exec(loginPageContent)!;
 
     cookieStore.set({
       name: "org.springframework.web.servlet.i18n.CookieLocaleResolver.LOCALE",
@@ -246,18 +258,6 @@ const authLoginLocal = async ({
   logger.error("Unknown login page status: ", loginPageStatus);
 
   return unknownResponse("未知错误");
-};
-
-const authLoginOnline = async (options: AuthLoginOptions): Promise<AuthLoginResponse> => {
-  const { data } = await request<AuthLoginResponse>("/auth/login", {
-    method: "POST",
-    body: options,
-    cookieScope: AUTH_COOKIE_SCOPE,
-  });
-
-  if (!data.success) logger.error("登录失败", "captcha" in data ? "需要验证码" : data.msg);
-
-  return data;
 };
 
 export const authLogin = createService("auth-login", authLoginLocal, authLoginOnline);

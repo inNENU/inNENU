@@ -43,20 +43,20 @@ export interface NoticeListOptions {
 
 interface RawNoticeItem {
   LLCS: number;
-  /** time */
+  /** Time */
   FBSJ: string;
-  /** title */
+  /** Title */
   KEYWORDS_: string;
-  /** id */
+  /** Id */
   ID__: string;
   SFZD: string;
   FLAG: string;
-  /** index */
+  /** Index */
   RN: number;
-  /** from */
+  /** From */
   CJBM: string;
   TYPE: "notice" | "news";
-  /** url */
+  /** Url */
   URL: string | null;
 }
 
@@ -137,7 +137,7 @@ const getNoticeListLocal = async ({
 
     return {
       success: true,
-      data: data.map(getNoticeItem),
+      data: data.map((item) => getNoticeItem(item)),
       count: totalCount,
       size: pageSize,
       current: pageIndex,

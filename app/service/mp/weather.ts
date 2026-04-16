@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/naming-convention */
 import { request } from "../../api/index.js";
 import { createService } from "../utils/index.js";
 
@@ -147,6 +146,7 @@ interface WeatherRawResponse {
  *
  * @param icon 天气代码
  * @param isDay 当前是否是白天
+ * @returns 天气图标代码
  */
 const getWeatherCode = (icon: string, isDay: boolean): string =>
   icon === "00" || icon === "01" || icon === "03" || icon === "13"

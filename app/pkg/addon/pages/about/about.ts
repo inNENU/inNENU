@@ -175,8 +175,7 @@ $Page(PAGE_ID, {
   },
 
   /**
-   * 接管密码输入
-   * 用于判断密码是否正确并启用开发者模式
+   * 接管密码输入 用于判断密码是否正确并启用开发者模式
    *
    * @param event 输入事件
    * @returns 输入框当前值
@@ -250,9 +249,7 @@ $Page(PAGE_ID, {
     syncAppSettings(globalData, value);
   },
 
-  /**
-   * 复制 Open ID
-   */
+  /** 复制 Open ID */
   copyOpenID() {
     writeClipboard(user.openid ?? "");
   },

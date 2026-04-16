@@ -49,12 +49,13 @@ const { request, cookieStore } = createRequest({
 export { cookieStore, request };
 
 /**
- * 执行 JSON 请求
+ * 请求 JSON 数据
  *
  * @param path 请求路径
+ * @returns 请求结果
  */
 export const requestJSON = <
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any, @typescript-eslint/no-redundant-type-constituents
+  // oxlint-disable-next-line typescript/no-explicit-any
   T extends Record<never, never> | unknown[] | string = Record<string, any>,
 >(
   path: string,
@@ -95,9 +96,8 @@ export const requestJSON = <
  * 下载文件
  *
  * @param path 下载路径
- * @param successFunc 成功回调函数
- * @param failFunc 失败回调函数
- * @param errorFunc 状态码错误回调函数
+ * @param mask 遮罩层
+ * @returns 下载后的临时文件路径
  */
 export const download = (path: string, mask = false): Promise<string> =>
   _download(path.startsWith("https://") ? path : `${assets}${path}`, mask);

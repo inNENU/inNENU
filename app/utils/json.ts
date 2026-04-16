@@ -43,7 +43,6 @@ export const ensureJson = async (path: string, url = path): Promise<void> => {
  *
  * @param path JSON 的本地路径，不带 `.json` 后缀
  * @param url JSON 的在线路径，不带 `.json` 后缀以及 `server` 前缀
- *
  * @returns JSON 数据
  */
 export const getJson = async <T>(path: string, url = path): Promise<T> => {

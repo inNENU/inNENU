@@ -1,5 +1,5 @@
 // oxlint-disable max-lines
-import { $Page, showModal, showToast } from "@mptool/all";
+import { $Page, createQueue, showModal, showToast } from "@mptool/all";
 
 import { appCoverPrefix } from "../../../../config/index.js";
 import type {
@@ -28,7 +28,6 @@ import {
   searchUnderCourses,
 } from "../../service/index.js";
 import { processUnderSelect } from "../../service/under-study/index.js";
-import { createQueue } from "../../utils/index.js";
 import type { ClassData, SortKey } from "./utils.js";
 import { confirmReplace, courseSorter } from "./utils.js";
 
@@ -628,7 +627,7 @@ $Page(PAGE_ID, {
   },
 
   async trySelectingCourse(classId: string, name: string, times = 100) {
-    // eslint-disable-next-line prefer-const
+    // oxlint-disable-next-line prefer-const
     let stop: (msg: ForceSelectResponse) => void;
 
     const queue = Array.from({ length: times }, () => async (): Promise<void> => {

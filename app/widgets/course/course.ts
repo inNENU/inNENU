@@ -147,9 +147,9 @@ $Component({
       }
 
       while (true) {
-        const currentCell = table[classIndex][dayIndex].filter((course) =>
-          course.weeks.includes(weekIndex),
-        );
+        const dayCourses = table[classIndex][dayIndex];
+        // oxlint-disable-next-line no-loop-func
+        const currentCell = dayCourses.filter((course) => course.weeks.includes(weekIndex));
 
         if (currentCell.length) {
           nextCourses = currentCell;

@@ -171,8 +171,8 @@ interface RawUnderCourseCommentaryListFailedResult {
 }
 
 type RawUnderCourseCommentarySubmitResult =
-  // eslint-disable-next-line @typescript-eslint/no-redundant-type-constituents
-  RawUnderCourseCommentarySubmitSuccessResult | RawUnderCourseCommentaryListFailedResult;
+  | RawUnderCourseCommentarySubmitSuccessResult
+  | RawUnderCourseCommentaryListFailedResult;
 
 export interface UnderCourseCommentaryGetSuccessResponse {
   success: true;
@@ -256,7 +256,7 @@ const TEXT_REGEXP =
   /<div class="question".+?data-txdm="(\d+)" data-zbdm="(\d+)">\s+<h3>(.*?)(?:<span class="zbsx" style="color:red;">.*?<\/span>)?\s+<\/h3>\s+<textarea.+?name="(\d+)"[^]+?data-fz="(.*?)"/;
 
 const getCourseInfo = (html: string): UnderCourseCommentaryInfo => {
-  const paramText = PARAMS_REGEXP.exec(html)![1];
+  const [, paramText] = PARAMS_REGEXP.exec(html)!;
 
   const params = Object.fromEntries(
     paramText
@@ -272,7 +272,7 @@ const getCourseInfo = (html: string): UnderCourseCommentaryInfo => {
       txdm,
       zbdm,
       title,
-      options: new Array(optionNumber).fill(null).map((_, index) => {
+      options: Array.from({ length: optionNumber }, (_, index) => {
         const [name, value, score, text] = items.slice(index * 4, index * 4 + 4);
 
         return {
@@ -314,6 +314,7 @@ export type UnderCourseCommentaryResponse<T extends UnderCourseCommentaryOptions
         ? UnderCourseCommentaryGetResponse
         : UnderCourseCommentarySubmitResponse;
 
+// oxlint-disable-next-line max-lines-per-function, max-statements
 const underStudyCourseCommentaryLocal = async <T extends UnderCourseCommentaryOptions>(
   options: T,
 ): Promise<UnderCourseCommentaryResponse<T>> => {
@@ -409,10 +410,9 @@ const underStudyCourseCommentaryLocal = async <T extends UnderCourseCommentaryOp
         },
         body: new URLSearchParams({
           ...params,
-          wtpf:
-            answers
-              .reduce((acc, answer, index) => acc + questions[index].options[answer].score, 0)
-              .toString() + ".00",
+          wtpf: `${answers
+            .reduce((acc, answer, index) => acc + questions[index].options[answer].score, 0)
+            .toString()}.00`,
           dt: JSON.stringify([
             ...questions.map(({ txdm, zbdm, title }, index) => {
               const { text, value, score } = questions[index].options[answers[index]];

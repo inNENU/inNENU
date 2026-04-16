@@ -28,7 +28,7 @@ export interface SwitchListComponentItemConfig extends SwitchListComponentItemOp
 }
 
 export interface SliderListComponentItemConfig<T = unknown> extends SliderListComponentItemOptions {
-  /** 滑块对应的值*/
+  /** 滑块对应的值 */
   value?: T;
   /** 是否显示滑块 */
   visible?: boolean;
@@ -37,9 +37,9 @@ export interface SliderListComponentItemConfig<T = unknown> extends SliderListCo
 export interface PickerListComponentItemConfig extends PickerListComponentItemOptions {
   /** 是否显示选择器 */
   visible?: boolean;
-  /** picker 选择器对应的键 */
+  /** Picker 选择器对应的键 */
   currentValue?: number[] | number;
-  value?: any; // eslint-disable-line @typescript-eslint/no-explicit-any
+  value?: any; // oxlint-disable-line typescript/no-explicit-any
 }
 
 export interface ButtonListComponentItemConfig extends ButtonListComponentItemOptions {

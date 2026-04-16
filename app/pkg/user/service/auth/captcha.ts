@@ -96,15 +96,14 @@ type RawVerifyAuthCaptchaResponse =
       errorMsg: "error";
     };
 
-/**
- * 滑块轨迹点接口
- */
+/** 滑块轨迹点接口 */
 export interface SliderTrackPoint {
   /** 滑块的水平位置（距离） */
   a: number;
   /** 滑块的垂直偏移量 */
   b: number;
   /** 时间差（毫秒） */
+  // oxlint-disable-next-line id-length
   c: number;
 }
 

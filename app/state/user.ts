@@ -91,7 +91,7 @@ export interface Identify {
 }
 
 export const getIdentity = (): Identify => {
-  if (userState.info === null) {
+  if (userState.info == null) {
     return {
       id: "guest",
       type: null,

@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/naming-convention */
 import { request } from "../../api/index.js";
 import type { CommonSuccessResponse } from "../utils/index.js";
 
@@ -53,9 +52,7 @@ interface RawMeiliSearchResponse {
   totalPages: number;
 }
 
-/**
- * 定义高亮内容片段的元组类型。
- */
+/** 定义高亮内容片段的元组类型。 */
 type HighlightInfo = [content: string, isHighlighted: boolean];
 
 const EM_REGEXP = /(<em>.*?<\/em>)/;
@@ -118,6 +115,7 @@ export const searchContent = async (query: string, page = 1): Promise<ContentSea
     {
       method: "POST",
       body: {
+        // oxlint-disable-next-line id-length
         q: query,
         attributesToHighlight: ["*"],
         attributesToCrop: ["content"],

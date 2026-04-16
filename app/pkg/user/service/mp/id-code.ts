@@ -61,13 +61,9 @@ export interface IdCodeInfo {
   major: string;
   createTime: string;
 
-  /**
-   * @description Only available for admin
-   */
+  /** Only available for admin */
   id: number | null;
-  /**
-   * @description Only available for admin
-   */
+  /** Only available for admin */
   gender: string | null;
 }
 

@@ -30,7 +30,7 @@ $Page(PAGE_ID, {
     showNotice(PAGE_ID);
   },
 
-  // eslint-disable-next-line @typescript-eslint/no-empty-function
+  // oxlint-disable-next-line typescript/no-empty-function
   onPageScroll() {},
 
   onShareAppMessage: () => ({ title: PAGE_TITLE }),
@@ -46,27 +46,8 @@ $Page(PAGE_ID, {
     wx.showLoading({ title: "获取中" });
 
     if (isRecommend) {
-      return getGradRecommendPlan().then((res) => {
-        wx.hideLoading();
+      const res = await getGradRecommendPlan();
 
-        if (res.success) {
-          const schools = ["全部", ...res.data.map(({ name }) => name)];
-
-          this.setData({
-            schools,
-            schoolIndex: Math.max(schools.indexOf(school), 0),
-            plans: res.data,
-          });
-          this.state.plans = res.data;
-        } else {
-          showModal("获取失败", res.msg, () => {
-            this.$back();
-          });
-        }
-      });
-    }
-
-    return getGradPlan().then((res) => {
       wx.hideLoading();
 
       if (res.success) {
@@ -83,7 +64,26 @@ $Page(PAGE_ID, {
           this.$back();
         });
       }
-    });
+    }
+
+    const res = await getGradPlan();
+
+    wx.hideLoading();
+
+    if (res.success) {
+      const schools = ["全部", ...res.data.map(({ name }) => name)];
+
+      this.setData({
+        schools,
+        schoolIndex: Math.max(schools.indexOf(school), 0),
+        plans: res.data,
+      });
+      this.state.plans = res.data;
+    } else {
+      showModal("获取失败", res.msg, () => {
+        this.$back();
+      });
+    }
   },
 
   onSchoolChange({ detail }: WechatMiniprogram.PickerChange) {

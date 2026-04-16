@@ -66,11 +66,11 @@ export const getNoticeDetailById = async (noticeID: string): Promise<NoticeRespo
     )
       return ExpiredResponse;
 
-    const title = ID_TITLE_REGEXP.exec(text)![1];
-    const time = ID_TIME_REGEXP.exec(text)![1];
-    const from = ID_FROM_REGEXP.exec(text)![1];
-    const pageView = ID_PAGEVIEW_REGEXP.exec(text)![1];
-    const content = ID_CONTENT_REGEXP.exec(text)![1];
+    const [, title] = ID_TITLE_REGEXP.exec(text)!;
+    const [, time] = ID_TIME_REGEXP.exec(text)!;
+    const [, from] = ID_FROM_REGEXP.exec(text)!;
+    const [, pageView] = ID_PAGEVIEW_REGEXP.exec(text)!;
+    const [, content] = ID_CONTENT_REGEXP.exec(text)!;
 
     const data = {
       title,
@@ -114,11 +114,11 @@ export const getNoticeDetailByUrl = async (noticeUrl: string): Promise<NoticeRes
 
     if (status === 302) return ExpiredResponse;
 
-    const title = TITLE_REGEXP.exec(text)![1];
-    const time = TIME_REGEXP.exec(text)![1];
-    const from = FROM_REGEXP.exec(text)![1];
+    const [, title] = TITLE_REGEXP.exec(text)!;
+    const [, time] = TIME_REGEXP.exec(text)!;
+    const [, from] = FROM_REGEXP.exec(text)!;
     const [, owner, clickId] = PAGEVIEW_REGEXP.exec(text)!;
-    const content = CONTENT_REGEXP.exec(text)![1];
+    const [, content] = CONTENT_REGEXP.exec(text)!;
 
     const { data: pageview } = await request<string>(
       `${INFO_SERVER}/system/resource/code/news/click/dynclicks.jsp?clickid=${clickId}&owner=${owner}&clicktype=wbnews`,

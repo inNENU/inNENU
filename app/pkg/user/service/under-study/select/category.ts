@@ -60,7 +60,6 @@ const DISALLOWED_CATEGORY_ITEM_REGEXP =
 
 const getSelectCategories = (content: string): UnderSelectCategoryInfo => ({
   allowed: [...content.matchAll(ALLOWED_CATEGORY_ITEM_REGEXP)].map(
-    // oxlint-disable-next-line typescript/no-deprecated
     ([, term, stage, canRemoveText, name, link, startTime, endTime]) => ({
       term,
       stage,
@@ -74,7 +73,6 @@ const getSelectCategories = (content: string): UnderSelectCategoryInfo => ({
     }),
   ),
   disallowed: [...content.matchAll(DISALLOWED_CATEGORY_ITEM_REGEXP)].map(
-    // oxlint-disable-next-line typescript/no-deprecated
     ([, term, description, name, link]) => ({
       term,
       description: description

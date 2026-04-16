@@ -1,4 +1,4 @@
-/* eslint-disable @typescript-eslint/no-deprecated */
+/* oxlint-disable typescript/no-deprecated */
 import { URLSearchParams, logger } from "@mptool/all";
 
 import { cookieStore, request } from "../../../../api/index.js";
@@ -31,7 +31,7 @@ const getWeekRange = (timeText: string): number[] => {
         return Array.from({ length: range[1] - range[0] + 1 }, (_, index) => index + range[0]);
       }),
     )
-    .flat(2);
+    .flat(/** Two level nesting */ 2);
 };
 
 const getClassIndex = (timeText: string): [number, number] => {
@@ -39,7 +39,7 @@ const getClassIndex = (timeText: string): [number, number] => {
 
   return match
     .map(([, startIndex, endIndex]) => [Number(startIndex), Number(endIndex)])
-    .flat(2) as [number, number];
+    .flat(/** Two level nesting */ 2) as [number, number];
 };
 
 const getLegacyCourses = (content: string): LegacyCourseTableData =>
@@ -52,7 +52,7 @@ const getLegacyCourses = (content: string): LegacyCourseTableData =>
       [...cell.matchAll(classRegExp)].forEach(([, name, teacher, time, location]) => {
         const weeks = getWeekRange(time);
         const locations = Object.fromEntries(
-          new Array(weeks.length).fill(null).map((_, i) => [weeks[i].toString(), location]),
+          Array.from({ length: weeks.length }, (_, i) => [weeks[i].toString(), location]),
         );
         const existingClass = result.find((item) => item.name === name);
 
@@ -106,8 +106,9 @@ export type LegacyUnderCourseTableResponse =
   | LegacyUnderCourseTableFailedResponse;
 
 /** @deprecated */
-// oxlint-disable-next-line jsdoc/require-returns, jsdoc/require-param
+// oxlint-disable-next-line jsdoc/require-returns
 const getLegacyUnderCourseTableLocal = async (
+  // oxlint-disable-next-line jsdoc/require-param
   time: string,
 ): Promise<LegacyUnderCourseTableResponse> => {
   try {

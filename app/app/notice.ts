@@ -28,12 +28,10 @@ export const syncNotice = (noticeSettings: NoticeSettings): void => {
     }
 
     // 如果找到 APP 级通知，进行判断
-    if (pageName === "app") {
-      if (!wx.getStorageSync("app-notified") || force) {
-        showModal(title, content, () => {
-          wx.setStorageSync("app-notified", true);
-        });
-      }
+    if (pageName === "app" && (!wx.getStorageSync("app-notified") || force)) {
+      showModal(title, content, () => {
+        wx.setStorageSync("app-notified", true);
+      });
     }
   });
 };

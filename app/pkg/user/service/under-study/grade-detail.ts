@@ -62,9 +62,7 @@ interface RawUnderGradeFailedResult {
   message: string;
 }
 
-type RawUnderGradeResult =
-  // eslint-disable-next-line @typescript-eslint/no-redundant-type-constituents
-  RawUnderGradeSuccessResult | RawUnderGradeFailedResult;
+type RawUnderGradeResult = RawUnderGradeSuccessResult | RawUnderGradeFailedResult;
 
 export interface UnderScoreDetail {
   /** 名称 */

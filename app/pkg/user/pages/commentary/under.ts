@@ -81,7 +81,6 @@ $Page(PAGE_ID, {
   },
 
   onShow() {
-    // oxlint-disable-next-line no-shadow
     const { account, info } = user;
 
     if (account) {

@@ -91,28 +91,26 @@ const getSelectInfo = (content: string): UnderSelectInfo => {
 
   const currentArea = name.includes("本部") ? "本部" : name.includes("净月") ? "净月" : "";
   const currentGrade = Number(CURRENT_GRADE_REGEXP.exec(content)![1]);
-  const currentMajor = content.match(CURRENT_MAJOR_REGEXP)![1];
+  const [, currentMajor] = content.match(CURRENT_MAJOR_REGEXP)!;
 
   const currentYear = new Date().getFullYear();
-  const grades = Array(6)
-    .fill(null)
-    .map((_, i) => currentYear - i);
+  const grades = Array.from({ length: 6 }, (_, i) => currentYear - i);
 
-  const areaText = AREAS_REGEXP.exec(content)![1];
+  const [, areaText] = AREAS_REGEXP.exec(content)!;
 
   const areas = [...areaText.matchAll(AREA_ITEM_REGEXP)].map(([, value, name]) => ({
     value,
     name,
   }));
 
-  const courseTypeText = COURSE_TYPES_REGEXP.exec(content)![1];
+  const [, courseTypeText] = COURSE_TYPES_REGEXP.exec(content)!;
 
   const types = [...courseTypeText.matchAll(COURSE_TYPE_ITEM_REGEXP)].map(([, value, name]) => ({
     value,
     name,
   }));
 
-  const courseOfficeText = COURSE_OFFICES_REGEXP.exec(content)![1];
+  const [, courseOfficeText] = COURSE_OFFICES_REGEXP.exec(content)!;
 
   const offices = [...courseOfficeText.matchAll(COURSE_OFFICE_ITEM_REGEXP)].map(
     ([, value, name]) => ({
@@ -121,6 +119,7 @@ const getSelectInfo = (content: string): UnderSelectInfo => {
     }),
   );
 
+  // oxlint-disable-next-line prefer-destructuring
   const majorText = MAJORS_REGEXP.exec(content)![2];
 
   const majors = [...majorText.matchAll(MAJOR_ITEM_REGEXP)].map(([, value, name]) => ({

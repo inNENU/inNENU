@@ -101,7 +101,7 @@ ${envName}由 Mr.Hope 个人制作，如有错误还请见谅\
     wx.stopPullDownRefresh();
   },
 
-  // eslint-disable-next-line @typescript-eslint/no-empty-function
+  // oxlint-disable-next-line typescript/no-empty-function
   onPageScroll() {},
 
   onShareAppMessage: () => ({

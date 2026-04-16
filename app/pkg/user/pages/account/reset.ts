@@ -70,7 +70,7 @@ ${envName}严格使用官方密码重置服务流程。
     showNotice(PAGE_ID);
   },
 
-  // eslint-disable-next-line @typescript-eslint/no-empty-function
+  // oxlint-disable-next-line typescript/no-empty-function
   onPageScroll() {},
 
   onShareAppMessage: () => ({

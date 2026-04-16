@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/naming-convention */
 import { logger } from "@mptool/all";
 
 import { request } from "../../api/index.js";

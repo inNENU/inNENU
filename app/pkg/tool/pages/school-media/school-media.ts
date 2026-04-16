@@ -108,7 +108,7 @@ $Page(PAGE_ID, {
     const { item } = event.currentTarget.dataset;
 
     tryOpenOfficialProfile(item.id, () => {
-      if (item.path) this.$go("wechat?from=校园媒体&path=" + item.path);
+      if (item.path) this.$go(`wechat?from=校园媒体&path=${item.path}`);
       else showOfficialQRCode(item.id);
     });
   },

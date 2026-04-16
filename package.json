@@ -30,15 +30,15 @@
     "dev:app": "gulp -f gulpfile.cjs watchApp",
     "dev:we": "gulp -f gulpfile.cjs watchWeNENU",
     "dev:wx": "gulp -f gulpfile.cjs watchWechat",
-    "lint": "oxlint . --fix && oxfmt && pnpm lint:wxs --write && pnpm lint:wxml --write && pnpm lint:stylelint --fix",
-    "lint:check": "oxlint . && oxfmt --check && pnpm lint:wxs && pnpm lint:wxml && pnpm lint:stylelint",
+    "lint": "pnpm lint:oxlint && oxfmt && pnpm lint:wxs --write && pnpm lint:wxml --write && pnpm lint:stylelint --fix",
+    "lint:oxlint": "oxlint --deny-warnings --report-unused-disable-directives",
     "lint:stylelint": "stylelint **/*.scss",
     "lint:wxml": "prettier --check --parser html **/*.wxml",
     "lint:wxs": "prettier --check --parser babel-flow **/*.wxs",
     "prepare": "husky"
   },
   "dependencies": {
-    "@mptool/all": "0.12.2"
+    "@mptool/all": "0.13.0"
   },
   "devDependencies": {
     "@commitlint/cli": "20.5.0",
@@ -55,22 +55,22 @@
     "innenu-generator": "0.8.2",
     "miniprogram-api-typings": "5.1.2",
     "nano-staged": "1.0.2",
-    "oxc-config-hope": "0.2.1",
+    "oxc-config-hope": "0.2.2",
     "oxfmt": "0.45.0",
     "oxlint": "1.60.0",
-    "oxlint-tsgolint": "0.20.0",
-    "postcss": "8.5.9",
+    "oxlint-tsgolint": "0.21.0",
+    "postcss": "8.5.10",
     "rollup": "4.60.1",
     "rollup-plugin-esbuild": "6.2.1",
     "standard-version": "9.5.0",
-    "stylelint": "17.7.0",
+    "stylelint": "17.8.0",
     "stylelint-config-hope": "11.0.0",
     "typescript": "6.0.2",
     "unrun": "0.2.35"
   },
   "nano-staged": {
-    "**/*": "prettier --write --ignore-unknown",
-    "*.{js,ts}": "eslint --fix",
+    "**/*": "oxfmt --no-error-on-unmatched-pattern",
+    "*.{js,ts}": "oxlint --fix --deny-warnings --report-unused-disable-directives",
     "*.scss": "stylelint --fix",
     "*.wxml": "prettier --parser html --write",
     "*.wxs": "prettier --parser babel-flow --write"

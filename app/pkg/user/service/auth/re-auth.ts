@@ -35,7 +35,6 @@ interface RawReAuthSMSFailResponse {
 
 type RawReAuthSMSResponse =
   | RawReAuthSMSSuccessResponse
-  // eslint-disable-next-line @typescript-eslint/no-redundant-type-constituents
   | RawReAuthSMSFrequentResponse
   | RawReAuthSMSFailResponse;
 
@@ -122,9 +121,7 @@ export type VerifyReAuthCaptchaResponse =
       | ActionFailType.Unknown
     >;
 
-/**
- * FIXME: This function is now outdated
- */
+// FIXME: This function is now outdated
 const verifyReAuthCaptchaLocal = async ({
   smsCode,
 }: VerifyReAuthCaptchaOptions): Promise<VerifyReAuthCaptchaResponse> => {

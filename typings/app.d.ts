@@ -28,6 +28,7 @@ declare namespace WechatMiniprogram {
     path?: string;
     /**
      * 可选打开 0-正式版，1-开发版，2-体验版
+     *
      * @default 0
      */
     miniprogramType?: 0 | 1 | 2;
@@ -57,7 +58,11 @@ declare namespace WechatMiniprogram {
     moduleId: string;
     /** 多端 App 的应用版本，对应的值为 project.miniapp.json 中的 version */
     appVersion: string;
-    /** App 的 versionCode（对应的值为 project.miniapp.json 中的 versionCode） ；Android SDK >=1.4.8返回；iOS >=1.4.17返回 */
+    /**
+     * App 的 versionCode（对应的值为 project.miniapp.json 中的 versionCode） ；Android SDK >=1.4.8返回；iOS
+     *
+     * > =1.4.17返回
+     */
     versionCode: string;
     /** 运行环境 */
     env: "SAAASDK";
@@ -99,7 +104,7 @@ declare namespace WechatMiniprogram {
       launchMiniProgram: (options: DonutLaunchMiniProgramOptions) => void;
       /** 安装 Apk，仅 Android */
       installApp: (options: DonutInstallAppOptions) => void;
-      /** openUrl */
+      /** OpenUrl */
       openUrl: (options: DonutOpenUrlOptions) => void;
       /** 监听进入App的事件，并获取参数 */
       registOpenURL: (callback: (params: DonutRegistOpenUrlParams) => void) => void;

@@ -12,6 +12,7 @@ import type {
 
 import { showOfficialQRCode } from "./wechat.js";
 
+// oxlint-disable-next-line max-lines-per-function, max-statements
 export const route = (
   options:
     | PathOptions

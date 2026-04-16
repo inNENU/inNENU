@@ -28,17 +28,15 @@ export type AuthInitInfoSuccessResponse = {
 
 export type AuthInitInfoResponse = AuthInitInfoSuccessResponse | CommonFailedResponse;
 
-/*
- * FIXME: This function is now outdated
- */
+// FIXME: This function is now outdated
 const getAuthInitInfoLocal = async (id: string): Promise<AuthInitInfoResponse> => {
   try {
     cookieStore.clear();
 
     const { data: content } = await request<string>(AUTH_LOGIN_URL);
 
-    const salt = SALT_REGEXP.exec(content)![1];
-    const execution = /name="execution" value="(.*?)"/.exec(content)![1];
+    const [, salt] = SALT_REGEXP.exec(content)!;
+    const [, execution] = /name="execution" value="(.*?)"/.exec(content)!;
 
     cookieStore.set({
       name: "org.springframework.web.servlet.i18n.CookieLocaleResolver.LOCALE",
@@ -135,10 +133,8 @@ const authInitOnline = async (options: InitAuthOptions): Promise<InitAuthRespons
   return result;
 };
 
-/**
- * FIXME: This function is now outdated
- */
-// oxlint-disable-next-line complexity, max-statements
+// FIXME: This function is now outdated
+// oxlint-disable-next-line complexity, max-lines-per-function, max-statements
 const authInitLocal = async (options: InitAuthOptions): Promise<InitAuthResponse> => {
   if (!supportRedirect) return authInitOnline(options);
 

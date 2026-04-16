@@ -105,9 +105,7 @@ $Page("search", {
     });
   },
 
-  /**
-   * 搜索建议点击事件
-   */
+  /** 搜索建议点击事件 */
   searchSuggestion(event: WechatMiniprogram.Touch) {
     const { query } = event.currentTarget.dataset as { query: string };
 
@@ -170,9 +168,7 @@ $Page("search", {
     });
   },
 
-  /**
-   * 分页改变事件
-   */
+  /** 分页改变事件 */
   changePage({ detail }: { detail: { current: number } }) {
     const { current } = detail;
     const { query } = this.state;

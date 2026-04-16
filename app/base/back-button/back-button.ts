@@ -3,7 +3,7 @@ import { $Component } from "@mptool/all";
 
 import { appInfo, windowInfo } from "../../state/index.js";
 
-// eslint-disable-next-line @typescript-eslint/consistent-type-definitions
+// oxlint-disable-next-line typescript/consistent-type-definitions
 type BackButtonProps = {
   icon: {
     type: StringConstructor;
@@ -20,7 +20,7 @@ interface BackButtonData {
   src?: string;
 }
 
-// eslint-disable-next-line @typescript-eslint/consistent-type-definitions
+// oxlint-disable-next-line typescript/consistent-type-definitions
 type BackButtonMethods = {
   setImageLink(isDarkMode: boolean): void;
   onTap(): void;

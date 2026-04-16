@@ -11,7 +11,7 @@ let apkFilePath: string | null = null;
  *
  * 如果检测到 App 更新，获取升级状态 (新版本号，是否立即更新、是否重置 App ) 并做相应处理
  *
- * @param globalData  App 的全局数据
+ * @param globalData App 的全局数据
  */
 export const updateApp = async (): Promise<void> => {
   // 请求配置文件

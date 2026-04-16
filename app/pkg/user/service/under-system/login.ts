@@ -21,6 +21,23 @@ export interface UnderSystemLoginSuccessResponse {
 
 export type UnderSystemLoginResponse = UnderSystemLoginSuccessResponse | AuthLoginFailedResponse;
 
+export const underSystemLoginOnline = async (
+  options: AccountInfo,
+): Promise<UnderSystemLoginResponse> => {
+  const { data } = await request<UnderSystemLoginResponse>("/under-system/login", {
+    method: "POST",
+    body: options,
+    cookieScope: UNDER_SYSTEM_SERVER,
+  });
+
+  if (!data.success) {
+    logger.error("登录失败", data);
+    checkAccountStatus(data);
+  }
+
+  return data;
+};
+
 export const underSystemLoginLocal = async (
   options: AccountInfo,
 ): Promise<UnderSystemLoginResponse> => {
@@ -80,23 +97,6 @@ export const underSystemLoginLocal = async (
   return unknownResponse("登录失败");
 };
 
-export const underSystemLoginOnline = async (
-  options: AccountInfo,
-): Promise<UnderSystemLoginResponse> => {
-  const { data } = await request<UnderSystemLoginResponse>("/under-system/login", {
-    method: "POST",
-    body: options,
-    cookieScope: UNDER_SYSTEM_SERVER,
-  });
-
-  if (!data.success) {
-    logger.error("登录失败", data);
-    checkAccountStatus(data);
-  }
-
-  return data;
-};
-
 const hasCookie = (): boolean =>
   cookieStore
     .getCookies(UNDER_SYSTEM_SERVER)
@@ -106,14 +106,12 @@ const ensureUnderSystemLoginLocal = async (
   account: AccountInfo,
   status: LoginMethod,
 ): Promise<AuthLoginFailedResponse | null> => {
-  if (status !== "force") {
-    if (hasCookie()) {
-      if (status === "check") return null;
+  if (status !== "force" && hasCookie()) {
+    if (status === "check") return null;
 
-      const { valid } = await checkUnderSystemCookies();
+    const { valid } = await checkUnderSystemCookies();
 
-      if (valid) return null;
-    }
+    if (valid) return null;
   }
 
   const result = await underSystemLoginLocal(account);
@@ -125,14 +123,12 @@ const ensureUnderSystemLoginOnline = async (
   account: AccountInfo,
   status: LoginMethod,
 ): Promise<AuthLoginFailedResponse | null> => {
-  if (status !== "force") {
-    if (hasCookie()) {
-      if (status === "check") return null;
+  if (status !== "force" && hasCookie()) {
+    if (status === "check") return null;
 
-      const { valid } = await checkUnderSystemCookiesOnline();
+    const { valid } = await checkUnderSystemCookiesOnline();
 
-      if (valid) return null;
-    }
+    if (valid) return null;
   }
 
   const result = await underSystemLoginOnline(account);

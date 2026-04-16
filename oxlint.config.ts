@@ -35,11 +35,9 @@ export default defineHopeConfig(
       // we do not guarantee the compatibility of env
       "unicorn/prefer-string-replace-all": "off",
 
+      "no-map-spread": "off",
       "no-shadow": "off",
       "promise/catch-or-return": "off",
-
-      // TODO: disable the rule upstream
-      "typescript/prefer-readonly-parameter-types": "off",
     },
   },
   {

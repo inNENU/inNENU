@@ -62,9 +62,9 @@ $Config({
     if (pageName === "under-course-table") return "/pkg/user/pages/course-table/under";
 
     const name = pageName.startsWith("under-")
-      ? pageName.slice(6) + "-under"
+      ? `${pageName.slice(6)}-under`
       : pageName.startsWith("grad-")
-        ? pageName.slice(5) + "-grad"
+        ? `${pageName.slice(5)}-grad`
         : pageName;
 
     const [, dir, file] = name.includes("-") ? /^([^-]+)-(.*)$/.exec(name)! : [null, name, name];

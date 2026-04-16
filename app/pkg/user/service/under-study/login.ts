@@ -72,7 +72,7 @@ export const underStudyLoginOnline = async (
   }).then(({ data }) => data);
 
 /**
- * requires "redirect:manual"
+ * Requires "redirect:manual"
  *
  * @param options Account information for login
  * @returns Login response
@@ -133,7 +133,7 @@ const hasUnderStudyCookies = (): boolean =>
 
 export const withUnderStudyLogin =
   // oxlint-disable-next-line typescript/no-explicit-any
-  <ReturnValue extends { success: boolean }, T extends (...args: any[]) => Promise<ReturnValue>>(
+  <Returns extends { success: boolean }, T extends (...args: any[]) => Promise<Returns>>(
     serviceHandler: T,
   ) =>
     async (

@@ -81,6 +81,7 @@ export const updateApp = (): void => {
             });
           }),
         )
+        // oxlint-disable-next-line promise/prefer-await-to-callbacks
         .catch((err: unknown) => {
           // 调试信息
           logger.error("版本配置文件错误", err);

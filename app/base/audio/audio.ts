@@ -5,7 +5,7 @@ import type { AudioComponentOptions } from "../../../typings/index.js";
 import { appInfo } from "../../state/index.js";
 import { getAssetLink } from "../../utils/index.js";
 
-// eslint-disable-next-line @typescript-eslint/consistent-type-definitions
+// oxlint-disable-next-line typescript/consistent-type-definitions
 type AudioProps = {
   config: {
     type: PropType<AudioComponentOptions>;
@@ -20,7 +20,7 @@ interface AudioData {
   totalTime: number;
 }
 
-// eslint-disable-next-line @typescript-eslint/consistent-type-definitions
+// oxlint-disable-next-line typescript/consistent-type-definitions
 type AudioMethods = {
   toggle(): void;
 };

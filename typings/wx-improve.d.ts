@@ -79,7 +79,7 @@ declare namespace WechatMiniprogram {
     /**
      * 内容标识
      *
-     * appid下全局唯一，长度不大于256字符
+     * Appid下全局唯一，长度不大于256字符
      */
     uniq_id: string;
     /**

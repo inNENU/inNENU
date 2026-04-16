@@ -20,9 +20,9 @@ import { id2path } from "./id.js";
 import { ensureJson } from "./json.js";
 
 type PageInstanceWithPage = PageInstance<
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  // oxlint-disable-next-line typescript/no-explicit-any
   Record<string, any> & { page?: PageState },
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  // oxlint-disable-next-line typescript/no-explicit-any
   Record<string, any>
 >;
 
@@ -33,10 +33,10 @@ const isEnvMatches = (element: { env?: string[] }): boolean => {
 };
 
 /**
- * 处理详情内容
+ * 处理列表状态
  *
- * @param element 列表的内容
- * @param page 页面内容
+ * @param listElement 列表的内容
+ * @returns 处理后的列表内容，如果不满足环境要求则返回 null
  */
 const setListItemState = (
   listElement: FunctionalListComponentItemConfig | GridComponentItemOptions,
@@ -68,7 +68,7 @@ const setListItemState = (
           (listElement.value as unknown[])[index] = (listElement.select[index] as unknown[])[
             Number(pickerElement)
           ];
-          // eslint-disable-next-line @typescript-eslint/no-explicit-any
+          // oxlint-disable-next-line typescript/no-explicit-any
           (listElement.currentValue as any[])[index] = Number(pickerElement);
         });
       }
@@ -112,7 +112,6 @@ export const setComponentState = (
  *
  * @param page 页面数据
  * @param option 页面传参
- *
  * @returns 处理之后的page
  */
 const setPageState = (page: PageState | PageStateWithContent, option: PageOptions): PageState => {
@@ -165,23 +164,18 @@ const preloadPageLinks = (page: PageState): void => {
  * **简介:**
  *
  * - 描述: 预处理页面数据写入全局数据
- *
  * - 用法: 在页面 `onNavigate` 时调用
- *
  * - 性质: 同步函数
  *
  * @param options 页面跳转参数
- * @param page page 数组
+ * @param page Page 数组
  * @param setGlobal 是否将处理后的数据写入到全局数据中
- *
  * @returns 处理后的 page 配置
- *
  * **案例:**
- *
  * ```ts
- *   onNavigate(option) {
- *     resolvePage(option);
- *   }
+ * onNavigate(option) {
+ * resolvePage(option);
+ * }
  * ```
  */
 export const resolvePage = (
@@ -224,13 +218,10 @@ export interface PageColors {
  * **简介:**
  *
  * - 描述: 设置胶囊与背景颜色
- *
  * - 用法: 在页面 `onShow` 时调用
- *
  * - 性质: 同步函数
  *
  * @param grey 页面是否为灰色背景
- *
  * @returns 页面实际的胶囊与背景颜色
  */
 export const getPageColor = (grey = false): PageColors => {
@@ -309,23 +300,21 @@ interface SetPageOptions {
 }
 
 /**
- *  **简介:**
+ * **简介:**
  *
  * - 描述: 设置本地界面数据，如果传入 `page` 参数，则根据 `handle` 的值决定是否在 `setData` 前处理 `page`。
  *
  *   如果没有传入 `page`，则使用 `PageOption.data.page`。之后根据 `preload` 的值决定是否对页面链接进行预加载。
- *
  * - 用法: 在页面 `onLoad` 时调用
- *
  * - 性质: 同步函数
  *
  * @param object 配置对象
- * - option 页面传参
- * - ctx 页面指针
- * - handle 页面是否已经被处理
+ *
+ *   - option 页面传参
+ *   - ctx 页面指针
+ *   - handle 页面是否已经被处理
  * @param page 页面数据
  * @param preload 是否预加载子页面
- *
  * @returns Promise<void>
  */
 export const setPage = (
@@ -399,9 +388,7 @@ export const setPage = (
  * **简介:**
  *
  * - 描述: 弹出通知
- *
  * - 用法: 在页面 `onLoad` 时调用
- *
  * - 性质: 同步函数
  *
  * @param id 当前界面的标识符
@@ -427,9 +414,7 @@ export const showNotice = (id: string): void => {
  * **简介:**
  *
  * - 描述: 设置在线界面数据
- *
  * - 用法: 在页面 `onLoad` 时调用
- *
  * - 性质: 同步函数
  *
  * @param option 页面传参
@@ -507,6 +492,7 @@ export const setOnlinePage = (
             // 调试
             logger.debug(`${id} onLoad Succeed`);
           })
+          // oxlint-disable-next-line promise/prefer-await-to-callbacks
           .catch((err: unknown) => {
             // 设置 error 页面并弹出通知
             setPage(
@@ -533,9 +519,7 @@ export const setOnlinePage = (
  * **简介:**
  *
  * - 描述: 载入在线界面数据
- *
  * - 用法: 在页面 `onLoad` 时调用
- *
  * - 性质: 同步函数
  *
  * @param option 页面传参
@@ -561,6 +545,7 @@ export const loadOnlinePage = (
           logger.debug(`${option.path} onLoad succeed:`, ctx.data);
         }
       })
+      // oxlint-disable-next-line promise/prefer-await-to-callbacks
       .catch((err: unknown) => {
         // 设置 error 页面并弹出通知
         setPage(

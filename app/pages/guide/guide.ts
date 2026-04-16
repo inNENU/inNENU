@@ -60,7 +60,7 @@ $Page(PAGE_ID, {
     preloadSkyline();
   },
 
-  // eslint-disable-next-line @typescript-eslint/no-empty-function
+  // oxlint-disable-next-line typescript/no-empty-function
   onPageScroll() {},
 
   onShareAppMessage: () => ({ title: PAGE_TITLE }),

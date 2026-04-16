@@ -68,7 +68,7 @@ export const getExamList = async (value: string): Promise<ExamPlace[]> => {
   });
 
   // We force writing these 2 field to ensure we care getting the default table structure
-  const tableFields = tableFieldsRegExp.exec(content)![1];
+  const [, tableFields] = tableFieldsRegExp.exec(content)!;
   const otherFields = String(otherFieldsRegExp.exec(content)?.[1]);
   const totalPages = Number(totalPagesRegExp.exec(content)![1]);
 

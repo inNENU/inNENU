@@ -37,7 +37,7 @@ $Page(PAGE_ID, {
     /** 弹窗配置 */
     popupConfig: { title: "查询结果", cancel: false },
 
-    /**  查询结果 */
+    /** 查询结果 */
     result: null as UnderAdmissionResponse | null,
 
     /** 是否正在输入 */

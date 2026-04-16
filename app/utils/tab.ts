@@ -61,5 +61,5 @@ export const getTabData = (items: EntranceItemOptions[], title: string): Entranc
           )}&from=${title}`,
       };
     })
-    .filter((item) => item !== null);
+    .filter((item) => item != null);
 };

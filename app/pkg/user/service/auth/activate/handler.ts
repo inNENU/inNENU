@@ -57,6 +57,7 @@ const activateAccountOnline = async <T extends ActivateOptions>(
 ): Promise<ActivateResponse<T>> =>
   request<ActivateResponse<T>>("/user/activate", {
     method: options.type === "get-info" ? "GET" : "POST",
+    // oxlint-disable-next-line no-undefined
     body: options.type === "get-info" ? undefined : JSON.stringify(options),
   }).then(({ data }) => data);
 

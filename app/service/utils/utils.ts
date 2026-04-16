@@ -18,7 +18,7 @@ export const isOnlineService = (name: string): boolean => {
 
 /*@__NO_SIDE_EFFECTS__*/
 export const createService =
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  // oxlint-disable-next-line typescript/no-explicit-any
   <T extends (...args: any) => any>(name: string, localService: T, onlineService: T): T =>
     ((...args: Parameters<T>): ReturnType<T> =>
       // oxlint-disable-next-line typescript/no-unsafe-return

@@ -41,7 +41,6 @@ $Page("video", {
       let groupID = 0;
       let listID = 0;
       const videoList =
-        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
         // @ts-expect-error: The import can be changed by build target
         appName === "weNENU"
           ? list

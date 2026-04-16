@@ -53,7 +53,7 @@ $Page(PAGE_ID, {
     showNotice(PAGE_ID);
   },
 
-  // eslint-disable-next-line @typescript-eslint/no-empty-function
+  // oxlint-disable-next-line typescript/no-empty-function
   onPageScroll() {},
 
   showPopup() {
