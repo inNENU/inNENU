@@ -146,7 +146,7 @@ $Page(PAGE_ID, {
 
       set(
         STARRED_NOTICE_LIST_KEY,
-        starredNotices.filter((item) => item.url === url || item.id === id),
+        starredNotices.filter((item) => item.url !== url && item.id !== id),
       );
     } else {
       const starredNotices = get<StarredNoticeData[]>(STARRED_NOTICE_LIST_KEY) ?? [];
