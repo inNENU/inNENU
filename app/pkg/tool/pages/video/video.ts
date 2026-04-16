@@ -41,7 +41,8 @@ $Page("video", {
       let groupID = 0;
       let listID = 0;
       const videoList =
-        // @ts-expect-error: The import can be changed by build target
+        // oxlint-disable-next-line typescript/ban-ts-comment, typescript/prefer-ts-expect-error
+        // @ts-ignore: The import can be changed by build target
         appName === "weNENU"
           ? list
           : list
