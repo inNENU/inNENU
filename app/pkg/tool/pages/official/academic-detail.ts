@@ -32,13 +32,14 @@ $Page(PAGE_ID, {
       person,
     };
 
-    if (!url) {
+    if (url) {
+      this.getInfo();
+    } else {
       showModal("无法获取", "请提供 ID", () => {
         this.$back();
       });
     }
 
-    this.getInfo();
     this.setData({
       color: getPageColor(),
       theme: info.theme,

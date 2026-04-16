@@ -5,7 +5,7 @@ import type { LoginMethod } from "../../../../service/index.js";
 import { ActionFailType } from "../../../../service/index.js";
 import { envName, info, user } from "../../../../state/index.js";
 import { getPageColor, showNotice } from "../../../../utils/index.js";
-import type { ExamPlace } from "../..//service/index.js";
+import type { ExamPlace } from "../../service/index.js";
 import { ensureUnderSystemLogin, getUnderExamPlace } from "../../service/index.js";
 
 const PAGE_ID = "exam-place";
