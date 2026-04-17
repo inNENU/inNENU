@@ -4,9 +4,9 @@ packages:
 allowBuilds:
   "@parcel/watcher": true
   es5-ext: true
-  esbuild: true
   unrs-resolver: true
 
 overrides:
   css: npm:@adobe/css-tools@^4.4.3
-  esbuild: ^0.25.7
+  postcss: ^8.5.10
+  vinyl-fs: ^4.0.2

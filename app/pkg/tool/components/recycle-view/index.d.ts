@@ -8,7 +8,6 @@ type SizeGetter<T> = (item: T, index: number) => SizeInfo;
 interface RecycleContextOptions<T> {
   id: string;
   dataKey: string;
-  // oxlint-disable-next-line typescript/no-redundant-type-constituents
   page: WechatMiniprogram.Page.TrivialInstance | WechatMiniprogram.Component.TrivialInstance;
   itemSize: SizeGetter<T> | SizeInfo;
   useInPage?: boolean;
@@ -32,16 +31,8 @@ interface RecycleContext<T> {
     appendList: T[],
     callback?: () => void,
   ): RecycleContext<T>;
-  updateList(
-    beginIndex: number,
-    list: T[],
-    callback?: () => void,
-  ): RecycleContext<T>;
-  update(
-    beginIndex: number,
-    list: T[],
-    callback?: () => void,
-  ): RecycleContext<T>;
+  updateList(beginIndex: number, list: T[], callback?: () => void): RecycleContext<T>;
+  update(beginIndex: number, list: T[], callback?: () => void): RecycleContext<T>;
   destroy(): RecycleContext<T>;
   forceUpdate(callback: () => void, reInitSlot: boolean): RecycleContext<T>;
   getBoundingClientRect(index: number | undefined): Position | Position[];
@@ -51,6 +42,4 @@ interface RecycleContext<T> {
   getList(): T[];
 }
 
-export function createRecycleContext<T>(
-  Options: RecycleContextOptions<T>,
-): RecycleContext<T>;
+export function createRecycleContext<T>(Options: RecycleContextOptions<T>): RecycleContext<T>;

@@ -1,9 +1,9 @@
 {
-  "extends": "./tsconfig.base.json",
+  "extends": "@mr-hope/tsconfig/bundler.json",
   "compilerOptions": {
-    "allowJs": true,
+    "rootDir": "./",
+    "lib": ["ESNext"],
     "target": "ES2017",
-    "module": "CommonJS",
     "moduleSuffixes": ["", ".wx", ".we", ".app"],
     "outDir": "./dist",
     "types": ["miniprogram-api-typings"]

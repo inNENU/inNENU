@@ -155,8 +155,8 @@ const buildAppScript = getScriptJob("app");
 const watchAppScript = () =>
   watch("{app,typings}/**/*.ts", { ignoreInitial: false }, buildAppScript);
 
-const buildAppWXSS = getStyleJob("app");
-const watchAppWXSS = () => watch("app/**/*.scss", { ignoreInitial: false }, buildAppWXSS);
+const buildAppWxss = getStyleJob("app");
+const watchAppWxss = () => watch("app/**/*.scss", { ignoreInitial: false }, buildAppWxss);
 
 const moveAppAssets = getAssetsJob("app");
 const watchAppAssets = () =>
@@ -170,10 +170,10 @@ const moveAppConfig = getConfigJob("app");
 const watchAppConfig = () =>
   watch("project.config.app.json", { ignoreInitial: false }, moveAppConfig);
 
-const watchApp = parallel(watchAppScript, watchAppWXSS, watchAppAssets, watchAppConfig);
-const buildApp = parallel(buildAppWXSS, buildAppScript, moveAppAssets, moveAppConfig);
+const watchApp = parallel(watchAppScript, watchAppWxss, watchAppAssets, watchAppConfig);
+const buildApp = parallel(buildAppWxss, buildAppScript, moveAppAssets, moveAppConfig);
 const bundleApp = parallel(
-  buildAppWXSS,
+  buildAppWxss,
   getAssetsJob("app", { bundle: true }),
   getMoveScriptJob("app"),
   moveAppConfig,
@@ -184,8 +184,8 @@ const buildWechatScript = getScriptJob("wx");
 const watchWechatScript = () =>
   watch("{app,typings}/**/*.ts", { ignoreInitial: false }, buildWechatScript);
 
-const buildWechatWXSS = getStyleJob("wx");
-const watchWechatWXSS = () => watch("app/**/*.scss", { ignoreInitial: false }, buildWechatWXSS);
+const buildWechatWxss = getStyleJob("wx");
+const watchWechatWxss = () => watch("app/**/*.scss", { ignoreInitial: false }, buildWechatWxss);
 
 const moveWechatAssets = getAssetsJob("wx");
 const watchWechatAssets = () =>
@@ -201,18 +201,18 @@ const watchWechatConfig = () =>
 
 const watchWechat = parallel(
   watchWechatScript,
-  watchWechatWXSS,
+  watchWechatWxss,
   watchWechatAssets,
   watchWechatConfig,
 );
 const buildWechat = parallel(
-  buildWechatWXSS,
+  buildWechatWxss,
   buildWechatScript,
   getAssetsJob("wx"),
   moveWechatConfig,
 );
 const bundleWechat = parallel(
-  buildWechatWXSS,
+  buildWechatWxss,
   getAssetsJob("wx", { bundle: true }),
   getMoveScriptJob("wx"),
   moveWechatConfig,
@@ -224,8 +224,8 @@ const buildWeNENUScript = getScriptJob("we");
 const watchWeNENUScript = () =>
   watch("{app,typings}/**/*.ts", { ignoreInitial: false }, buildWeNENUScript);
 
-const buildWeNENUWXSS = getStyleJob("we");
-const watchWeNENUWXSS = () => watch("app/**/*.scss", { ignoreInitial: false }, buildWeNENUWXSS);
+const buildWeNENUWxss = getStyleJob("we");
+const watchWeNENUWxss = () => watch("app/**/*.scss", { ignoreInitial: false }, buildWeNENUWxss);
 
 const moveWeNENUAssets = getAssetsJob("we");
 const watchWeNENUAssets = () =>
@@ -241,18 +241,18 @@ const watchWeNENUConfig = () =>
 
 const watchWeNENU = parallel(
   watchWeNENUScript,
-  watchWeNENUWXSS,
+  watchWeNENUWxss,
   watchWeNENUAssets,
   watchWeNENUConfig,
 );
 const buildWeNENU = parallel(
-  buildWeNENUWXSS,
+  buildWeNENUWxss,
   buildWeNENUScript,
   moveWeNENUAssets,
   moveWeNENUConfig,
 );
 const bundleWeNENU = parallel(
-  buildWeNENUWXSS,
+  buildWeNENUWxss,
   getAssetsJob("we", { bundle: true }),
   getMoveScriptJob("we"),
   moveWeNENUConfig,
@@ -296,7 +296,7 @@ const getDebugMoveScriptJob = (id) => {
 };
 
 const debugWechat = parallel(
-  buildWechatWXSS,
+  buildWechatWxss,
   getAssetsJob("wx", { bundle: true }),
   getDebugMoveScriptJob("wx"),
   moveWechatConfig,

@@ -1,4 +1,4 @@
-export default {
+module.exports = {
   workspaces: true,
   upgrade: true,
   timeout: 360000,

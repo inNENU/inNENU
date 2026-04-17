@@ -1,8 +1,7 @@
 import { existsSync, readdirSync, statSync } from "node:fs";
 import { join, resolve, sep } from "node:path";
 
-import { rollup } from "rollup";
-import esbuild from "rollup-plugin-esbuild";
+import { build } from "tsdown";
 
 const __dirname = import.meta.dirname;
 
@@ -37,73 +36,68 @@ const toolComponents = getInputOptions("pkg/tool/components");
 const toolPages = getInputOptions("pkg/tool/pages");
 const userPages = getInputOptions("pkg/user/pages");
 
+const entry = {
+  app: resolve(__dirname, `../.temp/app.ts`),
+  ...Object.fromEntries(base),
+  ...Object.fromEntries(components),
+  ...Object.fromEntries(widgets),
+  ...Object.fromEntries(pages),
+  ...Object.fromEntries(addonPages),
+  ...Object.fromEntries(toolComponents),
+  ...Object.fromEntries(toolPages),
+  ...Object.fromEntries(userPages),
+};
+
+console.log(entry);
+
 // repack miniapp
-await rollup({
-  input: {
-    app: resolve(__dirname, `../.temp/app.ts`),
-    ...Object.fromEntries(base),
-    ...Object.fromEntries(components),
-    ...Object.fromEntries(widgets),
-    ...Object.fromEntries(pages),
-    ...Object.fromEntries(addonPages),
-    ...Object.fromEntries(toolComponents),
-    ...Object.fromEntries(toolPages),
-    ...Object.fromEntries(userPages),
-  },
+await build({
+  clean: false,
+  entry,
 
-  plugins: [
-    esbuild({
-      charset: "utf8",
-      target: "es2017",
-      tsconfig: resolve(__dirname, "../tsconfig.build.json"),
-      minify: true,
-    }),
-  ],
-  treeshake: {
-    manualPureFunctions: ["createService"],
-    preset: "smallest",
-  },
-  external: ["@mptool/all"],
-  preserveEntrySignatures: false,
+  platform: "browser",
+  format: "cjs",
+  target: "es2017",
+  fixedExtension: false,
 
-  strictDeprecations: true,
-}).then((bundle) =>
-  bundle.write({
-    dir: resolve(__dirname, "../dist"),
-    format: "cjs",
-    sourcemap: true,
+  minify: true,
+
+  outputOptions: {
     chunkFileNames: "[name].js",
     entryFileNames: "[name].js",
+    codeSplitting: {
+      groups: [
+        {
+          test: `/.temp/app.ts`,
+          name: "app",
+        },
+        ...[
+          "api",
+          "app",
+          "config",
+          "mixins",
+          "service",
+          "state",
+          "utils",
+          "pkg/addon/service",
+          "pkg/addon/utils",
+          "pkg/tool/service",
+          "pkg/tool/utils",
+          "pkg/user/service",
+          "pkg/user/utils",
+        ].map((name) => ({ test: `/.temp/${name}`, name: `${name}/index` })),
+      ],
+    },
     generatedCode: {
-      arrowFunctions: true,
-      constBindings: true,
-      objectShorthand: true,
       preset: "es2015",
     },
-    strict: false,
+  },
 
-    // this ensures that require files are generated
-    manualChunks: (id): string | void => {
-      const normalizedId = sep === "/" ? id : id.replaceAll("\\", "/");
+  treeshake: {
+    manualPureFunctions: ["createService"],
+  },
 
-      for (const name of [
-        "api",
-        "app",
-        "config",
-        "mixins",
-        "service",
-        "state",
-        "utils",
-        "pkg/addon/service",
-        "pkg/addon/utils",
-        "pkg/tool/service",
-        "pkg/tool/utils",
-        "pkg/user/service",
-        "pkg/user/utils",
-      ])
-        if (normalizedId.includes(`/.temp/${name}/`)) return `${name}/index`;
-
-      if (normalizedId.includes("/.temp/app.ts")) return "app";
-    },
-  }),
-);
+  deps: {
+    neverBundle: ["@mptool/all"],
+  },
+});

@@ -4,9 +4,10 @@ export default defineHopeConfig(
   {
     node: ["scripts/**/*.ts", "gulpfile.cjs"],
     ignore: [
+      ".temp/**",
+      "app/pkg/tool/components/recycle-view/*.js",
       "app/service/auth/encrypt.js",
       "app/service/auth/encrypt.d.ts",
-      "app/pkg/tool/components/recycle-view/",
     ],
     rules: {
       // we should allow anonymous functions as callbacks
