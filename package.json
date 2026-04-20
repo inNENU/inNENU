@@ -54,17 +54,17 @@
     "innenu-generator": "0.8.2",
     "miniprogram-api-typings": "5.1.2",
     "nano-staged": "1.0.2",
-    "oxc-config-hope": "0.2.2",
+    "oxc-config-hope": "0.3.0",
     "oxfmt": "0.45.0",
     "oxlint": "1.60.0",
-    "oxlint-tsgolint": "0.21.0",
-    "postcss": "8.5.10",
+    "oxlint-tsgolint": "0.21.1",
+    "postcss": "^8.5.10",
     "prettier": "3.8.3",
     "stylelint": "17.8.0",
     "stylelint-config-hope": "11.0.0",
     "tsdown": "0.21.9",
-    "typescript": "6.0.2",
-    "unrun": "0.2.35"
+    "typescript": "6.0.3",
+    "unrun": "0.2.36"
   },
   "nano-staged": {
     "**/*": "oxfmt --no-error-on-unmatched-pattern",
