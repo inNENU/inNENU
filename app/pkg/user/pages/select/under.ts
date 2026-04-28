@@ -394,7 +394,6 @@ $Page(PAGE_ID, {
 
   async loadClasses({
     currentTarget,
-    // oxlint-disable-next-line typescript/no-unnecessary-type-arguments
   }: WechatMiniprogram.TouchEvent<Record<never, never>, Record<never, never>, { id?: string }>) {
     const courseId = currentTarget.dataset.id || this.state.currentCourseId;
     const { category, selectedClasses, sortKeys, sortKeyIndex, ascending } = this.data;

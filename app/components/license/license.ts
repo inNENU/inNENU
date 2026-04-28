@@ -57,17 +57,12 @@ $Component({
       const { type } = this.data;
 
       if (type === "privacy") {
-        if (resolvePrivacy) {
-          resolvePrivacy({ buttonId: "", event: "agree" });
-          this.setData({ show: false });
-        } else {
-          agreePrivacy();
-          this.setData({ show: false });
-        }
+        if (resolvePrivacy) resolvePrivacy({ buttonId: "", event: "agree" });
+        else agreePrivacy();
       } else {
         agreeLicense();
-        this.setData({ show: false });
       }
+      this.setData({ show: false });
     },
 
     refuse() {

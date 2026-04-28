@@ -471,7 +471,6 @@ export const setOnlinePage = (
       }
       // 请求页面Json
       else {
-        // oxlint-disable-next-line typescript/no-unnecessary-type-arguments
         requestJSON<PageState>(id)
           .then((data) => {
             // 非分享界面下将页面数据写入存储
@@ -536,7 +535,6 @@ export const loadOnlinePage = (
     logger.debug(`${option.path} onLoad starts with options:`, option);
 
     // 需要在线获取界面
-    // oxlint-disable-next-line typescript/no-unnecessary-type-arguments
     requestJSON<PageState>(option.id)
       .then((page) => {
         if (page) {

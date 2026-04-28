@@ -107,7 +107,6 @@ $Component({
 
     async openEmail({
       currentTarget,
-      // oxlint-disable-next-line typescript/no-unnecessary-type-arguments
     }: WechatMiniprogram.TouchEvent<Record<never, never>, Record<never, never>, { mid?: string }>) {
       const { status } = this.data;
 

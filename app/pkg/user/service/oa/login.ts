@@ -37,6 +37,7 @@ export const isOALoggedInLocal = async (): Promise<boolean> => {
       redirect: "manual",
     });
 
+    // oxlint-disable-next-line no-underscore-dangle
     return status === 200 && data.status && "_user" in data._data;
   } catch {
     return false;

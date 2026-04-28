@@ -68,25 +68,26 @@ $Page(PAGE_ID, {
           ...item,
         })),
       });
-    } else if (result.type === ActionFailType.NotInitialized) {
-      wx.showModal({
-        title: "无法读取",
-        content: `\
+    } else {
+      if (result.type === ActionFailType.NotInitialized) {
+        wx.showModal({
+          title: "无法读取",
+          content: `\
 用户无邮箱或邮箱未初始化。
 如无邮箱请申请。
 如已申请请通过初始密码登录邮箱，修改初始密码并开启手机密保。
 您可点击申请邮箱查看初始密码。\
 `,
-        confirmText: "申请邮箱",
-        cancelText: "我已了解",
-        success: (res) => {
-          if (res.confirm) this.$go("email-apply");
-        },
-      });
-      this.setData({ status: "error" });
-    } else {
-      console.error(result.msg);
-      showModal("获取邮件失败", "请确认已手动登录邮箱，完成开启手机密保与修改初始密码工作。");
+          confirmText: "申请邮箱",
+          cancelText: "我已了解",
+          success: (res) => {
+            if (res.confirm) this.$go("email-apply");
+          },
+        });
+      } else {
+        console.error(result.msg);
+        showModal("获取邮件失败", "请确认已手动登录邮箱，完成开启手机密保与修改初始密码工作。");
+      }
       this.setData({ status: "error" });
     }
   },

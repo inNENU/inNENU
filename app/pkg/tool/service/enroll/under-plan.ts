@@ -46,7 +46,6 @@ export type UnderEnrollPlanInfoResponse = UnderEnrollPlanInfoSuccessResponse | C
 
 const getUnderEnrollInfo = async (): Promise<UnderEnrollPlanInfoSuccessResponse> => {
   // NOTE: year=2024 does not take any effect
-  // oxlint-disable-next-line typescript/no-unnecessary-type-arguments
   const { data } = await request<RawUnderEnrollPlanOptionInfo>(
     `${UNDER_ENROLL_INFO_URL}?which=plan`,
   );
