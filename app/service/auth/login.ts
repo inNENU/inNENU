@@ -128,7 +128,7 @@ const authLoginLocal = async ({
     }
 
     const [, salt] = SALT_REGEXP.exec(loginPageContent)!;
-    const [, execution] = /name="execution" value="(.*?)"/.exec(loginPageContent)!;
+    const [, execution] = /name="execution" value="(.*?)"/u.exec(loginPageContent)!;
 
     cookieStore.set({
       name: "org.springframework.web.servlet.i18n.CookieLocaleResolver.LOCALE",
@@ -192,7 +192,7 @@ const authLoginLocal = async ({
         };
       }
 
-      const lockedResult = /<span>账号已冻结，预计解冻时间：(.*?)<\/span>/.exec(loginContent);
+      const lockedResult = /<span>账号已冻结，预计解冻时间：(.*?)<\/span>/u.exec(loginContent);
 
       if (lockedResult) {
         return {

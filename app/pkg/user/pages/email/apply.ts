@@ -6,6 +6,7 @@ import { envName, info, user, windowInfo } from "../../../../state/index.js";
 import { showNotice } from "../../../../utils/index.js";
 import type { ApplyEmailOptions } from "../../service/index.js";
 import { applyEmail, checkEmail } from "../../service/index.js";
+import { isCellPhone } from "../../utils/index.js";
 
 const MAIL_LINK = "https://mail.nenu.edu.cn";
 const PAGE_ID = "email-apply";
@@ -135,7 +136,7 @@ $Page(PAGE_ID, {
       }
     }
 
-    if (!/^1\d{10}$/.test(phone)) {
+    if (!isCellPhone(phone)) {
       showModal("手机号码有误", "请输入正确的 11 位手机号码。");
 
       return;

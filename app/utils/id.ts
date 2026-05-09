@@ -1,19 +1,19 @@
 export const id2path = (id = ""): string =>
   id
-    .replace(/^A/, "apartment/")
-    .replace(/^S/, "school/")
-    .replace(/^G/, "guide/")
-    .replace(/^I/, "intro/")
-    .replace(/^N/, "newcomer/")
-    .replace(/^O/, "other/")
-    .replace(/\/$/, "/index");
+    .replace(/^A/u, "apartment/")
+    .replace(/^S/u, "school/")
+    .replace(/^G/u, "guide/")
+    .replace(/^I/u, "intro/")
+    .replace(/^N/u, "newcomer/")
+    .replace(/^O/u, "other/")
+    .replace(/\/$/u, "/index");
 
 export const path2id = (path = ""): string =>
   path
-    .replace(/^apartment\//, "A")
-    .replace(/^school\//, "S")
-    .replace(/^guide\//, "G")
-    .replace(/^intro\//, "I")
-    .replace(/^newcomer\//, "N")
-    .replace(/^other\//, "O")
-    .replace(/\/index$/, "/");
+    .replace(/^apartment\//u, "A")
+    .replace(/^school\//u, "S")
+    .replace(/^guide\//u, "G")
+    .replace(/^intro\//u, "I")
+    .replace(/^newcomer\//u, "N")
+    .replace(/^other\//u, "O")
+    .replace(/\/index$/u, "/");

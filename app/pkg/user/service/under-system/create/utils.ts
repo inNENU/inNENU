@@ -4,23 +4,23 @@ import { request } from "../../../../../api/index.js";
 import { UNDER_SYSTEM_SERVER } from "../utils.js";
 
 export const nextLinkRegExp =
-  /<input\s+type="button"\s+class="button"\s+onclick="window.location.href='([^']+)';"\s+value=" 下一步 "\/>/;
-export const pathRegExp = /<form action="([^"]+)"/;
+  /<input\s+type="button"\s+class="button"\s+onclick="window.location.href='([^']+)';"\s+value=" 下一步 "\/>/u;
+export const pathRegExp = /<form action="([^"]+)"/u;
 export const infoRowRegExp =
-  /<tr height="25px"\s*><td[^>]+>(.*?)<\/td>\s*<td[^>]+>(.*?)<\/td>\s*<td[^>]+>(.*?)<\/td>\s*<td[^>]+>(.*?)<\/td>\s*<td[^>]+>(.*?)<\/td>\s*<\/tr>/g;
+  /<tr height="25px"\s*><td[^>]+>(.*?)<\/td>\s*<td[^>]+>(.*?)<\/td>\s*<td[^>]+>(.*?)<\/td>\s*<td[^>]+>(.*?)<\/td>\s*<td[^>]+>(.*?)<\/td>\s*<\/tr>/gu;
 export const info2RowRegExp =
-  /<tr height="25px"\s*><td[^>]+>(.*?)<\/td>\s*<td[^>]+>(.*?)<\/td>\s*<td[^>]+>(.*?)<\/td>\s*<\/tr>/g;
-export const requiredRegExp = /<font color="red">\*<\/font>/;
-export const readonlyRegExp = /<font[^>]+>ø<\/font>/;
-export const inputRegExp = /<input[^>]*name="(.*?)"[^>]*value="(.*?)"[^>]*\/>/;
-export const checkBoxRegExp = /<input type="checkbox" value="(.*?)" id="gx" name="(.*?)"[^>]+\/>/;
-export const selectRegExp = /<select[^>]+name="(.*?)"/;
-export const optionRegExp = /<option value="([^"]+)">([^<]*?)<\/option>/g;
+  /<tr height="25px"\s*><td[^>]+>(.*?)<\/td>\s*<td[^>]+>(.*?)<\/td>\s*<td[^>]+>(.*?)<\/td>\s*<\/tr>/gu;
+export const requiredRegExp = /<font color="red">\*<\/font>/u;
+export const readonlyRegExp = /<font[^>]+>ø<\/font>/u;
+export const inputRegExp = /<input[^>]*name="(.*?)"[^>]*value="(.*?)"[^>]*\/>/u;
+export const checkBoxRegExp = /<input type="checkbox" value="(.*?)" id="gx" name="(.*?)"[^>]+\/>/u;
+export const selectRegExp = /<select[^>]+name="(.*?)"/u;
+export const optionRegExp = /<option value="([^"]+)">([^<]*?)<\/option>/gu;
 export const fieldsRegExp =
-  /<input\s+type="text"[^>]+name="(.*?)"\s+id=".*?"\s+value="(.*?)"[^>]+\/>/g;
-export const hiddenFieldsRegExp = /<input\s+type="hidden"[^>]+name="(.*?)"\s*value="(.*?)"\s*\/>/g;
-export const studyDataRegExp = /"brjl"\s*:\s*(\[.*?\])/;
-export const familyDataRegExp = /"jtcy"\s*:\s*(\[.*?\])/;
+  /<input\s+type="text"[^>]+name="(.*?)"\s+id=".*?"\s+value="(.*?)"[^>]+\/>/gu;
+export const hiddenFieldsRegExp = /<input\s+type="hidden"[^>]+name="(.*?)"\s*value="(.*?)"\s*\/>/gu;
+export const studyDataRegExp = /"brjl"\s*:\s*(\[.*?\])/u;
+export const familyDataRegExp = /"jtcy"\s*:\s*(\[.*?\])/u;
 
 export const onlineUnderStudentArchive = <Response>(
   options: Record<string, unknown> = {},

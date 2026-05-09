@@ -58,7 +58,7 @@ const getCreateUnderStudentArchiveInfoLocal =
 
       if (
         welcomePageContent.includes("您已经提交了报到") ||
-        /<input type="button" class="button" value="查看学籍信息"\s+onclick/.test(
+        /<input type="button" class="button" value="查看学籍信息"\s+onclick/u.test(
           welcomePageContent,
         )
       ) {
@@ -91,7 +91,7 @@ const getCreateUnderStudentArchiveInfoLocal =
       }
 
       const info = [...infoContent.matchAll(infoRowRegExp)].map(([, ...matches]) =>
-        matches.map((item) => item.replace(/&nbsp;/g, " ").trim()),
+        matches.map((item) => item.replace(/&nbsp;/gu, " ").trim()),
       );
 
       // oxlint-disable-next-line unicorn/no-unreadable-array-destructuring
@@ -170,7 +170,7 @@ const getCreateUnderStudentArchiveInfoLocal =
         success: true,
         // oxlint-disable-next-line unicorn/no-unreadable-array-destructuring
         readonly: readonlyFields.map(([text, value, , , remark]) => {
-          const realValue = /<font[^>]*>(.*)<\/font>/.exec(value)?.[1] || value;
+          const realValue = /<font[^>]*>(.*)<\/font>/u.exec(value)?.[1] || value;
 
           return {
             text,

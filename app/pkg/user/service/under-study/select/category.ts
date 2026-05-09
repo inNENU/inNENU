@@ -54,9 +54,9 @@ export type UnderSelectCategoryResponse =
 const CATEGORY_PAGE = `${UNDER_STUDY_SERVER}/new/student/xsxk/`;
 
 const ALLOWED_CATEGORY_ITEM_REGEXP =
-  /<div id="bb2"[^]+?lay-tips="选课学期:(.*?)\s*<br>现在是(.*?)阶段\s*<br>(.*?)\s*"\s+lay-iframe="(.*?)"\s+data-href="(.*?)">[^]+?<div class="description">([^]+?)<br>([^]+?)<br><\/div>/g;
+  /<div id="bb2"[^]+?lay-tips="选课学期:(.*?)\s*<br>现在是(.*?)阶段\s*<br>(.*?)\s*"\s+lay-iframe="(.*?)"\s+data-href="(.*?)">[^]+?<div class="description">([^]+?)<br>([^]+?)<br><\/div>/gu;
 const DISALLOWED_CATEGORY_ITEM_REGEXP =
-  /<div id="bb1"[^]+?lay-tips="选课学期:(.*?)\s*<br>\s*([^"]+?)\s*"\s+lay-iframe="(.*?)"\s+data-href="(.*?)"/g;
+  /<div id="bb1"[^]+?lay-tips="选课学期:(.*?)\s*<br>\s*([^"]+?)\s*"\s+lay-iframe="(.*?)"\s+data-href="(.*?)"/gu;
 
 const getSelectCategories = (content: string): UnderSelectCategoryInfo => ({
   allowed: [...content.matchAll(ALLOWED_CATEGORY_ITEM_REGEXP)].map(

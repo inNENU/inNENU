@@ -84,7 +84,7 @@ const QUERY_URL = `${UNDER_STUDY_SERVER}/new/student/xskjcj/datas`;
 
 const getSpecialExamResults = (records: RawUnderSpecialExamItem[]): UnderSpecialExamResult[] =>
   records.map(({ zcj, kssj, xnxqmc, kjkcmc, kjcjdm }) => ({
-    semester: xnxqmc.replace(/^20/, "").replace(/季学期$/, ""),
+    semester: xnxqmc.replace(/^20/u, "").replace(/季学期$/u, ""),
     time: kssj,
     name: kjkcmc,
     grade: zcj,

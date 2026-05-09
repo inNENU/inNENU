@@ -12,7 +12,7 @@ import {
 } from "./app/index.js";
 import { INITIALIZED_KEY } from "./config/index.js";
 import { appInfo } from "./state/index.js";
-import { getSizeClass } from "./utils/size.js";
+import { getSizeClass } from "./utils/getSizeClass.js";
 
 export interface App {
   globalData: GlobalData;
@@ -67,7 +67,7 @@ $Config({
         ? `${pageName.slice(5)}-grad`
         : pageName;
 
-    const [, dir, file] = name.includes("-") ? /^([^-]+)-(.*)$/.exec(name)! : [null, name, name];
+    const [, dir, file] = name.includes("-") ? /^([^-]+)-(.*)$/u.exec(name)! : [null, name, name];
 
     if (["calendar", "enroll", "map", "official"].includes(dir))
       return `/pkg/tool/pages/${dir}/${file}`;
@@ -76,17 +76,12 @@ $Config({
   },
 
   injectPage: (_name, options) => {
-    options.onThemeChange =
-      (options.onThemeChange as (
-        this: TrivialPageInstance,
-        { theme }: WechatMiniprogram.OnThemeChangeListenerResult,
-      ) => void) ||
-      function (
-        this: TrivialPageInstance,
-        { theme }: WechatMiniprogram.OnThemeChangeListenerResult,
-      ): void {
-        this.setData({ darkmode: theme === "dark" });
-      };
+    options.onThemeChange ||= function (
+      this: TrivialPageInstance,
+      { theme }: WechatMiniprogram.OnThemeChangeListenerResult,
+    ): void {
+      this.setData({ darkmode: theme === "dark" });
+    };
 
     options.onLoad = wrapFunction(
       // oxlint-disable-next-line typescript/no-misused-promises

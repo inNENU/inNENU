@@ -10,13 +10,13 @@ import {
   getOfficialPageView,
 } from "../../../../service/index.js";
 
-const INFO_REGEXP = /<div class="ar_tit">\s*<h3>([^>]+)<\/h3>\s*<h6>([^]+?)<\/h6>/;
+const INFO_REGEXP = /<div class="ar_tit">\s*<h3>([^>]+)<\/h3>\s*<h6>([^]+?)<\/h6>/u;
 const CONTENT_REGEXP =
-  /<div class="v_news_content">([^]+?)<\/div>\s*<\/div>\s*<div id="div_vote_id">/;
+  /<div class="v_news_content">([^]+?)<\/div>\s*<\/div>\s*<div id="div_vote_id">/u;
 
-const TIME_REGEXP = /<span>发布时间：([^<]*)<\/span>/;
-const FROM_REGEXP = /<span>发布单位：([^<]*)<\/span>/;
-const PAGEVIEW_PARAMS_REGEXP = /_showDynClicks\("wbnews",\s*(\d+),\s*(\d+)\)/;
+const TIME_REGEXP = /<span>发布时间：([^<]*)<\/span>/u;
+const FROM_REGEXP = /<span>发布单位：([^<]*)<\/span>/u;
+const PAGEVIEW_PARAMS_REGEXP = /_showDynClicks\("wbnews",\s*(\d+),\s*(\d+)\)/u;
 
 export interface OfficialNoticeData {
   /** 标题 */

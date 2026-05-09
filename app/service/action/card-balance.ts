@@ -60,7 +60,7 @@ const getCardBalanceLocal = async (): Promise<CardBalanceResponse> => {
 
       return {
         success: true,
-        data: /\d+/.test(balanceList[0]?.kye) ? Number(balanceList[0].kye) / 100 : 0,
+        data: /\d+/u.test(balanceList[0]?.kye) ? Number(balanceList[0].kye) / 100 : 0,
       };
     }
 

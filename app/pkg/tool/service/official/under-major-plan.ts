@@ -4,8 +4,8 @@ import { OFFICIAL_URL, unknownResponse, createService } from "../../../../servic
 
 const UNDER_MAJOR_PLAN_URL = `${OFFICIAL_URL}/jyjx/bksjy/rcpyfa.htm`;
 
-const MAJOR_PLAN_LIST_REGEXP = /<ul class="table2[^>]*?>([^]*?)<\/ul>/;
-const MAJOR_PLAN_ITEM_REGEXP = /<li><p><a href="\.\.\/\.\.([^"]*?)"[^>]*>(.*?)<\/a><\/p><\/li>/g;
+const MAJOR_PLAN_LIST_REGEXP = /<ul class="table2[^>]*?>([^]*?)<\/ul>/u;
+const MAJOR_PLAN_ITEM_REGEXP = /<li><p><a href="\.\.\/\.\.([^"]*?)"[^>]*>(.*?)<\/a><\/p><\/li>/gu;
 
 export type UnderMajorPlanSuccessResponse = CommonSuccessResponse<{ name: string; url: string }[]>;
 

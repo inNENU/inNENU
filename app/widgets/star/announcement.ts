@@ -3,6 +3,7 @@ import { $Component, get } from "@mptool/all";
 
 import { STARRED_ANNOUNCEMENT_LIST_KEY } from "../../config/index.js";
 import type { StarredOfficialNoticeData } from "../../typings/index.js";
+import { getShortTitle } from "../../utils/index.js";
 import type { WidgetSize } from "../utils.js";
 import { getSize } from "../utils.js";
 
@@ -38,7 +39,7 @@ $Component({
           size === "small"
             ? announcements.map(({ title, ...rest }) => ({
                 ...rest,
-                title: title.replace(/^关于/g, "").replace(/的通知$/g, ""),
+                title: getShortTitle(title),
               }))
             : announcements,
       });

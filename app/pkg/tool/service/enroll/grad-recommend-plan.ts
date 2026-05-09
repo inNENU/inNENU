@@ -7,7 +7,7 @@ import { createService } from "../../../../service/index.js";
 
 const GRAD_RECOMMEND_PLAN_URL = "https://pg.nenu.edu.cn/yjsy/HData/ZSB/ZSJZ2024-TM-1.html";
 const schoolInfoRegExp =
-  /bXYName\['.*?']="<tr><td colspan=6><a href='(.*?)' target='_blank'>([^<]+) ([^<]+)<\/a><br>联系方式：(\S+?)，(\S+?)，(\S+?)<\/td><\/tr>";/g;
+  /bXYName\['.*?'\]="<tr><td colspan=6><a href='(.*?)' target='_blank'>([^<]+) ([^<]+)<\/a><br>联系方式：(\S+?)，(\S+?)，(\S+?)<\/td><\/tr>";/gu;
 
 const TABLE_HEADER = `<tr><th>招生专业</th><th>研究方向</th><th>学习方式</th><th>招生类型</th><th>拟接收人数</th><th>备注</th></tr>`;
 
@@ -54,11 +54,11 @@ const getGradRecommendPlanLocal = async (): Promise<GradRecommendResponse> => {
           };
 
           const majorCodes = [
-            ...data.matchAll(new RegExp(`cXYName\\['${name}'\\]\\.push\\('([^']+)'\\)`, "g")),
+            ...data.matchAll(new RegExp(`cXYName\\['${name}'\\]\\.push\\('([^']+)'\\)`, "gu")),
           ];
 
           const majorNameRegExp = [
-            ...data.matchAll(new RegExp(`fXYName\\['${name}'\\]\\.push\\('([^']+)'\\)`, "g")),
+            ...data.matchAll(new RegExp(`fXYName\\['${name}'\\]\\.push\\('([^']+)'\\)`, "gu")),
           ];
 
           info.majors = await Promise.all(
@@ -67,9 +67,9 @@ const getGradRecommendPlanLocal = async (): Promise<GradRecommendResponse> => {
 
               const lines = [
                 ...data.matchAll(
-                  new RegExp(`dXYName\\['${name}'\\]\\['${code}'\\]\\.push\\('(.*)'\\)`, "g"),
+                  new RegExp(`dXYName\\['${name}'\\]\\['${code}'\\]\\.push\\('(.*)'\\)`, "gu"),
                 ),
-              ].map(([, line]) => line.replace(/<\/?center>/g, ""));
+              ].map(([, line]) => line.replace(/<\/?center>/gu, ""));
 
               return {
                 name: majorName,

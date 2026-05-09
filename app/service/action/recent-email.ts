@@ -89,8 +89,8 @@ const getRecentEmailData = ({
 }: RawEmailData): EmailData => ({
   subject,
   receivedDate,
-  name: /"(.*)"/.exec(from)?.[1] ?? from,
-  email: /<(.*)>/.exec(from)?.[1] ?? from,
+  name: /"(.*)"/u.exec(from)?.[1] ?? from,
+  email: /<(.*)>/u.exec(from)?.[1] ?? from,
   mid: id,
   unread: !flags.read,
 });

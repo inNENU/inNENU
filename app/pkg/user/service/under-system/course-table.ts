@@ -12,14 +12,14 @@ import { getJson } from "../../../../utils/index.js";
 import { UNDER_SYSTEM_SERVER } from "./utils.js";
 
 const courseRowRegExp =
-  /<tr>\s+<td[^>]*>\s+\d+\s+<\/td>\s+((?:<td[^>]*>[\s\S]+?<\/td>\s*?)+)\s+<\/tr>/g;
-const courseCellRegExp = /<td .*?>\s+<div id="\d-\d-\d"\s?>([\s\S]+?)<\/div>[\s\S]+?<\/td>/g;
+  /<tr>\s+<td[^>]*>\s+\d+\s+<\/td>\s+((?:<td[^>]*>[\s\S]+?<\/td>\s*?)+)\s+<\/tr>/gu;
+const courseCellRegExp = /<td .*?>\s+<div id="\d-\d-\d"\s?>([\s\S]+?)<\/div>[\s\S]+?<\/td>/gu;
 
 const classRegExp =
-  /<a[^>]*?>(.+?)\s*<br>(.+?)<br>\s*<nobr>\s*(\S+?)<nobr><br>(.+?)<br><br>\s*<\/a>/g;
+  /<a[^>]*?>(.+?)\s*<br>(.+?)<br>\s*<nobr>\s*(\S+?)<nobr><br>(.+?)<br><br>\s*<\/a>/gu;
 
 const getWeekRange = (timeText: string): number[] => {
-  const match = [...timeText.matchAll(/([\d,-]+)[^\d]*周/g)];
+  const match = [...timeText.matchAll(/([\d,-]+)[^\d]*周/gu)];
 
   return match
     .map(([, time]) =>
@@ -35,7 +35,7 @@ const getWeekRange = (timeText: string): number[] => {
 };
 
 const getClassIndex = (timeText: string): [number, number] => {
-  const match = [...timeText.matchAll(/\[(\d+)-(\d+)节\]/g)];
+  const match = [...timeText.matchAll(/\[(\d+)-(\d+)节\]/gu)];
 
   return match
     .map(([, startIndex, endIndex]) => [Number(startIndex), Number(endIndex)])

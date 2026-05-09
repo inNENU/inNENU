@@ -10,15 +10,15 @@ import {
   getOfficialPageView,
 } from "../../../../service/index.js";
 
-const INFO_REGEXP = /<div class="ar_tit">\s*<h3>([^>]+)<\/h3>\s*<h6>([^]+?)<\/h6>/;
+const INFO_REGEXP = /<div class="ar_tit">\s*<h3>([^>]+)<\/h3>\s*<h6>([^]+?)<\/h6>/u;
 const CONTENT_REGEXP =
-  /<div class="v_news_content">([^]+?)<\/div>[^]+?<\/div>\s*<div id="div_vote_id">/;
+  /<div class="v_news_content">([^]+?)<\/div>[^]+?<\/div>\s*<div id="div_vote_id">/u;
 
-const TIME_REGEXP = /<span>发布时间：([^<]*)<\/span>/;
-const FROM_REGEXP = /<span>供稿单位：([^<]*)<\/span>/;
-const AUTHOR_REGEXP = /<span>撰稿：([^<]*)<\/span>/;
-const EDITOR_REGEXP = /<span>网络编辑：<em>([^<]+?)<\/em><\/span>/;
-const PAGEVIEW_PARAMS_REGEXP = /_showDynClicks\("wbnews",\s*(\d+),\s*(\d+)\)/;
+const TIME_REGEXP = /<span>发布时间：([^<]*)<\/span>/u;
+const FROM_REGEXP = /<span>供稿单位：([^<]*)<\/span>/u;
+const AUTHOR_REGEXP = /<span>撰稿：([^<]*)<\/span>/u;
+const EDITOR_REGEXP = /<span>网络编辑：<em>([^<]+?)<\/em><\/span>/u;
+const PAGEVIEW_PARAMS_REGEXP = /_showDynClicks\("wbnews",\s*(\d+),\s*(\d+)\)/u;
 
 export interface OfficialInfoData {
   /** 标题 */

@@ -48,7 +48,7 @@ const submitUnderStudentArchiveStudyLocal = async ({
         );
       }
 
-      if (!/^\d{8}$/.test(startTime) || !/^\d{8}$/.test(endTime))
+      if (!/^\d{8}$/u.test(startTime) || !/^\d{8}$/u.test(endTime))
         throw new Error(`第${index + 1}条学习与工作经历时间格式不正确，格式应为 20010101`);
 
       params[`qsrq${index + 1}`] = startTime;

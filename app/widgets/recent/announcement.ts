@@ -4,6 +4,7 @@ import { $Component, get, set } from "@mptool/all";
 import { HOUR, SITE_ANNOUNCEMENT_LIST_KEY } from "../../config/index.js";
 import type { OfficialNoticeInfoItem } from "../../service/index.js";
 import { getOfficialNoticeList } from "../../service/index.js";
+import { getShortTitle } from "../../utils/index.js";
 import type { WidgetSize, WidgetStatus } from "../utils.js";
 import { FILTERED_SOURCES, getSize } from "../utils.js";
 
@@ -57,7 +58,7 @@ $Component({
       const data = result.data
         .filter(({ from }) => !FILTERED_SOURCES.includes(from))
         .map(({ title, url }) => ({
-          title: title.replace(/^关于/g, "").replace(/的通知$/g, ""),
+          title: getShortTitle(title),
           url,
         }));
 

@@ -7,7 +7,7 @@ import { createService } from "../../../../service/index.js";
 
 const GRAD_ENROLL_PLAN_URL = "https://yz.nenu.edu.cn/source/ssml/2024zsml.html";
 const schoolInfoRegExp =
-  /bXYName\['.*?']="<tr><td colspan=4><a href='(.*?)' target='_blank'>([^<]+) ([^<]+)<\/a><br>联系方式：(\S+?)，(\S+?)，(\S+?)<\/td><\/tr>";/g;
+  /bXYName\['.*?'\]="<tr><td colspan=4><a href='(.*?)' target='_blank'>([^<]+) ([^<]+)<\/a><br>联系方式：(\S+?)，(\S+?)，(\S+?)<\/td><\/tr>";/gu;
 
 const TABLE_HEADER = `<tr><th>专业代码</th><th>人数</th><th>考试科目</th><th>备注</th></tr>`;
 
@@ -55,11 +55,11 @@ const getGradPlanLocal = async (): Promise<GradEnrollResponse> => {
           };
 
           const majorCodes = [
-            ...content.matchAll(new RegExp(`cXYName\\['${name}'\\]\\.push\\('([^']+)'\\)`, "g")),
+            ...content.matchAll(new RegExp(`cXYName\\['${name}'\\]\\.push\\('([^']+)'\\)`, "gu")),
           ];
 
           const majorNameRegExp = [
-            ...content.matchAll(new RegExp(`fXYName\\['${name}'\\]\\.push\\('([^']+)'\\)`, "g")),
+            ...content.matchAll(new RegExp(`fXYName\\['${name}'\\]\\.push\\('([^']+)'\\)`, "gu")),
           ];
 
           info.majors = await Promise.all(
@@ -68,6 +68,7 @@ const getGradPlanLocal = async (): Promise<GradEnrollResponse> => {
 
               const majorTypeRegExp = new RegExp(
                 `dXYName\\['${name}'\\]\\['(${code})'\\]\\.push\\("<tr><td colspan=4><b>\\1\\s+\\S+【(\\S+)】<\\/b><\\/td><\\/tr>"`,
+                "u",
               );
 
               const startLine = `dXYName['${name}']['${code}'].push("<tr>");`;
@@ -77,8 +78,8 @@ const getGradPlanLocal = async (): Promise<GradEnrollResponse> => {
               const majorContent = content.slice(start, end);
 
               const lines = [
-                ...majorContent.matchAll(/dXYName\['.*?'\]\['[^']+'\]\.push\("(.*)"\)/g),
-              ].map(([, line]) => line.replace(/<\/?center>/g, ""));
+                ...majorContent.matchAll(/dXYName\['.*?'\]\['[^']+'\]\.push\("(.*)"\)/gu),
+              ].map(([, line]) => line.replace(/<\/?center>/gu, ""));
 
               return {
                 name: majorName,

@@ -48,8 +48,6 @@ const entry = {
   ...Object.fromEntries(userPages),
 };
 
-console.log(entry);
-
 // repack miniapp
 await build({
   clean: false,
@@ -67,10 +65,6 @@ await build({
     entryFileNames: "[name].js",
     codeSplitting: {
       groups: [
-        {
-          test: `/.temp/app.ts`,
-          name: "app",
-        },
         ...[
           "api",
           "app",
@@ -85,7 +79,11 @@ await build({
           "pkg/tool/utils",
           "pkg/user/service",
           "pkg/user/utils",
-        ].map((name) => ({ test: `/.temp/${name}`, name: `${name}/index` })),
+        ].map((name) => ({ test: `/.temp/${name}/`, name: `${name}/index` })),
+        {
+          test: `/.temp/app.ts`,
+          name: "app",
+        },
       ],
     },
     generatedCode: {
@@ -94,6 +92,7 @@ await build({
   },
 
   treeshake: {
+    moduleSideEffects: false,
     manualPureFunctions: ["createService"],
   },
 

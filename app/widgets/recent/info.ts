@@ -62,7 +62,7 @@ $Component({
 
       this.setData(
         {
-          header: type.replace(/\((小|大)\)/, ""),
+          header: type.replace(/\((小|大)\)/u, ""),
           infoType,
           size,
         },

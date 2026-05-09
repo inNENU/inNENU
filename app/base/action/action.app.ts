@@ -2,6 +2,7 @@ import type { PropType } from "@mptool/all";
 import { $Component, logger, writeClipboard } from "@mptool/all";
 
 import type { ActionComponentOptions } from "../../../typings/index.js";
+import { HTTP_PREFIX, isHttpLink } from "../../utils/getLink.js";
 
 $Component({
   props: {
@@ -34,11 +35,11 @@ $Component({
 
   observers: {
     "config.content"(value: string) {
-      const isLink = /^https?:\/\//.test(value);
+      const isLink = isHttpLink(value);
 
       this.setData({
         type: isLink ? "link" : "text",
-        content: isLink ? value.replace(/^https?:\/\//, "") : value,
+        content: isLink ? value.replace(HTTP_PREFIX, "") : value,
       });
     },
   },

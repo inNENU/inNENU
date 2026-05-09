@@ -5,6 +5,7 @@ import { ActionFailType, supportRedirect } from "../../../../service/index.js";
 import { envName, info, user, windowInfo } from "../../../../state/index.js";
 import { getPageColor, showNotice } from "../../../../utils/index.js";
 import { activateAccount } from "../../service/index.js";
+import { isCellPhone } from "../../utils/index.js";
 
 const PAGE_ID = "account-activate";
 const PAGE_TITLE = "账号激活";
@@ -149,7 +150,7 @@ ${envName}严格使用官方激活流程。
 
       return;
     }
-    if (!/\d{10}/.test(schoolId)) {
+    if (!/\d{10}/u.test(schoolId)) {
       showModal("信息有误", "学号应为10位数字");
 
       return;
@@ -213,7 +214,7 @@ ${envName}严格使用官方激活流程。
       return;
     }
 
-    if (!/1\d{10}/.test(mobile)) {
+    if (!isCellPhone(mobile)) {
       showModal("手机号码有误", "请输入正确的手机号");
 
       return;
@@ -304,10 +305,10 @@ ${envName}严格使用官方激活流程。
 
     if (
       [
-        /[A-Z]/.test(password),
-        /[a-z]/.test(password),
-        /[0-9]/.test(password),
-        /[!~`@#$%^&*()_+\-=[\]{}\\|;':",./?<>]/.test(password),
+        /[A-Z]/u.test(password),
+        /[a-z]/u.test(password),
+        /[0-9]/u.test(password),
+        /[!~`@#$%^&*()_+\-=[\]{}\\|;':",./?<>]/u.test(password),
       ].filter(Boolean).length < 3
     ) {
       showModal("密码格式不合法", "密码至少包含大写字母、小写字母、数字和特殊字符中的三种");

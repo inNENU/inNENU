@@ -55,7 +55,7 @@ interface RawMeiliSearchResponse {
 /** 定义高亮内容片段的元组类型。 */
 type HighlightInfo = [content: string, isHighlighted: boolean];
 
-const EM_REGEXP = /(<em>.*?<\/em>)/;
+const EM_REGEXP = /(<em>.*?<\/em>)/u;
 
 /**
  * 将包含 <em> 标签的字符串解析为一个元组数组，专为小程序 setData 优化。
@@ -138,9 +138,9 @@ export const searchContent = async (query: string, page = 1): Promise<ContentSea
       .map(({ _formatted, url }) => {
         const id = url
           .slice(19) // length of 'https://innenu.com/'
-          .replace(/#.*$/, "") // remove hash
-          .replace(/\/index.html$/, "/")
-          .replace(/\.html$/, "");
+          .replace(/#.*$/u, "") // remove hash
+          .replace(/\/index.html$/u, "/")
+          .replace(/\.html$/u, "");
 
         if (VALID_FOLDER.every((item) => !id.startsWith(item))) return null;
 

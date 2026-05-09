@@ -18,19 +18,19 @@ import {
   withActionLogin,
 } from "../../../../service/index.js";
 
-const ID_TITLE_REGEXP = /var title = '(.*?)';/;
-const ID_FROM_REGEXP = /var ly = '(.*?)'/;
+const ID_TITLE_REGEXP = /var title = '(.*?)';/u;
+const ID_FROM_REGEXP = /var ly = '(.*?)'/u;
 const ID_TIME_REGEXP =
-  /<span style="margin: 0 10px;font-size: 13px;color: #787878;font-family: 'Microsoft YaHei';">\s+时间：(.*?)(?:&nbsp;)*?\s+<\/span>/;
+  /<span style="margin: 0 10px;font-size: 13px;color: #787878;font-family: 'Microsoft YaHei';">\s+时间：(.*?)(?:&nbsp;)*?\s+<\/span>/u;
 const ID_PAGEVIEW_REGEXP =
-  /<span style="margin: 0 10px;font-size: 13px;color: #787878;font-family: 'Microsoft YaHei';">\s+阅览：(\d+)\s+<\/span>/;
-const ID_CONTENT_REGEXP = /<div class="read" id="WBNR">\s+([^]*?)\s+<\/div>\s+<p id="zrbj"/;
+  /<span style="margin: 0 10px;font-size: 13px;color: #787878;font-family: 'Microsoft YaHei';">\s+阅览：(\d+)\s+<\/span>/u;
+const ID_CONTENT_REGEXP = /<div class="read" id="WBNR">\s+([^]*?)\s+<\/div>\s+<p id="zrbj"/u;
 
-const TITLE_REGEXP = /name="pageTitle" content="(.*)"/;
-const FROM_REGEXP = /<span>(?:发布单位|供稿单位)：(.*)<\/span>/;
-const TIME_REGEXP = /<span>发布时间：(.*)<\/span>/;
-const PAGEVIEW_REGEXP = /_showDynClicks\("wbnews", (\d+), (\d+)\)/;
-const CONTENT_REGEXP = /<div id="vsb_content.*?>([^]*?)\s*<\/div>\s*<div id="div_vote_id"/;
+const TITLE_REGEXP = /name="pageTitle" content="(.*)"/u;
+const FROM_REGEXP = /<span>(?:发布单位|供稿单位)：(.*)<\/span>/u;
+const TIME_REGEXP = /<span>发布时间：(.*)<\/span>/u;
+const PAGEVIEW_REGEXP = /_showDynClicks\("wbnews", (\d+), (\d+)\)/u;
+const CONTENT_REGEXP = /<div id="vsb_content.*?>([^]*?)\s*<\/div>\s*<div id="div_vote_id"/u;
 
 export interface NoticeOptions {
   noticeID: string;

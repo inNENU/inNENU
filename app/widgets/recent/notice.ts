@@ -5,6 +5,7 @@ import { HOUR, NEWS_LIST_KEY, NOTICE_LIST_KEY } from "../../config/index.js";
 import type { LoginMethod, NoticeInfo, NoticeType } from "../../service/index.js";
 import { getNoticeList } from "../../service/index.js";
 import { user } from "../../state/index.js";
+import { getShortTitle } from "../../utils/index.js";
 import type { WidgetSize, WidgetStatus } from "../utils.js";
 import { FILTERED_SOURCES, getSize } from "../utils.js";
 
@@ -86,7 +87,7 @@ $Component({
       const data = result.data
         .filter(({ from }) => !FILTERED_SOURCES.includes(from))
         .map(({ title, url, id }) => ({
-          title: title.replace(/^关于/g, "").replace(/的通知$/g, ""),
+          title: getShortTitle(title),
           id,
           url,
         }));

@@ -36,7 +36,7 @@ const getAuthInitInfoLocal = async (id: string): Promise<AuthInitInfoResponse> =
     const { data: content } = await request<string>(AUTH_LOGIN_URL);
 
     const [, salt] = SALT_REGEXP.exec(content)!;
-    const [, execution] = /name="execution" value="(.*?)"/.exec(content)!;
+    const [, execution] = /name="execution" value="(.*?)"/u.exec(content)!;
 
     cookieStore.set({
       name: "org.springframework.web.servlet.i18n.CookieLocaleResolver.LOCALE",
@@ -185,7 +185,7 @@ const authInitLocal = async (options: InitAuthOptions): Promise<InitAuthResponse
       };
     }
 
-    const lockedResult = /<span>账号已冻结，预计解冻时间：(.*?)<\/span>/.exec(content);
+    const lockedResult = /<span>账号已冻结，预计解冻时间：(.*?)<\/span>/u.exec(content);
 
     if (lockedResult) {
       return {

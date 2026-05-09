@@ -12,16 +12,16 @@ const tsProject = typescript.createProject("tsconfig.gulp.json");
 
 const getScriptJob = (id) => {
   const suffix = `.${id}`;
-  const suffixRegExp = new RegExp(`\\.${id}$`);
+  const suffixRegExp = new RegExp(`\\.${id}$`, "u");
 
   const script = () =>
     src(["app/**/*.ts", "typings/**/*.ts"], {
       read: (value) => {
-        const name = parse(value.path).name.replace(/\.d$/, "");
+        const name = parse(value.path).name.replace(/\.d$/u, "");
 
         if (name.includes(".")) return name.endsWith(suffix);
 
-        return !existsSync(resolve("app", value.path).replace(/\.ts$/, `.${id}.ts`));
+        return !existsSync(resolve("app", value.path).replace(/\.ts$/u, `.${id}.ts`));
       },
     })
       .pipe(
@@ -69,7 +69,7 @@ const getMoveScriptJob = (id) => {
 
 const getStyleJob = (id, ext = "wxss") => {
   const suffix = `.${id}`;
-  const suffixRegExp = new RegExp(`\\.${id}$`);
+  const suffixRegExp = new RegExp(`\\.${id}$`, "u");
 
   const style = () =>
     src("app/**/*.scss", {
@@ -78,7 +78,7 @@ const getStyleJob = (id, ext = "wxss") => {
 
         if (name.includes(".")) return name.endsWith(suffix);
 
-        return !existsSync(resolve("app", value.path).replace(/\.scss$/, `.${id}.scss`));
+        return !existsSync(resolve("app", value.path).replace(/\.scss$/u, `.${id}.scss`));
       },
     })
       .pipe(
@@ -95,7 +95,7 @@ const getStyleJob = (id, ext = "wxss") => {
             // preserve `@import` rules
             {
               canonicalize: (url, { fromImport }) =>
-                fromImport ? new URL(`miniapp:import?path=${url.replace(/^import:/, "")}`) : null,
+                fromImport ? new URL(`miniapp:import?path=${url.replace(/^import:/u, "")}`) : null,
               load: (canonicalUrl) => ({
                 contents: `@import "${canonicalUrl.searchParams.get("path")}.${ext}"`,
                 syntax: "css",
@@ -127,7 +127,9 @@ const getAssetsJob = (id, { bundle = false, wxFiles = true } = {}) => {
 
           if (name.includes(".")) return name.endsWith(`.${id}`);
 
-          return !existsSync(resolve("app", value.path).replace(new RegExp(ext), `.${id}${ext}`));
+          return !existsSync(
+            resolve("app", value.path).replace(new RegExp(ext, "u"), `.${id}${ext}`),
+          );
         },
         since: lastRun(assetsJob),
       },
@@ -135,7 +137,7 @@ const getAssetsJob = (id, { bundle = false, wxFiles = true } = {}) => {
       .pipe(
         rename((path) => {
           if (path.basename.endsWith(`.${id}`))
-            path.basename = path.basename.replace(new RegExp(`\\.${id}$`), "");
+            path.basename = path.basename.replace(new RegExp(`\\.${id}$`, "u"), "");
         }),
       )
       .pipe(dest("dist"));
@@ -280,13 +282,13 @@ const getDebugMoveScriptJob = (id) => {
       )
       .pipe(
         replace(
-          /export const assets = "https:\/\/assets\.innenu\.com\/";/,
+          /export const assets = "https:\/\/assets\.innenu\.com\/";/u,
           'export const assets = "http://localhost:4040/";',
         ),
       )
       .pipe(
         replace(
-          /export const server = "https:\/\/res\.innenu\.com\/";/,
+          /export const server = "https:\/\/res\.innenu\.com\/";/u,
           'export const server = "http://localhost:4040/";',
         ),
       )

@@ -54,7 +54,7 @@ const submitUnderStudentArchiveInfoLocal = async ({
     }
 
     const inputs = [...content.matchAll(info2RowRegExp)]
-      .map(([, ...matches]) => matches.map((item) => item.replace(/&nbsp;/g, " ").trim()))
+      .map(([, ...matches]) => matches.map((item) => item.replace(/&nbsp;/gu, " ").trim()))
       .map(([text, input, remark]) => {
         // oxlint-disable-next-line prefer-destructuring
         const [, name, value] = [...input.matchAll(fieldsRegExp)][0];

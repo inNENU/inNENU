@@ -7,10 +7,10 @@ import { info, windowInfo } from "../../state/index.js";
 const FONT_SIZE = 14;
 const PADDING_HORIZONTAL = 12 * 2; // 单元格的水平内边距总和 (padding-left + padding-right)
 
-const CHINESE_CHAR_REGEX = /[\u4E00-\u9FA5]/;
-const LATIN_UPPER_REGEX = /[A-Z]/;
-const LATIN_LOWER_REGEX = /[a-z]/;
-const NUMBER_REGEX = /[0-9]/;
+const CHINESE_CHAR_REGEX = /[\u4E00-\u9FA5]/u;
+const LATIN_UPPER_REGEX = /[A-Z]/u;
+const LATIN_LOWER_REGEX = /[a-z]/u;
+const NUMBER_REGEX = /[0-9]/u;
 
 const CHAR_WEIGHTS = {
   CHINESE: 1,

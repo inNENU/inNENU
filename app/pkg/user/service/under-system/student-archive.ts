@@ -11,14 +11,14 @@ import {
 } from "../../../../service/index.js";
 import { UNDER_SYSTEM_SERVER } from "./utils.js";
 
-const infoRegExp = /<td>(\S+)<\/td>\s+<td colspan="\d">(?:&nbsp;)*(.*?)(?:&nbsp;)*<\/td>/g;
+const infoRegExp = /<td>(\S+)<\/td>\s+<td colspan="\d">(?:&nbsp;)*(.*?)(?:&nbsp;)*<\/td>/gu;
 const studyRegExp =
-  /<td {2}>(\S+)<\/td>\s*<td {2}>(\S+)<\/td>\s*<td\scolspan="4">(\S+)<\/td>\s*<td {2}>(\S+)<\/td>\s*<td\scolspan="2">(\S+)<\/td>\s*<td {2}>(\S+)<\/td>/g;
+  /<td {2}>(\S+)<\/td>\s*<td {2}>(\S+)<\/td>\s*<td\scolspan="4">(\S+)<\/td>\s*<td {2}>(\S+)<\/td>\s*<td\scolspan="2">(\S+)<\/td>\s*<td {2}>(\S+)<\/td>/gu;
 const familyRegExp =
-  /<td {2}>(\S+)<\/td>\s*<td {2}>(\S+)<\/td>\s*<td\scolspan="2">(\S+)<\/td>\s*<td\scolspan="2">(\S+)<\/td>\s*<td\scolspan="3">(\S+)<\/td>\s*<td {2}>(\S+)<\/td/g;
-const pathRegExp = /var newwin = window.showModalDialog\("(.+?)"\);/;
+  /<td {2}>(\S+)<\/td>\s*<td {2}>(\S+)<\/td>\s*<td\scolspan="2">(\S+)<\/td>\s*<td\scolspan="2">(\S+)<\/td>\s*<td\scolspan="3">(\S+)<\/td>\s*<td {2}>(\S+)<\/td/gu;
+const pathRegExp = /var newwin = window.showModalDialog\("(.+?)"\);/u;
 const registerButtonRegExp =
-  /<input\s+type="button"\s+id="zc"\s+class="button"\s+value="确定注册"\s+onclick="bc\(\)"\/>/;
+  /<input\s+type="button"\s+id="zc"\s+class="button"\s+value="确定注册"\s+onclick="bc\(\)"\/>/u;
 
 const UNDER_STUDENT_ARCHIVE_QUERY_URL = `${UNDER_SYSTEM_SERVER}/xszhxxAction.do?method=addStudentPic_xszc`;
 
@@ -81,17 +81,17 @@ const getStudentArchive = async (content: string): Promise<UnderStudentArchiveIn
   const [studyInfo, familyInfo] = tableInfo.split("家庭成员及主要社会关系");
 
   const basic = [...baseInfo.matchAll(infoRegExp)].map(([, text, value]) => ({
-    text: text.replace(/&nbsp;/g, ""),
+    text: text.replace(/&nbsp;/gu, ""),
     value,
   }));
   const study = [...studyInfo.matchAll(studyRegExp)]
     .map(([, startTime, endTime, school, title, witness, remark]) => ({
-      startTime: startTime.replace(/&nbsp;/g, ""),
-      endTime: endTime.replace(/&nbsp;/g, ""),
-      school: school.replace(/&nbsp;/g, " ").trim(),
-      title: title.replace(/&nbsp;/g, " ").trim(),
-      witness: witness.replace(/&nbsp;/g, " ").trim(),
-      remark: remark.replace(/&nbsp;/g, " ").trim(),
+      startTime: startTime.replace(/&nbsp;/gu, ""),
+      endTime: endTime.replace(/&nbsp;/gu, ""),
+      school: school.replace(/&nbsp;/gu, " ").trim(),
+      title: title.replace(/&nbsp;/gu, " ").trim(),
+      witness: witness.replace(/&nbsp;/gu, " ").trim(),
+      remark: remark.replace(/&nbsp;/gu, " ").trim(),
     }))
     .filter(
       ({ startTime, endTime, school, title, witness, remark }) =>
@@ -99,19 +99,19 @@ const getStudentArchive = async (content: string): Promise<UnderStudentArchiveIn
     );
   const family = [...familyInfo.matchAll(familyRegExp)]
     .map(([, name, relation, office, title, phone, remark]) => ({
-      name: name.replace(/&nbsp;/g, ""),
-      relation: relation.replace(/&nbsp;/g, ""),
-      office: office.replace(/&nbsp;/g, " ").trim(),
-      title: title.replace(/&nbsp;/g, " ").trim(),
-      phone: phone.replace(/&nbsp;/g, " ").trim(),
-      remark: remark.replace(/&nbsp;/g, " ").trim(),
+      name: name.replace(/&nbsp;/gu, ""),
+      relation: relation.replace(/&nbsp;/gu, ""),
+      office: office.replace(/&nbsp;/gu, " ").trim(),
+      title: title.replace(/&nbsp;/gu, " ").trim(),
+      phone: phone.replace(/&nbsp;/gu, " ").trim(),
+      remark: remark.replace(/&nbsp;/gu, " ").trim(),
     }))
     .filter(
       ({ name, relation, office, title, phone, remark }) =>
         name || relation || office || title || phone || remark,
     );
 
-  const [examImageLink, archiveImageLink] = [...content.matchAll(/var url\s*=\s*"(.*)"/g)].map(
+  const [examImageLink, archiveImageLink] = [...content.matchAll(/var url\s*=\s*"(.*)"/gu)].map(
     ([, url]) => url,
   );
 
@@ -207,7 +207,7 @@ export const getUnderStudentArchive = createService(
   getUnderStudentArchiveOnline,
 );
 
-const alertRegExp = /window.alert\('(.+?)'\)/;
+const alertRegExp = /window.alert\('(.+?)'\)/u;
 
 export interface RegisterUnderStudentArchiveOptions {
   type?: "register";

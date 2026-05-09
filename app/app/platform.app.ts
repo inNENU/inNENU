@@ -7,7 +7,7 @@ export const platformActions = (_globalData: GlobalData): void => {
   wx.miniapp.registOpenURL(({ action, data }) => {
     if (action === "scheme") {
       wx.reLaunch({
-        url: data.path.replace(/^\/?/, "/"),
+        url: data.path.replace(/^\/?/u, "/"),
         query: data.query,
       });
     }

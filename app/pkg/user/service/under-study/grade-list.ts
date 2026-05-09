@@ -152,7 +152,7 @@ const getGradeLists = (records: RawUnderGradeResultItem[]): UnderGradeResult[] =
       cjbzmc,
       kcptbh,
     }) => ({
-      time: xnxqmc.replace(/^20/, "").replace(/季学期$/, ""),
+      time: xnxqmc.replace(/^20/u, "").replace(/季学期$/u, ""),
       cid: kcptbh,
       name: kcmc,
       grade: zcjfs,

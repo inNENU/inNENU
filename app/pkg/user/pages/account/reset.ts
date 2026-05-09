@@ -5,6 +5,7 @@ import { ActionFailType, supportRedirect } from "../../../../service/index.js";
 import { envName, info, windowInfo } from "../../../../state/index.js";
 import { getPageColor, showNotice } from "../../../../utils/index.js";
 import { getResetCaptchaLocal, resetPassword } from "../../service/index.js";
+import { isCellPhone } from "../../utils/index.js";
 
 const PAGE_ID = "account-reset";
 const PAGE_TITLE = "重置统一身份认证密码";
@@ -185,7 +186,7 @@ ${envName}严格使用官方密码重置服务流程。
     const { captcha, id, cellphone, hideCellphone, hideEmail } = this.data;
     const { captchaId, isAppealFlag, appealSign, sign } = this.state;
 
-    if (!/1\d{10}/.test(cellphone)) {
+    if (!isCellPhone(cellphone)) {
       showModal("信息错误", "请输入正确的手机号");
 
       return;
