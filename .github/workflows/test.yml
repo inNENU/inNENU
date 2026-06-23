@@ -23,7 +23,7 @@ jobs:
           cache: pnpm
 
       - name: Install deps
-        run: pnpm install
+        run: pnpm ci
 
       - name: Build Wechat
         run: pnpm build:wx

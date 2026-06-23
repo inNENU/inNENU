@@ -113,17 +113,16 @@ const verifyAuthCaptchaLocal = async (
   safeValue: string,
 ): Promise<{ success: boolean }> => {
   // Prepare the verification data
+  const payload = JSON.stringify({
+    canvasLength: CAPTCHA_CANVAS_WIDTH,
+    moveLength,
+    tracks,
+  });
+
   const { data } = await request<RawVerifyAuthCaptchaResponse>(VERIFY_CAPTCHA_URL, {
     method: "POST",
     body: new URLSearchParams({
-      sign: authEncrypt(
-        JSON.stringify({
-          canvasLength: CAPTCHA_CANVAS_WIDTH,
-          moveLength,
-          tracks,
-        }),
-        safeValue,
-      ),
+      sign: authEncrypt(payload, safeValue),
     }),
   });
 

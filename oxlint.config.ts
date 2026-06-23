@@ -18,6 +18,7 @@ export default defineHopeConfig(
           capIsNewExceptions: ["Behavior", "Component", "Page", "App"],
         },
       ],
+      "prefer-named-capture-group": "off",
       // we need console
       "no-console": "off",
       "no-warning-comments": "off",

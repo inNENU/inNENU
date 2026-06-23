@@ -22,12 +22,12 @@ interface BackButtonData {
 
 // oxlint-disable-next-line typescript/consistent-type-definitions
 type BackButtonMethods = {
-  setImageLink(isDarkMode: boolean): void;
-  onTap(): void;
+  setImageLink: (isDarkMode: boolean) => void;
+  onTap: () => void;
 };
 
 interface BackButtonInstanceMethod {
-  onThemeChange({ theme }: WechatMiniprogram.OnThemeChangeListenerResult): void;
+  onThemeChange: ({ theme }: WechatMiniprogram.OnThemeChangeListenerResult) => void;
 }
 
 type BackButtonComponentInstance = ComponentInstance<

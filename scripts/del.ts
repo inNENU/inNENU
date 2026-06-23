@@ -1,3 +1,3 @@
-import { deleteSync } from "del";
+import { deleteAsync } from "del";
 
-deleteSync([".temp/**", "dist/**", "!dist/miniprogram_npm"]);
+await deleteAsync([".temp/**", "dist/**", "!dist/miniprogram_npm"]);

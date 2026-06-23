@@ -199,5 +199,5 @@ $Page(PAGE_ID, {
     wx.pageScrollTo({ scrollTop: 0 });
   },
 
-  ctx: null as unknown as ReturnType<typeof createRecycleContext<WechatArticle>>,
+  ctx: null as unknown as ReturnType<typeof createRecycleContext<WechatArticleItemWithSize>>,
 });

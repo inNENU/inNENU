@@ -21,13 +21,13 @@ export function defaultScroller(
       borderDisplay: boolean;
       shadow: boolean;
     };
-    setData(
+    setData: (
       data: Partial<{
         titleDisplay: boolean;
         borderDisplay: boolean;
         shadow: boolean;
       }>,
-    ): void;
+    ) => void;
   },
   option: WechatMiniprogram.Page.IPageScrollOption,
 ): void {

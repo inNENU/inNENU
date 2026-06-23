@@ -1,5 +1,6 @@
+// oxlint-disable node/no-sync
 const { existsSync } = require("node:fs");
-const { parse, resolve } = require("node:path");
+const path = require("node:path");
 
 const { dest, parallel, src, watch, lastRun } = require("gulp");
 const rename = require("gulp-rename");
@@ -17,11 +18,11 @@ const getScriptJob = (id) => {
   const script = () =>
     src(["app/**/*.ts", "typings/**/*.ts"], {
       read: (value) => {
-        const name = parse(value.path).name.replace(/\.d$/u, "");
+        const name = path.parse(value.path).name.replace(/\.d$/u, "");
 
         if (name.includes(".")) return name.endsWith(suffix);
 
-        return !existsSync(resolve("app", value.path).replace(/\.ts$/u, `.${id}.ts`));
+        return !existsSync(path.resolve("app", value.path).replace(/\.ts$/u, `.${id}.ts`));
       },
     })
       .pipe(
@@ -51,7 +52,7 @@ const getMoveScriptJob = (id) => {
         if ([`.${id}.ts`, ".d.ts", ".js"].some((ext) => value.path.endsWith(ext))) return true;
 
         return (
-          !existsSync(resolve("app", `${value.path.slice(0, -3)}.${id}.ts`)) &&
+          !existsSync(path.resolve("app", `${value.path.slice(0, -3)}.${id}.ts`)) &&
           value.path.split(".").length === 2
         );
       },
@@ -74,11 +75,11 @@ const getStyleJob = (id, ext = "wxss") => {
   const style = () =>
     src("app/**/*.scss", {
       read: (value) => {
-        const { name } = parse(value.path);
+        const { name } = path.parse(value.path);
 
         if (name.includes(".")) return name.endsWith(suffix);
 
-        return !existsSync(resolve("app", value.path).replace(/\.scss$/u, `.${id}.scss`));
+        return !existsSync(path.resolve("app", value.path).replace(/\.scss$/u, `.${id}.scss`));
       },
     })
       .pipe(
@@ -121,14 +122,14 @@ const getAssetsJob = (id, { bundle = false, wxFiles = true } = {}) => {
       {
         encoding: false,
         read: (value) => {
-          const { name, ext } = parse(value.path);
+          const { name, ext } = path.parse(value.path);
 
           if (name.includes("app.miniapp") || ext === ".map") return true;
 
           if (name.includes(".")) return name.endsWith(`.${id}`);
 
           return !existsSync(
-            resolve("app", value.path).replace(new RegExp(ext, "u"), `.${id}${ext}`),
+            path.resolve("app", value.path).replace(new RegExp(ext, "u"), `.${id}${ext}`),
           );
         },
         since: lastRun(assetsJob),
@@ -269,7 +270,7 @@ const getDebugMoveScriptJob = (id) => {
         if ([`.${id}.ts`, ".d.ts", ".js"].some((ext) => value.path.endsWith(ext))) return true;
 
         return (
-          !existsSync(resolve("app", `${value.path.slice(0, -3)}.${id}.ts`)) &&
+          !existsSync(path.resolve("app", `${value.path.slice(0, -3)}.${id}.ts`)) &&
           value.path.split(".").length === 2
         );
       },

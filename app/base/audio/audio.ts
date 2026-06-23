@@ -22,12 +22,12 @@ interface AudioData {
 
 // oxlint-disable-next-line typescript/consistent-type-definitions
 type AudioMethods = {
-  toggle(): void;
+  toggle: () => void;
 };
 
 interface AudioInstanceMethod {
   instance: WechatMiniprogram.InnerAudioContext | null;
-  destroy(): void;
+  destroy: () => void;
 }
 
 type AudioComponentInstance = ComponentInstance<
@@ -37,6 +37,14 @@ type AudioComponentInstance = ComponentInstance<
   [],
   AudioInstanceMethod
 >;
+
+const onError = function (
+  this: AudioComponentInstance,
+  { errMsg }: WechatMiniprogram.InnerAudioContextOnErrorListenerResult,
+): void {
+  logger.error("音频组件错误", errMsg);
+  showToast("获取音频出错，请稍后重试");
+};
 
 $Component<AudioData, AudioProps, AudioMethods, [], AudioInstanceMethod>({
   props: {
@@ -88,14 +96,6 @@ $Component<AudioData, AudioProps, AudioMethods, [], AudioInstanceMethod>({
           totalTime: Math.round(instance.duration * 100) / 100,
         });
       }.bind(this);
-
-      const onError = function (
-        this: AudioComponentInstance,
-        { errMsg }: WechatMiniprogram.InnerAudioContextOnErrorListenerResult,
-      ): void {
-        logger.error("音频组件错误", errMsg);
-        showToast("获取音频出错，请稍后重试");
-      };
 
       instance.onPlay(onPlay);
       instance.onPause(onPause);

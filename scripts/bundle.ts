@@ -1,28 +1,29 @@
+// oxlint-disable node/no-sync
 import { existsSync, readdirSync, statSync } from "node:fs";
-import { join, resolve, sep } from "node:path";
+import path from "node:path";
 
 import { build } from "tsdown";
 
 const __dirname = import.meta.dirname;
 
 const getInputOptions = (dir: string): [string, string][] => {
-  const dirPath = resolve(__dirname, "../.temp/", dir);
+  const dirPath = path.resolve(__dirname, "../.temp/", dir);
 
   if (!existsSync(dirPath)) return [];
 
   const contents = readdirSync(dirPath);
   const dirs = contents.filter((content) =>
-    statSync(resolve(__dirname, "../.temp/", dir, content)).isDirectory(),
+    statSync(path.resolve(__dirname, "../.temp/", dir, content)).isDirectory(),
   );
   const files = contents.filter(
     (file) => (file.endsWith(".ts") && !file.endsWith(".d.ts")) || file.endsWith(".js"),
   );
 
   return [
-    ...dirs.flatMap((subDir) => getInputOptions(join(dir, subDir))),
+    ...dirs.flatMap((subDir) => getInputOptions(path.join(dir, subDir))),
     ...files.map<[string, string]>((file) => [
-      join(dir, file.split(".")[0]).replaceAll(sep, "/"),
-      resolve(__dirname, "../.temp/", dir, file),
+      path.join(dir, file.split(".")[0]).replaceAll(path.sep, "/"),
+      path.resolve(__dirname, "../.temp/", dir, file),
     ]),
   ];
 };
@@ -37,7 +38,7 @@ const toolPages = getInputOptions("pkg/tool/pages");
 const userPages = getInputOptions("pkg/user/pages");
 
 const entry = {
-  app: resolve(__dirname, `../.temp/app.ts`),
+  app: path.resolve(__dirname, `../.temp/app.ts`),
   ...Object.fromEntries(base),
   ...Object.fromEntries(components),
   ...Object.fromEntries(widgets),

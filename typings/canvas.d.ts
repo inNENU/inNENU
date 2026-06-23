@@ -1,3 +1,4 @@
+// oxlint-disable typescript/method-signature-style
 type GlobalCompositeOperation =
   | "color"
   | "color-burn"

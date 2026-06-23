@@ -401,6 +401,22 @@ const underStudyCourseCommentaryLocal = async <T extends UnderCourseCommentaryOp
 
     const { params, questions, text, answers } = options;
 
+    const totalScore = answers
+      .reduce((acc, answer, index) => acc + questions[index].options[answer].score, 0)
+      .toString();
+    const questionResults = questions.map(({ txdm, zbdm, title }, index) => {
+      const { text, value, score } = questions[index].options[answers[index]];
+
+      return {
+        txdm,
+        zbdm,
+        zbmc: title,
+        zbxmdm: value,
+        fz: score,
+        dtjg: text,
+      };
+    });
+
     const { data, headers } = await request<RawUnderCourseCommentarySubmitResult>(
       `${UNDER_STUDY_SERVER}/new/student/teapj/savePj`,
       {
@@ -410,22 +426,9 @@ const underStudyCourseCommentaryLocal = async <T extends UnderCourseCommentaryOp
         },
         body: new URLSearchParams({
           ...params,
-          wtpf: `${answers
-            .reduce((acc, answer, index) => acc + questions[index].options[answer].score, 0)
-            .toString()}.00`,
+          wtpf: `${totalScore}.00`,
           dt: JSON.stringify([
-            ...questions.map(({ txdm, zbdm, title }, index) => {
-              const { text, value, score } = questions[index].options[answers[index]];
-
-              return {
-                txdm,
-                zbdm,
-                zbmc: title,
-                zbxmdm: value,
-                fz: score,
-                dtjg: text,
-              };
-            }),
+            ...questionResults,
             {
               txdm: text.txdm,
               zbdm: text.zbdm,
