@@ -149,7 +149,8 @@
       "defaultDisplayBlock": true,
       "defaultContentBox": true,
       "enableScrollViewAutoSize": true,
-      "tagNameStyleIsolation": "legacy"
+      "tagNameStyleIsolation": "legacy",
+      "keyframeStyleIsolation": "legacy"
     }
   }
 }
