@@ -58,47 +58,49 @@ export const pageScrollMixin = (scroller: Scroller): string =>
     Record<string, never>,
     WechatMiniprogram.Behavior.Identifier[]
   >({
-    attached() {
-      if (this.data.disableScroll) {
-        this.setData({
-          titleDisplay: true,
-          borderDisplay: true,
-          shadow: true,
-        });
+    lifetimes: {
+      attached() {
+        if (this.data.disableScroll) {
+          this.setData({
+            titleDisplay: true,
+            borderDisplay: true,
+            shadow: true,
+          });
 
-        return;
-      }
-
-      const page = getCurrentPage();
-
-      if (page) {
-        if (Array.isArray(page.$scrollHandler)) {
-          page.$scrollHandler.push(scroller.bind(this));
-        } else {
-          page.$scrollHandler =
-            typeof page.onPageScroll === "function"
-              ? [page.onPageScroll.bind(page), scroller.bind(this)]
-              : [scroller.bind(this)];
+          return;
         }
 
-        page.onPageScroll = onPageScroll as (
-          arg?: WechatMiniprogram.Page.IPageScrollOption,
-        ) => void;
+        const page = getCurrentPage();
 
-        page.onScrollViewScroll = function (event: WechatMiniprogram.ScrollViewScroll): void {
-          this.onPageScroll(event.detail);
-        };
-      }
-    },
+        if (page) {
+          if (Array.isArray(page.$scrollHandler)) {
+            page.$scrollHandler.push(scroller.bind(this));
+          } else {
+            page.$scrollHandler =
+              typeof page.onPageScroll === "function"
+                ? [page.onPageScroll.bind(page), scroller.bind(this)]
+                : [scroller.bind(this)];
+          }
 
-    detached() {
-      if (this.data.disableScroll) return;
+          page.onPageScroll = onPageScroll as (
+            arg?: WechatMiniprogram.Page.IPageScrollOption,
+          ) => void;
 
-      const page = getCurrentPage<{
-        $scrollHandler?: Scroller[];
-      }>();
+          page.onScrollViewScroll = function (event: WechatMiniprogram.ScrollViewScroll): void {
+            this.onPageScroll(event.detail);
+          };
+        }
+      },
 
-      if (page)
-        page.$scrollHandler = (page.$scrollHandler || []).filter((item) => item !== scroller);
+      detached() {
+        if (this.data.disableScroll) return;
+
+        const page = getCurrentPage<{
+          $scrollHandler?: Scroller[];
+        }>();
+
+        if (page)
+          page.$scrollHandler = (page.$scrollHandler || []).filter((item) => item !== scroller);
+      },
     },
   });

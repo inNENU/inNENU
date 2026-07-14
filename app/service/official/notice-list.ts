@@ -71,7 +71,7 @@ const getOfficialNoticeListLocal = async ({
       data,
       current,
       total: totalPageState,
-    } as OfficialNoticeSuccessResponse;
+    };
   } catch (err) {
     const { message } = err as Error;
 

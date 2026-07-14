@@ -30,7 +30,7 @@ try {
       grey: true,
       hidden: true,
       content: [],
-    } as PageStateWithContent;
+    };
   }
 }
 

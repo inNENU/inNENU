@@ -1,6 +1,6 @@
 {
   "name": "innenu",
-  "version": "0.0.241227",
+  "version": "0.0.260714",
   "private": true,
   "homepage": "https://innenu.com",
   "bugs": {
@@ -24,6 +24,7 @@
     "bundle:app": "gulp -f gulpfile.cjs bundleApp && unrun scripts/bundle.ts",
     "bundle:we": "gulp -f gulpfile.cjs bundleWeNENU && unrun scripts/bundle.ts",
     "bundle:wx": "gulp -f gulpfile.cjs bundleWechat && unrun scripts/bundle.ts",
+    "changelog": "conventional-changelog -p conventionalcommits",
     "clean": "unrun ./scripts/del.ts",
     "debug:wx": "gulp -f gulpfile.cjs debugWechat && unrun scripts/bundle.ts",
     "dev:app": "gulp -f gulpfile.cjs watchApp",
@@ -40,10 +41,10 @@
     "@mptool/all": "0.14.0"
   },
   "devDependencies": {
-    "@commitlint/cli": "21.0.2",
-    "@commitlint/config-conventional": "21.0.2",
     "@mr-hope/tsconfig": "0.0.4",
-    "@types/node": "^22.20.0",
+    "@types/node": "^22.20.1",
+    "conventional-changelog": "8.0.1",
+    "conventional-changelog-conventionalcommits": "10.2.1",
     "del": "8.0.1",
     "gulp": "5.0.1",
     "gulp-rename": "2.1.0",
@@ -55,15 +56,16 @@
     "innenu-generator": "0.8.2",
     "miniprogram-api-typings": "5.2.1",
     "nano-staged": "1.0.2",
-    "oxc-config-hope": "0.3.6",
-    "oxfmt": "0.56.0",
-    "oxlint": "1.71.0",
-    "oxlint-tsgolint": "0.23.0",
-    "postcss": "^8.5.15",
-    "prettier": "3.8.4",
-    "stylelint": "17.13.0",
+    "oxc-config-hope": "0.3.9",
+    "oxfmt": "0.58.0",
+    "oxlint": "1.73.0",
+    "oxlint-tsgolint": "0.24.0",
+    "picocolors": "1.1.1",
+    "postcss": "8.5.18",
+    "prettier": "3.9.5",
+    "stylelint": "17.14.0",
     "stylelint-config-hope": "11.0.0",
-    "tsdown": "0.22.3",
+    "tsdown": "0.22.5",
     "tslib": "2.8.1",
     "typescript": "6.0.3",
     "unrun": "0.3.1"
@@ -99,12 +101,12 @@
   "devEngines": {
     "packageManager": {
       "name": "pnpm",
-      "version": "11.0.9",
+      "version": "11.11.0",
       "onFail": "download"
     },
     "runtime": {
       "name": "node",
-      "version": "^24.15.0",
+      "version": "^24.18.0",
       "onFail": "error"
     }
   }

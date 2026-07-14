@@ -13,7 +13,7 @@
   &.webview {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
-    grid-gap: 6px;
+    gap: 6px;
     justify-content: space-around;
 
     @media (min-width: 520px) {

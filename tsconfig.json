@@ -1,8 +1,6 @@
 {
   "extends": "@mr-hope/tsconfig/bundler.json",
   "compilerOptions": {
-    "lib": ["ESNext"],
-    "target": "ES2017",
     "moduleSuffixes": ["", ".wx", ".we", ".app"],
     "noEmit": true,
     "types": ["miniprogram-api-typings"]

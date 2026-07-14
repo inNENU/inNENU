@@ -174,7 +174,7 @@ const getUnderChangeMajorPlansLocal = async (): Promise<UnderChangeMajorPlanResp
       success: true,
       header,
       plans,
-    } as UnderChangeMajorPlanSuccessResponse;
+    };
   } catch (err) {
     const { message } = err as Error;
 

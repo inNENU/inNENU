@@ -1,6 +1,3 @@
-packages:
-  - app/
-
 allowBuilds:
   "@parcel/watcher": true
   es5-ext: true
@@ -12,7 +9,7 @@ overrides:
   vinyl-fs: ^4.0.2
 
 configDependencies:
-  pacquet: "^0.11.10"
+  pacquet: ^0.11.12
 
 enableGlobalVirtualStore: true
 

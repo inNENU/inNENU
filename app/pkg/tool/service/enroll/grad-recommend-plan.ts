@@ -95,7 +95,7 @@ const getGradRecommendPlanLocal = async (): Promise<GradRecommendResponse> => {
     return {
       success: false,
       msg: message,
-    } as CommonFailedResponse;
+    };
   }
 };
 

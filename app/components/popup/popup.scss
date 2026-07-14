@@ -84,7 +84,7 @@
   position: relative;
   flex: 1;
   max-height: 75vh;
-  word-wrap: break-word;
+  overflow-wrap: break-word;
 
   &.skyline {
     height: 75vh;

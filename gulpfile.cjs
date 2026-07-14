@@ -1,4 +1,3 @@
-// oxlint-disable node/no-sync
 const { existsSync } = require("node:fs");
 const path = require("node:path");
 

@@ -3,7 +3,6 @@
   "compilerOptions": {
     "rootDir": "./",
     "lib": ["ESNext"],
-    "target": "ES2017",
     "moduleSuffixes": ["", ".wx", ".we", ".app"],
     "outDir": "./dist",
     "types": ["miniprogram-api-typings"]

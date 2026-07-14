@@ -106,7 +106,7 @@ const getGradPlanLocal = async (): Promise<GradEnrollResponse> => {
     return {
       success: false,
       msg: message,
-    } as CommonFailedResponse;
+    };
   }
 };
 

@@ -53,6 +53,7 @@ export default defineHopeConfig(
     rules: {
       "jsdoc/require-param": "off",
       "jsdoc/require-returns": "off",
+      "typescript/no-unnecessary-type-assertion": "off",
     },
   },
   {

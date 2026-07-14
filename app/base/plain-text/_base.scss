@@ -40,8 +40,8 @@
   font-size: 16px;
   line-height: 1.6;
   text-align: justify;
-  word-wrap: break-word;
   word-break: break-all;
+  overflow-wrap: break-word;
 
   .grey & {
     position: relative;
@@ -77,5 +77,5 @@
 }
 
 .text-content {
-  word-wrap: break-word;
+  overflow-wrap: break-word;
 }

@@ -8,9 +8,8 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@v7
         with:
-          persist-credentials: false
           submodules: true
 
       - name: Install pnpm
@@ -26,13 +25,13 @@ jobs:
         run: pnpm ci
 
       - name: Build Wechat
-        run: pnpm build:wx
+        run: pnpm run build:wx
 
       - name: Build weNENU
-        run: pnpm build:we
+        run: pnpm run build:we
 
       - name: Build App
-        run: pnpm build:app
+        run: pnpm run build:app
 
       - name: Linter test
-        run: pnpm lint
+        run: pnpm run lint
